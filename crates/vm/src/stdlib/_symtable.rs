@@ -9,7 +9,7 @@ mod _symtable {
         types::Representable,
     };
     use alloc::fmt;
-    use rustpython_codegen::symboltable::{CompilerScope, SymbolFlags, SymbolScope, SymbolTable};
+    use rustpython_codegen::symboltable::{CompilerScope, Symbol, SymbolFlags, SymbolScope, SymbolTable};
 
     /// [CPython's `SCOPE_OFFSET`](https://github.com/python/cpython/blob/v3.14.6/Include/internal/pycore_symtable.h#L176)
     const SCOPE_OFFSET: i32 = 12;
@@ -185,7 +185,8 @@ mod _symtable {
         fn symbols(&self, vm: &VirtualMachine) -> PyDictRef {
             let dict = vm.ctx.new_dict();
             for (name, symbol) in &self.symtable.symbols {
-                dict.set_item(name, vm.new_pyobj(symbol.flags.bits()), vm)
+                let encoded = encode_symbol(symbol);
+                dict.set_item(name, vm.new_pyobj(encoded), vm)
                     .unwrap();
             }
             dict
@@ -195,6 +196,12 @@ mod _symtable {
         const fn nested(&self) -> bool {
             self.symtable.is_nested
         }
+    }
+
+    // u16를 꼭 써야하나? c는 int 쓰던데
+    fn encode_symbol(symbol: &Symbol) -> u16 {
+        // 플래그와 스코프를 하나의 정수로 표현하기
+        todo!()
     }
 
     impl Representable for PySymbolTable {
