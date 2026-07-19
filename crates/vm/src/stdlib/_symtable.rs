@@ -9,10 +9,14 @@ mod _symtable {
         types::Representable,
     };
     use alloc::fmt;
-    use rustpython_codegen::symboltable::{CompilerScope, Symbol, SymbolFlags, SymbolScope, SymbolTable};
+    use rustpython_codegen::symboltable::{
+        CompilerScope, Symbol, SymbolFlags, SymbolScope, SymbolTable,
+    };
 
     /// [CPython's `SCOPE_OFFSET`](https://github.com/python/cpython/blob/v3.14.6/Include/internal/pycore_symtable.h#L176)
     const SCOPE_OFFSET: i32 = 12;
+
+    const SYMBOL_FLAGS_MASK: i32 = (1 << SCOPE_OFFSET) - 1;
 
     // Consts as defined at
     // https://github.com/python/cpython/blob/6cb20a219a860eaf687b2d968b41c480c7461909/Include/internal/pycore_symtable.h#L156
@@ -50,8 +54,9 @@ mod _symtable {
     #[pyattr]
     pub(super) const DEF_COMP_CELL: i32 = SymbolFlags::DEF_COMP_CELL.bits() as i32;
 
+    // 외부에 노출하는 Mask 값이니까. CPython과 일치해야함.
     #[pyattr]
-    pub(super) const DEF_BOUND: i32 = SymbolFlags::DEF_BOUND.bits() as i32;
+    pub(super) const DEF_BOUND: i32 = DEF_LOCAL | DEF_PARAM | DEF_IMPORT;
 
     #[pyattr]
     pub(super) const SCOPE_MASK: i32 = DEF_GLOBAL | DEF_LOCAL | DEF_PARAM | DEF_NONLOCAL;
@@ -185,8 +190,7 @@ mod _symtable {
         fn symbols(&self, vm: &VirtualMachine) -> PyDictRef {
             let dict = vm.ctx.new_dict();
             for (name, symbol) in &self.symtable.symbols {
-                let encoded = encode_symbol(symbol);
-                dict.set_item(name, vm.new_pyobj(encoded), vm)
+                dict.set_item(name, vm.new_pyobj(encode_symbol(symbol)), vm)
                     .unwrap();
             }
             dict
@@ -198,10 +202,43 @@ mod _symtable {
         }
     }
 
-    // u16를 꼭 써야하나? c는 int 쓰던데
-    fn encode_symbol(symbol: &Symbol) -> u16 {
-        // 플래그와 스코프를 하나의 정수로 표현하기
-        todo!()
+    // 피드백 말해준거 (괄호는 내 말이나 생각)
+    // 지금 이 구현 자체가 임기응변에 가까워보인다.
+    // 원래 RustPython에서 심볼 구현체를 쓰다가, 이러다간 한도끝도 없겠다 싶어서
+    // 표준 라이브러리를 가져다 쓰고, 그에 맞게 바꾼건데,
+    // 아직 남아있는 부분이 있나보다. (몰랐다고 하심)
+    // 그래서 지금 해결하려는 코드가 좀 이상한거(의도를 잘 모르겠는) 같은데
+    // 이런 코드를 보면 남들은 뭔 의도가 있어서 있겠지... 하는거라
+    // 주석으로 명확하게 하거나
+    // 아니면 근본 원인을 제거하는거 자체를 목표로 하는게 좋겠다.
+    // 너무 큰 작업이라면 주석이라도 남겨서 PR을 올려야 할거 같음.
+    // (CPython과 일치하게 다 갈아엎어야하나?) 흠...
+
+    // 별개로 컴파일러 관심 있으면 공부를 해보는게 좋겠다고 함. 대학교 4학년때쯤에 있다고 함.
+    // 컴파일 언어 컴파일러랑 인터프리터 언어 컴파일러랑 차이가 있고 심볼 테이블도 그런 것들에 관련있어서 그런거 찾아보라고 함.
+    // (의도치 않게 학벌 노출? 을 해버렸는데 그걸 물어보시려는건 아니였던듯.
+    // 부캠이랑 고졸인거? 이게 은근히 말하기가 애매함 안말하기도 애매하고...).
+
+    // (아니면 이거 불일치 문제 정리해서 이슈를 제출해보는게 좋을거 같음).
+
+    // 내 생각
+    // 일단 컴파일러 쪽 구현이나 공부를 해봐야할거같고
+    // 저거 근본 원리를 수정하기 위해 공부해보는게 좋을듯?
+    // 일단 관련되서 모든 작업과 이슈를 찾아서 이걸 제출하고, 수정 가능할지 견젹을 내는걸 우선적으로 해봐야할거같음.
+
+    fn encode_symbol(symbol: &Symbol) -> i32 {
+        let mut flags = i32::from(symbol.flags.bits()) & SYMBOL_FLAGS_MASK;
+        if symbol.flags.contains(SymbolFlags::ITER) {
+            flags |= DEF_LOCAL;
+        }
+        let scope = match symbol.scope {
+            // 이게 없어도 테스트는 통과
+            // Unknown으로서 남아있는 상황 자체가 버그로 보임. (CPython과 일치해야한다면?)
+            // 이건 별도 이슈로 빼는게 좋아보이는데, 나중에 확인하기.
+            // SymbolScope::Unknown => SymbolScope::GlobalImplicit,
+            scope => scope,
+        };
+        flags | (scope.as_i32() << SCOPE_OFFSET)
     }
 
     impl Representable for PySymbolTable {
