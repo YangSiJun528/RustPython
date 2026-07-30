@@ -20,3 +20,9 @@ cpython-internals-notes/
   - Guide to the parser
   - Compiler design
   - Changing CPython's grammar
+
+- [런타임 객체](3.14/runtime-objects/README.ko.md)
+  - Code Objects
+  - Generators
+  - Frames
+  - String Interning
