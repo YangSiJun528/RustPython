@@ -26,3 +26,9 @@ cpython-internals-notes/
   - Generators
   - Frames
   - String Interning
+
+- [프로그램 실행](3.14/program-execution/README.ko.md)
+  - The Bytecode Interpreter
+  - The JIT
+  - Garbage Collector Design
+  - Exception Handling
