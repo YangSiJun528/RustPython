@@ -1332,6 +1332,136 @@ end()
 AST 컴파일은 [`Python/compile.c`](https://github.com/python/cpython/blob/3.14/Python/compile.c)의
 `_PyAST_Compile()`에서 시작한다.
 
+<details>
+<summary><strong>보충 해설: AST → 의사 명령어 → CFG → 바이트코드</strong></summary>
+
+각 표현은 서로 다른 질문에 답한다.
+
+| 표현 | 나타내는 것 |
+|---|---|
+| AST | 소스 코드가 어떤 구문 구조를 가지는가? |
+| 의사 명령어 | 그 구조를 VM 명령으로 어떻게 낮출 것인가? |
+| CFG | 실행이 어느 블록으로 이동할 수 있는가? |
+| 바이트코드 | VM이 실제로 실행할 opcode와 인자는 무엇인가? |
+
+다음 코드를 예로 보자.
+
+```python
+def choose(x):
+    if x:
+        y = 1
+    else:
+        y = 2
+    return y
+```
+
+AST는 소스의 구문 구조를 다음과 같이 표현한다.
+
+```text
+FunctionDef("choose")
+└── body
+    ├── If
+    │   ├── test: Name("x")
+    │   ├── body
+    │   │   └── Assign(Name("y"), Constant(1))
+    │   └── orelse
+    │       └── Assign(Name("y"), Constant(2))
+    └── Return(Name("y"))
+```
+
+AST의 자식 필드와 목록에는 순서가 있다. 예를 들어 `FunctionDef.body`에서 `If`가
+`Return`보다 먼저 나온다. 그러나 같은 깊이의 노드를 모두 왼쪽부터 실행한다는 뜻은
+아니다. `If.body`와 `If.orelse`는 같은 `If`의 자식이지만 실행 시에는 조건에 따라 둘 중
+하나만 선택된다. 컴파일러는 AST의 깊이가 아니라 각 노드의 의미에 따라 자식을 방문한다.
+
+심볼 테이블 분석이 끝나면 이 예제의 `x`와 `y`는 지역 변수로 분류된다. 코드 생성기는
+AST를 방문하며 개념적으로 다음과 같은 의사 명령어와 논리 블록을 만든다.
+
+```text
+entry:
+    LOAD_FAST x
+    JUMP_IF_FALSE else_block
+
+then_block:
+    LOAD_CONST 1
+    STORE_FAST y
+    JUMP end_if
+
+else_block:
+    LOAD_CONST 2
+    STORE_FAST y
+
+end_if:
+    LOAD_FAST y
+    RETURN_VALUE
+```
+
+이 단계에서 `else_block`과 `end_if`는 실제 바이트코드 위치가 아니라 논리적인 점프
+대상이다. 모든 명령의 최종 배치가 정해지기 전에는 정확한 점프 거리를 계산할 수 없다.
+
+CFG는 위 명령을 basic block으로 묶고 블록 사이의 가능한 이동을 그래프로 표현한다.
+
+```text
+                 ┌─ 참 ─→ [then_block: y = 1] ─┐
+[entry: x 검사] ─┤                             ├─→ [end_if: return y]
+                 └─ 거짓 → [else_block: y = 2] ┘
+```
+
+CFG에서 중요한 것은 블록의 소스상 깊이가 아니라 연결 관계다.
+
+```text
+entry
+  ├─ 조건이 참  → then_block
+  └─ 조건이 거짓 → else_block
+
+then_block  → end_if
+else_block  → end_if
+```
+
+이 구조에서는 도달할 수 없는 블록, 불필요한 연속 점프, 블록 사이의 스택 상태 등을
+일렬로 나열된 명령보다 쉽게 분석할 수 있다. 최적화가 끝나면 CFG를 다시 명령어 열로
+평탄화한다.
+
+마지막으로 assembler가 블록의 실제 배치를 확정하고 논리 점프 대상을 상대 오프셋으로
+바꾼다. 다음 코드는 실제 CPython 3.14의 정확한 `dis` 출력이 아니라 변환 결과를 설명하기
+위한 개념적 표현이다.
+
+```text
+LOAD_FAST              x
+POP_JUMP_IF_FALSE      <else 위치>
+LOAD_CONST             1
+STORE_FAST             y
+JUMP_FORWARD           <end_if 위치>
+LOAD_CONST             2
+STORE_FAST             y
+LOAD_FAST              y
+RETURN_VALUE
+```
+
+이때 지역 변수와 상수도 문자열이나 객체를 명령에 직접 넣는 대신 코드 객체의 테이블
+인덱스로 바뀐다. 소스 위치와 예외 처리 정보도 별도 테이블로 함께 생성된다.
+
+전체 변환을 압축하면 다음과 같다.
+
+```text
+AST
+  → If, Assign, Return이라는 구문 구조
+
+의사 명령어
+  → LOAD, STORE, JUMP와 논리 블록
+
+CFG
+  → 조건 분기와 합류 경로
+
+최적화된 명령어 열
+  → 블록 배치와 불필요한 점프 정리
+
+바이트코드
+  → 실제 opcode, 테이블 인덱스, 점프 오프셋 확정
+```
+
+</details>
+
 #### 7.1 먼저 심볼 테이블을 만든다
 
 첫 작업은 [`Python/symtable.c`](https://github.com/python/cpython/blob/3.14/Python/symtable.c)의
