@@ -1333,7 +1333,9 @@ AST 컴파일은 [`Python/compile.c`](https://github.com/python/cpython/blob/3.1
 `_PyAST_Compile()`에서 시작한다.
 
 <details>
-<summary><strong>보충 해설: AST → 의사 명령어 → CFG → 바이트코드</strong></summary>
+<summary><strong>보충 해설 1: AST → 의사 명령어 → CFG → 바이트코드</strong></summary>
+
+> **보충 해설 1 시작**
 
 각 표현은 서로 다른 질문에 답한다.
 
@@ -1460,7 +1462,11 @@ CFG
   → 실제 opcode, 테이블 인덱스, 점프 오프셋 확정
 ```
 
+> **보충 해설 1 끝**
+
 </details>
+
+<br><br>
 
 #### 7.1 먼저 심볼 테이블을 만든다
 
@@ -1608,6 +1614,89 @@ optimization이라고 부른다.
 [`Include/cpython/code.h`](https://github.com/python/cpython/blob/3.14/Include/cpython/code.h)에
 정의된 `PyCodeObject`다. 이 객체에는 실행할 바이트코드뿐 아니라 실행과 디버깅에 필요한
 상수, 이름, 지역 변수 정보, 스택 크기, 플래그, 위치·예외 테이블 등의 정보가 함께 들어간다.
+
+<details>
+<summary><strong>보충 해설 2: PyCodeObject 내부 살펴보기</strong></summary>
+
+> **보충 해설 2 시작**
+
+`PyCodeObject`는 바이트코드와 이를 해석하는 데 필요한 정적 정보를 묶은 C 구조체다.
+그 자체도 `PyObject`이므로 참조 카운팅 대상이다.
+
+실제 구조를 역할별로 단순화하면 다음과 같다.
+
+```text
+PyCodeObject
+├── PyObject_VAR_HEAD
+│   └── 참조 카운트, 타입, 바이트코드 길이
+├── co_consts
+│   └── 바이트코드가 사용하는 상수
+├── co_names
+│   └── 전역 변수·속성 등의 이름
+├── co_localsplusnames / co_localspluskinds
+│   └── 지역 변수·cell 변수·free 변수 정보
+├── co_argcount / co_stacksize / co_flags
+│   └── 인자 수, 필요한 평가 스택 크기, 함수 종류 등의 정보
+├── co_filename / co_name / co_linetable
+│   └── 파일·함수 이름과 소스 위치 정보
+├── co_exceptiontable
+│   └── 예외 처리 범위와 핸들러 위치
+└── co_code_adaptive[]
+    └── 실제로 실행하는 바이트코드
+```
+
+바이트코드에는 Python 객체나 이름을 직접 넣지 않고 해당 테이블의 인덱스를 넣는다.
+
+```python
+def add_one(x):
+    return x + 1
+```
+
+```text
+co_consts = (None, 1)
+co_localsplusnames = ("x",)
+
+개념적인 바이트코드:
+LOAD_FAST  0    → 지역 변수 테이블의 x
+LOAD_CONST 1    → co_consts[1]의 1
+BINARY_OP +
+RETURN_VALUE
+```
+
+`co_code_adaptive[]`의 명령 단위인 `_Py_CODEUNIT`은 기본적으로 2바이트이며, 1바이트
+opcode와 1바이트 인자로 구성된다. 실행 중에는 이 바이트코드가 실제 입력 타입 등에 맞게
+특수화될 수 있다. 따라서 Python에 노출되는 `code.co_code`와 내부의 실행 버퍼를 완전히
+같은 것으로 보면 안 된다.
+
+생성 과정은 다음과 같다.
+
+```text
+assembler
+  → 바이트코드와 각종 테이블 생성
+  → _PyCodeConstructor에 정보 수집
+  → _PyCode_New()가 가변 크기의 PyCodeObject 할당
+  → 필드를 설정하고 바이트코드를 co_code_adaptive[]에 복사
+```
+
+`PyCodeObject`는 여러 호출이 공유하는 코드다. 전역 네임스페이스·기본 인자·클로저는
+`PyFunctionObject`에 있고, 실제 지역 변수 값·평가 스택·현재 실행 위치는 호출할 때마다
+생성되는 frame에 있다.
+
+```text
+PyFunctionObject
+  └── PyCodeObject
+        └── 바이트코드 + 정적 실행 정보
+
+함수 호출
+  └── frame
+        └── 지역 변수 값 + 평가 스택 + 현재 실행 위치
+```
+
+> **보충 해설 2 끝**
+
+</details>
+
+<br><br>
 
 코드 객체는
 [`Python/ceval.c`](https://github.com/python/cpython/blob/3.14/Python/ceval.c)의
