@@ -231,6 +231,31 @@ A ──→ B
 저렴한 `_PyInterpreterFrame`으로 실행하다가 Python 코드나 디버깅
 도구가 frame을 관찰할 때에만 `PyFrameObject`를 지연 생성한다.
 
+실행 상태와 코드 객체의 연결을 단순화하면 다음과 같다.
+
+```text
+PyFrameObject
+└── f_frame ──→ _PyInterpreterFrame
+                 ├── f_executable ──→ PyCodeObject
+                 ├── instr_ptr ─────→ 현재 실행할 명령
+                 ├── localsplus[] ──→ 지역 변수·closure·평가 스택
+                 ├── f_globals
+                 └── f_builtins
+```
+
+CPython 3.14의 `_PyInterpreterFrame.f_executable`은 code object 또는
+`None`을 나타내는 내부 참조다. 일반적인 Python 코드 실행 frame은
+이를 통해 자신의 `PyCodeObject`를 참조한다. 그래야 현재 명령뿐
+아니라 명령의 피연산자가 가리키는 상수와 이름 메타데이터도 함께
+읽을 수 있다. 실제 필드는
+[`pycore_interpframe_structs.h`](https://github.com/python/cpython/blob/3.14/Include/internal/pycore_interpframe_structs.h)에
+정의되어 있다.
+
+`PyFrameObject`는 code object를 별도로 중복 저장하기보다 `f_frame`으로
+실행 frame을 가리킨다. Python의 `frame.f_code`와 C API의
+[`PyFrame_GetCode()`](https://docs.python.org/3.14/c-api/frame.html#c.PyFrame_GetCode)는
+이 연결을 통해 해당 code object를 제공한다.
+
 > **확장 해설 — “함수가 끝났다”와 “frame 객체가 사라졌다”는 다르다**
 >
 > 함수 실행이 끝나 호출 스택에서 `_PyInterpreterFrame`이 빠져도,
@@ -254,9 +279,11 @@ PyFunctionObject
 └── closure cell
 
 _PyInterpreterFrame
+├── 실행할 code object
 ├── 특정 함수 호출의 인수와 지역 변수
 ├── 평가 스택
 ├── 현재 명령어 위치
+├── globals와 builtins
 └── 호출·반환에 필요한 상태
 ```
 
@@ -883,6 +910,34 @@ closure 변수:    슬롯 ──→ PyCellObject ──→ 값 PyObject
 > 적절히 해제한다. 코드 객체의 “0번은 `x`”라는 메타데이터는 그대로고
 > frame의 슬롯 내용만 바뀐다.
 
+##### Opcode에 따라 값의 출처가 다르다
+
+“code object가 특정 값을 조회한 뒤 frame으로 간다”고 이해하면 주체와
+방향이 혼동될 수 있다. code object는 실행 정보를 보관하는 객체일
+뿐이다. 실제로는 인터프리터의 실행 루프가 현재 frame과 그 frame의
+code object를 함께 읽는다.
+
+| Opcode | Code object가 제공하는 정보 | 현재 객체를 가져오거나 저장하는 곳 |
+| --- | --- | --- |
+| `LOAD_CONST` | 상수 인덱스 | code object의 상수 테이블에서 가져와 frame의 평가 스택에 올린다 |
+| `LOAD_FAST` | 지역 변수 슬롯 번호 | 현재 frame의 `localsplus` 슬롯에서 가져온다 |
+| `STORE_FAST` | 지역 변수 슬롯 번호 | frame의 평가 스택에서 꺼내 `localsplus` 슬롯에 저장한다 |
+| `LOAD_GLOBAL` | 조회할 이름 | 현재 frame의 globals, 그다음 builtins에서 찾는다 |
+| `LOAD_DEREF` | closure 슬롯 번호 | 현재 frame 슬롯에 든 `PyCellObject`에서 가져온다 |
+
+예를 들어 `LOAD_CONST 1`은 frame의 지역 변수에서 1번 값을 찾는
+명령이 아니다. 현재 code object의 상수 테이블 1번 항목을 읽어 그
+객체 참조를 frame의 평가 스택에 올린다. 반면 `LOAD_FAST 1`은 현재
+frame의 1번 지역 변수 슬롯을 읽는다. 실제 명령 정의는
+[`Python/bytecodes.c`](https://github.com/python/cpython/blob/3.14/Python/bytecodes.c)의
+`LOAD_CONST`, `LOAD_FAST`, `LOAD_GLOBAL`, `LOAD_DEREF`에서 확인할 수
+있다.
+
+class body나 일부 `eval` 실행처럼 별도의 지역 namespace 매핑을
+사용하는 경우에는 `LOAD_NAME`이 현재 frame의 locals, globals,
+builtins 순서로 조회한다. 이 경우에도 호출자 frame의 지역 변수를
+거슬러 올라가지는 않는다.
+
 #### Frame 연결과 이름 조회는 별개다
 
 frame에는 이전 frame으로 이어지는 링크가 있다. 이 링크는 호출과
@@ -892,6 +947,18 @@ frame에는 이전 frame으로 이어지는 링크가 있다. 이 링크는 호�
 호출자 frame ── CALL ──→ 피호출자 frame
 호출자 frame ←─ RETURN ─ 피호출자 frame
 ```
+
+피호출자에서 보면 이전 frame을 가리키는 링크는 다음처럼 한 방향의
+실행 체인을 이룬다.
+
+```text
+현재 callee frame ── previous ──→ caller frame ── previous ──→ module frame
+```
+
+프로그램의 전체 호출 관계는 시간에 따라 가지가 생기는 트리처럼
+그릴 수 있지만, 한 시점의 활성 frame들은 현재 호출 스택을 나타내는
+연결 체인에 가깝다. 어느 쪽도 일반 이름 조회를 위한 탐색 트리는
+아니다.
 
 그러나 일반 변수 조회가 이 링크를 따라 호출자의 지역 변수를
 검색하는 것은 아니다.
@@ -905,6 +972,46 @@ LOAD_DEREF  → 현재 frame의 closure cell
 Python은 호출자의 지역 변수를 차례로 검색하는 동적 scope 언어가
 아니다. closure도 이전 frame을 나중에 검색하는 대신, 컴파일러가
 미리 정한 cell 객체를 함수 객체와 새 frame에 전달하여 구현한다.
+
+다음 코드에서 `callee`는 `caller`의 지역 변수 `x`를 찾지 않는다.
+
+```py
+def callee():
+    return x
+
+def caller():
+    x = 10
+    return callee()
+```
+
+전역 namespace에도 `x`가 없다면 `caller()`는 `NameError`를
+발생시킨다. `callee`의 `LOAD_GLOBAL`은 자신의 globals와 builtins만
+조회하고, `previous` 링크를 따라 `caller`의 지역 슬롯을 검사하지
+않기 때문이다.
+
+렉시컬하게 중첩된 함수가 바깥 함수의 변수를 사용할 때는 호출
+frame 탐색이 아니라 closure cell을 사용한다.
+
+```py
+def outer():
+    x = 10
+
+    def inner():
+        return x
+
+    return inner
+```
+
+```text
+inner 함수 객체
+└── closure ──→ PyCellObject ──→ 정수 객체 10
+                     ▲
+                     └── inner frame의 closure 슬롯
+```
+
+컴파일러는 `inner`의 `x`를 자유 변수로 판정하고 `LOAD_DEREF`를
+생성한다. 함수 객체의 closure가 cell을 보존하므로 `outer`의 frame이
+사라진 뒤에도 반환된 `inner`가 `x`를 읽을 수 있다.
 
 ### 할당
 
@@ -1465,6 +1572,7 @@ frame의 명령 위치와 슬롯 값은 바뀐다.
 | `LOAD_CONST` | 명령의 상수 인덱스와 그 인덱스가 가리키는 `co_consts` 항목 | 다른 코드 객체로 교체하면 달라짐 |
 | `LOAD_FAST` | 지역 변수 슬롯 번호 | 그 슬롯에 든 객체 참조 |
 | `LOAD_GLOBAL` | 조회할 이름 | 전역·내장 딕셔너리에서 현재 찾은 객체 |
+| `LOAD_NAME` | 조회할 이름 | 지역·전역·내장 namespace에서 현재 찾은 객체 |
 | `LOAD_DEREF` | closure 슬롯 번호 | cell 안의 현재 객체 참조 |
 | 제어 흐름 | 프로그램 의미를 정하는 점프와 명령 배치 | 현재 명령 위치, 분기 조건, 예외 발생 여부, 내부 특수화 상태 |
 | 함수 호출 | 호출 명령 자체 | 호출 대상, 인자, 새로 만들어지는 frame |
