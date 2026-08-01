@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>프레임과 평가 스택 변화</title>
+  <style>
+    :root {
+      --ink: #182230;
+      --muted: #667085;
+      --border: #d0d5dd;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --green: #15803d;
+      --green-soft: #f0fdf4;
+      --orange: #c2410c;
+      --orange-soft: #fff7ed;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --gray-soft: #f8fafc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #eef2f7;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Noto Sans KR", "Segoe UI", sans-serif;
+    }
+
+    .canvas {
+      width: 100%;
+      min-height: 1000px;
+      margin: 0 auto;
+      padding: 38px 42px 34px;
+      background:
+        radial-gradient(circle at 0 100%, #dcfce7 0, transparent 28%),
+        radial-gradient(circle at 100% 0, #ffedd5 0, transparent 25%),
+        #fff;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 38px;
+      letter-spacing: -1.5px;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 22px;
+      margin-top: 18px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .swatch {
+      width: 18px;
+      height: 18px;
+      border-radius: 5px;
+    }
+
+    .swatch.op { background: var(--orange); }
+    .swatch.local { background: var(--purple); }
+    .swatch.value { background: var(--green); }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .step {
+      min-height: 340px;
+      padding: 16px;
+      border: 2px solid var(--border);
+      border-radius: 23px;
+      background: white;
+      box-shadow: 0 9px 25px rgba(16, 24, 40, .07);
+      position: relative;
+    }
+
+    .step-number {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: #e2e8f0;
+      color: #475569;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .op {
+      min-height: 60px;
+      padding: 10px 48px 10px 12px;
+      border: 2px solid #fdba74;
+      border-radius: 15px;
+      background: var(--orange-soft);
+      color: #9a3412;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.4;
+    }
+
+    .section-label {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+
+    .locals {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .local {
+      min-height: 58px;
+      padding: 7px 6px;
+      border: 1px solid #c4b5fd;
+      border-radius: 12px;
+      background: var(--purple-soft);
+      text-align: center;
+    }
+
+    .local-name {
+      color: #6d28d9;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .local-value {
+      margin-top: 4px;
+      color: #4c1d95;
+      font-size: 18px;
+      font-weight: 850;
+    }
+
+    .unbound .local-value {
+      color: #94a3b8;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .stack {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 7px;
+      padding: 9px;
+      border: 2px dashed #86efac;
+      border-radius: 14px;
+      background: var(--green-soft);
+    }
+
+    .stack::before {
+      content: "bottom";
+      color: #86a98f;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 11px;
+    }
+
+    .value {
+      min-width: 58px;
+      padding: 8px 10px;
+      border-radius: 11px;
+      background: var(--green);
+      color: white;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 17px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .top {
+      margin-left: auto;
+      color: #4d7c58;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .empty {
+      flex: 1;
+      color: #86a98f;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    .explain {
+      margin-top: 10px;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .result {
+      border-color: #86efac;
+      background: linear-gradient(145deg, white, #f0fdf4);
+    }
+
+    .result-box {
+      margin-top: 11px;
+      padding: 11px;
+      border-radius: 14px;
+      background: var(--blue-soft);
+      color: #1e40af;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 18px;
+      font-weight: 850;
+      text-align: center;
+    }
+
+    .footer {
+      margin-top: 16px;
+      padding: 14px 20px;
+      border-left: 7px solid var(--blue);
+      border-radius: 15px;
+      background: var(--blue-soft);
+      color: #1e3a8a;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 750;
+    }
+  </style>
+</head>
+<body>
+  <main class="canvas">
+    <h1><code>calculate(5, 3)</code>의 프레임과 평가 스택</h1>
+    <div class="subtitle">오른쪽이 평가 스택의 위쪽이다 · 같은 값은 같은 색으로 표시한다</div>
+    <div class="legend">
+      <div class="legend-item"><span class="swatch op"></span>현재 바이트코드</div>
+      <div class="legend-item"><span class="swatch local"></span>지역 변수 슬롯</div>
+      <div class="legend-item"><span class="swatch value"></span>평가 스택의 값</div>
+    </div>
+
+    <section class="steps">
+      <article class="step">
+        <div class="step-number">1</div>
+        <div class="op">LOAD_FAST_BORROW_LOAD_FAST_BORROW</div>
+        <div class="section-label">fast locals</div>
+        <div class="locals">
+          <div class="local"><div class="local-name">price</div><div class="local-value">5</div></div>
+          <div class="local"><div class="local-name">quantity</div><div class="local-value">3</div></div>
+          <div class="local unbound"><div class="local-name">subtotal</div><div class="local-value">미설정</div></div>
+        </div>
+        <div class="section-label">evaluation stack</div>
+        <div class="stack"><div class="value">5</div><div class="value">3</div><div class="top">TOP</div></div>
+        <div class="explain">지역 변수 슬롯 0과 1에서 인수를 읽어 스택에 올린다.</div>
+      </article>
+
+      <article class="step">
+        <div class="step-number">2</div>
+        <div class="op">BINARY_OP 5 (*)</div>
+        <div class="section-label">fast locals</div>
+        <div class="locals">
+          <div class="local"><div class="local-name">price</div><div class="local-value">5</div></div>
+          <div class="local"><div class="local-name">quantity</div><div class="local-value">3</div></div>
+          <div class="local unbound"><div class="local-name">subtotal</div><div class="local-value">미설정</div></div>
+        </div>
+        <div class="section-label">evaluation stack</div>
+        <div class="stack"><div class="value">15</div><div class="top">TOP</div></div>
+        <div class="explain"><code>5</code>와 <code>3</code>을 꺼내 곱하고 결과 <code>15</code>를 다시 올린다.</div>
+      </article>
+
+      <article class="step">
+        <div class="step-number">3</div>
+        <div class="op">STORE_FAST 2 (subtotal)</div>
+        <div class="section-label">fast locals</div>
+        <div class="locals">
+          <div class="local"><div class="local-name">price</div><div class="local-value">5</div></div>
+          <div class="local"><div class="local-name">quantity</div><div class="local-value">3</div></div>
+          <div class="local"><div class="local-name">subtotal</div><div class="local-value">15</div></div>
+        </div>
+        <div class="section-label">evaluation stack</div>
+        <div class="stack"><div class="empty">[ ]</div><div class="top">TOP</div></div>
+        <div class="explain">스택의 <code>15</code>를 지역 변수 슬롯 2에 옮긴다.</div>
+      </article>
+
+      <article class="step">
+        <div class="step-number">4</div>
+        <div class="op">LOAD_FAST_BORROW 2<br>LOAD_GLOBAL 0 (BONUS)</div>
+        <div class="section-label">fast locals</div>
+        <div class="locals">
+          <div class="local"><div class="local-name">price</div><div class="local-value">5</div></div>
+          <div class="local"><div class="local-name">quantity</div><div class="local-value">3</div></div>
+          <div class="local"><div class="local-name">subtotal</div><div class="local-value">15</div></div>
+        </div>
+        <div class="section-label">evaluation stack</div>
+        <div class="stack"><div class="value">15</div><div class="value">1000</div><div class="top">TOP</div></div>
+        <div class="explain">지역 변수 <code>subtotal</code>과 전역 이름 <code>BONUS</code>의 값을 올린다.</div>
+      </article>
+
+      <article class="step">
+        <div class="step-number">5</div>
+        <div class="op">BINARY_OP 0 (+)</div>
+        <div class="section-label">fast locals</div>
+        <div class="locals">
+          <div class="local"><div class="local-name">price</div><div class="local-value">5</div></div>
+          <div class="local"><div class="local-name">quantity</div><div class="local-value">3</div></div>
+          <div class="local"><div class="local-name">subtotal</div><div class="local-value">15</div></div>
+        </div>
+        <div class="section-label">evaluation stack</div>
+        <div class="stack"><div class="value">1015</div><div class="top">TOP</div></div>
+        <div class="explain"><code>15</code>와 <code>1000</code>을 꺼내 더하고 결과를 올린다.</div>
+      </article>
+
+      <article class="step result">
+        <div class="step-number">6</div>
+        <div class="op">RETURN_VALUE</div>
+        <div class="section-label">fast locals</div>
+        <div class="locals">
+          <div class="local"><div class="local-name">price</div><div class="local-value">5</div></div>
+          <div class="local"><div class="local-name">quantity</div><div class="local-value">3</div></div>
+          <div class="local"><div class="local-name">subtotal</div><div class="local-value">15</div></div>
+        </div>
+        <div class="section-label">evaluation stack</div>
+        <div class="stack"><div class="empty">[ ]</div><div class="top">TOP</div></div>
+        <div class="result-box">caller ← 1015</div>
+        <div class="explain">스택의 결과를 꺼내 호출자 프레임으로 반환하고 이 프레임은 끝난다.</div>
+      </article>
+    </section>
+
+    <div class="footer"><strong>호출들은 같은 CodeObject를 공유한다.</strong> 위 그림에서 호출마다 달라지는 것은 지역 변수와 평가 스택, 즉 프레임의 상태다.</div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPython 3.14 컴파일과 실행 흐름</title>
+  <style>
+    :root {
+      --ink: #182230;
+      --muted: #607086;
+      --line: #cbd5e1;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --purple: #7c3aed;
+      --purple-soft: #f5f3ff;
+      --green: #15803d;
+      --green-soft: #f0fdf4;
+      --orange: #c2410c;
+      --orange-soft: #fff7ed;
+      --gray-soft: #f8fafc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #eef2f7;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Noto Sans KR", "Segoe UI", sans-serif;
+    }
+
+    .canvas {
+      width: 100%;
+      min-height: 930px;
+      margin: 0 auto;
+      padding: 42px 44px 38px;
+      background:
+        radial-gradient(circle at 8% 2%, #dbeafe 0, transparent 25%),
+        radial-gradient(circle at 96% 98%, #ede9fe 0, transparent 30%),
+        #ffffff;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 38px;
+      letter-spacing: -1.8px;
+    }
+
+    .subtitle {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .regions {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .region {
+      min-height: 510px;
+      padding: 20px;
+      border: 2px solid var(--line);
+      border-radius: 28px;
+      position: relative;
+      min-width: 0;
+    }
+
+    .compile {
+      background: linear-gradient(145deg, #f8fbff, var(--blue-soft));
+      border-color: #93c5fd;
+    }
+
+    .execute {
+      background: linear-gradient(145deg, #fcfaff, var(--purple-soft));
+      border-color: #c4b5fd;
+    }
+
+    .region-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .tag {
+      padding: 5px 10px;
+      border-radius: 999px;
+      color: white;
+      font-size: 12px;
+      letter-spacing: .3px;
+    }
+
+    .compile .tag { background: var(--blue); }
+    .execute .tag { background: var(--purple); }
+
+    .pipeline {
+      display: flex;
+      align-items: stretch;
+      gap: 6px;
+      margin-top: 30px;
+    }
+
+    .node {
+      flex: 1;
+      min-width: 0;
+      min-height: 130px;
+      padding: 14px 8px;
+      border: 2px solid #bfdbfe;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 8px 22px rgba(30, 64, 175, .08);
+      text-align: center;
+    }
+
+    .node strong {
+      display: block;
+      margin-top: 8px;
+      color: #1d4ed8;
+      font-size: 18px;
+      letter-spacing: -.5px;
+    }
+
+    .node span {
+      display: block;
+      margin-top: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .node .icon {
+      margin: 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #475569;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .arrow {
+      align-self: center;
+      color: #60a5fa;
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .code-object {
+      border-color: var(--blue);
+      box-shadow: 0 10px 28px rgba(37, 99, 235, .18);
+    }
+
+    .code-object .icon {
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .code-object strong {
+      font-size: 17px;
+    }
+
+    .pyc-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      width: 86%;
+      margin: 25px auto 0;
+    }
+
+    .pyc {
+      padding: 12px 16px;
+      border: 2px dashed #64748b;
+      border-radius: 16px;
+      background: rgba(255,255,255,.76);
+      text-align: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .pyc small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .dotted {
+      color: #64748b;
+      font-size: 21px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .execute-flow {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .runtime-node {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      align-items: center;
+      gap: 10px;
+      min-height: 85px;
+      padding: 12px;
+      border: 2px solid #ddd6fe;
+      border-radius: 20px;
+      background: white;
+      box-shadow: 0 8px 22px rgba(91, 33, 182, .08);
+      min-width: 0;
+    }
+
+    .runtime-node .number {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: var(--purple);
+      color: white;
+      font-size: 19px;
+      font-weight: 800;
+    }
+
+    .runtime-node strong {
+      display: block;
+      color: #6d28d9;
+      font-size: 17px;
+    }
+
+    .runtime-node span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .note {
+      padding: 13px 17px;
+      border-radius: 18px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .static-note {
+      background: var(--blue-soft);
+      border-left: 7px solid var(--blue);
+    }
+
+    .dynamic-note {
+      background: var(--purple-soft);
+      border-left: 7px solid var(--purple);
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <main class="canvas">
+    <h1>Python 소스는 어떻게 실행되는가?</h1>
+    <div class="subtitle">CPython 3.14 · 컴파일 결과와 호출별 실행 상태를 분리해서 본다</div>
+
+    <section class="regions">
+      <div class="region compile">
+        <div class="region-title"><span class="tag">COMPILE</span> 소스에서 실행 명세까지</div>
+        <div class="pipeline">
+          <div class="node">
+            <div class="icon">example.py</div>
+            <strong>Python 소스</strong>
+            <span>문자<br>들여쓰기</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node">
+            <div class="icon">NAME · = · INT</div>
+            <strong>토큰</strong>
+            <span>문법이 읽을<br>단위</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node">
+            <div class="icon">Module(…)</div>
+            <strong>AST</strong>
+            <span>프로그램 구조</span>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node code-object">
+            <div class="icon">PyCodeObject</div>
+            <strong>Code<br>Object</strong>
+            <span>바이트코드<br>상수 · 이름 · 위치</span>
+          </div>
+        </div>
+
+        <div class="pyc-row">
+          <div class="dotted">⋯ 저장</div>
+          <div class="pyc">.pyc<small>CodeObject 재컴파일을 줄이는 캐시</small></div>
+          <div class="dotted">불러오기 ⋯</div>
+        </div>
+      </div>
+
+      <div class="region execute">
+        <div class="region-title"><span class="tag">EXECUTE</span> 명세에서 실제 값까지</div>
+        <div class="execute-flow">
+          <div class="runtime-node">
+            <div class="number">1</div>
+            <div><strong>프레임 생성</strong><span>지역 변수 · 평가 스택 · 실행 위치</span></div>
+          </div>
+          <div class="runtime-node">
+            <div class="number">2</div>
+            <div><strong>평가 루프</strong><span>opcode를 읽고 스택 연산 수행</span></div>
+          </div>
+          <div class="runtime-node">
+            <div class="number">3</div>
+            <div><strong>결과 반환</strong><span><code>result = 1015</code></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer">
+      <div class="note static-note"><strong>CodeObject는 공유된다.</strong> 무엇을 실행할지 저장한 정적 실행 명세다.</div>
+      <div class="note dynamic-note"><strong>프레임은 호출마다 생긴다.</strong> 이번 호출의 실제 값을 저장한다.</div>
+    </section>
+  </main>
+</body>
+</html>

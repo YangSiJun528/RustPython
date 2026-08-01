@@ -8,13 +8,16 @@ CPython `InternalDocs`를 한국어로 해설하고 학습 내용을 기록하�
 ```text
 cpython-internals-notes/
 └── <CPython 버전>/
-    └── <InternalDocs 주제>/
+    └── <InternalDocs 주제 또는 통합 주제>/
         └── README.ko.md
 ```
 
 ## 문서 목록
 
 ### CPython 3.14
+
+- [Python 컴파일에서 실행까지](3.14/compilation-to-execution/README.ko.md)
+  - 소스 코드, CodeObject, 바이트코드, 프레임을 한 예제로 연결하는 입문 설명
 
 - [Python 소스 코드 컴파일](3.14/compiling-python-source-code/README.ko.md)
   - Guide to the parser
