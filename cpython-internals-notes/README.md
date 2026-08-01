@@ -30,6 +30,12 @@ cpython-internals-notes/
   - Frames
   - String Interning
 
+- [객체 모델과 런타임 객체 확장 해설](3.14/object-model-and-runtime-objects/README.ko.md)
+  - 런타임 객체 문서의 전체 내용
+  - PyObject, 참조 소유권과 객체 수명
+  - 코드 객체, 함수 객체, frame과 슬롯의 관계
+  - generator와 문자열 인터닝을 포함한 통합 예제
+
 - [프로그램 실행](3.14/program-execution/README.ko.md)
   - The Bytecode Interpreter
   - The JIT
