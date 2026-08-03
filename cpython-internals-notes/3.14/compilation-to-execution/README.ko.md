@@ -12,6 +12,8 @@
 
 - 바이트코드의 숫자 인자는 무엇을 가리키는가?
 - `FAST`는 왜 상수가 아니라 지역 변수 접근인가?
+- local, cell, free, global 이름은 무엇이 다른가?
+- `co_names`와 실제 이름 딕셔너리는 어떻게 연결되는가?
 - CodeObject와 Frame에는 각각 무엇이 들어 있는가?
 - Frame의 지역 슬롯과 평가 스택에는 실제로 무엇이 들어 있는가?
 - 변수를 찾을 때 호출자 Frame을 차례로 올라가는가?
@@ -38,6 +40,31 @@
 | 함수 객체 | CodeObject를 globals, 기본 인수, closure 같은 실행 환경과 연결한다. | `def`가 실행될 때 만들어진다. |
 | Frame | 이번 실행의 실제 지역 변수, 평가 스택, 현재 실행 위치를 저장한다. | Python 함수가 호출될 때마다 만들어진다. |
 | PyObject 계열 객체 | 정수, 문자열, 리스트, 함수 등 Python에서 다루는 값을 표현한다. | 표현식의 결과로 새로 만들어지거나 기존 객체가 재사용된다. |
+
+### 계층이라기보다 서로 가리키는 관계다
+
+이들을 `함수 객체 → Frame → CodeObject` 같은 단일 소유 계층으로 보면
+안 된다. 일반적인 Python 함수 호출의 관계는 다음에 가깝다.
+
+```text
+함수 객체 ─────────────→ CodeObject
+    │                      실행 설계도
+    │ 호출할 때마다
+    ├────────→ Frame A ──→ 같은 CodeObject
+    └────────→ Frame B ──→ 같은 CodeObject
+                 │
+                 └─ 지역 슬롯·평가 스택 ─→ 여러 Python 객체 참조
+```
+
+따라서 **Frame이 실행할 CodeObject를 가리킨다**는 말은 맞다. 하지만
+함수 객체가 호출별 Frame을 하나씩 자기 안에 보관하는 것은 아니다.
+함수 객체는 CodeObject와 실행 환경을 가지고 있고, 호출할 때마다 그
+정보를 이용해 새 Frame이 준비된다. 재귀 호출에서는 같은 함수 객체와
+CodeObject에 연결된 Frame이 동시에 여러 개 존재할 수 있다.
+
+종류 관점에서는 CodeObject와 함수 객체도 Python 객체다. 반면
+interpreter Frame은 우선 내부 실행 레코드이며, 필요할 때 Python에서
+관찰할 수 있는 Frame 객체와 연결된다.
 
 평가 루프는 CodeObject에서 다음 바이트코드를 읽어 현재 Frame에
 적용한다.
@@ -189,6 +216,11 @@ co_freevars = ()
 | `co_nlocals` | `0` | `3` | 일반 지역 변수의 개수 |
 | `co_stacksize` | `4` | `2` | 필요한 평가 스택의 최대 깊이 |
 
+`co_names`, `co_varnames`, `co_cellvars`, `co_freevars`는 이름 문자열과
+분류 정보를 담는 메타데이터다. 현재 실행의 `이름 → 객체` 바인딩은
+담지 않는다. 실제 저장소와의 연결은
+[8절](#이름-분류에서-저장소와-opcode까지)에서 설명한다.
+
 `def calculate(...):`를 실행할 때 함수 본문을 다시 파싱하거나 컴파일하지
 않는다. 이미 만든 `calculate CodeObject`를 꺼내 함수 객체로 감싼다.
 
@@ -241,6 +273,21 @@ STORE_NAME 0
 → co_names[0]의 'BONUS'를 확인
 → 평가 스택의 1000을 모듈 locals에 저장
 ```
+
+#### `co_names`와 이름 딕셔너리는 다르다
+
+`co_names`는 바이트코드가 사용할 **이름 문자열 표**다.
+
+```text
+모듈 CodeObject.co_names[0] ─→ 문자열 'BONUS'
+                                      │ STORE_NAME 0
+                                      ▼
+모듈 locals['BONUS']         ─→ 정수 객체 1000
+```
+
+`STORE_NAME 0`은 `co_names[0]`에서 키 `'BONUS'`를 얻고, 평가 스택에서
+꺼낸 객체 참조를 현재 locals 매핑에 저장한다. `co_names[0]`에 값
+`1000`이 들어 있는 것은 아니다.
 
 ### `def calculate(...)`
 
@@ -670,25 +717,161 @@ CPython의 순환 GC는 참조 계수만으로 회수되지 않는 이런 도달
 빌드의 수명 관리 최적화도 있으므로 참조 계수의 정확한 증감을 Python
 프로그램의 의미로 가정해서는 안 된다.
 
-## 8. 이름 조회와 호출 스택은 서로 다른 경로다
+## 8. 이름 분류·네임스페이스와 호출 스택은 서로 다른 경로다
 
 ![렉시컬 변수 조회 경로와 일반 호출자 프레임 체인의 차이](diagrams/05-name-resolution-and-frame-chain.png)
 
-### 이름의 조회 방법은 컴파일할 때 정한다
+### 이름 분류에서 저장소와 opcode까지
 
-Python은 일반 변수 조회에 동적 스코프를 사용하지 않는다. 컴파일러가
-각 코드 블록의 이름을 분류하고 그 결과에 맞는 바이트코드를 만든다.
+먼저 결론부터 말하면 local은 현재 Frame 슬롯, cell/free는 공유 cell,
+함수 안의 global·builtin 후보는 먼저 모듈 globals에서 찾고 없으면
+builtins에서 찾는다. 일반 이름 조회는 호출자 Frame 체인을 사용하지
+않는다.
 
-| 컴파일 결과 | 대표 바이트코드 | 실행 시 읽는 곳 |
+심볼 테이블은 이름마다 **어디에서 읽고 쓸지**를 분류한다. CodeObject는
+그 결과를 이름 표와 바이트코드로 기록한다. Frame은 호출별 locals-plus
+슬롯과 cell을 제공하고 globals·builtins 네임스페이스를 참조한다.
+바이트코드는 정해진 경로로 실제 객체 참조를 읽고 쓴다. 분류를 계산하는
+컴파일러 내부 과정은 [Python 소스 코드 컴파일 7.1절](../compiling-python-source-code/README.ko.md#71-먼저-심볼-테이블을-만든다)을
+참고한다.
+
+다음 예제에는 local, cell, free, global 이름이 모두 들어 있다.
+
+```python
+tax = 10
+
+def outer():
+    rate = 2
+    unused = 100
+
+    def inner(price):
+        result = price * rate + tax
+        return result
+
+    return inner
+```
+
+같은 철자의 이름이라도 **어느 코드 블록에서 보느냐**에 따라 분류가
+달라진다.
+
+| 이름과 코드 블록 | 분류 | 뜻 |
 |---|---|---|
-| 현재 함수의 일반 지역 이름 | `LOAD_FAST*` | 현재 Frame의 지역 슬롯 |
-| 바깥 함수에서 캡처한 이름 | `LOAD_DEREF` | 현재 Frame이 가진 closure cell 참조 |
-| 전역·내장 이름 | `LOAD_GLOBAL` | 현재 Frame의 globals, 없으면 builtins |
-| 모듈·클래스 등의 동적 이름 | `LOAD_NAME` | 현재 locals, globals, builtins 순서 |
+| 모듈의 `tax` | 모듈 바인딩 | 현재 모듈 네임스페이스에 저장할 이름 |
+| `outer`의 `unused` | local | 현재 함수 호출에서만 쓰는 일반 지역 이름 |
+| `outer`의 `rate` | cell variable | 현재 함수의 local이면서 안쪽 코드와 공유할 이름 |
+| `inner`의 `rate` | free variable | 바깥 렉시컬 영역의 cell에서 받아 쓰는 이름 |
+| `inner`의 `price`, `result` | local | 현재 `inner` 호출의 인수와 일반 지역 이름 |
+| `inner`의 `tax` | implicit global | 함수 globals에서 찾고, 없으면 builtins에서 찾을 이름 |
+
+`global tax` 선언은 함수 안의 이름을 global로 명시하고, `nonlocal rate`
+선언은 가장 가까운 바깥 함수의 cell 바인딩을 사용한다고 명시한다.
+
+CPython 3.14.6에서 두 함수 CodeObject의 관련 필드는 다음처럼 나뉜다.
 
 ```text
-이름의 종류와 조회 경로 → 컴파일 시점에 고정
-그 경로에서 읽을 실제 값 → 실행 시점에 결정
+outer.__code__
+  co_varnames = ('unused', 'inner')
+  co_cellvars = ('rate',)
+  co_freevars = ()
+  co_names    = ()
+
+inner.__code__
+  co_varnames = ('price', 'result')
+  co_cellvars = ()
+  co_freevars = ('rate',)
+  co_names    = ('tax',)
+```
+
+심볼 테이블 객체 전체가 CodeObject 안에 그대로 남는 것은 아니다. 분석
+결과가 위 튜플과 opcode 선택에 반영된다. 이 공개 튜플들이 항상 서로
+배타적인 것도 아니다. 안쪽 코드에 캡처된 매개변수는 `co_varnames`와
+`co_cellvars` 양쪽에 나타날 수 있다.
+
+cell variable과 free variable은 서로 다른 종류의 값을 뜻하지 않는다.
+`rate`라는 같은 렉시컬 바인딩을 바깥 코드에서는 **cell variable**,
+그 cell을 받아 쓰는 안쪽 코드에서는 **free variable**이라고 부른다.
+
+```text
+outer Frame의 rate cell 슬롯 ─→ cell ─→ 정수 객체 2
+                                      ↑
+inner 함수 객체의 __closure__ ────────┤
+                                      ↑
+inner Frame의 free 변수 슬롯 ─────────┘
+```
+
+`nonlocal rate`로 값을 바꿀 때도 호출자 Frame을 찾는 것이 아니다. 이미
+전달받은 같은 cell을 `LOAD_DEREF`와 `STORE_DEREF`로 읽고 쓴다.
+
+### 이름 표와 실제 값 저장소는 다르다
+
+CodeObject의 이름 튜플은 현재 값을 보관하는 딕셔너리가 아니다. 실제
+`이름 → 객체` 바인딩은 Frame 슬롯·cell 또는 Frame이 참조하는
+네임스페이스 매핑에 있다.
+
+| 분류·코드 블록 | CodeObject와 함수 객체의 정보 | 읽기 경로 | 쓰기와 실제 저장소 |
+|---|---|---|---|
+| 함수 local | `co_varnames`: 슬롯 순서에 대응하는 이름 | `LOAD_FAST*`: 현재 Frame 슬롯 | `STORE_FAST`: 같은 locals-plus 슬롯 |
+| cell·free | `co_cellvars`, `co_freevars`, 함수 `__closure__` | `LOAD_DEREF`: cell의 내용 | `STORE_DEREF`: 공유 cell의 내용 |
+| 함수의 global·builtin 후보 | `co_names`: 이름 문자열 | `LOAD_GLOBAL`: globals → builtins | `STORE_GLOBAL`: globals 매핑 |
+| 모듈·클래스의 일반 매핑 기반 이름 | `co_names`: 이름 문자열 | `LOAD_NAME`: locals → globals → builtins | `STORE_NAME`: 현재 locals 매핑 |
+
+`co_names`에는 `LOAD_ATTR`이나 import 관련 명령이 사용할 문자열도 들어갈
+수 있다. 그러나 `obj.name`은 객체의 속성 조회 프로토콜을 사용하므로
+locals → globals → builtins 조회와는 다른 경로다.
+
+일반적인 모듈 실행에서는 다음 참조들이 같은 모듈 네임스페이스
+딕셔너리로 이어진다.
+
+```text
+module.__dict__
+  = 모듈 Frame의 locals와 globals
+  = outer.__globals__
+  = inner.__globals__
+```
+
+따라서 모듈의 `STORE_NAME tax`가 이 딕셔너리에 저장한 객체를 나중에
+`inner`의 `LOAD_GLOBAL tax`가 읽는다. `inner.co_names[0]`에는 문자열
+`'tax'`가 있고, 정수 객체 `10`은 globals의 `'tax'` 바인딩에 있다.
+
+일반 함수에서도 `locals()`나 `frame.f_locals`를 통해 지역 이름을 매핑
+형태로 관찰할 수 있다. 그러나 `LOAD_FAST*`는 그 매핑에서 문자열 키를
+검색하지 않고 현재 Frame의 정해진 슬롯을 사용한다.
+
+읽기와 쓰기는 대칭이 아니다.
+
+```text
+LOAD_NAME:    locals[name] → globals[name] → builtins[name]
+STORE_NAME:   locals[name] = value
+
+LOAD_GLOBAL:  globals[name] → builtins[name]
+STORE_GLOBAL: globals[name] = value
+```
+
+저장 명령은 읽기 순서를 따라가며 기존 바인딩을 찾지 않는다. 예를 들어
+`STORE_GLOBAL`은 같은 이름이 builtins에 있어도 globals에 저장한다.
+
+raw 인자는 앞의 5절에서 설명했듯이 opcode마다 다르게 해석한다. 이
+예제에서는 `inner.co_freevars[0] == 'rate'`이고
+`inner.__closure__[0]`이 그 cell이지만, `LOAD_DEREF 2`의 `2`는
+`co_freevars[2]`가 아니라 Frame의 locals-plus 슬롯 2를 뜻한다.
+`LOAD_GLOBAL n`도 이름을 `co_names[n >> 1]`에서 얻는다.
+
+실제 바이트코드에서 `outer`의 `MAKE_CELL`은 `rate` cell 슬롯을
+준비한다. `COPY_FREE_VARS 1`은 `inner` 함수 객체의 closure가 보관한
+cell 참조 한 개를 새 `inner` Frame의 free-variable 슬롯에 **복사해
+배치**한다. 바깥 Frame을 탐색하지 않으며 함수 객체의 closure도 계속
+같은 cell을 참조한다.
+
+모듈 최상위 코드는 매핑 기반 `NAME` 계열을 사용하므로, “global로
+분류된 이름은 언제나 `LOAD_GLOBAL`을 쓴다”라고 단순화하면 안 된다.
+클래스 본문도 일반 이름에는 주로 별도의 locals 매핑과 `NAME` 계열을
+사용한다. 이 클래스 locals는 메서드의 렉시컬 바깥 scope가 아니므로,
+메서드의 bare name 조회는 일반적으로 클래스 네임스페이스를 검색하지
+않는다.
+
+```text
+이름의 종류와 조회 경로 → 컴파일 시점에 정함
+그 경로에 들어 있는 실제 객체 → 실행 시점에 정해짐
 ```
 
 ### 일반 변수 조회는 호출자 Frame을 올라가지 않는다
@@ -721,32 +904,11 @@ NameError
 
 ### closure도 바깥 Frame을 탐색하지 않는다
 
-다음 예제의 `value`는 렉시컬하게 바깥 함수에서 캡처된다.
-
-```python
-def outer():
-    value = 100
-
-    def inner():
-        return value
-
-    return inner
-```
-
-컴파일러는 `outer`의 `value`를 cell 변수로, `inner`의 `value`를 free
-변수로 분류한다.
-
-```text
-outer 실행 중 cell 생성
-  ↓
-inner 함수 객체의 closure가 같은 cell 참조 보관
-  ↓
-inner 호출 Frame이 cell 참조를 받아 LOAD_DEREF로 직접 읽음
-```
-
-`inner`는 호출할 때 `outer` Frame을 찾아 올라가지 않는다. `outer`의
-실행이 끝나 Frame이 사라져도 closure cell이 남기 때문에 `inner()`는
-계속 `100`을 읽을 수 있다.
+앞의 예제에서 `outer()`가 `inner` 함수 객체를 반환하면, 함수 객체의
+closure가 `rate` cell의 참조를 계속 보관한다. `outer` Frame의 실행이
+끝난 뒤에도 cell은 살아 있다. 나중에 `inner(5)`를 호출하면 새 Frame이
+그 cell 참조를 받아 `LOAD_DEREF`로 `rate == 2`를 읽는다. 이 과정에도
+`outer` Frame 탐색은 없다.
 
 ### Frame 체인은 다른 목적으로 존재한다
 
@@ -822,7 +984,8 @@ Java 컴파일·실행 글에서 다룬 개념과 대략 대응시키면 다음�
 가장 중요한 구분은 다음 세 문장이다.
 
 > CodeObject는 여러 실행이 공유하는 설계도다. Frame은 그 설계도를 한
-> 번 실행하는 동안 객체 참조와 실행 상태를 보관한다. 호출 스택의 Frame
+> 번 실행하는 동안 객체 참조와 실행 상태를 보관한다. `co_names`는 이름
+> 문자열 표이지 현재 값을 담는 네임스페이스가 아니다. 호출 스택의 Frame
 > 관계는 일반 이름 탐색 경로가 아니다.
 
 ## 참고 자료

@@ -1498,6 +1498,12 @@ def outer():
 이 구분에 따라 이후 생성할 명령어 계열이 달라진다. 지역 변수, 전역 이름, 클로저 변수는
 서로 다른 저장 위치와 조회 절차를 사용한다.
 
+이 절은 컴파일러가 이름을 **왜** local·cell·free·global로 분류하는지를 다룬다. 그 결과가
+CodeObject의 이름 표와 `LOAD_FAST`·`LOAD_DEREF`·`LOAD_GLOBAL`·`LOAD_NAME`, 실제
+Frame 슬롯·cell·네임스페이스 매핑으로 이어지는 과정은
+[컴파일에서 실행까지](../compilation-to-execution/README.ko.md#이름-분류에서-저장소와-opcode까지)에서
+한 예제로 연결해 설명한다.
+
 > **해설 — AST 생성과 동시에 이름을 확정하지 않는 이유**
 >
 > 이름의 성격은 그 이름이 나타난 한 지점만 보고 정할 수 없다. 함수 전체에 대입이 있는지,

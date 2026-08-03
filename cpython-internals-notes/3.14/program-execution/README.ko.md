@@ -495,6 +495,11 @@ async 함수도 여기에 포함된다. 제너레이터 객체에는 지역 변�
 > `LOAD_GLOBAL`이 두 이름 공간을 런타임에 다룬다. cell은 중첩 함수가 바깥 scope의 값을
 > 공유하도록 간접 저장소 역할을 한다.
 
+이 절은 실행기 관점의 개요다. local·cell·free·global 분류가 CodeObject의 이름 표,
+이름 딕셔너리와 Frame 슬롯, `LOAD`·`STORE` 계열로 연결되는 전체 과정은
+[컴파일에서 실행까지](../compilation-to-execution/README.ko.md#이름-분류에서-저장소와-opcode까지)를
+참고한다.
+
 (TODO: 이 절의 나머지를 작성해야 한다. 하지만 저자가 다른 일에 정신이 팔려 한동안 계속
 작성할 시간이 없게 되었다.)
 

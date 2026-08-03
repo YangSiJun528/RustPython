@@ -300,32 +300,32 @@
   <main class="canvas">
     <h1>변수를 찾을 때 호출자 Frame을 올라가지 않는다</h1>
     <div class="subtitle">렉시컬 이름 조회 경로와 호출 스택의 Frame 관계는 서로 다른 개념이다</div>
-    <div class="banner">컴파일러가 이름의 종류를 정한다 → 그 결과로 opcode와 실행 시 조회 경로가 정해진다</div>
+    <div class="banner">컴파일러가 이름의 종류를 정한다 → CodeObject의 이름 표·opcode → Frame 슬롯·cell·namespace</div>
 
     <section class="layout">
       <article class="panel" aria-labelledby="lookup-title">
-        <h2 id="lookup-title">일반 이름 조회: 정해진 경로로 바로 간다</h2>
-        <div class="panel-intro">실제 값은 실행할 때 바뀌지만, 어디에서 읽을지는 대부분 컴파일할 때 정한다.</div>
+        <h2 id="lookup-title">이름 읽기·쓰기: 정해진 저장소로 바로 간다</h2>
+        <div class="panel-intro">실제 값은 실행할 때 바뀌지만, 어느 저장소를 사용할지는 대부분 컴파일할 때 정한다.</div>
         <div class="lookup-list">
           <div class="lookup">
             <div class="scope">현재 함수의 지역 이름</div>
-            <div class="opcode">LOAD_FAST*</div>
-            <div class="path">현재 Frame의 지역 슬롯</div>
+            <div class="opcode">LOAD_FAST*<br>STORE_FAST</div>
+            <div class="path">읽기·쓰기: 현재 Frame의 지역 슬롯</div>
           </div>
           <div class="lookup">
-            <div class="scope">바깥 함수에서 캡처한 이름</div>
-            <div class="opcode">LOAD_DEREF</div>
-            <div class="path">현재 Frame이 가진 closure cell 참조</div>
+            <div class="scope">cell·free 이름</div>
+            <div class="opcode">LOAD_DEREF<br>STORE_DEREF</div>
+            <div class="path">읽기·쓰기: 공유 closure cell</div>
           </div>
           <div class="lookup">
             <div class="scope">전역·내장 이름</div>
-            <div class="opcode">LOAD_GLOBAL</div>
-            <div class="path">현재 Frame의 globals → builtins</div>
+            <div class="opcode">LOAD_GLOBAL<br>STORE_GLOBAL</div>
+            <div class="path">읽기: globals → builtins<br>쓰기: globals</div>
           </div>
           <div class="lookup">
-            <div class="scope">모듈·클래스의 동적 이름</div>
-            <div class="opcode">LOAD_NAME</div>
-            <div class="path">현재 locals → globals → builtins</div>
+            <div class="scope">모듈·클래스의<br>매핑 기반 이름</div>
+            <div class="opcode">LOAD_NAME<br>STORE_NAME</div>
+            <div class="path">읽기: locals → globals → builtins<br>쓰기: locals</div>
           </div>
         </div>
 
