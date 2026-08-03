@@ -2,7 +2,10 @@
 
 CPython은 함수 실행에 필요한 정보를 `CodeObject`, 함수 객체, Frame으로 나눈다. `CodeObject`는 재사용할 실행 설계를, 함수 객체는 그 설계에 결합할 환경을, Frame은 한 번의 호출에서 변하는 상태를 맡는다. 이 구분 덕분에 같은 함수를 여러 번 호출해도 바이트코드는 공유하면서 인수와 지역 변수, 실행 위치는 호출마다 따로 유지할 수 있다.
 
-셋은 위에서 아래로 소유되는 계층이 아니라 서로를 가리키는 참조 그래프다. 함수 객체와 실행 중인 Frame은 같은 `CodeObject`를 참조할 수 있지만, 함수 객체가 자신에게서 만들어진 모든 Frame을 보관하지는 않는다. 재귀 호출에서는 하나의 함수 객체와 `CodeObject`를 여러 Frame이 동시에 공유한다.
+셋은 위에서 아래로 소유되는 계층이 아니라 서로를 가리키는 참조 그래프다.
+함수 객체는 `CodeObject`와 실행 환경을 보관하지만, 자신을 호출해서 생긴 Frame
+목록은 보관하지 않는다. 함수 객체를 호출하면 그 호출만을 위한 Frame이 새로 생기고,
+Frame은 실행에 사용한 함수 객체와 `CodeObject`를 참조한다.
 
 이 글은 CPython 3.14의 실행 모델을 설명한다. 구조체 필드와 바이트코드 피연산자의 정확한 형식은 버전에 따라 바뀔 수 있다.
 
@@ -32,16 +35,45 @@ PyFunctionObject
 
 함수 객체는 실행 전의 준비물이다. 특정 호출의 인수, 계산 중간값, 현재 명령어 위치는 아직 들어 있지 않다.
 
-## 호출할 때마다 현재 실행 상태가 따로 생긴다
+## 함수 객체를 호출할 때마다 Frame이 새로 생긴다
 
-함수를 호출하면 CPython은 호출별 `_PyInterpreterFrame`을 준비한다. 여기에는 인수와 지역 변수·cell·free 변수용 `localsplus` 슬롯, 평가 스택, 현재 명령어 위치, globals와 builtins, 호출 관계를 잇는 링크 등이 들어간다.
+함수 객체 자체에는 호출별 상태가 없다. 평가 루프가 Python 함수 객체를 호출하면
+그 객체의 `CodeObject`, globals, builtins, closure를 사용해 호출별
+`_PyInterpreterFrame`을 준비한다. Frame에는 인수와 지역 변수·cell·free 변수용
+`localsplus` 슬롯, 평가 스택, 현재 명령어 위치, 호출 관계를 잇는 링크 등이
+들어간다.
 
 ```text
-                         ┌─→ Frame A: x=3,  현재 명령 12
-PyFunctionObject ── 호출 ┼─→ Frame B: x=20, 현재 명령 8
-        │                └─→ Frame C: 재귀 호출의 별도 상태
-        └──→ PyCodeObject ←──────── 각 Frame도 같은 코드를 참조
+PyFunctionObject f
+└─ func_code ──────────────────────→ PyCodeObject
+
+CALL f(3)
+    ↓ 새 Frame 생성
+Frame A
+├─ f_funcobj ──────────────────────→ 같은 PyFunctionObject f
+├─ f_executable ───────────────────→ 같은 PyCodeObject
+├─ localsplus[0]: x = 3
+├─ 현재 명령 위치
+└─ 평가 스택
 ```
+
+평범한 순차 호출에서는 `f(3)`의 Frame A가 활성 실행을 마친 다음 `f(20)`을 위한
+Frame B가 새로 생긴다. 두 Frame을 함수 객체가 계속 모아 두는 것이 아니다.
+재귀·재진입처럼 앞선 호출이 끝나기 전에 같은 함수를 다시 호출하면 같은 함수
+객체와 CodeObject를 참조하는 여러 Frame이 동시에 활성 상태로 남을 수 있다.
+
+```text
+호출 순서: f(3) → f(2) → f(1)
+
+Frame f(1): x=1 ── previous ─→ Frame f(2): x=2 ── previous ─→ Frame f(3): x=3
+
+각 Frame의 f_funcobj     ─→ 같은 PyFunctionObject f
+각 Frame의 f_executable ─→ 같은 PyCodeObject
+각 Frame의 지역 값·명령 위치·평가 스택 ─→ 호출마다 별도
+```
+
+`previous` 연결은 함수 복귀, 예외 전파, traceback 같은 실행 관계에 쓰인다.
+일반 이름을 찾으려고 이전 Frame의 지역 변수를 탐색하는 경로는 아니다.
 
 `_PyInterpreterFrame`은 실행에 쓰는 내부 C 레코드이지 `PyObject`가 아니다. `sys._getframe()`이나 traceback처럼 Python에서 관찰해야 할 때에는 별도의 `PyFrameObject`가 지연 생성되어 내부 Frame을 노출한다.
 
