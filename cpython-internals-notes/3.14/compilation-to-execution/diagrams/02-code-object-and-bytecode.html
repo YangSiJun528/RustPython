@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CodeObject와 바이트코드 대응</title>
+  <title>바이트코드 인자와 실행 상태의 대응</title>
   <style>
     :root {
       --ink: #172033;
-      --muted: #667085;
-      --border: #d0d5dd;
+      --muted: #526176;
+      --border: #cbd5e1;
       --blue: #2563eb;
       --blue-soft: #eff6ff;
       --orange: #c2410c;
@@ -17,13 +17,14 @@
       --purple-soft: #f5f3ff;
       --green: #15803d;
       --green-soft: #f0fdf4;
+      --slate-soft: #f8fafc;
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      background: #eef2f7;
+      background: #e9eef5;
       color: var(--ink);
       font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
         "Noto Sans KR", "Segoe UI", sans-serif;
@@ -31,259 +32,301 @@
 
     .canvas {
       width: 100%;
-      min-height: 900px;
-      margin: 0 auto;
-      padding: 38px 44px 30px;
+      min-height: 1120px;
+      padding: 44px 54px 38px;
       background:
-        radial-gradient(circle at 100% 0, #dbeafe 0, transparent 27%),
+        radial-gradient(circle at 100% 0, #dbeafe 0, transparent 25%),
+        radial-gradient(circle at 0 100%, #dcfce7 0, transparent 23%),
         #fff;
     }
 
     h1 {
       margin: 0;
-      font-size: 36px;
-      letter-spacing: -1.6px;
+      font-size: 42px;
+      letter-spacing: -1.9px;
+      line-height: 1.15;
     }
 
     .subtitle {
-      margin-top: 8px;
+      margin-top: 9px;
       color: var(--muted);
-      font-size: 18px;
+      font-size: 19px;
     }
 
-    .message {
-      margin-top: 18px;
-      padding: 12px 18px;
+    .banner {
+      margin-top: 20px;
+      padding: 14px 20px;
       border: 2px solid #93c5fd;
       border-radius: 18px;
       background: var(--blue-soft);
       color: #1e3a8a;
-      font-size: 16px;
-      font-weight: 750;
+      font-size: 17px;
+      font-weight: 780;
       text-align: center;
     }
 
-    .columns {
+    .source-strip {
       display: grid;
-      grid-template-columns: .8fr 1.34fr 1fr;
+      grid-template-columns: auto 1fr;
       gap: 18px;
-      margin-top: 20px;
-      align-items: stretch;
+      align-items: center;
+      margin-top: 18px;
+      padding: 12px 18px;
+      border-left: 8px solid var(--purple);
+      border-radius: 16px;
+      background: var(--purple-soft);
     }
 
-    .panel {
-      min-height: 550px;
-      border: 2px solid var(--border);
-      border-radius: 24px;
-      background: #fff;
-      overflow: hidden;
-      box-shadow: 0 10px 28px rgba(16, 24, 40, .07);
+    .source-strip strong {
+      color: #5b21b6;
+      font-size: 16px;
     }
 
-    .panel-title {
-      padding: 14px 18px;
-      color: white;
-      font-size: 17px;
-      font-weight: 800;
-    }
-
-    .source .panel-title { background: var(--purple); }
-    .bytecode .panel-title { background: var(--orange); }
-    .object .panel-title { background: var(--blue); }
-
-    pre, code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    }
-
-    .source pre {
-      margin: 0;
-      padding: 20px 18px;
+    .source-strip code {
       color: #3b0764;
       font-size: 15px;
-      line-height: 1.55;
-      white-space: pre-wrap;
-    }
-
-    .line-focus {
-      display: block;
-      margin: 1px -10px;
-      padding: 0 10px;
-      border-radius: 8px;
-      background: #ede9fe;
-      font-weight: 700;
-    }
-
-    .byte-list {
-      padding: 16px;
-    }
-
-    .instruction {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 7px;
-      padding: 9px 11px;
-      border: 1px solid #fed7aa;
-      border-radius: 13px;
-      background: var(--orange-soft);
-    }
-
-    .instruction code {
-      color: #7c2d12;
-      font-size: 13px;
-      font-weight: 750;
       white-space: nowrap;
     }
 
-    .instruction .meaning {
-      color: var(--muted);
-      font-size: 11px;
-      text-align: right;
+    .matrix {
+      margin-top: 20px;
+      border: 2px solid var(--border);
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, .07);
     }
 
-    .object-body {
-      padding: 16px;
-    }
-
-    .field {
-      margin-bottom: 10px;
-      padding: 10px 12px;
-      border: 1px solid #bfdbfe;
-      border-radius: 15px;
-      background: var(--blue-soft);
-    }
-
-    .field-name {
-      color: #1d4ed8;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .field-value {
-      margin-top: 5px;
-      color: #172554;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 12px;
-      line-height: 1.55;
-    }
-
-    .mapping {
+    .row {
       display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 16px;
-      align-items: center;
-      margin-top: 18px;
+      grid-template-columns: 1.15fr 1fr 1.35fr 1.65fr;
     }
 
-    .map-side {
-      padding: 14px 18px;
-      border-radius: 18px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    .row + .row { border-top: 1px solid var(--border); }
+
+    .cell {
+      min-width: 0;
+      padding: 13px 15px;
       font-size: 14px;
-      font-weight: 750;
-      line-height: 1.65;
+      line-height: 1.45;
+    }
+
+    .cell + .cell { border-left: 1px solid var(--border); }
+
+    .header .cell {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
       text-align: center;
     }
 
-    .map-op {
-      border: 2px solid #fdba74;
-      background: var(--orange-soft);
+    .header .opcode-head { background: var(--orange); }
+    .header .meaning-head { background: #475569; }
+    .header .code-head { background: var(--blue); }
+    .header .frame-head { background: var(--purple); }
+
+    .data:nth-child(even) { background: #fff; }
+    .data:nth-child(odd) { background: var(--slate-soft); }
+
+    .opcode {
       color: #9a3412;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
     }
 
-    .map-field {
+    .origin {
+      display: inline-block;
+      margin-left: 7px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Noto Sans KR", "Segoe UI", sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+      vertical-align: 2px;
+    }
+
+    .module-origin { background: #dbeafe; color: #1d4ed8; }
+    .function-origin { background: #ede9fe; color: #6d28d9; }
+
+    .meaning {
+      color: #334155;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .code-info {
+      color: #1e40af;
+      background: rgba(239, 246, 255, .65);
+    }
+
+    .frame-info {
+      color: #5b21b6;
+      background: rgba(245, 243, 255, .66);
+    }
+
+    .actual {
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .focus {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 13px;
+      align-items: stretch;
+      margin-top: 20px;
+    }
+
+    .focus-card {
+      padding: 14px 16px;
+      border-radius: 17px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .focus-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 16px;
+    }
+
+    .focus-code {
       border: 2px solid #93c5fd;
       background: var(--blue-soft);
       color: #1e40af;
     }
 
-    .map-arrow {
-      color: var(--green);
-      font-size: 28px;
+    .focus-frame {
+      border: 2px solid #c4b5fd;
+      background: var(--purple-soft);
+      color: #5b21b6;
+    }
+
+    .focus-stack {
+      border: 2px solid #86efac;
+      background: var(--green-soft);
+      color: #14532d;
+    }
+
+    .focus-arrow {
+      display: grid;
+      place-items: center;
+      color: #64748b;
+      font-size: 27px;
       font-weight: 900;
     }
 
-    .footer-note {
-      margin-top: 16px;
-      padding: 12px 17px;
-      border-left: 7px solid var(--green);
-      border-radius: 14px;
-      background: var(--green-soft);
-      color: #14532d;
+    .notes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .note {
+      padding: 13px 17px;
+      border-radius: 16px;
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.55;
+    }
+
+    .fast-note {
+      border-left: 8px solid var(--orange);
+      background: var(--orange-soft);
+      color: #7c2d12;
+    }
+
+    .version-note {
+      border-left: 8px solid var(--blue);
+      background: var(--blue-soft);
+      color: #1e3a8a;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 750;
     }
   </style>
 </head>
 <body>
   <main class="canvas">
-    <h1>바이트코드는 CodeObject의 표를 참조한다</h1>
-    <div class="subtitle">예제 함수 <code>calculate(price, quantity)</code> · CPython 3.14.6</div>
-    <div class="message">명령의 숫자 인자는 실제 값이 아니라 <code>co_varnames</code>나 <code>co_names</code>의 인덱스인 경우가 많다.</div>
+    <h1><code>opcode n</code>에서 <code>n</code>은 무엇을 뜻하는가?</h1>
+    <div class="subtitle">모듈 CodeObject와 <code>calculate</code> CodeObject의 대표 명령 · 정적 정보와 현재 Frame을 함께 읽는다</div>
+    <div class="banner">두 CodeObject의 대표 명령을 한 표에서 비교한다 · <code>n</code>의 의미는 opcode마다 다르다</div>
 
-    <section class="columns">
-      <article class="panel source">
-        <div class="panel-title">1. Python 소스</div>
-        <pre>def calculate(
-    price,
-    quantity,
-):
-<span class="line-focus">    subtotal =
-        price * quantity</span>
-<span class="line-focus">    return
-        subtotal + BONUS</span></pre>
-      </article>
-
-      <article class="panel bytecode">
-        <div class="panel-title">2. 함수 바이트코드</div>
-        <div class="byte-list">
-          <div class="instruction"><code>RESUME 0</code><span class="meaning">함수 실행 시작</span></div>
-          <div class="instruction"><code>LOAD_FAST_BORROW_LOAD_FAST_BORROW 1</code><span class="meaning">price, quantity 적재</span></div>
-          <div class="instruction"><code>BINARY_OP 5 (*)</code><span class="meaning">두 값 곱하기</span></div>
-          <div class="instruction"><code>STORE_FAST 2</code><span class="meaning">subtotal에 저장</span></div>
-          <div class="instruction"><code>LOAD_FAST_BORROW 2</code><span class="meaning">subtotal 적재</span></div>
-          <div class="instruction"><code>LOAD_GLOBAL 0</code><span class="meaning">BONUS 조회</span></div>
-          <div class="instruction"><code>BINARY_OP 0 (+)</code><span class="meaning">두 값 더하기</span></div>
-          <div class="instruction"><code>RETURN_VALUE</code><span class="meaning">1015 반환</span></div>
-        </div>
-      </article>
-
-      <article class="panel object">
-        <div class="panel-title">3. calculate CodeObject</div>
-        <div class="object-body">
-          <div class="field">
-            <div class="field-name">co_varnames</div>
-            <div class="field-value">[0] price<br>[1] quantity<br>[2] subtotal</div>
-          </div>
-          <div class="field">
-            <div class="field-name">co_names</div>
-            <div class="field-value">[0] BONUS</div>
-          </div>
-          <div class="field">
-            <div class="field-name">co_argcount / co_nlocals</div>
-            <div class="field-value">2 / 3</div>
-          </div>
-          <div class="field">
-            <div class="field-name">co_stacksize</div>
-            <div class="field-value">2</div>
-          </div>
-          <div class="field">
-            <div class="field-name">co_consts</div>
-            <div class="field-value">(None,)</div>
-          </div>
-        </div>
-      </article>
+    <section class="source-strip" aria-label="예제 소스">
+      <strong>비교 대상</strong>
+      <code>module: result = calculate(5, 3)&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;calculate: subtotal = price * quantity</code>
     </section>
 
-    <section class="mapping">
-      <div class="map-side map-op">STORE_FAST 2<br>LOAD_GLOBAL 0</div>
-      <div class="map-arrow">→</div>
-      <div class="map-side map-field">co_varnames[2] = 'subtotal'<br>co_names[0] = 'BONUS'</div>
+    <section class="matrix" aria-label="바이트코드 인자 대응 표">
+      <div class="row header">
+        <div class="cell opcode-head">opcode</div>
+        <div class="cell meaning-head"><code>n</code>의 의미</div>
+        <div class="cell code-head">CodeObject의 정보</div>
+        <div class="cell frame-head">현재 Frame의 동작</div>
+      </div>
+      <div class="row data">
+        <div class="cell opcode">LOAD_CONST 0<span class="origin module-origin">module</span></div>
+        <div class="cell meaning">상수표 인덱스</div>
+        <div class="cell code-info"><code>co_consts[0] = 1000</code></div>
+        <div class="cell frame-info"><span class="actual">1000 객체 참조</span>를 평가 스택에 push</div>
+      </div>
+      <div class="row data">
+        <div class="cell opcode">LOAD_FAST 0<span class="origin function-origin">calculate</span></div>
+        <div class="cell meaning">지역 슬롯 번호</div>
+        <div class="cell code-info"><code>co_varnames[0] = 'price'</code><br>슬롯의 이름표</div>
+        <div class="cell frame-info">현재 슬롯 0의 <span class="actual">5 객체 참조</span>를 평가 스택에 push</div>
+      </div>
+      <div class="row data">
+        <div class="cell opcode">LOAD_GLOBAL 0<span class="origin function-origin">calculate</span></div>
+        <div class="cell meaning">이름 정보</div>
+        <div class="cell code-info"><code>co_names[0] = 'BONUS'</code></div>
+        <div class="cell frame-info">globals → builtins 조회 후 <span class="actual">1000 객체 참조</span> push</div>
+      </div>
+      <div class="row data">
+        <div class="cell opcode">LOAD_SMALL_INT 5<span class="origin module-origin">module</span></div>
+        <div class="cell meaning">즉시값</div>
+        <div class="cell code-info">CodeObject 표를 읽지 않음</div>
+        <div class="cell frame-info">정수 <span class="actual">5 객체 참조</span>를 바로 push</div>
+      </div>
+      <div class="row data">
+        <div class="cell opcode">BINARY_OP 5<span class="origin function-origin">calculate</span></div>
+        <div class="cell meaning">연산 종류: <code>*</code></div>
+        <div class="cell code-info">상수표 인덱스가 아님</div>
+        <div class="cell frame-info">두 참조를 pop하고 <span class="actual">결과 객체 참조</span>를 push</div>
+      </div>
+      <div class="row data">
+        <div class="cell opcode">CALL 2<span class="origin module-origin">module</span></div>
+        <div class="cell meaning">인수 개수</div>
+        <div class="cell code-info">함수 객체가 code와 환경을 가리킴</div>
+        <div class="cell frame-info">Python 함수라면 인수로 새 Frame을 준비</div>
+      </div>
+      <div class="row data">
+        <div class="cell opcode">RETURN_VALUE<span class="origin function-origin">calculate</span></div>
+        <div class="cell meaning">인자 없음</div>
+        <div class="cell code-info">추가 표 조회 없음</div>
+        <div class="cell frame-info">결과 객체 참조를 pop하고 현재 Frame을 끝낸 뒤 호출자 재개</div>
+      </div>
     </section>
 
-    <div class="footer-note"><strong>CodeObject에는 현재 값이 없다.</strong> <code>BONUS == 1000</code>과 <code>subtotal == 15</code> 같은 값은 실행 중 프레임과 네임스페이스에서 얻는다.</div>
+    <section class="focus" aria-label="LOAD_FAST 실행 예시">
+      <div class="focus-card focus-code"><strong>CodeObject</strong><code>co_varnames[0] = 'price'</code><br>슬롯의 이름</div>
+      <div class="focus-arrow">+</div>
+      <div class="focus-card focus-frame"><strong>이번 호출의 Frame</strong><code>지역 슬롯 0 → int 객체 5</code><br>실제 값</div>
+      <div class="focus-arrow">→</div>
+      <div class="focus-card focus-stack"><strong><code>LOAD_FAST 0</code></strong>평가 스택에 객체 참조 push</div>
+    </section>
+
+    <section class="notes" aria-label="주의 사항">
+      <div class="note fast-note"><strong>FAST는 상수가 아니다.</strong> 이름 딕셔너리를 검색하지 않고 현재 Frame의 지역 슬롯 번호로 접근한다는 뜻이다.</div>
+      <div class="note version-note"><strong>3.14의 raw 인자는 더 복잡할 수 있다.</strong> <code>LOAD_GLOBAL</code>은 플래그를 함께 담고, 결합 명령은 여러 슬롯 번호를 하나의 인자에 담는다. <code>dis</code>는 이를 읽기 쉽게 풀어 준다.</div>
+    </section>
   </main>
 </body>
 </html>
