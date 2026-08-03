@@ -21,11 +21,14 @@ Python 소스는 CodeObject로 컴파일된다. `def`를 실행하면 이 CodeOb
 [소스에서 결과까지 직접 추적하기](tutorial/guide-source-to-execution.ko.md)는
 `compile()`과 `dis`로 모듈·함수 CodeObject를 확인한다. 이어서 호출별 Frame의
 지역 슬롯과 평가 스택이 결과를 만드는 순서를 추적한다. 내부 구현을 처음
-처음 읽는 독자는 여기서 시작한다.
+읽는 독자는 여기서 시작한다.
 
 ## 핵심 흐름은 다섯 질문으로 이어진다
 
 이 다섯 글은 컴파일 결과가 한 번의 호출 상태로 이어지는 순서에 맞춰 읽는다.
+
+글별 예제, CodeObject 값, CPython 3.14.6 바이트코드를 따라가며 읽으려면
+[심화 설명 전체 목록](explanations/README.ko.md)을 먼저 연다.
 
 | 순서 | 글이 답하는 질문 | 문서 |
 |---|---|---|

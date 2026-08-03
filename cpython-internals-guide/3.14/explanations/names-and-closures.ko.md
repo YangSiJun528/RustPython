@@ -1,112 +1,200 @@
 # 이름 분류가 저장소와 opcode를 정한다
 
-Python은 일반 이름을 찾으려고 호출자 Frame을 차례로 올라가지 않는다.
-컴파일러가 코드 블록 전체를 살펴 이름을 local·cell·free·global로 분류하면,
-바이트코드는 현재 Frame 슬롯, 공유 cell, globals·builtins, locals 매핑 중
-한 경로를 택한다. 어느 경로를 쓸지는 컴파일할 때 정해진다. 그곳에 담긴
-객체만 실행 중에 달라진다.
+Python은 일반 이름을 찾으려고 호출자 Frame을 차례로 올라가지 않는다. 컴파일러가
+코드 블록 전체를 분석해 이름을 local·cell·free·global로 분류하면, 그 결과가
+CodeObject의 이름 메타데이터와 opcode 선택에 남는다. 실행할 때 달라지는 것은 그
+경로가 가리키는 객체다. closure도 바깥 Frame을 나중에 재탐색하는 기능이 아니라,
+컴파일 시 선택한 이름을 공유 cell로 전달하는 기능이다.
+
+아래 opcode와 필드 값은 CPython 3.14.6에서 확인했다. 특히 `LOAD_CLOSURE`는 이
+버전의 최종 실행 opcode가 아니라 컴파일 중간의 pseudo instruction이라는 점이 이전
+버전 설명과 다르다.
 
 ![렉시컬 이름 조회와 호출자 Frame 체인은 다른 경로다](../assets/05-name-resolution-and-frame-chain.png)
 
-## 같은 이름도 코드 블록에 따라 분류가 달라진다
+## `rate`는 컴파일할 때 cell과 free로 결정된다
+
+최소한의 closure 예제를 보자.
 
 ```python
-tax = 10
-
 def outer():
     rate = 2
-    unused = 100
 
-    def inner(price):
-        result = price * rate + tax
-        return result
+    def inner(x):
+        return x * rate
 
     return inner
 ```
 
-심볼 테이블은 이름이 등장한 한 줄만 보지 않는다. 함수 전체의 대입과
-`global`·`nonlocal` 선언, 안쪽 렉시컬 코드 블록의 참조를 함께 분석한다.
+심볼 테이블은 `rate = 2` 한 줄만 보지 않는다. `outer` 전체에서 `rate`가 대입된
+local이라는 사실과, 중첩 코드 블록 `inner`가 같은 렉시컬 이름을 읽는다는 사실을
+함께 전파한다. 분석 결과는 다음과 같다.
 
-| 이름을 보는 코드 | 분류 | 의미 |
-|---|---|---|
-| 모듈의 `tax` | 모듈 바인딩 | 모듈 네임스페이스에 저장한다. |
-| `outer`의 `unused` | local | 현재 `outer` 호출에서만 쓰는 지역 이름이다. |
-| `outer`의 `rate` | cell | 현재 함수의 local을 안쪽 코드와 공유한다. |
-| `inner`의 `rate` | free | 바깥 렉시컬 영역의 cell을 받아 쓴다. |
-| `inner`의 `price`, `result` | local | 현재 `inner` Frame의 지역 이름이다. |
-| `inner`의 `tax` | implicit global | globals에서 찾고 없으면 builtins에서 찾는다. |
+```text
+outer에서 rate: local 정의 + 안쪽 블록이 캡처 → CELL
+inner에서 rate: 바깥 렉시컬 블록에서 전달받음 → FREE
+outer에서 inner: 일반 local
+inner에서 x: 매개변수 local
+```
 
-`global tax`는 함수 안의 이름을 global로 명시한다. `nonlocal rate`는 가장
-가까운 바깥 함수의 cell 바인딩을 사용한다고 명시한다.
+내부 심볼 정보에서 `outer.rate`의 정의 플래그는 `DEF_LOCAL`, 분석된 scope는
+`CELL`이다. `inner.rate`에는 사용 플래그 `USE`와 scope `FREE`가 남는다. raw
+`ste_symbols` 값은 scope를 `SCOPE_OFFSET`만큼 옮겨 각각
+`DEF_LOCAL | (CELL << SCOPE_OFFSET)`, `USE | (FREE << SCOPE_OFFSET)`로 저장한다.
+“cell과 free 중 무엇인가”는 이름에 영원히 붙은 속성이 아니라 같은 바인딩을 서로
+다른 코드 블록에서 보는 두 관점이다.
 
-## CodeObject의 이름 표에는 현재 값이 없다
+이때 정수 객체 `2`가 closure 값으로 저장된 것은 아니다. 컴파일러는 `rate`를 어느
+종류의 슬롯으로 다룰지만 정한다. 실제 cell 내용은 `outer()`가 실행되어 대입을 수행할 때
+생긴다.
 
-CPython 3.14.6에서 예제의 관련 필드는 이렇게 나뉜다.
+## CodeObject에는 이름과 슬롯 종류가 남는다
+
+CPython 3.14.6에서 공개 필드는 다음과 같다.
 
 ```text
 outer.__code__
-  co_varnames = ('unused', 'inner')
+  co_varnames = ('inner',)
   co_cellvars = ('rate',)
+  co_freevars = ()
+  co_nlocals  = 1
 
 inner.__code__
-  co_varnames = ('price', 'result')
+  co_varnames = ('x',)
+  co_cellvars = ()
   co_freevars = ('rate',)
-  co_names    = ('tax',)
+  co_nlocals  = 1
 ```
 
-이 튜플에는 이름 문자열과 분류 결과만 들어 있다. `tax == 10`이나
-`rate == 2` 같은 현재 바인딩은 없다. 심볼 테이블 객체 전체도 CodeObject에
-남지 않고, 분석 결과만 이름 표와 opcode 선택에 반영된다.
-
-공개 튜플이 항상 서로 배타적인 것도 아니다. 안쪽 코드가 캡처한
-매개변수는 `co_varnames`와 `co_cellvars` 양쪽에 나타날 수 있다.
-
-## opcode 계열마다 실제 저장소가 다르다
-
-| 코드 블록과 분류 | 읽기 | 쓰기와 실제 저장소 |
-|---|---|---|
-| 최적화된 함수 local | `LOAD_FAST*` | `STORE_FAST`, 현재 Frame의 locals-plus 슬롯 |
-| cell·free | `LOAD_DEREF` | `STORE_DEREF`, 공유 cell의 내용 |
-| 함수의 global·builtin 후보 | `LOAD_GLOBAL`: globals → builtins | `STORE_GLOBAL`, globals에만 저장 |
-| 모듈·클래스의 일반 매핑 기반 이름 | `LOAD_NAME`: locals → globals → builtins | `STORE_NAME`, 현재 locals에만 저장 |
-
-읽기 명령에는 정해진 fallback 순서가 있을 수 있다. 쓰기 명령은 그 순서를
-거슬러 기존 이름을 찾지 않는다. `STORE_GLOBAL`은 builtins에 같은 이름이
-있어도 globals에 저장한다. 일반 함수의 `LOAD_FAST*` 역시 `frame.f_locals`
-매핑에서 문자열 키를 검색하지 않고 정해진 슬롯을 읽는다.
-
-`co_names`는 global 전용 표가 아니다. `LOAD_ATTR`이나 import 관련 명령이
-쓸 문자열도 들어갈 수 있다. `obj.name`은 객체의 속성 조회 규칙을
-사용하므로 locals → globals → builtins 경로와 다르다.
-
-CPython 3.14의 raw 인자는 단순한 공개 튜플 인덱스가 아닐 수 있다.
-`LOAD_GLOBAL n`은 이름을 `co_names[n >> 1]`에서 얻는다.
-`LOAD_DEREF 2`의 `2`도 `co_freevars[2]`가 아니라 locals-plus 슬롯 2다.
-정확한 인자 형식은 [CodeObject와 바이트코드 참조](../reference/code-object-and-bytecode.ko.md)에서
-따로 정리한다.
-
-## cell과 free는 같은 바인딩을 보는 두 관점이다
-
-`outer`가 보는 `rate`는 cell variable이고, `inner`가 보는 `rate`는 free
-variable이다. 값을 두 벌로 복사하지는 않는다.
+다음은 Python 속성 조회가 아니라 C `PyCodeObject` 내부의
+`co_localsplusnames`·`co_localspluskinds`를 단순화한 보기다. 이 메타데이터까지 보면
+슬롯 번호가 연결된다.
 
 ```text
-outer Frame의 rate 슬롯 ─→ cell ─→ 정수 객체 2
-                                  ↑
-inner.__closure__[0] ─────────────┤
-                                  ↑
-inner Frame의 free 슬롯 ──────────┘
+PyCodeObject 내부 보기: outer
+  co_localsplusnames = ('inner', 'rate')
+  co_localspluskinds = [LOCAL, CELL]
+outer slots: 0=inner, 1=rate cell
+
+PyCodeObject 내부 보기: inner
+  co_localsplusnames = ('x', 'rate')
+  co_localspluskinds = [LOCAL, FREE]
+inner slots: 0=x, 1=rate free cell
 ```
 
-`outer`의 `MAKE_CELL`은 cell 슬롯을 준비한다. 이때 만들어진 `inner` 함수
-객체는 그 cell 참조를 `__closure__`에 보관한다. `inner`를 호출하면
-`COPY_FREE_VARS 1`이 같은 cell 참조를 새 Frame의 free-variable 슬롯에
-복사한다. 바깥 Frame을 다시 찾는 단계는 없다.
+내부 kind 비트는 이 예에서 각각 `CO_FAST_LOCAL(0x20)`,
+`CO_FAST_CELL(0x40)`, `CO_FAST_FREE(0x80)`이다. 공개 `co_varnames`,
+`co_cellvars`, `co_freevars`는 이 통합 배열에서 필요한 이름을 골라 보여 준다.
+캡처된 매개변수라면 한 슬롯이 `LOCAL | CELL`이고 이름이 `co_varnames`와
+`co_cellvars` 양쪽에 나타날 수도 있다.
 
-그래서 `outer` 실행이 끝난 뒤에도 `inner(5)`는 `rate == 2`를 읽는다.
-cell의 수명은 종료된 Frame이 아니라 남아 있는 참조로 결정된다.
+`LOAD_DEREF 1`의 `1`을 곧바로 `co_freevars[1]`로 읽으면 틀린다. raw
+operand는 locals-plus 슬롯 1이고, 그 슬롯이 어떤 이름과 종류인지는 통합
+메타데이터로 해석한다.
 
-## 호출자 Frame 연결은 실행을 되돌리기 위한 관계다
+## outer는 빈 cell을 만들고 실행 중 값을 넣는다
+
+`outer`의 최종 바이트코드는 다음과 같다.
+
+```text
+MAKE_CELL                1 (rate)
+RESUME                   0
+LOAD_SMALL_INT           2
+STORE_DEREF              1 (rate)
+
+LOAD_FAST_BORROW         1 (rate)
+BUILD_TUPLE              1
+LOAD_CONST               1 (<code object inner>)
+MAKE_FUNCTION
+SET_FUNCTION_ATTRIBUTE   8 (closure)
+STORE_FAST               0 (inner)
+
+LOAD_FAST_BORROW         0 (inner)
+RETURN_VALUE
+```
+
+`outer()` 호출 직후 슬롯 0과 1은 미설정이다. `MAKE_CELL 1`은 슬롯 1에
+`PyCellObject`를 만든다. 이 예에서는 빈 cell이지만, 캡처된 매개변수처럼 슬롯에
+이미 인수 객체가 있다면 그 객체를 초기 내용으로 가진 cell을 만든다. 이어
+`LOAD_SMALL_INT 2`가 정수 객체 참조를 평가 스택에 올리고 `STORE_DEREF 1`이 그
+참조를 cell 내용으로 옮긴다.
+
+```text
+호출 직후       slot 1: 미설정
+MAKE_CELL 1     slot 1: cell → 비어 있음
+STORE_DEREF 1   slot 1: cell → int 2
+```
+
+local용 `STORE_FAST`가 아니라 `STORE_DEREF`를 쓰는 이유는 슬롯 1에 값 객체가 직접
+들어 있지 않고 cell 객체가 들어 있기 때문이다. 이후 `nonlocal rate` 대입이 있다면
+같은 cell의 내용 화살표를 바꾸므로 이미 만들어진 모든 inner 함수가 새 내용을 본다.
+
+## `LOAD_CLOSURE`는 3.14에서 최종 opcode가 아니다
+
+컴파일러의 `codegen_make_closure()`는 inner CodeObject의 free-variable 순서를
+읽고 outer의 대응 슬롯마다 `LOAD_CLOSURE`를 방출한다. 그러나 3.14에서
+`LOAD_CLOSURE`는 `LOAD_FAST`를 대상으로 하는 pseudo instruction이다. CFG 처리에서
+`LOAD_FAST`로 낮아지고 load-fast 최적화를 거쳐 위의 최종 `dis`에는
+`LOAD_FAST_BORROW 1 (rate)`가 보인다.
+
+여기서 `LOAD_FAST_BORROW`가 올리는 것은 cell 내용 `2`가 아니라 슬롯 1의 cell 객체
+참조다. `BUILD_TUPLE 1`은 `(rate_cell,)`을 만들고, `MAKE_FUNCTION`은 inner
+CodeObject와 globals로 함수 객체를 만든다. `SET_FUNCTION_ATTRIBUTE 8`이 앞서 만든
+튜플을 그 함수의 `func_closure`, 즉 Python 수준의 `__closure__`에 붙인다.
+
+```text
+outer slot 1 ─→ rate cell ─→ int 2
+                    ↑
+inner.__closure__[0]┘
+```
+
+closure tuple의 순서는 inner의 free-variable 순서와 같다. 이 예에서는 둘 다 하나라서
+`inner.__code__.co_freevars[0] == 'rate'`와 `inner.__closure__[0]`이 짝을 이룬다.
+이 순서가 어긋나면 이름이 다른 cell을 읽게 되므로 CodeObject와 함수 객체를 임의로
+조립할 때도 길이와 순서가 맞아야 한다.
+
+## inner 호출은 같은 cell을 free 슬롯에 복사한다
+
+inner의 최종 바이트코드는 다음과 같다.
+
+```text
+COPY_FREE_VARS           1
+RESUME                   0
+LOAD_FAST_BORROW         0 (x)
+LOAD_DEREF               1 (rate)
+BINARY_OP                5 (*)
+RETURN_VALUE
+```
+
+`inner(5)`를 호출하면 먼저 Frame이 생기고 인수 결합이 슬롯 0에 정수 객체 `5`를
+놓는다. free 슬롯 1은 아직 비어 있다. 첫 opcode `COPY_FREE_VARS 1`은 함수 객체의
+`func_closure[0]`에서 cell 객체 참조를 가져와 Frame의 마지막 free-variable 슬롯,
+여기서는 슬롯 1에 넣는다. 값을 새 cell로 복사하지 않는다.
+
+```text
+Frame 초기화       slot 0: x → 5       slot 1: 미설정
+COPY_FREE_VARS 1   slot 0: x → 5       slot 1: ─┐
+inner.__closure__[0] ────────────────────────────┴→ 같은 rate cell → 2
+LOAD_DEREF 1       평가 스택에 cell의 현재 내용 2를 올림
+```
+
+outer Frame이 반환되어 사라져도 inner는 동작한다. cell의 수명은 원래 Frame
+자체가 아니라 `inner.__closure__`와 활성 inner Frame 같은 강한 참조로 결정된다.
+closure는 “바깥 Frame을 보관한다”가 아니라 “필요한 바인딩 저장소만 보관한다”가 더
+정확하다.
+
+## 어떤 이름이 closure인지는 정적이고 어떤 객체인지는 동적이다
+
+“어떤 값이 클로저인지는 바이트코드에 있는가?”라는 질문은 이름과 객체를 나눠 답해야
+한다. `co_cellvars`, `co_freevars`, locals-plus kind, `MAKE_CELL`, closure tuple 생성,
+`COPY_FREE_VARS`, `LOAD_DEREF`에는 어떤 이름과 슬롯을 공유할지가 정적으로 들어 있다.
+반면 cell 안의 현재 객체는 실행 결과다.
+
+이 예제의 `2`는 우연히 `LOAD_SMALL_INT 2`라는 immediate에도 보이지만, 이것이
+“closure 값 표”는 아니다. `rate = read_config()`, 매개변수 캡처, 조건부 대입,
+`nonlocal` 재대입이라면 같은 바이트코드 구조의 cell 내용이 호출마다 달라진다.
+
+또 다른 흔한 오해는 호출자 지역 변수도 비슷하게 찾을 것이라는 생각이다.
 
 ```python
 def caller():
@@ -117,18 +205,30 @@ def callee():
     return value
 ```
 
-`callee`의 `value`는 global 후보로 컴파일된다. `callee`의 globals와
-builtins에 없으면 `NameError`가 발생한다. `caller`의 지역 슬롯까지
-올라가서 `100`을 찾지 않는다.
+`callee` 본문의 이름 `value`는 free가 아니라 implicit global이다. `LOAD_GLOBAL`은
+callee 함수의 globals와 builtins만 보고, `caller`의 local 슬롯까지 올라가지 않는다. Frame의
+`previous` 연결은 복귀·예외·traceback 관계이고 렉시컬 이름 조회 경로가 아니다.
 
-Frame에서 caller로 향하는 연결은 함수 반환, 예외 전파, traceback,
-debugger·profiler·`inspect`에 쓰인다. 렉시컬 이름 조회는 이 실행 관계와
-별개로 작동한다.
+이 설명은 최적화된 일반 함수 scope를 중심으로 한다. 모듈과 클래스 본문은
+`LOAD_NAME`, annotation scope와 클래스 안의 free 이름은
+`LOAD_FROM_DICT_OR_DEREF` 같은 추가 경로를 쓸 수 있다. opcode 이름과
+`LOAD_CLOSURE`의 pseudo-op 처리도 CPython 버전에 따라 바뀌며 공개 호환 규격이
+아니다. GIL 빌드와 자유 스레딩 빌드는 cell이라는 의미를 공유하지만 내부 참조 증감과
+동기화 표현은 다를 수 있다.
 
-심볼 테이블이 분류를 만드는 과정은
-[소스에서 CodeObject까지](source-to-code-object.ko.md), Frame의 역할은
-[실행 설계와 호출 상태](execution-model.ko.md)에서 이어진다. 더 자세한
-원문 대응 설명은 [기존 컴파일에서 실행까지 문서](../../../cpython-internals-notes/3.14/compilation-to-execution/README.ko.md#8-이름-분류네임스페이스와-호출-스택은-서로-다른-경로다)에
-남아 있다.
+---
 
-[가이드 홈](../README.ko.md) · 이전: [실행 설계와 호출 상태](execution-model.ko.md) · 다음: [평가 루프와 세 가지 스택](evaluation-loop.ko.md)
+[설명 문서 목록](README.ko.md)
+
+이전:
+
+[실행 설계와 호출 상태](execution-model.ko.md)
+
+다음:
+
+[평가 루프와 세 가지 스택](evaluation-loop.ko.md)
+
+관련 글:
+
+- [객체 참조와 수명](objects-and-lifetimes.ko.md)
+- [CodeObject 필드와 바이트코드 인자](../reference/code-object-and-bytecode.ko.md)
