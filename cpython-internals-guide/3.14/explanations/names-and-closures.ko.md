@@ -26,27 +26,30 @@ def outer():
     return inner
 ```
 
-심볼 테이블은 `rate = 2` 한 줄만 보지 않는다. `outer` 전체에서 `rate`가 대입된
-local이라는 사실과, 중첩 코드 블록 `inner`가 같은 렉시컬 이름을 읽는다는 사실을
-함께 전파한다. 분석 결과는 다음과 같다.
+심볼 테이블은 `rate = 2` 한 줄만 따로 보지 않고 `outer`와 그 안의 `inner`를 함께
+분석한다. `rate`는 `outer`에서 대입되므로 처음에는 local로 분류된다. 하지만
+`inner`도 같은 `rate`를 읽으므로, `outer`는 이 이름을 일반 local이 아니라
+`inner`와 공유할 수 있는 cell로 보관해야 한다. 반대로 `inner`에서 `rate`는 직접
+정의하지 않고 바깥 블록에서 전달받는 free variable이다. 분석 결과는 다음과 같다.
 
 ```text
-outer에서 rate: local 정의 + 안쪽 블록이 캡처 → CELL
-inner에서 rate: 바깥 렉시컬 블록에서 전달받음 → FREE
+outer에서 rate: outer에서 정의되어 inner와 공유됨 → CELL
+inner에서 rate: outer에서 전달받아 사용함 → FREE
 outer에서 inner: 일반 local
 inner에서 x: 매개변수 local
 ```
 
-내부 심볼 정보에서 `outer.rate`의 정의 플래그는 `DEF_LOCAL`, 분석된 scope는
-`CELL`이다. `inner.rate`에는 사용 플래그 `USE`와 scope `FREE`가 남는다. raw
-`ste_symbols` 값은 scope를 `SCOPE_OFFSET`만큼 옮겨 각각
+같은 관계를 CPython의 내부 심볼 정보로 표현하면 `outer.rate`의 정의 플래그는
+`DEF_LOCAL`, 분석된 scope는 `CELL`이다. `inner.rate`에는 사용 플래그 `USE`와
+scope `FREE`가 남는다. 구현 수준의 raw `ste_symbols` 값은 scope를
+`SCOPE_OFFSET`만큼 옮겨 각각
 `DEF_LOCAL | (CELL << SCOPE_OFFSET)`, `USE | (FREE << SCOPE_OFFSET)`로 저장한다.
-“cell과 free 중 무엇인가”는 이름에 영원히 붙은 속성이 아니라 같은 바인딩을 서로
-다른 코드 블록에서 보는 두 관점이다.
+여기서 cell과 free는 서로 다른 두 이름이 아니다. `outer`와 `inner`가 같은 `rate`
+바인딩을 각자의 코드 블록에서 다르게 분류한 것이다.
 
-이때 정수 객체 `2`가 closure 값으로 저장된 것은 아니다. 컴파일러는 `rate`를 어느
-종류의 슬롯으로 다룰지만 정한다. 실제 cell 내용은 `outer()`가 실행되어 대입을 수행할 때
-생긴다.
+컴파일할 때 결정되는 것은 `rate`의 값이 아니라 저장 방식이다. 이 시점에는 정수 객체
+`2`가 cell에 들어 있지 않다. 나중에 `outer()`가 실행되어 `rate = 2`를 수행할 때
+비로소 cell이 `2`를 가리키게 된다.
 
 ## CodeObject에는 이름과 슬롯 종류가 남는다
 

@@ -110,8 +110,9 @@ y local, assigned, referenced
 scale global, referenced
 ```
 
-모듈의 `local, global` 표시는 함수의 빠른 지역 슬롯이라는 뜻이 아니라 모듈
-namespace에 속한다는 뜻이다.
+함수 local은 컴파일할 때 번호가 정해진 Frame의 지역 슬롯(`LOAD_FAST`·`STORE_FAST`)을
+사용한다. 반면 모듈의 `local, global`이 함께 표시된 경우는 그런 슬롯을 뜻하지 않고
+모듈 namespace에 저장되는 이름이라는 뜻이다.
 
 `adjust` 블록에서는 `x`가 매개변수 local, `y`가 대입되는 local이다. 함수 어디에도
 `scale` 대입이나 `global scale` 선언이 없으므로 `scale`은 implicit global로
