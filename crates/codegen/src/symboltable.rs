@@ -312,7 +312,6 @@ bitflags! {
             Self::DEF_LOCAL.bits()
             | Self::DEF_PARAM.bits()
             | Self::DEF_IMPORT.bits()
-            | Self::DEF_TYPE_PARAM.bits()
         );
     }
 }
@@ -1018,7 +1017,6 @@ enum SymbolUsage {
     Imported,
     AnnotationAssigned,
     Parameter,
-    AnnotationParameter,
     Iter,
     TypeParam,
 }
@@ -1372,12 +1370,6 @@ impl SymbolTableBuilder {
     }
 
     fn scan_parameter(&mut self, parameter: &ast::Parameter) -> SymbolTableResult {
-        let usage = if parameter.annotation.is_some() {
-            SymbolUsage::AnnotationParameter
-        } else {
-            SymbolUsage::Parameter
-        };
-
         // Check for duplicate parameter names
         let table = self.tables.last().unwrap();
         if table.symbols.contains_key(parameter.name.as_str()) {
@@ -1394,7 +1386,7 @@ impl SymbolTableBuilder {
             });
         }
 
-        self.register_ident(&parameter.name, usage)
+        self.register_ident(&parameter.name, SymbolUsage::Parameter)
     }
 
     /// Scan an annotation from an AnnAssign statement (can be conditional)
@@ -3121,7 +3113,6 @@ impl SymbolTableBuilder {
                 | SymbolUsage::Imported
                 | SymbolUsage::AnnotationAssigned
                 | SymbolUsage::Parameter
-                | SymbolUsage::AnnotationParameter
                 | SymbolUsage::Iter
                 | SymbolUsage::TypeParam
         ) {
@@ -3164,11 +3155,7 @@ impl SymbolTableBuilder {
                 });
             }
 
-            if matches!(
-                role,
-                SymbolUsage::Parameter | SymbolUsage::AnnotationParameter
-            ) && flags.contains(SymbolFlags::DEF_PARAM)
-            {
+            if matches!(role, SymbolUsage::Parameter) && flags.contains(SymbolFlags::DEF_PARAM) {
                 return Err(SymbolTableError {
                     error: format!("duplicate argument '{original_name}' in function definition"),
                     location,
@@ -3291,19 +3278,11 @@ impl SymbolTableBuilder {
                 flags.insert(SymbolFlags::DEF_NONLOCAL);
             }
             SymbolUsage::Imported => {
-                flags.insert(SymbolFlags::DEF_LOCAL | SymbolFlags::DEF_IMPORT);
+                flags.insert(SymbolFlags::DEF_IMPORT);
             }
             SymbolUsage::Parameter => {
                 flags.insert(SymbolFlags::DEF_PARAM);
                 // Parameters are always added to varnames first
-                let name_str = symbol.name.clone();
-                if !self.current_varnames.contains(&name_str) {
-                    self.current_varnames.push(name_str);
-                }
-            }
-            SymbolUsage::AnnotationParameter => {
-                flags.insert(SymbolFlags::DEF_PARAM | SymbolFlags::DEF_ANNOT);
-                // Annotated parameters are also added to varnames
                 let name_str = symbol.name.clone();
                 if !self.current_varnames.contains(&name_str) {
                     self.current_varnames.push(name_str);
@@ -3464,6 +3443,41 @@ mod tests {
         assert!(
             symbol.flags.contains(SymbolFlags::DEF_COMP_ITER),
             "CPython symtable_add_def_helper sets DEF_COMP_ITER on comprehension iteration targets"
+        );
+    }
+
+    #[test]
+    fn imported_name_does_not_set_local_flag_like_cpython() {
+        let table = scan_source("import os\n");
+        let symbol = table.lookup("os").expect("missing imported name");
+
+        assert!(
+            symbol.flags.contains(SymbolFlags::DEF_IMPORT),
+            "CPython records imported names with DEF_IMPORT"
+        );
+        assert!(
+            !symbol.flags.contains(SymbolFlags::DEF_LOCAL),
+            "CPython does not record imports as assignments"
+        );
+    }
+
+    #[test]
+    fn annotated_parameter_does_not_set_annot_flag_like_cpython() {
+        let table = scan_source("def f(x: int):\n    pass\n");
+        let function = table
+            .sub_tables
+            .iter()
+            .find(|table| table.name == "f")
+            .expect("missing function scope");
+        let symbol = function.lookup("x").expect("missing parameter");
+
+        assert!(
+            symbol.flags.contains(SymbolFlags::DEF_PARAM),
+            "CPython records annotated parameters with DEF_PARAM"
+        );
+        assert!(
+            !symbol.flags.contains(SymbolFlags::DEF_ANNOT),
+            "CPython does not mark parameter annotations as DEF_ANNOT"
         );
     }
 
