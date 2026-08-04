@@ -64,6 +64,7 @@ Python 소스는 CodeObject로 컴파일된다. `def`를 실행하면 이 CodeOb
 
 찾을 값이나 파일을 이미 알고 있다면 reference를 먼저 연다.
 
+- [Function·CodeObject·Frame·Cell·Method 저장 위치](reference/function-and-runtime-storage.ko.md)
 - [Pegen 문법과 파서 파일](reference/pegen-and-parser.ko.md)
 - [CodeObject 필드와 바이트코드 인자](reference/code-object-and-bytecode.ko.md)
 - [Frame·위치 테이블·문자열 인터닝 내부 구조](reference/runtime-objects.ko.md)

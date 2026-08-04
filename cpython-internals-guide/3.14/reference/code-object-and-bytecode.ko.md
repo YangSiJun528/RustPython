@@ -3,7 +3,8 @@
 이 문서는 CPython 3.14의 CodeObject와 `dis` 출력을 조회할 때 쓰는
 참조 자료다. 개념이 필요하면 [실행 설계와 호출 상태](../explanations/execution-model.ko.md)를,
 직접 확인해 보고 싶다면 [소스에서 반환값까지 추적하기](../tutorial/guide-source-to-execution.ko.md)를
-먼저 읽으면 된다.
+먼저 읽으면 된다. Function·CodeObject·Frame 사이에서 정보가 어디에 저장되는지는
+[함수 관련 정보의 저장 위치](function-and-runtime-storage.ko.md)에서 조회한다.
 
 > CPython 바이트코드는 버전 간 호환 형식이 아니다. 결합 opcode,
 > 특수화, raw 인자는 마이크로 버전에서도 달라질 수 있다. 예제의

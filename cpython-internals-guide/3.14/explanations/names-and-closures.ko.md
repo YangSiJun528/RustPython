@@ -321,4 +321,5 @@ Frame의 `previous` 연결은 호출이 끝났을 때 돌아갈 위치, 예외 �
 관련 글:
 
 - [객체 참조와 수명](objects-and-lifetimes.ko.md)
+- [함수 관련 정보의 저장 위치](../reference/function-and-runtime-storage.ko.md)
 - [CodeObject 필드와 바이트코드 인자](../reference/code-object-and-bytecode.ko.md)

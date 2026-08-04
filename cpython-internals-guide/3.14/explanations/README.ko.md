@@ -101,6 +101,7 @@ CPython 3.14에서는 컴파일 중의 의사 명령과 최종 CodeObject의 명
 이 폴더는 원리와 인과관계를 설명한다. 특정 필드의 정확한 인코딩을 찾거나
 CPython 소스를 고치는 절차가 필요하면 다음 문서로 이동한다.
 
+- [함수 관련 정보의 저장 위치](../reference/function-and-runtime-storage.ko.md)
 - [CodeObject 필드와 바이트코드 인자](../reference/code-object-and-bytecode.ko.md)
 - [Frame과 런타임 객체 필드](../reference/runtime-objects.ko.md)
 - [Pegen 문법과 생성 파일](../reference/pegen-and-parser.ko.md)

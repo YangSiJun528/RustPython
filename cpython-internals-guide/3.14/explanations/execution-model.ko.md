@@ -206,4 +206,5 @@ Frame 배치와 `_PyStackRef` 소유권, 특수화 데이터의 공유 방식은
 관련 글:
 
 - [평가 루프와 세 가지 스택](evaluation-loop.ko.md)
+- [함수 관련 정보의 저장 위치](../reference/function-and-runtime-storage.ko.md)
 - [CodeObject 필드와 바이트코드 인자](../reference/code-object-and-bytecode.ko.md)

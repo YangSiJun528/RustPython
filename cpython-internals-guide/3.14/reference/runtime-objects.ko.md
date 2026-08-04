@@ -4,7 +4,9 @@
 `co_linetable` 형식, 문자열 인터닝 상태를 조회하는 참조 자료다. 개념 설명은
 [실행 설계와 호출 상태](../explanations/execution-model.ko.md),
 [객체와 수명](../explanations/objects-and-lifetimes.ko.md),
-[제너레이터와 코루틴](../explanations/generators-and-coroutines.ko.md)에 있다.
+[제너레이터와 코루틴](../explanations/generators-and-coroutines.ko.md)에 있다. Function,
+CodeObject, Frame, Cell, Method 사이의 전체 저장 위치는
+[함수 관련 정보의 저장 위치](function-and-runtime-storage.ko.md)에서 조회한다.
 
 아래 내용은 CPython 3.14 기준이다. `_Py` 구조와 함수, adaptive bytecode, Frame 필드와 문자열 상태는 공개 API가 아니다. 상세 번역은 [기존 런타임 객체 문서](../../../cpython-internals-notes/3.14/runtime-objects/README.ko.md)와 [객체 모델 확장판](../../../cpython-internals-notes/3.14/object-model-and-runtime-objects/README.ko.md)에 있다.
 
