@@ -2,7 +2,9 @@
 
 RustPython의 실제 소스를 읽으며 `sample.py`가 CLI 진입점에서 AST, 심볼 테이블, CFG, `CodeObject`, VM 실행으로 넘어가는 과정을 추적하는 독립 프로젝트다. 핵심은 컴파일러와 심볼 테이블이며 parser와 VM은 경계만 다룬다.
 
-## 시작
+## 빠른 시작
+
+필요한 도구, 실행 방식별 절차와 문제 해결은 [guide_running.md](guide_running.md)에 정리되어 있다.
 
 저장소 루트에서 실제 컴파일 결과를 출력한다.
 
@@ -32,6 +34,7 @@ http://127.0.0.1:8000/example_projects/compiler-tour/tour/
 
 ## 문서
 
+- [guide_running.md](guide_running.md): artifact 도구, 웹 투어, RustPython sample 실행 방법
 - [tutorial_compiler_pipeline.md](tutorial_compiler_pipeline.md): 텍스트로 읽는 순차 튜토리얼
 - [guide_debugging.md](guide_debugging.md): LLDB, 내장 trace log, disassembly 재현 절차
 - [reference_source_map.md](reference_source_map.md): 파일·함수·자료구조·opcode 대응 레퍼런스
