@@ -38,10 +38,10 @@ http://127.0.0.1:8000/example_projects/compiler-tour/tour/
 
 ## 읽는 범위
 
-집중 범위의 상한은 17,164줄이다.
+집중 범위의 상한은 17,233줄이다.
 
-- `crates/codegen/src/compile.rs`의 대형 `tests` module 전까지: 13,801줄
-- `crates/codegen/src/symboltable.rs`의 `tests` module 전까지: 3,363줄
+- `crates/codegen/src/compile.rs`의 대형 `tests` module 전까지: 13,803줄
+- `crates/codegen/src/symboltable.rs`의 `tests` module 전까지: 3,430줄
 
 실제로 고정 예제가 통과하는 branch만 투어에 나온다. 나머지 문법 branch는 레퍼런스에서 역할만 설명한다. Ruff parser 내부, optimizer 세부 pass, VM opcode dispatch 전체, PEP 649/695와 PEP 709 특수 경로는 첫 학습 범위에서 제외한다.
 

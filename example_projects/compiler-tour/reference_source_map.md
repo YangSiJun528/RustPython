@@ -1,17 +1,17 @@
 # Reference: compiler source map
 
-이 문서는 현재 commit `6d4a0cee95`에서 compiler tour가 참조하는 파일, 함수, 자료구조, 의미를 빠르게 찾기 위한 레퍼런스다. 순서대로 학습하려면 [tutorial_compiler_pipeline.md](tutorial_compiler_pipeline.md)를 사용한다.
+이 문서는 현재 checkout에서 compiler tour가 참조하는 파일, 함수, 자료구조, 의미를 빠르게 찾기 위한 레퍼런스다. 순서대로 학습하려면 [tutorial_compiler_pipeline.md](tutorial_compiler_pipeline.md)를 사용한다.
 
 ## 범위와 줄 수
 
 | 범위 | 현재 줄 수 | 취급 |
 |---|---:|---|
-| `crates/codegen/src/compile.rs` L1–L13801 | 13,801 | 대형 `tests` module 전까지의 읽기 상한 |
-| `crates/codegen/src/symboltable.rs` L1–L3363 | 3,363 | `tests` module 전까지의 읽기 상한 |
-| 합계 | 17,164 | 2만 줄 이하 핵심 범위 |
+| `crates/codegen/src/compile.rs` L1–L13803 | 13,803 | 대형 `tests` module 전까지의 읽기 상한 |
+| `crates/codegen/src/symboltable.rs` L1–L3430 | 3,430 | `tests` module 전까지의 읽기 상한 |
+| 합계 | 17,233 | 2만 줄 이하 핵심 범위 |
 | `crates/compiler/src/lib.rs` L5161–L5303 | 143 | parser/codegen facade 진입부만 |
 
-`compile.rs` 상한에는 짧은 test-only helper가 일부 포함된다. 17,164는 “처음부터 읽어도 넘지 않는 상한”이며, 인터랙티브 투어는 고정 예제가 실제 통과하는 branch만 표시한다.
+`compile.rs` 상한에는 짧은 test-only helper가 일부 포함된다. 17,233은 “처음부터 읽어도 넘지 않는 상한”이며, 인터랙티브 투어는 고정 예제가 실제 통과하는 branch만 표시한다.
 
 다음은 합계에서 제외한다.
 
