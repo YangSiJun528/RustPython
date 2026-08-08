@@ -3140,8 +3140,8 @@ impl SymbolTableBuilder {
         let symbol = if let Some(symbol) = table.symbols.get_mut(name.as_ref()) {
             let flags = &symbol.flags;
 
-            // Mirrors CPython's INNER_LOOP_CONFLICT check. extend_namedexpr_scope()
-            // marks named-expression targets as global or nonlocal in the comprehension.
+            // A named-expression target from an earlier comprehension clause is global
+            // or nonlocal here, so a later iterator target with the same name conflicts.
             // Example: [i for i in range(5) if (j := 0) for j in range(5)]
             // Here 'j' is used in named expr first, then as inner loop iter target
             if matches!(role, SymbolUsage::Iter)
