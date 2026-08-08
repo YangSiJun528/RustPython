@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="RustPython 컴파일러와 심볼 테이블의 실제 소스를 단계별로 따라가는 인터랙티브 코드 투어"
+    />
+    <title>RustPython Compiler Tour</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">RP</span>
+        <div>
+          <p class="eyebrow">LIVE SOURCE WALKTHROUGH</p>
+          <h1>RustPython Compiler Tour</h1>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span class="source-status" id="source-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          실제 저장소 소스 연결 중
+        </span>
+        <button class="ghost-button" id="restart-button" type="button">처음부터</button>
+      </div>
+    </header>
+
+    <section class="overview" aria-labelledby="overview-title">
+      <div>
+        <p class="eyebrow">ONE EXAMPLE · TWO PASSES · ONE CODE OBJECT TREE</p>
+        <h2 id="overview-title">소스가 실행 가능한 바이트코드가 될 때까지</h2>
+        <p class="overview-copy">
+          <code>sample.py</code> 하나를 고정하고, 실제 호출 경로만 좁혀서 따라갑니다.
+          심볼 수집과 스코프 판정은 깊게, 파서와 VM 실행은 경계만 봅니다.
+        </p>
+      </div>
+      <dl class="metrics">
+        <div><dt>핵심 구현</dt><dd>17,164줄</dd></div>
+        <div><dt>실행 예제</dt><dd>1개</dd></div>
+        <div><dt>외부 JS 의존성</dt><dd>0개</dd></div>
+      </dl>
+    </section>
+
+    <nav class="pipeline" id="phase-map" aria-label="컴파일 파이프라인"></nav>
+
+    <main class="workspace">
+      <aside class="step-panel" aria-label="투어 단계">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">BREAKPOINTS</p>
+            <h2>실행 순서</h2>
+          </div>
+          <span id="step-count" class="step-count"></span>
+        </div>
+        <ol class="step-list" id="step-list"></ol>
+      </aside>
+
+      <section class="code-panel" aria-labelledby="step-title">
+        <div class="code-toolbar">
+          <div>
+            <p class="code-path" id="code-path">소스 읽는 중…</p>
+            <p class="code-range" id="code-range"></p>
+          </div>
+          <button class="copy-button" id="copy-path-button" type="button">경로 복사</button>
+        </div>
+        <div class="code-scroll" id="code-scroll" tabindex="0" aria-label="Rust 소스 코드">
+          <pre id="code-view"><code></code></pre>
+        </div>
+        <div class="code-legend" aria-label="코드 범례">
+          <span><i class="legend-line current"></i>현재 줄</span>
+          <span><i class="legend-line noted"></i>설명 있는 줄</span>
+          <span>줄 또는 설명을 눌러 대응시킬 수 있습니다.</span>
+        </div>
+      </section>
+
+      <aside class="explain-panel" aria-live="polite">
+        <div class="step-kicker">
+          <span id="phase-label"></span>
+          <span id="step-position"></span>
+        </div>
+        <h2 id="step-title"></h2>
+        <p class="step-question" id="step-question"></p>
+        <p class="step-summary" id="step-summary"></p>
+
+        <section class="call-stack-card" aria-labelledby="stack-title">
+          <div class="section-title-row">
+            <h3 id="stack-title">지금까지의 호출 스택</h3>
+            <span>아래가 현재 프레임</span>
+          </div>
+          <ol id="call-stack"></ol>
+        </section>
+
+        <section aria-labelledby="notes-title">
+          <div class="section-title-row">
+            <h3 id="notes-title">줄 단위로 읽기</h3>
+            <span>클릭해서 소스와 연결</span>
+          </div>
+          <ol class="line-notes" id="line-notes"></ol>
+        </section>
+
+        <section id="state-section" aria-labelledby="state-title">
+          <div class="section-title-row">
+            <h3 id="state-title">관찰한 상태</h3>
+          </div>
+          <div class="state-grid" id="state-grid"></div>
+        </section>
+
+        <section id="visual-section" class="visual-section" aria-labelledby="visual-title" hidden>
+          <div class="section-title-row">
+            <h3 id="visual-title">스코프 지도</h3>
+            <span>분석이 끝난 결과</span>
+          </div>
+          <div id="scope-visual"></div>
+        </section>
+      </aside>
+    </main>
+
+    <footer class="controls">
+      <div class="progress-track" aria-hidden="true"><i id="progress-fill"></i></div>
+      <div class="control-row">
+        <button id="previous-button" class="nav-button secondary" type="button">
+          <span aria-hidden="true">←</span> 이전
+        </button>
+        <p id="next-preview"></p>
+        <button id="next-button" class="nav-button primary" type="button">
+          다음 <span aria-hidden="true">→</span>
+        </button>
+      </div>
+      <p class="keyboard-help"><kbd>←</kbd><kbd>→</kbd> 키로 이동 · URL의 단계 번호가 유지됩니다.</p>
+    </footer>
+
+    <template id="source-error-template">
+      <div class="source-error">
+        <strong>실제 소스를 읽지 못했습니다.</strong>
+        <p>저장소 루트에서 아래 명령을 실행한 뒤 이 페이지를 여세요.</p>
+        <code>python3 -m http.server 8000 --bind 127.0.0.1</code>
+      </div>
+    </template>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

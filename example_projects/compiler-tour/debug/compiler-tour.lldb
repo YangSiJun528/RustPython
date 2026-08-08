@@ -1,0 +1,11 @@
+# Stable function-name breakpoints for the compiler pipeline.
+breakpoint set -n rustpython_compiler::_compile_with_syntax_warning_handler
+breakpoint set -n rustpython_codegen::compile::compile_program_with_syntax_warning_handler
+breakpoint set -n rustpython_codegen::symboltable::SymbolTableBuilder::register_name
+breakpoint set -n rustpython_codegen::symboltable::SymbolTableBuilder::finish
+breakpoint set -n rustpython_codegen::symboltable::SymbolTableAnalyzer::analyze_symbol_table
+breakpoint set -n rustpython_codegen::symboltable::SymbolTableAnalyzer::analyze_symbol
+breakpoint set -n rustpython_codegen::compile::Compiler::compile_name
+breakpoint set -n rustpython_codegen::ir::CodeInfo::finalize_code
+
+settings set -- target.run-args -S example_projects/compiler-tour/sample.py
