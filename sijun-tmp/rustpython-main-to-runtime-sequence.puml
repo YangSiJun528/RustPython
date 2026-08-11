@@ -1,0 +1,164 @@
+@startuml
+title RustPython main()에서 사용자 코드 런타임 진입까지\n일반 rustpython script.py / source .py / non-CAPI 기준
+
+skinparam backgroundColor #FAFAF9
+skinparam defaultFontName "Apple SD Gothic Neo"
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam roundcorner 10
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 70
+skinparam BoxPadding 10
+skinparam ArrowThickness 1.2
+skinparam LifeLineBorderColor #A8A29E
+skinparam LifeLineBackgroundColor #FFFFFF
+skinparam NoteBackgroundColor #FFFDF5
+skinparam NoteBorderColor #A8A29E
+
+actor "OS / shell" as OS #E7E5E4
+participant "main.rs + lib.rs\nCLI orchestration" as CLI #E0E7FF
+participant "InterpreterBuilder" as Builder #DBEAFE
+participant "Interpreter / VM\nbootstrap + context" as VM #DFF7F2
+participant "file runner\nrun_file / run_any_file" as Loader #FEF3C7
+participant "compiler facade\nVM + compiler crate" as Facade #FDE68A
+participant "Ruff parser + codegen\nSymbolTable / CFG" as Compiler #F3E8FF
+participant "PyFunction +\nInterpreterFrame" as Frame #FCE7F3
+participant "ExecutingFrame\nopcode loop" as Eval #FEE2E2
+
+autonumber
+
+== 1. 프로세스 설정과 VM 부트스트랩 ==
+
+OS -> CLI : main()
+activate CLI
+CLI -> Builder : InterpreterBuilder::new()
+CLI -> Builder : init_stdlib()\n(native/frozen modules + init hooks)
+CLI -> CLI : rustpython::run(builder)
+CLI -> CLI : parse_opts()\n→ (Settings, RunMode::Script(path))
+CLI -> Builder : settings(settings)\ninterpreter() → build()
+activate Builder
+Builder -> VM : initialize_main_vm(...)
+activate VM
+VM -> VM : PyConfig + PyGlobalState 구성
+VM -> VM : VirtualMachine::new(...)
+VM -> VM : init hooks 실행
+VM -> VM : VmBootstrapGuard + vm.initialize()
+note right of VM
+  builtins/sys/importlib/encoding/stdio를 준비한다.
+  이 부트스트랩 중에도 내부 Python bytecode가 실행될 수 있다.
+  아래의 runtime boundary는 "사용자 스크립트" 기준이다.
+end note
+VM --> Builder : initialized VirtualMachine
+deactivate VM
+Builder --> CLI : Interpreter
+deactivate Builder
+
+CLI -> VM : Interpreter::run(closure)
+activate VM
+VM -> VM : enter() → thread::enter_vm()
+VM -> CLI : run_rustpython(vm, Script(path))
+
+== 2. __main__ 준비와 파일 로딩 ==
+
+CLI -> VM : new_scope_with_main()
+VM -> VM : globals + locals + __builtins__\nsys.modules["__main__"] 등록
+CLI -> VM : import warnings; import site
+CLI -> Loader : run_file(vm, scope, path)
+activate Loader
+Loader -> Loader : importer 확인 + sys.path[0] 설정
+Loader -> VM : run_any_file(scope, path)
+VM -> Loader : run_simple_file() / with_simple_run()
+Loader -> Loader : __file__ / __cached__ / __loader__ 설정
+Loader -> Loader : bytes read → NUL 검사 → UTF-8 String
+
+note over CLI, Loader #FFFBEB
+  주요 우회 경로
+  - directory/zip: runpy._run_module_as_main
+  - .pyc: loader.get_code() 후 컴파일 생략
+  - -c: run_string(), -m: run_module(), REPL: shell
+  - no-host_env: CLI가 파일을 읽고 run_string() 호출
+end note
+
+== 3. source → PyCode 컴파일 ==
+
+Loader -> VM : vm.compile(source, Mode::Exec, path)
+VM -> Facade : compile_with_opts(...)
+activate Facade
+Facade -> Facade : tokenizer/string SyntaxWarning 검사
+Facade -> Compiler : compile_with_syntax_warning_handler(...)
+activate Compiler
+Compiler -> Compiler : SourceFile + Ruff parse\n→ ruff_python_ast::Mod
+Compiler -> Compiler : future flags + AST preprocess
+Compiler -> Compiler : scan_module_symbols()\ncollect → analyze → SymbolTable
+Compiler -> Compiler : Compiler::compile_program()\nAST walk → InstructionInfo / CFG
+Compiler -> Compiler : exit_scope() → finalize_code()\noptimize → assemble
+Compiler --> Facade : CodeObject<ConstantData>
+deactivate Compiler
+Facade -> Facade : PyCode::new_ref_from_bytecode()\nmap_bag: constants/names → VM objects
+Facade --> VM : PyRef<PyCode>
+deactivate Facade
+VM --> Loader : PyRef<PyCode>
+
+== 4. 컴파일 산출물에서 평가 루프로 ==
+
+Loader -> VM : run_code_obj(code, scope)
+note over Loader, VM #FDF2F8
+  runtime boundary
+  여기서부터 source/AST가 아니라 PyCode + namespace를 실행한다.
+end note
+VM -> Frame : PyFunction::new(code, scope.globals, vm)
+activate Frame
+VM -> Frame : invoke_with_locals(empty_args, scope.locals, vm)
+
+alt 일반 module code + tracing/JIT 없음
+    Frame -> Frame : LocalsPlus::new_on_datastack()
+    Frame -> Frame : InterpreterFrame::new(...)
+    Frame -> VM : run_frame_fast(&mut iframe)
+    VM -> VM : with_iframe()\nrecursion guard + current-frame chain
+    VM -> Eval : run_iframe() → ExecutingFrame::run(vm)
+    activate Eval
+    note over VM, Eval #FEF2F2
+      eval-loop boundary
+      여기서 실제 fetch/decode/dispatch가 시작된다.
+    end note
+    loop Return / Yield / exception까지
+        Eval -> Eval : read_op(idx) + read_arg(idx)
+        Eval -> Eval : trace/signal/GC safepoint 검사
+        Eval -> Eval : execute_instruction(op, arg, vm)
+    end
+    Eval --> VM : ExecutionResult::Return(value) / Err(exception)
+    deactivate Eval
+    VM --> Frame : PyResult
+    Frame -> Frame : data stack release
+else tracing 활성화
+    Frame -> Frame : FrameObject::new_ref(...)
+    Frame -> VM : run_frame(frame) → ExecutingFrame::run
+else generator / coroutine / async generator
+    Frame -> Frame : heap FrameObject 생성
+    Frame --> VM : wrapper 반환; 지금은 eval loop에 들어가지 않음
+    note right of Frame
+      이후 send/await 때 resume_gen_frame을 통해 실행한다.
+    end note
+end
+
+Frame --> VM : PyResult
+deactivate Frame
+VM --> Loader : 실행 결과
+deactivate Loader
+VM --> CLI : run_rustpython 결과
+VM -> VM : Interpreter::finalize()\nflush → exception/exit code → atexit → GC/modules
+VM --> CLI : u32 exit code
+deactivate VM
+CLI --> OS : std::process::ExitCode
+deactivate CLI
+
+legend left
+  |= 경계 |= 의미 |
+  | builder.interpreter() | VM이 사용자 실행을 받을 준비 완료 |
+  | run_code_obj() | 컴파일 산출물 → 실행 런타임 |
+  | run_frame_fast()/run_frame() | 프레임을 현재 호출 체인에 설치 |
+  | ExecutingFrame::run() | 바이트코드 평가 루프 시작 |
+endlegend
+
+@enduml

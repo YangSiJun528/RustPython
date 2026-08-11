@@ -1,0 +1,167 @@
+digraph RustPythonMainToRuntimeSequence {
+    graph [
+        charset="UTF-8",
+        rankdir=TB,
+        bgcolor="#FAFAF9",
+        pad="0.35",
+        nodesep="0.35",
+        ranksep="0.38",
+        splines=ortho,
+        outputorder=edgesfirst,
+        fontname="Apple SD Gothic Neo",
+        fontsize=20,
+        labelloc=t,
+        label="RustPython main() → 사용자 코드 opcode loop\nDOT chronological sequence — 일반 source .py / non-CAPI fast path"
+    ];
+
+    node [
+        shape=box,
+        style="rounded,filled",
+        fontname="Apple SD Gothic Neo",
+        fontsize=11,
+        color="#57534E",
+        fontcolor="#1C1917",
+        margin="0.18,0.10",
+        width=6.8
+    ];
+
+    edge [
+        fontname="Apple SD Gothic Neo",
+        fontsize=9.5,
+        color="#78716C",
+        arrowsize=0.72,
+        penwidth=1.15
+    ];
+
+    subgraph cluster_bootstrap {
+        label="Phase 1 · 프로세스 설정과 VM 부트스트랩";
+        color="#C7D2FE";
+        fillcolor="#EEF2FF";
+        style="rounded,filled";
+        fontname="Apple SD Gothic Neo";
+        fontcolor="#3730A3";
+
+        s01 [fillcolor="#E0E7FF", color="#4F46E5", label="1  OS → main.rs\nmain() → InterpreterBuilder::new()"];
+        s02 [fillcolor="#DBEAFE", color="#2563EB", label="2  main.rs → InterpreterBuilder\ninit_stdlib(): native/frozen modules와 init hooks 등록"];
+        s03 [fillcolor="#E0E7FF", color="#4F46E5", label="3  rustpython::run → parse_opts\nargv + environment → Settings + RunMode::Script(path)"];
+        s04 [fillcolor="#DBEAFE", color="#2563EB", label="4  CLI → InterpreterBuilder\nsettings(settings) → interpreter() → build()"];
+        s05 [fillcolor="#DFF7F2", color="#0F766E", label="5  InterpreterBuilder → VirtualMachine\ninitialize_main_vm(): PyConfig/PyGlobalState → VM::new → hooks"];
+        s06 [fillcolor="#DFF7F2", color="#0F766E", label="6  VirtualMachine bootstrap\nVmBootstrapGuard 안에서 vm.initialize(): builtins/sys/importlib/encoding/stdio"];
+    }
+
+    subgraph cluster_route {
+        label="Phase 2 · VM context 진입, __main__, 파일 로딩";
+        color="#A7F3D0";
+        fillcolor="#ECFDF5";
+        style="rounded,filled";
+        fontname="Apple SD Gothic Neo";
+        fontcolor="#065F46";
+
+        s07 [fillcolor="#DFF7F2", color="#0F766E", label="7  CLI → Interpreter/VM\nInterpreter::run → enter → thread::enter_vm → run_rustpython"];
+        s08 [fillcolor="#DFF7F2", color="#0F766E", label="8  run_rustpython → VirtualMachine\nnew_scope_with_main + warnings/site import + sys.path[0]"];
+        s09 [fillcolor="#FEF3C7", color="#D97706", label="9  RunMode::Script → file runner\nrun_file → run_any_file → run_simple_file → with_simple_run"];
+        s10 [fillcolor="#FEF3C7", color="#D97706", label="10  file runner\nsource bytes read → NUL 검사 → UTF-8 String → Mode::Exec"];
+
+        route_note [
+            width=4.7,
+            style="rounded,dashed,filled",
+            fillcolor="#FFFDF5",
+            color="#D6D3D1",
+            fontsize=9.5,
+            label="우회 경로\ndirectory/zip → runpy\n.pyc → get_code 후 컴파일 생략\n-c → run_string · -m → run_module\nREPL → shell · no-host_env → CLI read"
+        ];
+        { rank=same; s09; route_note; }
+        s09 -> route_note [style=dashed, arrowhead=none, color="#D6D3D1", constraint=false];
+    }
+
+    subgraph cluster_compile {
+        label="Phase 3 · source → PyCode";
+        color="#E9D5FF";
+        fillcolor="#FAF5FF";
+        style="rounded,filled";
+        fontname="Apple SD Gothic Neo";
+        fontcolor="#6B21A8";
+
+        s11 [fillcolor="#FEF3C7", color="#D97706", label="11  file runner → VirtualMachine\nvm.compile(source, Mode::Exec, path)"];
+        s12 [fillcolor="#FDE68A", color="#CA8A04", label="12  VM compile facade\ncompile_with_opts + tokenizer/string SyntaxWarning 처리"];
+        s13 [fillcolor="#F3E8FF", color="#9333EA", label="13  compiler facade → Ruff parser\nSourceFile → ruff_python_ast::Mod"];
+        s14 [fillcolor="#F3E8FF", color="#9333EA", label="14  codegen\nfuture/preprocess → SymbolTable collect/analyze → AST walk/CFG"];
+        s15 [fillcolor="#F3E8FF", color="#9333EA", label="15  codegen → VM\noptimize/assemble → CodeObject<ConstantData> → map_bag → PyRef<PyCode>"];
+    }
+
+    runtime_boundary [
+        shape=octagon,
+        width=5.2,
+        fillcolor="#FDF2F8",
+        color="#BE185D",
+        penwidth=2.0,
+        label="Runtime boundary\nVirtualMachine::run_code_obj(code, scope)"
+    ];
+
+    subgraph cluster_runtime {
+        label="Phase 4 · PyCode + namespace → 프레임 → 평가 루프";
+        color="#FBCFE8";
+        fillcolor="#FDF2F8";
+        style="rounded,filled";
+        fontname="Apple SD Gothic Neo";
+        fontcolor="#9D174D";
+
+        s16 [fillcolor="#FCE7F3", color="#BE185D", label="16  VirtualMachine → PyFunction\nmodule PyCode를 PyFunction::new(code, globals, vm)로 감싼다"];
+        s17 [fillcolor="#FCE7F3", color="#BE185D", label="17  PyFunction::invoke_with_locals\nLocalsPlus(data stack) + InterpreterFrame::new"];
+        s18 [fillcolor="#FCE7F3", color="#BE185D", label="18  PyFunction → VirtualMachine\nrun_frame_fast → with_iframe: recursion guard/current-frame chain"];
+
+        frame_note [
+            width=4.7,
+            style="rounded,dashed,filled",
+            fillcolor="#FFF7ED",
+            color="#FDBA74",
+            fontsize=9.5,
+            label="프레임 분기\ntracing → heap FrameObject + run_frame\ngenerator/coroutine → wrapper만 반환\n실행은 이후 send/await 때 resume"
+        ];
+        { rank=same; s17; frame_note; }
+        s17 -> frame_note [style=dashed, arrowhead=none, color="#FDBA74", constraint=false];
+    }
+
+    eval_boundary [
+        shape=octagon,
+        width=5.2,
+        fillcolor="#FEF2F2",
+        color="#DC2626",
+        penwidth=2.0,
+        label="Eval-loop boundary\nrun_iframe → ExecutingFrame::run(vm)"
+    ];
+
+    subgraph cluster_eval {
+        label="Phase 5 · fetch/decode/dispatch";
+        color="#FECACA";
+        fillcolor="#FEF2F2";
+        style="rounded,filled";
+        fontname="Apple SD Gothic Neo";
+        fontcolor="#991B1B";
+
+        s19 [fillcolor="#FEE2E2", color="#DC2626", label="19  ExecutingFrame loop\nidx/lasti → read_op + read_arg → trace/signal/GC safepoint"];
+        s20 [fillcolor="#FEE2E2", color="#DC2626", label="20  opcode dispatch\nexecute_instruction(op, arg, vm) → Continue / Return / Yield / exception"];
+    }
+
+    subgraph cluster_return {
+        label="보충 · 반환 경로";
+        color="#D6D3D1";
+        fillcolor="#F5F5F4";
+        style="rounded,filled";
+        fontname="Apple SD Gothic Neo";
+        fontcolor="#57534E";
+
+        s21 [fillcolor="#F5F5F4", color="#78716C", label="21  역순 복귀\nExecutionResult/PyResult → data stack/frame chain 정리 → run_rustpython"];
+        s22 [fillcolor="#F5F5F4", color="#78716C", label="22  Interpreter::finalize\nflush → exception/exit code → thread shutdown → atexit → GC/modules"];
+        s23 [fillcolor="#E7E5E4", color="#78716C", label="23  CLI → OS\nu32 → std::process::ExitCode"];
+    }
+
+    s01 -> s02 -> s03 -> s04 -> s05 -> s06 -> s07 -> s08 -> s09 -> s10;
+    s10 -> s11 [color="#D97706"];
+    s11 -> s12 -> s13 -> s14 -> s15 [color="#9333EA"];
+    s15 -> runtime_boundary [color="#BE185D", penwidth=1.7];
+    runtime_boundary -> s16 -> s17 -> s18 [color="#BE185D"];
+    s18 -> eval_boundary [color="#DC2626", penwidth=1.7];
+    eval_boundary -> s19 -> s20 [color="#DC2626"];
+    s20 -> s21 -> s22 -> s23 [color="#78716C"];
+}
