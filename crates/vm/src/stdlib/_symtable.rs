@@ -9,7 +9,9 @@ mod _symtable {
         types::Representable,
     };
     use alloc::fmt;
-    use rustpython_codegen::symboltable::{CompilerScope, SymbolFlags, SymbolScope, SymbolTable};
+    use rustpython_codegen::symboltable::{
+        CompilerScope, Symbol, SymbolFlags, SymbolScope, SymbolTable,
+    };
 
     /// [CPython's `SCOPE_OFFSET`](https://github.com/python/cpython/blob/v3.14.6/Include/internal/pycore_symtable.h#L176)
     const SCOPE_OFFSET: i32 = 12;
@@ -118,6 +120,10 @@ mod _symtable {
         PySymbolTable { symtable }
     }
 
+    fn public_symbol_flags(symbol: &Symbol) -> i32 {
+        i32::from(symbol.flags.bits()) | (symbol.scope.as_i32() << SCOPE_OFFSET)
+    }
+
     #[pyattr]
     #[pyclass(name = "symtable entry")]
     #[derive(PyPayload)]
@@ -185,7 +191,7 @@ mod _symtable {
         fn symbols(&self, vm: &VirtualMachine) -> PyDictRef {
             let dict = vm.ctx.new_dict();
             for (name, symbol) in &self.symtable.symbols {
-                dict.set_item(name, vm.new_pyobj(symbol.flags.bits()), vm)
+                dict.set_item(name, vm.new_pyobj(public_symbol_flags(symbol)), vm)
                     .unwrap();
             }
             dict
