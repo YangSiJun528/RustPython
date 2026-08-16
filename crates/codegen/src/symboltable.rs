@@ -864,11 +864,8 @@ impl SymbolTableAnalyzer {
                 {
                     // If found in enclosing scope (function/TypeParams), use that
                     scope
-                } else if self.tables.is_empty() {
-                    // Don't make assumptions when we don't know.
-                    SymbolScope::Unknown
                 } else {
-                    // If there are scopes above we assume global.
+                    // CPython's analyze_name() falls back to GLOBAL_IMPLICIT.
                     SymbolScope::GlobalImplicit
                 };
                 symbol.scope = scope;
@@ -3383,7 +3380,7 @@ pub(crate) fn maybe_mangle_name<'a>(
 
 #[cfg(test)]
 mod tests {
-    use super::{CompilerScope, SymbolFlags, SymbolTable, mangle_name};
+    use super::{CompilerScope, SymbolFlags, SymbolScope, SymbolTable, mangle_name};
     use rustpython_compiler_core::SourceFileBuilder;
 
     fn scan_source(source: &str) -> SymbolTable {
@@ -3403,6 +3400,16 @@ mod tests {
             _ => unreachable!(),
         };
         SymbolTable::scan_program(&module, source_file)
+    }
+
+    #[test]
+    fn module_unbound_names_are_global_implicit_like_cpython() {
+        let table = scan_source("print(x)\n");
+
+        for name in ["print", "x"] {
+            let symbol = table.lookup(name).expect("missing referenced module name");
+            assert_eq!(symbol.scope, SymbolScope::GlobalImplicit);
+        }
     }
 
     #[test]
