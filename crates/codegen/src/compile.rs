@@ -3102,16 +3102,6 @@ impl<'warnings> Compiler<'warnings> {
         symboltable::maybe_mangle_name(private, mangled_names, name)
     }
 
-    fn module_name_declared_global_in_nested_scope(table: &SymbolTable, name: &str) -> bool {
-        table.sub_tables.iter().any(|subtable| {
-            (!subtable.comp_inlined
-                && subtable
-                    .lookup(name)
-                    .is_some_and(|symbol| symbol.scope == SymbolScope::GlobalExplicit))
-                || Self::module_name_declared_global_in_nested_scope(subtable, name)
-        })
-    }
-
     // = compiler_nameop
     fn compile_name(&mut self, name: &str, usage: NameUsage) -> CompileResult<()> {
         enum NameOp {
@@ -3219,6 +3209,8 @@ impl<'warnings> Compiler<'warnings> {
                         | "__static_attributes__"
                         | "__classdictcell__"
                         | "__classcell__"
+                        | "__annotate__"
+                        | "__annotate_func__"
                 ) {
                     SymbolScope::Unknown
                 } else {
@@ -3229,20 +3221,12 @@ impl<'warnings> Compiler<'warnings> {
             }
         };
 
-        let module_global_from_nested_scope = {
-            let current_table = self.current_symbol_table();
-            current_table.typ == CompilerScope::Module
-                && Self::module_name_declared_global_in_nested_scope(current_table, name.as_ref())
-        };
-
         // Determine operation type based on scope
         let op_type = match actual_scope {
             SymbolScope::Free => NameOp::Deref,
             SymbolScope::Cell => NameOp::Deref,
             SymbolScope::Local => {
-                if module_global_from_nested_scope {
-                    NameOp::Global
-                } else if is_function_like
+                if is_function_like
                     || self
                         .current_code_info()
                         .metadata
@@ -3278,13 +3262,7 @@ impl<'warnings> Compiler<'warnings> {
                     NameOp::Global
                 }
             }
-            SymbolScope::Unknown => {
-                if module_global_from_nested_scope {
-                    NameOp::Global
-                } else {
-                    NameOp::Name
-                }
-            }
+            SymbolScope::Unknown => NameOp::Name,
         };
 
         // Generate appropriate instructions based on operation type

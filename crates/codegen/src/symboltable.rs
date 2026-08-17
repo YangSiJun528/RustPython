@@ -101,6 +101,10 @@ pub struct SymbolTable {
     /// Annotations are compiled as a separate `__annotate__` function
     pub annotation_block: Option<Box<Self>>,
 
+    /// Position of `annotation_block` in CPython's `ste_children` list.
+    /// Future-annotation blocks are not children and leave this as `None`.
+    pub annotation_block_index: Option<usize>,
+
     /// True only for deferred function/class/module annotation scopes that
     /// should resolve outer names as if they were siblings of the owning
     /// function body, matching PEP 649 lookup rules.
@@ -146,6 +150,7 @@ impl SymbolTable {
             in_unevaluated_annotation: false,
             comp_inlined: false,
             annotation_block: None,
+            annotation_block_index: None,
             skip_enclosing_function_scope: false,
             has_conditional_annotations: false,
             future_annotations: false,
@@ -216,6 +221,23 @@ impl SymbolTable {
     pub fn lookup(&self, name: &str) -> Option<&Symbol> {
         self.symbols.get(name)
     }
+
+    fn analyzed_scopes_resolved(&self) -> bool {
+        self.symbols
+            .values()
+            .all(|symbol| symbol.scope != SymbolScope::Unknown)
+            && self.sub_tables.iter().all(Self::analyzed_scopes_resolved)
+            && self
+                .annotation_block
+                .as_deref()
+                .is_none_or(|table| self.future_annotations || table.analyzed_scopes_resolved())
+            && self
+                .inlined_comprehension_blocks
+                .iter()
+                .all(Self::analyzed_scopes_resolved)
+        // Future annotation_block and hidden_annotation_blocks are deliberately
+        // excluded because CPython does not expose them through ste_children.
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -251,7 +273,8 @@ impl fmt::Display for CompilerScope {
 }
 
 /// Indicator for a single symbol what the scope of this symbol is.
-/// The scope can be unknown, which is unfortunate, but not impossible.
+/// `Unknown` is an intermediate state used while collecting symbols. Every
+/// externally visible symbol has a concrete scope after analysis.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SymbolScope {
     Unknown,
@@ -312,7 +335,6 @@ bitflags! {
             Self::DEF_LOCAL.bits()
             | Self::DEF_PARAM.bits()
             | Self::DEF_IMPORT.bits()
-            | Self::DEF_TYPE_PARAM.bits()
         );
     }
 }
@@ -587,6 +609,7 @@ impl SymbolTableAnalyzer {
         class_entry: Option<&SymbolMap>,
     ) -> SymbolTableResult<IndexSet<String>> {
         let symbols = core::mem::take(&mut symbol_table.symbols);
+        let raw_symbol_names: IndexSet<String> = symbols.keys().cloned().collect();
         let sub_tables = &mut *symbol_table.sub_tables;
 
         let annotation_block = &mut symbol_table.annotation_block;
@@ -690,6 +713,11 @@ impl SymbolTableAnalyzer {
                 let nested_inlined_blocks = comp.inlined_comprehension_blocks.clone();
                 let children = comp.sub_tables.clone();
                 let inserted = children.len();
+                if let Some(annotation_idx) = &mut symbol_table.annotation_block_index
+                    && idx < *annotation_idx
+                {
+                    *annotation_idx = *annotation_idx - 1 + inserted;
+                }
                 inlined_blocks.push(comp);
                 inlined_blocks.extend(nested_inlined_blocks);
                 symbol_table.sub_tables.splice(idx..idx, children);
@@ -712,6 +740,7 @@ impl SymbolTableAnalyzer {
 
         // Analyze symbols in current scope
         let function_like_scope = SymbolTableBuilder::is_function_like_scope(symbol_table.typ);
+        let mut own_free = IndexSet::default();
         for symbol in symbol_table.symbols.values_mut() {
             self.analyze_symbol(
                 symbol,
@@ -728,11 +757,11 @@ impl SymbolTableAnalyzer {
                 newfree.shift_remove(symbol.name.as_str());
             }
 
-            // Collect free variables from this scope
-            if symbol.scope == SymbolScope::Free
-                || symbol.flags.contains(SymbolFlags::DEF_FREE_CLASS)
-            {
-                newfree.insert(symbol.name.clone());
+            // Keep free variables introduced by this block separate from free
+            // variables returned by children. CPython applies DEF_FREE_CLASS
+            // only to the latter in update_symbols().
+            if symbol.scope == SymbolScope::Free {
+                own_free.insert(symbol.name.clone());
             }
         }
 
@@ -754,20 +783,21 @@ impl SymbolTableAnalyzer {
             drop_class_free(symbol_table, &mut newfree);
         }
 
-        // update_symbols(..., classflag): after class implicit frees
-        // are dropped, a class block, or an annotation/type-params block that
-        // can see a class scope, records existing child-free names with
-        // DEF_FREE_CLASS. This preserves the current scope's own lookup kind
-        // (for example GLOBAL_IMPLICIT via __classdict__) while still making
-        // the name available as a closure cell for nested children such as
-        // generator expressions.
+        // update_symbols(..., classflag): DEF_FREE_CLASS applies only when a
+        // child-free name already existed in this block's raw symbol map. A
+        // free symbol propagated through this block during child analysis is
+        // inserted with FREE scope instead.
         if symbol_table.typ == CompilerScope::Class || symbol_table.can_see_class_scope {
             for name in &newfree {
-                if let Some(symbol) = symbol_table.symbols.get_mut(name) {
+                if raw_symbol_names.contains(name)
+                    && let Some(symbol) = symbol_table.symbols.get_mut(name)
+                {
                     symbol.flags.insert(SymbolFlags::DEF_FREE_CLASS);
                 }
             }
         }
+
+        newfree.extend(own_free);
 
         Ok(newfree)
     }
@@ -864,11 +894,9 @@ impl SymbolTableAnalyzer {
                 {
                     // If found in enclosing scope (function/TypeParams), use that
                     scope
-                } else if self.tables.is_empty() {
-                    // Don't make assumptions when we don't know.
-                    SymbolScope::Unknown
                 } else {
-                    // If there are scopes above we assume global.
+                    // CPython's analyze_name() resolves an unbound reference as
+                    // implicit global, including at the module root.
                     SymbolScope::GlobalImplicit
                 };
                 symbol.scope = scope;
@@ -947,11 +975,8 @@ impl SymbolTableAnalyzer {
 
             for (table, typ, _skip) in self.tables.iter_mut().rev().take(decl_depth) {
                 if let CompilerScope::Class = typ {
-                    if let Some(free_class) = table.get_mut(name) {
-                        free_class.flags.insert(SymbolFlags::DEF_FREE_CLASS)
-                    } else {
+                    if !table.contains_key(name) {
                         let mut symbol = Symbol::new(name);
-                        symbol.flags.insert(SymbolFlags::DEF_FREE_CLASS);
                         symbol.scope = SymbolScope::Free;
                         table.insert(name.to_owned(), symbol);
                     }
@@ -1018,7 +1043,6 @@ enum SymbolUsage {
     Imported,
     AnnotationAssigned,
     Parameter,
-    AnnotationParameter,
     Iter,
     TypeParam,
 }
@@ -1131,6 +1155,10 @@ impl SymbolTableBuilder {
         // Propagate future_annotations to the symbol table
         symbol_table.future_annotations = self.future_annotations;
         analyze_symbol_table(&mut symbol_table)?;
+        debug_assert!(
+            symbol_table.analyzed_scopes_resolved(),
+            "symbol table analysis left an externally visible scope unresolved"
+        );
         Ok(symbol_table)
     }
 
@@ -1237,16 +1265,11 @@ impl SymbolTableBuilder {
 
     /// Enter annotation scope (PEP 649)
     /// Creates or reuses the annotation block for the current scope
-    fn enter_annotation_scope(
-        &mut self,
-        line_number: u32,
-        include_classdict_with_future: bool,
-        include_conditional_annotations: bool,
-    ) {
+    fn enter_annotation_scope(&mut self, line_number: u32, include_classdict_with_future: bool) {
+        let future_annotations = self.future_annotations;
         let current = self.tables.last_mut().unwrap();
         let can_see_class_scope =
             current.typ == CompilerScope::Class || current.can_see_class_scope;
-        let has_conditional = current.has_conditional_annotations;
         let is_nested = current.is_nested || Self::is_function_like_scope(current.typ);
 
         // Create annotation block if not exists
@@ -1262,6 +1285,9 @@ impl SymbolTableBuilder {
             annotation_table.skip_enclosing_function_scope = true;
             annotation_table.add_format_parameter();
             current.annotation_block = Some(Box::new(annotation_table));
+            if !future_annotations {
+                current.annotation_block_index = Some(current.sub_tables.len());
+            }
         }
 
         // Take the annotation block and push to stack for processing
@@ -1274,10 +1300,6 @@ impl SymbolTableBuilder {
 
         if can_see_class_scope && (include_classdict_with_future || !self.future_annotations) {
             self.add_classdict_freevar();
-            // Also add __conditional_annotations__ as free var if parent has conditional annotations
-            if include_conditional_annotations && has_conditional {
-                self.add_conditional_annotations_freevar();
-            }
         }
     }
 
@@ -1302,22 +1324,7 @@ impl SymbolTableBuilder {
             .entry(name.to_owned())
             .or_insert_with(|| Symbol::new(name));
         symbol.scope = SymbolScope::Free;
-        symbol
-            .flags
-            .insert(SymbolFlags::USE | SymbolFlags::DEF_FREE_CLASS);
-    }
-
-    fn add_conditional_annotations_freevar(&mut self) {
-        let table = self.tables.last_mut().unwrap();
-        let name = "__conditional_annotations__";
-        let symbol = table
-            .symbols
-            .entry(name.to_owned())
-            .or_insert_with(|| Symbol::new(name));
-        symbol.scope = SymbolScope::Free;
-        symbol
-            .flags
-            .insert(SymbolFlags::USE | SymbolFlags::DEF_FREE_CLASS);
+        symbol.flags.insert(SymbolFlags::USE);
     }
 
     /// Walk up the scope chain to determine if we're inside an async function.
@@ -1372,12 +1379,6 @@ impl SymbolTableBuilder {
     }
 
     fn scan_parameter(&mut self, parameter: &ast::Parameter) -> SymbolTableResult {
-        let usage = if parameter.annotation.is_some() {
-            SymbolUsage::AnnotationParameter
-        } else {
-            SymbolUsage::Parameter
-        };
-
         // Check for duplicate parameter names
         let table = self.tables.last().unwrap();
         if table.symbols.contains_key(parameter.name.as_str()) {
@@ -1394,7 +1395,7 @@ impl SymbolTableBuilder {
             });
         }
 
-        self.register_ident(&parameter.name, usage)
+        self.register_ident(&parameter.name, SymbolUsage::Parameter)
     }
 
     /// Scan an annotation from an AnnAssign statement (can be conditional)
@@ -1512,7 +1513,7 @@ impl SymbolTableBuilder {
 
         // Create annotation scope for deferred evaluation
         let line_number = self.line_index_start(annotation.range());
-        self.enter_annotation_scope(line_number, false, true);
+        self.enter_annotation_scope(line_number, false);
 
         // PEP 649: scan expression for symbol references
         // Class annotations are evaluated in class locals (not module globals)
@@ -1856,25 +1857,6 @@ impl SymbolTableBuilder {
                                     SymbolUsage::AnnotationAssigned,
                                     *target_range,
                                 )?;
-                                // PEP 649: Register annotate function in module/class scope
-                                let current_scope = self.tables.last().map(|t| t.typ);
-                                match current_scope {
-                                    Some(CompilerScope::Module) => {
-                                        self.register_name(
-                                            "__annotate__",
-                                            SymbolUsage::Assigned,
-                                            *range,
-                                        )?;
-                                    }
-                                    Some(CompilerScope::Class) => {
-                                        self.register_name(
-                                            "__annotate_func__",
-                                            SymbolUsage::Assigned,
-                                            *range,
-                                        )?;
-                                    }
-                                    _ => {}
-                                }
                             } else if value.is_some() {
                                 self.register_name(id_str, SymbolUsage::Assigned, *target_range)?;
                             }
@@ -3121,7 +3103,6 @@ impl SymbolTableBuilder {
                 | SymbolUsage::Imported
                 | SymbolUsage::AnnotationAssigned
                 | SymbolUsage::Parameter
-                | SymbolUsage::AnnotationParameter
                 | SymbolUsage::Iter
                 | SymbolUsage::TypeParam
         ) {
@@ -3145,6 +3126,8 @@ impl SymbolTableBuilder {
             table.mangled_names.as_ref(),
             name,
         );
+        let module_global_name =
+            matches!(role, SymbolUsage::Global).then(|| name.clone().into_owned());
         // Some checks for the symbol that present on this scope level:
         let symbol = if let Some(symbol) = table.symbols.get_mut(name.as_ref()) {
             let flags = &symbol.flags;
@@ -3164,11 +3147,7 @@ impl SymbolTableBuilder {
                 });
             }
 
-            if matches!(
-                role,
-                SymbolUsage::Parameter | SymbolUsage::AnnotationParameter
-            ) && flags.contains(SymbolFlags::DEF_PARAM)
-            {
+            if matches!(role, SymbolUsage::Parameter) && flags.contains(SymbolFlags::DEF_PARAM) {
                 return Err(SymbolTableError {
                     error: format!("duplicate argument '{original_name}' in function definition"),
                     location,
@@ -3291,19 +3270,11 @@ impl SymbolTableBuilder {
                 flags.insert(SymbolFlags::DEF_NONLOCAL);
             }
             SymbolUsage::Imported => {
-                flags.insert(SymbolFlags::DEF_LOCAL | SymbolFlags::DEF_IMPORT);
+                flags.insert(SymbolFlags::DEF_IMPORT);
             }
             SymbolUsage::Parameter => {
                 flags.insert(SymbolFlags::DEF_PARAM);
                 // Parameters are always added to varnames first
-                let name_str = symbol.name.clone();
-                if !self.current_varnames.contains(&name_str) {
-                    self.current_varnames.push(name_str);
-                }
-            }
-            SymbolUsage::AnnotationParameter => {
-                flags.insert(SymbolFlags::DEF_PARAM | SymbolFlags::DEF_ANNOT);
-                // Annotated parameters are also added to varnames
                 let name_str = symbol.name.clone();
                 if !self.current_varnames.contains(&name_str) {
                     self.current_varnames.push(name_str);
@@ -3328,6 +3299,19 @@ impl SymbolTableBuilder {
             SymbolUsage::TypeParam => {
                 flags.insert(SymbolFlags::DEF_LOCAL | SymbolFlags::DEF_TYPE_PARAM);
             }
+        }
+
+        // CPython records a global directive in both the current block and
+        // the module block, even when the module never otherwise uses the name.
+        if scope_depth > 1
+            && let Some(name) = module_global_name
+        {
+            let module_symbol = self.tables[0]
+                .symbols
+                .entry(name.clone())
+                .or_insert_with(|| Symbol::new(&name));
+            module_symbol.scope = SymbolScope::GlobalExplicit;
+            module_symbol.flags.insert(SymbolFlags::DEF_GLOBAL);
         }
 
         Ok(())
@@ -3383,7 +3367,7 @@ pub(crate) fn maybe_mangle_name<'a>(
 
 #[cfg(test)]
 mod tests {
-    use super::{CompilerScope, SymbolFlags, SymbolTable, mangle_name};
+    use super::{CompilerScope, SymbolFlags, SymbolScope, SymbolTable, mangle_name};
     use rustpython_compiler_core::SourceFileBuilder;
 
     fn scan_source(source: &str) -> SymbolTable {
@@ -3403,6 +3387,125 @@ mod tests {
             _ => unreachable!(),
         };
         SymbolTable::scan_program(&module, source_file)
+    }
+
+    #[test]
+    fn public_definition_flags_and_module_scopes_match_cpython() {
+        let table = scan_source(
+            "import sys\nprint(x)\ndef outer():\n    def inner():\n        global y\n        y = 1\n",
+        );
+
+        assert_eq!(SymbolFlags::DEF_BOUND.bits(), 134);
+
+        let imported = table.lookup("sys").expect("missing imported name");
+        assert_eq!(imported.flags, SymbolFlags::DEF_IMPORT);
+        assert_eq!(imported.scope, SymbolScope::Local);
+
+        for name in ["print", "x"] {
+            let referenced = table.lookup(name).expect("missing referenced name");
+            assert_eq!(referenced.flags, SymbolFlags::USE);
+            assert_eq!(referenced.scope, SymbolScope::GlobalImplicit);
+        }
+
+        let global = table.lookup("y").expect("missing propagated global");
+        assert_eq!(global.flags, SymbolFlags::DEF_GLOBAL);
+        assert_eq!(global.scope, SymbolScope::GlobalExplicit);
+
+        let table = scan_source("def f(a: T):\n    pass\n");
+        let function = table
+            .sub_tables
+            .iter()
+            .find(|table| table.typ == CompilerScope::Function)
+            .expect("missing function scope");
+        assert_eq!(
+            function.lookup("a").expect("missing parameter").flags,
+            SymbolFlags::DEF_PARAM
+        );
+    }
+
+    #[test]
+    fn module_annotation_block_keeps_cpython_child_position() {
+        let table = scan_source("def f():\n    pass\nx: int\n");
+
+        assert_eq!(table.annotation_block_index, Some(2));
+        assert!(table.lookup("__annotate__").is_none());
+
+        let annotation = table
+            .annotation_block
+            .as_deref()
+            .expect("missing module annotation block");
+        assert_eq!(annotation.typ, CompilerScope::Annotation);
+        assert_eq!(
+            annotation
+                .lookup("int")
+                .expect("missing annotation name")
+                .scope,
+            SymbolScope::GlobalImplicit
+        );
+
+        let table = scan_source("class C:\n    x: int\n");
+        let class = table
+            .sub_tables
+            .iter()
+            .find(|table| table.typ == CompilerScope::Class)
+            .expect("missing class scope");
+        let annotation = class
+            .annotation_block
+            .as_deref()
+            .expect("missing class annotation block");
+        let classdict = annotation
+            .lookup("__classdict__")
+            .expect("missing annotation classdict");
+        assert_eq!(classdict.flags, SymbolFlags::USE);
+        assert_eq!(classdict.scope, SymbolScope::Free);
+
+        let table = scan_source("class C:\n    if flag:\n        x: int\n");
+        let class = table
+            .sub_tables
+            .iter()
+            .find(|table| table.typ == CompilerScope::Class)
+            .expect("missing conditional class scope");
+        assert!(class.lookup("__conditional_annotations__").is_some());
+        let annotation = class
+            .annotation_block
+            .as_deref()
+            .expect("missing conditional annotation block");
+        assert!(annotation.lookup("__conditional_annotations__").is_none());
+
+        let table = scan_source("def outer():\n    z = 1\n    class C:\n        x: z\n");
+        let outer = table
+            .sub_tables
+            .iter()
+            .find(|table| table.name == "outer")
+            .expect("missing outer function scope");
+        let class = outer
+            .sub_tables
+            .iter()
+            .find(|table| table.typ == CompilerScope::Class)
+            .expect("missing nested class scope");
+        let outer_free = class.lookup("z").expect("missing propagated free name");
+        assert_eq!(outer_free.flags, SymbolFlags::empty());
+        assert_eq!(outer_free.scope, SymbolScope::Free);
+
+        let table = scan_source(
+            "def outer():\n    z = 1\n    class C:\n        z\n        def f():\n            return z\n",
+        );
+        let outer = table
+            .sub_tables
+            .iter()
+            .find(|table| table.name == "outer")
+            .expect("missing outer function scope");
+        let class = outer
+            .sub_tables
+            .iter()
+            .find(|table| table.typ == CompilerScope::Class)
+            .expect("missing nested class scope");
+        let class_free = class.lookup("z").expect("missing class free name");
+        assert_eq!(
+            class_free.flags,
+            SymbolFlags::USE | SymbolFlags::DEF_FREE_CLASS
+        );
+        assert_eq!(class_free.scope, SymbolScope::Free);
     }
 
     #[test]

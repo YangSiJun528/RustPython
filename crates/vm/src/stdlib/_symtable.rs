@@ -9,7 +9,9 @@ mod _symtable {
         types::Representable,
     };
     use alloc::fmt;
-    use rustpython_codegen::symboltable::{CompilerScope, SymbolFlags, SymbolScope, SymbolTable};
+    use rustpython_codegen::symboltable::{
+        CompilerScope, Symbol, SymbolFlags, SymbolScope, SymbolTable,
+    };
 
     /// [CPython's `SCOPE_OFFSET`](https://github.com/python/cpython/blob/v3.14.6/Include/internal/pycore_symtable.h#L176)
     const SCOPE_OFFSET: i32 = 12;
@@ -118,6 +120,15 @@ mod _symtable {
         PySymbolTable { symtable }
     }
 
+    fn public_symbol_flags(symbol: &Symbol) -> i32 {
+        assert_ne!(
+            symbol.scope,
+            SymbolScope::Unknown,
+            "_symtable cannot expose a symbol before analysis"
+        );
+        i32::from(symbol.flags.bits()) | (symbol.scope.as_i32() << SCOPE_OFFSET)
+    }
+
     #[pyattr]
     #[pyclass(name = "symtable entry")]
     #[derive(PyPayload)]
@@ -161,17 +172,28 @@ mod _symtable {
 
         #[pygetset]
         fn children(&self, vm: &VirtualMachine) -> Vec<PyObjectRef> {
-            self.symtable
-                .sub_tables
-                .iter()
-                .flat_map(|t| {
-                    if t.comp_inlined {
-                        // Flatten: replace inlined comprehension tables with their children
-                        t.sub_tables.iter().collect::<Vec<_>>()
-                    } else {
-                        vec![t]
-                    }
-                })
+            let mut tables = Vec::new();
+            for (index, table) in self.symtable.sub_tables.iter().enumerate() {
+                if self.symtable.annotation_block_index == Some(index)
+                    && let Some(annotation) = self.symtable.annotation_block.as_deref()
+                {
+                    tables.push(annotation);
+                }
+                if table.comp_inlined {
+                    // Flatten: replace inlined comprehension tables with their children
+                    tables.extend(&table.sub_tables);
+                } else {
+                    tables.push(table);
+                }
+            }
+            if self.symtable.annotation_block_index == Some(self.symtable.sub_tables.len())
+                && let Some(annotation) = self.symtable.annotation_block.as_deref()
+            {
+                tables.push(annotation);
+            }
+
+            tables
+                .into_iter()
                 .map(|t| to_py_symbol_table(t.clone()).into_pyobject(vm))
                 .collect()
         }
@@ -185,9 +207,8 @@ mod _symtable {
         fn symbols(&self, vm: &VirtualMachine) -> PyDictRef {
             let dict = vm.ctx.new_dict();
             for (name, symbol) in &self.symtable.symbols {
-                let packed_flags =
-                    i32::from(symbol.flags.bits()) | (symbol.scope.as_i32() << SCOPE_OFFSET);
-                dict.set_item(name, vm.new_pyobj(packed_flags), vm).unwrap();
+                dict.set_item(name, vm.new_pyobj(public_symbol_flags(symbol)), vm)
+                    .unwrap();
             }
             dict
         }
