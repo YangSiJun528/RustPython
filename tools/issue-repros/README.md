@@ -7,8 +7,9 @@ REPL examples, and one documentation URL check. The interpreter baseline is
 
 - [Combined issue submission draft](report.md): a closure request with each issue's
   before/after behavior, related changes and link to its detailed report.
-- [Detailed reports](cases/): reproduction commands, before/after results,
-  analysis and relevant PRs in a separate file for each issue.
+- [Detailed reports](cases/): reproduction commands, inline before/after output
+  comparisons, analysis and relevant PRs in a separate file for each issue.
+  Full logs remain linked; display-only omissions are labeled in the comparison.
 - [Case definitions and expected results](manifest.json)
 - [Local validation record](VALIDATION.md)
 - Individual inputs, commands and recorded evidence are under `cases/<issue>/`.

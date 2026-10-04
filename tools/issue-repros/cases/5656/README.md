@@ -21,6 +21,34 @@ RUSTPYTHONPATH="$PWD/Lib" ./target/release/rustpython -c 'assert b"omkmok\Xaa" =
 - **Before — [c3ed002b1204](https://github.com/RustPython/RustPython/commit/c3ed002b1204d9ff156b5192b634a4056101b255) (nearest pre-issue main revision; approximate baseline):** The assertion passes without the required invalid-escape warning.
 - **After — [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c):** The assertion passes and stderr contains SyntaxWarning for \X.
 
+Recorded output is shown below. Repeated interpreter cleanup warnings and traceback frames are omitted only where noted; long stderr lines are wrapped for display. The full logs are linked below.
+
+<table>
+<thead><tr><th>Output</th><th>Historical</th><th>Current</th></tr></thead>
+<tbody>
+<tr>
+<th>stdout</th>
+<td valign="top"><em>No output</em></td>
+<td valign="top"><em>No output</em></td>
+</tr>
+<tr>
+<th>stderr</th>
+<td valign="top"><em>No other output</em><p><em>81 interpreter cleanup warning lines omitted.</em></p></td>
+<td valign="top"><pre><code>&lt;survey&gt;/repros/5656/issue-5656-case-01/source-01.py:1:
+SyntaxWarning: "\X" is an invalid escape sequence. Such
+sequences will not work in the future. Did you mean "\\X"? A raw
+string is also an option.
+  assert b"omkmok\Xaa" == bytes([111, 109, 107, 109, 111, 107,
+92, 88, 97, 97])</code></pre></td>
+</tr>
+<tr>
+<th>Exit code</th>
+<td valign="top"><code>0</code></td>
+<td valign="top"><code>0</code></td>
+</tr>
+</tbody>
+</table>
+
 To repeat a historical comparison, use the same input with an interpreter built from the listed historical revision and that checkout's standard library. Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. The linked execution metadata records the historical build toolchain.
 
 ## Analysis and closure rationale

@@ -20,6 +20,10 @@ Validated locally on October 5, 2026 (Asia/Seoul), with RustPython source at
   recorded metadata, including the staged Git blobs.
 - All local document links resolved; the combined issue draft contains 16 issue
   bullets with absolute links to the fork branch.
+- Inline output tables in all 15 runtime reports were checked against the
+  recorded stdout, stderr and exit codes. HTML escaping preserves diagnostic
+  text; displayed excerpts and omissions are labeled. All 84 exported log
+  hashes remain unchanged, and local document links resolve.
 
 The initial Linux runner trial timed out because terminal redraw carriage
 returns prevented prompt recognition. After correcting prompt detection, the

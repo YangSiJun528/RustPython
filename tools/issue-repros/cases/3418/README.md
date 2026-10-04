@@ -21,6 +21,29 @@ RUSTPYTHONPATH="$PWD/Lib" ./target/release/rustpython -c 'from _collections impo
 - **Before — [40fd9c2683d7](https://github.com/RustPython/RustPython/commit/40fd9c2683d76adf2b9ed0d77c055e2d2514c27d) (nearest pre-issue main revision; approximate baseline):** ImportError importing OrderedDict from _collections.
 - **After — [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c):** The import succeeds (exit 0).
 
+Recorded output is shown below. Repeated interpreter cleanup warnings and traceback frames are omitted only where noted; long stderr lines are wrapped for display. The full logs are linked below.
+
+<table>
+<thead><tr><th>Output</th><th>Historical</th><th>Current</th></tr></thead>
+<tbody>
+<tr>
+<th>stdout</th>
+<td valign="top"><em>No output</em></td>
+<td valign="top"><em>No output</em></td>
+</tr>
+<tr>
+<th>stderr</th>
+<td valign="top"><pre><code>ImportError: cannot import name 'OrderedDict'</code></pre><p><em>12 interpreter cleanup warning lines omitted.</em></p><p><em>3 traceback header/frame lines omitted.</em></p></td>
+<td valign="top"><em>No output</em></td>
+</tr>
+<tr>
+<th>Exit code</th>
+<td valign="top"><code>1</code></td>
+<td valign="top"><code>0</code></td>
+</tr>
+</tbody>
+</table>
+
 To repeat a historical comparison, use the same input with an interpreter built from the listed historical revision and that checkout's standard library. Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. The linked execution metadata records the historical build toolchain.
 
 ## Analysis and closure rationale

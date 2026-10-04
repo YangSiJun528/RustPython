@@ -28,6 +28,29 @@ em.get("Subject")
 - **Before — [02840593bc56](https://github.com/RustPython/RustPython/commit/02840593bc56ae416ba2646166628f1712d6cf43) (revision identified in the report):** Subject retrieval raises KeyError: x.
 - **After — [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c):** The same retrieval completes (exit 0).
 
+Recorded output is shown below. Repeated interpreter cleanup warnings and traceback frames are omitted only where noted; long stderr lines are wrapped for display. The full logs are linked below.
+
+<table>
+<thead><tr><th>Output</th><th>Historical</th><th>Current</th></tr></thead>
+<tbody>
+<tr>
+<th>stdout</th>
+<td valign="top"><em>No output</em></td>
+<td valign="top"><em>No output</em></td>
+</tr>
+<tr>
+<th>stderr</th>
+<td valign="top"><pre><code>KeyError: x</code></pre><p><em>6 interpreter cleanup warning lines omitted.</em></p><p><em>23 traceback header/frame lines omitted.</em></p></td>
+<td valign="top"><em>No output</em></td>
+</tr>
+<tr>
+<th>Exit code</th>
+<td valign="top"><code>1</code></td>
+<td valign="top"><code>0</code></td>
+</tr>
+</tbody>
+</table>
+
 To repeat a historical comparison, use the same input with an interpreter built from the listed historical revision and that checkout's standard library. Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. The linked execution metadata records the historical build toolchain.
 
 ## Analysis and closure rationale

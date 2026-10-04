@@ -4,6 +4,7 @@
 import argparse
 import datetime
 import hashlib
+import html
 import json
 import os
 import platform
@@ -13,6 +14,7 @@ import signal
 import subprocess
 import sys
 import tempfile
+import textwrap
 import time
 from pathlib import Path
 
@@ -254,6 +256,117 @@ def historical_label(item):
     return f"[{sha[:12]}](https://github.com/RustPython/RustPython/commit/{sha}) ({selection})"
 
 
+def recorded_output_table(item):
+    """Display selected recorded output without changing the evidence files."""
+    case = BUNDLE / "cases" / str(item["issue"])
+    metadata = json.loads((case / "evidence/metadata.json").read_text())
+    phases = ("historical", "current")
+    is_repl = item["kind"] == "repl"
+    rows = []
+    for stream in ("stdout",) if is_repl else ("stdout", "stderr"):
+        cells = []
+        for phase in phases:
+            output = (case / "evidence" / f"{phase}.{stream}.txt").read_text()
+            notes = []
+            if is_repl:
+                clean = ANSI.sub("", output).replace("\r", "")
+                output = "\n".join(re.findall(r"(?m)^([0-9]+)$", clean))
+            elif item["issue"] == 4690 and stream == "stdout":
+                output = output.splitlines()[0]
+            elif stream == "stderr":
+                lines = output.splitlines()
+                retained = [
+                    line
+                    for line in lines
+                    if not (
+                        re.match(r"\[(?:WARN\s|[^\]]+ WARN\s)", line)
+                        and line.endswith("couldn't run __del__ method for object")
+                    )
+                ]
+                omitted = len(lines) - len(retained)
+                if omitted:
+                    notes.append(
+                        f"{omitted} interpreter cleanup warning lines omitted."
+                    )
+                if retained and retained[0] == "Traceback (most recent call last):":
+                    diagnostic = next(
+                        (
+                            index
+                            for index, line in enumerate(retained[1:], 1)
+                            if line and not line[0].isspace()
+                        ),
+                        0,
+                    )
+                    if diagnostic:
+                        notes.append(
+                            f"{diagnostic} traceback header/frame lines omitted."
+                        )
+                        retained = retained[diagnostic:]
+                output = "\n".join(
+                    "\n".join(
+                        textwrap.wrap(
+                            line,
+                            width=64,
+                            break_long_words=False,
+                            break_on_hyphens=False,
+                        )
+                    )
+                    for line in retained
+                )
+            output = output.rstrip("\n")
+            if output:
+                cell = f"<pre><code>{html.escape(output, quote=False)}</code></pre>"
+            else:
+                empty = "No other output" if notes else "No output"
+                cell = f"<em>{empty}</em>"
+            for note in notes:
+                cell += f"<p><em>{note}</em></p>"
+            cells.append(cell)
+        label = "REPL expression output" if is_repl else stream
+        rows.append((label, cells))
+    rows.append(
+        (
+            "Exit code",
+            [
+                f"<code>{metadata['runs'][phase]['exit_code']}</code>"
+                for phase in phases
+            ],
+        )
+    )
+    if is_repl:
+        note = (
+            "The table extracts the expression values from the recorded terminal session, in execution order. "
+            "Startup text, prompts, echoed input and terminal control sequences are omitted. "
+            "The PTY recording combines stdout and stderr; the full transcript is linked below."
+        )
+    else:
+        note = (
+            "Recorded output is shown below. Repeated interpreter cleanup warnings and traceback frames "
+            "are omitted only where noted; long stderr lines are wrapped for display. "
+            "The full logs are linked below."
+        )
+        if item["issue"] == 4690:
+            note += " Only the first stdout line, from the raw descriptor query reproduced above, is shown."
+    lines = [
+        note,
+        "",
+        "<table>",
+        "<thead><tr><th>Output</th><th>Historical</th><th>Current</th></tr></thead>",
+        "<tbody>",
+    ]
+    for label, cells in rows:
+        lines.extend(
+            [
+                "<tr>",
+                f"<th>{label}</th>",
+                *(f'<td valign="top">{cell}</td>' for cell in cells),
+                "</tr>",
+            ]
+        )
+    lines.extend(["</tbody>", "</table>", ""])
+    return lines
+
+
 def render_recorded(manifest):
     sha = manifest["baseline_sha"]
     current_link = (
@@ -416,6 +529,7 @@ def render_recorded(manifest):
             ]
         )
         if item["historical_sha"]:
+            text.extend(recorded_output_table(item))
             text.extend([history_help, ""])
         text.extend(
             [

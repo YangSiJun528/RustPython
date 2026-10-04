@@ -21,6 +21,31 @@ RUSTPYTHONPATH="$PWD/Lib" ./target/release/rustpython -c 'print(type(...).__name
 - **Before — [83fe92042112](https://github.com/RustPython/RustPython/commit/83fe92042112f9db89a70495b552ab433d77e751) (nearest pre-issue main revision; approximate baseline):** EllipsisType and <class 'EllipsisType'>.
 - **After — [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c):** ellipsis and <class 'ellipsis'>, matching CPython.
 
+Recorded output is shown below. Repeated interpreter cleanup warnings and traceback frames are omitted only where noted; long stderr lines are wrapped for display. The full logs are linked below.
+
+<table>
+<thead><tr><th>Output</th><th>Historical</th><th>Current</th></tr></thead>
+<tbody>
+<tr>
+<th>stdout</th>
+<td valign="top"><pre><code>EllipsisType
+&lt;class 'EllipsisType'&gt;</code></pre></td>
+<td valign="top"><pre><code>ellipsis
+&lt;class 'ellipsis'&gt;</code></pre></td>
+</tr>
+<tr>
+<th>stderr</th>
+<td valign="top"><em>No output</em></td>
+<td valign="top"><em>No output</em></td>
+</tr>
+<tr>
+<th>Exit code</th>
+<td valign="top"><code>0</code></td>
+<td valign="top"><code>0</code></td>
+</tr>
+</tbody>
+</table>
+
 To repeat a historical comparison, use the same input with an interpreter built from the listed historical revision and that checkout's standard library. Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. The linked execution metadata records the historical build toolchain.
 
 ## Analysis and closure rationale
