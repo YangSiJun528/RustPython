@@ -275,16 +275,29 @@ def render_recorded(manifest):
         "Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. "
         "The linked execution metadata records the historical build toolchain."
     )
+    brief_results = {
+        2527: "REPL block expressions display their values.",
+        3418: "Native OrderedDict import succeeds.",
+        3430: "ElementTree parses the reported XML input.",
+        4527: "The global object's finalizer runs at shutdown.",
+        4690: "The raw class-method descriptor matches CPython.",
+        4762: "Negative format widths correctly select left alignment.",
+        4784: "The README link serves API documentation.",
+        4786: "Surrogate type names raise UnicodeEncodeError.",
+        4856: "The decorated-class source compiles without the panic.",
+        4908: "The AST parse/unparse round trip succeeds.",
+        4937: "The reported email Subject is retrieved without KeyError.",
+        5181: "The n format respects en_US.UTF-8 grouping.",
+        5656: "The invalid bytes escape emits SyntaxWarning.",
+        6429: "Py_GIL_DISABLED returns 1 on the tested POSIX build.",
+        6790: "The unconditional lzma test skip is removed.",
+        8052: "The Ellipsis type name and repr match CPython.",
+    }
     aggregate = [
-        "# Review 16 resolved RustPython issues for closure",
+        "# Review 16 resolved issues for closure",
         "",
-        f"I rechecked the reports below on {current_link} on October 4, 2026. The recorded historical failures and current outcomes are listed with their reproduction commands. The documentation link was checked separately through docs.rs.",
-        "",
-        "Could you review these results and close the corresponding issues?",
-        "",
-        *setup,
-        "",
-        history_help,
+        f"The reported behaviors below were verified on {current_link} on October 4, 2026; the documentation link was checked separately. "
+        "Could you review the linked reproduction results and close these issues?",
         "",
     ]
     index = []
@@ -295,19 +308,9 @@ def render_recorded(manifest):
         historical = historical_label(item)
         steps = reproduction_steps(item)
         index.append(f"- [{title}](cases/{number}/README.md)")
-        aggregate.extend([f"- **[{title}]({item['url']})**", ""])
-        for line in "\n".join(steps).splitlines():
-            aggregate.append("  " + line if line else "")
-        aggregate.extend(
-            [
-                "",
-                f"  - **Before — {historical}:** {item['historical_summary']}",
-                f"  - **After:** {item['current_summary']}",
-                f"  - **Analysis and closure rationale:** {item['reason_to_close']}",
-                f"  - **Related change:** {item['references']}",
-                f"  - [Detailed comparison and execution evidence](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/cases/{number}/README.md)",
-                "",
-            ]
+        aggregate.append(
+            f"- [#{number}]({item['url']}) — {brief_results[number]} "
+            f"[Report](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/cases/{number}/README.md)"
         )
         text = [
             f"# {title}",
@@ -377,9 +380,8 @@ def render_recorded(manifest):
         (case / "README.md").write_text("\n".join(text))
     aggregate.extend(
         [
-            "Related PRs identify matching source changes; exact first-fixing commits were not established by parent/commit execution comparisons.",
             "",
-            "AI assistance: OpenAI Codex assisted with verification, evidence analysis and drafting.",
+            "AI assistance: verification and drafting with OpenAI Codex.",
             "",
         ]
     )
