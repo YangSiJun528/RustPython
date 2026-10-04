@@ -1,0 +1,7 @@
+import email
+import email.policy
+
+mytext = "Subject:=?us-ascii?X?value?="
+em = email.message_from_string(mytext, policy=email.policy.default)
+em.get('Subject')
+

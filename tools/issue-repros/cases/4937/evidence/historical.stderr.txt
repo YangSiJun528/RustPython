@@ -1,0 +1,30 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+Traceback (most recent call last):
+  File "<survey>/repros/4937/issue-4937-case-01/source-01.txt", line 6, in <module>
+    em.get('Subject')
+  File "<historical-checkout>/pylib/Lib/email/message.py", line 471, in get
+    return self.policy.header_fetch_parse(k, v)
+  File "<historical-checkout>/pylib/Lib/email/policy.py", line 162, in header_fetch_parse
+    return self.header_factory(name, value)
+  File "<historical-checkout>/pylib/Lib/email/headerregistry.py", line 586, in __call__
+    return self[name](name, value)
+  File "<historical-checkout>/pylib/Lib/email/headerregistry.py", line 197, in __new__
+    cls.parse(value, kwds)
+  File "<historical-checkout>/pylib/Lib/email/headerregistry.py", line 269, in parse
+    kwds['parse_tree'] = cls.value_parser(value)
+  File "<historical-checkout>/pylib/Lib/email/_header_value_parser.py", line 1498, in get_unstructured
+    pass
+  File "<historical-checkout>/pylib/Lib/email/_header_value_parser.py", line 1494, in get_unstructured
+    token, value = get_encoded_word(value)
+  File "<historical-checkout>/pylib/Lib/email/_header_value_parser.py", line 1447, in get_encoded_word
+    "encoded word format invalid: '{}'".format(ew.cte))
+  File "<historical-checkout>/pylib/Lib/email/_header_value_parser.py", line 1444, in get_encoded_word
+    text, charset, lang, defects = _ew.decode('=?' + tok + '?=')
+  File "<historical-checkout>/pylib/Lib/email/_encoded_words.py", line 166, in decode
+    bstring, defects = _cte_decoders[cte](bstring)
+KeyError: x

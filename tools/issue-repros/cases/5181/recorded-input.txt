@@ -1,0 +1,4 @@
+import locale
+print('locale', locale.setlocale(locale.LC_ALL, 'en_US.UTF-8'))
+print('result', repr(format(123456789, 'n')))
+print('matches', format(123456789, 'n') == '123,456,789')

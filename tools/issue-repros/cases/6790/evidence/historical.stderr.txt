@@ -1,0 +1,8 @@
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object

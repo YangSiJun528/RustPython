@@ -1,0 +1,22 @@
+Welcome to the magnificent Rust Python 0.6.1 interpreter 😱 🖖
+RustPython 3.14.0
+Type "help", "copyright", "credits" or "license" for more information.
+[?2026h[K>>> [4C[?2026lfor i in range(10):
+[?2026h[K... [4C[?2026l    i
+[?2026h[K... [4C[?2026l
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+[?2026h[K>>> [4C[?2026lwith open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') as[?2026h[K>>> with open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') as 
+[?2026lf:
+[?2026h[K... [4C[?2026l    f.write('hello')
+[?2026h[K... [4C[?2026l
+5
+[?2026h[K>>> [4C[?2026lexit()

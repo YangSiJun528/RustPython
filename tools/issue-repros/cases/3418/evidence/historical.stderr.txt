@@ -1,0 +1,16 @@
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+Traceback (most recent call last):
+  File "<survey>/repros/3418/issue-3418-case-01/source-01.py", line 1, in <module>
+    from _collections  import OrderedDict
+ImportError: cannot import name 'OrderedDict'

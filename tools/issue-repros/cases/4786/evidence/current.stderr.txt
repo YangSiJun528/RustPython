@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<survey>/verification-tools/derived-transcripts/issue-4786-case-01/probe.py", line 1, in <module>
+    print(repr(type("A\udcdcB", (), {})))
+               ~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'utf-8' codec can't encode character '\udcdc' in position 1: surrogates not allowed

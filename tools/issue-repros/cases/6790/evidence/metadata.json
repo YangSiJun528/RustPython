@@ -1,0 +1,87 @@
+{
+  "recorded_on": "2026-10-04",
+  "log_transform": "Local user/checkouts paths are replaced with placeholders; terminal ANSI sequences are retained.",
+  "runs": {
+    "historical": {
+      "command": [
+        "<survey>/.build/slot-b/release/rustpython",
+        "<survey>/verification-tools/derived-history/6790-support-gate-corrected.py"
+      ],
+      "cwd": "<survey>/logs/scratch-history-b/ed785e3d86",
+      "env": {
+        "RUSTPYTHONPATH": "<historical-checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "ed785e3d868966e2a5f7478632cabd5a630e6934",
+      "binary_sha256": "2b07956ab66da91ad9b60379a89c3b3f789a9266591c1d996ff52d4397d5f909",
+      "exit_code": 0,
+      "source_sha256": "3969afa08972ca862c6e6e7c13a6bc7e88eed8cbe6ed47c6a6cba164e2dfd6bc",
+      "source_record": "logs/issue-6790-case-01/historical-ed785e3d86-corrected-support-gate.stdout",
+      "logs": {
+        "stdout": {
+          "path": "historical.stdout.txt",
+          "source_sha256": "1a005344dc37b323ea5253cd2bd13ec3cfe5f3b37e0136297d09e57d27449264",
+          "export_sha256": "1a005344dc37b323ea5253cd2bd13ec3cfe5f3b37e0136297d09e57d27449264"
+        },
+        "stderr": {
+          "path": "historical.stderr.txt",
+          "source_sha256": "382d21396ad5fe38c64e4a73bbb701bc7248aa858635784a6f89e1f8325eb82f",
+          "export_sha256": "382d21396ad5fe38c64e4a73bbb701bc7248aa858635784a6f89e1f8325eb82f"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.96.1 (31fca3adb 2026-06-26)\nbinary: rustc\ncommit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd\ncommit-date: 2026-06-26\nhost: aarch64-apple-darwin\nrelease: 1.96.1\nLLVM version: 22.1.2\n",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "arch": "arm64",
+        "command": [
+          "cargo",
+          "+1.96.1",
+          "build",
+          "--release",
+          "--locked",
+          "--target-dir",
+          "<survey>/.build/slot-b"
+        ],
+        "cargo_lock_sha256": "fdb69861d9b0baa37bf2f24611a5c9dfd01c85b81b6715e8df38ec007e5fe5b8",
+        "version_banner": "3.14.0alpha (tags/2025-11-10-main-55-569-ged785e3d8:ed785e3d8, Jan 19 2026, 00:04:06) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+        "binary_sha256": "2b07956ab66da91ad9b60379a89c3b3f789a9266591c1d996ff52d4397d5f909"
+      }
+    },
+    "current": {
+      "command": [
+        "<survey>/.build/slot-a/release/rustpython",
+        "<survey>/verification-tools/derived-history/6790-support-gate-corrected.py"
+      ],
+      "cwd": "<checkout>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit_code": 0,
+      "source_sha256": "3969afa08972ca862c6e6e7c13a6bc7e88eed8cbe6ed47c6a6cba164e2dfd6bc",
+      "derivation": "Apply requires_lzma()(dummy), invoke the wrapped function and report whether it skips. The historical and current runs use the same input.",
+      "source_record": "logs/issue-6790-case-01/current-corrected-support-gate.stdout",
+      "logs": {
+        "stdout": {
+          "path": "current.stdout.txt",
+          "source_sha256": "4fe6f06736e4e44e586561a797df7966bf40bd1809faddb8d68dab00c8932049",
+          "export_sha256": "4fe6f06736e4e44e586561a797df7966bf40bd1809faddb8d68dab00c8932049"
+        },
+        "stderr": {
+          "path": "current.stderr.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "architecture": "arm64",
+        "build_command": "cargo +1.99.0 build --release --locked --target-dir cleanup-issues/2026-10-04T155029+0900/.build/slot-a",
+        "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe"
+      }
+    }
+  }
+}

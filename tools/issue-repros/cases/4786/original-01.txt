@@ -1,0 +1,2 @@
+>>> type("A\udcdcB", (), {})
+>>> <class '__main__.A�B'>

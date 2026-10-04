@@ -1,0 +1,308 @@
+{
+  "recorded_on": "2026-10-04",
+  "log_transform": "Local user/checkouts paths are replaced with placeholders; terminal ANSI sequences are retained.",
+  "runs": {
+    "historical": {
+      "command": [
+        "/Applications/Docker.app/Contents/Resources/bin/docker",
+        "run",
+        "--rm",
+        "-i",
+        "-t",
+        "--name",
+        "rustpython-supported-repl-a-1",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "1g",
+        "--pids-limit",
+        "128",
+        "--ulimit",
+        "cpu=30:30",
+        "--ulimit",
+        "core=0:0",
+        "--mount",
+        "type=bind,source=<checkout>,target=/repo,readonly",
+        "--mount",
+        "type=bind,source=<survey>,target=/survey",
+        "--workdir",
+        "/repo",
+        "--env",
+        "RUSTPYTHONPATH=/repo/Lib",
+        "--env",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "--env",
+        "TERM=xterm",
+        "rust@sha256:48f4b36c3f3492b82a5e14b2fc991d3163c1d2ce18ac1f0561e9657103192713",
+        "/survey/.build/slot-a/linux/release/rustpython"
+      ],
+      "cwd": "/repo",
+      "env": {
+        "RUSTPYTHONPATH": "/repo/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TERM": "xterm"
+      },
+      "actual_sha": "163cd1953377f4049e06fdae55c715889857a301",
+      "binary_sha256": "58eea88a470e1d822e9112aa579dad6d4fb788a1e1b374de4f6e6c8e60454ea4",
+      "exit_code": 0,
+      "timeout": false,
+      "source_sha256": "f940b24d62cdcd1da8ce93fa9b3e33c28bcbc7035a72dbe9154442e44cf735f1",
+      "derivation": "OriginalPython lines unchanged; scratchpath only substituted. SupportedTERM=xterm realPTY sends one original line after each observedprompt; originalblanklines retained; returnedprimaryprompt recordsblockcompletion.",
+      "prompt_events": [
+        {
+          "phase": "startup",
+          "prompt": "primary",
+          "offset": 106
+        },
+        {
+          "phase": "after_line",
+          "line_index": 0,
+          "line": "for i in range(10):",
+          "prompt": "continuation",
+          "offset": 143
+        },
+        {
+          "phase": "after_line",
+          "line_index": 1,
+          "line": "    i",
+          "prompt": "continuation",
+          "offset": 166
+        },
+        {
+          "phase": "after_line",
+          "line_index": 2,
+          "line": "",
+          "prompt": "primary",
+          "offset": 184
+        },
+        {
+          "phase": "after_line",
+          "line_index": 3,
+          "line": "with open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') as f:",
+          "prompt": "continuation",
+          "offset": 367
+        },
+        {
+          "phase": "after_line",
+          "line_index": 4,
+          "line": "    f.write('hello')",
+          "prompt": "continuation",
+          "offset": 405
+        },
+        {
+          "phase": "after_line",
+          "line_index": 5,
+          "line": "",
+          "prompt": "primary",
+          "offset": 423
+        }
+      ],
+      "intended_input": "for i in range(10):\n    i\n\nwith open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') as f:\n    f.write('hello')\n\nexit()\n",
+      "actual_sent_input": "for i in range(10):\n    i\n\nwith open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') as f:\n    f.write('hello')\n\nexit()\n",
+      "source_record": "logs/issue-2527-case-01/historical-supported-pty-163cd19533-58eea88a.stdout",
+      "logs": {
+        "stdout": {
+          "path": "historical.stdout.txt",
+          "source_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+          "export_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.47.0 (18bf6b4f0 2020-10-07)\nbinary: rustc\ncommit-hash: 18bf6b4f01a6feaf7259ba7cdae58031af1b7b39\ncommit-date: 2020-10-07\nhost: aarch64-unknown-linux-gnu\nrelease: 1.47.0\nLLVM version: 11.0\n",
+        "arch": "arm64 Linux Docker container",
+        "command": [
+          "/Applications/Docker.app/Contents/Resources/bin/docker",
+          "run",
+          "--rm",
+          "--name",
+          "rustpython-history-a",
+          "--cpus",
+          "2",
+          "--memory",
+          "4g",
+          "--pids-limit",
+          "256",
+          "--mount",
+          "type=bind,source=<checkout>,target=/repo,readonly",
+          "--mount",
+          "type=bind,source=<survey>,target=/survey",
+          "--workdir",
+          "/repo",
+          "--env",
+          "CARGO_HOME=/survey/.build/slot-a/linux-cargo",
+          "--env",
+          "CARGO_BUILD_JOBS=2",
+          "--env",
+          "RUSTUP_TOOLCHAIN=1.47.0",
+          "--mount",
+          "type=bind,source=<survey>/analysis/locks/163cd1953377f4049e06fdae55c715889857a301-Cargo.lock,target=/repo/Cargo.lock,readonly",
+          "rust@sha256:48f4b36c3f3492b82a5e14b2fc991d3163c1d2ce18ac1f0561e9657103192713",
+          "cargo",
+          "build",
+          "--release",
+          "--locked",
+          "--target-dir",
+          "/survey/.build/slot-a/linux"
+        ],
+        "cargo_lock_sha256": "fad5d0944996f87dfc26d5c81b008e60625a1cd02f26740ee48d3e047939b85a",
+        "as_built_lock_sha256": "fad5d0944996f87dfc26d5c81b008e60625a1cd02f26740ee48d3e047939b85a",
+        "image_digest": "rust@sha256:48f4b36c3f3492b82a5e14b2fc991d3163c1d2ce18ac1f0561e9657103192713",
+        "version_banner": "3.9.0alpha (tags/0.1.0-4637-g163cd1953:163cd1953, Mar 25 2021, 13:04:07) \n[rustc 1.47.0]\n",
+        "binary_sha256": "58eea88a470e1d822e9112aa579dad6d4fb788a1e1b374de4f6e6c8e60454ea4"
+      }
+    },
+    "current": {
+      "command": [
+        "/Applications/Docker.app/Contents/Resources/bin/docker",
+        "run",
+        "--rm",
+        "-i",
+        "-t",
+        "--name",
+        "rustpython-supported-repl-a-1",
+        "--network",
+        "none",
+        "--cpus",
+        "2",
+        "--memory",
+        "1g",
+        "--pids-limit",
+        "128",
+        "--ulimit",
+        "cpu=30:30",
+        "--ulimit",
+        "core=0:0",
+        "--mount",
+        "type=bind,source=<checkout>,target=/repo,readonly",
+        "--mount",
+        "type=bind,source=<survey>,target=/survey",
+        "--workdir",
+        "/repo",
+        "--env",
+        "RUSTPYTHONPATH=/repo/Lib",
+        "--env",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "--env",
+        "TERM=xterm",
+        "rust@sha256:cb1b90b0ce00f9eb950c4de62cc1bb89c7bf8a3577de6600d10e31fb15f876de",
+        "/survey/.build/slot-a/linux/release/rustpython"
+      ],
+      "cwd": "/repo",
+      "env": {
+        "RUSTPYTHONPATH": "/repo/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "TERM": "xterm"
+      },
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "62edeb0a360f473213e907dea3c6706e6ed08034bd80976439310069adf7725c",
+      "exit_code": 0,
+      "timeout": false,
+      "source_sha256": "f940b24d62cdcd1da8ce93fa9b3e33c28bcbc7035a72dbe9154442e44cf735f1",
+      "derivation": "OriginalPython lines unchanged; scratchpath only substituted. SupportedTERM=xterm realPTY sends one original line after each observedprompt; originalblanklines retained; returnedprimaryprompt recordsblockcompletion.",
+      "prompt_events": [
+        {
+          "phase": "startup",
+          "prompt": "primary",
+          "offset": 188
+        },
+        {
+          "phase": "after_line",
+          "line_index": 0,
+          "line": "for i in range(10):",
+          "prompt": "continuation",
+          "offset": 238
+        },
+        {
+          "phase": "after_line",
+          "line_index": 1,
+          "line": "    i",
+          "prompt": "continuation",
+          "offset": 274
+        },
+        {
+          "phase": "after_line",
+          "line_index": 2,
+          "line": "",
+          "prompt": "primary",
+          "offset": 335
+        },
+        {
+          "phase": "after_line",
+          "line_index": 3,
+          "line": "with open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') as f:",
+          "prompt": "continuation",
+          "offset": 546
+        },
+        {
+          "phase": "after_line",
+          "line_index": 4,
+          "line": "    f.write('hello')",
+          "prompt": "continuation",
+          "offset": 597
+        },
+        {
+          "phase": "after_line",
+          "line_index": 5,
+          "line": "",
+          "prompt": "primary",
+          "offset": 631
+        }
+      ],
+      "intended_input": "for i in range(10):\n    i\n\nwith open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') as f:\n    f.write('hello')\n\nexit()\n",
+      "actual_sent_input": "for i in range(10):\n    i\n\nwith open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') as f:\n    f.write('hello')\n\nexit()\n",
+      "source_record": "logs/issue-2527-case-01/current-linux-supported-pty-f39b054b9c-62edeb0a.stdout",
+      "logs": {
+        "stdout": {
+          "path": "current.stdout.txt",
+          "source_sha256": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d",
+          "export_sha256": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: aarch64-unknown-linux-gnu\nrelease: 1.99.0\nLLVM version: 23.1.1\n",
+        "arch": "arm64 Linux Docker container",
+        "command": [
+          "/Applications/Docker.app/Contents/Resources/bin/docker",
+          "run",
+          "--rm",
+          "--name",
+          "rustpython-history-a",
+          "--cpus",
+          "2",
+          "--memory",
+          "4g",
+          "--pids-limit",
+          "256",
+          "--mount",
+          "type=bind,source=<checkout>,target=/repo,readonly",
+          "--mount",
+          "type=bind,source=<survey>,target=/survey",
+          "--workdir",
+          "/repo",
+          "--env",
+          "CARGO_HOME=/survey/.build/slot-a/linux-cargo",
+          "--env",
+          "CARGO_BUILD_JOBS=2",
+          "--env",
+          "RUSTUP_TOOLCHAIN=1.99.0",
+          "--mount",
+          "type=bind,source=<survey>/analysis/locks/f39b054b9c8cbbf884f53123eef028131789990c-Cargo.lock,target=/repo/Cargo.lock,readonly",
+          "rust@sha256:cb1b90b0ce00f9eb950c4de62cc1bb89c7bf8a3577de6600d10e31fb15f876de",
+          "cargo",
+          "build",
+          "--release",
+          "--locked",
+          "--target-dir",
+          "/survey/.build/slot-a/linux"
+        ],
+        "cargo_lock_sha256": "a8ae29f11a8d18c3d2eb25b8ec82078ceb9abe239bd3942a58a3607718743786",
+        "as_built_lock_sha256": "a8ae29f11a8d18c3d2eb25b8ec82078ceb9abe239bd3942a58a3607718743786",
+        "image_digest": "rust@sha256:cb1b90b0ce00f9eb950c4de62cc1bb89c7bf8a3577de6600d10e31fb15f876de",
+        "version_banner": "3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 04:53:35)\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]\n",
+        "binary_sha256": "62edeb0a360f473213e907dea3c6706e6ed08034bd80976439310069adf7725c"
+      }
+    }
+  }
+}

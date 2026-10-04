@@ -1,0 +1,582 @@
+{
+  "schema_version": 1,
+  "recorded_on": "2026-10-04",
+  "baseline_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+  "source_survey": "2026-10-04T155029+0900",
+  "source_results_sha256": "5e117afb14418ccdbe93bd10b0492e76b4c9208fc6c24d264db4d9b53e9567e2",
+  "issues": [
+    {
+      "issue": 2527,
+      "title": "expressions in blocks don't print their value in the REPL",
+      "url": "https://github.com/RustPython/RustPython/issues/2527",
+      "case_ids": [
+        "issue-2527-case-01",
+        "issue-2527-case-02"
+      ],
+      "kind": "repl",
+      "historical_sha": "163cd1953377f4049e06fdae55c715889857a301",
+      "historical_selection": {
+        "role": "required_issue_time_approximation",
+        "reason": "No case-specific executed SHA or identifiable release; closest first-parent before issue creation.",
+        "issue_created_at": "2021-03-25T17:55:24Z",
+        "closest_preissue_sha": "163cd1953377f4049e06fdae55c715889857a301"
+      },
+      "historical_summary": "Neither block displayed its expression values.",
+      "current_summary": "The loop displays 0 through 9; the with block displays 5.",
+      "reason_to_close": "Interactive compilation now emits expression output inside module-level blocks. The original loop displays 0\u20139 and the `with` block displays 5, resolving both missing-output examples on Linux with `TERM=xterm`.",
+      "references": "[PR #7067](https://github.com/RustPython/RustPython/pull/7067): interactive expression handling in nested blocks.",
+      "derivation": "Both original blocks are retained. The /tmp/file.txt path is replaced by a file inside the runner scratch directory; exit() is appended after both blocks return to the primary prompt.",
+      "expected": {},
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/2527/issue-2527-case-01/source-01.txt",
+          "sha256": "f940b24d62cdcd1da8ce93fa9b3e33c28bcbc7035a72dbe9154442e44cf735f1"
+        }
+      ],
+      "input": "repl.txt"
+    },
+    {
+      "issue": 3418,
+      "title": "Introduce `_collections.OrderedDict` type (a.k.a. `collections.OrderedDict`)",
+      "url": "https://github.com/RustPython/RustPython/issues/3418",
+      "case_ids": [
+        "issue-3418-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "40fd9c2683d76adf2b9ed0d77c055e2d2514c27d",
+      "historical_selection": {
+        "role": "closest_preissue_main_approximation",
+        "reason": "No case-specific executed revision or identifiable RustPython release."
+      },
+      "historical_summary": "ImportError importing OrderedDict from _collections.",
+      "current_summary": "The import succeeds (exit 0).",
+      "reason_to_close": "A native `OrderedDict` is now exported from `_collections`. The requested `from _collections import OrderedDict` import succeeds, satisfying the reported missing-export issue.",
+      "references": "[PR #8780](https://github.com/RustPython/RustPython/pull/8780): native `OrderedDict` implementation and export.",
+      "derivation": "The original executable input is retained.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": ""
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/3418/issue-3418-case-01/source-01.py",
+          "sha256": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "repros/3418/issue-3418-case-01/source-01.py",
+        "sha256": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6"
+      }
+    },
+    {
+      "issue": 3430,
+      "title": "etree.XML raises TypeError on valid XML",
+      "url": "https://github.com/RustPython/RustPython/issues/3430",
+      "case_ids": [
+        "issue-3430-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "310578c422c9b3d76eb8c739136b972d78e37180",
+      "historical_selection": {
+        "role": "closest_preissue_main_approximation",
+        "reason": "No case-specific executed revision or identifiable RustPython release."
+      },
+      "historical_summary": "TypeError: Expected type 'str', not 'NoneType'.",
+      "current_summary": "Element root None 0 (exit 0).",
+      "reason_to_close": "The parser accepts the explicit `None` encoding argument passed by ElementTree. The original `etree.XML(\"<root></root>\")` call now returns the expected empty root element, resolving the reported `TypeError`.",
+      "references": "[PR #6582](https://github.com/RustPython/RustPython/pull/6582): accept `None` for the parser encoding; [PR #8741](https://github.com/RustPython/RustPython/pull/8741): native ElementTree parser implementation.",
+      "derivation": "REPL prompts and traceback are excluded from executable input; the returned element type, tag, text and child count are printed.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": "Element root None 0\n"
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/3430/issue-3430-case-01/source-01.txt",
+          "sha256": "791f966541354ee557e2af0ec4267621ba7d04c60581c1f5d0f82d1e4170dd37"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "verification-tools/derived-transcripts/issue-3430-case-01/probe.py",
+        "sha256": "a417cc001e1c9e1bd09bcef9014cf9713bfa74d6610ee5ba48e3237490b5bcce"
+      }
+    },
+    {
+      "issue": 4527,
+      "title": "top level objects are not deleted before script finalized",
+      "url": "https://github.com/RustPython/RustPython/issues/4527",
+      "case_ids": [
+        "issue-4527-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "e5735cde67b86699bd68c8959167ecf2649a6f2d",
+      "historical_selection": {
+        "role": "closest_preissue_main_approximation",
+        "reason": "No case-specific identifiable runtime revision supplied."
+      },
+      "historical_summary": "No finalizer output at process shutdown.",
+      "current_summary": "deleted! is printed at shutdown (exit 0).",
+      "reason_to_close": "Shutdown now clears `__main__` globals while the facilities needed by finalizers remain available. The original global object's `__del__` prints `deleted!` during shutdown, satisfying the reported finalization behavior.",
+      "references": "[PR #6934](https://github.com/RustPython/RustPython/pull/6934): module finalization during interpreter shutdown.",
+      "derivation": "The original executable input is retained.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": "deleted!\n"
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/4527/issue-4527-case-01/source-01.py",
+          "sha256": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "repros/4527/issue-4527-case-01/source-01.py",
+        "sha256": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d"
+      }
+    },
+    {
+      "issue": 4690,
+      "title": "classmethod_descriptor",
+      "url": "https://github.com/RustPython/RustPython/issues/4690",
+      "case_ids": [
+        "issue-4690-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "8ff947e83a65b74c920edc63aed8a0a5854b8612",
+      "historical_selection": {
+        "role": "closest_preissue_main_approximation",
+        "reported_versions": [],
+        "issue_created_at": "2023-03-15T13:56:59Z",
+        "actual_historical_sha": "8ff947e83a65b74c920edc63aed8a0a5854b8612",
+        "closest_preissue_first_parent_check": "8ff947e83a65b74c920edc63aed8a0a5854b8612",
+        "matches_required_fallback": true
+      },
+      "historical_summary": "Raw dict.fromkeys descriptor has type classmethod.",
+      "current_summary": "Raw descriptor has type classmethod_descriptor.",
+      "reason_to_close": "Native class methods now use the dedicated `classmethod_descriptor` type. `dict.__dict__[\"fromkeys\"]` has that type, matching CPython and resolving the reported descriptor-type mismatch.",
+      "references": "[PR #8780](https://github.com/RustPython/RustPython/pull/8780): native class-method descriptor construction.",
+      "derivation": "The transcript expressions are printed. The closure check concerns the raw descriptor on the first output line.",
+      "expected": {
+        "exit_code": 0,
+        "stdout_prefix": "classmethod_descriptor\n"
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/4690/issue-4690-case-01/source-01.txt",
+          "sha256": "1b27b196fbbf29c5fb3ea62f14405428dbf16fa40bd81cc6cb554d5349908724"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "verification-tools/derived-transcripts/issue-4690-case-01/probe.py",
+        "sha256": "61871ee725ff3c4446199c3e6298b5f503e35877c3774ab93c3e6540cee3f017"
+      }
+    },
+    {
+      "issue": 4762,
+      "title": "cformat star asterisk should behave differently when given negative sign",
+      "url": "https://github.com/RustPython/RustPython/issues/4762",
+      "case_ids": [
+        "issue-4762-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "c36e3612e7dd1c7abd9fc7b76b912372bd26afbf",
+      "historical_selection": {
+        "role": "closest_preissue_main_approximation",
+        "reported_versions": [],
+        "issue_created_at": "2023-03-25T10:20:35Z",
+        "actual_historical_sha": "c36e3612e7dd1c7abd9fc7b76b912372bd26afbf",
+        "closest_preissue_first_parent_check": "c36e3612e7dd1c7abd9fc7b76b912372bd26afbf",
+        "matches_required_fallback": true
+      },
+      "historical_summary": "The negative-width assertion raises AssertionError.",
+      "current_summary": "The assertion passes; two trailing spaces are retained.",
+      "reason_to_close": "Negative dynamic widths now select left alignment. The original `'%*s' % (-5, 'abc') == 'abc  '` assertion passes, including the two trailing spaces.",
+      "references": "[PR #4766](https://github.com/RustPython/RustPython/pull/4766): preserve left alignment for negative dynamic widths.",
+      "derivation": "The original executable input is retained.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": ""
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/4762/issue-4762-case-01/source-01.py",
+          "sha256": "0941e3e88d10a2765597d3e425694e87f6709456f1c92445a474719888c0939b"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "repros/4762/issue-4762-case-01/source-01.py",
+        "sha256": "0941e3e88d10a2765597d3e425694e87f6709456f1c92445a474719888c0939b"
+      }
+    },
+    {
+      "issue": 4784,
+      "title": "docs.rs page linked in the readme doesn't exist \" rustpython-0.1.2 is not a library.\"",
+      "url": "https://github.com/RustPython/RustPython/issues/4784",
+      "case_ids": [
+        "issue-4784-case-01"
+      ],
+      "kind": "documentation",
+      "historical_sha": null,
+      "historical_selection": null,
+      "historical_summary": "The reported docs destination did not provide the expected API documentation.",
+      "current_summary": "The README destination serves RustPython 0.6.0 API documentation.",
+      "reason_to_close": "The README's docs.rs destination now serves published RustPython 0.6.0 API documentation. The linked API documentation is available, satisfying the original documentation-link report.",
+      "references": "[Published API documentation](https://docs.rs/rustpython/latest/rustpython/).",
+      "derivation": "The original executable input is retained.",
+      "expected": {},
+      "original_inputs": []
+    },
+    {
+      "issue": 4786,
+      "title": "Type name cannot contain surrogates",
+      "url": "https://github.com/RustPython/RustPython/issues/4786",
+      "case_ids": [
+        "issue-4786-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "010640ccc8f74f56075df09a654352ae3d162d25",
+      "historical_selection": {
+        "role": "closest_preissue_main_approximation",
+        "reason": "No case-specific executed revision or identifiable RustPython release."
+      },
+      "historical_summary": "Creates a type whose name contains a replacement character.",
+      "current_summary": "UnicodeEncodeError rejects the surrogate in the name (expected exit 1).",
+      "reason_to_close": "String literals preserve lone surrogates, and type-name validation rejects them. The original `type(\"A\\udcdcB\", (), {})` input now raises the expected `UnicodeEncodeError`, resolving the silent replacement-character behavior.",
+      "references": "[PR #5629](https://github.com/RustPython/RustPython/pull/5629): preserve surrogate literals; [PR #6547](https://github.com/RustPython/RustPython/pull/6547): validate type names as UTF-8.",
+      "derivation": "The transcript expression is wrapped in print(repr(...)) to expose a wrongly accepted type; the correct outcome is an uncaught UnicodeEncodeError.",
+      "expected": {
+        "exit_code": 1,
+        "stderr_contains": [
+          "UnicodeEncodeError",
+          "surrogates not allowed"
+        ]
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/4786/issue-4786-case-01/source-01.txt",
+          "sha256": "7861cfdf9d8fb62bc9677ff258f79b4c701b54612e2289728c9f34d5cb54f544"
+        },
+        {
+          "path": "original-02.txt",
+          "source_path": "repros/4786/issue-4786-case-01/source-02.txt",
+          "sha256": "c8b8ee4cac7b9b86c4ca8789d612c5bdccf6f0690d17b646edaeea2fcd3adc91"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "verification-tools/derived-transcripts/issue-4786-case-01/probe.py",
+        "sha256": "f1d38fc8c7642f20f50f0697b84742567d7f81b8b3dbb8ff9c5380100e89deee"
+      }
+    },
+    {
+      "issue": 4856,
+      "title": "Assertion failed: table.sub_tables.is_empty() when decorator class takes a lambda argument.",
+      "url": "https://github.com/RustPython/RustPython/issues/4856",
+      "case_ids": [
+        "issue-4856-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+      "historical_selection": {
+        "role": "reported_release_tag_proxy",
+        "reported_versions": [
+          "RustPython v0.2.0"
+        ],
+        "issue_created_at": "2023-04-06T11:01:44Z",
+        "actual_historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+        "closest_preissue_first_parent_check": "473d391ea0f1a817685a75b33ad379517a0df65e",
+        "matches_required_fallback": true,
+        "supplemental_approximate_sha": "473d391ea0f1a817685a75b33ad379517a0df65e",
+        "qualification": "Identifiable reported v0.2.0 prioritized; tag is a version proxy, not proof of exact reporter executable identity."
+      },
+      "historical_summary": "Compiler panic: table.sub_tables.is_empty().",
+      "current_summary": "compile_success (exit 0).",
+      "reason_to_close": "Class decorators are scanned before entering the class scope, matching code-generation order and keeping nested symbol tables aligned. The original source now compiles without the reported `table.sub_tables.is_empty()` panic.",
+      "references": "[PR #8138](https://github.com/RustPython/RustPython/pull/8138): correct class-decorator scope scanning order.",
+      "derivation": "The original source is compiled as a string. This directly exercises the reported compiler panic.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": "compile_success\n"
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/4856/issue-4856-case-01/source-01.txt",
+          "sha256": "84d529cdaed97efec604389dd7a85a5449989eca7357cc659e5ffcc34eff1ec1"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "verification-tools/derived-transcripts/issue-4856-case-01/compile-only.py",
+        "sha256": "141979a476c0ca41dfb8f5d3d0c3f787406556c3f1a9852eaa7384e351612794"
+      }
+    },
+    {
+      "issue": 4908,
+      "title": "ast.parse() fails to handle \"A[1:2, *l]\" after it is parsed and unparsed.",
+      "url": "https://github.com/RustPython/RustPython/issues/4908",
+      "case_ids": [
+        "issue-4908-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "471ec268737c789ba861a6f7762128fc2ed21323",
+      "historical_selection": {
+        "role": "reported_checkout_revision_identified_in_trace",
+        "reported_versions": [
+          "RustPython 0.2.0",
+          "checkout 471ec26 (traceback)",
+          "CPython 3.11.3"
+        ],
+        "issue_created_at": "2023-04-21T06:26:11Z",
+        "actual_historical_sha": "471ec268737c789ba861a6f7762128fc2ed21323",
+        "priority_note": "Use case-specific explicit revision ahead of issue-time approximation."
+      },
+      "historical_summary": "Unparses to A[(1:2, *l)]; reparsing raises SyntaxError.",
+      "current_summary": "A[1:2, *l] unparses and reparses successfully.",
+      "reason_to_close": "The unparser handles nonempty subscript tuples containing starred elements without introducing invalid parentheses around slices. `A[1:2, *l]` now unparses and reparses successfully, resolving the reported invalid-syntax output.",
+      "references": "[PR #5121](https://github.com/RustPython/RustPython/pull/5121): correct subscript-tuple unparsing.",
+      "derivation": "The original executable input is retained.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": "A[1:2, *l]\n"
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/4908/issue-4908-case-01/source-01.txt",
+          "sha256": "2254e70d209d3bcaad5a13be262e5c3ce43f23f1212235cf0b093711656db420"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "repros/4908/issue-4908-case-01/source-01.txt",
+        "sha256": "2254e70d209d3bcaad5a13be262e5c3ce43f23f1212235cf0b093711656db420"
+      }
+    },
+    {
+      "issue": 4937,
+      "title": "email.message_from_string.get() fails parses the special text",
+      "url": "https://github.com/RustPython/RustPython/issues/4937",
+      "case_ids": [
+        "issue-4937-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "02840593bc56ae416ba2646166628f1712d6cf43",
+      "historical_selection": {
+        "sha": "02840593bc56ae416ba2646166628f1712d6cf43",
+        "role": "case_specific_reported_revision",
+        "reason": "explicit original Environment revision"
+      },
+      "historical_summary": "Subject retrieval raises KeyError: x.",
+      "current_summary": "The same retrieval completes (exit 0).",
+      "reason_to_close": "Unknown encoded-word encodings are handled by the email parser's invalid-input recovery. Retrieving the original X-encoded Subject now completes without the reported `KeyError: x`.",
+      "references": "[PR #5663](https://github.com/RustPython/RustPython/pull/5663): email update that handles unknown encoded-word encodings.",
+      "derivation": "The original executable input is retained.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": ""
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/4937/issue-4937-case-01/source-01.txt",
+          "sha256": "d2890bd54019c86348cb7ae73890d8fdf83dd8b57daf97711bb2c02ce617df30"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "repros/4937/issue-4937-case-01/source-01.txt",
+        "sha256": "d2890bd54019c86348cb7ae73890d8fdf83dd8b57daf97711bb2c02ce617df30"
+      }
+    },
+    {
+      "issue": 5181,
+      "title": "`format()` does not support locales for 'n' presentation type",
+      "url": "https://github.com/RustPython/RustPython/issues/5181",
+      "case_ids": [
+        "issue-5181-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+      "historical_selection": {
+        "role": "closest_preissue_main_approximation",
+        "reason": "No case-specific identifiable runtime revision supplied."
+      },
+      "historical_summary": "With en_US.UTF-8: result '123456789', matches False.",
+      "current_summary": "With en_US.UTF-8: result '123,456,789', matches True.",
+      "reason_to_close": "The `n` formatter uses locale grouping and separator settings. With `en_US.UTF-8`, `format(123456789, 'n')` now returns `'123,456,789'`, satisfying the reported grouping requirement.",
+      "references": "[PR #7350](https://github.com/RustPython/RustPython/pull/7350): locale-aware numeric formatting.",
+      "derivation": "The locale is explicitly set to en_US.UTF-8 and the original expression result is printed.",
+      "expected": {
+        "exit_code": 0,
+        "stdout_contains": [
+          "result '123,456,789'",
+          "matches True"
+        ]
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/5181/issue-5181-case-01/source-01.py",
+          "sha256": "3bf86c2dc00a653f6134f4485c9af3a641fb17e6e0178c5c93ae5090a1ecff4e"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "verification-tools/derived-transcripts/issue-5181-case-01/probe.py",
+        "sha256": "e69991c5c269b451f43b612ceff8276d59229abf8f097d58556d1fff67c39b19"
+      }
+    },
+    {
+      "issue": 5656,
+      "title": "Not properly checking for invalid escape seqeunce \\X",
+      "url": "https://github.com/RustPython/RustPython/issues/5656",
+      "case_ids": [
+        "issue-5656-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "c3ed002b1204d9ff156b5192b634a4056101b255",
+      "historical_selection": "approximate closest first-parent before issue creation; independently verified",
+      "historical_summary": "The assertion passes without the required invalid-escape warning.",
+      "current_summary": "The assertion passes and stderr contains SyntaxWarning for \\X.",
+      "reason_to_close": "Compilation detects invalid escapes in bytes literals and emits the corresponding warning. The original bytes assertion still passes and now emits the missing `SyntaxWarning` for `\\X`, satisfying the report.",
+      "references": "[PR #7164](https://github.com/RustPython/RustPython/pull/7164): invalid string and bytes escape warnings.",
+      "derivation": "The original executable input is retained.",
+      "expected": {
+        "exit_code": 0,
+        "stderr_contains": [
+          "SyntaxWarning",
+          "\\X"
+        ]
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/5656/issue-5656-case-01/source-01.py",
+          "sha256": "ff9e66256ffa467422e5318d4a1c25fae278e53e13afcb463d19e7158e795c2a"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "repros/5656/issue-5656-case-01/source-01.py",
+        "sha256": "ff9e66256ffa467422e5318d4a1c25fae278e53e13afcb463d19e7158e795c2a"
+      }
+    },
+    {
+      "issue": 6429,
+      "title": "`sysconfig.get_config_var('Py_GIL_DISABLED')` returns `None`",
+      "url": "https://github.com/RustPython/RustPython/issues/6429",
+      "case_ids": [
+        "issue-6429-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "e227956a58f0f072f8be177264e0fdc1b9280e8a",
+      "historical_selection": "\uc774\uc288 \uc0dd\uc131 \uc9c1\uc804 main\uc758 \uadfc\uc0ac\uce58\uc774\uba70 \ubcf4\uace0\uc790\uc758 \uc815\ud655\ud55c \uc2e4\ud589 SHA\ub294 \ubbf8\uc0c1\uc774\ub2e4.",
+      "historical_summary": "Py_GIL_DISABLED is None.",
+      "current_summary": "Py_GIL_DISABLED is 1 on the tested POSIX build.",
+      "reason_to_close": "Build-time configuration now defines `Py_GIL_DISABLED` as `1`. On POSIX/macOS, `sysconfig.get_config_var(\"Py_GIL_DISABLED\")` returns `1`, resolving the reported missing configuration value.",
+      "references": "[PR #6428](https://github.com/RustPython/RustPython/pull/6428): expose `Py_GIL_DISABLED` in build-time variables.",
+      "derivation": "The missing import is supplied and the queried value is printed.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": "1\n"
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/6429/issue-6429-case-01/source-01.py",
+          "sha256": "6e579d0df82802c98d36dd1b55a2f0681fc36bb94a0ac673cfa320a5ea214b40"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "verification-tools/derived-main/issue-6429-case-01.py",
+        "sha256": "ec20490d33bb57f3f9f86c7d16b9ba7acc9b2c982795c34da4421fb0d1dffc9d"
+      }
+    },
+    {
+      "issue": 6790,
+      "title": "Support xz",
+      "url": "https://github.com/RustPython/RustPython/issues/6790",
+      "case_ids": [
+        "issue-6790-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "ed785e3d868966e2a5f7478632cabd5a630e6934",
+      "historical_selection": "\uc6d0\ubb38\uc774 \uc9c1\uc811 \uc5f0\uacb0\ud55c source revision\uacfc \uc774\uc288 \uc0dd\uc131 \uc9c1\uc804 main\uc774 \uac19\uc740 ed785e3d\ub2e4. \ubcf4\uace0\uc790\uac00 \uc2e4\uc81c \uc2e4\ud589\ud55c \uc815\ud655\ud55c \ubc14\uc774\ub108\ub9ac\ub77c\uace0 \uc8fc\uc7a5\ud558\uc9c0 \uc54a\ub294\ub2e4.",
+      "historical_summary": "The decorated function raises SkipTest: requires lzma.",
+      "current_summary": "skip False; reason None; invoked success.",
+      "reason_to_close": "The unconditional `lzma = None` override was removed from `requires_lzma`. With the module available, `requires_lzma()(dummy)` now invokes the function successfully; the requested removal of the forced skip is complete.",
+      "references": "[PR #7896](https://github.com/RustPython/RustPython/pull/7896): remove the unconditional lzma skip override.",
+      "derivation": "A derived probe applies requires_lzma()(dummy), then invokes the wrapped function and records whether it skips.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": "skip False\nreason None\ninvoked success\n"
+      },
+      "original_inputs": [],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "verification-tools/derived-history/6790-support-gate-corrected.py",
+        "sha256": "3969afa08972ca862c6e6e7c13a6bc7e88eed8cbe6ed47c6a6cba164e2dfd6bc"
+      }
+    },
+    {
+      "issue": 8052,
+      "title": "`type(...).__name__` is `'EllipsisType'` instead of `'ellipsis'`",
+      "url": "https://github.com/RustPython/RustPython/issues/8052",
+      "case_ids": [
+        "issue-8052-case-01"
+      ],
+      "kind": "script",
+      "historical_sha": "83fe92042112f9db89a70495b552ab433d77e751",
+      "historical_selection": null,
+      "historical_summary": "EllipsisType and <class 'EllipsisType'>.",
+      "current_summary": "ellipsis and <class 'ellipsis'>, matching CPython.",
+      "reason_to_close": "The built-in type is now named `ellipsis`. The original query returns `ellipsis` and `<class 'ellipsis'>`, matching CPython and resolving both reported naming outputs.",
+      "references": "[PR #8580](https://github.com/RustPython/RustPython/pull/8580): correct the Ellipsis type name.",
+      "derivation": "The original executable input is retained.",
+      "expected": {
+        "exit_code": 0,
+        "stdout": "ellipsis\n<class 'ellipsis'>\n"
+      },
+      "original_inputs": [
+        {
+          "path": "original-01.txt",
+          "source_path": "repros/8052/issue-8052-case-01/source-01.py",
+          "sha256": "92841136588c0241553f8bc6de0d1fbe4ddb1e945a2bfbe8c3c8ccbca0d9e18c"
+        }
+      ],
+      "input": "repro.py",
+      "recorded_input": {
+        "path": "recorded-input.txt",
+        "source_path": "repros/8052/issue-8052-case-01/source-01.py",
+        "sha256": "92841136588c0241553f8bc6de0d1fbe4ddb1e945a2bfbe8c3c8ccbca0d9e18c"
+      }
+    }
+  ]
+}

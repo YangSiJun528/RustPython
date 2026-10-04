@@ -1,0 +1,11 @@
+# In CPython
+>>> type(dict.__dict__["fromkeys"])
+<class 'classmethod_descriptor'>
+>>> type(dict.fromkeys)
+<class 'builtin_function_or_method'>
+
+# In RustPython
+>>>>> type(dict.__dict__["fromkeys"])
+<class 'classmethod'>
+>>>>> type(dict.fromkeys)
+<class 'builtin_function_or_method'>

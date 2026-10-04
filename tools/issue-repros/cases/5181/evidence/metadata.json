@@ -1,0 +1,122 @@
+{
+  "recorded_on": "2026-10-04",
+  "log_transform": "Local user/checkouts paths are replaced with placeholders; terminal ANSI sequences are retained.",
+  "runs": {
+    "historical": {
+      "command": [
+        "<survey>/.build/slot-a/release/rustpython",
+        "<survey>/verification-tools/derived-transcripts/issue-5181-case-01/probe.py"
+      ],
+      "cwd": "<checkout>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+      "binary_sha256": "92a6951391fb89d6e3a92a2213554361cb777e9c110d03d0b50a1400dd7bdc51",
+      "exit_code": 0,
+      "timeout": false,
+      "code_sha256": "e69991c5c269b451f43b612ceff8276d59229abf8f097d58556d1fff67c39b19",
+      "source_record": "logs/issue-5181-case-01/historical-a8ab7dd388-01-e69991c5-92a69513.stdout",
+      "logs": {
+        "stdout": {
+          "path": "historical.stdout.txt",
+          "source_sha256": "0433b605bb301a008381cb077ae0bca9705660909099719d6a3ea2117925bf8b",
+          "export_sha256": "0433b605bb301a008381cb077ae0bca9705660909099719d6a3ea2117925bf8b"
+        },
+        "stderr": {
+          "path": "historical.stderr.txt",
+          "source_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+          "export_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.75.0 (82e1608df 2023-12-21)\nbinary: rustc\ncommit-hash: 82e1608dfa6e0b5569232559e3d385fea5a93112\ncommit-date: 2023-12-21\nhost: aarch64-apple-darwin\nrelease: 1.75.0\nLLVM version: 17.0.6\n",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "arch": "arm64",
+        "command": [
+          "cargo",
+          "+1.75.0",
+          "build",
+          "--release",
+          "--locked",
+          "--target-dir",
+          "<survey>/.build/slot-a"
+        ],
+        "cargo_lock_sha256": "ec3ddfce1230c57242fe09420f4c541d89211a57074d5dde3898f993ac0c9e67",
+        "version_banner": "3.12.0alpha (tags/0.3.0-170-ga8ab7dd38:a8ab7dd38, Feb 21 2024, 12:02:54) \n[rustc 1.75.0]\n",
+        "binary_sha256": "92a6951391fb89d6e3a92a2213554361cb777e9c110d03d0b50a1400dd7bdc51"
+      }
+    },
+    "current": {
+      "command": [
+        "<survey>/.build/slot-a/release/rustpython",
+        "<survey>/verification-tools/derived-transcripts/issue-5181-case-01/probe.py"
+      ],
+      "cwd": "<survey>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit_code": 0,
+      "timeout": false,
+      "derivation": [
+        "Explicitly establish reported US locale missing from snippet, print actual value and original comparison expression."
+      ],
+      "source_record": "logs/issue-5181-case-01/current-documented-020.stdout",
+      "logs": {
+        "stdout": {
+          "path": "current.stdout.txt",
+          "source_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+          "export_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e"
+        },
+        "stderr": {
+          "path": "current.stderr.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "architecture": "arm64",
+        "build_command": "cargo +1.99.0 build --release --locked --target-dir cleanup-issues/2026-10-04T155029+0900/.build/slot-a",
+        "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe"
+      }
+    },
+    "cpython": {
+      "command": [
+        "python3",
+        "<survey>/verification-tools/derived-transcripts/issue-5181-case-01/probe.py"
+      ],
+      "cwd": "<survey>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": null,
+      "binary_sha256": null,
+      "exit_code": 0,
+      "timeout": false,
+      "derivation": [
+        "Explicitly establish reported US locale missing from snippet, print actual value and original comparison expression."
+      ],
+      "source_record": "logs/issue-5181-case-01/cpython-documented-020.stdout",
+      "logs": {
+        "stdout": {
+          "path": "cpython.stdout.txt",
+          "source_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+          "export_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e"
+        },
+        "stderr": {
+          "path": "cpython.stderr.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "build": {}
+    }
+  }
+}

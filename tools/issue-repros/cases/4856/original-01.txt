@@ -1,0 +1,10 @@
+import unittest
+from unittest import mock
+
+class MockedA(BaseFTests):
+    pass
+
+@mock.patch("", lambda: 3)
+class MockedB(MockedA):
+    def _asserts(self, val):
+        pass

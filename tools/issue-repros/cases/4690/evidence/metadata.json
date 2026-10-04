@@ -1,0 +1,122 @@
+{
+  "recorded_on": "2026-10-04",
+  "log_transform": "Local user/checkouts paths are replaced with placeholders; terminal ANSI sequences are retained.",
+  "runs": {
+    "historical": {
+      "command": [
+        "<survey>/.build/slot-a/release/rustpython",
+        "<survey>/verification-tools/derived-transcripts/issue-4690-case-01/probe.py"
+      ],
+      "cwd": "<checkout>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "8ff947e83a65b74c920edc63aed8a0a5854b8612",
+      "binary_sha256": "64952562b4fff651a93257d988091f28a1cbcbd5d1d1abfd415eff7eb1388fc9",
+      "exit_code": 0,
+      "timeout": false,
+      "code_sha256": "61871ee725ff3c4446199c3e6298b5f503e35877c3774ab93c3e6540cee3f017",
+      "source_record": "logs/issue-4690-case-01/historical-8ff947e83a-01-61871ee7-64952562.stdout",
+      "logs": {
+        "stdout": {
+          "path": "historical.stdout.txt",
+          "source_sha256": "246626924698a6ee460f4351276089fa3ae5ca0c7d1e729c3e581e82c3a26134",
+          "export_sha256": "246626924698a6ee460f4351276089fa3ae5ca0c7d1e729c3e581e82c3a26134"
+        },
+        "stderr": {
+          "path": "historical.stderr.txt",
+          "source_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+          "export_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "arch": "arm64",
+        "command": [
+          "cargo",
+          "+1.67.1",
+          "build",
+          "--release",
+          "--locked",
+          "--target-dir",
+          "<survey>/.build/slot-a"
+        ],
+        "cargo_lock_sha256": "ecb7595dd357dab30944b4827340d01d5420191208ad48822baf291eb934f2b4",
+        "version_banner": "3.11.0alpha (tags/v0.2.0-472-g8ff947e83:8ff947e83, Mar 14 2023, 00:36:19) \n[rustc 1.67.1]\n",
+        "binary_sha256": "64952562b4fff651a93257d988091f28a1cbcbd5d1d1abfd415eff7eb1388fc9"
+      }
+    },
+    "current": {
+      "command": [
+        "<survey>/.build/slot-a/release/rustpython",
+        "<survey>/verification-tools/derived-transcripts/issue-4690-case-01/probe.py"
+      ],
+      "cwd": "<survey>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit_code": 0,
+      "timeout": false,
+      "derivation": [
+        "Remove prompts/output and duplicate interpreter blocks; observe both original type expressions as names."
+      ],
+      "source_record": "logs/issue-4690-case-01/current-documented-012.stdout",
+      "logs": {
+        "stdout": {
+          "path": "current.stdout.txt",
+          "source_sha256": "f2a69a10545639d8b31c260bdf059535a5ab45400b8ac2edf62f6648f81af109",
+          "export_sha256": "f2a69a10545639d8b31c260bdf059535a5ab45400b8ac2edf62f6648f81af109"
+        },
+        "stderr": {
+          "path": "current.stderr.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "architecture": "arm64",
+        "build_command": "cargo +1.99.0 build --release --locked --target-dir cleanup-issues/2026-10-04T155029+0900/.build/slot-a",
+        "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe"
+      }
+    },
+    "cpython": {
+      "command": [
+        "python3",
+        "<survey>/verification-tools/derived-transcripts/issue-4690-case-01/probe.py"
+      ],
+      "cwd": "<survey>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": null,
+      "binary_sha256": null,
+      "exit_code": 0,
+      "timeout": false,
+      "derivation": [
+        "Remove prompts/output and duplicate interpreter blocks; observe both original type expressions as names."
+      ],
+      "source_record": "logs/issue-4690-case-01/cpython-documented-012.stdout",
+      "logs": {
+        "stdout": {
+          "path": "cpython.stdout.txt",
+          "source_sha256": "f2a69a10545639d8b31c260bdf059535a5ab45400b8ac2edf62f6648f81af109",
+          "export_sha256": "f2a69a10545639d8b31c260bdf059535a5ab45400b8ac2edf62f6648f81af109"
+        },
+        "stderr": {
+          "path": "cpython.stderr.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "build": {}
+    }
+  }
+}

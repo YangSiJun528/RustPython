@@ -1,0 +1,4 @@
+skip True
+reason requires lzma
+invoked SkipTest
+skip_message requires lzma

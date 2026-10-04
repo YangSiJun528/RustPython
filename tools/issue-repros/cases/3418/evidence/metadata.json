@@ -1,0 +1,116 @@
+{
+  "recorded_on": "2026-10-04",
+  "log_transform": "Local user/checkouts paths are replaced with placeholders; terminal ANSI sequences are retained.",
+  "runs": {
+    "historical": {
+      "command": [
+        "<survey>/.build/slot-a/release/rustpython",
+        "<survey>/repros/3418/issue-3418-case-01/source-01.py"
+      ],
+      "cwd": "<checkout>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "40fd9c2683d76adf2b9ed0d77c055e2d2514c27d",
+      "binary_sha256": "926dce703c4ccb75258e3977bbeb254b92b67a6a51090dcc06562424e96f2c0c",
+      "exit_code": 1,
+      "timeout": false,
+      "code_sha256": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6",
+      "source_record": "logs/issue-3418-case-01/historical-40fd9c2683-01-6d0bb7be-926dce70.stdout",
+      "logs": {
+        "stdout": {
+          "path": "historical.stdout.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "historical.stderr.txt",
+          "source_sha256": "7ac8b41d4808d6ef08dfab5bb90d155d1f60bb2e60c3ca77dca82aa4606dc79d",
+          "export_sha256": "8e2e308fd7077c3cf1fedefccb0164903df4f895ac09fd5de9c898590c3dd421"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.56.1 (59eed8a2a 2021-11-01)\nbinary: rustc\ncommit-hash: 59eed8a2aac0230a8b53e89d4e99d55912ba6b35\ncommit-date: 2021-11-01\nhost: aarch64-apple-darwin\nrelease: 1.56.1\nLLVM version: 13.0.0\n",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "arch": "arm64",
+        "command": [
+          "cargo",
+          "+1.56.1",
+          "build",
+          "--release",
+          "--locked",
+          "--target-dir",
+          "<survey>/.build/slot-a"
+        ],
+        "cargo_lock_sha256": "212eec719dde213ddff57fb20f03c0c4455fd8194a3a1a0f26effaf1870eb095",
+        "version_banner": "3.9.0alpha (tags/0.1.0-6735-g40fd9c268:40fd9c268, Nov  6 2021, 14:26:21) \n[rustc 1.56.1]\n",
+        "binary_sha256": "926dce703c4ccb75258e3977bbeb254b92b67a6a51090dcc06562424e96f2c0c"
+      }
+    },
+    "current": {
+      "command": [
+        "<survey>/.build/slot-a/release/rustpython",
+        "<survey>/repros/3418/issue-3418-case-01/source-01.py"
+      ],
+      "cwd": "<checkout>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit_code": 0,
+      "timeout": false,
+      "source_record": "logs/issue-3418-case-01/current-01.stdout",
+      "logs": {
+        "stdout": {
+          "path": "current.stdout.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "current.stderr.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "architecture": "arm64",
+        "build_command": "cargo +1.99.0 build --release --locked --target-dir cleanup-issues/2026-10-04T155029+0900/.build/slot-a",
+        "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe"
+      }
+    },
+    "cpython": {
+      "command": [
+        "python3",
+        "<survey>/repros/3418/issue-3418-case-01/source-01.py"
+      ],
+      "cwd": "<checkout>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": null,
+      "binary_sha256": null,
+      "exit_code": 0,
+      "timeout": false,
+      "source_record": "logs/issue-3418-case-01/cpython-01.stdout",
+      "logs": {
+        "stdout": {
+          "path": "cpython.stdout.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "cpython.stderr.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "build": {}
+    }
+  }
+}

@@ -1,0 +1,14 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+Traceback (most recent call last):
+  File "<survey>/repros/4908/issue-4908-case-01/source-01.txt", line 7, in <module>
+    tree_2 = ast.parse(code_2)  #fail
+  File "<checkout>/pylib/Lib/ast.py", line 51, in parse
+    _feature_version=feature_version)
+SyntaxError: invalid syntax. Got unexpected token ':' at line 1 column 5
+A[(1:2, *l)]
+    ^

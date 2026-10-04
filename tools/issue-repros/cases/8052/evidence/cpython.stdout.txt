@@ -1,0 +1,2 @@
+ellipsis
+<class 'ellipsis'>

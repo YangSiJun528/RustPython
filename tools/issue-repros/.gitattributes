@@ -1,0 +1,4 @@
+# Preserve imported input and terminal log bytes, including CRLF and blank lines.
+cases/*/original-*.txt -text -whitespace
+cases/*/recorded-input.txt -text -whitespace
+cases/*/evidence/*.txt -text -whitespace

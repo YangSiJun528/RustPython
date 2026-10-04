@@ -1,0 +1,1 @@
+sysconfig.get_config_var('Py_GIL_DISABLED')

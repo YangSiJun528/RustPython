@@ -1,0 +1,8 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+thread 'main' panicked at 'assertion failed: table.sub_tables.is_empty()', compiler/codegen/src/compile.rs:305:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace

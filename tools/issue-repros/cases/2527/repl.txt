@@ -1,0 +1,5 @@
+for i in range(10):
+    i
+
+with open('repl-output.txt', 'w') as f:
+    f.write('hello')

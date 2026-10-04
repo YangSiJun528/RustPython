@@ -1,0 +1,20 @@
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+[WARN  rustpython_vm::pyobjectrc] couldn't run __del__ method for object
+Traceback (most recent call last):
+  File "<survey>/verification-tools/derived-transcripts/issue-3430-case-01/probe.py", line 2, in <module>
+    result = etree.XML("<root></root>")
+  File "<checkout>/vm/pylib-crate/Lib/xml/etree/ElementTree.py", line 1319, in XML
+    parser = XMLParser(target=TreeBuilder())
+  File "<checkout>/vm/pylib-crate/Lib/xml/etree/ElementTree.py", line 1508, in __init__
+    parser = expat.ParserCreate(encoding, "}")
+TypeError: Expected type 'str', not 'NoneType'
