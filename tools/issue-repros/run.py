@@ -275,29 +275,103 @@ def render_recorded(manifest):
         "Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. "
         "The linked execution metadata records the historical build toolchain."
     )
-    brief_results = {
-        2527: "REPL block expressions display their values.",
-        3418: "Native OrderedDict import succeeds.",
-        3430: "ElementTree parses the reported XML input.",
-        4527: "The global object's finalizer runs at shutdown.",
-        4690: "The raw class-method descriptor matches CPython.",
-        4762: "Negative format widths correctly select left alignment.",
-        4784: "The README link serves API documentation.",
-        4786: "Surrogate type names raise UnicodeEncodeError.",
-        4856: "The decorated-class source compiles without the panic.",
-        4908: "The AST parse/unparse round trip succeeds.",
-        4937: "The reported email Subject is retrieved without KeyError.",
-        5181: "The n format respects en_US.UTF-8 grouping.",
-        5656: "The invalid bytes escape emits SyntaxWarning.",
-        6429: "Py_GIL_DISABLED returns 1 on the tested POSIX build.",
-        6790: "The unconditional lzma test skip is removed.",
-        8052: "The Ellipsis type name and repr match CPython.",
+    submission_results = {
+        2527: (
+            "REPL expressions inside blocks",
+            "The original loop and `with` block previously displayed no expression values. "
+            "They now display `0`–`9` and `5`, respectively, in the Linux REPL with `TERM=xterm`.",
+        ),
+        3418: (
+            "Native `OrderedDict` export",
+            "`from _collections import OrderedDict` previously raised `ImportError`. "
+            "The native implementation is now exported and the import succeeds.",
+        ),
+        3430: (
+            "ElementTree parsing valid XML",
+            '`etree.XML("<root></root>")` previously raised a `TypeError` for a `None` encoding. '
+            "It now returns an empty `root` element; the parser accepts that encoding argument.",
+        ),
+        4527: (
+            "Finalization of a global object",
+            "The original object's `__del__` previously produced no output at shutdown. "
+            "It now prints `deleted!` when the interpreter clears the module globals.",
+        ),
+        4690: (
+            "Native class-method descriptor type",
+            '`type(dict.__dict__["fromkeys"]).__name__` now returns '
+            "`classmethod_descriptor` instead of `classmethod`, matching CPython. "
+            "Native class methods use the dedicated descriptor type.",
+        ),
+        4762: (
+            "Negative dynamic format width",
+            "The original `'%*s' % (-5, 'abc') == 'abc  '` assertion now passes. "
+            "Negative width selects left alignment, including the required two trailing spaces.",
+        ),
+        4784: (
+            "README API documentation link",
+            "The linked docs.rs page previously reported that `rustpython-0.1.2` was not a library. "
+            "The README destination now serves the published RustPython 0.6.0 API documentation.",
+        ),
+        4786: (
+            "Surrogate in a type name",
+            '`type("A\\udcdcB", (), {})` previously created a class with a replacement character. '
+            "It now raises the expected `UnicodeEncodeError`: the literal preserves the surrogate "
+            "and type-name validation rejects it.",
+        ),
+        4856: (
+            "Compiler panic with a lambda in a class decorator",
+            "Compiling the original decorated-class source now succeeds without the "
+            "`table.sub_tables.is_empty()` panic. Decorator scope scanning now matches "
+            "code-generation order.",
+        ),
+        4908: (
+            "AST round trip for a starred subscript",
+            "Unparsing `A[1:2, *l]` previously produced invalid `A[(1:2, *l)]`. "
+            "It now preserves valid subscript syntax and reparses successfully.",
+        ),
+        4937: (
+            "Email Subject with an unknown encoding",
+            "Retrieving the original X-encoded Subject now completes without `KeyError: x`. "
+            "The email parser handles the unknown encoded-word encoding through its invalid-input recovery.",
+        ),
+        5181: (
+            "Locale-aware `n` formatting",
+            "With `en_US.UTF-8` selected, `format(123456789, 'n')` now returns "
+            "`'123,456,789'` instead of `'123456789'`, using the locale's grouping and separator.",
+        ),
+        5656: (
+            "Invalid escape warning in a bytes literal",
+            "The original bytes assertion still passes, but compilation now emits the previously "
+            "missing `SyntaxWarning` for `\\X`. Both the bytes value and the warning were checked.",
+        ),
+        6429: (
+            "`Py_GIL_DISABLED` configuration value",
+            "`sysconfig.get_config_var('Py_GIL_DISABLED')` now returns `1` instead of `None` "
+            "on the tested POSIX/macOS build. The value is defined in the build-time configuration.",
+        ),
+        6790: (
+            "Forced lzma test skip",
+            "The unconditional `lzma = None` override has been removed. With lzma available, "
+            "`requires_lzma()(dummy)` now invokes the function instead of raising `SkipTest`, "
+            "satisfying the requested removal of the forced skip.",
+        ),
+        8052: (
+            "Ellipsis type name",
+            "`type(...).__name__` and the type's repr now give `ellipsis` and "
+            "`<class 'ellipsis'>`, matching CPython, in place of the previous `EllipsisType` spelling.",
+        ),
     }
     aggregate = [
         "# Review 16 resolved issues for closure",
         "",
-        f"The reported behaviors below were verified on {current_link} on October 4, 2026; the documentation link was checked separately. "
-        "Could you review the linked reproduction results and close these issues?",
+        "I rechecked the 16 reports below and found that their reported failures or missing behaviors are resolved. "
+        "Could you review these results and close the corresponding issues?",
+        "",
+        f"Verification used {current_link} on October 4, 2026: macOS ARM64 for the script comparisons, "
+        "Linux ARM64 for the interactive REPL, and a separate HTTP check for the documentation link. "
+        "Each linked report contains direct reproduction commands, historical/current results and supporting evidence.",
+        "",
+        "The related PRs contain source changes matching these results; the exact first fixing commit was not established.",
         "",
     ]
     index = []
@@ -308,9 +382,15 @@ def render_recorded(manifest):
         historical = historical_label(item)
         steps = reproduction_steps(item)
         index.append(f"- [{title}](cases/{number}/README.md)")
-        aggregate.append(
-            f"- [#{number}]({item['url']}) — {brief_results[number]} "
-            f"[Report](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/cases/{number}/README.md)"
+        subject, comparison = submission_results[number]
+        aggregate.extend(
+            [
+                f"- **[#{number}]({item['url']}) — {subject}.**",
+                f"  {comparison}",
+                f"  {item['references']} "
+                f"[Reproduction and results](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/cases/{number}/README.md).",
+                "",
+            ]
         )
         text = [
             f"# {title}",
@@ -380,7 +460,6 @@ def render_recorded(manifest):
         (case / "README.md").write_text("\n".join(text))
     aggregate.extend(
         [
-            "",
             "AI assistance: verification and drafting with OpenAI Codex.",
             "",
         ]

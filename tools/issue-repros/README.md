@@ -5,7 +5,8 @@ This directory contains 14 script checks, one interactive check covering two
 REPL examples, and one documentation URL check. The interpreter baseline is
 [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
 
-- [Short issue submission draft](report.md): a closure request and links to each report.
+- [Combined issue submission draft](report.md): a closure request with each issue's
+  before/after behavior, related changes and link to its detailed report.
 - [Detailed reports](cases/): reproduction commands, before/after results,
   analysis and relevant PRs in a separate file for each issue.
 - [Case definitions and expected results](manifest.json)
