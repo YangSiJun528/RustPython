@@ -5,12 +5,13 @@ This directory contains 14 script checks, one interactive check covering two
 REPL examples, and one documentation URL check. The interpreter baseline is
 [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
 
-- [Combined issue draft, in bullet form](report.md)
+- [Combined issue draft, in bullet form](report.md), with direct reproduction
+  commands, before/after results and analysis.
 - [Case definitions and expected results](manifest.json)
 - [Local validation record](VALIDATION.md)
 - Individual inputs, commands and recorded evidence are under `cases/<issue>/`.
 
-## Run locally
+## Optional local batch runner
 
 Use a POSIX host (Linux or macOS) with Python 3. From the repository root, build RustPython and launch the host-side runner:
 

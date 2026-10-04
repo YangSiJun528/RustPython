@@ -1,25 +1,28 @@
 # #4784 — docs.rs page linked in the readme doesn't exist " rustpython-0.1.2 is not a library."
 
-The README's docs.rs destination now serves published RustPython 0.6.0 API documentation. The linked API documentation is available, satisfying the original documentation-link report.
+Original issue: [#4784](https://github.com/RustPython/RustPython/issues/4784)
 
-Original issue: [https://github.com/RustPython/RustPython/issues/4784](https://github.com/RustPython/RustPython/issues/4784)
-
-## Reproduce locally
+## Reproduction procedure
 
 ```sh
-sh tools/issue-repros/cases/4784/check.sh
+curl --fail --location https://docs.rs/rustpython
 ```
 
-The response should be the RustPython API documentation after redirects. The recorded check served version 0.6.0. This command performs a read-only HTTP request.
+Follow redirects and inspect the returned API documentation. The recorded response was the RustPython 0.6.0 API page.
 
-## Recorded comparison
+## Before and after
 
-- Historical result: The reported docs destination did not provide the expected API documentation.
-- Current result: The README destination serves RustPython 0.6.0 API documentation.
-- [Recorded HTTP checks](evidence/http-checks.json).
+- **Before — Original documentation-link report:** The reported docs destination did not provide the expected API documentation.
+- **After — documentation checked October 4, 2026:** The README destination serves RustPython 0.6.0 API documentation.
 
-## Related change
+## Analysis and closure rationale
+
+The README's docs.rs destination now serves published RustPython 0.6.0 API documentation. The linked API documentation is available, satisfying the original documentation-link report.
 
 [Published API documentation](https://docs.rs/rustpython/latest/rustpython/).
 
-AI assistance: OpenAI Codex assisted with verification, evidence selection, executable packaging and drafting.
+## Recorded evidence
+
+- [HTTP checks](evidence/http-checks.json).
+
+AI assistance: OpenAI Codex assisted with verification, evidence analysis and drafting.

@@ -5,6 +5,10 @@ Validated locally on October 5, 2026 (Asia/Seoul), with RustPython source at
 
 ## Reproducer checks
 
+- The revised reports contain direct interpreter commands. All 14 script commands
+  were copied from the documents and executed successfully through the shell.
+  The documented Linux REPL startup command and both input blocks also passed.
+  These checks used the baseline binaries listed below.
 - All 14 script checks passed on macOS ARM64 using the recorded baseline binary.
 - Both #2527 blocks passed through the new PTY runner on Linux ARM64:
   the loop displayed 0–9 and the `with` block displayed 5.

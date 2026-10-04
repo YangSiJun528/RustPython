@@ -1,25 +1,19 @@
 # #6790 — Support xz
 
-The unconditional `lzma = None` override was removed from `requires_lzma`. With the module available, `requires_lzma()(dummy)` now invokes the function successfully; the requested removal of the forced skip is complete.
+Original issue: [#6790](https://github.com/RustPython/RustPython/issues/6790)
 
-Original issue: [https://github.com/RustPython/RustPython/issues/6790](https://github.com/RustPython/RustPython/issues/6790)
+## Reproduction procedure
 
-## Reproduce locally
-
-Build from the repository root with `cargo build --release --locked`, then run:
+Run from a RustPython checkout of the revision being tested. The recorded current revision is [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c). Build its default-feature release interpreter:
 
 ```sh
-python3 tools/issue-repros/run.py \
-  --rustpython "$PWD/target/release/rustpython" \
-  --stdlib "$PWD/Lib" \
-  --issue 6790
+cargo build --release --locked
 ```
 
-The Python 3 host script launches the supplied RustPython executable in a temporary directory. It writes a fresh `report.md`, `result.json`, stdout and stderr under the printed local output path.
+The commands below invoke RustPython directly and include the reproduction input. The runtime comparisons were recorded on macOS ARM64, except the REPL comparison on Linux ARM64.
 
-Input: [repro.py](repro.py)
-
-```python
+```sh
+RUSTPYTHONPATH="$PWD/Lib" ./target/release/rustpython -c '
 import unittest
 
 from test import support
@@ -38,28 +32,30 @@ try:
 except unittest.SkipTest as exc:
     print("invoked", "SkipTest")
     print("skip_message", str(exc))
+'
 ```
 
-A derived probe applies requires_lzma()(dummy), then invokes the wrapped function and records whether it skips.
+Use the matching RustPython standard library, including `test.support`, with lzma available. The function is actually invoked after applying the decorator.
 
-Use the matching RustPython `Lib` tree, including `test.support`, with lzma available.
+## Before and after
 
-## Recorded comparison
+- **Before — [ed785e3d8689](https://github.com/RustPython/RustPython/commit/ed785e3d868966e2a5f7478632cabd5a630e6934) (source revision linked in the report):** The decorated function raises SkipTest: requires lzma.
+- **After — [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c):** skip False; reason None; invoked success.
 
-- Historical result: The decorated function raises SkipTest: requires lzma.
-- Current result: skip False; reason None; invoked success.
-- Historical revision: [ed785e3d868966e2a5f7478632cabd5a630e6934](https://github.com/RustPython/RustPython/commit/ed785e3d868966e2a5f7478632cabd5a630e6934).
-- Current revision: [f39b054b9c8cbbf884f53123eef028131789990c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
-- Environment: macOS 26.5.2 ARM64; default-feature release builds.
-- Baseline selection: the source revision linked by the original report.
-- [Execution metadata and log hashes](evidence/metadata.json).
-- [Historical stdout](evidence/historical.stdout.txt) / [current stdout](evidence/current.stdout.txt).
-- [Historical stderr](evidence/historical.stderr.txt) / [current stderr](evidence/current.stderr.txt).
+To repeat a historical comparison, use the same input with an interpreter built from the listed historical revision and that checkout's standard library. Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. The linked execution metadata records the historical build toolchain.
 
-## Related change
+## Analysis and closure rationale
+
+The unconditional `lzma = None` override was removed from `requires_lzma`. With the module available, `requires_lzma()(dummy)` now invokes the function successfully; the requested removal of the forced skip is complete.
 
 [PR #7896](https://github.com/RustPython/RustPython/pull/7896): remove the unconditional lzma skip override.
 
 These source changes match the observed behavior. The exact first-fixing commit was not established by executing each change and its parent.
 
-AI assistance: OpenAI Codex assisted with verification, evidence selection, executable packaging and drafting.
+## Recorded evidence
+
+- [Execution metadata, toolchain and log hashes](evidence/metadata.json).
+- [Historical stdout](evidence/historical.stdout.txt) / [current stdout](evidence/current.stdout.txt).
+- [Historical stderr](evidence/historical.stderr.txt) / [current stderr](evidence/current.stderr.txt).
+
+AI assistance: OpenAI Codex assisted with verification, evidence analysis and drafting.

@@ -170,149 +170,188 @@ def run_repl(binary, source, env, cwd, timeout):
     }
 
 
+def reproduction_steps(item):
+    """Commands for readers to reproduce behavior directly in RustPython."""
+    number = item["issue"]
+    case = BUNDLE / "cases" / str(number)
+    if item["kind"] == "documentation":
+        return [
+            "```sh",
+            "curl --fail --location https://docs.rs/rustpython",
+            "```",
+            "",
+            "Follow redirects and inspect the returned API documentation. The recorded response was the RustPython 0.6.0 API page.",
+        ]
+    if item["kind"] == "repl":
+        return [
+            "On Linux, start the interactive interpreter in a scratch directory with a writable history directory:",
+            "",
+            "```sh",
+            "(",
+            '  rustpython_repro_bin="$PWD/target/release/rustpython"',
+            '  rustpython_repro_lib="$PWD/Lib"',
+            "  rustpython_repro_tmp=$(mktemp -d)",
+            '  mkdir -p "$rustpython_repro_tmp/config/rustpython"',
+            '  cd "$rustpython_repro_tmp" || exit',
+            '  TERM=xterm XDG_CONFIG_HOME="$rustpython_repro_tmp/config" \\',
+            '    RUSTPYTHONPATH="$rustpython_repro_lib" "$rustpython_repro_bin"',
+            ")",
+            "```",
+            "",
+            "Enter the two blocks below, pressing Enter on an empty line after each block. Use the REPL: running this as a script does not exercise expression display.",
+            "",
+            "```python",
+            "for i in range(10):",
+            "    i",
+            "",
+            'with open("repl-output.txt", "w") as f:',
+            '    f.write("hello")',
+            "",
+            "```",
+            "",
+            "The current interpreter should display 0 through 9 after the loop and 5 after the `with` block, returning to the primary prompt after each. Enter `exit()` when finished.",
+        ]
+    code = (case / item["input"]).read_text().rstrip()
+    if number == 4690:
+        # The report concerns the raw descriptor, which is the first expression.
+        code = code.splitlines()[0]
+    if number == 4856:
+        source = (case / "original-01.txt").read_text()
+        code = (
+            'source = """\\\n'
+            + source
+            + '"""\ncompile(source, "repro.py", "exec")\nprint("compile_success")'
+        )
+    prefix = 'RUSTPYTHONPATH="$PWD/Lib" ./target/release/rustpython'
+    lines = [line for line in code.splitlines() if line]
+    if len(lines) <= 2 and not any(line[0].isspace() for line in lines):
+        command = [prefix + " -c " + shlex.quote("; ".join(lines))]
+    else:
+        command = [prefix + " -c " + shlex.quote("\n" + code + "\n")]
+    steps = ["```sh", *command, "```"]
+    prerequisites = {
+        4856: "This compiles the original source without executing it, directly testing the reported compiler panic.",
+        5181: "The system must provide `en_US.UTF-8` (`locale -a`). The command selects that locale explicitly.",
+        6790: "Use the matching RustPython standard library, including `test.support`, with lzma available. The function is actually invoked after applying the decorator.",
+    }
+    if number in prerequisites:
+        steps.extend(["", prerequisites[number]])
+    return steps
+
+
+def historical_label(item):
+    sha = item["historical_sha"]
+    if not sha:
+        return "Original documentation-link report"
+    if item["issue"] == 4856:
+        selection = "reported v0.2.0 release tag"
+    elif item["issue"] in (4908, 4937):
+        selection = "revision identified in the report"
+    elif item["issue"] == 6790:
+        selection = "source revision linked in the report"
+    else:
+        selection = "nearest pre-issue main revision; approximate baseline"
+    return f"[{sha[:12]}](https://github.com/RustPython/RustPython/commit/{sha}) ({selection})"
+
+
 def render_recorded(manifest):
     sha = manifest["baseline_sha"]
-    index = []
+    current_link = (
+        f"[{sha[:12]}](https://github.com/RustPython/RustPython/commit/{sha})"
+    )
+    setup = [
+        "Run from a RustPython checkout of the revision being tested. The recorded current revision is "
+        + current_link
+        + ". Build its default-feature release interpreter:",
+        "",
+        "```sh",
+        "cargo build --release --locked",
+        "```",
+        "",
+        "The commands below invoke RustPython directly and include the reproduction input. The runtime comparisons were recorded on macOS ARM64, except the REPL comparison on Linux ARM64.",
+    ]
+    history_help = (
+        "To repeat a historical comparison, use the same input with an interpreter built from the listed historical revision and that checkout's standard library. "
+        "Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. "
+        "The linked execution metadata records the historical build toolchain."
+    )
     aggregate = [
         "# Review 16 resolved RustPython issues for closure",
         "",
-        f"I rechecked the reports below on [{sha[:12]}](https://github.com/RustPython/RustPython/commit/{sha}) on October 4, 2026. "
-        "The original failures reproduce on the historical revisions recorded in each case; the current results satisfy the reported behavior. "
-        "The documentation link was checked separately through docs.rs.",
+        f"I rechecked the reports below on {current_link} on October 4, 2026. The recorded historical failures and current outcomes are listed with their reproduction commands. The documentation link was checked separately through docs.rs.",
         "",
-        "Could you review these results and close the corresponding issues? "
-        "Each entry links to its executable input, local run command and recorded evidence.",
+        "Could you review these results and close the corresponding issues?",
+        "",
+        *setup,
+        "",
+        history_help,
         "",
     ]
+    index = []
     for item in manifest["issues"]:
         number = item["issue"]
         case = BUNDLE / "cases" / str(number)
         title = f"#{number} — {item['title']}"
+        historical = historical_label(item)
+        steps = reproduction_steps(item)
         index.append(f"- [{title}](cases/{number}/README.md)")
+        aggregate.extend([f"- **[{title}]({item['url']})**", ""])
+        for line in "\n".join(steps).splitlines():
+            aggregate.append("  " + line if line else "")
         aggregate.extend(
             [
-                f"- **[{title}]({item['url']})**",
-                f"  - Previously: {item['historical_summary']}",
-                f"  - Verified result and reason to close: {item['reason_to_close']}",
-                f"  - Related change: {item['references']}",
-                f"  - [Reproducer, commands and evidence](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/cases/{number}/README.md)",
+                "",
+                f"  - **Before — {historical}:** {item['historical_summary']}",
+                f"  - **After:** {item['current_summary']}",
+                f"  - **Analysis and closure rationale:** {item['reason_to_close']}",
+                f"  - **Related change:** {item['references']}",
+                f"  - [Detailed comparison and execution evidence](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/cases/{number}/README.md)",
                 "",
             ]
         )
         text = [
             f"# {title}",
             "",
-            item["reason_to_close"],
+            f"Original issue: [#{number}]({item['url']})",
             "",
-            f"Original issue: [{item['url']}]({item['url']})",
-            "",
-            "## Reproduce locally",
+            "## Reproduction procedure",
             "",
         ]
-        if item["kind"] == "documentation":
-            text.extend(
-                [
-                    "```sh",
-                    "sh tools/issue-repros/cases/4784/check.sh",
-                    "```",
-                    "",
-                    "The response should be the RustPython API documentation after redirects. "
-                    "The recorded check served version 0.6.0. This command performs a read-only HTTP request.",
-                    "",
-                ]
-            )
-        else:
-            text.extend(
-                [
-                    "Build from the repository root with `cargo build --release --locked`, then run:",
-                    "",
-                    "```sh",
-                    "python3 tools/issue-repros/run.py \\",
-                    '  --rustpython "$PWD/target/release/rustpython" \\',
-                    '  --stdlib "$PWD/Lib" \\',
-                    f"  --issue {number}",
-                    "```",
-                    "",
-                    "The Python 3 host script launches the supplied RustPython executable in a temporary directory. "
-                    "It writes a fresh `report.md`, `result.json`, stdout and stderr under the printed local output path.",
-                    "",
-                ]
-            )
-            if number == 2527:
-                text.extend(
-                    [
-                        "Use Linux with a working PTY. The runner sets `TERM=xterm` and waits for each prompt. "
-                        "To check manually, paste the following blocks into the RustPython REPL, including the blank line after each block:",
-                        "",
-                    ]
-                )
-            text.extend(
-                [
-                    f"Input: [{item['input']}]({item['input']})",
-                    "",
-                    "```python",
-                    (case / item["input"]).read_text().rstrip(),
-                    "```",
-                    "",
-                    item["derivation"],
-                    "",
-                ]
-            )
-            if number == 5181:
-                text.extend(
-                    [
-                        "The system must provide the `en_US.UTF-8` locale (`locale -a`). A missing locale is a setup error.",
-                        "",
-                    ]
-                )
-            if number == 6790:
-                text.extend(
-                    [
-                        "Use the matching RustPython `Lib` tree, including `test.support`, with lzma available.",
-                        "",
-                    ]
-                )
+        if item["kind"] != "documentation":
+            text.extend([*setup, ""])
         text.extend(
             [
-                "## Recorded comparison",
+                *steps,
                 "",
-                f"- Historical result: {item['historical_summary']}",
-                f"- Current result: {item['current_summary']}",
+                "## Before and after",
+                "",
+                f"- **Before — {historical}:** {item['historical_summary']}",
+                f"- **After — {current_link}:** {item['current_summary']}"
+                if item["historical_sha"]
+                else f"- **After — documentation checked October 4, 2026:** {item['current_summary']}",
+                "",
             ]
         )
-        historical = item["historical_sha"]
-        if historical:
+        if item["historical_sha"]:
+            text.extend([history_help, ""])
+        text.extend(
+            [
+                "## Analysis and closure rationale",
+                "",
+                item["reason_to_close"],
+                "",
+                item["references"],
+                "",
+            ]
+        )
+        if item["historical_sha"]:
             text.extend(
                 [
-                    f"- Historical revision: [{historical}](https://github.com/RustPython/RustPython/commit/{historical}).",
-                    f"- Current revision: [{sha}](https://github.com/RustPython/RustPython/commit/{sha}).",
-                    "- Environment: "
-                    + (
-                        "Linux ARM64, TERM=xterm."
-                        if number == 2527
-                        else "macOS 26.5.2 ARM64; default-feature release builds."
-                    ),
-                ]
-            )
-            if number == 4856:
-                text.append(
-                    "- Baseline selection: the reported RustPython v0.2.0 release tag."
-                )
-            elif number in (4908, 4937):
-                text.append(
-                    "- Baseline selection: a revision identified in the original report."
-                )
-            elif number == 6790:
-                text.append(
-                    "- Baseline selection: the source revision linked by the original report."
-                )
-            else:
-                text.append(
-                    "- Baseline selection: nearest pre-issue main revision; an approximation of the original environment."
-                )
-            text.extend(
-                [
-                    "- [Execution metadata and log hashes](evidence/metadata.json).",
+                    "These source changes match the observed behavior. The exact first-fixing commit was not established by executing each change and its parent.",
+                    "",
+                    "## Recorded evidence",
+                    "",
+                    "- [Execution metadata, toolchain and log hashes](evidence/metadata.json).",
                     "- [Historical stdout](evidence/historical.stdout.txt) / [current stdout](evidence/current.stdout.txt).",
                 ]
             )
@@ -321,28 +360,26 @@ def render_recorded(manifest):
                     "- [Historical stderr](evidence/historical.stderr.txt) / [current stderr](evidence/current.stderr.txt)."
                 )
         else:
-            text.append("- [Recorded HTTP checks](evidence/http-checks.json).")
-        text.extend(["", "## Related change", "", item["references"], ""])
-        if historical:
             text.extend(
                 [
-                    "These source changes match the observed behavior. The exact first-fixing commit was not established by executing each change and its parent.",
+                    "## Recorded evidence",
                     "",
+                    "- [HTTP checks](evidence/http-checks.json).",
                 ]
             )
         text.extend(
             [
-                "AI assistance: OpenAI Codex assisted with verification, evidence selection, executable packaging and drafting.",
+                "",
+                "AI assistance: OpenAI Codex assisted with verification, evidence analysis and drafting.",
                 "",
             ]
         )
         (case / "README.md").write_text("\n".join(text))
     aggregate.extend(
         [
-            "Runtime checks used macOS ARM64 except the REPL check, which used Linux ARM64. "
             "Related PRs identify matching source changes; exact first-fixing commits were not established by parent/commit execution comparisons.",
             "",
-            "AI assistance: OpenAI Codex assisted with verification, evidence analysis, executable packaging and drafting.",
+            "AI assistance: OpenAI Codex assisted with verification, evidence analysis and drafting.",
             "",
         ]
     )

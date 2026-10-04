@@ -1,51 +1,47 @@
 # #4937 — email.message_from_string.get() fails parses the special text
 
-Unknown encoded-word encodings are handled by the email parser's invalid-input recovery. Retrieving the original X-encoded Subject now completes without the reported `KeyError: x`.
+Original issue: [#4937](https://github.com/RustPython/RustPython/issues/4937)
 
-Original issue: [https://github.com/RustPython/RustPython/issues/4937](https://github.com/RustPython/RustPython/issues/4937)
+## Reproduction procedure
 
-## Reproduce locally
-
-Build from the repository root with `cargo build --release --locked`, then run:
+Run from a RustPython checkout of the revision being tested. The recorded current revision is [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c). Build its default-feature release interpreter:
 
 ```sh
-python3 tools/issue-repros/run.py \
-  --rustpython "$PWD/target/release/rustpython" \
-  --stdlib "$PWD/Lib" \
-  --issue 4937
+cargo build --release --locked
 ```
 
-The Python 3 host script launches the supplied RustPython executable in a temporary directory. It writes a fresh `report.md`, `result.json`, stdout and stderr under the printed local output path.
+The commands below invoke RustPython directly and include the reproduction input. The runtime comparisons were recorded on macOS ARM64, except the REPL comparison on Linux ARM64.
 
-Input: [repro.py](repro.py)
-
-```python
+```sh
+RUSTPYTHONPATH="$PWD/Lib" ./target/release/rustpython -c '
 import email
 import email.policy
 
 mytext = "Subject:=?us-ascii?X?value?="
 em = email.message_from_string(mytext, policy=email.policy.default)
 em.get("Subject")
+'
 ```
 
-The original executable input is retained.
+## Before and after
 
-## Recorded comparison
+- **Before — [02840593bc56](https://github.com/RustPython/RustPython/commit/02840593bc56ae416ba2646166628f1712d6cf43) (revision identified in the report):** Subject retrieval raises KeyError: x.
+- **After — [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c):** The same retrieval completes (exit 0).
 
-- Historical result: Subject retrieval raises KeyError: x.
-- Current result: The same retrieval completes (exit 0).
-- Historical revision: [02840593bc56ae416ba2646166628f1712d6cf43](https://github.com/RustPython/RustPython/commit/02840593bc56ae416ba2646166628f1712d6cf43).
-- Current revision: [f39b054b9c8cbbf884f53123eef028131789990c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
-- Environment: macOS 26.5.2 ARM64; default-feature release builds.
-- Baseline selection: a revision identified in the original report.
-- [Execution metadata and log hashes](evidence/metadata.json).
-- [Historical stdout](evidence/historical.stdout.txt) / [current stdout](evidence/current.stdout.txt).
-- [Historical stderr](evidence/historical.stderr.txt) / [current stderr](evidence/current.stderr.txt).
+To repeat a historical comparison, use the same input with an interpreter built from the listed historical revision and that checkout's standard library. Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. The linked execution metadata records the historical build toolchain.
 
-## Related change
+## Analysis and closure rationale
+
+Unknown encoded-word encodings are handled by the email parser's invalid-input recovery. Retrieving the original X-encoded Subject now completes without the reported `KeyError: x`.
 
 [PR #5663](https://github.com/RustPython/RustPython/pull/5663): email update that handles unknown encoded-word encodings.
 
 These source changes match the observed behavior. The exact first-fixing commit was not established by executing each change and its parent.
 
-AI assistance: OpenAI Codex assisted with verification, evidence selection, executable packaging and drafting.
+## Recorded evidence
+
+- [Execution metadata, toolchain and log hashes](evidence/metadata.json).
+- [Historical stdout](evidence/historical.stdout.txt) / [current stdout](evidence/current.stdout.txt).
+- [Historical stderr](evidence/historical.stderr.txt) / [current stderr](evidence/current.stderr.txt).
+
+AI assistance: OpenAI Codex assisted with verification, evidence analysis and drafting.
