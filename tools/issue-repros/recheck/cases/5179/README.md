@@ -1,4 +1,4 @@
-# #5179 — Builtin buffer methods
+# Builtin buffer methods (#5179)
 
 Original issue: [#5179](https://github.com/RustPython/RustPython/issues/5179)
 
@@ -8,54 +8,106 @@ Original issue: [#5179](https://github.com/RustPython/RustPython/issues/5179)
 
 ## Reproducer
 
-Executed input: [probes.py](../../evidence/additional11/agent-a/probes.py.txt). The export preserves the executed code except for documented local-path substitutions.
+Run the shared [probes.py](../../evidence/additional11/agent-a/probes.py.txt) with selector `5179`, as shown in the recorded command. The relevant function is `issue5179`; the full file supplies its imports and dispatcher. The excerpt is formatted for readability.
+
+<details>
+<summary>Reproducer function: issue5179</summary>
 
 ```python
-"""Fresh independent issue inputs. Same file is executed by both runtimes."""
+def issue5179():
+    import array, mmap, inspect
 
-import sys, json
-
-
-def issue4769():
-    import pickle, copy
-    from collections import deque
-
-    global Deque, DequeWithSlots
-
-    class Deque(deque):
+    class BytesSubclass(bytes):
         pass
 
-    class DequeWithSlots(deque):
-        __slots__ = ("slot", "__dict__")
+    class BytearraySubclass(bytearray):
+        pass
 
-    # Names must be globally resolvable for pickle.
-    Deque.__qualname__ = "Deque"
-    DequeWithSlots.__qualname__ = "DequeWithSlots"
-    literal = pickle.loads(pickle.dumps(pickle.HIGHEST_PROTOCOL))
+    objects = [
+        bytes(b"abc"),
+        bytearray(b"abc"),
+        array.array("B", b"abc"),
+        memoryview(b"abc"),
+        BytesSubclass(b"abc"),
+        BytearraySubclass(b"abc"),
+    ]
+    mapping = mmap.mmap(-1, 3)
+    mapping[:] = b"abc"
+    objects.append(mapping)
+    rows = []
+    for obj in objects:
+        row = {
+            "type": type(obj).__name__,
+            "buffer": hasattr(obj, "__buffer__"),
+            "release": hasattr(obj, "__release_buffer__"),
+        }
+        view = obj.__buffer__(0)
+        assert isinstance(view, memoryview)
+        row["data"] = view.tobytes().decode("ascii")
+        row["readonly"] = view.readonly
+        assert row["data"] == "abc"
+        if hasattr(obj, "__release_buffer__"):
+            obj.__release_buffer__(view)
+            try:
+                view.tobytes()
+            except ValueError:
+                row["released"] = True
+            else:
+                row["released"] = False
+        else:
+            view.release()
+        try:
+            writable = obj.__buffer__(inspect.BufferFlags.WRITABLE)
+        except Exception as e:
+            row["writable"] = type(e).__name__
+        else:
+            row["writable"] = not writable.readonly
+            if hasattr(obj, "__release_buffer__"):
+                obj.__release_buffer__(writable)
+            else:
+                writable.release()
+        rows.append(row)
+    objects[3].release()
+    mapping.close()
+    ba = bytearray(b"abc")
+    view = ba.__buffer__(0)
     try:
-        literal.__dict__
-    except AttributeError:
-        print("literal original: integer has no __dict__")
-    total = 0
-    for cls in (Deque, DequeWithSlots):
-        for values, maxlen in (
-            ([], None),
-            (["a", "b", "c"], None),
-            (["a", "b", "c"], 2),
-        ):
-            d = cls(values, maxlen=maxlen)
-            d.x = "value"
-            d.extra = ["list state"]
-            if cls is DequeWithSlots:
-                d.slot = ["slot state"]
-            for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
-                e = pickle.loads(pickle.dumps(d, protocol))
-                assert type(e) is cls and e is not d
-                assert list(e) == list(d) and e.maxlen == d.maxlen
-                assert e.__dict__ == d.__dict__
+        ba.append(100)
+    except BufferError:
+        pass
+    else:
+        raise AssertionError("resize while exported should be blocked")
+    ba.__release_buffer__(view)
+    ba.append(100)
+    assert ba == b"abcd"
+    events = []
+
+    class Exporter:
+        def __buffer__(self, flags):
+            events.append(["get", flags])
+            self.view = memoryview(bytearray(b"xyz"))
+            return self.view
+
+        def __release_buffer__(self, view):
+            assert view is self.view
+            events.append(["release"])
+            view.release()
+
+    obj = Exporter()
+    with memoryview(obj) as view:
+        assert view.tobytes() == b"xyz"
+        view[0] = 65
+        assert view.tobytes() == b"Ayz"
+    assert events[-1] == ["release"]
+    print(
+        json.dumps(
+            {"builtins": rows, "resize_after_release": True, "custom_exporter": events},
+            sort_keys=True,
+        )
+    )
 ```
 
-Only the beginning is displayed above; use the linked full input and the case selector in the recorded command.
+</details>
 
 ## Expected and observed results
 
@@ -63,40 +115,228 @@ Only the beginning is displayed above; use the linked full input and the case se
 
 **Observed:** Seven builtin/subclass types expose the expected buffer behavior. Writable flags, release, blocked resize during export and successful resize after release agree with CPython.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><pre><code>{&quot;builtins&quot;: [{&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: true, &quot;release&quot;: false, &quot;type&quot;: &quot;bytes&quot;, &quot;writable&quot;: &quot;BufferError&quot;}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: false, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;bytearray&quot;, &quot;writable&quot;: true}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: false, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;array&quot;, &quot;writable&quot;: true}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: true, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;memoryview&quot;, &quot;writable&quot;: &quot;BufferError&quot;}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: true, &quot;release&quot;: false, &quot;type&quot;: &quot;BytesSubclass&quot;, &quot;writable&quot;: &quot;BufferError&quot;}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: false, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;BytearraySubclass&quot;, &quot;writable&quot;: true}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: false, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;mmap&quot;, &quot;writable&quot;: true}], &quot;custom_exporter&quot;: [[&quot;get&quot;, 284], [&quot;release&quot;]], &quot;resize_after_release&quot;: true}</code></pre></td><td valign="top"><pre><code>bytes __buffer__ False __release_buffer__ False
+<details>
+<summary>Current verification — exit 0</summary>
+
+**stdout:**
+
+```json
+{
+  "builtins": [
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": true,
+      "release": false,
+      "type": "bytes",
+      "writable": "BufferError"
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": false,
+      "release": true,
+      "released": true,
+      "type": "bytearray",
+      "writable": true
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": false,
+      "release": true,
+      "released": true,
+      "type": "array",
+      "writable": true
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": true,
+      "release": true,
+      "released": true,
+      "type": "memoryview",
+      "writable": "BufferError"
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": true,
+      "release": false,
+      "type": "BytesSubclass",
+      "writable": "BufferError"
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": false,
+      "release": true,
+      "released": true,
+      "type": "BytearraySubclass",
+      "writable": true
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": false,
+      "release": true,
+      "released": true,
+      "type": "mmap",
+      "writable": true
+    }
+  ],
+  "custom_exporter": [
+    [
+      "get",
+      284
+    ],
+    [
+      "release"
+    ]
+  ],
+  "resize_after_release": true
+}
+```
+
+JSON whitespace is expanded for readability.
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:**
+
+```json
+{
+  "builtins": [
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": true,
+      "release": false,
+      "type": "bytes",
+      "writable": "BufferError"
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": false,
+      "release": true,
+      "released": true,
+      "type": "bytearray",
+      "writable": true
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": false,
+      "release": true,
+      "released": true,
+      "type": "array",
+      "writable": true
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": true,
+      "release": true,
+      "released": true,
+      "type": "memoryview",
+      "writable": "BufferError"
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": true,
+      "release": false,
+      "type": "BytesSubclass",
+      "writable": "BufferError"
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": false,
+      "release": true,
+      "released": true,
+      "type": "BytearraySubclass",
+      "writable": true
+    },
+    {
+      "buffer": true,
+      "data": "abc",
+      "readonly": false,
+      "release": true,
+      "released": true,
+      "type": "mmap",
+      "writable": true
+    }
+  ],
+  "custom_exporter": [
+    [
+      "get",
+      284
+    ],
+    [
+      "release"
+    ]
+  ],
+  "resize_after_release": true
+}
+```
+
+JSON whitespace is expanded for readability.
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 0</summary>
+
+**stdout:**
+
+```text
+bytes __buffer__ False __release_buffer__ False
 bytearray __buffer__ False __release_buffer__ False
 array __buffer__ False __release_buffer__ False
-memoryview __buffer__ False __release_buffer__ False</code></pre></td><td valign="top"><pre><code>{&quot;builtins&quot;: [{&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: true, &quot;release&quot;: false, &quot;type&quot;: &quot;bytes&quot;, &quot;writable&quot;: &quot;BufferError&quot;}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: false, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;bytearray&quot;, &quot;writable&quot;: true}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: false, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;array&quot;, &quot;writable&quot;: true}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: true, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;memoryview&quot;, &quot;writable&quot;: &quot;BufferError&quot;}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: true, &quot;release&quot;: false, &quot;type&quot;: &quot;BytesSubclass&quot;, &quot;writable&quot;: &quot;BufferError&quot;}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: false, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;BytearraySubclass&quot;, &quot;writable&quot;: true}, {&quot;buffer&quot;: true, &quot;data&quot;: &quot;abc&quot;, &quot;readonly&quot;: false, &quot;release&quot;: true, &quot;released&quot;: true, &quot;type&quot;: &quot;mmap&quot;, &quot;writable&quot;: true}], &quot;custom_exporter&quot;: [[&quot;get&quot;, 284], [&quot;release&quot;]], &quot;resize_after_release&quot;: true}</code></pre></td></tr>
-<tr><th>stderr</th><td valign="top"><em>No output</em></td><td valign="top"><pre><code>[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object</code></pre></td><td valign="top"><em>No output</em></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>0</code></pre></td></tr>
-</tbody>
-</table>
+memoryview __buffer__ False __release_buffer__ False
+```
+
+**stderr:**
+
+```text
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+```
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-a/verification/rustpython -B <additional11-audit>/agent-a/probes.py 5179
+'<survey>/.build/slot-a/verification/rustpython' -B '<additional11-audit>/agent-a/probes.py' \
+  5179
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14 -B <additional11-audit>/agent-a/probes.py 5179
+'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B \
+  '<additional11-audit>/agent-a/probes.py' 5179
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -124,27 +364,9 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical-a8ab7dd388-01-d89ea130-92a69513.stderr](../../evidence/history/logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [5179-cpython](../../evidence/additional11/agent-a/5179-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/5179-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/5179-cpython.stderr.txt) |
-| [5179-rustpython](../../evidence/additional11/agent-a/5179-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/5179-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/5179-rustpython.stderr.txt) |
-
-<details>
-<summary>Full primary current stdout/stderr</summary>
-
-**stdout:**
-
-```text
-{"builtins": [{"buffer": true, "data": "abc", "readonly": true, "release": false, "type": "bytes", "writable": "BufferError"}, {"buffer": true, "data": "abc", "readonly": false, "release": true, "released": true, "type": "bytearray", "writable": true}, {"buffer": true, "data": "abc", "readonly": false, "release": true, "released": true, "type": "array", "writable": true}, {"buffer": true, "data": "abc", "readonly": true, "release": true, "released": true, "type": "memoryview", "writable": "BufferError"}, {"buffer": true, "data": "abc", "readonly": true, "release": false, "type": "BytesSubclass", "writable": "BufferError"}, {"buffer": true, "data": "abc", "readonly": false, "release": true, "released": true, "type": "BytearraySubclass", "writable": true}, {"buffer": true, "data": "abc", "readonly": false, "release": true, "released": true, "type": "mmap", "writable": true}], "custom_exporter": [["get", 284], ["release"]], "resize_after_release": true}
-
-```
-
-**stderr:**
-
-```text
-
-```
-
-</details>
+- **[5179-cpython](../../evidence/additional11/agent-a/5179-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/5179-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/5179-cpython.stderr.txt).
+- **[5179-rustpython](../../evidence/additional11/agent-a/5179-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/5179-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/5179-rustpython.stderr.txt).
 
 AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.

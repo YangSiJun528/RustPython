@@ -1,4 +1,4 @@
-# #3846 — Disassembly support used by modulefinder
+# Disassembly support used by modulefinder (#3846)
 
 Original issue: [#3846](https://github.com/RustPython/RustPython/issues/3846)
 
@@ -8,54 +8,44 @@ Original issue: [#3846](https://github.com/RustPython/RustPython/issues/3846)
 
 ## Reproducer
 
-Executed input: [probes.py](../../evidence/additional11/agent-a/probes.py.txt). The export preserves the executed code except for documented local-path substitutions.
+Run the shared [probes.py](../../evidence/additional11/agent-a/probes.py.txt) with selector `3846`, as shown in the recorded command. The relevant function is `issue3846`; the full file supplies its imports and dispatcher. The excerpt is formatted for readability.
+
+<details>
+<summary>Reproducer function: issue3846</summary>
 
 ```python
-"""Fresh independent issue inputs. Same file is executed by both runtimes."""
+def issue3846():
+    import dis, modulefinder, pathlib, tempfile, types
 
-import sys, json
-
-
-def issue4769():
-    import pickle, copy
-    from collections import deque
-
-    global Deque, DequeWithSlots
-
-    class Deque(deque):
-        pass
-
-    class DequeWithSlots(deque):
-        __slots__ = ("slot", "__dict__")
-
-    # Names must be globally resolvable for pickle.
-    Deque.__qualname__ = "Deque"
-    DequeWithSlots.__qualname__ = "DequeWithSlots"
-    literal = pickle.loads(pickle.dumps(pickle.HIGHEST_PROTOCOL))
-    try:
-        literal.__dict__
-    except AttributeError:
-        print("literal original: integer has no __dict__")
-    total = 0
-    for cls in (Deque, DequeWithSlots):
-        for values, maxlen in (
-            ([], None),
-            (["a", "b", "c"], None),
-            (["a", "b", "c"], 2),
-        ):
-            d = cls(values, maxlen=maxlen)
-            d.x = "value"
-            d.extra = ["list state"]
-            if cls is DequeWithSlots:
-                d.slot = ["slot state"]
-            for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
-                e = pickle.loads(pickle.dumps(d, protocol))
-                assert type(e) is cls and e is not d
-                assert list(e) == list(d) and e.maxlen == d.maxlen
-                assert e.__dict__ == d.__dict__
+    source = "import first\nfrom package import second\nfrom package.second import value\ndef nested():\n    import nested_dependency\n"
+    code = compile(source, "<independent-3846>", "exec")
+    assert isinstance(dis.opmap["LOAD_CONST"], int)
+    assert isinstance(dis.EXTENDED_ARG, int)
+    instructions = list(dis._unpack_opargs(code.co_code))
+    assert instructions and all(isinstance(x, tuple) for x in instructions)
+    print("opmap, EXTENDED_ARG, _unpack_opargs: usable")
+    root = pathlib.Path(tempfile.mkdtemp(prefix="modulefinder-"))
+    (root / "package").mkdir()
+    files = {
+        "main.py": source,
+        "first.py": "flag=True\n",
+        "package/__init__.py": "from . import second\n",
+        "package/second.py": "value=42\n",
+        "nested_dependency.py": "x=1\n",
+    }
+    for name, content in files.items():
+        with (root / name).open("x") as out:
+            out.write(content)
+    finder = modulefinder.ModuleFinder(path=[str(root)])
+    finder.run_script(str(root / "main.py"))
+    expected = ["__main__", "first", "nested_dependency", "package", "package.second"]
+    assert sorted(finder.modules) == expected, sorted(finder.modules)
+    assert finder.any_missing_maybe() == ([], [])
+    print("module graph:", sorted(finder.modules))
+    print("missing:", finder.any_missing_maybe())
 ```
 
-Only the beginning is displayed above; use the linked full input and the case selector in the recorded command.
+</details>
 
 ## Expected and observed results
 
@@ -63,51 +53,83 @@ Only the beginning is displayed above; use the linked full input and the case se
 
 **Observed:** The three requested dis APIs operate on actual bytecode. A five-module import graph and all 17 original ModuleFinderTest tests pass without skip or expectedFailure.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><pre><code>opmap, EXTENDED_ARG, _unpack_opargs: usable
-module graph: [&#x27;__main__&#x27;, &#x27;first&#x27;, &#x27;nested_dependency&#x27;, &#x27;package&#x27;, &#x27;package.second&#x27;]
-missing: ([], [])</code></pre></td><td valign="top"><em>No output</em></td><td valign="top"><pre><code>opmap, EXTENDED_ARG, _unpack_opargs: usable
-module graph: [&#x27;__main__&#x27;, &#x27;first&#x27;, &#x27;nested_dependency&#x27;, &#x27;package&#x27;, &#x27;package.second&#x27;]
-missing: ([], [])</code></pre></td></tr>
-<tr><th>stderr</th><td valign="top"><em>No output</em></td><td valign="top"><pre><code>[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
+<details>
+<summary>Current verification — exit 0</summary>
+
+**stdout:**
+
+```text
+opmap, EXTENDED_ARG, _unpack_opargs: usable
+module graph: ['__main__', 'first', 'nested_dependency', 'package', 'package.second']
+missing: ([], [])
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:**
+
+```text
+opmap, EXTENDED_ARG, _unpack_opargs: usable
+module graph: ['__main__', 'first', 'nested_dependency', 'package', 'package.second']
+missing: ([], [])
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 1</summary>
+
+**stdout:** No output.
+
+**stderr:**
+
+```text
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
 Traceback (most recent call last):
-  File &quot;&lt;survey&gt;/verification-tools/derived-a/issue-3846-case-01.py&quot;, line 2, in &lt;module&gt;
-    print(repr(dis.opmap[&#x27;LOAD_CONST&#x27;]))
-AttributeError: module &#x27;dis&#x27; has no attribute &#x27;opmap&#x27;</code></pre></td><td valign="top"><em>No output</em></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>1</code></pre></td><td valign="top"><pre><code>0</code></pre></td></tr>
-</tbody>
-</table>
+  File "<survey>/verification-tools/derived-a/issue-3846-case-01.py", line 2, in <module>
+    print(repr(dis.opmap['LOAD_CONST']))
+AttributeError: module 'dis' has no attribute 'opmap'
+```
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-a/verification/rustpython -B <additional11-audit>/agent-a/probes.py 3846
+'<survey>/.build/slot-a/verification/rustpython' -B '<additional11-audit>/agent-a/probes.py' \
+  3846
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14 -B <additional11-audit>/agent-a/probes.py 3846
+'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B \
+  '<additional11-audit>/agent-a/probes.py' 3846
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -135,30 +157,11 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical-5631d2102b-01-7f102daa-1ca15133.stderr](../../evidence/history/logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [3846-cpython](../../evidence/additional11/agent-a/3846-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/3846-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/3846-cpython.stderr.txt) |
-| [3846-rustpython](../../evidence/additional11/agent-a/3846-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/3846-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/3846-rustpython.stderr.txt) |
-| [3846-unittest-rustpython](../../evidence/additional11/agent-a/3846-unittest-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/3846-unittest-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/3846-unittest-rustpython.stderr.txt) |
-
-<details>
-<summary>Full primary current stdout/stderr</summary>
-
-**stdout:**
-
-```text
-opmap, EXTENDED_ARG, _unpack_opargs: usable
-module graph: ['__main__', 'first', 'nested_dependency', 'package', 'package.second']
-missing: ([], [])
-
-```
-
-**stderr:**
-
-```text
-
-```
-
-</details>
+- **[3846-cpython](../../evidence/additional11/agent-a/3846-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/3846-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/3846-cpython.stderr.txt).
+- **[3846-rustpython](../../evidence/additional11/agent-a/3846-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/3846-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/3846-rustpython.stderr.txt).
+- **[3846-unittest-rustpython](../../evidence/additional11/agent-a/3846-unittest-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/3846-unittest-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/3846-unittest-rustpython.stderr.txt).
 
 AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.

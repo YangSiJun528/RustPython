@@ -1,4 +1,4 @@
-# #4613 — Locale support for FormatSpec n
+# Locale support for FormatSpec n (#4613)
 
 Original issue: [#4613](https://github.com/RustPython/RustPython/issues/4613)
 
@@ -9,6 +9,9 @@ Original issue: [#4613](https://github.com/RustPython/RustPython/issues/4613)
 ## Reproducer
 
 Executed input: [probe-locale-unicode-width.py](../../evidence/additional11/agent-b/probe-locale-unicode-width.py.txt). The export preserves the executed code except for documented local-path substitutions.
+
+<details>
+<summary>Reproducer code</summary>
 
 ```python
 import locale
@@ -38,87 +41,134 @@ print(
 assert len(padded) == 20, "Locale separator must count as one character in field width"
 ```
 
+</details>
+
 ## Expected and observed results
 
 **Expected:** Locale-sensitive n formatting must preserve grouping and character-based field width.
 
 **Observed:** Basic n and the original locale tests pass. Across five available locales, 395 formatting results include 102 differences: 84 zero-padding cases and 18 other Unicode-separator width cases.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><pre><code>{
-  &quot;locale&quot;: &quot;fr_FR.UTF-8&quot;,
-  &quot;conv&quot;: {
-    &quot;decimal_point&quot;: &quot;,&quot;,
+<details>
+<summary>Current verification — exit 1</summary>
+
+**stdout:**
+
+```text
+{
+  "locale": "fr_FR.UTF-8",
+  "conv": {
+    "decimal_point": ",",
 ...
-    &quot;grouping&quot;: [
+    "grouping": [
       3,
       0
     ]
   },
-  &quot;plain&quot;: &quot;1\u202f234&quot;,
-  &quot;plain_characters&quot;: 5,
-  &quot;plain_bytes&quot;: 7,
-  &quot;padded&quot;: &quot;               1\u202f234&quot;,
-  &quot;padded_characters&quot;: 20,
-  &quot;padded_bytes&quot;: 22
-}</code></pre><p><em>Excerpt; complete output is in the linked execution record.</em></p></td><td valign="top"><pre><code>CATALOG_RECORD {&quot;kind&quot;: &quot;start&quot;, &quot;case_id&quot;: &quot;issue-4613-case-01&quot;, &quot;selector&quot;: &quot;test.test_types.TypesTests.{test_float__format__locale,test_int__format__locale}&quot;, &quot;interpreter&quot;: &quot;3.11.0alpha (tags/v0.2.0-311-ga7c985685:a7c985685, Mar  2 2023, 15:34:45) \n[rustc 1.67.1]&quot;, &quot;executable&quot;: &quot;&lt;survey&gt;/.build/slot-a/release/rustpython&quot;, &quot;cwd&quot;: &quot;&lt;survey&gt;/logs/scratch-history-a/a7c9856851&quot;, &quot;selector_derivation&quot;: &quot;Exact locale n-format tests referenced through issue4613/PR4609, now lines433\u2013448. Run with en_US.UTF-8 installed and LC_ALL unset; retain run_with_locale wrapper. Log actual locale so fallback C locale cannot masquerade as locale-grouping proof.&quot;, &quot;original_selector&quot;: null, &quot;derivation&quot;: &quot;TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared&quot;}
-CATALOG_RECORD {&quot;kind&quot;: &quot;selection&quot;, &quot;case_id&quot;: &quot;issue-4613-case-01&quot;, &quot;selected_ids&quot;: [&quot;test.test_types.TypesTests.test_float__format__locale&quot;, &quot;test.test_types.TypesTests.test_int__format__locale&quot;], &quot;loader_errors&quot;: [], &quot;module_origin&quot;: &quot;&lt;workspace&gt;/pylib/Lib/test/test_types.py&quot;, &quot;module_sha256&quot;: &quot;18f8783da5a0ce95f3dda32f99829f506161a11a3e11c035a6bbdaac02fe19ed&quot;, &quot;bypassed_decorators&quot;: [{&quot;kind&quot;: &quot;skip&quot;, &quot;object&quot;: &quot;test.test_types.TypesTests.test_int__format__locale&quot;, &quot;reason&quot;: &quot;TODO: RustPython format code n is not integrated with locale&quot;, &quot;action&quot;: &quot;decoration-time identity; original body and other decorators retained&quot;}, {&quot;kind&quot;: &quot;expectedFailure_preserved&quot;, &quot;object&quot;: &quot;test.test_types.TypesTests.test_float__format__locale&quot;, &quot;action&quot;: &quot;No explicit RustPython marker in declaration prefix; pres</code></pre><p><em>Excerpt; complete output is in the linked execution record.</em></p></td><td valign="top"><pre><code>{
-  &quot;locale&quot;: &quot;fr_FR.UTF-8&quot;,
-  &quot;conv&quot;: {
-    &quot;decimal_point&quot;: &quot;,&quot;,
+  "plain": "1\u202f234",
+  "plain_characters": 5,
+  "plain_bytes": 7,
+  "padded": "             1\u202f234",
+  "padded_characters": 18,
+  "padded_bytes": 20
+}
+```
+
+Excerpt; complete output is in the linked execution record.
+
+**stderr:**
+
+```text
+Traceback (most recent call last):
+  File "<additional11-audit>/agent-b/probe-locale-unicode-width.py", line 12, in <module>
+    assert len(padded) == 20, 'Locale separator must count as one character in field width'
+           ^^^^^^^^^^^^^^^^^
+AssertionError: Locale separator must count as one character in field width
+```
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:**
+
+```text
+{
+  "locale": "fr_FR.UTF-8",
+  "conv": {
+    "decimal_point": ",",
 ...
-    &quot;grouping&quot;: [
+    "grouping": [
       3,
       0
     ]
   },
-  &quot;plain&quot;: &quot;1\u202f234&quot;,
-  &quot;plain_characters&quot;: 5,
-  &quot;plain_bytes&quot;: 7,
-  &quot;padded&quot;: &quot;             1\u202f234&quot;,
-  &quot;padded_characters&quot;: 18,
-  &quot;padded_bytes&quot;: 20
-}</code></pre><p><em>Excerpt; complete output is in the linked execution record.</em></p></td></tr>
-<tr><th>stderr</th><td valign="top"><em>No output</em></td><td valign="top"><pre><code>[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
+  "plain": "1\u202f234",
+  "plain_characters": 5,
+  "plain_bytes": 7,
+  "padded": "               1\u202f234",
+  "padded_characters": 20,
+  "padded_bytes": 22
+}
+```
+
+Excerpt; complete output is in the linked execution record.
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 1</summary>
+
+**stdout:**
+
+```text
+CATALOG_RECORD {"kind": "start", "case_id": "issue-4613-case-01", "selector": "test.test_types.TypesTests.{test_float__format__locale,test_int__format__locale}", "interpreter": "3.11.0alpha (tags/v0.2.0-311-ga7c985685:a7c985685, Mar  2 2023, 15:34:45) \n[rustc 1.67.1]", "executable": "<survey>/.build/slot-a/release/rustpython", "cwd": "<survey>/logs/scratch-history-a/a7c9856851", "selector_derivation": "Exact locale n-format tests referenced through issue4613/PR4609, now lines433\u2013448. Run with en_US.UTF-8 installed and LC_ALL unset; retain run_with_locale wrapper. Log actual locale so fallback C locale cannot masquerade as locale-grouping proof.", "original_selector": null, "derivation": "TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared"}
+CATALOG_RECORD {"kind": "selection", "case_id": "issue-4613-case-01", "selected_ids": ["test.test_types.TypesTests.test_float__format__locale", "test.test_types.TypesTests.test_int__format__locale"], "loader_errors": [], "module_origin": "<workspace>/pylib/Lib/test/test_types.py", "module_sha256": "18f8783da5a0ce95f3dda32f99829f506161a11a3e11c035a6bbdaac02fe19ed", "bypassed_decorators": [{"kind": "skip", "object": "test.test_types.TypesTests.test_int__format__locale", "reason": "TODO: RustPython format code n is not integrated with locale", "action": "decoration-time identity; original body and other decorators retained"}, {"kind": "expectedFailure_preserved", "object": "test.test_types.TypesTests.test_float__format__locale", "action": "No explicit RustPython marker in declaration prefix; pres
+```
+
+Excerpt; complete output is in the linked execution record.
+
+**stderr:**
+
+```text
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
 test_float__format__locale (test.test_types.TypesTests.test_float__format__locale) ... expected failure
 test_int__format__locale (test.test_types.TypesTests.test_int__format__locale) ... ok
 
 ----------------------------------------------------------------------
 Ran 2 tests in 0.004s
 
-OK (expected failures=1)</code></pre></td><td valign="top"><pre><code>Traceback (most recent call last):
-  File &quot;&lt;additional11-audit&gt;/agent-b/probe-locale-unicode-width.py&quot;, line 12, in &lt;module&gt;
-    assert len(padded) == 20, &#x27;Locale separator must count as one character in field width&#x27;
-           ^^^^^^^^^^^^^^^^^
-AssertionError: Locale separator must count as one character in field width</code></pre></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>1</code></pre></td><td valign="top"><pre><code>1</code></pre></td></tr>
-</tbody>
-</table>
+OK (expected failures=1)
+```
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B <additional11-audit>/agent-b/probe-locale-unicode-width.py
+'<survey>/.build/slot-b/saved/current-f39-x86/rustpython' -B \
+  '<additional11-audit>/agent-b/probe-locale-unicode-width.py'
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-locale-unicode-width.py
+'<home>/.local/bin/python3' -B '<additional11-audit>/agent-b/probe-locale-unicode-width.py'
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -146,57 +196,33 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical-catalog-a7c9856851-scratch.stderr](../../evidence/history/logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch.stderr).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [4613-cross-cpython](../../evidence/additional11/agent-a/4613-cross-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/4613-cross-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/4613-cross-cpython.stderr.txt) |
-| [4613-cross-rustpython](../../evidence/additional11/agent-a/4613-cross-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/4613-cross-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/4613-cross-rustpython.stderr.txt) |
-| [4613-unicode-width-cpython](../../evidence/additional11/agent-b/4613-unicode-width-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/4613-unicode-width-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/4613-unicode-width-cpython.stderr.txt) |
-| [4613-unicode-width-rustpython](../../evidence/additional11/agent-b/4613-unicode-width-rustpython.json) | 1 | false | [stdout](../../evidence/additional11/agent-b/4613-unicode-width-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/4613-unicode-width-rustpython.stderr.txt) |
-| [4613-zero-padding-cpython](../../evidence/additional11/agent-b/4613-zero-padding-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/4613-zero-padding-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/4613-zero-padding-cpython.stderr.txt) |
-| [4613-zero-padding-rustpython](../../evidence/additional11/agent-b/4613-zero-padding-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/4613-zero-padding-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/4613-zero-padding-rustpython.stderr.txt) |
-| [locale-matrix-cpython](../../evidence/additional11/agent-b/locale-matrix-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/locale-matrix-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/locale-matrix-cpython.stderr.txt) |
-| [locale-matrix-rustpython](../../evidence/additional11/agent-b/locale-matrix-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/locale-matrix-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/locale-matrix-rustpython.stderr.txt) |
-| [locale-original-set-cpython](../../evidence/additional11/agent-b/locale-original-set-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/locale-original-set-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/locale-original-set-cpython.stderr.txt) |
-| [locale-original-set-rustpython](../../evidence/additional11/agent-b/locale-original-set-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/locale-original-set-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/locale-original-set-rustpython.stderr.txt) |
-| [locale-original-unset-cpython](../../evidence/additional11/agent-b/locale-original-unset-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/locale-original-unset-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/locale-original-unset-cpython.stderr.txt) |
-| [locale-original-unset-rustpython](../../evidence/additional11/agent-b/locale-original-unset-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/locale-original-unset-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/locale-original-unset-rustpython.stderr.txt) |
-
 <details>
-<summary>Full primary current stdout/stderr</summary>
+<summary>Execution records (12 runs)</summary>
 
-**stdout:**
-
-```text
-{
-  "locale": "fr_FR.UTF-8",
-  "conv": {
-    "decimal_point": ",",
-    "thousands_sep": "\u202f",
-    "grouping": [
-      3,
-      0
-    ]
-  },
-  "plain": "1\u202f234",
-  "plain_characters": 5,
-  "plain_bytes": 7,
-  "padded": "             1\u202f234",
-  "padded_characters": 18,
-  "padded_bytes": 20
-}
-
-```
-
-**stderr:**
-
-```text
-Traceback (most recent call last):
-  File "<additional11-audit>/agent-b/probe-locale-unicode-width.py", line 12, in <module>
-    assert len(padded) == 20, 'Locale separator must count as one character in field width'
-           ^^^^^^^^^^^^^^^^^
-AssertionError: Locale separator must count as one character in field width
-
-```
+- **[4613-cross-cpython](../../evidence/additional11/agent-a/4613-cross-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/4613-cross-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/4613-cross-cpython.stderr.txt).
+- **[4613-cross-rustpython](../../evidence/additional11/agent-a/4613-cross-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/4613-cross-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/4613-cross-rustpython.stderr.txt).
+- **[4613-unicode-width-cpython](../../evidence/additional11/agent-b/4613-unicode-width-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/4613-unicode-width-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/4613-unicode-width-cpython.stderr.txt).
+- **[4613-unicode-width-rustpython](../../evidence/additional11/agent-b/4613-unicode-width-rustpython.json)** — exit `1`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/4613-unicode-width-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/4613-unicode-width-rustpython.stderr.txt).
+- **[4613-zero-padding-cpython](../../evidence/additional11/agent-b/4613-zero-padding-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/4613-zero-padding-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/4613-zero-padding-cpython.stderr.txt).
+- **[4613-zero-padding-rustpython](../../evidence/additional11/agent-b/4613-zero-padding-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/4613-zero-padding-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/4613-zero-padding-rustpython.stderr.txt).
+- **[locale-matrix-cpython](../../evidence/additional11/agent-b/locale-matrix-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/locale-matrix-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/locale-matrix-cpython.stderr.txt).
+- **[locale-matrix-rustpython](../../evidence/additional11/agent-b/locale-matrix-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/locale-matrix-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/locale-matrix-rustpython.stderr.txt).
+- **[locale-original-set-cpython](../../evidence/additional11/agent-b/locale-original-set-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/locale-original-set-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/locale-original-set-cpython.stderr.txt).
+- **[locale-original-set-rustpython](../../evidence/additional11/agent-b/locale-original-set-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/locale-original-set-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/locale-original-set-rustpython.stderr.txt).
+- **[locale-original-unset-cpython](../../evidence/additional11/agent-b/locale-original-unset-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/locale-original-unset-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/locale-original-unset-cpython.stderr.txt).
+- **[locale-original-unset-rustpython](../../evidence/additional11/agent-b/locale-original-unset-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/locale-original-unset-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/locale-original-unset-rustpython.stderr.txt).
 
 </details>
 

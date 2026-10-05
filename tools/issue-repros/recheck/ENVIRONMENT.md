@@ -6,11 +6,23 @@ the interpreters or build a new executable.
 
 ## Executables and actual standard library
 
-| Slot | Existing source/cwd | Existing executable | SHA-256 |
-|---|---|---|---|
-| A | `<workspace>` | `<survey>/.build/slot-a/verification/rustpython` | `a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99` |
-| B | `<slot-b-source>` | `<survey>/.build/slot-b/saved/current-f39-x86/rustpython` | `d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871` |
-| CPython | The same cwd as its paired run | `<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14` | `58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef` |
+### Slot A
+
+- Source/cwd: `<workspace>`.
+- Executable: `<survey>/.build/slot-a/verification/rustpython`.
+- SHA-256: `a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99`.
+
+### Slot B
+
+- Source/cwd: `<slot-b-source>`.
+- Executable: `<survey>/.build/slot-b/saved/current-f39-x86/rustpython`.
+- SHA-256: `d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871`.
+
+### CPython
+
+- Source/cwd: The same cwd as its paired run.
+- Executable: `<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14`.
+- SHA-256: `58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef`.
 
 The host is macOS 26.5.2 ARM64. Slot A is native ARM64; B is x86_64 through
 Rosetta. Both RustPython binaries report `heads/main:f39b054b9`, Python
@@ -35,15 +47,13 @@ Machine-specific roots are replaced consistently. This is a publication edit,
 not a change to the completed local evidence. The [export manifest](export-manifest.json)
 records both original and exported SHA-256 values.
 
-| Placeholder | Meaning |
-|---|---|
-| `<workspace>` | Existing main RustPython checkout |
-| `<slot-b-source>` | Existing second source checkout, `issue-history-b/RustPython` |
-| `<report-worktree>` | Existing `resolved-issue-reproducers/RustPython` checkout |
-| `<survey>` | Existing `cleanup-issues/2026-10-04T155029+0900` directory under main |
-| `<initial16-audit>` | Completed first independent audit; exported under `evidence/initial16/` |
-| `<additional11-audit>` | Completed second independent audit; exported under `evidence/additional11/` |
-| `<home>` | The original user's home directory |
+- `<workspace>`: Existing main RustPython checkout.
+- `<slot-b-source>`: Existing second source checkout, `issue-history-b/RustPython`.
+- `<report-worktree>`: Existing `resolved-issue-reproducers/RustPython` checkout.
+- `<survey>`: Existing `cleanup-issues/2026-10-04T155029+0900` directory under main.
+- `<initial16-audit>`: Completed first independent audit; exported under `evidence/initial16/`.
+- `<additional11-audit>`: Completed second independent audit; exported under `evidence/additional11/`.
+- `<home>`: The original user's home directory.
 
 An execution JSON preserves argv, cwd, environment overrides, exit code and
 timeout, plus inline output or companion log references. These are recorded

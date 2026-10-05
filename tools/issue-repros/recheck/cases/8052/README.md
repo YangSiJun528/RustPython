@@ -1,4 +1,4 @@
-# #8052 — Ellipsis type name
+# Ellipsis type name (#8052)
 
 Original issue: [#8052](https://github.com/RustPython/RustPython/issues/8052)
 
@@ -9,6 +9,9 @@ Original issue: [#8052](https://github.com/RustPython/RustPython/issues/8052)
 ## Reproducer
 
 Executed input: [probe-8052.py](../../evidence/initial16/agent-b/probe-8052.py.txt). The export preserves the executed code except for documented local-path substitutions.
+
+<details>
+<summary>Reproducer code</summary>
 
 ```python
 import types, json, collections
@@ -34,45 +37,79 @@ except ValueError as e:
     print("notes", e.__notes__)
 ```
 
+</details>
+
 ## Expected and observed results
 
 **Expected:** The Ellipsis singleton type must use the CPython-visible name ellipsis.
 
 **Observed:** The name and repr are `ellipsis` and `<class 'ellipsis'>`; the types alias, JSON error note and existing JSON regression tests also pass.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><pre><code>ellipsis
-&lt;class &#x27;ellipsis&#x27;&gt;
+<details>
+<summary>Current verification — exit 0</summary>
+
+**stdout:**
+
+```text
+ellipsis
+<class 'ellipsis'>
 alias True
-notes [&#x27;when serializing ellipsis object&#x27;, &#x27;when serializing list item 0&#x27;, &#x27;when serializing module object&#x27;, &#x27;when serializing type object&#x27;]</code></pre></td><td valign="top"><pre><code>EllipsisType
-&lt;class &#x27;EllipsisType&#x27;&gt;</code></pre></td><td valign="top"><pre><code>ellipsis
-&lt;class &#x27;ellipsis&#x27;&gt;
+notes ['when serializing ellipsis object', 'when serializing list item 0', 'when serializing module object', 'when serializing type object']
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:**
+
+```text
+ellipsis
+<class 'ellipsis'>
 alias True
-notes [&#x27;when serializing ellipsis object&#x27;, &#x27;when serializing list item 0&#x27;, &#x27;when serializing module object&#x27;, &#x27;when serializing type object&#x27;]</code></pre></td></tr>
-<tr><th>stderr</th><td valign="top"><em>No output</em></td><td valign="top"><em>No output</em></td><td valign="top"><em>No output</em></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>0</code></pre></td></tr>
-</tbody>
-</table>
+notes ['when serializing ellipsis object', 'when serializing list item 0', 'when serializing module object', 'when serializing type object']
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 0</summary>
+
+**stdout:**
+
+```text
+EllipsisType
+<class 'EllipsisType'>
+```
+
+**stderr:** No output.
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B -S <initial16-audit>/agent-b/probe-8052.py
+'<survey>/.build/slot-b/saved/current-f39-x86/rustpython' -B -S \
+  '<initial16-audit>/agent-b/probe-8052.py'
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14 -B -S <initial16-audit>/agent-b/probe-8052.py
+'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B -S \
+  '<initial16-audit>/agent-b/probe-8052.py'
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -100,30 +137,9 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical.stderr.txt](../../../cases/8052/evidence/historical.stderr.txt).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [fresh-8052-cp](../../evidence/initial16/agent-b/fresh-8052-cp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-8052-cp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-8052-cp.stderr) |
-| [fresh-8052-rp](../../evidence/initial16/agent-b/fresh-8052-rp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-8052-rp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-8052-rp.stderr) |
-
-<details>
-<summary>Full primary current stdout/stderr</summary>
-
-**stdout:**
-
-```text
-ellipsis
-<class 'ellipsis'>
-alias True
-notes ['when serializing ellipsis object', 'when serializing list item 0', 'when serializing module object', 'when serializing type object']
-
-```
-
-**stderr:**
-
-```text
-
-```
-
-</details>
+- **[fresh-8052-cp](../../evidence/initial16/agent-b/fresh-8052-cp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-8052-cp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-8052-cp.stderr).
+- **[fresh-8052-rp](../../evidence/initial16/agent-b/fresh-8052-rp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-8052-rp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-8052-rp.stderr).
 
 AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.

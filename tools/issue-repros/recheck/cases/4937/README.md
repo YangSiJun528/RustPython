@@ -1,4 +1,4 @@
-# #4937 — Email Subject with an unknown encoding
+# Email Subject with an unknown encoding (#4937)
 
 Original issue: [#4937](https://github.com/RustPython/RustPython/issues/4937)
 
@@ -25,48 +25,74 @@ em.get("Subject")
 
 **Observed:** The original X-encoded Subject is returned without KeyError. Unknown encodings and related malformed-header controls were also checked.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><em>No output</em></td><td valign="top"><em>No output</em></td><td valign="top"><em>No output</em></td></tr>
-<tr><th>stderr</th><td valign="top"><em>No output</em></td><td valign="top"><pre><code>[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
+<details>
+<summary>Current verification — exit 0</summary>
+
+**stdout:** No output.
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:** No output.
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 1</summary>
+
+**stdout:** No output.
+
+**stderr:**
+
+```text
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
 ...
-    kwds[&#x27;parse_tree&#x27;] = cls.value_parser(value)
-  File &quot;&lt;historical-checkout&gt;/pylib/Lib/email/_header_value_parser.py&quot;, line 1498, in get_unstructured
+    kwds['parse_tree'] = cls.value_parser(value)
+  File "<historical-checkout>/pylib/Lib/email/_header_value_parser.py", line 1498, in get_unstructured
     pass
-  File &quot;&lt;historical-checkout&gt;/pylib/Lib/email/_header_value_parser.py&quot;, line 1494, in get_unstructured
+  File "<historical-checkout>/pylib/Lib/email/_header_value_parser.py", line 1494, in get_unstructured
     token, value = get_encoded_word(value)
-  File &quot;&lt;historical-checkout&gt;/pylib/Lib/email/_header_value_parser.py&quot;, line 1447, in get_encoded_word
-    &quot;encoded word format invalid: &#x27;{}&#x27;&quot;.format(ew.cte))
-  File &quot;&lt;historical-checkout&gt;/pylib/Lib/email/_header_value_parser.py&quot;, line 1444, in get_encoded_word
-    text, charset, lang, defects = _ew.decode(&#x27;=?&#x27; + tok + &#x27;?=&#x27;)
-  File &quot;&lt;historical-checkout&gt;/pylib/Lib/email/_encoded_words.py&quot;, line 166, in decode
+  File "<historical-checkout>/pylib/Lib/email/_header_value_parser.py", line 1447, in get_encoded_word
+    "encoded word format invalid: '{}'".format(ew.cte))
+  File "<historical-checkout>/pylib/Lib/email/_header_value_parser.py", line 1444, in get_encoded_word
+    text, charset, lang, defects = _ew.decode('=?' + tok + '?=')
+  File "<historical-checkout>/pylib/Lib/email/_encoded_words.py", line 166, in decode
     bstring, defects = _cte_decoders[cte](bstring)
-KeyError: x</code></pre><p><em>Excerpt; complete output is in the linked execution record.</em></p></td><td valign="top"><em>No output</em></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>1</code></pre></td><td valign="top"><pre><code>0</code></pre></td></tr>
-</tbody>
-</table>
+KeyError: x
+```
+
+Excerpt; complete output is in the linked execution record.
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-a/verification/rustpython -B <initial16-audit>/agent-a/4937-original.py
+'<survey>/.build/slot-a/verification/rustpython' -B \
+  '<initial16-audit>/agent-a/4937-original.py'
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14 -B <initial16-audit>/agent-a/4937-original.py
+'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B \
+  '<initial16-audit>/agent-a/4937-original.py'
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -94,28 +120,13 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical.stderr.txt](../../../cases/4937/evidence/historical.stderr.txt).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [4937-boundaries-cp](../../evidence/initial16/agent-a/4937-boundaries-cp.json) | 0 | false | [stdout](../../evidence/initial16/agent-a/4937-boundaries-cp.stdout) | [stderr](../../evidence/initial16/agent-a/4937-boundaries-cp.stderr) |
-| [4937-boundaries-rp](../../evidence/initial16/agent-a/4937-boundaries-rp.json) | 0 | false | [stdout](../../evidence/initial16/agent-a/4937-boundaries-rp.stdout) | [stderr](../../evidence/initial16/agent-a/4937-boundaries-rp.stderr) |
-| [4937-original-cp](../../evidence/initial16/agent-a/4937-original-cp.json) | 0 | false | [stdout](../../evidence/initial16/agent-a/4937-original-cp.stdout) | [stderr](../../evidence/initial16/agent-a/4937-original-cp.stderr) |
-| [4937-original-rp](../../evidence/initial16/agent-a/4937-original-rp.json) | 0 | false | [stdout](../../evidence/initial16/agent-a/4937-original-rp.stdout) | [stderr](../../evidence/initial16/agent-a/4937-original-rp.stderr) |
-
-<details>
-<summary>Full primary current stdout/stderr</summary>
-
-**stdout:**
-
-```text
-
-```
-
-**stderr:**
-
-```text
-
-```
-
-</details>
+- **[4937-boundaries-cp](../../evidence/initial16/agent-a/4937-boundaries-cp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-a/4937-boundaries-cp.stdout); stderr: [stderr](../../evidence/initial16/agent-a/4937-boundaries-cp.stderr).
+- **[4937-boundaries-rp](../../evidence/initial16/agent-a/4937-boundaries-rp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-a/4937-boundaries-rp.stdout); stderr: [stderr](../../evidence/initial16/agent-a/4937-boundaries-rp.stderr).
+- **[4937-original-cp](../../evidence/initial16/agent-a/4937-original-cp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-a/4937-original-cp.stdout); stderr: [stderr](../../evidence/initial16/agent-a/4937-original-cp.stderr).
+- **[4937-original-rp](../../evidence/initial16/agent-a/4937-original-rp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-a/4937-original-rp.stdout); stderr: [stderr](../../evidence/initial16/agent-a/4937-original-rp.stderr).
 
 AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.

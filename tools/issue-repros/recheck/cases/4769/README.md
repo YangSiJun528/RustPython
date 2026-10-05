@@ -1,4 +1,4 @@
-# #4769 — Deque subclass pickle state
+# Deque subclass pickle state (#4769)
 
 Original issue: [#4769](https://github.com/RustPython/RustPython/issues/4769)
 
@@ -8,14 +8,12 @@ Original issue: [#4769](https://github.com/RustPython/RustPython/issues/4769)
 
 ## Reproducer
 
-Executed input: [probes.py](../../evidence/additional11/agent-a/probes.py.txt). The export preserves the executed code except for documented local-path substitutions.
+Run the shared [probes.py](../../evidence/additional11/agent-a/probes.py.txt) with selector `4769`, as shown in the recorded command. The relevant function is `issue4769`; the full file supplies its imports and dispatcher. The excerpt is formatted for readability.
+
+<details>
+<summary>Reproducer function: issue4769</summary>
 
 ```python
-"""Fresh independent issue inputs. Same file is executed by both runtimes."""
-
-import sys, json
-
-
 def issue4769():
     import pickle, copy
     from collections import deque
@@ -53,9 +51,14 @@ def issue4769():
                 assert type(e) is cls and e is not d
                 assert list(e) == list(d) and e.maxlen == d.maxlen
                 assert e.__dict__ == d.__dict__
+                if cls is DequeWithSlots:
+                    assert e.slot == d.slot
+                total += 1
+    print("pickle protocols:", list(range(pickle.HIGHEST_PROTOCOL + 1)))
+    print("subclass roundtrips:", total)
 ```
 
-Only the beginning is displayed above; use the linked full input and the case selector in the recorded command.
+</details>
 
 ## Expected and observed results
 
@@ -63,55 +66,93 @@ Only the beginning is displayed above; use the linked full input and the case se
 
 **Observed:** The original regression test passes. Protocols 0–5 preserve dict/slots state, type, contents and maxlen in 36 subclass round trips.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><pre><code>literal original: integer has no __dict__
+<details>
+<summary>Current verification — exit 0</summary>
+
+**stdout:**
+
+```text
+literal original: integer has no __dict__
 pickle protocols: [0, 1, 2, 3, 4, 5]
-subclass roundtrips: 36</code></pre></td><td valign="top"><pre><code>CATALOG_RECORD {&quot;kind&quot;: &quot;start&quot;, &quot;case_id&quot;: &quot;issue-4769-case-02&quot;, &quot;selector&quot;: &quot;test.test_deque.TestSubclass.test_copy_pickle&quot;, &quot;interpreter&quot;: &quot;3.11.0alpha (tags/v0.2.0-604-g25ca331dc:25ca331dc, Mar 25 2023, 21:53:53) \n[rustc 1.67.1]&quot;, &quot;executable&quot;: &quot;&lt;survey&gt;/.build/slot-a/release/rustpython&quot;, &quot;cwd&quot;: &quot;&lt;survey&gt;/logs/scratch-history-a/25ca331dc8&quot;, &quot;selector_derivation&quot;: null, &quot;original_selector&quot;: null, &quot;derivation&quot;: &quot;TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared&quot;}
-CATALOG_RECORD {&quot;kind&quot;: &quot;selection&quot;, &quot;case_id&quot;: &quot;issue-4769-case-02&quot;, &quot;selected_ids&quot;: [&quot;test.test_deque.TestSubclass.test_copy_pickle&quot;], &quot;loader_errors&quot;: [], &quot;module_origin&quot;: &quot;&lt;workspace&gt;/pylib/Lib/test/test_deque.py&quot;, &quot;module_sha256&quot;: &quot;80bf52da28d59465f6fda4002092772c99afce0a30c0594ba6b5234bfdb4962c&quot;, &quot;bypassed_decorators&quot;: [{&quot;kind&quot;: &quot;expectedFailure&quot;, &quot;object&quot;: &quot;test.test_deque.TestSubclass.test_copy_pickle&quot;, &quot;action&quot;: &quot;clear selected object metadata; preserve body&quot;}], &quot;note&quot;: &quot;Import-time bypass records include unselected tests; only selected_ids are executed&quot;}
-CATALOG_RECORD {&quot;kind&quot;: &quot;test&quot;, &quot;test_id&quot;: &quot;test.test_deque.TestSubclass.test_copy_pickle&quot;, &quot;outcome&quot;: &quot;error&quot;, &quot;exception&quot;: &quot;AttributeError&quot;, &quot;message&quot;: &quot;&#x27;Deque&#x27; object has no attribute &#x27;x&#x27;&quot;}
-CATALOG_RECORD {&quot;kind&quot;: &quot;complete&quot;, &quot;case_id&quot;: &quot;issue-4769-case-02&quot;, &quot;status&quot;: &quot;completed&quot;, &quot;tests_run&quot;: 1, &quot;selected_count&quot;: 1, &quot;failures&quot;: 0, &quot;errors&quot;: 1, &quot;skipped&quot;: [], &quot;expected_failures&quot;: 0, &quot;unexpected_successes&quot;: 0, &quot;passing&quot;: false}</code></pre></td><td valign="top"><pre><code>literal original: integer has no __dict__
+subclass roundtrips: 36
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:**
+
+```text
+literal original: integer has no __dict__
 pickle protocols: [0, 1, 2, 3, 4, 5]
-subclass roundtrips: 36</code></pre></td></tr>
-<tr><th>stderr</th><td valign="top"><em>No output</em></td><td valign="top"><pre><code>[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
+subclass roundtrips: 36
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 1</summary>
+
+**stdout:**
+
+```text
+CATALOG_RECORD {"kind": "start", "case_id": "issue-4769-case-02", "selector": "test.test_deque.TestSubclass.test_copy_pickle", "interpreter": "3.11.0alpha (tags/v0.2.0-604-g25ca331dc:25ca331dc, Mar 25 2023, 21:53:53) \n[rustc 1.67.1]", "executable": "<survey>/.build/slot-a/release/rustpython", "cwd": "<survey>/logs/scratch-history-a/25ca331dc8", "selector_derivation": null, "original_selector": null, "derivation": "TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared"}
+CATALOG_RECORD {"kind": "selection", "case_id": "issue-4769-case-02", "selected_ids": ["test.test_deque.TestSubclass.test_copy_pickle"], "loader_errors": [], "module_origin": "<workspace>/pylib/Lib/test/test_deque.py", "module_sha256": "80bf52da28d59465f6fda4002092772c99afce0a30c0594ba6b5234bfdb4962c", "bypassed_decorators": [{"kind": "expectedFailure", "object": "test.test_deque.TestSubclass.test_copy_pickle", "action": "clear selected object metadata; preserve body"}], "note": "Import-time bypass records include unselected tests; only selected_ids are executed"}
+CATALOG_RECORD {"kind": "test", "test_id": "test.test_deque.TestSubclass.test_copy_pickle", "outcome": "error", "exception": "AttributeError", "message": "'Deque' object has no attribute 'x'"}
+CATALOG_RECORD {"kind": "complete", "case_id": "issue-4769-case-02", "status": "completed", "tests_run": 1, "selected_count": 1, "failures": 0, "errors": 1, "skipped": [], "expected_failures": 0, "unexpected_successes": 0, "passing": false}
+```
+
+**stderr:**
+
+```text
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
 ...
 ======================================================================
 ERROR: test_copy_pickle (test.test_deque.TestSubclass.test_copy_pickle)
 ----------------------------------------------------------------------
 Traceback (most recent call last):
-  File &quot;&lt;workspace&gt;/pylib/Lib/test/test_deque.py&quot;, line 839, in test_copy_pickle
+  File "<workspace>/pylib/Lib/test/test_deque.py", line 839, in test_copy_pickle
     self.assertEqual(e.x, d.x)
-AttributeError: &#x27;Deque&#x27; object has no attribute &#x27;x&#x27;
+AttributeError: 'Deque' object has no attribute 'x'
 
 ----------------------------------------------------------------------
 Ran 1 test in 0.007s
 
-FAILED (errors=1)</code></pre><p><em>Excerpt; complete output is in the linked execution record.</em></p></td><td valign="top"><em>No output</em></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>1</code></pre></td><td valign="top"><pre><code>0</code></pre></td></tr>
-</tbody>
-</table>
+FAILED (errors=1)
+```
+
+Excerpt; complete output is in the linked execution record.
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-a/verification/rustpython -B <additional11-audit>/agent-a/probes.py 4769
+'<survey>/.build/slot-a/verification/rustpython' -B '<additional11-audit>/agent-a/probes.py' \
+  4769
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14 -B <additional11-audit>/agent-a/probes.py 4769
+'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B \
+  '<additional11-audit>/agent-a/probes.py' 4769
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -139,30 +180,11 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical-catalog-25ca331dc8-scratch.stderr](../../evidence/history/logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stderr).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [4769-cpython](../../evidence/additional11/agent-a/4769-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/4769-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/4769-cpython.stderr.txt) |
-| [4769-rustpython](../../evidence/additional11/agent-a/4769-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/4769-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/4769-rustpython.stderr.txt) |
-| [4769-unittest-rustpython](../../evidence/additional11/agent-a/4769-unittest-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/4769-unittest-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/4769-unittest-rustpython.stderr.txt) |
-
-<details>
-<summary>Full primary current stdout/stderr</summary>
-
-**stdout:**
-
-```text
-literal original: integer has no __dict__
-pickle protocols: [0, 1, 2, 3, 4, 5]
-subclass roundtrips: 36
-
-```
-
-**stderr:**
-
-```text
-
-```
-
-</details>
+- **[4769-cpython](../../evidence/additional11/agent-a/4769-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/4769-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/4769-cpython.stderr.txt).
+- **[4769-rustpython](../../evidence/additional11/agent-a/4769-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/4769-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/4769-rustpython.stderr.txt).
+- **[4769-unittest-rustpython](../../evidence/additional11/agent-a/4769-unittest-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/4769-unittest-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/4769-unittest-rustpython.stderr.txt).
 
 AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.

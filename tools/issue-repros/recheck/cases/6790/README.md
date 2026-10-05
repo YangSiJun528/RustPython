@@ -1,4 +1,4 @@
-# #6790 — XZ support and the forced lzma skip
+# XZ support and the forced lzma skip (#6790)
 
 Original issue: [#6790](https://github.com/RustPython/RustPython/issues/6790)
 
@@ -30,44 +30,80 @@ print("first correct", a == payload[:100], "second correct", b == payload[100:20
 
 **Observed:** The forced skip is gone and basic XZ operations pass. However, identical CPython-generated XZ input returns 0 bytes from the first decompress(max_length=100) call in RustPython, versus 100 bytes in CPython.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><pre><code>first 100 second 100 needs_input False eof False
-first correct True second correct True</code></pre></td><td valign="top"><pre><code>skip True
+<details>
+<summary>Current verification — exit 0</summary>
+
+**stdout:**
+
+```text
+first 0 second 100 needs_input False eof False
+first correct False second correct False
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:**
+
+```text
+first 100 second 100 needs_input False eof False
+first correct True second correct True
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 0</summary>
+
+**stdout:**
+
+```text
+skip True
 reason requires lzma
 invoked SkipTest
-skip_message requires lzma</code></pre></td><td valign="top"><pre><code>first 0 second 100 needs_input False eof False
-first correct False second correct False</code></pre></td></tr>
-<tr><th>stderr</th><td valign="top"><em>No output</em></td><td valign="top"><pre><code>[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object</code></pre></td><td valign="top"><em>No output</em></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>0</code></pre></td></tr>
-</tbody>
-</table>
+skip_message requires lzma
+```
+
+**stderr:**
+
+```text
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T09:59:02Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+```
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B -S <initial16-audit>/agent-b/probe-6790-fixed-input.py
+'<survey>/.build/slot-b/saved/current-f39-x86/rustpython' -B -S \
+  '<initial16-audit>/agent-b/probe-6790-fixed-input.py'
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14 -B -S <initial16-audit>/agent-b/probe-6790-fixed-input.py
+'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B -S \
+  '<initial16-audit>/agent-b/probe-6790-fixed-input.py'
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -95,33 +131,19 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical.stderr.txt](../../../cases/6790/evidence/historical.stderr.txt).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [fixture-6790-cpython](../../evidence/initial16/agent-b/fixture-6790-cpython.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fixture-6790-cpython.stdout) | [stderr](../../evidence/initial16/agent-b/fixture-6790-cpython.stderr) |
-| [fresh-6790-cp](../../evidence/initial16/agent-b/fresh-6790-cp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-6790-cp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-6790-cp.stderr) |
-| [fresh-6790-fixed-input-cp](../../evidence/initial16/agent-b/fresh-6790-fixed-input-cp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-6790-fixed-input-cp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-6790-fixed-input-cp.stderr) |
-| [fresh-6790-fixed-input-rp](../../evidence/initial16/agent-b/fresh-6790-fixed-input-rp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-6790-fixed-input-rp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-6790-fixed-input-rp.stderr) |
-| [fresh-6790-maxlength-cp](../../evidence/initial16/agent-b/fresh-6790-maxlength-cp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-6790-maxlength-cp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-6790-maxlength-cp.stderr) |
-| [fresh-6790-maxlength-rp](../../evidence/initial16/agent-b/fresh-6790-maxlength-rp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-6790-maxlength-rp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-6790-maxlength-rp.stderr) |
-| [fresh-6790-rp](../../evidence/initial16/agent-b/fresh-6790-rp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-6790-rp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-6790-rp.stderr) |
-
-<details>
-<summary>Full primary current stdout/stderr</summary>
-
-**stdout:**
-
-```text
-first 0 second 100 needs_input False eof False
-first correct False second correct False
-
-```
-
-**stderr:**
-
-```text
-
-```
-
-</details>
+- **[fixture-6790-cpython](../../evidence/initial16/agent-b/fixture-6790-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fixture-6790-cpython.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fixture-6790-cpython.stderr).
+- **[fresh-6790-cp](../../evidence/initial16/agent-b/fresh-6790-cp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-6790-cp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-6790-cp.stderr).
+- **[fresh-6790-fixed-input-cp](../../evidence/initial16/agent-b/fresh-6790-fixed-input-cp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-6790-fixed-input-cp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-6790-fixed-input-cp.stderr).
+- **[fresh-6790-fixed-input-rp](../../evidence/initial16/agent-b/fresh-6790-fixed-input-rp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-6790-fixed-input-rp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-6790-fixed-input-rp.stderr).
+- **[fresh-6790-maxlength-cp](../../evidence/initial16/agent-b/fresh-6790-maxlength-cp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-6790-maxlength-cp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-6790-maxlength-cp.stderr).
+- **[fresh-6790-maxlength-rp](../../evidence/initial16/agent-b/fresh-6790-maxlength-rp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-6790-maxlength-rp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-6790-maxlength-rp.stderr).
+- **[fresh-6790-rp](../../evidence/initial16/agent-b/fresh-6790-rp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-6790-rp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-6790-rp.stderr).
 
 AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.

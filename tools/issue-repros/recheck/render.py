@@ -15,39 +15,7 @@ def render():
         5181,
         6790,
     }
-    url = "https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros"
-    baseline = catalog["baseline"]
-    draft = [
-        "# Review 24 independently verified issues for closure",
-        "",
-        "I independently rechecked the reports below and found sufficient evidence that their reported problems are resolved. Could you review these results and close the corresponding issues?",
-        "",
-        f"Verification used [{baseline[:12]}](https://github.com/RustPython/RustPython/commit/{baseline}) on October 5, 2026. The fresh runs used macOS ARM64 and, for the explicitly identified slot B cases, x86_64 RustPython through Rosetta. CPython comparisons used 3.14.6 ARM64. The documentation-link case was checked against the actual served API content.",
-        "",
-        "The related changes explain the observed behavior; the exact first fixing commits were not established. Historical failure logs were reused, while the current results were independently executed. Each detailed report separates those evidence sources and states its limits.",
-        "",
-        "This is an unsubmitted issue-body draft. #4613, #5181 and #6790 remain partially resolved and are excluded from this closure request; see the [remaining issues](recheck/not-ready.md). #6697 is outside these independent audits and is not counted.",
-        "",
-    ]
-    for row in resolved:
-        number = row["issue"]
-        draft.extend(
-            [
-                f"- **[#{number}](https://github.com/RustPython/RustPython/issues/{number}) — {row['title']}.**",
-                "  " + row["result"],
-                "  " + row["related"] + ".",
-                "",
-                f"  - [Reproduction and results]({url}/recheck/cases/{number}/README.md).",
-                "",
-            ]
-        )
-    draft.extend(
-        [
-            "AI assistance: verification, evidence packaging and drafting with OpenAI Codex.",
-            "",
-        ]
-    )
-    (root.parent / "report.md").write_text("\n".join(draft))
+    (root.parent / "report.md").write_text(catalog["issue_body"])
     remaining = [
         "# Partially resolved issues — not included in the closure request",
         "",

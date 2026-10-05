@@ -3,6 +3,8 @@
 This update packages the completed independent audits. No new interpreter result
 or historical run is claimed by the publication step.
 
+## Original publication checks
+
 - The catalog contains exactly 27 issues: 24 closure candidates and the partial
   cases #4613, #5181 and #6790. The combined draft has exactly 24 issue bullets.
 - Current detailed reports and same-branch reproduction links resolve to included
@@ -33,3 +35,19 @@ Only the report branch in the user's fork is authorized for push. No issue,
 pull request, comment or issue-state mutation is part of this task.
 
 AI assistance: OpenAI Codex prepared and checked the publication packet.
+
+## Local readability review
+
+The subsequent local edit changes presentation and corrects template text; it
+does not rerun interpreters or change closure verdicts.
+
+- All 27 current case documents and the environment guide use vertical sections
+  and lists instead of output-comparison or execution-record tables. Long code
+  and logs use expandable sections. Raw evidence files remain unchanged.
+- Shared reproducer excerpts show the selected issue function. The safe-path
+  case describes its actual command and PTY checks, and the HTTP case omits
+  inapplicable interpreter fields.
+- Current Markdown parses, evidence links resolve, and the 24-issue body retains
+  its manually reviewed text when the renderer runs.
+- The local preview of the expanded safe-path results fits a 390-pixel viewport
+  without horizontal page overflow. This is a local preview, not a remote update.

@@ -1,4 +1,4 @@
-# #4506 — SymPy import with the reported versions
+# SymPy import with the reported versions (#4506)
 
 Original issue: [#4506](https://github.com/RustPython/RustPython/issues/4506)
 
@@ -9,6 +9,9 @@ Original issue: [#4506](https://github.com/RustPython/RustPython/issues/4506)
 ## Reproducer
 
 Executed input: [probe-sympy-original.py](../../evidence/additional11/agent-b/probe-sympy-original.py.txt). The export preserves the executed code except for documented local-path substitutions.
+
+<details>
+<summary>Reproducer code</summary>
 
 ```python
 import sys
@@ -61,88 +64,135 @@ print(
 )
 ```
 
+</details>
+
 ## Expected and observed results
 
 **Expected:** The already installed reported package versions must import without the descriptor AttributeError.
 
 **Observed:** SymPy 1.11.1 with mpmath 1.2.1 imports successfully. Tracing observes the original power.py:378 is_commutative assignment, and the reported Pow path succeeds.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><pre><code>{
-  &quot;versions&quot;: [
-    &quot;1.11.1&quot;,
-    &quot;1.2.1&quot;
+<details>
+<summary>Current verification — exit 0</summary>
+
+**stdout:**
+
+```text
+{
+  "versions": [
+    "1.11.1",
+    "1.2.1"
 ...
-    &quot;&lt;survey&gt;/verification-tools/package-history-4506-original/site/mpmath/__init__.py&quot;
+    "<survey>/verification-tools/package-history-4506-original/site/mpmath/__init__.py"
   ],
-  &quot;original_assignment&quot;: [
+  "original_assignment": [
     [
-      &quot;__new__&quot;,
+      "__new__",
       378
     ]
   ],
-  &quot;pow&quot;: &quot;1/E&quot;,
-  &quot;is_commutative&quot;: true,
-  &quot;expanded&quot;: &quot;x**2 + 2*x + 1&quot;
-}</code></pre><p><em>Excerpt; complete output is in the linked execution record.</em></p></td><td valign="top"><em>No output</em></td><td valign="top"><pre><code>{
-  &quot;versions&quot;: [
-    &quot;1.11.1&quot;,
-    &quot;1.2.1&quot;
+  "pow": "1/E",
+  "is_commutative": true,
+  "expanded": "x**2 + 2*x + 1"
+}
+```
+
+Excerpt; complete output is in the linked execution record.
+
+**stderr:**
+
+```text
+<survey>/verification-tools/package-history-4506-original/site/sympy/testing/runtests.py:275: SyntaxWarning: 'return' in a 'finally' block
+  return p.returncode
+```
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:**
+
+```text
+{
+  "versions": [
+    "1.11.1",
+    "1.2.1"
 ...
-    &quot;&lt;survey&gt;/verification-tools/package-history-4506-original/site/mpmath/__init__.py&quot;
+    "<survey>/verification-tools/package-history-4506-original/site/mpmath/__init__.py"
   ],
-  &quot;original_assignment&quot;: [
+  "original_assignment": [
     [
-      &quot;__new__&quot;,
+      "__new__",
       378
     ]
   ],
-  &quot;pow&quot;: &quot;1/E&quot;,
-  &quot;is_commutative&quot;: true,
-  &quot;expanded&quot;: &quot;x**2 + 2*x + 1&quot;
-}</code></pre><p><em>Excerpt; complete output is in the linked execution record.</em></p></td></tr>
-<tr><th>stderr</th><td valign="top"><pre><code>&lt;survey&gt;/verification-tools/package-history-4506-original/site/sympy/testing/runtests.py:275: SyntaxWarning: &#x27;return&#x27; in a &#x27;finally&#x27; block
-  return p.returncode</code></pre></td><td valign="top"><pre><code>[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
+  "pow": "1/E",
+  "is_commutative": true,
+  "expanded": "x**2 + 2*x + 1"
+}
+```
+
+Excerpt; complete output is in the linked execution record.
+
+**stderr:**
+
+```text
+<survey>/verification-tools/package-history-4506-original/site/sympy/testing/runtests.py:275: SyntaxWarning: 'return' in a 'finally' block
+  return p.returncode
+```
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 1</summary>
+
+**stdout:** No output.
+
+**stderr:**
+
+```text
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
 ...
     class LambertW(Function):
-  File &quot;&lt;survey&gt;/verification-tools/package-history-4506-original/site/sympy/functions/elementary/exponential.py&quot;, line 1159, in LambertW
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/functions/elementary/exponential.py", line 1159, in LambertW
     _singularities = (-Pow(S.Exp1, -1, evaluate=False), S.ComplexInfinity)
-  File &quot;&lt;survey&gt;/verification-tools/package-history-4506-original/site/sympy/core/cache.py&quot;, line 74, in wrapper
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/cache.py", line 74, in wrapper
     retval = func(*args, **kwargs)
-  File &quot;&lt;survey&gt;/verification-tools/package-history-4506-original/site/sympy/core/cache.py&quot;, line 70, in wrapper
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/cache.py", line 70, in wrapper
     retval = cfunc(*args, **kwargs)
-  File &quot;&lt;slot-b-source&gt;/pylib/Lib/functools.py&quot;, line 593, in wrapper
+  File "<slot-b-source>/pylib/Lib/functools.py", line 593, in wrapper
     result = user_function(*args, **kwds)
-  File &quot;&lt;survey&gt;/verification-tools/package-history-4506-original/site/sympy/core/power.py&quot;, line 378, in __new__
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/power.py", line 378, in __new__
     obj.is_commutative = (b.is_commutative and e.is_commutative)
-AttributeError: can&#x27;t set attribute</code></pre><p><em>Excerpt; complete output is in the linked execution record.</em></p></td><td valign="top"><pre><code>&lt;survey&gt;/verification-tools/package-history-4506-original/site/sympy/testing/runtests.py:275: SyntaxWarning: &#x27;return&#x27; in a &#x27;finally&#x27; block
-  return p.returncode</code></pre></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>1</code></pre></td><td valign="top"><pre><code>0</code></pre></td></tr>
-</tbody>
-</table>
+AttributeError: can't set attribute
+```
+
+Excerpt; complete output is in the linked execution record.
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B <additional11-audit>/agent-b/probe-sympy-original.py
+'<survey>/.build/slot-b/saved/current-f39-x86/rustpython' -B \
+  '<additional11-audit>/agent-b/probe-sympy-original.py'
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-sympy-original.py
+'<home>/.local/bin/python3' -B '<additional11-audit>/agent-b/probe-sympy-original.py'
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -170,47 +220,9 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical-pinned-sympy111-mpmath121-b.stderr](../../evidence/history/logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stderr).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [4506-cpython](../../evidence/additional11/agent-b/4506-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/4506-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/4506-cpython.stderr.txt) |
-| [4506-rustpython](../../evidence/additional11/agent-b/4506-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-b/4506-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-b/4506-rustpython.stderr.txt) |
-
-<details>
-<summary>Full primary current stdout/stderr</summary>
-
-**stdout:**
-
-```text
-{
-  "versions": [
-    "1.11.1",
-    "1.2.1"
-  ],
-  "files": [
-    "<survey>/verification-tools/package-history-4506-original/site/sympy/__init__.py",
-    "<survey>/verification-tools/package-history-4506-original/site/mpmath/__init__.py"
-  ],
-  "original_assignment": [
-    [
-      "__new__",
-      378
-    ]
-  ],
-  "pow": "1/E",
-  "is_commutative": true,
-  "expanded": "x**2 + 2*x + 1"
-}
-
-```
-
-**stderr:**
-
-```text
-<survey>/verification-tools/package-history-4506-original/site/sympy/testing/runtests.py:275: SyntaxWarning: 'return' in a 'finally' block
-  return p.returncode
-
-```
-
-</details>
+- **[4506-cpython](../../evidence/additional11/agent-b/4506-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/4506-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/4506-cpython.stderr.txt).
+- **[4506-rustpython](../../evidence/additional11/agent-b/4506-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-b/4506-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/4506-rustpython.stderr.txt).
 
 AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.

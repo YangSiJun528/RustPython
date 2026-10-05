@@ -19,9 +19,10 @@ This branch contains a draft only. No GitHub issue, PR or comment was submitted.
 
 ## Read and reproduce the current evidence
 
-Each current case follows the original report layout: reproducer, expected and
-observed results, commands, analysis, versions and full evidence. The before
-column is explicitly marked as reused evidence. The October 5 current results
+Each current case presents the reproducer, expected and observed results,
+commands, analysis, versions and linked evidence. Output is grouped vertically
+by execution, with long code and logs in expandable sections. Historical results
+are explicitly marked as reused evidence. The October 5 current results
 were independently executed; publication itself does not claim new executions.
 
 The [environment guide](recheck/ENVIRONMENT.md) explains the two existing execution

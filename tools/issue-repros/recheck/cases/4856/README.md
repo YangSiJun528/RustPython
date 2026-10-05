@@ -1,4 +1,4 @@
-# #4856 — Lambda in a class decorator
+# Lambda in a class decorator (#4856)
 
 Original issue: [#4856](https://github.com/RustPython/RustPython/issues/4856)
 
@@ -9,6 +9,9 @@ Original issue: [#4856](https://github.com/RustPython/RustPython/issues/4856)
 ## Reproducer
 
 Executed input: [probe-4856.py](../../evidence/initial16/agent-b/probe-4856.py.txt). The export preserves the executed code except for documented local-path substitutions.
+
+<details>
+<summary>Reproducer code</summary>
 
 ```python
 from pathlib import Path
@@ -56,51 +59,85 @@ def factory(value):
 print("nested capture", factory(7)().test_value(), "outside", target())
 ```
 
+</details>
+
 ## Expected and observed results
 
 **Expected:** Compilation must not panic when a class decorator contains a lambda argument.
 
 **Observed:** The original source compiles without the Rust compiler panic. Executing that original source raises BaseFTests NameError in both interpreters. Separate valid mock.patch and nested-capture controls execute and restore the patched function.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><pre><code>original compile success
-original execution NameError name &#x27;BaseFTests&#x27; is not defined
+<details>
+<summary>Current verification — exit 0</summary>
+
+**stdout:**
+
+```text
+original compile success
+original execution NameError name 'BaseFTests' is not defined
 valid patch method 3 outside 1
-nested capture 7 outside 1</code></pre></td><td valign="top"><em>No output</em></td><td valign="top"><pre><code>original compile success
-original execution NameError name &#x27;BaseFTests&#x27; is not defined
+nested capture 7 outside 1
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:**
+
+```text
+original compile success
+original execution NameError name 'BaseFTests' is not defined
 valid patch method 3 outside 1
-nested capture 7 outside 1</code></pre></td></tr>
-<tr><th>stderr</th><td valign="top"><em>No output</em></td><td valign="top"><pre><code>[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-thread &#x27;main&#x27; panicked at &#x27;assertion failed: table.sub_tables.is_empty()&#x27;, compiler/codegen/src/compile.rs:305:9
-note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</code></pre></td><td valign="top"><em>No output</em></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>101</code></pre></td><td valign="top"><pre><code>0</code></pre></td></tr>
-</tbody>
-</table>
+nested capture 7 outside 1
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 101</summary>
+
+**stdout:** No output.
+
+**stderr:**
+
+```text
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+thread 'main' panicked at 'assertion failed: table.sub_tables.is_empty()', compiler/codegen/src/compile.rs:305:9
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+```
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B -S <initial16-audit>/agent-b/probe-4856.py
+'<survey>/.build/slot-b/saved/current-f39-x86/rustpython' -B -S \
+  '<initial16-audit>/agent-b/probe-4856.py'
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14 -B -S <initial16-audit>/agent-b/probe-4856.py
+'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B -S \
+  '<initial16-audit>/agent-b/probe-4856.py'
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -128,30 +165,9 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical.stderr.txt](../../../cases/4856/evidence/historical.stderr.txt).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [fresh-4856-cp](../../evidence/initial16/agent-b/fresh-4856-cp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-4856-cp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-4856-cp.stderr) |
-| [fresh-4856-rp](../../evidence/initial16/agent-b/fresh-4856-rp.json) | 0 | false | [stdout](../../evidence/initial16/agent-b/fresh-4856-rp.stdout) | [stderr](../../evidence/initial16/agent-b/fresh-4856-rp.stderr) |
-
-<details>
-<summary>Full primary current stdout/stderr</summary>
-
-**stdout:**
-
-```text
-original compile success
-original execution NameError name 'BaseFTests' is not defined
-valid patch method 3 outside 1
-nested capture 7 outside 1
-
-```
-
-**stderr:**
-
-```text
-
-```
-
-</details>
+- **[fresh-4856-cp](../../evidence/initial16/agent-b/fresh-4856-cp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-4856-cp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-4856-cp.stderr).
+- **[fresh-4856-rp](../../evidence/initial16/agent-b/fresh-4856-rp.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/initial16/agent-b/fresh-4856-rp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-4856-rp.stderr).
 
 AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.

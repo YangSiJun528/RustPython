@@ -1,4 +1,4 @@
-# #4907 — Await in an async comprehension
+# Await in an async comprehension (#4907)
 
 Original issue: [#4907](https://github.com/RustPython/RustPython/issues/4907)
 
@@ -8,54 +8,44 @@ Original issue: [#4907](https://github.com/RustPython/RustPython/issues/4907)
 
 ## Reproducer
 
-Executed input: [probes.py](../../evidence/additional11/agent-a/probes.py.txt). The export preserves the executed code except for documented local-path substitutions.
+Run the shared [probes.py](../../evidence/additional11/agent-a/probes.py.txt) with selector `4907`, as shown in the recorded command. The relevant function is `issue4907`; the full file supplies its imports and dispatcher. The excerpt is formatted for readability.
+
+<details>
+<summary>Reproducer function: issue4907</summary>
 
 ```python
-"""Fresh independent issue inputs. Same file is executed by both runtimes."""
+def issue4907():
+    import asyncio, time
 
-import sys, json
-
-
-def issue4769():
-    import pickle, copy
-    from collections import deque
-
-    global Deque, DequeWithSlots
-
-    class Deque(deque):
-        pass
-
-    class DequeWithSlots(deque):
-        __slots__ = ("slot", "__dict__")
-
-    # Names must be globally resolvable for pickle.
-    Deque.__qualname__ = "Deque"
-    DequeWithSlots.__qualname__ = "DequeWithSlots"
-    literal = pickle.loads(pickle.dumps(pickle.HIGHEST_PROTOCOL))
+    source = "async def bar():\n    [await print(i) for i in [1, 2, 3]]\n"
+    namespace = {}
+    exec(compile(source, "<original-4907>", "exec"), namespace)
+    print("original compile: success")
+    original = namespace["bar"]()
     try:
-        literal.__dict__
-    except AttributeError:
-        print("literal original: integer has no __dict__")
-    total = 0
-    for cls in (Deque, DequeWithSlots):
-        for values, maxlen in (
-            ([], None),
-            (["a", "b", "c"], None),
-            (["a", "b", "c"], 2),
-        ):
-            d = cls(values, maxlen=maxlen)
-            d.x = "value"
-            d.extra = ["list state"]
-            if cls is DequeWithSlots:
-                d.slot = ["slot state"]
-            for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
-                e = pickle.loads(pickle.dumps(d, protocol))
-                assert type(e) is cls and e is not d
-                assert list(e) == list(d) and e.maxlen == d.maxlen
-                assert e.__dict__ == d.__dict__
+        original.send(None)
+    except TypeError:
+        print("original invocation: TypeError from awaiting print result")
+    else:
+        raise AssertionError("expected TypeError")
+
+    async def lc():
+        [await asyncio.sleep(1) for _ in range(2)]
+        print("lc done")
+
+    start = time.monotonic()
+    loop = asyncio.new_event_loop()
+    tasks = [loop.create_task(lc())]
+    done, pending = loop.run_until_complete(asyncio.wait(tasks))
+    assert not pending
+    for task in done:
+        assert task.result() is None
+    loop.close()
+    assert time.monotonic() - start >= 1.9
+    print("comment execution: two awaited sleeps completed")
 ```
 
-Only the beginning is displayed above; use the linked full input and the case selector in the recorded command.
+</details>
 
 ## Expected and observed results
 
@@ -63,48 +53,80 @@ Only the beginning is displayed above; use the linked full input and the case se
 
 **Observed:** The original async function compiles. The comment's actual asyncio event-loop and two awaited sleeps finish with lc done.
 
-Historical and current columns may use different expanded probes. This table compares the reported symptom, not a claim of identical before/after inputs. CPython and the corresponding current probe use the recorded input identified in their metadata.
+Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
 
-<table>
-<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before (reused)</th><th>Current verification</th></tr></thead>
-<tbody>
-<tr><th>stdout</th><td valign="top"><pre><code>original compile: success
+<details>
+<summary>Current verification — exit 0</summary>
+
+**stdout:**
+
+```text
+original compile: success
 1
 original invocation: TypeError from awaiting print result
 lc done
-comment execution: two awaited sleeps completed</code></pre></td><td valign="top"><em>No output</em></td><td valign="top"><pre><code>original compile: success
+comment execution: two awaited sleeps completed
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>CPython 3.14.6 — exit 0</summary>
+
+**stdout:**
+
+```text
+original compile: success
 1
 original invocation: TypeError from awaiting print result
 lc done
-comment execution: two awaited sleeps completed</code></pre></td></tr>
-<tr><th>stderr</th><td valign="top"><em>No output</em></td><td valign="top"><pre><code>[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn&#x27;t run __del__ method for object
-SyntaxError: &#x27;await&#x27; outside async function at line 2 column 5
+comment execution: two awaited sleeps completed
+```
+
+**stderr:** No output.
+
+</details>
+
+<details>
+<summary>RustPython before (reused) — exit 1</summary>
+
+**stdout:** No output.
+
+**stderr:**
+
+```text
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+SyntaxError: 'await' outside async function at line 2 column 5
     [await print(i) for i in [1, 2, 3]]
-    ^</code></pre></td><td valign="top"><em>No output</em></td></tr>
-<tr><th>exit</th><td valign="top"><pre><code>0</code></pre></td><td valign="top"><pre><code>1</code></pre></td><td valign="top"><pre><code>0</code></pre></td></tr>
-</tbody>
-</table>
+    ^
+```
+
+</details>
 
 ## Run
 
 Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
 
 ```sh
-<survey>/.build/slot-a/verification/rustpython -B <additional11-audit>/agent-a/probes.py 4907
+'<survey>/.build/slot-a/verification/rustpython' -B '<additional11-audit>/agent-a/probes.py' \
+  4907
 ```
 
 CPython reference command:
 
 ```sh
-<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14 -B <additional11-audit>/agent-a/probes.py 4907
+'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B \
+  '<additional11-audit>/agent-a/probes.py' 4907
 ```
 
-All environment overrides, cwd, input and executable identity are preserved in the execution records below. For PTY checks, replay the interactive input through a PTY; a plain script invocation is not equivalent.
+All environment overrides, cwd, input and executable identity are preserved in the execution records below.
 
 ## Analysis and closure rationale
 
@@ -132,31 +154,9 @@ The changes explain the observed behavior. No adjacent parent/commit execution o
 - [Full reused historical-3794c178be-01-fe88d349-c1d93c6d.stderr](../../evidence/history/logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stderr).
 - [Independent assessment, original scope and limitations](assessment.json).
 
-| Execution record (argv, environment, input) | Exit | Timeout | stdout | stderr |
-|---|---|---|---|---|
-| [4907-cpython](../../evidence/additional11/agent-a/4907-cpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/4907-cpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/4907-cpython.stderr.txt) |
-| [4907-rustpython](../../evidence/additional11/agent-a/4907-rustpython.json) | 0 | false | [stdout](../../evidence/additional11/agent-a/4907-rustpython.stdout.txt) | [stderr](../../evidence/additional11/agent-a/4907-rustpython.stderr.txt) |
-
-<details>
-<summary>Full primary current stdout/stderr</summary>
-
-**stdout:**
-
-```text
-original compile: success
-1
-original invocation: TypeError from awaiting print result
-lc done
-comment execution: two awaited sleeps completed
-
-```
-
-**stderr:**
-
-```text
-
-```
-
-</details>
+- **[4907-cpython](../../evidence/additional11/agent-a/4907-cpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/4907-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/4907-cpython.stderr.txt).
+- **[4907-rustpython](../../evidence/additional11/agent-a/4907-rustpython.json)** — exit `0`; timeout `false`.
+  stdout: [stdout](../../evidence/additional11/agent-a/4907-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/4907-rustpython.stderr.txt).
 
 AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.
