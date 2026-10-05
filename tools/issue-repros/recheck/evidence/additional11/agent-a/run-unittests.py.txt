@@ -1,0 +1,3 @@
+from runner import ROOT,run
+for issue,names in [('4769',['test.test_deque.TestSubclass.test_copy_pickle']),('8494',['test.test_descr.ClassPropertiesAndMethods.test_classmethod_staticmethod_annotations']),('3846',['test.test_modulefinder.ModuleFinderTest'])]:
+    run(issue+'-unittest-rustpython','rustpython',[str(ROOT/'unittest-probe.py'),*names],timeout=60)

@@ -1,0 +1,17 @@
+{
+  "source_sha": "7a6000d181b7611c26f2d1353d0462d7bec26da6",
+  "binary_sha256": "95e0c98776c390e20c85f00f8418dc0e1b83d040f8ce1285e32c4f51c3618a69",
+  "command": [
+    "<survey>/.build/slot-b/saved/history-7a6000d1/rustpython",
+    "-c",
+    "import sys,locale,test.test_format; print(sys.version); print(locale.__file__); print(test.test_format.__file__)"
+  ],
+  "env": {
+    "RUSTPYTHONPATH": "Lib",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "stdout": "3.11.0alpha (tags/v0.2.0-903-g7a6000d18:7a6000d18, May 13 2023, 02:58:02) \n[rustc 1.67.1]\n<workspace>/Lib/locale.py\n<workspace>/Lib/test/test_format.py\n",
+  "stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+  "exit_code": 0,
+  "build_provenance": "analysis/history-7a6000d1-retained-b-provenance.json"
+}

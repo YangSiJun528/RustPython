@@ -1,0 +1,43 @@
+"""Fresh PTY controls. os._exit avoids user history persistence in both runtimes."""
+from runner import ROOT,CWD,RP,CP
+import datetime,json,os,pty,select,subprocess,termios,time
+for runtime,binary in [('rustpython',RP),('cpython',CP)]:
+    for variant,flags,extra in [('default',[],{}),('P',['-P'],{}),('env1',[],{'PYTHONSAFEPATH':'1'})]:
+        label='4541-'+runtime+'-repl-'+variant
+        temp=ROOT/'temp'/label
+        temp.mkdir(parents=True,exist_ok=False)
+        env={k:v for k,v in os.environ.items() if not k.startswith(('PYTHON','RUSTPYTHON','LC_'))}
+        env.update(PYTHONDONTWRITEBYTECODE='1',TMPDIR=str(temp),PYTHON_HISTORY=str(temp/'python_history'),LANG='C',LC_ALL='C',TERM='dumb',NO_COLOR='1')
+        if runtime=='rustpython': env['RUSTPYTHONPATH']=str(CWD/'Lib')
+        env.update(extra)
+        master,slave=pty.openpty()
+        attrs=termios.tcgetattr(slave)
+        attrs[3] &= ~termios.ECHO
+        termios.tcsetattr(slave,termios.TCSANOW,attrs)
+        command=[str(binary),'-B','-q',*flags]
+        code="import sys, os, json; print('REPL_RESULT='+json.dumps({'safe_path':sys.flags.safe_path,'path':sys.path,'cwd':os.getcwd()}),flush=True); os._exit(0)\n"
+        start=time.monotonic()
+        proc=subprocess.Popen(command,cwd=CWD,env=env,stdin=slave,stdout=slave,stderr=slave)
+        os.close(slave)
+        output=b''
+        sent=False
+        while time.monotonic()-start<20:
+            ready,_,_=select.select([master],[],[],0.1)
+            if ready:
+                try: chunk=os.read(master,65536)
+                except OSError: break
+                if not chunk: break
+                output+=chunk
+                if not sent and b'>>>' in output:
+                    os.write(master,code.encode())
+                    sent=True
+            elif proc.poll() is not None: break
+        timeout=proc.poll() is None and time.monotonic()-start>=20
+        if timeout: proc.kill()
+        exit_code=proc.wait(timeout=5)
+        os.close(master)
+        record={'label':label,'interpreter':runtime,'command':command,'cwd':str(CWD),'environment':{k:v for k,v in env.items() if k.startswith(('PYTHON','RUSTPYTHON','LC_')) or k in ('TMPDIR','LANG','TERM','NO_COLOR')},'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'stdin':code,'exit_code':exit_code,'timeout':timeout,'stdout':output.decode(errors='replace'),'stderr':'','pty_streams_merged':True,'elapsed_seconds':time.monotonic()-start}
+        with (ROOT/(label+'.json')).open('x') as out: json.dump(record,out,indent=2)
+        with (ROOT/(label+'.stdout.txt')).open('x') as out: out.write(record['stdout'])
+        with (ROOT/(label+'.stderr.txt')).open('x') as out: out.write('')
+        print(json.dumps(record),flush=True)

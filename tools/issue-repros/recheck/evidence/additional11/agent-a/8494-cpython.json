@@ -1,0 +1,30 @@
+{
+  "label": "8494-cpython",
+  "interpreter": "cpython",
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<additional11-audit>/agent-a/probes.py",
+    "8494"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-cpython/python-history",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-cpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/8494-cpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/8494-cpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/8494-cpython"
+  },
+  "started_utc": "2026-10-05T10:48:57.575492+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "classmethod {'return': <class 'int'>}\nTrue\nwrapper: {'x': <class 'str'>}\nwrapped: {'return': <class 'int'>}\nstaticmethod {'return': <class 'int'>}\nTrue\nwrapper: {'x': <class 'str'>}\nwrapped: {'return': <class 'int'>}\nclassmethod annotated both attributes cache/write/delete isolation passed\nclassmethod unannotated both attributes cache/write/delete isolation passed\nstaticmethod annotated both attributes cache/write/delete isolation passed\nstaticmethod unannotated both attributes cache/write/delete isolation passed\n",
+  "stderr": "",
+  "elapsed_seconds": 0.023333874996751547
+}

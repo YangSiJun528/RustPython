@@ -1,0 +1,170 @@
+{
+  "created_at": "2026-10-05T09:12:40.761315+00:00",
+  "note": "Input hashes calculated after execution, not claimed as contemporaneous run-start hashes. Scripts were never modified after exclusive creation. Runtime JSON recorded binary hashes at each run start. CPython comparison is explicit 3.14.6 arm64 macOS.",
+  "inputs": [
+    {
+      "path": "<initial16-audit>/agent-b/original-4856.py",
+      "sha256": "164709a66f7c791a803ca49b9db8ac93b22fce7b6e9a5130ed2d1e07b0cfa717",
+      "size": 173,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-2527-single.py",
+      "sha256": "731144c5e21d254621e3635f6ccf6200d06c7c0ec85168424008bb7e7a789669",
+      "size": 436,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-4856.py",
+      "sha256": "3c6fb8992c60d0e83f7e002ced49cc9b798b513520bef23f1ddb73ff7c7958b4",
+      "size": 765,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-5181-width.py",
+      "sha256": "9323057014329ab2b3fc2a0887a79d24a9080e46808992256eddec33b4a472bf",
+      "size": 183,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-5181.py",
+      "sha256": "2d13658f177130e77ee7114bf5e88ea4a737c5c78eca07f87d3aa3b54feb9c00",
+      "size": 397,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-6429.py",
+      "sha256": "0bad35d33dda99fb37afc5a8a4f45f5d7b375b4879ac848b1fe98fa49b8f7d80",
+      "size": 273,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-6790-fixed-input.py",
+      "sha256": "f4ff964e104822aa3127bb6d466dc18fb37f990d81a87ffed0bef00628b0de26",
+      "size": 554,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-6790-maxlength.py",
+      "sha256": "644988a8909cef7cfed59965fe5c00dd31dc2ff24234468a3506f0ea72c69762",
+      "size": 363,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-6790.py",
+      "sha256": "160cf330ef96bb269d24b1411b627fcfa74e4fd3ccaaa70ca55fc6d509c707c9",
+      "size": 1399,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-8052.py",
+      "sha256": "9453131b5e4457350095a05c5a4d12743f5c68715f72a16a2c642f0a4ab6ab78",
+      "size": 372,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-existing-tests.py",
+      "sha256": "00056d8e6f63f6c7c0c64c5314358246140c8fb78dbe3e67d65325209503bd25",
+      "size": 973,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/probe-identity.py",
+      "sha256": "c8ac4e22f5c0d1b09d00fdcd40129b4d610f0a5e257ce754208695058aeff821",
+      "size": 299,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/run-pty-probe.py",
+      "sha256": "1da467783bf597488caa43d4f753978d242906e39e3da8eea74c10dd28a0bcd3",
+      "size": 2565,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    },
+    {
+      "path": "<initial16-audit>/agent-b/run_probe.py",
+      "sha256": "efec870fa155d395e5be4affde8f510f771b2b55993922545a1617db71290890",
+      "size": 1755,
+      "hash_timing": "post-execution; inputs were created exclusively and not edited thereafter"
+    }
+  ],
+  "same_input_pairs": [
+    {
+      "case": "4856",
+      "rp_record": "<initial16-audit>/agent-b/fresh-4856-rp.json",
+      "cp_record": "<initial16-audit>/agent-b/fresh-4856-cp.json",
+      "identical_arguments_after_interpreter_options": true,
+      "input_path": "<initial16-audit>/agent-b/probe-4856.py",
+      "input_sha256_post_execution": "3c6fb8992c60d0e83f7e002ced49cc9b798b513520bef23f1ddb73ff7c7958b4"
+    },
+    {
+      "case": "5181",
+      "rp_record": "<initial16-audit>/agent-b/fresh-5181-rp.json",
+      "cp_record": "<initial16-audit>/agent-b/fresh-5181-cp.json",
+      "identical_arguments_after_interpreter_options": true,
+      "input_path": "<initial16-audit>/agent-b/probe-5181.py",
+      "input_sha256_post_execution": "2d13658f177130e77ee7114bf5e88ea4a737c5c78eca07f87d3aa3b54feb9c00"
+    },
+    {
+      "case": "5181-width",
+      "rp_record": "<initial16-audit>/agent-b/fresh-5181-width-rp.json",
+      "cp_record": "<initial16-audit>/agent-b/fresh-5181-width-cp.json",
+      "identical_arguments_after_interpreter_options": true,
+      "input_path": "<initial16-audit>/agent-b/probe-5181-width.py",
+      "input_sha256_post_execution": "9323057014329ab2b3fc2a0887a79d24a9080e46808992256eddec33b4a472bf"
+    },
+    {
+      "case": "6429",
+      "rp_record": "<initial16-audit>/agent-b/fresh-6429-rp.json",
+      "cp_record": "<initial16-audit>/agent-b/fresh-6429-cp.json",
+      "identical_arguments_after_interpreter_options": true,
+      "input_path": "<initial16-audit>/agent-b/probe-6429.py",
+      "input_sha256_post_execution": "0bad35d33dda99fb37afc5a8a4f45f5d7b375b4879ac848b1fe98fa49b8f7d80"
+    },
+    {
+      "case": "8052",
+      "rp_record": "<initial16-audit>/agent-b/fresh-8052-rp.json",
+      "cp_record": "<initial16-audit>/agent-b/fresh-8052-cp.json",
+      "identical_arguments_after_interpreter_options": true,
+      "input_path": "<initial16-audit>/agent-b/probe-8052.py",
+      "input_sha256_post_execution": "9453131b5e4457350095a05c5a4d12743f5c68715f72a16a2c642f0a4ab6ab78"
+    },
+    {
+      "case": "2527-single",
+      "rp_record": "<initial16-audit>/agent-b/fresh-2527-single-rp.json",
+      "cp_record": "<initial16-audit>/agent-b/fresh-2527-single-cp.json",
+      "identical_arguments_after_interpreter_options": true,
+      "input_path": "<initial16-audit>/agent-b/probe-2527-single.py",
+      "input_sha256_post_execution": "731144c5e21d254621e3635f6ccf6200d06c7c0ec85168424008bb7e7a789669"
+    },
+    {
+      "case": "6790",
+      "rp_record": "<initial16-audit>/agent-b/fresh-6790-rp.json",
+      "cp_record": "<initial16-audit>/agent-b/fresh-6790-cp.json",
+      "identical_arguments_after_interpreter_options": true,
+      "input_path": "<initial16-audit>/agent-b/probe-6790.py",
+      "input_sha256_post_execution": "160cf330ef96bb269d24b1411b627fcfa74e4fd3ccaaa70ca55fc6d509c707c9"
+    },
+    {
+      "case": "6790-maxlength",
+      "rp_record": "<initial16-audit>/agent-b/fresh-6790-maxlength-rp.json",
+      "cp_record": "<initial16-audit>/agent-b/fresh-6790-maxlength-cp.json",
+      "identical_arguments_after_interpreter_options": true,
+      "input_path": "<initial16-audit>/agent-b/probe-6790-maxlength.py",
+      "input_sha256_post_execution": "644988a8909cef7cfed59965fe5c00dd31dc2ff24234468a3506f0ea72c69762"
+    },
+    {
+      "case": "6790-fixed-input",
+      "rp_record": "<initial16-audit>/agent-b/fresh-6790-fixed-input-rp.json",
+      "cp_record": "<initial16-audit>/agent-b/fresh-6790-fixed-input-cp.json",
+      "identical_arguments_after_interpreter_options": true,
+      "input_path": "<initial16-audit>/agent-b/probe-6790-fixed-input.py",
+      "input_sha256_post_execution": "f4ff964e104822aa3127bb6d466dc18fb37f990d81a87ffed0bef00628b0de26"
+    }
+  ],
+  "pty": {
+    "identical_input": true,
+    "input_utf8_sha256": "b50aec9b9027755def0b70bf88775bc59ae159ae73dc8843b42b472788d0f4a8"
+  },
+  "cpython_xz_fixture_hex_stdout_sha256": "c6c25062702feded35fffc11d887a55d82af4b69697ab92681b45267b5c30cef",
+  "cpython_xz_fixture_binary_sha256": "67c8bf94cae738f6e2582173563c066f3a6ab620f769766c09e3c54f1cbf849d"
+}

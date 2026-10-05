@@ -1,0 +1,201 @@
+{
+  "issue": 4786,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "The exact expression raises the expected UnicodeEncodeError, exit 1, with stderr byte-for-byte matching CPython. The single-surrogate exception's encoding/object/start/end/reason all match.",
+  "original_scope": "type(\"A\\udcdcB\", (), {}) must raise UnicodeEncodeError rather than silently creating a class with a replacement character.",
+  "original_issue_url": "https://github.com/RustPython/RustPython/issues/4786",
+  "original_issue_snapshot": "<initial16-audit>/agent-a/issue-4786-original.json",
+  "original_comments_read": 2,
+  "fresh_evidence": [
+    {
+      "label": "4786-boundaries-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/4786-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4786-boundaries.py",
+      "input_sha256": "d6734d98d171d50b03d3d8fb482d983cdeedf0123e8faf77c8c927c830550616",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190903.395621,
+      "duration_seconds": 0.028825998306274414,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4786-boundaries-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4786-boundaries-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4786-boundaries-cp.json"
+    },
+    {
+      "label": "4786-boundaries-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/4786-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4786-boundaries.py",
+      "input_sha256": "d6734d98d171d50b03d3d8fb482d983cdeedf0123e8faf77c8c927c830550616",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190903.303304,
+      "duration_seconds": 0.09125804901123047,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4786-boundaries-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4786-boundaries-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4786-boundaries-rp.json"
+    },
+    {
+      "label": "4786-original-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/4786-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4786-original.py",
+      "input_sha256": "f9a07b6de9e517d34dfef0f28920c72d0bcf48298f8cdcdf56568f57c58b29b0",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190885.484812,
+      "duration_seconds": 0.050247907638549805,
+      "exit_code": 1,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4786-original-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4786-original-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4786-original-cp.json"
+    },
+    {
+      "label": "4786-original-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/4786-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4786-original.py",
+      "input_sha256": "f9a07b6de9e517d34dfef0f28920c72d0bcf48298f8cdcdf56568f57c58b29b0",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190885.262439,
+      "duration_seconds": 0.22165799140930176,
+      "exit_code": 1,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4786-original-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4786-original-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4786-original-rp.json"
+    }
+  ],
+  "old_evidence": {
+    "kind": "reused historical/current export records; no historical executable rerun",
+    "source_directory": "<report-worktree>/tools/issue-repros/cases/4786",
+    "historical_commit": "010640ccc8f74f56075df09a654352ae3d162d25",
+    "historical_binary_sha256": "e376e0aba4aeecd4739b0c629dfb6ff998b88128735497a386b3b470c8229bb3",
+    "historical_input_sha256": "f1d38fc8c7642f20f50f0697b84742567d7f81b8b3dbb8ff9c5380100e89deee",
+    "historical_exit_code": 0,
+    "historical_timeout": false,
+    "historical_selection": {
+      "role": "closest_preissue_main_approximation",
+      "reason": "No case-specific executed revision or identifiable RustPython release."
+    },
+    "old_current_binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+    "log_integrity": {
+      "issue": 4786,
+      "historical_recorded_input_hash_matches": true,
+      "canonical_vs_recorded_AST_equal": true,
+      "exported_log_hashes_all_match": true
+    },
+    "input_equivalence_to_live_issue": "The old probe wraps the original constructor in print(repr(...)) to reveal an incorrectly accepted class. The constructor and lone surrogate remain unchanged. Fresh original removes the wrapper and confirms failure occurs during construction, not during printing.",
+    "existing_reproducer_sufficiency": "The old reproducer is sufficient for creation-vs-rejection, but its exit/stderr substring check does not validate UnicodeEncodeError fields. Fresh probes check those fields and expose a multi-surrogate span difference.",
+    "audit_file": "<initial16-audit>/agent-a/old-evidence-audit.json",
+    "limits": [
+      "Old binary/source/Lib pairing is supported by recorded metadata, not independently reexecuted in this pass.",
+      "Historical logs were path-redacted in the export. Matching export hashes establish integrity of these records, not independent truth of their provenance.",
+      "A historical/current comparison does not establish the first fixing commit."
+    ]
+  },
+  "change_basis": {
+    "description": "PR 5629 implements surrogate-preserving literal/string handling. PR 6547 adds ensure_valid_utf8 checks to type-name assignment and construction. Current constructor uses name.try_into_utf8(vm)? before class construction.",
+    "related_commits": [
+      {
+        "pr": 5629,
+        "commit": "b6aacbf4016ec614b3508fd2778de4b3a29d4aef",
+        "subject": "Merge pull request #5629 from coolreader18/surrogate-literals",
+        "ancestor_check_exit": 0,
+        "stderr": "",
+        "first_fix_established": false
+      },
+      {
+        "pr": 6547,
+        "commit": "9b2ad34a084a95d55105e32708e039bff11f7ccc",
+        "subject": "check surrogates (#6547)",
+        "ancestor_check_exit": 0,
+        "stderr": "",
+        "first_fix_established": false
+      }
+    ],
+    "first_fix_established": false,
+    "source_identity": "<initial16-audit>/agent-a/source-identity.json"
+  },
+  "limits": [
+    "Original lone-surrogate rejection is confirmed; this is not complete Unicode error-detail parity.",
+    "Fresh unresolved adjacent difference: contiguous surrogate error span ends at 2 in RustPython and 3 in CPython; see 4786-boundaries-{rp,cp}.stdout."
+  ],
+  "boundary_summary": "High/low surrogate names are rejected and ordinary Unicode names are accepted. For the adjacent name A\\ud800\\udfffB, both reject it but RustPython's UnicodeEncodeError.end is 2 and CPython's is 3; full span parity remains unverified/unequal.",
+  "environment": {
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "lib_tree": "2f62efb194a326f4abef6d2a61b0c5babc09e96b",
+    "rustpython_binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+    "cpython_binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+    "cpython_version": "3.14.6",
+    "identity_files": [
+      "<initial16-audit>/agent-a/identity-rp.stdout",
+      "<initial16-audit>/agent-a/identity-cp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-rp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-cp.stdout"
+    ]
+  }
+}

@@ -1,0 +1,53 @@
+"""Host orchestration only; no interpreter behavior is tested by this process."""
+from pathlib import Path
+import datetime
+import hashlib
+import json
+import os
+import subprocess
+import sys
+import time
+
+ROOT = Path(__file__).resolve().parent
+CWD = Path('<workspace>')
+RP = CWD / 'cleanup-issues/2026-10-04T155029+0900/.build/slot-a/verification/rustpython'
+CP = Path(sys.executable).resolve()
+
+def run(label, interpreter, args, env_extra=None, stdin=None, timeout=60):
+    env = dict(os.environ)
+    for key in list(env):
+        if key.startswith(('PYTHON', 'RUSTPYTHON', 'LC_')):
+            env.pop(key)
+    tmp = ROOT / 'temp' / label
+    tmp.mkdir(parents=True, exist_ok=False)
+    env.update(PYTHONDONTWRITEBYTECODE='1', TMPDIR=str(tmp), TEMP=str(tmp), TMP=str(tmp),
+               PYTHON_HISTORY=str(tmp / 'python-history'), RUSTPYTHON_HISTORY=str(tmp / 'rustpython-history'),
+               LANG='C', LC_ALL='C', NO_COLOR='1', TERM='dumb')
+    if interpreter == 'rustpython':
+        binary = RP
+        env['RUSTPYTHONPATH'] = str(CWD / 'Lib')
+    else:
+        binary = CP
+    if env_extra:
+        env.update(env_extra)
+    command = [str(binary), '-B', *args]
+    before = time.monotonic()
+    record = {'label':label, 'interpreter':interpreter, 'command':command, 'cwd':str(CWD),
+              'environment':{key:env[key] for key in sorted(env) if key.startswith(('PYTHON','RUSTPYTHON','LC_')) or key in ('LANG','TMPDIR','TEMP','TMP','NO_COLOR','TERM')},
+              'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(), 'stdin':stdin}
+    try:
+        result = subprocess.run(command, input=stdin, capture_output=True, text=True, env=env, cwd=CWD, timeout=timeout)
+        record.update(exit_code=result.returncode, timeout=False, stdout=result.stdout, stderr=result.stderr)
+    except subprocess.TimeoutExpired as exc:
+        record.update(exit_code=None, timeout=True, stdout=exc.stdout.decode() if isinstance(exc.stdout,bytes) else exc.stdout or '', stderr=exc.stderr.decode() if isinstance(exc.stderr,bytes) else exc.stderr or '')
+    record['elapsed_seconds'] = time.monotonic() - before
+    for kind in ('stdout','stderr'):
+        with (ROOT / (label+'.'+kind+'.txt')).open('x') as out:
+            out.write(record[kind])
+    with (ROOT / (label+'.json')).open('x') as out:
+        json.dump(record, out, indent=2)
+    print(json.dumps({'label':label,'exit_code':record['exit_code'],'timeout':record['timeout'],'stdout':record['stdout'],'stderr':record['stderr']}), flush=True)
+    return record
+
+if __name__ == '__main__':
+    run(sys.argv[1], sys.argv[2], sys.argv[3:])

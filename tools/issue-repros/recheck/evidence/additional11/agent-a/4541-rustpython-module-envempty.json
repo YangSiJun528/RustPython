@@ -1,0 +1,32 @@
+{
+  "label": "4541-rustpython-module-envempty",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "-m",
+    "safe_report"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONSAFEPATH": "",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty"
+  },
+  "started_utc": "2026-10-05T10:50:41.740961+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\"bare_import\": \"new-safe-path-fixture\", \"cwd\": \"<workspace>\", \"cwd_import\": \"new-safe-path-fixture\", \"isolated\": 0, \"path\": [\"<workspace>\", \"<workspace>/Lib\", \"<additional11-audit>/agent-a\", \"<workspace>/lib/python314.zip\", \"<workspace>/lib/python3.14\", \"<workspace>/lib/python3.14/lib-dynload\"], \"safe_path\": false}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.10501950001344085
+}

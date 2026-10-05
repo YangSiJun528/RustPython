@@ -1,0 +1,4 @@
+bytes __buffer__ False __release_buffer__ False
+bytearray __buffer__ False __release_buffer__ False
+array __buffer__ False __release_buffer__ False
+memoryview __buffer__ False __release_buffer__ False

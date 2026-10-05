@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<additional11-audit>/agent-b/probe-locale-unicode-width.py", line 12, in <module>
+    assert len(padded) == 20, 'Locale separator must count as one character in field width'
+           ^^^^^^^^^^^^^^^^^
+AssertionError: Locale separator must count as one character in field width

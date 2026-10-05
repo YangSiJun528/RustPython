@@ -1,0 +1,350 @@
+diff --git a/.cspell.dict/cpython.txt b/.cspell.dict/cpython.txt
+index 0e5d1cce2..c70e46cb2 100644
+--- a/.cspell.dict/cpython.txt
++++ b/.cspell.dict/cpython.txt
+@@ -137,6 +137,7 @@ pybuilddir
+ pycore
+ pydecimal
+ Pyfunc
++pylifecycle
+ pymain
+ pyrepl
+ PYTHONTRACEMALLOC
+diff --git a/Lib/test/test_builtin.py b/Lib/test/test_builtin.py
+index cbba54a3b..1e1114b4a 100644
+--- a/Lib/test/test_builtin.py
++++ b/Lib/test/test_builtin.py
+@@ -2330,8 +2330,6 @@ def test_baddecorator(self):
+ 
+ class ShutdownTest(unittest.TestCase):
+ 
+-    # TODO: RUSTPYTHON
+-    @unittest.expectedFailure
+     def test_cleanup(self):
+         # Issue #19255: builtins are still available at shutdown
+         code = """if 1:
+diff --git a/Lib/test/test_io.py b/Lib/test/test_io.py
+index 741920a58..15491560b 100644
+--- a/Lib/test/test_io.py
++++ b/Lib/test/test_io.py
+@@ -4865,11 +4865,13 @@ def run():
+         else:
+             self.assertFalse(err.strip('.!'))
+ 
++    @unittest.expectedFailure  # TODO: RUSTPYTHON; without GC+GIL, finalize_modules clears __main__ globals while daemon threads are still running
+     @threading_helper.requires_working_threading()
+     @support.requires_resource('walltime')
+     def test_daemon_threads_shutdown_stdout_deadlock(self):
+         self.check_daemon_threads_shutdown_deadlock('stdout')
+ 
++    @unittest.expectedFailure  # TODO: RUSTPYTHON; without GC+GIL, finalize_modules clears __main__ globals while daemon threads are still running
+     @threading_helper.requires_working_threading()
+     @support.requires_resource('walltime')
+     def test_daemon_threads_shutdown_stderr_deadlock(self):
+diff --git a/Lib/test/test_sys.py b/Lib/test/test_sys.py
+index 47039aa51..00c2a9b93 100644
+--- a/Lib/test/test_sys.py
++++ b/Lib/test/test_sys.py
+@@ -1172,7 +1172,6 @@ def test_is_gil_enabled(self):
+         else:
+             self.assertTrue(sys._is_gil_enabled())
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON; AtExit.__del__ is not invoked because module destruction is missing.
+     def test_is_finalizing(self):
+         self.assertIs(sys.is_finalizing(), False)
+         # Don't use the atexit module because _Py_Finalizing is only set
+diff --git a/crates/vm/src/object/core.rs b/crates/vm/src/object/core.rs
+index e1f2a7128..99081b8b5 100644
+--- a/crates/vm/src/object/core.rs
++++ b/crates/vm/src/object/core.rs
+@@ -81,8 +81,14 @@ use core::{
+ #[derive(Debug)]
+ pub(super) struct Erased;
+ 
+-pub(super) unsafe fn drop_dealloc_obj<T: PyPayload>(x: *mut PyObject) {
+-    drop(unsafe { Box::from_raw(x as *mut PyInner<T>) });
++/// Default dealloc: handles __del__, weakref clearing, and memory free.
++/// Equivalent to subtype_dealloc in CPython.
++pub(super) unsafe fn default_dealloc<T: PyPayload>(obj: *mut PyObject) {
++    let obj_ref = unsafe { &*(obj as *const PyObject) };
++    if let Err(()) = obj_ref.drop_slow_inner() {
++        return; // resurrected by __del__
++    }
++    drop(unsafe { Box::from_raw(obj as *mut PyInner<T>) });
+ }
+ pub(super) unsafe fn debug_obj<T: PyPayload + core::fmt::Debug>(
+     x: &PyObject,
+@@ -1015,16 +1021,11 @@ impl PyObject {
+         Ok(())
+     }
+ 
+-    /// Can only be called when ref_count has dropped to zero. `ptr` must be valid
++    /// _Py_Dealloc: dispatch to type's dealloc
+     #[inline(never)]
+     unsafe fn drop_slow(ptr: NonNull<Self>) {
+-        if let Err(()) = unsafe { ptr.as_ref().drop_slow_inner() } {
+-            // abort drop for whatever reason
+-            return;
+-        }
+-        let drop_dealloc = unsafe { ptr.as_ref().0.vtable.drop_dealloc };
+-        // call drop only when there are no references in scope - stacked borrows stuff
+-        unsafe { drop_dealloc(ptr.as_ptr()) }
++        let dealloc = unsafe { ptr.as_ref().0.vtable.dealloc };
++        unsafe { dealloc(ptr.as_ptr()) }
+     }
+ 
+     /// # Safety
+diff --git a/crates/vm/src/object/traverse_object.rs b/crates/vm/src/object/traverse_object.rs
+index 2bf6ae1d3..b29786424 100644
+--- a/crates/vm/src/object/traverse_object.rs
++++ b/crates/vm/src/object/traverse_object.rs
+@@ -4,7 +4,7 @@ use core::any::TypeId;
+ use crate::{
+     PyObject,
+     object::{
+-        Erased, InstanceDict, MaybeTraverse, PyInner, PyObjectPayload, debug_obj, drop_dealloc_obj,
++        Erased, InstanceDict, MaybeTraverse, PyInner, PyObjectPayload, debug_obj, default_dealloc,
+         try_traverse_obj,
+     },
+ };
+@@ -13,7 +13,8 @@ use super::{Traverse, TraverseFn};
+ 
+ pub(in crate::object) struct PyObjVTable {
+     pub(in crate::object) typeid: TypeId,
+-    pub(in crate::object) drop_dealloc: unsafe fn(*mut PyObject),
++    /// dealloc: handles __del__, weakref clearing, and memory free.
++    pub(in crate::object) dealloc: unsafe fn(*mut PyObject),
+     pub(in crate::object) debug: unsafe fn(&PyObject, &mut fmt::Formatter<'_>) -> fmt::Result,
+     pub(in crate::object) trace: Option<unsafe fn(&PyObject, &mut TraverseFn<'_>)>,
+ }
+@@ -22,7 +23,7 @@ impl PyObjVTable {
+     pub const fn of<T: PyObjectPayload>() -> &'static Self {
+         &Self {
+             typeid: T::PAYLOAD_TYPE_ID,
+-            drop_dealloc: drop_dealloc_obj::<T>,
++            dealloc: default_dealloc::<T>,
+             debug: debug_obj::<T>,
+             trace: const {
+                 if T::HAS_TRAVERSE {
+diff --git a/crates/vm/src/vm/interpreter.rs b/crates/vm/src/vm/interpreter.rs
+index 7517f0372..9fcc11d7f 100644
+--- a/crates/vm/src/vm/interpreter.rs
++++ b/crates/vm/src/vm/interpreter.rs
+@@ -391,6 +391,7 @@ impl Interpreter {
+     /// 1. Wait for thread shutdown (call threading._shutdown).
+     /// 1. Mark vm as finalizing.
+     /// 1. Run atexit exit functions.
++    /// 1. Finalize modules (clear module dicts in reverse import order).
+     /// 1. Mark vm as finalized.
+     ///
+     /// Note that calling `finalize` is not necessary by purpose though.
+@@ -425,6 +426,9 @@ impl Interpreter {
+             // Run atexit exit functions
+             atexit::_run_exitfuncs(vm);
+ 
++            // Finalize modules: clear module dicts in reverse import order
++            vm.finalize_modules();
++
+             vm.flush_std();
+ 
+             exit_code
+diff --git a/crates/vm/src/vm/mod.rs b/crates/vm/src/vm/mod.rs
+index 7b5720fdd..48b5655a9 100644
+--- a/crates/vm/src/vm/mod.rs
++++ b/crates/vm/src/vm/mod.rs
+@@ -20,7 +20,7 @@ use crate::{
+     AsObject, Py, PyObject, PyObjectRef, PyPayload, PyRef, PyResult,
+     builtins::{
+         self, PyBaseExceptionRef, PyDict, PyDictRef, PyInt, PyList, PyModule, PyStr, PyStrInterned,
+-        PyStrRef, PyTypeRef,
++        PyStrRef, PyTypeRef, PyWeak,
+         code::PyCode,
+         dict::{PyDictItems, PyDictKeys, PyDictValues},
+         pystr::AsPyStr,
+@@ -621,6 +621,186 @@ impl VirtualMachine {
+         }
+     }
+ 
++    /// Clear module references during shutdown.
++    /// Follows the same phased algorithm as pylifecycle.c finalize_modules():
++    /// no hardcoded module names, reverse import order, only builtins/sys last.
++    pub fn finalize_modules(&self) {
++        // Phase 1: Set special sys/builtins attributes to None, restore stdio
++        self.finalize_modules_delete_special();
++
++        // Phase 2: Remove all modules from sys.modules (set values to None),
++        // and collect weakrefs to modules preserving import order.
++        // Also keeps strong refs (module_refs) to prevent premature deallocation.
++        // CPython uses _PyGC_CollectNoFail() here to collect __globals__ cycles;
++        // since RustPython has no working GC, we keep modules alive through
++        // Phase 4 so their dicts can be explicitly cleared.
++        let (module_weakrefs, module_refs) = self.finalize_remove_modules();
++
++        // Phase 3: Clear sys.modules dict
++        self.finalize_clear_modules_dict();
++
++        // Phase 4: Clear module dicts in reverse import order using 2-pass algorithm.
++        // All modules are still alive (held by module_refs), so all weakrefs are valid.
++        // This breaks __globals__ cycles: dict entries set to None → functions freed →
++        // __globals__ refs dropped → dict refcount decreases.
++        self.finalize_clear_module_dicts(&module_weakrefs);
++
++        // Drop strong refs → modules freed with already-cleared dicts.
++        // No __globals__ cycles remain (broken by Phase 4).
++        drop(module_refs);
++
++        // Phase 5: Clear sys and builtins dicts last
++        self.finalize_clear_sys_builtins_dict();
++    }
++
++    /// Phase 1: Set special sys attributes to None and restore stdio.
++    fn finalize_modules_delete_special(&self) {
++        let none = self.ctx.none();
++        let sys_dict = self.sys_module.dict();
++
++        // Set special sys attributes to None
++        for attr in &[
++            "path",
++            "argv",
++            "ps1",
++            "ps2",
++            "last_exc",
++            "last_type",
++            "last_value",
++            "last_traceback",
++            "path_importer_cache",
++            "meta_path",
++            "path_hooks",
++        ] {
++            let _ = sys_dict.set_item(*attr, none.clone(), self);
++        }
++
++        // Restore stdin/stdout/stderr from __stdin__/__stdout__/__stderr__
++        for (std_name, dunder_name) in &[
++            ("stdin", "__stdin__"),
++            ("stdout", "__stdout__"),
++            ("stderr", "__stderr__"),
++        ] {
++            let restored = sys_dict
++                .get_item_opt(*dunder_name, self)
++                .ok()
++                .flatten()
++                .unwrap_or_else(|| none.clone());
++            let _ = sys_dict.set_item(*std_name, restored, self);
++        }
++
++        // builtins._ = None
++        let _ = self.builtins.dict().set_item("_", none, self);
++    }
++
++    /// Phase 2: Set all sys.modules values to None and collect weakrefs to modules.
++    /// Returns (weakrefs for Phase 4, strong refs to keep modules alive).
++    fn finalize_remove_modules(&self) -> (Vec<(String, PyRef<PyWeak>)>, Vec<PyObjectRef>) {
++        let mut module_weakrefs = Vec::new();
++        let mut module_refs = Vec::new();
++
++        let Ok(modules) = self.sys_module.get_attr(identifier!(self, modules), self) else {
++            return (module_weakrefs, module_refs);
++        };
++        let Some(modules_dict) = modules.downcast_ref::<PyDict>() else {
++            return (module_weakrefs, module_refs);
++        };
++
++        let none = self.ctx.none();
++        let items: Vec<_> = modules_dict.into_iter().collect();
++
++        for (key, value) in items {
++            let name = key
++                .downcast_ref::<PyStr>()
++                .map(|s| s.as_str().to_owned())
++                .unwrap_or_default();
++
++            // Save weakref and strong ref to module for later clearing
++            if value.downcast_ref::<PyModule>().is_some() {
++                if let Ok(weak) = value.downgrade(None, self) {
++                    module_weakrefs.push((name, weak));
++                }
++                module_refs.push(value.clone());
++            }
++
++            // Set the value to None in sys.modules
++            let _ = modules_dict.set_item(&*key, none.clone(), self);
++        }
++
++        (module_weakrefs, module_refs)
++    }
++
++    /// Phase 3: Clear sys.modules dict.
++    fn finalize_clear_modules_dict(&self) {
++        if let Ok(modules) = self.sys_module.get_attr(identifier!(self, modules), self)
++            && let Some(modules_dict) = modules.downcast_ref::<PyDict>()
++        {
++            modules_dict.clear();
++        }
++    }
++
++    /// Phase 4: Clear module dicts.
++    /// Without GC, only clear __main__ — other modules' __del__ handlers
++    /// need their globals intact. CPython can clear ALL module dicts because
++    /// _PyGC_CollectNoFail() finalizes cycle-participating objects beforehand.
++    fn finalize_clear_module_dicts(&self, module_weakrefs: &[(String, PyRef<PyWeak>)]) {
++        for (name, weakref) in module_weakrefs.iter().rev() {
++            // Only clear __main__ — user objects with __del__ get finalized
++            // while other modules' globals remain intact for their __del__ handlers.
++            if name != "__main__" {
++                continue;
++            }
++
++            let Some(module_obj) = weakref.upgrade() else {
++                continue;
++            };
++            let Some(module) = module_obj.downcast_ref::<PyModule>() else {
++                continue;
++            };
++
++            Self::module_clear_dict(&module.dict(), self);
++        }
++    }
++
++    /// 2-pass module dict clearing (_PyModule_ClearDict algorithm).
++    /// Pass 1: Set names starting with '_' (except __builtins__) to None.
++    /// Pass 2: Set all remaining names (except __builtins__) to None.
++    pub(crate) fn module_clear_dict(dict: &Py<PyDict>, vm: &VirtualMachine) {
++        let none = vm.ctx.none();
++
++        // Pass 1: names starting with '_' (except __builtins__)
++        for (key, value) in dict.into_iter().collect::<Vec<_>>() {
++            if vm.is_none(&value) {
++                continue;
++            }
++            if let Some(key_str) = key.downcast_ref::<PyStr>() {
++                let name = key_str.as_str();
++                if name.starts_with('_') && name != "__builtins__" && name != "__spec__" {
++                    let _ = dict.set_item(name, none.clone(), vm);
++                }
++            }
++        }
++
++        // Pass 2: all remaining (except __builtins__)
++        for (key, value) in dict.into_iter().collect::<Vec<_>>() {
++            if vm.is_none(&value) {
++                continue;
++            }
++            if let Some(key_str) = key.downcast_ref::<PyStr>()
++                && key_str.as_str() != "__builtins__"
++                && key_str.as_str() != "__spec__"
++            {
++                let _ = dict.set_item(key_str.as_str(), none.clone(), vm);
++            }
++        }
++    }
++
++    /// Phase 5: Clear sys and builtins dicts last.
++    fn finalize_clear_sys_builtins_dict(&self) {
++        Self::module_clear_dict(&self.sys_module.dict(), self);
++        Self::module_clear_dict(&self.builtins.dict(), self);
++    }
++
+     pub fn current_recursion_depth(&self) -> usize {
+         self.recursion_depth.get()
+     }

@@ -1,0 +1,33 @@
+{
+  "label": "4541-rustpython-module-Eenv1",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "-E",
+    "-m",
+    "safe_report"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONSAFEPATH": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1"
+  },
+  "started_utc": "2026-10-05T10:50:41.864962+00:00",
+  "stdin": null,
+  "exit_code": 1,
+  "timeout": false,
+  "stdout": "",
+  "stderr": "<survey>/.build/slot-a/verification/rustpython: No module named safe_report\n",
+  "elapsed_seconds": 0.39479629100242164
+}

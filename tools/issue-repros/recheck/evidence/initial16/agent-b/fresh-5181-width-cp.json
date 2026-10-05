@@ -1,0 +1,20 @@
+{
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "-S",
+    "<initial16-audit>/agent-b/probe-5181-width.py"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8"
+  },
+  "start": 1791191172.079106,
+  "binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791191172.106362,
+  "stdout": "en_US.UTF-8 '000,123,456,789' 15\nde_DE.UTF-8 '000.123.456.789' 15\nhi_IN.UTF-8 '00,12,34,56,789' 15\n",
+  "stderr": ""
+}

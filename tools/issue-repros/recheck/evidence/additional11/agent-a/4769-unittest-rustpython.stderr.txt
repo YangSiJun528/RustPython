@@ -1,0 +1,6 @@
+test_copy_pickle (test.test_deque.TestSubclass.test_copy_pickle) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.005s
+
+OK

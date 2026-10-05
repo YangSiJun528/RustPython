@@ -1,0 +1,21 @@
+{
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "-S",
+    "<initial16-audit>/agent-b/probe-5181-width.py"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "start": 1791191171.893686,
+  "binary_sha256": "d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791191172.078306,
+  "stdout": "en_US.UTF-8 '0000123,456,789' 15\nde_DE.UTF-8 '0000123.456.789' 15\nhi_IN.UTF-8 '00012,34,56,789' 15\n",
+  "stderr": ""
+}

@@ -1,0 +1,96 @@
+{
+  "issue": 4856,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "원문 소스 compile 성공. 실행하면 양쪽 모두 BaseFTests NameError이고 Rust panic 없음. 정상화한 mock.patch lambda 및 중첩 capture는 기대값을 반환하고 원래 함수를 복원.",
+  "original_scope": "클래스 decorator의 lambda 인수로 발생한 compiler table.sub_tables.is_empty panic 제거. 원문은 그 외 런타임 오류를 포함.",
+  "fresh_evidence": [
+    "<initial16-audit>/agent-b/fresh-4856-rp.json",
+    "<initial16-audit>/agent-b/fresh-4856-cp.json",
+    "<initial16-audit>/agent-b/original-4856.py"
+  ],
+  "old_evidence": {
+    "path": "<report-worktree>/tools/issue-repros/cases/4856",
+    "summary": {
+      "historical": {
+        "actual_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+        "binary_sha256": "43e71e4ce4e1605ed8eaa51992f3fcb0f1ad22d36dfb383c181bd9b8674dc37d",
+        "exit": 101,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "historical.stdout.txt",
+            "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "match": true
+          },
+          {
+            "log": "historical.stderr.txt",
+            "expected_export_sha256": "db90093ca6a262108a60abc09852cfe4ebc4a730b7f3bc9a62cb12436d8a3bb3",
+            "actual_sha256": "db90093ca6a262108a60abc09852cfe4ebc4a730b7f3bc9a62cb12436d8a3bb3",
+            "match": true
+          }
+        ],
+        "version_banner": "3.10.0alpha (tags/v0.2.0:c7faae9b2, Jan 11 2023, 15:14:28) \n[rustc 1.67.1]\n",
+        "not_rerun": true
+      },
+      "current": {
+        "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+        "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "current.stdout.txt",
+            "expected_export_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+            "actual_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+            "match": true
+          },
+          {
+            "log": "current.stderr.txt",
+            "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "match": true
+          }
+        ],
+        "version_banner": null,
+        "not_rerun": true
+      },
+      "cpython": {
+        "actual_sha": null,
+        "binary_sha256": null,
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "cpython.stdout.txt",
+            "expected_export_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+            "actual_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+            "match": true
+          },
+          {
+            "log": "cpython.stderr.txt",
+            "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "match": true
+          }
+        ],
+        "version_banner": null,
+        "not_rerun": true
+      }
+    },
+    "assessment": "원문 compile-only reproducer는 보고된 컴파일러 panic에 직접 대응하여 충분. 애플리케이션 전체 실행 성공으로 해석하면 안 됨."
+  },
+  "change_basis": {
+    "pr": 8138,
+    "commit": "a1ba6a662cff93e66582de8e1e44b367c01824b7",
+    "observed_change": "symbol-table class 처리에서 decorators를 class scope 진입 전 방문하도록 변경; codegen nested scope 순서 보강",
+    "first_fix_confirmed": false
+  },
+  "limits": [
+    "원문 BaseFTests는 미정의이고 mock.patch 빈 target도 잘못됨. 정상화한 runtime 입력은 추가 검증으로 구분.",
+    "원문 Ubuntu 18.04 대신 현재 macOS에서 실행.",
+    "v0.2.0 과거 panic은 보존 로그 재사용이며 새 재실행 아님.",
+    "관련 PR 확인은 최초 수정 revision 확정이 아님."
+  ]
+}

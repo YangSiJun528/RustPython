@@ -1,0 +1,9 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+SyntaxError: 'await' outside async function at line 2 column 5
+    [await print(i) for i in [1, 2, 3]]
+    ^

@@ -1,0 +1,4306 @@
+commit f87cfe7e7a24e4cbe2861d312f2c44904df90524
+Author:     Jeong, YunWon <69878+youknowone@users.noreply.github.com>
+AuthorDate: Sun Aug 23 14:32:56 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Sun Aug 23 14:32:56 2026 +0900
+
+    Match CPython on code objects, ast, symtable and syntax error positions (#8580)
+    
+    * Guard all/any/tuple(genexpr) calls when the generator is a coroutine
+    
+    `maybe_optimize_function_call()` reserves a `skip_optimization` label for
+    every `name(genexpr)` call and, for `all`, `any` and `tuple`, emits an
+    identity guard against the builtin plus an inlined loop. The port skipped
+    both whenever the generator expression's symbol table was a coroutine, so
+    `all(await x for x in xs)` and `all(x async for x in xs)` compiled to a
+    plain call.
+    
+    An `await` or an `async for` in the generator does not disqualify the
+    shape: the inlined `FOR_ITER` raises the same `TypeError` that calling the
+    builtin on an async generator raises, which is what
+    test_builtin test_builtin_call_async_genexpr_no_crash asserts.
+    
+    This was the last code-level difference against CPython across `Lib/`:
+    comparing every file's code tree by structure, opcode and constant value
+    (qualnames aside, which moved in 3.14.3+, and set constants compared by
+    value rather than by hash order) now matches on 1720 of 1720 comparable
+    files, up from 1719.
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Name the ellipsis type `ellipsis`
+    
+    `type(...).__name__`, its `__qualname__`, and `types.EllipsisType.__name__`
+    read `EllipsisType`.
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Align compiler front end and instruction positions with CPython
+    
+    Reject a bare generator expression in a class header and a format spec
+    nested more than two deep. Both parse here; the reference grammar has no
+    rule for either, since a class header only takes `arguments` and the
+    tokenizer runs out of nesting levels at the third format spec.
+    
+    Scan the interpolations a format spec carries inside another format spec,
+    so `f"{x:{y:{z}}}"` reaches `z` when building the symbol table.
+    
+    Give every generic function's type params scope a `.defaults` slot,
+    whether or not the signature has any default, so `co_varnames` and
+    `co_nlocals` match. Classes and type aliases keep theirs empty.
+    
+    Decide an unparenthesized sole generator argument by the parser's
+    `parenthesized` flag instead of scanning the source for the shape of its
+    element. `_sum((d := x - c) * d for x in data)` opens with a parenthesized
+    group the rest of the expression continues, which the scan read as the
+    generator's own parentheses and left the call's out of its range.
+    
+    Drop empty f-string fragments unconditionally. A concatenation whose
+    fragments are all empty now loads its empty string at the whole
+    concatenation instead of at whichever fragments happened to be plain
+    string literals.
+    
+    Keep a byte order mark in source handed over as text, and report it as an
+    invalid non-printable character. Reading a file to freeze strips it, as
+    the encoded-bytes path already did.
+    
+    Carry the filename into the errors `compile(..., PyCF_ONLY_AST)` raises;
+    they reported `<unknown>` or an empty name.
+    
+    Across `Lib/`, the 1729 files that compile on both sides now agree on
+    opcodes, constants, flags, variable names, names, and exception tables,
+    and on instruction positions in all but 7 files, where a compound
+    statement whose body ends in a trailing `;` ends one column short.
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Align ast module output with CPython
+    
+    - Keep lone surrogates in string, f-string and t-string literal values by
+      reading such a literal from its source; the literal-value helpers move
+      out of `Compiler` into `rustpython_codegen` and `ConstantLiteral::Str`
+      holds `Wtf8Buf`.
+    - Give `{expr=}` interpolations their leading text as a Constant and
+      default their conversion to `repr`, in both f-strings and t-strings.
+    - Span folded consecutive literals from the first of them to the last.
+    - Take the `:` into a format spec's range only when the parser left it
+      out, instead of always widening by one.
+    - Report a node end that lands on a line start as that line, column 0.
+    - Give a generator expression written straight into a call's parentheses
+      the range of those parentheses, in the preprocess pass, replacing
+      codegen's source scan and `_ast`'s one-column adjustment.
+    - Drop the expectedFailure on test_ast_line_numbers_with_parentheses.
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Align symbol table output with CPython
+    
+    - Register an import as `DEF_IMPORT` alone, and an annotated parameter as
+      a plain parameter, so `import x; global x` is accepted and annotated
+      parameters are not reported as annotated names.
+    - Record a `global` declaration in the module block as well, and resolve a
+      name a `global` in an enclosing scope covers as an implicit global, so a
+      class body reading such a name emits `LOAD_NAME`.
+    - Resolve a name bound nowhere as an implicit global instead of leaving
+      its scope unknown.
+    - Require a binding only for a name an explicit `nonlocal` declared;
+      a free variable that reached the scope any other way already resolved.
+    - Name a generator expression's block `genexpr`; the code object keeps
+      `<genexpr>`.
+    - Locate a `def`/`class` block at its keyword rather than at the first
+      decorator. `decorated_definition_range()` moves from `Compiler` to
+      `rustpython_codegen` for that.
+    - Carry a comprehension symbol's flags over when inlining it into a parent
+      entry that only holds a free variable propagated from a child.
+    - Leave `__conditional_annotations__` out of an annotation block's
+      symbols and have the compiler cook up the free variable, which places
+      it after the ones the symbol table supplies.
+    - Check `from __future__` placement while building the symbol table, and
+      give `symtable.symtable()` the same docstring stripping and future
+      feature validation the compiler does.
+    - Floor `co_stacksize` at 1.
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Locate the eval return and the interactive print like CPython
+    
+    Leave `eval` mode's `RETURN_VALUE` without a location, so the exit block
+    is duplicated per reaching path and each copy carries the location of the
+    branch that jumps to it. `a and b` now ends with two returns as it does
+    in CPython, and `a if b else c` gives the first one the `a` it returns.
+    
+    Emit an interactive `CALL_INTRINSIC_1(Print)` at the expression statement
+    rather than wherever the expression left the location, which differ for
+    `(a := 10)` and `f'{0:fz}'`.
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Give interactive mode the conditional annotations cell
+    
+    `compile_program_single()` emitted the `__conditional_annotations__` set
+    and its name accesses but never added the cell that holds it, so a module
+    compiled in `single` mode was missing the `MAKE_CELL` and the cellvar that
+    the same source gets in `exec` mode.
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Give compiler-raised SyntaxErrors an end position
+    
+    `CodegenError` and `SymbolTableError` now carry an `end_location`
+    alongside `location`, and `CompileError::python_end_location()` returns
+    it, so errors such as "'await' outside function" set `end_lineno` and
+    `end_offset` instead of leaving them None.
+    
+    `SymbolTableBuilder::error_ranged()` builds both positions from a range,
+    replacing the inline `source_location()` calls at the error sites.
+    
+    Drop the `expectedFailure` on
+    `test_exceptions.SyntaxErrorTests.test_file_source`, which now passes.
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Report parser diagnostics with CPython's wording
+    
+    `InvalidAnnotatedAssignmentTarget` becomes "illegal target for
+    annotation", `UnexpectedExpressionToken` becomes plain "invalid syntax"
+    rather than prefixing the parser's text, and the list-recovery
+    diagnostics ("Expected an expression or a '}'" and its siblings) join the
+    two that already mapped to "invalid syntax".
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Punctuate the code object repr like CPython
+    
+    `repr(code)` was missing the comma after the address and escaped the
+    filename through Rust's Debug formatting.
+    
+    Drop the `expectedFailure` on the six `test_dis` tests that compare
+    disassembly text, which now pass.
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * Match CPython's parser error positions
+    
+    A syntax error the parser reports counts its columns in characters, so
+    `source_location()` converts with UTF-32 rather than UTF-8; an offset
+    inside a character walks back to where that character starts.
+    
+    Spans the parser reported differently:
+    
+    - an error between two tokens covered nothing, and now covers one
+      character, since the narrowest token still covers one
+    - a "was never closed" bracket ends at column 0
+    - an unterminated string literal ends where it starts
+    - "leading zeros in decimal integer literals" spans the run of zeros
+    - an exponent with no digits and no sign is blamed on the digit before
+      the exponent letter, which the tokenizer puts back
+    
+    Assisted-by: Claude Code:claude-opus-5
+    
+    * codegen: seek to the finally body's own scopes before copying it
+    
+    An early exit from a try block emits an extra copy of the finally body.
+    Nested scopes are handed out by position, and the cursors still sit inside
+    the try block's own run of scopes there, so the copy took those instead of
+    the ones the finally body opens: a generator expression got a sibling's
+    symbol table and raised "the symbol 'k' must be present in the symbol
+    table", or, where the sibling was a named scope, built a code object with
+    no `.0` argument that raised UnboundLocalError when it ran.
+    
+    Seek the cursors to the first scope beginning on or after the finally
+    body's first line before compiling the copy. The existing restore then
+    leaves the try statement's own copies starting from the same place.
+    
+    Assisted-by: Claude
+
+diff --git a/.cspell.json b/.cspell.json
+index 57f7baab3..91aa4721c 100644
+--- a/.cspell.json
++++ b/.cspell.json
+@@ -69,6 +69,7 @@
+     "emscripten",
+     "excs",
+     "fdigits",
++    "feff",
+     "flufl",
+     "fnfe",
+     "fsdefault",
+diff --git a/Lib/test/test_dis.py b/Lib/test/test_dis.py
+index 7360ead11..190374fba 100644
+--- a/Lib/test/test_dis.py
++++ b/Lib/test/test_dis.py
+@@ -1106,7 +1106,6 @@ def f():
+     def test_bug_708901(self):
+         self.do_disassembly_test(bug708901, dis_bug708901)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_bug_1333982(self):
+         # This one is checking bytecodes generated for an `assert` statement,
+         # so fails if the tests are run with -O.  Skip this test then.
+@@ -1164,7 +1163,6 @@ def func(count):
+         from test import dis_module
+         self.do_disassembly_test(dis_module, dis_module_expected_results)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_disassemble_str(self):
+         self.do_disassembly_test(expr_str, dis_expr_str)
+         self.do_disassembly_test(simple_stmt_str, dis_simple_stmt_str)
+@@ -1251,7 +1249,6 @@ def test_dis_traceback(self):
+     def test_dis_object(self):
+         self.assertRaises(TypeError, dis.dis, object())
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_disassemble_recursive(self):
+         def check(expected, **kwargs):
+             dis = self.get_disassembly(_h, **kwargs)
+@@ -1623,13 +1620,11 @@ class CodeInfoTests(unittest.TestCase):
+       (async_def, code_info_async_def)
+     ]
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_code_info(self):
+         self.maxDiff = 1000
+         for x, expected in self.test_pairs:
+             self.assertRegex(dis.code_info(x), expected)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_show_code(self):
+         self.maxDiff = 1000
+         for x, expected in self.test_pairs:
+@@ -2322,7 +2317,6 @@ def test_source_line_in_disassembly(self):
+         actual = actual.strip().partition(" ")[0]  # extract the line no
+         self.assertEqual(actual, "350")
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_info(self):
+         self.maxDiff = 1000
+         for x, expected in CodeInfoTests.test_pairs:
+diff --git a/Lib/test/test_exceptions.py b/Lib/test/test_exceptions.py
+index 7c81c4b39..ee5af3e39 100644
+--- a/Lib/test/test_exceptions.py
++++ b/Lib/test/test_exceptions.py
+@@ -2453,7 +2453,6 @@ def try_compile(source):
+         self.assertEqual(exc.offset, 1)
+         self.assertEqual(exc.end_offset, 12)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_file_source(self):
+         self.addCleanup(unlink, TESTFN)
+         err = run_script('return "ä"')
+diff --git a/Lib/test/test_fstring.py b/Lib/test/test_fstring.py
+index e35d5118f..8649f5979 100644
+--- a/Lib/test/test_fstring.py
++++ b/Lib/test/test_fstring.py
+@@ -383,7 +383,6 @@ def test_ast_line_numbers_multiline_fstring(self):
+         self.assertEqual(t.body[0].value.values[1].value.col_offset, 11)
+         self.assertEqual(t.body[0].value.values[1].value.end_col_offset, 16)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: 4 != 5
+     def test_ast_line_numbers_with_parentheses(self):
+         expr = """
+ x = (
+diff --git a/Lib/test/test_json/test_default.py b/Lib/test/test_json/test_default.py
+index 4d569dadf..811880a15 100644
+--- a/Lib/test/test_json/test_default.py
++++ b/Lib/test/test_json/test_default.py
+@@ -1,8 +1,6 @@
+ import collections
+ from test.test_json import PyTest, CTest
+ 
+-import unittest  # XXX: RUSTPYTHON; importing to be able to skip tests
+-
+ 
+ class TestDefault:
+     def test_default(self):
+@@ -10,7 +8,6 @@ def test_default(self):
+             self.dumps(type, default=repr),
+             self.dumps(repr(type)))
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_bad_default(self):
+         def default(obj):
+             if obj is NotImplemented:
+diff --git a/Lib/test/test_syntax.py b/Lib/test/test_syntax.py
+index 5013eb096..6dab7dfa1 100644
+--- a/Lib/test/test_syntax.py
++++ b/Lib/test/test_syntax.py
+@@ -684,7 +684,7 @@
+ SyntaxError: Generator expression must be parenthesized
+ >>> f((x for x in L), 1)
+ [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+->>> class C(x for x in L):  # TODO: RUSTPYTHON; Wrong error message # doctest: +EXPECTED_FAILURE
++>>> class C(x for x in L):
+ ...     pass
+ Traceback (most recent call last):
+ SyntaxError: invalid syntax
+diff --git a/crates/codegen/src/compile.rs b/crates/codegen/src/compile.rs
+index 9d66eddef..8a4a37319 100644
+--- a/crates/codegen/src/compile.rs
++++ b/crates/codegen/src/compile.rs
+@@ -12,8 +12,9 @@
+ use crate::{
+     IndexMap, IndexSet, ToPythonName, ast_constant_value_to_constant_data,
+     error::{CodegenError, CodegenErrorType, InternalError},
++    interpolated_string_literal_value, interpolation_debug_text,
+     ir::{self, Block, BlockIdx, Blocks},
+-    preprocess, strip_python_comments,
++    preprocess, string_literal_part_value, string_literal_value,
+     symboltable::{self, CompilerScope, Symbol, SymbolFlags, SymbolScope, SymbolTable},
+     unparse::UnparseExpr,
+ };
+@@ -144,9 +145,9 @@ fn checked_future_features(
+     source_file: &SourceFile,
+ ) -> CompileResult<bytecode::CodeFlags> {
+     preprocess::checked_future_features(ast).map_err(|err| {
+-        let location = source_file
+-            .to_source_code()
+-            .source_location(err.range.start(), PositionEncoding::Utf8);
++        let source_code = source_file.to_source_code();
++        let location = source_code.source_location(err.range.start(), PositionEncoding::Utf8);
++        let end_location = source_code.source_location(err.range.end(), PositionEncoding::Utf8);
+         let error = match err.kind {
+             preprocess::FutureFeatureErrorKind::InvalidFeature(feature) => {
+                 CodegenErrorType::InvalidFutureFeature(feature)
+@@ -157,6 +158,7 @@ fn checked_future_features(
+         };
+         CodegenError {
+             location: Some(location),
++            end_location: Some(end_location),
+             error,
+             source_path: source_file.name().to_owned(),
+         }
+@@ -176,7 +178,6 @@ struct Compiler<'a> {
+     source_file: SourceFile,
+     // current_source_location: SourceLocation,
+     current_source_range: TextRange,
+-    done_with_future_stmts: DoneWithFuture,
+     future_features: bytecode::CodeFlags,
+     future_annotations: bool,
+     ctx: CompileContext,
+@@ -194,13 +195,6 @@ struct Compiler<'a> {
+     syntax_warning_handler: Option<&'a mut SyntaxWarningHandler<'a>>,
+ }
+ 
+-#[derive(Clone, Copy)]
+-enum DoneWithFuture {
+-    No,
+-    DoneWithDoc,
+-    Yes,
+-}
+-
+ /// A Python `__future__` feature flag imported via `from __future__ import <feature>`.
+ ///
+ /// # See Also
+@@ -1115,7 +1109,6 @@ impl<'warnings> Compiler<'warnings> {
+             source_file,
+             // current_source_location: SourceLocation::default(),
+             current_source_range: TextRange::default(),
+-            done_with_future_stmts: DoneWithFuture::No,
+             future_features: opts.future_features,
+             future_annotations: false,
+             ctx: CompileContext {
+@@ -1430,13 +1423,13 @@ impl<'warnings> Compiler<'warnings> {
+     }
+ 
+     fn error_ranged(&mut self, error: CodegenErrorType, range: TextRange) -> CodegenError {
+-        let location = self
+-            .source_file
+-            .to_source_code()
+-            .source_location(range.start(), PositionEncoding::Utf8);
++        let source_code = self.source_file.to_source_code();
++        let location = source_code.source_location(range.start(), PositionEncoding::Utf8);
++        let end_location = source_code.source_location(range.end(), PositionEncoding::Utf8);
+         CodegenError {
+             error,
+             location: Some(location),
++            end_location: Some(end_location),
+             source_path: self.source_file.name().to_owned(),
+         }
+     }
+@@ -1451,6 +1444,7 @@ impl<'warnings> Compiler<'warnings> {
+             None => CodegenError {
+                 error,
+                 location: None,
++                end_location: None,
+                 source_path: self.source_file.name().to_owned(),
+             },
+         }
+@@ -1941,6 +1935,13 @@ impl<'warnings> Compiler<'warnings> {
+             freevar_cache.insert(name.into());
+         }
+ 
++        // The `__conditional_annotations__` cell an annotation scope reads is
++        // cooked up here rather than carried by the symbol table, so it lands
++        // after the names the symbol table did supply.
++        if scope_type == CompilerScope::Annotation && ste.has_conditional_annotations {
++            freevar_cache.insert("__conditional_annotations__".to_string());
++        }
++
+         // Initialize u_metadata fields
+         let (mut flags, posonlyarg_count, arg_count, kwonlyarg_count) = match scope_type {
+             CompilerScope::Module => (bytecode::CodeFlags::empty(), 0, 0, 0),
+@@ -2413,10 +2414,22 @@ impl<'warnings> Compiler<'warnings> {
+ 
+                 if let FBlockDatum::FinallyBody(ref body) = info.fb_datum {
+                     // This is an extra copy of the finally body, emitted for the
+-                    // path that leaves the try block early. The try statement
+-                    // emits its own copies afterwards, so rewind the symbol table
+-                    // cursors and leave the nested scopes for those copies.
++                    // path that leaves the try block early. Nested scopes are
++                    // handed out by position, and the cursors are still inside
++                    // the try block's own run of scopes here, so seek them to the
++                    // ones this body opened before compiling it. The try
++                    // statement emits its own copies from the same place
++                    // afterwards, so put the cursors back when the copy is done.
+                     let symbol_table_cursors = self.current_symbol_table_cursors();
++                    if let Some(first) = body.first() {
++                        let line = self
++                            .source_file
++                            .to_source_code()
++                            .line_index(first.range().start())
++                            .get()
++                            .to_u32();
++                        self.seek_symbol_table_cursors_to_line(line);
++                    }
+                     self.compile_statements(body)?;
+                     self.set_symbol_table_cursors(symbol_table_cursors);
+                 }
+@@ -2809,9 +2822,6 @@ impl<'warnings> Compiler<'warnings> {
+         emit!(self, PseudoInstruction::AnnotationsPlaceholder);
+ 
+         let (doc, statements) = split_doc_with_range(&body.body, &self.opts);
+-        if doc.is_some() {
+-            self.done_with_future_stmts = DoneWithFuture::DoneWithDoc;
+-        }
+         let module_start_loc = self.module_start_location(&body.body);
+         let annotations_used = self.current_symbol_table().annotations_used;
+         // Handle annotation bookkeeping before the docstring assignment, as
+@@ -2877,6 +2887,15 @@ impl<'warnings> Compiler<'warnings> {
+                 .flags
+                 .insert(bytecode::CodeFlags::COROUTINE);
+         }
++
++        // Module-level __conditional_annotations__ cell
++        if Self::scope_needs_conditional_annotations_cell(&symbol_table) {
++            self.current_code_info()
++                .metadata
++                .cellvars
++                .insert("__conditional_annotations__".to_string());
++        }
++
+         self.symbol_table_stack.push(symbol_table);
+         let module_start_loc = self.module_start_location(body);
+ 
+@@ -2998,6 +3017,9 @@ impl<'warnings> Compiler<'warnings> {
+ 
+         self.compile_expression(&expression.body)?;
+         self.emit_return_value();
++        // The return belongs to no expression, so the exit block can take its
++        // location from whichever path reaches it.
++        self.set_no_location();
+         Ok(())
+     }
+ 
+@@ -3385,26 +3407,18 @@ impl<'warnings> Compiler<'warnings> {
+         let prev_source_range = self.current_source_range;
+         self.set_source_range(statement.range());
+ 
+-        match &statement {
+-            // we do this here because `from __future__` still executes that `from` statement at runtime,
+-            // we still need to compile the ImportFrom down below
+-            ast::Stmt::ImportFrom(ast::StmtImportFrom {
+-                module,
+-                names,
+-                level,
+-                ..
+-            }) if *level == 0 && module.as_ref().map(|id| id.as_str()) == Some("__future__") => {
+-                self.compile_future_features(names)?
+-            }
+-            // ignore module-level doc comments
+-            ast::Stmt::Expr(ast::StmtExpr { value, .. })
+-                if is_docstring_expr(value)
+-                    && matches!(self.done_with_future_stmts, DoneWithFuture::No) =>
+-            {
+-                self.done_with_future_stmts = DoneWithFuture::DoneWithDoc
+-            }
+-            // if we find any other statement, stop accepting future statements
+-            _ => self.done_with_future_stmts = DoneWithFuture::Yes,
++        // `from __future__` still executes that `from` statement at runtime, so the
++        // ImportFrom is compiled down below as well.
++        if let ast::Stmt::ImportFrom(ast::StmtImportFrom {
++            module,
++            names,
++            level,
++            ..
++        }) = &statement
++            && *level == 0
++            && module.as_ref().map(|id| id.as_str()) == Some("__future__")
++        {
++            self.compile_future_features(names)?;
+         }
+ 
+         match &statement {
+@@ -3503,9 +3517,13 @@ impl<'warnings> Compiler<'warnings> {
+                 if !dominated_by_interactive && value.is_constant() {
+                     emit!(self, Instruction::Nop);
+                 } else {
++                    let statement_range = self.current_source_range;
+                     self.compile_expression(value)?;
+ 
+                     if dominated_by_interactive {
++                        // The printing belongs to the statement, not to whatever
++                        // the expression left behind.
++                        self.set_source_range(statement_range);
+                         emit!(
+                             self,
+                             Instruction::CallIntrinsic1 {
+@@ -5445,7 +5463,8 @@ impl<'warnings> Compiler<'warnings> {
+         // CPython's FunctionDef/AsyncFunctionDef LOC(s) starts at the
+         // definition line even when decorators are present.
+         let stmt_source_range = self.current_source_range;
+-        let def_source_range = self.decorated_definition_range(
++        let def_source_range = crate::decorated_definition_range(
++            &self.source_file,
+             stmt_source_range,
+             decorator_list,
+             if is_async { "async def " } else { "def " },
+@@ -5509,14 +5528,15 @@ impl<'warnings> Compiler<'warnings> {
+             };
+ 
+             // Add parameter names to varnames for the type params scope
+-            // These will be passed as arguments when the closure is called
++            // These will be passed as arguments when the closure is called.
++            // `.defaults` is there whether or not the function has any: the
++            // symbol table gives every generic function's type params scope
++            // one. `.kwdefaults` only appears when it is really passed.
+             let current_info = self.current_code_info();
+-            if funcflags.contains(&bytecode::MakeFunctionFlag::Defaults) {
+-                current_info
+-                    .metadata
+-                    .varnames
+-                    .insert(".defaults".to_owned());
+-            }
++            current_info
++                .metadata
++                .varnames
++                .insert(".defaults".to_owned());
+             if funcflags.contains(&bytecode::MakeFunctionFlag::KwOnlyDefaults) {
+                 current_info
+                     .metadata
+@@ -5976,8 +5996,12 @@ impl<'warnings> Compiler<'warnings> {
+         // CPython's ClassDef LOC(s) starts at the class line even when
+         // decorators are present.
+         let stmt_source_range = self.current_source_range;
+-        let class_source_range =
+-            self.decorated_definition_range(stmt_source_range, decorator_list, "class ");
++        let class_source_range = crate::decorated_definition_range(
++            &self.source_file,
++            stmt_source_range,
++            decorator_list,
++            "class ",
++        );
+         self.prepare_decorators(decorator_list)?;
+ 
+         let is_generic = type_params.is_some();
+@@ -9224,7 +9248,7 @@ impl<'warnings> Compiler<'warnings> {
+                 self.compile_expr_tstring(tstring)?;
+             }
+             ast::Expr::StringLiteral(string) => {
+-                let value = self.compile_string_value(string);
++                let value = string_literal_value(&self.source_file, &string.value);
+                 self.emit_load_const(ConstantData::Str { value });
+             }
+             ast::Expr::BytesLiteral(bytes) => {
+@@ -9265,7 +9289,12 @@ impl<'warnings> Compiler<'warnings> {
+         Ok(())
+     }
+ 
+-    fn cpython_sync_genexpr_call_name<'a>(
++    /// The called name of a `name(genexpr)` call, the shape
++    /// `maybe_optimize_function_call()` reserves a `skip_optimization` label
++    /// for. An `await` or an `async for` inside the generator does not
++    /// disqualify it: the inlined loop raises the same `TypeError` that
++    /// calling the builtin on an async generator would.
++    fn cpython_genexpr_call_name<'a>(
+         &self,
+         func: &'a ast::Expr,
+         args: &ast::Arguments,
+@@ -9276,15 +9305,11 @@ impl<'warnings> Compiler<'warnings> {
+         let [ast::Expr::Generator(ast::ExprGenerator { .. })] = &args.args[..] else {
+             return None;
+         };
+-        if !args.keywords.is_empty() || {
+-            let table = self.current_symbol_table();
+-            table
+-                .sub_tables
+-                .get(table.next_sub_table)
+-                .is_none_or(|generator_entry| generator_entry.is_coroutine)
+-        } {
++        if !args.keywords.is_empty() {
+             return None;
+         }
++        let table = self.current_symbol_table();
++        table.sub_tables.get(table.next_sub_table)?;
+         Some(id.as_str())
+     }
+ 
+@@ -9293,7 +9318,7 @@ impl<'warnings> Compiler<'warnings> {
+         func: &ast::Expr,
+         args: &ast::Arguments,
+     ) -> Option<BuiltinGeneratorCallKind> {
+-        match self.cpython_sync_genexpr_call_name(func, args)? {
++        match self.cpython_genexpr_call_name(func, args)? {
+             "tuple" => Some(BuiltinGeneratorCallKind::Tuple),
+             "all" => Some(BuiltinGeneratorCallKind::All),
+             "any" => Some(BuiltinGeneratorCallKind::Any),
+@@ -9345,11 +9370,7 @@ impl<'warnings> Compiler<'warnings> {
+         }
+ 
+         let symbol_table_cursors = self.current_symbol_table_cursors();
+-        if let Some(range) = self.cpython_implicit_call_generator_range(generator_expr) {
+-            self.compile_expression_with_generator_range(generator_expr, range)?;
+-        } else {
+-            self.compile_expression(generator_expr)?;
+-        }
++        self.compile_expression(generator_expr)?;
+         self.set_symbol_table_cursors(symbol_table_cursors);
+ 
+         let loop_block = self.new_block();
+@@ -9446,17 +9467,8 @@ impl<'warnings> Compiler<'warnings> {
+         call_range: TextRange,
+         kw_names_range: TextRange,
+     ) -> CompileResult<()> {
+-        let implicit_generator_range = if args.args.len() == 1 && args.keywords.is_empty() {
+-            self.cpython_implicit_call_generator_range(&args.args[0])
+-        } else {
+-            None
+-        };
+         for arg in &args.args {
+-            if let Some(range) = implicit_generator_range {
+-                self.compile_expression_with_generator_range(arg, range)?;
+-            } else {
+-                self.compile_expression(arg)?;
+-            }
++            self.compile_expression(arg)?;
+         }
+ 
+         if args.keywords.is_empty() {
+@@ -9587,15 +9599,15 @@ impl<'warnings> Compiler<'warnings> {
+             // `skip_normal_call`, even when `maybe_optimize_function_call()`
+             // leaves it untargeted.
+             let skip_normal_call = self.current_code_info().new_instr_sequence_label();
+-            let sync_genexpr_call_name = (!uses_ex_call)
+-                .then(|| self.cpython_sync_genexpr_call_name(func, args))
++            let genexpr_call_name = (!uses_ex_call)
++                .then(|| self.cpython_genexpr_call_name(func, args))
+                 .flatten()
+                 .is_some();
+             self.check_caller(func)?;
+             self.compile_expression(func)?;
+-            if sync_genexpr_call_name {
++            if genexpr_call_name {
+                 // CPython `maybe_optimize_function_call()` creates and uses
+-                // `skip_optimization` for every sync name(genexpr) shape after
++                // `skip_optimization` for every name(genexpr) shape after
+                 // loading the function, even when the name is not all/any/tuple.
+                 let skip_optimization = self.current_code_info().new_instr_sequence_label();
+                 let result = self
+@@ -9729,18 +9741,8 @@ impl<'warnings> Compiler<'warnings> {
+ 
+         if !has_starred && !has_double_star && !too_big {
+             // Simple call path: no * or ** args
+-            let implicit_generator_range =
+-                if additional_positional == 0 && nelts == 1 && nkwelts == 0 {
+-                    self.cpython_implicit_call_generator_range(&args[0])
+-                } else {
+-                    None
+-                };
+             for arg in args {
+-                if let Some(range) = implicit_generator_range {
+-                    self.compile_expression_with_generator_range(arg, range)?;
+-                } else {
+-                    self.compile_expression(arg)?;
+-                }
++                self.compile_expression(arg)?;
+             }
+             let injected_count = if let Some(injected_arg) = injected_arg {
+                 self.set_source_range(call_range);
+@@ -9875,122 +9877,6 @@ impl<'warnings> Compiler<'warnings> {
+         })
+     }
+ 
+-    fn compile_expression_with_generator_range(
+-        &mut self,
+-        expression: &ast::Expr,
+-        range: TextRange,
+-    ) -> CompileResult<()> {
+-        if let ast::Expr::Generator(ast::ExprGenerator {
+-            elt, generators, ..
+-        }) = expression
+-        {
+-            self.set_source_range(range);
+-            self.compile_generator_expression(elt, generators, range)
+-        } else {
+-            self.compile_expression(expression)
+-        }
+-    }
+-
+-    fn cpython_implicit_call_generator_range(&self, expression: &ast::Expr) -> Option<TextRange> {
+-        if !matches!(expression, ast::Expr::Generator(_)) {
+-            return None;
+-        }
+-        let range = expression.range();
+-        let source = self.source_file.source_text().as_bytes();
+-        let start = range.start().to_usize();
+-        let end = range.end().to_usize();
+-        if source.get(start) == Some(&b'(')
+-            && !Self::starts_with_parenthesized_generator_element(source, start, end)
+-        {
+-            return None;
+-        }
+-
+-        let mut open = start;
+-        while open > 0 && source[open - 1].is_ascii_whitespace() {
+-            open -= 1;
+-        }
+-        if open == 0 || source[open - 1] != b'(' {
+-            return None;
+-        }
+-
+-        let mut close = end;
+-        while close < source.len() && source[close].is_ascii_whitespace() {
+-            close += 1;
+-        }
+-        if source.get(close) != Some(&b')') {
+-            return None;
+-        }
+-
+-        let adjusted_start = u32::try_from(open - 1).ok()?;
+-        let adjusted_end = u32::try_from(close + 1).ok()?;
+-        Some(TextRange::new(
+-            TextSize::from(adjusted_start),
+-            TextSize::from(adjusted_end),
+-        ))
+-    }
+-
+-    fn starts_with_parenthesized_generator_element(
+-        source: &[u8],
+-        start: usize,
+-        end: usize,
+-    ) -> bool {
+-        let mut depth = 0usize;
+-        let mut i = start;
+-        while i < end {
+-            match source[i] {
+-                b'(' | b'[' | b'{' => depth += 1,
+-                b')' | b']' | b'}' => {
+-                    if depth == 0 {
+-                        return false;
+-                    }
+-                    depth -= 1;
+-                    if depth == 0 {
+-                        return Self::next_token_is_for(source, i + 1, end);
+-                    }
+-                }
+-                b'\'' | b'"' => i = Self::skip_python_string_literal(source, i),
+-                _ => {}
+-            }
+-            i += 1;
+-        }
+-        false
+-    }
+-
+-    fn skip_python_string_literal(source: &[u8], quote: usize) -> usize {
+-        let quote_byte = source[quote];
+-        let triple = source.get(quote + 1) == Some(&quote_byte)
+-            && source.get(quote + 2) == Some(&quote_byte);
+-        let mut i = quote + if triple { 3 } else { 1 };
+-        while i < source.len() {
+-            if source[i] == b'\\' {
+-                i += 2;
+-                continue;
+-            }
+-            if triple {
+-                if source[i] == quote_byte
+-                    && source.get(i + 1) == Some(&quote_byte)
+-                    && source.get(i + 2) == Some(&quote_byte)
+-                {
+-                    return i + 2;
+-                }
+-            } else if source[i] == quote_byte {
+-                return i;
+-            }
+-            i += 1;
+-        }
+-        source.len().saturating_sub(1)
+-    }
+-
+-    fn next_token_is_for(source: &[u8], mut i: usize, end: usize) -> bool {
+-        while i < end && source[i].is_ascii_whitespace() {
+-            i += 1;
+-        }
+-        source.get(i..i + 3) == Some(b"for")
+-            && source
+-                .get(i + 3)
+-                .is_none_or(|byte| !byte.is_ascii_alphanumeric() && *byte != b'_')
+-    }
+-
+     fn compile_generator_expression(
+         &mut self,
+         elt: &ast::Expr,
+@@ -10480,6 +10366,43 @@ impl<'warnings> Compiler<'warnings> {
+         table.next_inlined_comprehension_block = cursors.inlined_comprehension_block;
+     }
+ 
++    /// Advance the nested-scope cursors to the first scope that begins on or
++    /// after `line_number`.
++    ///
++    /// A statement list can be compiled more than once — `finally` bodies are
++    /// re-emitted on every path that leaves the try block early — and each copy
++    /// has to be handed the same scopes as the last. Positioning by line works
++    /// because `finally` is the last clause of its statement: every scope the
++    /// preceding clauses opened begins on an earlier line than the body being
++    /// re-compiled, and every scope that body opens begins on its own line or
++    /// later.
++    fn seek_symbol_table_cursors_to_line(&mut self, line_number: u32) {
++        fn seek(tables: &[SymbolTable], cursor: &mut usize, line_number: u32) {
++            while tables
++                .get(*cursor)
++                .is_some_and(|table| table.line_number < line_number)
++            {
++                *cursor += 1;
++            }
++        }
++
++        let table = self
++            .symbol_table_stack
++            .last_mut()
++            .expect("no current symbol table");
++        seek(&table.sub_tables, &mut table.next_sub_table, line_number);
++        seek(
++            &table.hidden_annotation_blocks,
++            &mut table.next_hidden_annotation_block,
++            line_number,
++        );
++        seek(
++            &table.inlined_comprehension_blocks,
++            &mut table.next_inlined_comprehension_block,
++            line_number,
++        );
++    }
++
+     fn lookup_comprehension_symbol_table_after_skipped_nested_scopes_in_expr(
+         &mut self,
+         expression: &ast::Expr,
+@@ -11265,12 +11188,6 @@ impl<'warnings> Compiler<'warnings> {
+     }
+ 
+     fn compile_future_features(&mut self, features: &[ast::Alias]) -> Result<(), CodegenError> {
+-        if let DoneWithFuture::Yes = self.done_with_future_stmts {
+-            return Err(self.error(CodegenErrorType::InvalidFuturePlacement));
+-        }
+-
+-        self.done_with_future_stmts = DoneWithFuture::DoneWithDoc;
+-
+         for feature in features {
+             let future_feature = feature.name.as_str().try_into().map_err(|name| {
+                 self.error_ranged(CodegenErrorType::InvalidFutureFeature(name), feature.range)
+@@ -11499,59 +11416,6 @@ impl<'warnings> Compiler<'warnings> {
+ 
+     // fn block_done()
+ 
+-    /// Convert a string literal AST node to Wtf8Buf, handling surrogate literals correctly.
+-    fn compile_string_value(&self, string: &ast::ExprStringLiteral) -> Wtf8Buf {
+-        let value = string.value.to_str();
+-        if value.contains(char::REPLACEMENT_CHARACTER) {
+-            // Might have a surrogate literal; reparse from source to preserve them.
+-            string
+-                .value
+-                .iter()
+-                .map(|lit| {
+-                    let source = self.source_file.slice(lit.range);
+-                    crate::string_parser::parse_string_literal(source, lit.flags.into())
+-                })
+-                .collect()
+-        } else {
+-            value.into()
+-        }
+-    }
+-
+-    fn compile_fstring_literal_value(
+-        &self,
+-        string: &ast::InterpolatedStringLiteralElement,
+-        flags: ast::FStringFlags,
+-    ) -> Wtf8Buf {
+-        if string.value.contains(char::REPLACEMENT_CHARACTER) {
+-            let source = self.source_file.slice(string.range);
+-            crate::string_parser::parse_fstring_literal_element(source.into(), flags.into()).into()
+-        } else {
+-            string.value.to_string().into()
+-        }
+-    }
+-
+-    fn compile_tstring_literal_value(
+-        &self,
+-        string: &ast::InterpolatedStringLiteralElement,
+-        flags: ast::TStringFlags,
+-    ) -> Wtf8Buf {
+-        if string.value.contains(char::REPLACEMENT_CHARACTER) {
+-            let source = self.source_file.slice(string.range);
+-            crate::string_parser::parse_fstring_literal_element(source.into(), flags.into()).into()
+-        } else {
+-            string.value.to_string().into()
+-        }
+-    }
+-
+-    fn compile_fstring_part_literal_value(&self, string: &ast::StringLiteral) -> Wtf8Buf {
+-        if string.value.contains(char::REPLACEMENT_CHARACTER) {
+-            let source = self.source_file.slice(string.range);
+-            crate::string_parser::parse_string_literal(source, string.flags.into()).into()
+-        } else {
+-            string.value.to_string().into()
+-        }
+-    }
+-
+     fn arg_constant(&mut self, constant: ConstantData) -> oparg::ConstIdx {
+         let info = self.current_code_info();
+         if let ConstantData::Code { code } = &constant
+@@ -11676,7 +11540,7 @@ impl<'warnings> Compiler<'warnings> {
+                 },
+             },
+             ast::Expr::StringLiteral(s) => ConstantData::Str {
+-                value: self.compile_string_value(s),
++                value: string_literal_value(&self.source_file, &s.value),
+             },
+             ast::Expr::BytesLiteral(b) => ConstantData::Bytes {
+                 value: b.value.bytes().collect(),
+@@ -11867,7 +11731,7 @@ impl<'warnings> Compiler<'warnings> {
+                 },
+             },
+             ast::Expr::StringLiteral(s) => ConstantData::Str {
+-                value: self.compile_string_value(s),
++                value: string_literal_value(&self.source_file, &s.value),
+             },
+             ast::Expr::BytesLiteral(b) => ConstantData::Bytes {
+                 value: b.value.bytes().collect(),
+@@ -12463,33 +12327,6 @@ impl<'warnings> Compiler<'warnings> {
+         self.current_source_range = range;
+     }
+ 
+-    fn decorated_definition_range(
+-        &self,
+-        statement_range: TextRange,
+-        decorator_list: &[ast::Decorator],
+-        keyword: &str,
+-    ) -> TextRange {
+-        let Some(last_decorator) = decorator_list.last() else {
+-            return statement_range;
+-        };
+-        let search_start = last_decorator.expression.range().end();
+-        if search_start >= statement_range.end() {
+-            return statement_range;
+-        }
+-        let search_range = TextRange::new(search_start, statement_range.end());
+-        let source = self.source_file.slice(search_range);
+-        let Some(keyword_offset) = source.find(keyword) else {
+-            return statement_range;
+-        };
+-        let Ok(keyword_offset) = u32::try_from(keyword_offset) else {
+-            return statement_range;
+-        };
+-        TextRange::new(
+-            search_start + TextSize::new(keyword_offset),
+-            statement_range.end(),
+-        )
+-    }
+-
+     fn update_start_location_to_match_attr(
+         &self,
+         loc_range: TextRange,
+@@ -12720,7 +12557,7 @@ impl<'warnings> Compiler<'warnings> {
+     ) -> CompileResult<()> {
+         match part {
+             ast::FStringPart::Literal(string) => {
+-                let value = self.compile_fstring_part_literal_value(string);
++                let value = string_literal_part_value(&self.source_file, string);
+                 if pending_literal.is_none() {
+                     *pending_literal_range = Some(string.range);
+                     *pending_literal_no_location = string.range == TextRange::default();
+@@ -12751,13 +12588,11 @@ impl<'warnings> Compiler<'warnings> {
+         mut element_count: u32,
+         fstring_range: Option<TextRange>,
+     ) {
+-        let keep_empty = element_count == 0;
+         self.emit_pending_fstring_literal(
+             &mut pending_literal,
+             &mut pending_literal_range,
+             &mut pending_literal_no_location,
+             &mut element_count,
+-            keep_empty,
+             None,
+         );
+ 
+@@ -12789,13 +12624,11 @@ impl<'warnings> Compiler<'warnings> {
+         mut element_count: u32,
+         fstring_range: TextRange,
+     ) {
+-        let keep_empty = element_count == 0;
+         self.emit_pending_fstring_literal(
+             &mut pending_literal,
+             &mut pending_literal_range,
+             &mut pending_literal_no_location,
+             &mut element_count,
+-            keep_empty,
+             Some(fstring_range),
+         );
+         self.set_source_range(fstring_range);
+@@ -12808,7 +12641,6 @@ impl<'warnings> Compiler<'warnings> {
+         pending_literal_range: &mut Option<TextRange>,
+         pending_literal_no_location: &mut bool,
+         element_count: &mut u32,
+-        keep_empty: bool,
+         join_append_range: Option<TextRange>,
+     ) {
+         let Some(value) = pending_literal.take() else {
+@@ -12818,10 +12650,10 @@ impl<'warnings> Compiler<'warnings> {
+         let no_location = *pending_literal_no_location;
+         *pending_literal_no_location = false;
+ 
+-        // CPython drops empty literal fragments when they are adjacent to
+-        // formatted values, but still emits an empty string for a fully-empty
+-        // f-string.
+-        if value.is_empty() && (!keep_empty || *element_count > 0) {
++        // An empty literal fragment contributes nothing, so it is dropped. An
++        // f-string left with no fragments at all still loads an empty string,
++        // positioned at the whole f-string rather than at any one fragment.
++        if value.is_empty() {
+             return;
+         }
+ 
+@@ -12857,8 +12689,7 @@ impl<'warnings> Compiler<'warnings> {
+         for part in fstring {
+             self.count_fstring_part_into(part, &mut pending_literal, &mut element_count);
+         }
+-        let keep_empty = element_count == 0;
+-        Self::count_pending_fstring_literal(&mut pending_literal, &mut element_count, keep_empty);
++        Self::count_pending_fstring_literal(&mut pending_literal, &mut element_count);
+         element_count
+     }
+ 
+@@ -12870,7 +12701,7 @@ impl<'warnings> Compiler<'warnings> {
+     ) {
+         match part {
+             ast::FStringPart::Literal(string) => {
+-                let value = self.compile_fstring_part_literal_value(string);
++                let value = string_literal_part_value(&self.source_file, string);
+                 if let Some(pending) = pending_literal.as_mut() {
+                     pending.push_wtf8(value.as_ref());
+                 } else {
+@@ -12889,13 +12720,12 @@ impl<'warnings> Compiler<'warnings> {
+     fn count_pending_fstring_literal(
+         pending_literal: &mut Option<Wtf8Buf>,
+         element_count: &mut u32,
+-        keep_empty: bool,
+     ) {
+         let Some(value) = pending_literal.take() else {
+             return;
+         };
+ 
+-        if value.is_empty() && (!keep_empty || *element_count > 0) {
++        if value.is_empty() {
+             return;
+         }
+ 
+@@ -12997,7 +12827,8 @@ impl<'warnings> Compiler<'warnings> {
+         for element in fstring_elements {
+             match element {
+                 ast::InterpolatedStringElement::Literal(string) => {
+-                    let value = self.compile_fstring_literal_value(string, flags);
++                    let value =
++                        interpolated_string_literal_value(&self.source_file, string, flags.into());
+                     if pending_literal.is_none() {
+                         *pending_literal_range = Some(string.range);
+                         *pending_literal_no_location = string.range == TextRange::default();
+@@ -13017,29 +12848,11 @@ impl<'warnings> Compiler<'warnings> {
+                     };
+ 
+                     if let Some(debug_text) = &fstring_expr.debug_text {
+-                        let leading = debug_text.leading.as_str();
+-                        let trailing = debug_text.trailing.as_str();
+-                        let range = fstring_expr.expression.range();
+-                        let source = self.source_file.slice(range);
+-                        let text = [
+-                            strip_python_comments(leading).as_str(),
+-                            source,
+-                            strip_python_comments(trailing).as_str(),
+-                        ]
+-                        .concat();
+-                        let debug_text_range = TextRange::new(
+-                            range.start()
+-                                - TextSize::new(
+-                                    u32::try_from(leading.len())
+-                                        .expect("debug f-string leading text too long"),
+-                                ),
+-                            range.end()
+-                                + TextSize::new(
+-                                    u32::try_from(trailing.len())
+-                                        .expect("debug f-string trailing text too long"),
+-                                ),
++                        let (text, debug_text_range) = interpolation_debug_text(
++                            &self.source_file,
++                            debug_text,
++                            fstring_expr.expression.range(),
+                         );
+-
+                         let text: Wtf8Buf = text.into();
+                         Self::extend_pending_literal_range(pending_literal_range, debug_text_range);
+                         *pending_literal_no_location = false;
+@@ -13062,7 +12875,6 @@ impl<'warnings> Compiler<'warnings> {
+                         pending_literal_range,
+                         pending_literal_no_location,
+                         element_count,
+-                        false,
+                         join_append_range,
+                     );
+ 
+@@ -13132,8 +12944,7 @@ impl<'warnings> Compiler<'warnings> {
+             &mut pending_literal,
+             &mut element_count,
+         );
+-        let keep_empty = element_count == 0;
+-        Self::count_pending_fstring_literal(&mut pending_literal, &mut element_count, keep_empty);
++        Self::count_pending_fstring_literal(&mut pending_literal, &mut element_count);
+         element_count
+     }
+ 
+@@ -13147,7 +12958,8 @@ impl<'warnings> Compiler<'warnings> {
+         for element in fstring_elements {
+             match element {
+                 ast::InterpolatedStringElement::Literal(string) => {
+-                    let value = self.compile_fstring_literal_value(string, flags);
++                    let value =
++                        interpolated_string_literal_value(&self.source_file, string, flags.into());
+                     if let Some(pending) = pending_literal.as_mut() {
+                         pending.push_wtf8(value.as_ref());
+                     } else {
+@@ -13156,24 +12968,18 @@ impl<'warnings> Compiler<'warnings> {
+                 }
+                 ast::InterpolatedStringElement::Interpolation(fstring_expr) => {
+                     if let Some(debug_text) = &fstring_expr.debug_text {
+-                        let leading = debug_text.leading.as_str();
+-                        let trailing = debug_text.trailing.as_str();
+-                        let range = fstring_expr.expression.range();
+-                        let source = self.source_file.slice(range);
+-                        let text = [
+-                            strip_python_comments(leading).as_str(),
+-                            source,
+-                            strip_python_comments(trailing).as_str(),
+-                        ]
+-                        .concat();
+-
++                        let (text, _) = interpolation_debug_text(
++                            &self.source_file,
++                            debug_text,
++                            fstring_expr.expression.range(),
++                        );
+                         let text: Wtf8Buf = text.into();
+                         pending_literal
+                             .get_or_insert_with(Wtf8Buf::new)
+                             .push_wtf8(text.as_ref());
+                     }
+ 
+-                    Self::count_pending_fstring_literal(pending_literal, element_count, false);
++                    Self::count_pending_fstring_literal(pending_literal, element_count);
+                     *element_count += 1;
+                 }
+             }
+@@ -13382,32 +13188,18 @@ impl<'warnings> Compiler<'warnings> {
+                     } else {
+                         Self::extend_pending_literal_range(current_string_range, lit.range);
+                     }
+-                    current_string
+-                        .push_wtf8(&self.compile_tstring_literal_value(lit, tstring.flags));
++                    current_string.push_wtf8(&interpolated_string_literal_value(
++                        &self.source_file,
++                        lit,
++                        tstring.flags.into(),
++                    ));
+                 }
+                 ast::InterpolatedStringElement::Interpolation(interp) => {
+                     if let Some(debug_text) = &interp.debug_text {
+-                        let leading = debug_text.leading.as_str();
+-                        let trailing = debug_text.trailing.as_str();
+-                        let range = interp.expression.range();
+-                        let source = self.source_file.slice(range);
+-                        let text = [
+-                            strip_python_comments(leading).as_str(),
+-                            source,
+-                            strip_python_comments(trailing).as_str(),
+-                        ]
+-                        .concat();
+-                        let debug_text_range = TextRange::new(
+-                            range.start()
+-                                - TextSize::new(
+-                                    u32::try_from(leading.len())
+-                                        .expect("debug t-string leading text too long"),
+-                                ),
+-                            range.end()
+-                                + TextSize::new(
+-                                    u32::try_from(trailing.len())
+-                                        .expect("debug t-string trailing text too long"),
+-                                ),
++                        let (text, debug_text_range) = interpolation_debug_text(
++                            &self.source_file,
++                            debug_text,
++                            interp.expression.range(),
+                         );
+                         if current_string_range.is_none() {
+                             *current_string_range = Some(debug_text_range);
+@@ -13624,17 +13416,6 @@ fn split_doc<'a>(body: &'a [ast::Stmt], opts: &CompileOpts) -> (Option<String>,
+     (doc.map(|(doc, _)| doc), body)
+ }
+ 
+-fn is_docstring_expr(expr: &ast::Expr) -> bool {
+-    matches!(
+-        expr,
+-        ast::Expr::StringLiteral(_)
+-            | ast::Expr::Constant(ast::ExprConstant {
+-                value: ast::ConstantValue::Str(_),
+-                ..
+-            })
+-    )
+-}
+-
+ pub fn ruff_int_to_bigint(int: &ast::Int) -> Result<BigInt, CodegenErrorType> {
+     if let Some(small) = int.as_u64() {
+         Ok(BigInt::from(small))
+@@ -14013,6 +13794,7 @@ mod tests {
+             warning = Some(message.clone());
+             Err(CodegenError {
+                 location: Some(location),
++                end_location: None,
+                 error: CodegenErrorType::SyntaxError(message),
+                 source_path: "source_path".to_owned(),
+             })
+@@ -14042,6 +13824,7 @@ mod tests {
+             warning = Some(message.clone());
+             Err(CodegenError {
+                 location: Some(location),
++                end_location: None,
+                 error: CodegenErrorType::SyntaxError(message),
+                 source_path: "source_path".to_owned(),
+             })
+@@ -16638,6 +16421,28 @@ def f(buffer, pos, last_char):
+         );
+     }
+ 
++    fn location_range(
++        locations: &(SourceLocation, SourceLocation),
++    ) -> (usize, usize, usize, usize) {
++        let (location, end_location) = locations;
++        (
++            location.line.get(),
++            location.character_offset.get(),
++            end_location.line.get(),
++            end_location.character_offset.get(),
++        )
++    }
++
++    fn instruction_range(
++        code: &CodeObject,
++        matches: impl Fn(&Instruction) -> bool,
++    ) -> Option<(usize, usize, usize, usize)> {
++        code.instructions
++            .iter()
++            .zip(&code.locations)
++            .find_map(|(unit, locations)| matches(&unit.op).then(|| location_range(locations)))
++    }
++
+     fn find_code<'a>(code: &'a CodeObject, name: &str) -> Option<&'a CodeObject> {
+         if code.obj_name == name {
+             return Some(code);
+@@ -19294,6 +19099,61 @@ def explicit_gen(xs):
+         );
+     }
+ 
++    #[test]
++    fn implicit_call_genexpr_operator_element_range_like_cpython() {
++        // The element opens with a parenthesized group that the rest of the
++        // expression continues, so the call's own parentheses are the only
++        // ones that bound the generator.
++        let code = compile_exec(
++            "\
++def f(p, q):
++    return sum((px - qx) ** 2.0 for px, qx in zip(p, q))
++",
++        );
++        let f = find_code(&code, "f").expect("missing f code");
++        let genexpr = find_code(f, "<genexpr>").expect("missing genexpr code");
++
++        // Columns are one-based here, so these are `dis`'s 14..56.
++        assert_eq!(
++            instruction_range(f, |op| matches!(op, Instruction::MakeFunction)),
++            Some((2, 15, 2, 57))
++        );
++        assert_eq!(
++            instruction_range(genexpr, |op| matches!(op, Instruction::LoadFast { .. })),
++            Some((2, 15, 2, 57))
++        );
++    }
++
++    #[test]
++    fn fstring_concatenation_without_content_uses_whole_range_like_cpython() {
++        // Every fragment is empty, so none of them is kept and the empty string
++        // that replaces them belongs to the whole concatenation. The last line
++        // keeps its one fragment and stays at that fragment.
++        let code = compile_exec(
++            "\
++x = '' f''
++y = f'' ''
++z = '' f'' '' f''
++w = f'' 'a' f''
++",
++        );
++
++        let ranges: Vec<_> = code
++            .instructions
++            .iter()
++            .zip(&code.locations)
++            .filter(|(unit, _)| matches!(unit.op, Instruction::LoadConst { .. }))
++            .map(|(_, locations)| location_range(locations))
++            .take(4)
++            .collect();
++        // Columns are one-based here, so these are `dis`'s 4..10, 4..10,
++        // 4..17 and 8..11.
++        assert_eq!(
++            ranges,
++            vec![(1, 5, 1, 11), (2, 5, 2, 11), (3, 5, 3, 18), (4, 9, 4, 12)]
++        );
++    }
++
+     #[test]
+     fn genexpr_filter_cleanup_jumps_use_element_location_like_cpython() {
+         let code = compile_exec(
+@@ -20627,25 +20487,32 @@ def f(xs):
+     }
+ 
+     #[test]
+-    fn builtin_any_async_genexpr_call_is_not_optimized() {
+-        let code = compile_exec(
+-            "\
+-async def f(xs):
+-    return any(x async for x in xs)
+-",
+-        );
+-        let f = find_code(&code, "f").expect("missing function code");
++    fn builtin_any_async_genexpr_call_is_optimized_like_cpython() {
++        for source in [
++            "async def f(xs):\n    return any(x async for x in xs)\n",
++            "async def f(xs):\n    return any(await x for x in xs)\n",
++        ] {
++            let code = compile_exec(source);
++            let f = find_code(&code, "f").expect("missing function code");
+ 
+-        assert!(
+-            !has_common_constant(f, bytecode::CommonConstant::BuiltinAny),
+-            "CPython maybe_optimize_function_call() skips coroutine generator expressions"
+-        );
+-        assert!(
+-            f.instructions
+-                .iter()
+-                .any(|unit| matches!(unit.op, Instruction::Call { .. })),
+-            "async genexpr any() should stay on the normal call path"
+-        );
++            assert!(
++                has_common_constant(f, bytecode::CommonConstant::BuiltinAny),
++                "maybe_optimize_function_call() guards any(genexpr) whether or not the \
++                 generator is a coroutine: {source}"
++            );
++            assert!(
++                f.instructions
++                    .iter()
++                    .any(|unit| matches!(unit.op, Instruction::ForIter { .. })),
++                "the guarded path inlines the loop: {source}"
++            );
++            assert!(
++                f.instructions
++                    .iter()
++                    .any(|unit| matches!(unit.op, Instruction::Call { .. })),
++                "the fallback still calls the name it loaded: {source}"
++            );
++        }
+     }
+ 
+     #[test]
+@@ -31765,7 +31632,7 @@ def func[T](a: T = 'a', *, b: T = 'b'):
+     }
+ 
+     #[test]
+-    fn generic_function_type_params_omit_defaults_without_defaults_like_cpython() {
++    fn generic_function_type_params_reserve_defaults_like_cpython() {
+         let code = compile_exec(
+             "\
+ def func[T]():
+@@ -31774,6 +31641,7 @@ def func[T]():
+         );
+         let type_params =
+             find_code(&code, "<generic parameters of func>").expect("missing type params code");
++        // The slot is reserved even though nothing is passed into it.
+         assert_eq!(type_params.arg_count, 0);
+         assert_eq!(
+             type_params
+@@ -31781,7 +31649,7 @@ def func[T]():
+                 .iter()
+                 .map(String::as_str)
+                 .collect::<Vec<_>>(),
+-            vec!["T"]
++            vec![".defaults", "T"]
+         );
+     }
+ 
+@@ -31800,10 +31668,24 @@ def with_kw[U](*, a: U = 1):
+         let with_kw =
+             find_code(&code, "<generic parameters of with_kw>").expect("missing type params code");
+ 
+-        assert!(with_pos.varnames.iter().any(|name| name == ".defaults"));
+-        assert!(!with_pos.varnames.iter().any(|name| name == ".kwdefaults"));
+-        assert!(!with_kw.varnames.iter().any(|name| name == ".defaults"));
+-        assert!(with_kw.varnames.iter().any(|name| name == ".kwdefaults"));
++        assert_eq!(
++            with_pos
++                .varnames
++                .iter()
++                .map(String::as_str)
++                .collect::<Vec<_>>(),
++            vec![".defaults"]
++        );
++        assert_eq!(with_pos.arg_count, 1);
++        assert_eq!(
++            with_kw
++                .varnames
++                .iter()
++                .map(String::as_str)
++                .collect::<Vec<_>>(),
++            vec![".defaults", ".kwdefaults"]
++        );
++        assert_eq!(with_kw.arg_count, 1);
+     }
+ 
+     #[test]
+@@ -33376,7 +33258,7 @@ async def f():
+ ",
+         );
+         let genexpr =
+-            find_symbol_table(&symbol_table, "<genexpr>").expect("missing genexpr symbol table");
++            find_symbol_table(&symbol_table, "genexpr").expect("missing genexpr symbol table");
+         assert!(genexpr.is_generator, "expected genexpr symbol table");
+         assert!(
+             genexpr.is_coroutine,
+diff --git a/crates/codegen/src/error.rs b/crates/codegen/src/error.rs
+index 668ceb605..7092b6bb2 100644
+--- a/crates/codegen/src/error.rs
++++ b/crates/codegen/src/error.rs
+@@ -8,6 +8,7 @@ use thiserror::Error;
+ #[derive(Error, Debug)]
+ pub struct CodegenError {
+     pub location: Option<SourceLocation>,
++    pub end_location: Option<SourceLocation>,
+     #[source]
+     pub error: CodegenErrorType,
+     pub source_path: String,
+diff --git a/crates/codegen/src/ir.rs b/crates/codegen/src/ir.rs
+index 12fba37f6..bc25ca162 100644
+--- a/crates/codegen/src/ir.rs
++++ b/crates/codegen/src/ir.rs
+@@ -4035,7 +4035,8 @@ impl CodeInfo {
+             obj_name: obj_name.clone(),
+             qualname: qualname.unwrap_or(obj_name),
+ 
+-            max_stackdepth,
++            // Room for one value is always reserved, even where nothing is pushed.
++            max_stackdepth: max_stackdepth.max(1),
+             instructions: CodeUnits::from(assembled.instructions),
+             locations,
+             constants: constants.into_iter().collect(),
+diff --git a/crates/codegen/src/lib.rs b/crates/codegen/src/lib.rs
+index f765eb74a..b7ddb357e 100644
+--- a/crates/codegen/src/lib.rs
++++ b/crates/codegen/src/lib.rs
+@@ -24,6 +24,9 @@ mod unparse;
+ 
+ pub use compile::CompileOpts;
+ use ruff_python_ast as ast;
++use ruff_text_size::{Ranged, TextRange, TextSize};
++use rustpython_compiler_core::SourceFile;
++use rustpython_wtf8::Wtf8Buf;
+ 
+ pub(crate) use compile::InternalResult;
+ 
+@@ -94,6 +97,112 @@ pub(crate) fn ast_constant_value_to_constant_data(value: ast::ConstantValue) ->
+     }
+ }
+ 
++/// The range a decorated definition covers from its `def`/`class` keyword on.
++///
++/// The parser hands over a statement that starts at the first decorator, while a
++/// definition is located at the keyword that introduces it.
++#[must_use]
++pub fn decorated_definition_range(
++    source_file: &SourceFile,
++    statement_range: TextRange,
++    decorator_list: &[ast::Decorator],
++    keyword: &str,
++) -> TextRange {
++    let Some(last_decorator) = decorator_list.last() else {
++        return statement_range;
++    };
++    let search_start = last_decorator.expression.range().end();
++    if search_start >= statement_range.end() {
++        return statement_range;
++    }
++    let search_range = TextRange::new(search_start, statement_range.end());
++    let source = source_file.slice(search_range);
++    let Some(keyword_offset) = source.find(keyword) else {
++        return statement_range;
++    };
++    let Ok(keyword_offset) = u32::try_from(keyword_offset) else {
++        return statement_range;
++    };
++    TextRange::new(
++        search_start + TextSize::new(keyword_offset),
++        statement_range.end(),
++    )
++}
++
++/// The value of a string literal.
++///
++/// The parser has nowhere to keep a lone surrogate in the value it hands over,
++/// and leaves a replacement character standing in for one, so a literal that
++/// carries any is read again from the source it was written in.
++#[must_use]
++pub fn string_literal_value(source_file: &SourceFile, string: &ast::StringLiteralValue) -> Wtf8Buf {
++    let value = string.to_str();
++    if value.contains(char::REPLACEMENT_CHARACTER) {
++        string
++            .iter()
++            .map(|part| string_literal_part_value(source_file, part))
++            .collect()
++    } else {
++        value.into()
++    }
++}
++
++/// The value of one of the literals a string literal is written as.
++#[must_use]
++pub fn string_literal_part_value(source_file: &SourceFile, string: &ast::StringLiteral) -> Wtf8Buf {
++    if string.value.contains(char::REPLACEMENT_CHARACTER) {
++        let source = source_file.slice(string.range);
++        string_parser::parse_string_literal(source, string.flags.into()).into()
++    } else {
++        string.value.to_string().into()
++    }
++}
++
++/// The value of a literal written between the interpolations of an f-string or
++/// a t-string.
++#[must_use]
++pub fn interpolated_string_literal_value(
++    source_file: &SourceFile,
++    element: &ast::InterpolatedStringLiteralElement,
++    flags: ast::AnyStringFlags,
++) -> Wtf8Buf {
++    if element.value.contains(char::REPLACEMENT_CHARACTER) {
++        let source = source_file.slice(element.range);
++        string_parser::parse_fstring_literal_element(source.into(), flags).into()
++    } else {
++        element.value.to_string().into()
++    }
++}
++
++/// The text a `{expr=}` interpolation puts in front of its value, and the range
++/// that text covers.
++///
++/// The text is the expression as it is written plus whatever the parser found
++/// around it inside the braces, with comments taken out. The range covers that
++/// surrounding text as it stands, comments included.
++#[must_use]
++pub fn interpolation_debug_text(
++    source_file: &SourceFile,
++    debug_text: &ast::DebugText,
++    expression_range: TextRange,
++) -> (String, TextRange) {
++    let leading = debug_text.leading.as_str();
++    let trailing = debug_text.trailing.as_str();
++    let text = [
++        strip_python_comments(leading).as_str(),
++        source_file.slice(expression_range),
++        strip_python_comments(trailing).as_str(),
++    ]
++    .concat();
++    let width =
++        |len: usize| TextSize::new(u32::try_from(len).expect("debug interpolation text too long"));
++    let range = TextRange::new(
++        expression_range.start() - width(leading.len()),
++        expression_range.end() + width(trailing.len()),
++    );
++    (text, range)
++}
++
+ fn strip_python_comments(text: &str) -> String {
+     let chars = text.chars().collect::<Vec<_>>();
+     let mut result = String::with_capacity(text.len());
+diff --git a/crates/codegen/src/preprocess.rs b/crates/codegen/src/preprocess.rs
+index 1bb65a76e..466d8f35e 100644
+--- a/crates/codegen/src/preprocess.rs
++++ b/crates/codegen/src/preprocess.rs
+@@ -392,6 +392,7 @@ impl Transformer for AstPreprocessor {
+ 
+     fn visit_expr(&self, expr: &mut Expr) {
+         transformer::walk_expr(self, expr);
++        widen_implicit_call_generator_range(expr);
+         if self.constant_folding {
+             if let Some(optimized) = optimize_format(expr) {
+                 *expr = optimized;
+@@ -402,6 +403,24 @@ impl Transformer for AstPreprocessor {
+     }
+ }
+ 
++/// Give a generator expression written straight into a call's parentheses the
++/// range of those parentheses.
++///
++/// `genexp` is a grammar rule of its own that consumes the parentheses it is
++/// written in, so every position taken from the node covers them. The parser
++/// here leaves the node spanning only the element through the last iterable.
++fn widen_implicit_call_generator_range(expr: &mut Expr) {
++    let Expr::Call(call) = expr else {
++        return;
++    };
++    let [Expr::Generator(generator)] = &mut *call.arguments.args else {
++        return;
++    };
++    if !generator.parenthesized {
++        generator.range = call.arguments.range;
++    }
++}
++
+ fn fold_debug_constant(expr: &Expr, optimize: u8) -> Option<Expr> {
+     let Expr::Name(name) = expr else {
+         return None;
+diff --git a/crates/codegen/src/symboltable.rs b/crates/codegen/src/symboltable.rs
+index 0adfab497..173921654 100644
+--- a/crates/codegen/src/symboltable.rs
++++ b/crates/codegen/src/symboltable.rs
+@@ -335,6 +335,7 @@ pub struct Symbol {
+     pub scope: SymbolScope,
+     pub flags: SymbolFlags,
+     pub location: Option<SourceLocation>,
++    pub end_location: Option<SourceLocation>,
+ }
+ 
+ impl Symbol {
+@@ -345,6 +346,7 @@ impl Symbol {
+             scope: SymbolScope::Unknown,
+             flags: SymbolFlags::empty(),
+             location: None,
++            end_location: None,
+         }
+     }
+ 
+@@ -371,6 +373,7 @@ impl Symbol {
+ pub struct SymbolTableError {
+     error: String,
+     location: Option<SourceLocation>,
++    end_location: Option<SourceLocation>,
+ }
+ 
+ impl SymbolTableError {
+@@ -383,6 +386,7 @@ impl SymbolTableError {
+         };
+         CodegenError {
+             location: self.location,
++            end_location: self.end_location,
+             error,
+             source_path,
+         }
+@@ -463,8 +467,11 @@ fn inline_comprehension(
+             inlined_cells.insert(name.clone());
+         }
+ 
+-        // __class__, __classdict__ and __conditional_annotations__ are never
+-        // allowed to be free through a class scope.
++        // `__class__` is never allowed to be free through a class scope, see
++        // drop_class_free(). `__classdict__` and `__conditional_annotations__`
++        // have no binding to reach either, and unlike CPython -- which fails with
++        // an internal error while compiling such a class -- they resolve as
++        // globals here.
+         let scope = if sub_symbol.scope == SymbolScope::Free
+             && parent_type == CompilerScope::Class
+             && matches!(
+@@ -486,7 +493,18 @@ fn inline_comprehension(
+             sub_symbol.scope
+         };
+ 
+-        if let Some(existing) = parent_symbols.get(name) {
++        if let Some(existing) = parent_symbols.get_mut(name) {
++            // A name the parent only learned about as a free variable of this
++            // comprehension carries no definition of its own; the comprehension's
++            // flags are what describe it.
++            if existing
++                .flags
++                .difference(SymbolFlags::DEF_FREE_CLASS)
++                .is_empty()
++            {
++                existing.flags.insert(sub_symbol.flags);
++                existing.scope = scope;
++            }
+             // Name exists in parent
+             if existing.is_bound() && parent_type != CompilerScope::Class {
+                 // Check if the name is free in any child of the comprehension
+@@ -791,7 +809,9 @@ impl SymbolTableAnalyzer {
+         class_entry: Option<&SymbolMap>,
+     ) -> SymbolTableResult {
+         match symbol.scope {
+-            SymbolScope::Free => {
++            // Only an explicit `nonlocal` has to name a binding. Every other free
++            // variable was already resolved by the scope it travelled up from.
++            SymbolScope::Free if symbol.flags.contains(SymbolFlags::DEF_NONLOCAL) => {
+                 if !self.tables.as_ref().is_empty() {
+                     let scope_depth = self.tables.as_ref().len();
+                     // check if the name is already defined in any outer scope
+@@ -805,24 +825,24 @@ impl SymbolTableAnalyzer {
+                         return Err(SymbolTableError {
+                             error: format!("no binding for nonlocal '{}' found", symbol.name),
+                             location: symbol.location,
++                            end_location: symbol.end_location,
+                         });
+                     }
+                     // Check if the nonlocal binding refers to a type parameter
+-                    if symbol.flags.contains(SymbolFlags::DEF_NONLOCAL) {
+-                        for (symbols, _typ, _skip) in self.tables.iter().rev() {
+-                            if let Some(sym) = symbols.get(&symbol.name) {
+-                                if sym.flags.contains(SymbolFlags::DEF_TYPE_PARAM) {
+-                                    return Err(SymbolTableError {
+-                                        error: format!(
+-                                            "nonlocal binding not allowed for type parameter '{}'",
+-                                            symbol.name
+-                                        ),
+-                                        location: symbol.location,
+-                                    });
+-                                }
+-                                if sym.is_bound() {
+-                                    break;
+-                                }
++                    for (symbols, _typ, _skip) in self.tables.iter().rev() {
++                        if let Some(sym) = symbols.get(&symbol.name) {
++                            if sym.flags.contains(SymbolFlags::DEF_TYPE_PARAM) {
++                                return Err(SymbolTableError {
++                                    error: format!(
++                                        "nonlocal binding not allowed for type parameter '{}'",
++                                        symbol.name
++                                    ),
++                                    location: symbol.location,
++                                    end_location: symbol.end_location,
++                                });
++                            }
++                            if sym.is_bound() {
++                                break;
+                             }
+                         }
+                     }
+@@ -833,9 +853,11 @@ impl SymbolTableAnalyzer {
+                             symbol.name
+                         ),
+                         location: symbol.location,
++                        end_location: symbol.end_location,
+                     });
+                 }
+             }
++            SymbolScope::Free => {}
+             SymbolScope::GlobalExplicit | SymbolScope::GlobalImplicit => {}
+             SymbolScope::Local | SymbolScope::Cell => {}
+             SymbolScope::Unknown => {
+@@ -874,11 +896,8 @@ impl SymbolTableAnalyzer {
+                 {
+                     // If found in enclosing scope (function/TypeParams), use that
+                     scope
+-                } else if self.tables.is_empty() {
+-                    // Don't make assumptions when we don't know.
+-                    SymbolScope::Unknown
+                 } else {
+-                    // If there are scopes above we assume global.
++                    // A name bound nowhere is global.
+                     SymbolScope::GlobalImplicit
+                 };
+                 symbol.scope = scope;
+@@ -934,7 +953,9 @@ impl SymbolTableAnalyzer {
+ 
+             if let Some(sym) = symbols.get(name) {
+                 match sym.scope {
+-                    SymbolScope::GlobalExplicit => return Some(SymbolScope::GlobalExplicit),
++                    // A global declaration binds nothing, so a name it covers is
++                    // global here only by not being found anywhere else.
++                    SymbolScope::GlobalExplicit => return Some(SymbolScope::GlobalImplicit),
+                     SymbolScope::GlobalImplicit => {}
+                     _ => {
+                         if sym.is_bound() {
+@@ -1028,7 +1049,6 @@ enum SymbolUsage {
+     Imported,
+     AnnotationAssigned,
+     Parameter,
+-    AnnotationParameter,
+     Iter,
+     TypeParam,
+ }
+@@ -1055,6 +1075,15 @@ struct SymbolTableBuilder {
+     recursion_depth: usize,
+     recursion_limit: usize,
+     next_block_index: usize,
++    done_with_future_stmts: DoneWithFuture,
++}
++
++/// How far past the point where `from __future__ import` is still accepted the
++/// module body has been scanned.
++enum DoneWithFuture {
++    No,
++    DoneWithDoc,
++    Yes,
+ }
+ 
+ /// Enum to indicate in what mode an expression
+@@ -1086,6 +1115,7 @@ impl SymbolTableBuilder {
+             recursion_depth: 0,
+             recursion_limit: DEFAULT_RECURSION_LIMIT,
+             next_block_index: 0,
++            done_with_future_stmts: DoneWithFuture::No,
+         };
+         this.enter_scope(&"top".into(), CompilerScope::Module, 0);
+         this
+@@ -1312,9 +1342,10 @@ impl SymbolTableBuilder {
+ 
+         if can_see_class_scope && (include_classdict_with_future || !self.future_annotations) {
+             self.add_classdict_freevar();
+-            // Also add __conditional_annotations__ as free var if parent has conditional annotations
++            // The `__conditional_annotations__` cell is cooked up by the compiler,
++            // so the block only records that it reads one.
+             if include_conditional_annotations && has_conditional {
+-                self.add_conditional_annotations_freevar();
++                self.tables.last_mut().unwrap().has_conditional_annotations = true;
+             }
+         }
+     }
+@@ -1348,19 +1379,6 @@ impl SymbolTableBuilder {
+             .insert(SymbolFlags::USE | SymbolFlags::DEF_FREE_CLASS);
+     }
+ 
+-    fn add_conditional_annotations_freevar(&mut self) {
+-        let table = self.tables.last_mut().unwrap();
+-        let name = Name::new_static("__conditional_annotations__");
+-        let symbol = table
+-            .symbols
+-            .entry(name.clone())
+-            .or_insert_with(|| Symbol::new(name));
+-        symbol.scope = SymbolScope::Free;
+-        symbol
+-            .flags
+-            .insert(SymbolFlags::USE | SymbolFlags::DEF_FREE_CLASS);
+-    }
+-
+     fn add_format_parameter(&mut self) {
+         self.tables.last_mut().unwrap().add_format_parameter();
+         if !self.current_varnames.iter().any(|name| name == ".format") {
+@@ -1420,29 +1438,19 @@ impl SymbolTableBuilder {
+     }
+ 
+     fn scan_parameter(&mut self, parameter: &ast::Parameter) -> SymbolTableResult {
+-        let usage = if parameter.annotation.is_some() {
+-            SymbolUsage::AnnotationParameter
+-        } else {
+-            SymbolUsage::Parameter
+-        };
+-
+         // Check for duplicate parameter names
+         let table = self.tables.last().unwrap();
+         if table.symbols.contains_key(parameter.name.as_str()) {
+-            return Err(SymbolTableError {
+-                error: format!(
++            return Err(self.error_ranged(
++                format!(
+                     "duplicate argument '{}' in function definition",
+                     parameter.name
+                 ),
+-                location: Some(
+-                    self.source_file
+-                        .to_source_code()
+-                        .source_location(parameter.name.range.start(), PositionEncoding::Utf8),
+-                ),
+-            });
++                parameter.name.range,
++            ));
+         }
+ 
+-        self.register_ident(&parameter.name, usage)
++        self.register_ident(&parameter.name, SymbolUsage::Parameter)
+     }
+ 
+     /// Scan an annotation from an AnnAssign statement (can be conditional)
+@@ -1583,16 +1591,47 @@ impl SymbolTableBuilder {
+         result
+     }
+ 
++    /// Reject a `from __future__ import` that no longer opens the module.
++    ///
++    /// Only a docstring and other future statements may come first.
++    // = future_parse
++    fn track_future_statement(&mut self, statement: &ast::Stmt) -> SymbolTableResult {
++        match statement {
++            ast::Stmt::ImportFrom(ast::StmtImportFrom { module, level, .. })
++                if *level == 0 && module.as_ref().map(|id| id.as_str()) == Some("__future__") =>
++            {
++                if matches!(self.done_with_future_stmts, DoneWithFuture::Yes) {
++                    return Err(self.error_ranged(
++                        "from __future__ imports must occur at the beginning of the file"
++                            .to_owned(),
++                        statement.range(),
++                    ));
++                }
++                self.done_with_future_stmts = DoneWithFuture::DoneWithDoc;
++            }
++            ast::Stmt::Expr(ast::StmtExpr { value, .. })
++                if is_docstring_expr(value)
++                    && matches!(self.done_with_future_stmts, DoneWithFuture::No) =>
++            {
++                self.done_with_future_stmts = DoneWithFuture::DoneWithDoc;
++            }
++            _ => self.done_with_future_stmts = DoneWithFuture::Yes,
++        }
++        Ok(())
++    }
++
+     fn scan_statement(&mut self, statement: &ast::Stmt) -> SymbolTableResult {
+         if self.recursion_depth >= self.recursion_limit {
+             return Err(SymbolTableError {
+                 error: RECURSION_ERROR.to_owned(),
+                 location: None,
++                end_location: None,
+             });
+         }
+         self.recursion_depth += 1;
+         let result = (|| {
+             use ast::*;
++            self.track_future_statement(statement)?;
+             match &statement {
+                 Stmt::Global(StmtGlobal { names, .. }) => {
+                     for name in names {
+@@ -1617,6 +1656,13 @@ impl SymbolTableBuilder {
+                 }) => {
+                     self.register_name(name.id(), SymbolUsage::Assigned, *range)?;
+ 
++                    let def_range = crate::decorated_definition_range(
++                        &self.source_file,
++                        *range,
++                        decorator_list,
++                        if *is_async { "async def " } else { "def " },
++                    );
++
+                     self.scan_parameter_defaults(parameters)?;
+                     self.scan_decorators(decorator_list, ExpressionContext::Load)?;
+ 
+@@ -1625,9 +1671,12 @@ impl SymbolTableBuilder {
+                     if let Some(type_params) = type_params {
+                         self.enter_type_param_block(
+                             name.id(),
+-                            *range,
++                            def_range,
+                             false,
+-                            Self::has_positional_defaults(parameters),
++                            // A generic function's type params scope always
++                            // takes `.defaults`, even with no default anywhere
++                            // in the signature.
++                            true,
+                             Self::has_kwonlydefaults(parameters),
+                         )?;
+                         self.scan_type_params(type_params)?;
+@@ -1635,7 +1684,7 @@ impl SymbolTableBuilder {
+                     self.enter_scope_with_parameters(
+                         name.id(),
+                         parameters,
+-                        self.line_index_start(*range),
++                        self.line_index_start(def_range),
+                         returns.as_deref(),
+                         if *is_async {
+                             CompilerScope::AsyncFunction
+@@ -1665,12 +1714,20 @@ impl SymbolTableBuilder {
+                 }) => {
+                     let prev_class = self.class_name.clone();
+                     self.register_name(name.id(), SymbolUsage::Assigned, *range)?;
++
++                    let def_range = crate::decorated_definition_range(
++                        &self.source_file,
++                        *range,
++                        decorator_list,
++                        "class ",
++                    );
++
+                     self.scan_decorators(decorator_list, ExpressionContext::Load)?;
+ 
+                     if let Some(type_params) = type_params {
+                         self.enter_type_param_block(
+                             name.id(),
+-                            *range,
++                            def_range,
+                             true, // for_class: enable selective mangling
+                             false,
+                             false,
+@@ -1699,7 +1756,7 @@ impl SymbolTableBuilder {
+                     self.enter_scope(
+                         name.id(),
+                         CompilerScope::Class,
+-                        self.line_index_start(*range),
++                        self.line_index_start(def_range),
+                     );
+                     // Reset in_conditional_block for new class scope
+                     let saved_in_conditional = self.in_conditional_block;
+@@ -1756,13 +1813,10 @@ impl SymbolTableBuilder {
+                         self.tables.last_mut().unwrap().is_coroutine = true;
+                     }
+                     if *is_async && !self.tables.last().unwrap().is_coroutine {
+-                        return Err(SymbolTableError {
+-                            error: "'async for' outside async function".to_owned(),
+-                            location: Some(self.source_file.to_source_code().source_location(
+-                                statement.range().start(),
+-                                PositionEncoding::Utf8,
+-                            )),
+-                        });
++                        return Err(self.error_ranged(
++                            "'async for' outside async function".to_owned(),
++                            statement.range(),
++                        ));
+                     }
+                     self.scan_expression(target, ExpressionContext::Store)?;
+                     self.scan_expression(iter, ExpressionContext::Load)?;
+@@ -1796,15 +1850,10 @@ impl SymbolTableBuilder {
+                         } else if name.name.as_str() == "*" {
+                             // Star imports are only allowed at module level
+                             if self.tables.last().unwrap().typ != CompilerScope::Module {
+-                                return Err(SymbolTableError {
+-                                    error: "import * only allowed at module level".to_string(),
+-                                    location: Some(
+-                                        self.source_file.to_source_code().source_location(
+-                                            name.name.range.start(),
+-                                            PositionEncoding::Utf8,
+-                                        ),
+-                                    ),
+-                                });
++                                return Err(self.error_ranged(
++                                    "import * only allowed at module level".to_string(),
++                                    name.name.range,
++                                ));
+                             }
+                             // Don't register star imports as symbols
+                         } else {
+@@ -1885,15 +1934,10 @@ impl SymbolTableBuilder {
+                                     } else {
+                                         "nonlocal"
+                                     };
+-                                    return Err(SymbolTableError {
+-                                        error: format!("annotated name '{id}' can't be {usage}"),
+-                                        location: Some(
+-                                            self.source_file.to_source_code().source_location(
+-                                                range.start(),
+-                                                PositionEncoding::Utf8,
+-                                            ),
+-                                        ),
+-                                    });
++                                    return Err(self.error_ranged(
++                                        format!("annotated name '{id}' can't be {usage}"),
++                                        *range,
++                                    ));
+                                 }
+ 
+                                 self.register_name(
+@@ -1924,13 +1968,10 @@ impl SymbolTableBuilder {
+                         self.tables.last_mut().unwrap().is_coroutine = true;
+                     }
+                     if *is_async && !self.tables.last().unwrap().is_coroutine {
+-                        return Err(SymbolTableError {
+-                            error: "'async with' outside async function".to_owned(),
+-                            location: Some(self.source_file.to_source_code().source_location(
+-                                statement.range().start(),
+-                                PositionEncoding::Utf8,
+-                            )),
+-                        });
++                        return Err(self.error_ranged(
++                            "'async with' outside async function".to_owned(),
++                            statement.range(),
++                        ));
+                     }
+                     // PEP 649: Track conditional block for annotations
+                     let saved_in_conditional_block = self.in_conditional_block;
+@@ -2004,14 +2045,9 @@ impl SymbolTableBuilder {
+                     ..
+                 }) => {
+                     let Some(name_expr) = name.as_name_expr() else {
+-                        return Err(SymbolTableError {
+-                            error: "type alias expects name".to_owned(),
+-                            location: Some(
+-                                self.source_file
+-                                    .to_source_code()
+-                                    .source_location(name.range().start(), PositionEncoding::Utf8),
+-                            ),
+-                        });
++                        return Err(
++                            self.error_ranged("type alias expects name".to_owned(), name.range())
++                        );
+                     };
+                     let alias_name = name_expr.id();
+                     self.scan_expression(name, ExpressionContext::Store)?;
+@@ -2051,14 +2087,7 @@ impl SymbolTableBuilder {
+                     }
+                 }
+                 Stmt::IpyEscapeCommand(stmt) => {
+-                    return Err(SymbolTableError {
+-                        error: "invalid syntax".to_owned(),
+-                        location: Some(
+-                            self.source_file
+-                                .to_source_code()
+-                                .source_location(stmt.range.start(), PositionEncoding::Utf8),
+-                        ),
+-                    });
++                    return Err(self.error_ranged("invalid syntax".to_owned(), stmt.range));
+                 }
+             }
+             Ok(())
+@@ -2089,6 +2118,21 @@ impl SymbolTableBuilder {
+         Ok(())
+     }
+ 
++    /// Scan the interpolations of a format spec, and the format specs those
++    /// carry in turn: `f"{x:{y:{z}}}"` only reaches `z` through two of them.
++    fn scan_format_spec(
++        &mut self,
++        format_spec: &ast::InterpolatedStringFormatSpec,
++    ) -> SymbolTableResult {
++        for element in format_spec.elements.interpolations() {
++            self.scan_expression(&element.expression, ExpressionContext::Load)?;
++            if let Some(nested) = &element.format_spec {
++                self.scan_format_spec(nested)?;
++            }
++        }
++        Ok(())
++    }
++
+     fn scan_expression(
+         &mut self,
+         expression: &ast::Expr,
+@@ -2098,6 +2142,7 @@ impl SymbolTableBuilder {
+             return Err(SymbolTableError {
+                 error: RECURSION_ERROR.to_owned(),
+                 location: None,
++                end_location: None,
+             });
+         }
+         self.recursion_depth += 1;
+@@ -2137,15 +2182,10 @@ impl SymbolTableBuilder {
+                 };
+ 
+                 if let Some(context_name) = context_name {
+-                    return Err(SymbolTableError {
+-                        error: format!("{keyword} expression cannot be used within {context_name}"),
+-                        location: Some(
+-                            self.source_file.to_source_code().source_location(
+-                                expression.range().start(),
+-                                PositionEncoding::Utf8,
+-                            ),
+-                        ),
+-                    });
++                    return Err(self.error_ranged(
++                        format!("{keyword} expression cannot be used within {context_name}"),
++                        expression.range(),
++                    ));
+                 }
+             }
+ 
+@@ -2188,25 +2228,19 @@ impl SymbolTableBuilder {
+                     if !self.allows_top_level_await()
+                         && !Self::is_function_like_scope(current_scope)
+                     {
+-                        return Err(SymbolTableError {
+-                            error: "'await' outside function".to_owned(),
+-                            location: Some(self.source_file.to_source_code().source_location(
+-                                expression.range().start(),
+-                                PositionEncoding::Utf8,
+-                            )),
+-                        });
++                        return Err(self.error_ranged(
++                            "'await' outside function".to_owned(),
++                            expression.range(),
++                        ));
+                     }
+                     if current_scope != CompilerScope::AsyncFunction
+                         && current_scope != CompilerScope::Comprehension
+                         && !self.allows_top_level_await()
+                     {
+-                        return Err(SymbolTableError {
+-                            error: "'await' outside async function".to_owned(),
+-                            location: Some(self.source_file.to_source_code().source_location(
+-                                expression.range().start(),
+-                                PositionEncoding::Utf8,
+-                            )),
+-                        });
++                        return Err(self.error_ranged(
++                            "'await' outside async function".to_owned(),
++                            expression.range(),
++                        ));
+                     }
+                     self.scan_expression(value, context)?;
+                     self.tables.last_mut().unwrap().is_coroutine = true;
+@@ -2222,13 +2256,10 @@ impl SymbolTableBuilder {
+                             .last()
+                             .is_some_and(|table| table.typ == CompilerScope::Comprehension)
+                     {
+-                        return Err(SymbolTableError {
+-                            error: format!("'yield' inside {context_name}"),
+-                            location: Some(self.source_file.to_source_code().source_location(
+-                                expression.range().start(),
+-                                PositionEncoding::Utf8,
+-                            )),
+-                        });
++                        return Err(self.error_ranged(
++                            format!("'yield' inside {context_name}"),
++                            expression.range(),
++                        ));
+                     }
+                 }
+                 Expr::YieldFrom(ExprYieldFrom { value, .. }) => {
+@@ -2240,13 +2271,10 @@ impl SymbolTableBuilder {
+                             .last()
+                             .is_some_and(|table| table.typ == CompilerScope::Comprehension)
+                     {
+-                        return Err(SymbolTableError {
+-                            error: format!("'yield' inside {context_name}"),
+-                            location: Some(self.source_file.to_source_code().source_location(
+-                                expression.range().start(),
+-                                PositionEncoding::Utf8,
+-                            )),
+-                        });
++                        return Err(self.error_ranged(
++                            format!("'yield' inside {context_name}"),
++                            expression.range(),
++                        ));
+                     }
+                 }
+                 Expr::UnaryOp(ExprUnaryOp { operand, .. }) => {
+@@ -2285,7 +2313,7 @@ impl SymbolTableBuilder {
+                     }
+                     // Generator expression - is_generator = true
+                     self.scan_comprehension(
+-                        &"<genexpr>".into(),
++                        &"genexpr".into(),
+                         elt,
+                         None,
+                         generators,
+@@ -2458,9 +2486,7 @@ impl SymbolTableBuilder {
+                         if let Some(format_spec) = &expr.runtime_formatted_value_format_spec {
+                             self.scan_expression(format_spec, ExpressionContext::Load)?;
+                         } else if let Some(format_spec) = &expr.format_spec {
+-                            for element in format_spec.elements.interpolations() {
+-                                self.scan_expression(&element.expression, ExpressionContext::Load)?
+-                            }
++                            self.scan_format_spec(format_spec)?;
+                         }
+                     }
+                 }
+@@ -2483,9 +2509,7 @@ impl SymbolTableBuilder {
+                                 self.scan_expression(format_spec, ExpressionContext::Load)?;
+                             }
+                         } else if let Some(format_spec) = &expr.format_spec {
+-                            for element in format_spec.elements.interpolations() {
+-                                self.scan_expression(&element.expression, ExpressionContext::Load)?
+-                            }
++                            self.scan_format_spec(format_spec)?;
+                         }
+                     }
+                 }
+@@ -2498,14 +2522,7 @@ impl SymbolTableBuilder {
+                 | Expr::NoneLiteral(_)
+                 | Expr::EllipsisLiteral(_) => {}
+                 Expr::IpyEscapeCommand(expr) => {
+-                    return Err(SymbolTableError {
+-                        error: "invalid syntax".to_owned(),
+-                        location: Some(
+-                            self.source_file
+-                                .to_source_code()
+-                                .source_location(expr.range.start(), PositionEncoding::Utf8),
+-                        ),
+-                    });
++                    return Err(self.error_ranged("invalid syntax".to_owned(), expr.range));
+                 }
+                 Expr::If(ExprIf {
+                     test, body, orelse, ..
+@@ -2524,16 +2541,11 @@ impl SymbolTableBuilder {
+                     // named expressions are not allowed in the definition of
+                     // comprehension iterator definitions (including nested comprehensions)
+                     if context == ExpressionContext::IterDefinitionExp || self.in_iter_def_exp {
+-                        return Err(SymbolTableError {
+-                        error:
++                        return Err(self.error_ranged(
+                             "assignment expression cannot be used in a comprehension iterable expression"
+                                 .to_string(),
+-                        location: Some(
+-                            self.source_file
+-                                .to_source_code()
+-                                .source_location(range.start(), PositionEncoding::Utf8),
+-                        ),
+-                    });
++                            *range,
++                        ));
+                     }
+ 
+                     let named_target = if let Expr::Name(ExprName {
+@@ -2616,7 +2628,7 @@ impl SymbolTableBuilder {
+             "<listcomp>" => "list comprehension",
+             "<setcomp>" => "set comprehension",
+             "<dictcomp>" => "dict comprehension",
+-            "<genexpr>" => "generator expression",
++            "genexpr" => "generator expression",
+             _ => "comprehension",
+         });
+ 
+@@ -2659,14 +2671,10 @@ impl SymbolTableBuilder {
+             && !self.is_in_async_context()
+             && !self.allows_top_level_await()
+         {
+-            return Err(SymbolTableError {
+-                error: "asynchronous comprehension outside of an asynchronous function".to_owned(),
+-                location: Some(
+-                    self.source_file
+-                        .to_source_code()
+-                        .source_location(range.start(), PositionEncoding::Utf8),
+-                ),
+-            });
++            return Err(self.error_ranged(
++                "asynchronous comprehension outside of an asynchronous function".to_owned(),
++                range,
++            ));
+         }
+         if propagate_coroutine {
+             self.tables.last_mut().unwrap().is_coroutine = true;
+@@ -2715,6 +2723,7 @@ impl SymbolTableBuilder {
+                 return Err(SymbolTableError {
+                     error: RECURSION_ERROR.to_owned(),
+                     location: None,
++                    end_location: None,
+                 });
+             }
+             self.recursion_depth += 1;
+@@ -2729,16 +2738,13 @@ impl SymbolTableBuilder {
+                     }) => {
+                         self.register_name(name.id(), SymbolUsage::TypeParam, *type_var_range)?;
+                         if name.as_str() == "__classdict__" {
+-                            return Err(SymbolTableError {
+-                                error: format!(
++                            return Err(self.error_ranged(
++                                format!(
+                                     "reserved name '{}' cannot be used for type parameter",
+                                     name.as_str()
+                                 ),
+-                                location: Some(self.source_file.to_source_code().source_location(
+-                                    type_var_range.start(),
+-                                    PositionEncoding::Utf8,
+-                                )),
+-                            });
++                                *type_var_range,
++                            ));
+                         }
+ 
+                         // Process bound in a separate scope
+@@ -2768,15 +2774,10 @@ impl SymbolTableBuilder {
+                     }) => {
+                         self.register_name(name.id(), SymbolUsage::TypeParam, *param_spec_range)?;
+                         if name == "__classdict__" {
+-                            return Err(SymbolTableError {
+-                                error: format!(
+-                                    "reserved name '{name}' cannot be used for type parameter"
+-                                ),
+-                                location: Some(self.source_file.to_source_code().source_location(
+-                                    param_spec_range.start(),
+-                                    PositionEncoding::Utf8,
+-                                )),
+-                            });
++                            return Err(self.error_ranged(
++                                format!("reserved name '{name}' cannot be used for type parameter"),
++                                *param_spec_range,
++                            ));
+                         }
+ 
+                         // Process default in a separate scope
+@@ -2800,15 +2801,10 @@ impl SymbolTableBuilder {
+                             *type_var_tuple_range,
+                         )?;
+                         if name == "__classdict__" {
+-                            return Err(SymbolTableError {
+-                                error: format!(
+-                                    "reserved name '{name}' cannot be used for type parameter"
+-                                ),
+-                                location: Some(self.source_file.to_source_code().source_location(
+-                                    type_var_tuple_range.start(),
+-                                    PositionEncoding::Utf8,
+-                                )),
+-                            });
++                            return Err(self.error_ranged(
++                                format!("reserved name '{name}' cannot be used for type parameter"),
++                                *type_var_tuple_range,
++                            ));
+                         }
+ 
+                         // Process default in a separate scope
+@@ -2841,6 +2837,7 @@ impl SymbolTableBuilder {
+             return Err(SymbolTableError {
+                 error: RECURSION_ERROR.to_owned(),
+                 location: None,
++                end_location: None,
+             });
+         }
+         self.recursion_depth += 1;
+@@ -2867,15 +2864,7 @@ impl SymbolTableBuilder {
+                     self.scan_patterns(patterns)?;
+                     if let Some(rest) = rest {
+                         if rest.as_str() == "_" {
+-                            return Err(SymbolTableError {
+-                                error: "invalid syntax".to_owned(),
+-                                location: Some(
+-                                    self.source_file.to_source_code().source_location(
+-                                        rest.range.start(),
+-                                        PositionEncoding::Utf8,
+-                                    ),
+-                                ),
+-                            });
++                            return Err(self.error_ranged("invalid syntax".to_owned(), rest.range));
+                         }
+                         self.register_name(rest.id(), SymbolUsage::Assigned, pattern.range())?;
+                     }
+@@ -2940,14 +2929,6 @@ impl SymbolTableBuilder {
+             .any(|arg| arg.default.is_some())
+     }
+ 
+-    fn has_positional_defaults(parameters: &ast::Parameters) -> bool {
+-        parameters
+-            .posonlyargs
+-            .iter()
+-            .chain(parameters.args.iter())
+-            .any(|arg| arg.default.is_some())
+-    }
+-
+     #[expect(
+         clippy::too_many_arguments,
+         reason = "keeps parameter/default scanning options explicit at call sites"
+@@ -2990,6 +2971,15 @@ impl SymbolTableBuilder {
+         Ok(())
+     }
+ 
++    fn error_ranged(&self, error: String, range: TextRange) -> SymbolTableError {
++        let source_code = self.source_file.to_source_code();
++        SymbolTableError {
++            error,
++            location: Some(source_code.source_location(range.start(), PositionEncoding::Utf8)),
++            end_location: Some(source_code.source_location(range.end(), PositionEncoding::Utf8)),
++        }
++    }
++
+     fn register_ident(&mut self, ident: &ast::Identifier, role: SymbolUsage) -> SymbolTableResult {
+         self.register_name(ident.id(), role, ident.range)
+     }
+@@ -3001,23 +2991,12 @@ impl SymbolTableBuilder {
+         range: TextRange,
+     ) -> SymbolTableResult {
+         if name == "__debug__" {
+-            let location = Some(
+-                self.source_file
+-                    .to_source_code()
+-                    .source_location(range.start(), PositionEncoding::Utf8),
+-            );
+             match context {
+                 ExpressionContext::Store | ExpressionContext::Iter => {
+-                    return Err(SymbolTableError {
+-                        error: "cannot assign to __debug__".to_owned(),
+-                        location,
+-                    });
++                    return Err(self.error_ranged("cannot assign to __debug__".to_owned(), range));
+                 }
+                 ExpressionContext::Delete => {
+-                    return Err(SymbolTableError {
+-                        error: "cannot delete __debug__".to_owned(),
+-                        location,
+-                    });
++                    return Err(self.error_ranged("cannot delete __debug__".to_owned(), range));
+                 }
+                 _ => {}
+             }
+@@ -3029,12 +3008,6 @@ impl SymbolTableBuilder {
+     // inside comprehensions bind in the nearest function/module-like scope, not
+     // in the synthetic comprehension scope itself.
+     fn extend_namedexpr_scope(&mut self, name: &Name, range: TextRange) -> SymbolTableResult {
+-        let location = Some(
+-            self.source_file
+-                .to_source_code()
+-                .source_location(range.start(), PositionEncoding::Utf8),
+-        );
+-
+         for table_idx in (0..self.tables.len()).rev() {
+             let table_type = self.tables[table_idx].typ;
+             let mangled = maybe_mangle_name(
+@@ -3054,12 +3027,7 @@ impl SymbolTableBuilder {
+                             .contains(SymbolFlags::DEF_LOCAL | SymbolFlags::DEF_COMP_ITER)
+                     })
+                 {
+-                    return Err(SymbolTableError {
+-                        error: format!(
+-                            "assignment expression cannot rebind comprehension iteration variable '{name}'"
+-                        ),
+-                        location,
+-                    });
++                    return Err(self.error_ranged(format!( "assignment expression cannot rebind comprehension iteration variable '{name}'" ), range));
+                 }
+                 continue;
+             }
+@@ -3108,32 +3076,16 @@ impl SymbolTableBuilder {
+                     return Ok(());
+                 }
+                 CompilerScope::Class => {
+-                    return Err(SymbolTableError {
+-                        error: "assignment expression within a comprehension cannot be used in a class body".to_string(),
+-                        location,
+-                    });
++                    return Err(self.error_ranged("assignment expression within a comprehension cannot be used in a class body".to_string(), range));
+                 }
+                 CompilerScope::TypeParams => {
+-                    return Err(SymbolTableError {
+-                        error: "assignment expression within a comprehension cannot be used within the definition of a generic".to_string(),
+-                        location,
+-                    });
++                    return Err(self.error_ranged("assignment expression within a comprehension cannot be used within the definition of a generic".to_string(), range));
+                 }
+                 CompilerScope::TypeAlias => {
+-                    return Err(SymbolTableError {
+-                        error:
+-                            "assignment expression within a comprehension cannot be used in a type alias"
+-                                .to_string(),
+-                        location,
+-                    });
++                    return Err(self.error_ranged("assignment expression within a comprehension cannot be used in a type alias" .to_string(), range));
+                 }
+                 CompilerScope::TypeVariable => {
+-                    return Err(SymbolTableError {
+-                        error:
+-                            "assignment expression within a comprehension cannot be used in a TypeVar bound"
+-                                .to_string(),
+-                        location,
+-                    });
++                    return Err(self.error_ranged("assignment expression within a comprehension cannot be used in a TypeVar bound" .to_string(), range));
+                 }
+                 CompilerScope::Annotation => {}
+                 CompilerScope::Comprehension => unreachable!(),
+@@ -3149,11 +3101,9 @@ impl SymbolTableBuilder {
+         role: SymbolUsage,
+         range: TextRange,
+     ) -> SymbolTableResult {
+-        let location = self
+-            .source_file
+-            .to_source_code()
+-            .source_location(range.start(), PositionEncoding::Utf8);
+-        let location = Some(location);
++        let source_code = self.source_file.to_source_code();
++        let location = Some(source_code.source_location(range.start(), PositionEncoding::Utf8));
++        let end_location = Some(source_code.source_location(range.end(), PositionEncoding::Utf8));
+ 
+         // symtable_add_def_ctx() runs check_name() for definition
+         // roles covered by DEF_PARAM | DEF_LOCAL | DEF_IMPORT before adding
+@@ -3165,7 +3115,6 @@ impl SymbolTableBuilder {
+                 | SymbolUsage::Imported
+                 | SymbolUsage::AnnotationAssigned
+                 | SymbolUsage::Parameter
+-                | SymbolUsage::AnnotationParameter
+                 | SymbolUsage::Iter
+                 | SymbolUsage::TypeParam
+         ) {
+@@ -3201,17 +3150,15 @@ impl SymbolTableBuilder {
+                         "comprehension inner loop cannot rebind assignment expression target '{original_name}'"
+                     ),
+                     location,
++                    end_location,
+                 });
+             }
+ 
+-            if matches!(
+-                role,
+-                SymbolUsage::Parameter | SymbolUsage::AnnotationParameter
+-            ) && flags.contains(SymbolFlags::DEF_PARAM)
+-            {
++            if matches!(role, SymbolUsage::Parameter) && flags.contains(SymbolFlags::DEF_PARAM) {
+                 return Err(SymbolTableError {
+                     error: format!("duplicate argument '{original_name}' in function definition"),
+                     location,
++                    end_location,
+                 });
+             }
+ 
+@@ -3221,6 +3168,7 @@ impl SymbolTableBuilder {
+                 return Err(SymbolTableError {
+                     error: format!("duplicate type parameter '{name}'"),
+                     location,
++                    end_location,
+                 });
+             }
+             match role {
+@@ -3229,18 +3177,21 @@ impl SymbolTableBuilder {
+                         return Err(SymbolTableError {
+                             error: format!("name '{name}' is parameter and global"),
+                             location,
++                            end_location,
+                         });
+                     }
+                     if flags.contains(SymbolFlags::USE) {
+                         return Err(SymbolTableError {
+                             error: format!("name '{name}' is used prior to global declaration"),
+                             location,
++                            end_location,
+                         });
+                     }
+                     if flags.contains(SymbolFlags::DEF_ANNOT) {
+                         return Err(SymbolTableError {
+                             error: format!("annotated name '{name}' can't be global"),
+                             location,
++                            end_location,
+                         });
+                     }
+                     if flags.contains(SymbolFlags::DEF_LOCAL) {
+@@ -3249,6 +3200,7 @@ impl SymbolTableBuilder {
+                                 "name '{name}' is assigned to before global declaration"
+                             ),
+                             location,
++                            end_location,
+                         });
+                     }
+                 }
+@@ -3257,18 +3209,21 @@ impl SymbolTableBuilder {
+                         return Err(SymbolTableError {
+                             error: format!("name '{name}' is parameter and nonlocal"),
+                             location,
++                            end_location,
+                         });
+                     }
+                     if flags.contains(SymbolFlags::USE) {
+                         return Err(SymbolTableError {
+                             error: format!("name '{name}' is used prior to nonlocal declaration"),
+                             location,
++                            end_location,
+                         });
+                     }
+                     if flags.contains(SymbolFlags::DEF_ANNOT) {
+                         return Err(SymbolTableError {
+                             error: format!("annotated name '{name}' can't be nonlocal"),
+                             location,
++                            end_location,
+                         });
+                     }
+                     if flags.contains(SymbolFlags::DEF_LOCAL) {
+@@ -3277,6 +3232,7 @@ impl SymbolTableBuilder {
+                                 "name '{name}' is assigned to before nonlocal declaration"
+                             ),
+                             location,
++                            end_location,
+                         });
+                     }
+                 }
+@@ -3293,6 +3249,7 @@ impl SymbolTableBuilder {
+                     return Err(SymbolTableError {
+                         error: format!("annotated name '{name}' can't be {usage}"),
+                         location,
++                        end_location,
+                     });
+                 }
+                 _ => {
+@@ -3308,6 +3265,7 @@ impl SymbolTableBuilder {
+                     return Err(SymbolTableError {
+                         error: "nonlocal declaration not allowed at module level".into(),
+                         location,
++                        end_location,
+                     });
+                 }
+                 _ => {
+@@ -3324,6 +3282,7 @@ impl SymbolTableBuilder {
+ 
+         if matches!(role, SymbolUsage::Global | SymbolUsage::Nonlocal) {
+             symbol.location = location;
++            symbol.end_location = end_location;
+         }
+ 
+         // Set proper scope and flags on symbol:
+@@ -3334,7 +3293,7 @@ impl SymbolTableBuilder {
+                 flags.insert(SymbolFlags::DEF_NONLOCAL);
+             }
+             SymbolUsage::Imported => {
+-                flags.insert(SymbolFlags::DEF_LOCAL | SymbolFlags::DEF_IMPORT);
++                flags.insert(SymbolFlags::DEF_IMPORT);
+             }
+             SymbolUsage::Parameter => {
+                 flags.insert(SymbolFlags::DEF_PARAM);
+@@ -3344,14 +3303,6 @@ impl SymbolTableBuilder {
+                     self.current_varnames.push(name_str);
+                 }
+             }
+-            SymbolUsage::AnnotationParameter => {
+-                flags.insert(SymbolFlags::DEF_PARAM | SymbolFlags::DEF_ANNOT);
+-                // Annotated parameters are also added to varnames
+-                let name_str = symbol.name.clone();
+-                if !self.current_varnames.contains(&name_str) {
+-                    self.current_varnames.push(name_str);
+-                }
+-            }
+             SymbolUsage::AnnotationAssigned => {
+                 flags.insert(SymbolFlags::DEF_LOCAL | SymbolFlags::DEF_ANNOT);
+             }
+@@ -3373,6 +3324,18 @@ impl SymbolTableBuilder {
+             }
+         }
+ 
++        // A global declaration is recorded in the module block as well, so a name
++        // declared global anywhere is global there too.
++        if matches!(role, SymbolUsage::Global) {
++            let module_table = self.tables.first_mut().expect("no module symbol table");
++            let symbol = module_table
++                .symbols
++                .entry(name.clone().into_owned())
++                .or_insert_with(|| Symbol::new(name.clone().into_owned()));
++            symbol.flags.insert(SymbolFlags::DEF_GLOBAL);
++            symbol.scope = SymbolScope::GlobalExplicit;
++        }
++
+         Ok(())
+     }
+ }
+diff --git a/crates/compiler/src/lib.rs b/crates/compiler/src/lib.rs
+index f262cc227..6d7b82d66 100644
+--- a/crates/compiler/src/lib.rs
++++ b/crates/compiler/src/lib.rs
+@@ -113,7 +113,9 @@ impl CompileError {
+     #[must_use]
+     pub fn python_end_location(&self) -> Option<(usize, usize)> {
+         match self {
+-            Self::Codegen(_) => None,
++            Self::Codegen(codegen_error) => codegen_error
++                .end_location
++                .map(|end| (end.line.get(), end.character_offset.get())),
+             Self::Parse(parse_error) => Some((
+                 parse_error.end_location.line.get(),
+                 parse_error.end_location.character_offset.get(),
+@@ -130,17 +132,19 @@ impl CompileError {
+     }
+ }
+ 
++// A syntax error the parser reports counts its columns in characters rather
++// than in the bytes the range is measured in. An offset that lands inside a
++// character walks back to where that character starts, the way decoding the
++// line up to a truncated offset would.
+ fn source_location(source_file: &SourceFile, offset: TextSize) -> SourceLocation {
++    let text = source_file.source_text();
++    let mut index = offset.to_usize().min(text.len());
++    while !text.is_char_boundary(index) {
++        index -= 1;
++    }
+     source_file
+         .to_source_code()
+-        .source_location(offset, PositionEncoding::Utf8)
+-}
+-
+-// Call only with UTF-8 character boundaries for Python-facing offsets.
+-fn source_location_in_code_points(source_file: &SourceFile, offset: TextSize) -> SourceLocation {
+-    source_file
+-        .to_source_code()
+-        .source_location(offset, PositionEncoding::Utf32)
++        .source_location(TextSize::new(index as u32), PositionEncoding::Utf32)
+ }
+ 
+ fn source_locations(
+@@ -148,10 +152,9 @@ fn source_locations(
+     start: TextSize,
+     end: TextSize,
+ ) -> (SourceLocation, SourceLocation) {
+-    let source_code = source_file.to_source_code();
+     (
+-        source_code.source_location(start, PositionEncoding::Utf8),
+-        source_code.source_location(end, PositionEncoding::Utf8),
++        source_location(source_file, start),
++        source_location(source_file, end),
+     )
+ }
+ 
+@@ -189,21 +192,6 @@ impl NormalizedParseDiagnostic {
+         )
+     }
+ 
+-    fn other_in_code_points(
+-        source_file: &SourceFile,
+-        message: String,
+-        start: usize,
+-        end: usize,
+-    ) -> Self {
+-        let start = TextSize::new(start as u32);
+-        let end = TextSize::new(end as u32);
+-        Self::new(
+-            parser::ParseErrorType::OtherError(message),
+-            source_location_in_code_points(source_file, start),
+-            source_location_in_code_points(source_file, end),
+-        )
+-    }
+-
+     const fn with_unclosed_bracket(mut self, is_unclosed_bracket: bool) -> Self {
+         self.is_unclosed_bracket = is_unclosed_bracket;
+         self
+@@ -230,12 +218,12 @@ fn cpython_parse_diagnostic_override(
+         };
+     }
+ 
+-    if let Some((message, offset)) = invalid_number_literal_error(source_text) {
++    if let Some((message, start, end)) = invalid_number_literal_error(source_text) {
+         return Some(NormalizedParseDiagnostic::other(
+             source_file,
+             message,
+-            offset,
+-            offset,
++            start,
++            end,
+         ));
+     }
+     source_error!(invalid_legacy_statement_error(source_text));
+@@ -274,8 +262,7 @@ fn cpython_parse_diagnostic_override(
+     }
+ 
+     if let Some((message, start, end)) = unterminated_string_error(source_text) {
+-        // The scanner reports quote positions, which are UTF-8 character boundaries.
+-        return Some(NormalizedParseDiagnostic::other_in_code_points(
++        return Some(NormalizedParseDiagnostic::other(
+             source_file,
+             message,
+             start,
+@@ -450,6 +437,10 @@ fn adjusted_error_locations(
+     if locations.1.character_offset.get() == 1 && locations.1.line > locations.0.line {
+         locations.1 = source_location(source_file, range.end() - TextSize::from(1));
+         locations.1.character_offset = locations.1.character_offset.saturating_add(1);
++    } else if range.is_empty() {
++        // The parser blames a token, and the narrowest token still covers a
++        // character, so an error reported between two of them spans one.
++        locations.1.character_offset = locations.1.character_offset.saturating_add(1);
+     }
+     locations
+ }
+@@ -634,7 +625,9 @@ fn invalid_decimal_literal_error(bytes: &[u8], start: usize) -> Option<(String,
+             None
+         };
+         if !bytes.get(index).is_some_and(|byte| byte.is_ascii_digit()) {
+-            return Some((message, sign.unwrap_or(exponent)));
++            // Without a sign the exponent letter is put back, so the position
++            // is the digit before it rather than the letter.
++            return Some((message, sign.unwrap_or_else(|| exponent.saturating_sub(1))));
+         }
+         if let Some(offset) = decimal_tail_error(bytes, index) {
+             return Some((message, offset));
+@@ -643,7 +636,10 @@ fn invalid_decimal_literal_error(bytes: &[u8], start: usize) -> Option<(String,
+     None
+ }
+ 
+-fn leading_zero_decimal_literal_error(bytes: &[u8], start: usize) -> Option<(String, usize)> {
++fn leading_zero_decimal_literal_error(
++    bytes: &[u8],
++    start: usize,
++) -> Option<(String, usize, usize)> {
+     if bytes.get(start) != Some(&b'0') {
+         return None;
+     }
+@@ -670,37 +666,35 @@ fn leading_zero_decimal_literal_error(bytes: &[u8], start: usize) -> Option<(Str
+             return Some((
+                 "leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers".to_owned(),
+                 start,
++                index,
+             ));
+         }
+     }
+     None
+ }
+ 
+-fn invalid_numeric_literal_error(bytes: &[u8], start: usize) -> Option<(String, usize)> {
++fn invalid_numeric_literal_error(bytes: &[u8], start: usize) -> Option<(String, usize, usize)> {
+     if bytes.get(start) == Some(&b'0') {
+-        match bytes.get(start + 1) {
+-            Some(b'x' | b'X') => {
+-                return invalid_radix_literal_error(bytes, start, "hexadecimal", |byte| {
+-                    byte.is_ascii_hexdigit()
+-                });
+-            }
+-            Some(b'o' | b'O') => {
+-                return invalid_radix_literal_error(bytes, start, "octal", |byte| {
+-                    matches!(byte, b'0'..=b'7')
+-                });
+-            }
+-            Some(b'b' | b'B') => {
+-                return invalid_radix_literal_error(bytes, start, "binary", |byte| {
+-                    matches!(byte, b'0' | b'1')
+-                });
+-            }
+-            _ => {}
++        let radix = match bytes.get(start + 1) {
++            Some(b'x' | b'X') => invalid_radix_literal_error(bytes, start, "hexadecimal", |byte| {
++                byte.is_ascii_hexdigit()
++            }),
++            Some(b'o' | b'O') => invalid_radix_literal_error(bytes, start, "octal", |byte| {
++                matches!(byte, b'0'..=b'7')
++            }),
++            Some(b'b' | b'B') => invalid_radix_literal_error(bytes, start, "binary", |byte| {
++                matches!(byte, b'0' | b'1')
++            }),
++            _ => None,
++        };
++        if let Some(radix) = radix {
++            return Some(point_span(radix));
+         }
+         if let Some(err) = leading_zero_decimal_literal_error(bytes, start) {
+             return Some(err);
+         }
+     }
+-    invalid_decimal_literal_error(bytes, start)
++    invalid_decimal_literal_error(bytes, start).map(point_span)
+ }
+ 
+ fn consume_exponent(bytes: &[u8], index: usize) -> usize {
+@@ -792,7 +786,12 @@ fn skip_quoted_string(bytes: &[u8], mut index: usize) -> usize {
+     index
+ }
+ 
+-fn invalid_number_literal_error(source: &str) -> Option<(String, usize)> {
++// An error the tokenizer reports at a single position spans nothing.
++fn point_span((message, offset): (String, usize)) -> (String, usize, usize) {
++    (message, offset, offset)
++}
++
++fn invalid_number_literal_error(source: &str) -> Option<(String, usize, usize)> {
+     let bytes = source.as_bytes();
+     let mut index = 0;
+     while index < bytes.len() {
+@@ -823,14 +822,15 @@ fn invalid_number_literal_error(source: &str) -> Option<(String, usize)> {
+                 };
+                 if end > index {
+                     if source[end..].starts_with('⁄') {
+-                        return Some(("invalid character '⁄' (U+2044)".to_owned(), end));
++                        return Some(("invalid character '⁄' (U+2044)".to_owned(), end, end));
+                     }
+                     if bytes
+                         .get(end)
+                         .is_some_and(|byte| *byte < 128 && is_ascii_identifier_char(*byte))
+                         && !numeric_keyword_suffix(&bytes[end..])
+                     {
+-                        return Some((format!("invalid {kind} literal"), end.saturating_sub(1)));
++                        let offset = end.saturating_sub(1);
++                        return Some((format!("invalid {kind} literal"), offset, offset));
+                     }
+                 }
+                 index = end.max(index + 1);
+@@ -3831,7 +3831,7 @@ fn unterminated_string_error(source: &str) -> Option<(String, usize, usize)> {
+                             return Some((
+                                 unterminated_string_message(line, false, has_escaped_quote),
+                                 start,
+-                                start + 1,
++                                start,
+                             ));
+                         }
+                         line += 1;
+@@ -3869,7 +3869,7 @@ fn unterminated_string_error(source: &str) -> Option<(String, usize, usize)> {
+                             has_escaped_quote,
+                         ),
+                         start,
+-                        start + 1,
++                        start,
+                     ));
+                 }
+             }
+@@ -4962,11 +4962,31 @@ fn invalid_unparenthesized_yield_after_comma_error(source: &str) -> Option<(Stri
+     None
+ }
+ 
++/// The byte-order mark is only stripped while decoding source bytes, so one
++/// that survives into the text is just a non-printable character. The tokenizer
++/// rejects it everywhere except at the very start of the text, which is where
++/// this covers.
++#[doc(hidden)]
++#[must_use]
++pub fn leading_byte_order_mark_error(source_file: &SourceFile) -> Option<CompileError> {
++    source_file.source_text().starts_with('\u{feff}').then(|| {
++        CompileError::from_source_error(
++            source_file,
++            "invalid non-printable character U+FEFF".to_owned(),
++            0,
++            0,
++        )
++    })
++}
++
+ fn post_parse_source_error(
+     source_file: &SourceFile,
+     tokens: &Tokens,
+     opts: &CompileOpts,
+ ) -> Option<CompileError> {
++    if let Some(error) = leading_byte_order_mark_error(source_file) {
++        return Some(error);
++    }
+     if let Some((message, start, end)) =
+         too_many_nested_parentheses_error(source_file.source_text())
+     {
+@@ -5006,6 +5026,119 @@ fn is_compound_stmt(stmt: &ast::Stmt) -> bool {
+     )
+ }
+ 
++/// Syntax the reference grammar has no rule for, but that this parser accepts.
++///
++/// A bare generator expression is one: `f(x for x in y)` is the `primary
++/// genexp` alternative of a call, and a class header only takes `arguments`,
++/// which has no such alternative. A format spec nested more than two deep is
++/// the other; the tokenizer runs out of nesting levels for it.
++#[doc(hidden)]
++#[must_use]
++pub fn unsupported_grammar_error(ast: &ast::Mod, source_file: &SourceFile) -> Option<CompileError> {
++    use ast::visitor::Visitor;
++
++    /// The deepest chain of format specs one string literal may hold.
++    const MAX_FORMAT_SPEC_DEPTH: usize = 2;
++
++    struct Checker<'a> {
++        source_file: &'a SourceFile,
++        error: Option<CompileError>,
++    }
++
++    impl Checker<'_> {
++        fn fail(&mut self, message: &str, range: ruff_text_size::TextRange) {
++            self.error = Some(CompileError::from_source_error(
++                self.source_file,
++                message.to_owned(),
++                range.start().to_usize(),
++                range.end().to_usize(),
++            ));
++        }
++
++        fn check_format_specs(
++            &mut self,
++            kind: &str,
++            elements: &ast::InterpolatedStringElements,
++            depth: usize,
++        ) {
++            for element in elements.interpolations() {
++                let Some(format_spec) = &element.format_spec else {
++                    continue;
++                };
++                if depth == MAX_FORMAT_SPEC_DEPTH {
++                    self.fail(
++                        &alloc::format!("{kind}: expressions nested too deeply"),
++                        format_spec.range,
++                    );
++                    return;
++                }
++                self.check_format_specs(kind, &format_spec.elements, depth + 1);
++                if self.error.is_some() {
++                    return;
++                }
++            }
++        }
++    }
++
++    impl<'a> Visitor<'a> for Checker<'_> {
++        fn visit_stmt(&mut self, stmt: &'a ast::Stmt) {
++            if self.error.is_some() {
++                return;
++            }
++            if let ast::Stmt::ClassDef(class_def) = stmt
++                && let Some(arguments) = &class_def.arguments
++                && let [ast::Expr::Generator(generator)] = &arguments.args[..]
++                && !generator.parenthesized
++            {
++                let range = generator
++                    .generators
++                    .first()
++                    .map_or(generator.range, |comprehension| comprehension.range);
++                self.fail("invalid syntax", range);
++                return;
++            }
++            ast::visitor::walk_stmt(self, stmt);
++        }
++
++        fn visit_expr(&mut self, expr: &'a ast::Expr) {
++            if self.error.is_some() {
++                return;
++            }
++            // Each literal counts its own nesting: one written inside a format
++            // spec starts over.
++            match expr {
++                ast::Expr::FString(fstring) => {
++                    for part in &fstring.value {
++                        if let ast::FStringPart::FString(part) = part {
++                            self.check_format_specs("f-string", &part.elements, 0);
++                        }
++                    }
++                }
++                ast::Expr::TString(tstring) => {
++                    for part in &tstring.value {
++                        self.check_format_specs("t-string", &part.elements, 0);
++                    }
++                }
++                _ => {}
++            }
++            if self.error.is_some() {
++                return;
++            }
++            ast::visitor::walk_expr(self, expr);
++        }
++    }
++
++    let mut checker = Checker {
++        source_file,
++        error: None,
++    };
++    match ast {
++        ast::Mod::Module(module) => checker.visit_body(&module.body),
++        ast::Mod::Expression(expression) => checker.visit_expr(&expression.body),
++    }
++    checker.error
++}
++
+ fn single_mode_body_error(body: &[ast::Stmt], source_file: &SourceFile) -> Option<CompileError> {
+     let first = body.first()?;
+     let source_code = source_file.to_source_code();
+@@ -5260,6 +5393,9 @@ fn _compile_with_syntax_warning_handler<'a>(
+         return Err(error);
+     }
+     let ast = parsed.into_syntax();
++    if let Some(error) = unsupported_grammar_error(&ast, &source_file) {
++        return Err(error);
++    }
+     let single_mode_error = matches!(mode, Mode::Single)
+         .then(|| single_mode_source_error(&ast, &source_file))
+         .flatten();
+@@ -5481,6 +5617,45 @@ pub fn compile_symtable(
+     _compile_symtable(source_file, mode)
+ }
+ 
++/// Bring a module into the shape the symbol table is built from.
++fn symtable_preprocess_module(
++    module: &mut ast::ModModule,
++    source_file: &SourceFile,
++) -> Result<(), CompileError> {
++    let future_features = codegen::preprocess::checked_future_features_in_body(&module.body)
++        .map_err(|error| future_feature_error(error, source_file))?;
++    let future_annotations =
++        future_features.contains(core::bytecode::CodeFlags::FUTURE_ANNOTATIONS);
++    // Constant folding is left out; the symbol table is built from the parsed
++    // program as written.
++    codegen::preprocess::preprocess_statements(&mut module.body, 0, future_annotations, true);
++    Ok(())
++}
++
++fn future_feature_error(
++    error: codegen::preprocess::FutureFeatureError,
++    source_file: &SourceFile,
++) -> CompileError {
++    let source_code = source_file.to_source_code();
++    let location = source_code.source_location(error.range.start(), PositionEncoding::Utf8);
++    let end_location = source_code.source_location(error.range.end(), PositionEncoding::Utf8);
++    let error = match error.kind {
++        codegen::preprocess::FutureFeatureErrorKind::InvalidFeature(feature) => {
++            codegen::error::CodegenErrorType::InvalidFutureFeature(feature)
++        }
++        codegen::preprocess::FutureFeatureErrorKind::InvalidBraces => {
++            codegen::error::CodegenErrorType::InvalidFutureBraces
++        }
++    };
++    codegen::error::CodegenError {
++        location: Some(location),
++        end_location: Some(end_location),
++        error,
++        source_path: source_file.name().to_owned(),
++    }
++    .into()
++}
++
+ pub fn _compile_symtable(
+     source_file: SourceFile,
+     mode: Mode,
+@@ -5505,12 +5680,18 @@ pub fn _compile_symtable(
+             {
+                 return Err(error);
+             }
+-            let ast = ast.into_syntax().expect_module();
++            let ast = ast.into_syntax();
++            if let Some(error) = unsupported_grammar_error(&ast, &source_file) {
++                return Err(error);
++            }
++            let ast = ast.expect_module();
+             if matches!(mode, Mode::Single)
+                 && let Some(error) = single_mode_body_error(&ast.body, &source_file)
+             {
+                 return Err(error);
+             }
++            let mut ast = ast;
++            symtable_preprocess_module(&mut ast, &source_file)?;
+             symboltable::SymbolTable::scan_program(&ast, source_file.clone())
+         }
+         Mode::Eval => {
+@@ -5525,10 +5706,13 @@ pub fn _compile_symtable(
+             {
+                 return Err(error);
+             }
+-            symboltable::SymbolTable::scan_expr(
+-                &ast.into_syntax().expect_expression(),
+-                source_file.clone(),
+-            )
++            let ast = ast.into_syntax();
++            if let Some(error) = unsupported_grammar_error(&ast, &source_file) {
++                return Err(error);
++            }
++            let mut ast = ast;
++            codegen::preprocess::preprocess_mod(&mut ast, 0, false, true);
++            symboltable::SymbolTable::scan_expr(&ast.expect_expression(), source_file.clone())
+         }
+     };
+     res.map_err(|e| e.into_codegen_error(source_file.name().to_owned()).into())
+diff --git a/crates/derive-impl/src/compile_bytecode.rs b/crates/derive-impl/src/compile_bytecode.rs
+index 842b21f07..d28a7db3b 100644
+--- a/crates/derive-impl/src/compile_bytecode.rs
++++ b/crates/derive-impl/src/compile_bytecode.rs
+@@ -47,6 +47,16 @@ struct CompilationSource {
+     span: (Span, Span),
+ }
+ 
++/// Read a source file as text. A byte order mark belongs to the file's
++/// encoding rather than to the text, so it never reaches the compiler.
++fn read_source_file(path: &Path) -> std::io::Result<String> {
++    let mut source = fs::read_to_string(path)?;
++    if source.starts_with('\u{feff}') {
++        source.drain(..'\u{feff}'.len_utf8());
++    }
++    Ok(source)
++}
++
+ pub trait Compiler {
+     fn compile(
+         &self,
+@@ -103,7 +113,7 @@ impl CompilationSource {
+         match &self.kind {
+             CompilationSourceKind::File { base, rel_path } => {
+                 let path = base.join(rel_path);
+-                let source = fs::read_to_string(&path).map_err(|err| {
++                let source = read_source_file(&path).map_err(|err| {
+                     Diagnostic::spans_error(
+                         self.span,
+                         format!("Error reading file {path:?}: {err}"),
+@@ -172,7 +182,7 @@ impl CompilationSource {
+                 };
+ 
+                 let compile_path = |src_path: &Path| {
+-                    let source = fs::read_to_string(src_path).map_err(|err| {
++                    let source = read_source_file(src_path).map_err(|err| {
+                         Diagnostic::spans_error(
+                             self.span,
+                             format!("Error reading file {path:?}: {err}"),
+diff --git a/crates/stdlib/src/snapshots/rustpython_stdlib___opcode__tests__bare_function_annotations_check_attribute_and_subscript_expressions.snap b/crates/stdlib/src/snapshots/rustpython_stdlib___opcode__tests__bare_function_annotations_check_attribute_and_subscript_expressions.snap
+index d7ca680d9..c0cac3bbb 100644
+--- a/crates/stdlib/src/snapshots/rustpython_stdlib___opcode__tests__bare_function_annotations_check_attribute_and_subscript_expressions.snap
++++ b/crates/stdlib/src/snapshots/rustpython_stdlib___opcode__tests__bare_function_annotations_check_attribute_and_subscript_expressions.snap
+@@ -5,16 +5,16 @@ expression: "dis(r#\"\ndef f(one: int):\n    int.new_attr: int\n    [list][0].ne
+ ---
+   0           RESUME                   0
+ 
+-  1           LOAD_CONST               0 (<code object __annotate__ at 0xdeadbeef file "<?>", line 1>)
++  1           LOAD_CONST               0 (<code object __annotate__ at 0xdeadbeef, file "<?>", line 1>)
+               MAKE_FUNCTION
+-              LOAD_CONST               1 (<code object f at 0xdeadbeef file "<?>", line 1>)
++              LOAD_CONST               1 (<code object f at 0xdeadbeef, file "<?>", line 1>)
+               MAKE_FUNCTION
+               SET_FUNCTION_ATTRIBUTE  16 (annotate)
+               STORE_NAME               0 (f)
+               LOAD_CONST               2 (None)
+               RETURN_VALUE
+ 
+-Disassembly of <code object __annotate__ at 0xdeadbeef file "<?>", line 1>:
++Disassembly of <code object __annotate__ at 0xdeadbeef, file "<?>", line 1>:
+   1           RESUME                   0
+               LOAD_FAST_BORROW         0 (format)
+               LOAD_SMALL_INT           2
+@@ -28,7 +28,7 @@ Disassembly of <code object __annotate__ at 0xdeadbeef file "<?>", line 1>:
+               BUILD_MAP                1
+               RETURN_VALUE
+ 
+-Disassembly of <code object f at 0xdeadbeef file "<?>", line 1>:
++Disassembly of <code object f at 0xdeadbeef, file "<?>", line 1>:
+   1           RESUME                   0
+ 
+   2           LOAD_GLOBAL              0 (int)
+diff --git a/crates/stdlib/src/snapshots/rustpython_stdlib___opcode__tests__nested_double_async_with.snap b/crates/stdlib/src/snapshots/rustpython_stdlib___opcode__tests__nested_double_async_with.snap
+index 1b0ca25c1..1c4b2ca94 100644
+--- a/crates/stdlib/src/snapshots/rustpython_stdlib___opcode__tests__nested_double_async_with.snap
++++ b/crates/stdlib/src/snapshots/rustpython_stdlib___opcode__tests__nested_double_async_with.snap
+@@ -5,13 +5,13 @@ expression: "dis(r#\"\nasync def test():\n    for stop_exc in (StopIteration('sp
+ ---
+   0           RESUME                   0
+ 
+-  1           LOAD_CONST               0 (<code object test at 0xdeadbeef file "<?>", line 1>)
++  1           LOAD_CONST               0 (<code object test at 0xdeadbeef, file "<?>", line 1>)
+               MAKE_FUNCTION
+               STORE_NAME               0 (test)
+               LOAD_CONST               1 (None)
+               RETURN_VALUE
+ 
+-Disassembly of <code object test at 0xdeadbeef file "<?>", line 1>:
++Disassembly of <code object test at 0xdeadbeef, file "<?>", line 1>:
+    1            RETURN_GENERATOR
+                 POP_TOP
+         L1:     RESUME                   0
+diff --git a/crates/vm/src/builtins/code.rs b/crates/vm/src/builtins/code.rs
+index b25c9d5c4..63c73fe4e 100644
+--- a/crates/vm/src/builtins/code.rs
++++ b/crates/vm/src/builtins/code.rs
+@@ -601,7 +601,7 @@ impl Representable for PyCode {
+     fn repr_str(zelf: &Py<Self>, _vm: &VirtualMachine) -> PyResult<String> {
+         let code = &zelf.code;
+         Ok(format!(
+-            "<code object {} at {:#x} file {:?}, line {}>",
++            "<code object {} at {:#x}, file \"{}\", line {}>",
+             code.obj_name,
+             zelf.get_id(),
+             zelf.source_path().as_str(),
+@@ -842,7 +842,8 @@ impl Constructor for PyCode {
+             } else {
+                 None
+             },
+-            max_stackdepth: args.stacksize,
++            // Room for one value is always reserved, even where nothing is pushed.
++            max_stackdepth: args.stacksize.max(1),
+             obj_name: vm.ctx.intern_str(args.name.as_wtf8()),
+             qualname: vm.ctx.intern_str(args.qualname.as_wtf8()),
+             constants,
+@@ -1352,10 +1353,12 @@ impl PyCode {
+             OptionalArg::Missing => self.code.qualname.to_owned(),
+         };
+ 
++        // Room for one value is always reserved, even where nothing is pushed.
+         let max_stackdepth = match co_stacksize {
+             OptionalArg::Present(stacksize) => stacksize,
+             OptionalArg::Missing => self.code.max_stackdepth,
+-        };
++        }
++        .max(1);
+ 
+         let instructions = match co_code {
+             OptionalArg::Present(code_bytes) => {
+diff --git a/crates/vm/src/builtins/slice.rs b/crates/vm/src/builtins/slice.rs
+index 026b976b6..4eb6c0f9b 100644
+--- a/crates/vm/src/builtins/slice.rs
++++ b/crates/vm/src/builtins/slice.rs
+@@ -373,7 +373,7 @@ impl Representable for PySlice {
+     }
+ }
+ 
+-#[pyclass(module = false, name = "EllipsisType")]
++#[pyclass(module = false, name = "ellipsis")]
+ #[derive(Debug)]
+ pub struct PyEllipsis;
+ 
+diff --git a/crates/vm/src/stdlib/_ast.rs b/crates/vm/src/stdlib/_ast.rs
+index 5cac15766..887c3cc7d 100644
+--- a/crates/vm/src/stdlib/_ast.rs
++++ b/crates/vm/src/stdlib/_ast.rs
+@@ -388,17 +388,7 @@ fn text_range_to_source_range(source_file: &SourceFile, text_range: TextRange) -
+     let start_row = index.line_index(text_range.start());
+     let end_row = index.line_index(text_range.end());
+     let start_col = text_range.start() - index.line_start(start_row, source);
+-    let (end_row, end_col) = {
+-        let end_col = text_range.end() - index.line_start(end_row, source);
+-        if end_col == TextSize::new(0) && end_row > start_row {
+-            let prev_line_end = text_range.end() - TextSize::new(1);
+-            let row = index.line_index(prev_line_end);
+-            let col = prev_line_end - index.line_start(row, source) + TextSize::new(1);
+-            (row, col)
+-        } else {
+-            (end_row, end_col)
+-        }
+-    };
++    let end_col = text_range.end() - index.line_start(end_row, source);
+ 
+     PySourceRange {
+         start: PySourceLocation {
+@@ -1035,7 +1025,7 @@ fn type_comment_parse_error(
+         raw_location: range,
+         location: source_range.start.to_source_location(),
+         end_location: source_range.end.to_source_location(),
+-        source_path: "<unknown>".to_string(),
++        source_path: source_file.name().to_owned(),
+         is_unclosed_bracket: false,
+     }
+     .into()
+@@ -1046,9 +1036,9 @@ fn future_feature_compile_error(
+     source_file: &SourceFile,
+     error: codegen::preprocess::FutureFeatureError,
+ ) -> CompileError {
+-    let location = source_file
+-        .to_source_code()
+-        .source_location(error.range.start(), PositionEncoding::Utf8);
++    let source_code = source_file.to_source_code();
++    let location = source_code.source_location(error.range.start(), PositionEncoding::Utf8);
++    let end_location = source_code.source_location(error.range.end(), PositionEncoding::Utf8);
+     let error = match error.kind {
+         codegen::preprocess::FutureFeatureErrorKind::InvalidFeature(feature) => {
+             codegen::error::CodegenErrorType::InvalidFutureFeature(feature)
+@@ -1059,6 +1049,7 @@ fn future_feature_compile_error(
+     };
+     codegen::error::CodegenError {
+         location: Some(location),
++        end_location: Some(end_location),
+         error,
+         source_path: source_file.name().to_owned(),
+     }
+@@ -1763,7 +1754,7 @@ fn ipython_escape_command_syntax_error(
+             raw_location: range,
+             location: source_range.start.to_source_location(),
+             end_location: source_range.end.to_source_location(),
+-            source_path: "<unknown>".to_owned(),
++            source_path: source_file.name().to_owned(),
+             is_unclosed_bracket: false,
+         }
+         .into(),
+@@ -1797,6 +1788,7 @@ fn empty_arguments_object(vm: &VirtualMachine) -> PyObjectRef {
+ pub(crate) fn parse(
+     vm: &VirtualMachine,
+     source: &str,
++    filename: &str,
+     mode: parser::Mode,
+     optimize: u8,
+     target_version: Option<ast::PythonVersion>,
+@@ -1806,7 +1798,7 @@ pub(crate) fn parse(
+     explicit_future_features: crate::bytecode::CodeFlags,
+     dont_imply_dedent: bool,
+ ) -> Result<PyObjectRef, CompileError> {
+-    let source_file = SourceFileBuilder::new("".to_owned(), source.to_owned()).finish();
++    let source_file = SourceFileBuilder::new(filename.to_owned(), source.to_owned()).finish();
+     let mut options = parser::ParseOptions::from(mode);
+     let target_version = target_version.unwrap_or(ast::PythonVersion::PY314);
+     if let Some(error) = feature_version_syntax_error(source, &source_file, target_version) {
+@@ -1837,7 +1829,7 @@ pub(crate) fn parse(
+             raw_location: parse_error.location,
+             location: range.start.to_source_location(),
+             end_location: range.end.to_source_location(),
+-            source_path: "<unknown>".to_string(),
++            source_path: source_file.name().to_owned(),
+             is_unclosed_bracket: false,
+         }
+         .into());
+@@ -1866,7 +1858,7 @@ pub(crate) fn parse(
+             raw_location: error.range(),
+             location: range.start.to_source_location(),
+             end_location: range.end.to_source_location(),
+-            source_path: "<unknown>".to_string(),
++            source_path: source_file.name().to_owned(),
+             is_unclosed_bracket: false,
+         }
+         .into());
+@@ -1880,7 +1872,13 @@ pub(crate) fn parse(
+         return Err(error);
+     }
+ 
++    if let Some(error) = rustpython_compiler::leading_byte_order_mark_error(&source_file) {
++        return Err(error);
++    }
+     let mut top = parsed.into_syntax();
++    if let Some(error) = rustpython_compiler::unsupported_grammar_error(&top, &source_file) {
++        return Err(error);
++    }
+     if let Some(error) = ipython_escape_command_syntax_error(&top, &source_file) {
+         return Err(error);
+     }
+@@ -1957,6 +1955,7 @@ pub(crate) fn wrap_interactive(vm: &VirtualMachine, module_obj: PyObjectRef) ->
+ pub(crate) fn parse_func_type(
+     vm: &VirtualMachine,
+     source: &str,
++    filename: &str,
+     optimize: u8,
+     target_version: Option<ast::PythonVersion>,
+ ) -> Result<PyObjectRef, CompileError> {
+@@ -1968,7 +1967,7 @@ pub(crate) fn parse_func_type(
+             raw_location: TextRange::default(),
+             location: SourceLocation::default(),
+             end_location: SourceLocation::default(),
+-            source_path: "<unknown>".to_owned(),
++            source_path: filename.to_owned(),
+             is_unclosed_bracket: false,
+         }
+         .into()
+@@ -1996,7 +1995,7 @@ pub(crate) fn parse_func_type(
+             raw_location: TextRange::default(),
+             location: SourceLocation::default(),
+             end_location: SourceLocation::default(),
+-            source_path: "<unknown>".to_owned(),
++            source_path: filename.to_owned(),
+             is_unclosed_bracket: false,
+         }
+         .into());
+@@ -2006,7 +2005,7 @@ pub(crate) fn parse_func_type(
+     let right = source[split_at + 2..].trim();
+ 
+     let parse_expr = |expr_src: &str| -> Result<ast::Expr, CompileError> {
+-        let source_file = SourceFileBuilder::new("".to_owned(), expr_src.to_owned()).finish();
++        let source_file = SourceFileBuilder::new(filename.to_owned(), expr_src.to_owned()).finish();
+         let options = parser::ParseOptions::from(parser::Mode::Expression)
+             .with_target_version(target_version.unwrap_or(ast::PythonVersion::PY314));
+         let parsed = parser::parse(expr_src, options).map_err(|parse_error| {
+@@ -2016,7 +2015,7 @@ pub(crate) fn parse_func_type(
+                 raw_location: parse_error.location,
+                 location: range.start.to_source_location(),
+                 end_location: range.end.to_source_location(),
+-                source_path: "<unknown>".to_string(),
++                source_path: source_file.name().to_owned(),
+                 is_unclosed_bracket: false,
+             }
+         })?;
+@@ -2037,7 +2036,7 @@ pub(crate) fn parse_func_type(
+             return Err(invalid_func_type());
+         }
+         let call_source = format!("__rustpython_func_type__({inner})");
+-        let source_file = SourceFileBuilder::new("".to_owned(), call_source.clone()).finish();
++        let source_file = SourceFileBuilder::new(filename.to_owned(), call_source.clone()).finish();
+         let options = parser::ParseOptions::from(parser::Mode::Expression)
+             .with_target_version(target_version.unwrap_or(ast::PythonVersion::PY314));
+         let parsed = parser::parse(&call_source, options).map_err(|parse_error| {
+@@ -2047,7 +2046,7 @@ pub(crate) fn parse_func_type(
+                 raw_location: parse_error.location,
+                 location: range.start.to_source_location(),
+                 end_location: range.end.to_source_location(),
+-                source_path: "<unknown>".to_string(),
++                source_path: source_file.name().to_owned(),
+                 is_unclosed_bracket: false,
+             }
+         })?;
+@@ -2489,6 +2488,7 @@ pub(crate) fn compile(
+                 );
+                 let marker = codegen::error::CodegenError {
+                     location: Some(location),
++                    end_location: None,
+                     error: codegen::error::CodegenErrorType::SyntaxError(message),
+                     source_path: source_path.clone(),
+                 };
+diff --git a/crates/vm/src/stdlib/_ast/constant.rs b/crates/vm/src/stdlib/_ast/constant.rs
+index 6debbf5c0..189c1538d 100644
+--- a/crates/vm/src/stdlib/_ast/constant.rs
++++ b/crates/vm/src/stdlib/_ast/constant.rs
+@@ -2,6 +2,7 @@ use super::*;
+ use crate::builtins::{PyComplex, PyFrozenSet, PyTuple};
+ use ast::str_prefix::StringLiteralPrefix;
+ use rustpython_codegen::compile::ruff_int_to_bigint;
++use rustpython_common::wtf8::Wtf8Buf;
+ use rustpython_compiler_core::{SourceFile, bytecode::ConstantData};
+ 
+ #[derive(Debug)]
+@@ -14,7 +15,7 @@ pub(super) struct Constant {
+ 
+ impl Constant {
+     pub(super) fn new_str(
+-        value: impl Into<Box<str>>,
++        value: impl Into<Wtf8Buf>,
+         prefix: StringLiteralPrefix,
+         range: TextRange,
+     ) -> Self {
+@@ -112,7 +113,7 @@ pub(crate) enum ConstantLiteral {
+     None,
+     Bool(bool),
+     Str {
+-        value: Box<str>,
++        value: Wtf8Buf,
+         prefix: StringLiteralPrefix,
+     },
+     Bytes(Box<[u8]>),
+@@ -199,7 +200,7 @@ fn constant_literal_to_constant_data(value: &ConstantLiteral) -> ConstantData {
+         ConstantLiteral::None => ConstantData::None,
+         ConstantLiteral::Bool(value) => ConstantData::Boolean { value: *value },
+         ConstantLiteral::Str { value, .. } => ConstantData::Str {
+-            value: value.as_ref().into(),
++            value: value.clone(),
+         },
+         ConstantLiteral::Bytes(value) => ConstantData::Bytes {
+             value: value.to_vec(),
+@@ -548,7 +549,11 @@ impl Node for ConstantLiteral {
+             })
+         } else if cls.is(vm.ctx.types.str_type) {
+             Self::Str {
+-                value: value_object.try_to_value::<String>(vm)?.into(),
++                value: value_object
++                    .downcast_ref::<crate::builtins::PyStr>()
++                    .expect("AST value field was checked to be a str")
++                    .as_wtf8()
++                    .to_owned(),
+                 prefix: StringLiteralPrefix::Empty,
+             }
+         } else if cls.is(vm.ctx.types.bytes_type) {
+@@ -650,7 +655,8 @@ pub(super) fn string_literal_to_object(
+         .iter()
+         .next()
+         .map_or(StringLiteralPrefix::Empty, |part| part.flags.prefix());
+-    let c = Constant::new_str(value.to_str(), prefix, range);
++    let value = rustpython_codegen::string_literal_value(source_file, &value);
++    let c = Constant::new_str(value, prefix, range);
+     c.ast_to_object(vm, source_file)
+ }
+ 
+diff --git a/crates/vm/src/stdlib/_ast/expression.rs b/crates/vm/src/stdlib/_ast/expression.rs
+index 10bdf5266..97a3519ea 100644
+--- a/crates/vm/src/stdlib/_ast/expression.rs
++++ b/crates/vm/src/stdlib/_ast/expression.rs
+@@ -918,18 +918,8 @@ impl Node for ast::ExprGenerator {
+             elt,
+             generators,
+             range,
+-            parenthesized,
++            parenthesized: _,
+         } = self;
+-        let range = if parenthesized {
+-            range
+-        } else {
+-            TextRange::new(
+-                range
+-                    .start()
+-                    .saturating_sub(ruff_text_size::TextSize::from(1)),
+-                range.end() + ruff_text_size::TextSize::from(1),
+-            )
+-        };
+         let node = NodeAst
+             .into_ref_with_type(vm, pyast::NodeExprGeneratorExp::static_type().to_owned())
+             .unwrap();
+diff --git a/crates/vm/src/stdlib/_ast/string.rs b/crates/vm/src/stdlib/_ast/string.rs
+index 7a3bb8799..2e44ce48f 100644
+--- a/crates/vm/src/stdlib/_ast/string.rs
++++ b/crates/vm/src/stdlib/_ast/string.rs
+@@ -2,6 +2,7 @@ use super::constant::{Constant, ConstantLiteral};
+ use super::*;
+ use crate::warn;
+ use ast::str_prefix::StringLiteralPrefix;
++use rustpython_common::wtf8::Wtf8Buf;
+ 
+ fn ruff_fstring_element_into_iter(
+     mut fstring_element: ast::InterpolatedStringElements,
+@@ -18,48 +19,77 @@ fn ruff_fstring_element_into_iter(
+         .into_iter()
+ }
+ 
+-fn ruff_fstring_element_to_joined_str_part(
++fn push_ruff_fstring_element(
+     vm: &VirtualMachine,
++    source_file: &SourceFile,
++    flags: ast::AnyStringFlags,
+     element: ast::InterpolatedStringElement,
+-) -> JoinedStrPart {
++    output: &mut Vec<JoinedStrPart>,
++) {
+     match element {
+-        ast::InterpolatedStringElement::Literal(ast::InterpolatedStringLiteralElement {
+-            range,
+-            value,
+-            node_index: _,
+-        }) => JoinedStrPart::Constant(Constant::new_str(
+-            value,
+-            ast::str_prefix::StringLiteralPrefix::Empty,
+-            range,
+-        )),
++        ast::InterpolatedStringElement::Literal(literal) => {
++            output.push(JoinedStrPart::Constant(Constant::new_str(
++                rustpython_codegen::interpolated_string_literal_value(source_file, &literal, flags),
++                ast::str_prefix::StringLiteralPrefix::Empty,
++                literal.range,
++            )));
++        }
+         ast::InterpolatedStringElement::Interpolation(ast::InterpolatedElement {
+             range,
+             expression,
+-            debug_text: _, // TODO: What is this?
+-            conversion,
++            debug_text,
++            mut conversion,
+             format_spec,
+             node_index: _,
+             runtime_str: _,
+             runtime_interpolation_format_spec: _,
+             runtime_formatted_value_format_spec,
+         }) => {
++            if let Some(debug_text) = &debug_text {
++                output.push(JoinedStrPart::Constant(interpolation_debug_constant(
++                    source_file,
++                    debug_text,
++                    expression.range(),
++                )));
++                conversion = debug_conversion(conversion, format_spec.is_some());
++            }
+             let runtime_format_spec = runtime_formatted_value_format_spec.or_else(|| {
+-                ruff_format_spec_to_joined_str(vm, format_spec)
++                ruff_format_spec_to_joined_str(vm, source_file, flags, format_spec)
+                     .map(|joined_str| Box::new(joined_str.into_expr(false)))
+             });
+-            JoinedStrPart::FormattedValue(FormattedValue {
++            output.push(JoinedStrPart::FormattedValue(FormattedValue {
+                 value: expression,
+                 conversion,
+                 format_spec: runtime_format_spec,
+                 range,
+-            })
++            }));
+         }
+     }
+ }
+ 
++/// The literal an `{expr=}` interpolation puts in front of its value.
++fn interpolation_debug_constant(
++    source_file: &SourceFile,
++    debug_text: &ast::DebugText,
++    expression_range: TextRange,
++) -> Constant {
++    let (text, range) =
++        rustpython_codegen::interpolation_debug_text(source_file, debug_text, expression_range);
++    Constant::new_str(text, ast::str_prefix::StringLiteralPrefix::Empty, range)
++}
++
++/// A `{expr=}` interpolation takes `repr` unless it was told otherwise.
++fn debug_conversion(conversion: ast::ConversionFlag, has_format_spec: bool) -> ast::ConversionFlag {
++    if matches!(conversion, ast::ConversionFlag::None) && !has_format_spec {
++        ast::ConversionFlag::Repr
++    } else {
++        conversion
++    }
++}
++
+ fn push_joined_str_literal(
+     output: &mut Vec<JoinedStrPart>,
+-    pending: &mut Option<(String, StringLiteralPrefix, TextRange)>,
++    pending: &mut Option<(Wtf8Buf, StringLiteralPrefix, TextRange)>,
+ ) {
+     if let Some((value, prefix, range)) = pending.take()
+         && !value.is_empty()
+@@ -72,7 +102,7 @@ fn push_joined_str_literal(
+ 
+ fn normalize_joined_str_parts(values: Vec<JoinedStrPart>) -> Vec<JoinedStrPart> {
+     let mut output = Vec::with_capacity(values.len());
+-    let mut pending: Option<(String, StringLiteralPrefix, TextRange)> = None;
++    let mut pending: Option<(Wtf8Buf, StringLiteralPrefix, TextRange)> = None;
+ 
+     for part in values {
+         match part {
+@@ -82,9 +112,10 @@ fn normalize_joined_str_parts(values: Vec<JoinedStrPart>) -> Vec<JoinedStrPart>
+                     output.push(JoinedStrPart::Constant(constant));
+                     continue;
+                 };
+-                let value: String = value.into();
+-                if let Some((pending_value, _, _)) = pending.as_mut() {
+-                    pending_value.push_str(&value);
++                if let Some((pending_value, _, pending_range)) = pending.as_mut() {
++                    pending_value.push_wtf8(&value);
++                    // Folded literals span from the first of them to the last.
++                    *pending_range = TextRange::new(pending_range.start(), constant.range.end());
+                 } else {
+                     pending = Some((value, prefix, constant.range));
+                 }
+@@ -102,7 +133,7 @@ fn normalize_joined_str_parts(values: Vec<JoinedStrPart>) -> Vec<JoinedStrPart>
+ 
+ fn push_template_str_literal(
+     output: &mut Vec<TemplateStrPart>,
+-    pending: &mut Option<(String, StringLiteralPrefix, TextRange)>,
++    pending: &mut Option<(Wtf8Buf, StringLiteralPrefix, TextRange)>,
+ ) {
+     if let Some((value, prefix, range)) = pending.take()
+         && !value.is_empty()
+@@ -115,7 +146,7 @@ fn push_template_str_literal(
+ 
+ fn normalize_template_str_parts(values: Vec<TemplateStrPart>) -> Vec<TemplateStrPart> {
+     let mut output = Vec::with_capacity(values.len());
+-    let mut pending: Option<(String, StringLiteralPrefix, TextRange)> = None;
++    let mut pending: Option<(Wtf8Buf, StringLiteralPrefix, TextRange)> = None;
+ 
+     for part in values {
+         match part {
+@@ -125,9 +156,10 @@ fn normalize_template_str_parts(values: Vec<TemplateStrPart>) -> Vec<TemplateStr
+                     output.push(TemplateStrPart::Constant(constant));
+                     continue;
+                 };
+-                let value: String = value.into();
+-                if let Some((pending_value, _, _)) = pending.as_mut() {
+-                    pending_value.push_str(&value);
++                if let Some((pending_value, _, pending_range)) = pending.as_mut() {
++                    pending_value.push_wtf8(&value);
++                    // Folded literals span from the first of them to the last.
++                    *pending_range = TextRange::new(pending_range.start(), constant.range.end());
+                 } else {
+                     pending = Some((value, prefix, constant.range));
+                 }
+@@ -246,6 +278,8 @@ fn warn_invalid_escape_sequences_in_format_spec(
+ 
+ fn ruff_format_spec_to_joined_str(
+     vm: &VirtualMachine,
++    source_file: &SourceFile,
++    flags: ast::AnyStringFlags,
+     format_spec: Option<Box<ast::InterpolatedStringFormatSpec>>,
+ ) -> Option<Box<JoinedStr>> {
+     match format_spec {
+@@ -256,7 +290,15 @@ fn ruff_format_spec_to_joined_str(
+                 elements,
+                 node_index: _,
+             } = *format_spec;
+-            let range = if range.start() > ruff_text_size::TextSize::from(0) {
++            // The `:` that opens a format spec belongs to its range, and the
++            // parser leaves it out of the outermost one.
++            let opened_by_colon = source_file
++                .source_text()
++                .as_bytes()
++                .get(..range.start().to_usize())
++                .and_then(<[u8]>::last)
++                == Some(&b':');
++            let range = if opened_by_colon {
+                 TextRange::new(
+                     range.start() - ruff_text_size::TextSize::from(1),
+                     range.end(),
+@@ -264,9 +306,10 @@ fn ruff_format_spec_to_joined_str(
+             } else {
+                 range
+             };
+-            let values: Vec<_> = ruff_fstring_element_into_iter(elements)
+-                .map(|element| ruff_fstring_element_to_joined_str_part(vm, element))
+-                .collect();
++            let mut values = Vec::new();
++            for element in ruff_fstring_element_into_iter(elements) {
++                push_ruff_fstring_element(vm, source_file, flags, element, &mut values);
++            }
+             let values = normalize_joined_str_parts(values).into_boxed_slice();
+             Some(Box::new(JoinedStr {
+                 range,
+@@ -480,7 +523,7 @@ fn joined_str_part_to_ruff_fstring_element(
+                 ast::InterpolatedStringLiteralElement {
+                     node_index: Default::default(),
+                     range,
+-                    value,
++                    value: value.to_string_lossy().into(),
+                 },
+             ))
+         }
+@@ -685,26 +728,21 @@ pub(super) fn fstring_to_object(
+     for i in 0..value.as_slice().len() {
+         let part = core::mem::replace(value.iter_mut().nth(i).unwrap(), default_part.clone());
+         match part {
+-            ast::FStringPart::Literal(ast::StringLiteral {
+-                range,
+-                value,
+-                flags,
+-                node_index: _,
+-            }) => {
++            ast::FStringPart::Literal(literal) => {
+                 values.push(JoinedStrPart::Constant(Constant::new_str(
+-                    value,
+-                    flags.prefix(),
+-                    range,
++                    rustpython_codegen::string_literal_part_value(source_file, &literal),
++                    literal.flags.prefix(),
++                    literal.range,
+                 )));
+             }
+             ast::FStringPart::FString(ast::FString {
+                 range: _,
+                 elements,
+-                flags: _,
++                flags,
+                 node_index: _,
+             }) => {
+                 for element in ruff_fstring_element_into_iter(elements) {
+-                    values.push(ruff_fstring_element_to_joined_str_part(vm, element));
++                    push_ruff_fstring_element(vm, source_file, flags.into(), element, &mut values);
+                 }
+             }
+         }
+@@ -727,26 +765,26 @@ pub(super) fn fstring_to_object(
+ 
+ // ===== TString (Template String) Support =====
+ 
+-fn ruff_tstring_element_to_template_str_part(
++fn push_ruff_tstring_element(
+     vm: &VirtualMachine,
+     source_file: &SourceFile,
++    flags: ast::AnyStringFlags,
+     element: ast::InterpolatedStringElement,
+-) -> TemplateStrPart {
++    output: &mut Vec<TemplateStrPart>,
++) {
+     match element {
+-        ast::InterpolatedStringElement::Literal(ast::InterpolatedStringLiteralElement {
+-            range,
+-            value,
+-            node_index: _,
+-        }) => TemplateStrPart::Constant(Constant::new_str(
+-            value,
+-            ast::str_prefix::StringLiteralPrefix::Empty,
+-            range,
+-        )),
++        ast::InterpolatedStringElement::Literal(literal) => {
++            output.push(TemplateStrPart::Constant(Constant::new_str(
++                rustpython_codegen::interpolated_string_literal_value(source_file, &literal, flags),
++                ast::str_prefix::StringLiteralPrefix::Empty,
++                literal.range,
++            )));
++        }
+         ast::InterpolatedStringElement::Interpolation(ast::InterpolatedElement {
+             range,
+             expression,
+             debug_text,
+-            conversion,
++            mut conversion,
+             format_spec,
+             node_index: _,
+             runtime_str,
+@@ -756,7 +794,13 @@ fn ruff_tstring_element_to_template_str_part(
+             let expr_range =
+                 extend_expr_range_with_wrapping_parens(source_file, range, expression.range())
+                     .unwrap_or_else(|| expression.range());
+-            let expr_str = if let Some(debug_text) = debug_text {
++            let expr_str = if let Some(debug_text) = &debug_text {
++                output.push(TemplateStrPart::Constant(interpolation_debug_constant(
++                    source_file,
++                    debug_text,
++                    expression.range(),
++                )));
++                conversion = debug_conversion(conversion, format_spec.is_some());
+                 let expr_source = source_file.slice(expr_range);
+                 let mut expr_with_debug = String::with_capacity(
+                     debug_text.leading.len() + expr_source.len() + debug_text.trailing.len(),
+@@ -773,7 +817,7 @@ fn ruff_tstring_element_to_template_str_part(
+                 runtime_str,
+                 runtime_interpolation_format_spec,
+             );
+-            TemplateStrPart::Interpolation(TStringInterpolation {
++            output.push(TemplateStrPart::Interpolation(TStringInterpolation {
+                 value: expression,
+                 str: runtime_interpolation
+                     .as_ref()
+@@ -782,11 +826,11 @@ fn ruff_tstring_element_to_template_str_part(
+                 format_spec: runtime_interpolation
+                     .and_then(|(_, format_spec)| format_spec)
+                     .or_else(|| {
+-                        ruff_format_spec_to_joined_str(vm, format_spec)
++                        ruff_format_spec_to_joined_str(vm, source_file, flags, format_spec)
+                             .map(|joined_str| Box::new(joined_str.into_expr(false)))
+                     }),
+                 range,
+-            })
++            }));
+         }
+     }
+ }
+@@ -957,7 +1001,7 @@ fn template_part_to_element(
+                 ast::InterpolatedStringLiteralElement {
+                     range: constant.range,
+                     node_index: Default::default(),
+-                    value,
++                    value: value.to_string_lossy().into(),
+                 },
+             ))
+         }
+@@ -1200,12 +1244,9 @@ pub(super) fn tstring_to_object(
+     let mut values = Vec::new();
+     for i in 0..value.as_slice().len() {
+         let tstring = core::mem::replace(value.iter_mut().nth(i).unwrap(), default_tstring.clone());
++        let flags = tstring.flags.into();
+         for element in ruff_fstring_element_into_iter(tstring.elements) {
+-            values.push(ruff_tstring_element_to_template_str_part(
+-                vm,
+-                source_file,
+-                element,
+-            ));
++            push_ruff_tstring_element(vm, source_file, flags, element, &mut values);
+         }
+     }
+     let values = normalize_template_str_parts(values);
+@@ -1239,8 +1280,13 @@ fn standalone_tstring_interpolation_to_object(
+         str,
+         conversion: interp.conversion,
+         format_spec: format_spec.or_else(|| {
+-            ruff_format_spec_to_joined_str(vm, interp.format_spec.clone())
+-                .map(|joined_str| Box::new(joined_str.into_expr(false)))
++            ruff_format_spec_to_joined_str(
++                vm,
++                source_file,
++                ast::TStringFlags::empty().into(),
++                interp.format_spec.clone(),
++            )
++            .map(|joined_str| Box::new(joined_str.into_expr(false)))
+         }),
+         range: interp.range,
+     };
+diff --git a/crates/vm/src/stdlib/_ast/validate.rs b/crates/vm/src/stdlib/_ast/validate.rs
+index e936c9d3f..b4dd4a76d 100644
+--- a/crates/vm/src/stdlib/_ast/validate.rs
++++ b/crates/vm/src/stdlib/_ast/validate.rs
+@@ -19,6 +19,7 @@ fn invalid_syntax_error(vm: &VirtualMachine) -> crate::builtins::PyBaseException
+     vm.new_syntax_error(
+         &CompileError::Codegen(CodegenError {
+             location: None,
++            end_location: None,
+             error: CodegenErrorType::SyntaxError("invalid syntax".to_owned()),
+             source_path: "<unknown>".to_owned(),
+         }),
+diff --git a/crates/vm/src/vm/compile.rs b/crates/vm/src/vm/compile.rs
+index 9b6c727f0..1cc46adf4 100644
+--- a/crates/vm/src/vm/compile.rs
++++ b/crates/vm/src/vm/compile.rs
+@@ -191,7 +191,10 @@ impl VirtualMachine {
+         filename: &str,
+         ignore_cookie: bool,
+     ) -> PyResult<String> {
+-        let has_bom = source.starts_with(b"\xef\xbb\xbf");
++        // `ignore_cookie` marks source that was handed over as text. A byte
++        // order mark belongs to the byte encoding, so text keeps whatever it
++        // was written with and the parser rejects a stray U+FEFF.
++        let has_bom = !ignore_cookie && source.starts_with(b"\xef\xbb\xbf");
+         let encoding = if ignore_cookie {
+             None
+         } else {
+@@ -289,7 +292,7 @@ impl VirtualMachine {
+ 
+         if is_ast_only {
+             if start == PY_FUNC_TYPE_INPUT {
+-                return _ast::parse_func_type(self, source, optimize, target_version)
++                return _ast::parse_func_type(self, source, filename, optimize, target_version)
+                     .map_err(|e| (e, Some(source), allow_incomplete).to_pyexception(self));
+             }
+             let (parser_mode, interactive) = match start {
+@@ -305,6 +308,7 @@ impl VirtualMachine {
+             let parsed = _ast::parse(
+                 self,
+                 source,
++                filename,
+                 parser_mode,
+                 optimize,
+                 target_version,
+@@ -334,6 +338,7 @@ impl VirtualMachine {
+             _ast::parse(
+                 self,
+                 source,
++                filename,
+                 parser_mode,
+                 optimize,
+                 None,
+@@ -407,6 +412,7 @@ impl VirtualMachine {
+                         // Recovered below via `escalated`, so this is never surfaced.
+                         compiler::codegen::error::CodegenError {
+                             location: Some(location),
++                            end_location: None,
+                             error: compiler::codegen::error::CodegenErrorType::SyntaxError(
+                                 String::new(),
+                             ),
+diff --git a/crates/vm/src/vm/vm_new.rs b/crates/vm/src/vm/vm_new.rs
+index 82f382ca6..0783f91b1 100644
+--- a/crates/vm/src/vm/vm_new.rs
++++ b/crates/vm/src/vm/vm_new.rs
+@@ -99,7 +99,7 @@ impl SyntaxErrorInfo {
+                 format!("invalid syntax: {}", self.msg.replace('`', "'"))
+             }
+ 
+-            ParseErrorType::UnexpectedExpressionToken => format!("invalid syntax: {}", self.msg),
++            ParseErrorType::UnexpectedExpressionToken => "invalid syntax".into(),
+ 
+             ParseErrorType::ExpectedToken { expected, found } => {
+                 Self::handle_expected_token(*expected, *found).into()
+@@ -166,6 +166,10 @@ impl SyntaxErrorInfo {
+                 "arguments cannot follow var-keyword argument".into()
+             }
+ 
++            ParseErrorType::InvalidAnnotatedAssignmentTarget => {
++                "illegal target for annotation".into()
++            }
++
+             ParseErrorType::Lexical(LexicalErrorType::UnrecognizedToken { .. })
+             | ParseErrorType::SimpleStatementsOnSameLine
+             | ParseErrorType::SimpleAndCompoundStatementOnSameLine
+@@ -175,18 +179,35 @@ impl SyntaxErrorInfo {
+                 "invalid syntax".into()
+             }
+ 
++            // What the parser says when it cannot continue the list it is
++            // recovering; each of these situations is a plain "invalid syntax".
+             ParseErrorType::OtherError(s)
+-                if s.eq_ignore_ascii_case(
+-                    "Expected a type parameter or the end of the type parameter list",
++                if matches!(
++                    s.as_str(),
++                    "Expected a statement"
++                        | "Expected an `elif` or `else` clause, or the end of the `if` statement."
++                        | "Expected an `except` or `finally` clause or the end of the `try` statement."
++                        | "The keyword is not allowed as a variable declaration name"
++                        | "Expected an assignment target"
++                        | "Expected a type parameter or the end of the type parameter list"
++                        | "Expected an import name or a ')'"
++                        | "Expected an import name"
++                        | "Expected an expression or the end of the slice list"
++                        | "Expected an expression or a ']'"
++                        | "Expected an expression or a '}'"
++                        | "Expected an expression or a ')'"
++                        | "Expected an expression"
++                        | "Expected a pattern or the end of the sequence pattern"
++                        | "Expected a mapping pattern or the end of the mapping pattern"
++                        | "Expected a pattern or a ')'"
++                        | "Expected a delete target"
++                        | "Expected a parameter or the end of the parameter list"
++                        | "Expected an expression or the end of the with item list"
+                 ) =>
+             {
+                 "invalid syntax".into()
+             }
+ 
+-            ParseErrorType::OtherError(s) if s.eq_ignore_ascii_case("Expected a statement") => {
+-                "invalid syntax".into()
+-            }
+-
+             ParseErrorType::OtherError(s)
+                 if s.eq_ignore_ascii_case(
+                     "bytes literal cannot be mixed with non-bytes literals",
+@@ -837,6 +858,18 @@ impl VirtualMachine {
+             || msg.starts_with("except expressions without parentheses are")
+             || msg.starts_with("Pattern matching is");
+         let line_end_binary_operator_error = msg.starts_with("The '@' operator is");
++        let unclosed_bracket_error = cfg_select! {
++            feature = "parser" => {
++                matches!(
++                    error,
++                    crate::compiler::CompileError::Parse(rustpython_compiler::ParseError {
++                        is_unclosed_bracket: true,
++                        ..
++                    })
++                )
++            }
++            _ => false,
++        };
+ 
+         let syntax_error = self.new_exception_msg(syntax_error_type, msg.into());
+ 
+@@ -860,6 +893,10 @@ impl VirtualMachine {
+                         .is_some_and(|ch| ch.is_ascii_whitespace()));
+             let (end_lineno, end_offset) = if no_end_offset {
+                 (end_lineno, -1)
++            } else if unclosed_bracket_error {
++                // The bracket that was never closed is marked where it opened,
++                // and the span stops there.
++                (end_lineno, 0)
+             } else if line_end_binary_operator_error && end_offset == offset_raw {
+                 (end_lineno, (end_offset + 1) as isize)
+             } else if narrow_caret {
+diff --git a/extra_tests/snippets/syntax_try.py b/extra_tests/snippets/syntax_try.py
+index 5610cb23e..06c62c907 100644
+--- a/extra_tests/snippets/syntax_try.py
++++ b/extra_tests/snippets/syntax_try.py
+@@ -367,3 +367,104 @@ def gen():
+ 
+ 
+ assert generator_return_from_try() == [["z"]]
++
++
++# the copy of the finally body is emitted where the try block is left, so its
++# nested scopes must be looked up past the ones the rest of the try block opens
++def scopes_after_the_early_exit():
++    log = []
++
++    def run(data, leave_early):
++        try:
++            if leave_early:
++                return "early"
++            return list(s * 2 for s in data)
++        finally:
++            log.append(sorted(k for k in data))
++
++    assert run([1, 2], True) == "early"
++    assert run([3, 1], False) == [6, 2]
++    return log
++
++
++assert scopes_after_the_early_exit() == [[1, 2], [1, 3]]
++
++
++# a nested function in the try block is a scope too: taking its symbol table
++# for the generator expression below built one without the `.0` argument
++def named_scope_after_the_early_exit():
++    log = []
++
++    def run(data, leave_early):
++        try:
++            if leave_early:
++                return "early"
++
++            def inner():
++                return [x + 1 for x in data]
++
++            return inner()
++        finally:
++            log.append(sorted(k for k in data))
++
++    assert run([2, 1], True) == "early"
++    assert run([2, 1], False) == [3, 2]
++    return log
++
++
++assert named_scope_after_the_early_exit() == [[1, 2], [1, 2]]
++
++
++# scopes that share a name resolve by position, so `inner` must not be found
++# where the try block declares it
++def same_name_scope_after_the_early_exit():
++    log = []
++
++    def run(value, leave_early):
++        try:
++            if leave_early:
++                return "early"
++
++            def inner():
++                return value
++
++            return inner()
++        finally:
++
++            def inner():
++                return log
++
++            assert inner() is log
++            log.append((lambda x: x + value)(1))
++
++    assert run(10, True) == "early"
++    assert run(20, False) == 20
++    return log
++
++
++assert same_name_scope_after_the_early_exit() == [11, 21]
++
++
++# breaking and continuing out of a loop copy the finally body the same way
++def loop_exit_with_scopes_after_it():
++    seen = []
++    for i in range(4):
++        try:
++            if i == 1:
++                continue
++            if i == 3:
++                break
++            seen.append(sorted(t for t in [i]))
++        finally:
++            seen.append(sorted(k for k in [i, i + 1]))
++    return seen
++
++
++assert loop_exit_with_scopes_after_it() == [
++    [0],
++    [0, 1],
++    [1, 2],
++    [2],
++    [2, 3],
++    [3, 4],
++], loop_exit_with_scopes_after_it()

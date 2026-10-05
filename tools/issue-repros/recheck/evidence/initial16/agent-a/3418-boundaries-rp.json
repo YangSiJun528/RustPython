@@ -1,0 +1,29 @@
+{
+  "label": "3418-boundaries-rp",
+  "argv": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<initial16-audit>/agent-a/3418-boundaries.py"
+  ],
+  "cwd": "<workspace>",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "RUSTPYTHONPATH": "<workspace>/Lib"
+  },
+  "removed_environment": [
+    "PYTHONPATH",
+    "PYTHONHOME",
+    "PYTHONWARNINGS",
+    "PYTHONSTARTUP"
+  ],
+  "input_path": "<initial16-audit>/agent-a/3418-boundaries.py",
+  "input_sha256": "3af74502b94291f4ddf8377bdac2791602a4fdc20f4d86a4d69e0d1b8def5b47",
+  "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+  "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+  "started_unix": 1791190902.5066948,
+  "duration_seconds": 0.19020700454711914,
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout_file": "3418-boundaries-rp.stdout",
+  "stderr_file": "3418-boundaries-rp.stderr"
+}

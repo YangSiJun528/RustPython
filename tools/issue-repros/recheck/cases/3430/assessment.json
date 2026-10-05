@@ -1,0 +1,202 @@
+{
+  "issue": 3430,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "The exact valid-XML call succeeds. The returned root is Element/root/None/0; child/text/attribute/namespace/UTF-8 samples and direct expat.ParserCreate(None, '}') also work.",
+  "original_scope": "etree.XML(\"<root></root>\") should return a valid root element instead of rejecting the None encoding passed to expat.ParserCreate.",
+  "original_issue_url": "https://github.com/RustPython/RustPython/issues/3430",
+  "original_issue_snapshot": "<initial16-audit>/agent-a/issue-3430-original.json",
+  "original_comments_read": 1,
+  "fresh_evidence": [
+    {
+      "label": "3430-boundaries-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/3430-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/3430-boundaries.py",
+      "input_sha256": "9ead19dff5f1d59aa0d35a6d539fc9ddd0a5bfc0b426b109eb170b90a4d36109",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190902.9029372,
+      "duration_seconds": 0.03947877883911133,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/3430-boundaries-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/3430-boundaries-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/3430-boundaries-cp.json"
+    },
+    {
+      "label": "3430-boundaries-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/3430-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/3430-boundaries.py",
+      "input_sha256": "9ead19dff5f1d59aa0d35a6d539fc9ddd0a5bfc0b426b109eb170b90a4d36109",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190902.730912,
+      "duration_seconds": 0.17130112648010254,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/3430-boundaries-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/3430-boundaries-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/3430-boundaries-rp.json"
+    },
+    {
+      "label": "3430-original-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/3430-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/3430-original.py",
+      "input_sha256": "19c65c7c2b2824ce96f3001be6ef0fcc6f372b09860c57e1a7144e88b7b17870",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190884.813586,
+      "duration_seconds": 0.04012584686279297,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/3430-original-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/3430-original-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/3430-original-cp.json"
+    },
+    {
+      "label": "3430-original-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/3430-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/3430-original.py",
+      "input_sha256": "19c65c7c2b2824ce96f3001be6ef0fcc6f372b09860c57e1a7144e88b7b17870",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190884.639424,
+      "duration_seconds": 0.17317485809326172,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/3430-original-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/3430-original-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/3430-original-rp.json"
+    }
+  ],
+  "old_evidence": {
+    "kind": "reused historical/current export records; no historical executable rerun",
+    "source_directory": "<report-worktree>/tools/issue-repros/cases/3430",
+    "historical_commit": "310578c422c9b3d76eb8c739136b972d78e37180",
+    "historical_binary_sha256": "a82be57ff91c9e8c82392c0883b8d579aba20df63922772dedaaf71adc3bbc70",
+    "historical_input_sha256": "a417cc001e1c9e1bd09bcef9014cf9713bfa74d6610ee5ba48e3237490b5bcce",
+    "historical_exit_code": 1,
+    "historical_timeout": false,
+    "historical_selection": {
+      "role": "closest_preissue_main_approximation",
+      "reason": "No case-specific executed revision or identifiable RustPython release."
+    },
+    "old_current_binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+    "log_integrity": {
+      "issue": 3430,
+      "historical_recorded_input_hash_matches": true,
+      "canonical_vs_recorded_AST_equal": true,
+      "exported_log_hashes_all_match": true
+    },
+    "input_equivalence_to_live_issue": "The existing case removes REPL prompts, assigns the original call result and prints its type/tag/text/child count. The original call and its argument are retained. Fresh original runs the exact call; a separate fresh boundary probe prints the same root properties.",
+    "existing_reproducer_sufficiency": "The existing case is sufficient for the original valid-XML/None-encoding failure. It is insufficient for malformed XML validation or general expat compatibility.",
+    "audit_file": "<initial16-audit>/agent-a/old-evidence-audit.json",
+    "limits": [
+      "Old binary/source/Lib pairing is supported by recorded metadata, not independently reexecuted in this pass.",
+      "Historical logs were path-redacted in the export. Matching export hashes establish integrity of these records, not independent truth of their provenance.",
+      "A historical/current comparison does not establish the first fixing commit."
+    ]
+  },
+  "change_basis": {
+    "description": "PR 6582 changes ParserCreate encoding and namespace_separator from OptionalArg<PyStrRef> to Option<PyStrRef>, allowing explicit None. PR 8741 supplies native ElementTree/pyexpat integration. The current ParserCreateArgs encoding is Option<PyStrRef>; current code still says explicit encoding is unused and xml-rs handles the declaration.",
+    "related_commits": [
+      {
+        "pr": 6582,
+        "commit": "f91ffe34d45ec744cd0d6e00703ed3eb19db0c22",
+        "subject": "Fix pyexpat parse (#6582)",
+        "ancestor_check_exit": 0,
+        "stderr": "",
+        "first_fix_established": false
+      },
+      {
+        "pr": 8741,
+        "commit": "358f6a875afa154f9eb04411c0bc8288b2f1082a",
+        "subject": "native _json, _pickle, pyexpat, and _elementtree (#8741)",
+        "ancestor_check_exit": 0,
+        "stderr": "",
+        "first_fix_established": false
+      }
+    ],
+    "first_fix_established": false,
+    "source_identity": "<initial16-audit>/agent-a/source-identity.json"
+  },
+  "limits": [
+    "Original valid-XML TypeError only: closure does not certify all XML behavior.",
+    "Fresh unresolved adjacent difference: mismatched closing tags '<a></b>' are accepted; see 3430-boundaries-{rp,cp}.stdout.",
+    "Explicit non-None ParserCreate encoding handling is not established by these probes."
+  ],
+  "boundary_summary": "Valid XML observations match CPython. A distinct malformed input etree.XML('<a></b>') is accepted by RustPython whereas CPython raises ParseError. This prevents any claim of complete ElementTree/expat compatibility but does not reproduce the reported valid-XML TypeError.",
+  "environment": {
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "lib_tree": "2f62efb194a326f4abef6d2a61b0c5babc09e96b",
+    "rustpython_binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+    "cpython_binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+    "cpython_version": "3.14.6",
+    "identity_files": [
+      "<initial16-audit>/agent-a/identity-rp.stdout",
+      "<initial16-audit>/agent-a/identity-cp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-rp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-cp.stdout"
+    ]
+  }
+}

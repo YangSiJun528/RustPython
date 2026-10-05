@@ -1,0 +1,322 @@
+{
+  "issue": 5699,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "원문의 네 blocker를 실제 실행하고 stdlib traceback class-pattern/builtins suggestion/stdlib import hint/ExceptionGroup/color 경로까지 통과했다. 별도 기본 uncaught 예외 네 종류도 양쪽 stderr가 바이트 단위로 일치한다.",
+  "original_scope": "Four unchecked items: class-pattern codegen, frame.f_builtins, sys.stdlib_module_names, except* codegen. No original snippet/package/platform or comments. Verify execution and actual colored traceback paths, not mere import or attribute presence.",
+  "fresh_evidence": {
+    "description": "Positional/keyword class matching, default/custom frame builtins dictionary, stdlib names type/membership, ExceptionGroup split into two except* handlers. Actual AST caret anchors and four colorize=True/False API cases pass with equal stdout. Four forced-color uncaught stderr pairs exactly match; their exit1 is intentional.",
+    "runs": [
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-blockers-rustpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-blockers-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-blockers-rustpython.stderr.txt",
+        "command": [
+          "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-blockers.py"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+        },
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-blockers-cpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-blockers-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-blockers-cpython.stderr.txt",
+        "command": [
+          "<home>/.local/bin/python3",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-blockers.py"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-blockers-cpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-blockers-cpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-blockers-cpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-blockers-cpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-blockers-cpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8"
+        },
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-uncaught-builtin-rustpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-uncaught-builtin-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-uncaught-builtin-rustpython.stderr.txt",
+        "command": [
+          "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+          "builtin"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+          "PYTHON_COLORS": "1",
+          "FORCE_COLOR": "1"
+        },
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-uncaught-stdlib-rustpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-uncaught-stdlib-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-uncaught-stdlib-rustpython.stderr.txt",
+        "command": [
+          "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+          "stdlib"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+          "PYTHON_COLORS": "1",
+          "FORCE_COLOR": "1"
+        },
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-uncaught-zero-rustpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-uncaught-zero-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-uncaught-zero-rustpython.stderr.txt",
+        "command": [
+          "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+          "zero"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+          "PYTHON_COLORS": "1",
+          "FORCE_COLOR": "1"
+        },
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-uncaught-group-rustpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-uncaught-group-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-uncaught-group-rustpython.stderr.txt",
+        "command": [
+          "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+          "group"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+          "PYTHON_COLORS": "1",
+          "FORCE_COLOR": "1"
+        },
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-uncaught-builtin-cpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-uncaught-builtin-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-uncaught-builtin-cpython.stderr.txt",
+        "command": [
+          "<home>/.local/bin/python3",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+          "builtin"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "PYTHON_COLORS": "1",
+          "FORCE_COLOR": "1"
+        },
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-uncaught-stdlib-cpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-uncaught-stdlib-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-uncaught-stdlib-cpython.stderr.txt",
+        "command": [
+          "<home>/.local/bin/python3",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+          "stdlib"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "PYTHON_COLORS": "1",
+          "FORCE_COLOR": "1"
+        },
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-uncaught-zero-cpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-uncaught-zero-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-uncaught-zero-cpython.stderr.txt",
+        "command": [
+          "<home>/.local/bin/python3",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+          "zero"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "PYTHON_COLORS": "1",
+          "FORCE_COLOR": "1"
+        },
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/5699-uncaught-group-cpython.json",
+        "stdout": "<additional11-audit>/agent-b/5699-uncaught-group-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/5699-uncaught-group-cpython.stderr.txt",
+        "command": [
+          "<home>/.local/bin/python3",
+          "-B",
+          "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+          "group"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "PYTHON_COLORS": "1",
+          "FORCE_COLOR": "1"
+        },
+        "exit_code": 1,
+        "timeout": false
+      }
+    ],
+    "identity": "<additional11-audit>/agent-b/fresh-file-provenance.json",
+    "runtime_identity": [
+      "<additional11-audit>/agent-b/provenance-rustpython.stdout.txt",
+      "<additional11-audit>/agent-b/provenance-cpython.stdout.txt"
+    ],
+    "inputs": [
+      "<additional11-audit>/agent-b/probe-traceback-blockers.py",
+      "<additional11-audit>/agent-b/probe-traceback-uncaught.py"
+    ],
+    "comparison": "<additional11-audit>/agent-b/fresh-evidence-summary.json"
+  },
+  "old_evidence": {
+    "reused": true,
+    "fresh_historical_execution": false,
+    "source": "<additional11-audit>/agent-b/reused-historical-summary.json",
+    "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+    "baseline_role": "issue-time approximation",
+    "description": "Existing ledger records positional MatchClass unpack failure, missing frame.f_builtins, missing sys.stdlib_module_names and except* not-implemented SyntaxError for derived representative probes. Not freshly executed."
+  },
+  "change_basis": [
+    {
+      "pr": "https://github.com/RustPython/RustPython/pull/6110",
+      "baseline_ancestor_commit": "50c557419e9d7066af7bdb5f3d29280587103a1e",
+      "mechanism": "MatchClass consumes positional count, __match_args__, and extracts requested attributes.",
+      "first_fix_verified": false
+    },
+    {
+      "pr": "https://github.com/RustPython/RustPython/pull/6568",
+      "baseline_ancestor_commit": "feb5066be2d4854ef0d49b8a725093743598d54d",
+      "mechanism": "Adds both sys.stdlib_module_names and frame.f_builtins.",
+      "first_fix_verified": false
+    },
+    {
+      "pr": "https://github.com/RustPython/RustPython/pull/6530",
+      "baseline_ancestor_commit": "4a6e8fb29edfe09827e529aca2d1ac4c1b1c51d7",
+      "mechanism": "Replaces except* compiler stub and adds exception-group matching/dispatch handling.",
+      "first_fix_verified": false
+    }
+  ],
+  "limits": [
+    "Current B RustPython is macOS 26.5.2 x86_64/Rosetta; CPython 3.14.6 is arm64. No Linux or Windows reproduction.",
+    "No historical interpreter or PR parent/commit boundary was executed in this run; first fixing commit remains unverified.",
+    "Verification only: no source/test edits, installation, rebuild, remote writes, or issue state changes.",
+    "Closure refers to the four blockers and exercised actual traceback paths, not all match/except* edge cases, every stdlib name, all traceback tests or all terminal types."
+  ],
+  "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+  "original_scope_notes": "<additional11-audit>/agent-b/original-scope.md",
+  "fresh_original_sources": [
+    "<additional11-audit>/agent-b/fresh-github-5699.json",
+    "<additional11-audit>/agent-b/fresh-github-5699-comments.json"
+  ],
+  "agent": "agent-b"
+}

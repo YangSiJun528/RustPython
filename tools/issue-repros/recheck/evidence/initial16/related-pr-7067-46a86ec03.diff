@@ -1,0 +1,11 @@
+commit 46a86ec03663f060d1013dda83ab7964a6615059
+Merge: 344eb92d1 25f545f05
+Author:     Jeong, YunWon <69878+youknowone@users.noreply.github.com>
+AuthorDate: Wed Feb 11 17:49:59 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Wed Feb 11 17:49:59 2026 +0900
+
+    Merge pull request #7067 from youknowone/doctest
+    
+    Update doctest,test_generators from v3.14.2 and fix generator bugs
+

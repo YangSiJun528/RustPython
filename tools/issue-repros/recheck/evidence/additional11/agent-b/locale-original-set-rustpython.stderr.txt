@@ -1,0 +1,8 @@
+test_locale (test.test_format.FormatTest.test_locale) ... ok
+test_int__format__locale (test.test_types.TypesTests.test_int__format__locale) ... ok
+test_float__format__locale (test.test_types.TypesTests.test_float__format__locale) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+OK

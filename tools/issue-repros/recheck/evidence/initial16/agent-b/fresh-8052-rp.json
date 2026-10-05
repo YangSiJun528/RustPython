@@ -1,0 +1,21 @@
+{
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "-S",
+    "<initial16-audit>/agent-b/probe-8052.py"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "start": 1791191039.947176,
+  "binary_sha256": "d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791191040.170207,
+  "stdout": "ellipsis\n<class 'ellipsis'>\nalias True\nnotes ['when serializing ellipsis object', 'when serializing list item 0', 'when serializing module object', 'when serializing type object']\n",
+  "stderr": ""
+}

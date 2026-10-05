@@ -1,0 +1,19 @@
+{
+  "versions": [
+    "1.11.1",
+    "1.2.1"
+  ],
+  "files": [
+    "<survey>/verification-tools/package-history-4506-original/site/sympy/__init__.py",
+    "<survey>/verification-tools/package-history-4506-original/site/mpmath/__init__.py"
+  ],
+  "original_assignment": [
+    [
+      "__new__",
+      378
+    ]
+  ],
+  "pow": "1/E",
+  "is_commutative": true,
+  "expanded": "x**2 + 2*x + 1"
+}

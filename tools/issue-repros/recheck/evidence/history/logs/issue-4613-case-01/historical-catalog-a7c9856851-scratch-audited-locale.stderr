@@ -1,0 +1,53 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+test_float__format__locale (test.test_types.TypesTests.test_float__format__locale) ... ERROR
+test_int__format__locale (test.test_types.TypesTests.test_int__format__locale) ... FAIL
+
+======================================================================
+ERROR: test_float__format__locale (test.test_types.TypesTests.test_float__format__locale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<workspace>/pylib/Lib/contextlib.py", line 73, in inner
+    with self._recreate_cm():
+  File "<workspace>/pylib/Lib/contextlib.py", line 130, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "<workspace>/pylib/Lib/test/support/__init__.py", line 829, in run_with_locale
+    locale.setlocale(category, orig_locale)
+  File "<workspace>/pylib/Lib/test/support/__init__.py", line 826, in run_with_locale
+    yield
+  File "<workspace>/pylib/Lib/contextlib.py", line 74, in inner
+    return func(*args, **kwds)
+  File "<workspace>/pylib/Lib/test/test_types.py", line 403, in test_float__format__locale
+    self.assertEqual(locale.format_string('%g', x, grouping=True), format(x, 'n'))
+ValueError: Format code 'n' for object of type 'float' not implemented yet
+
+======================================================================
+FAIL: test_int__format__locale (test.test_types.TypesTests.test_int__format__locale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<workspace>/pylib/Lib/contextlib.py", line 73, in inner
+    with self._recreate_cm():
+  File "<workspace>/pylib/Lib/contextlib.py", line 130, in __exit__
+    self.gen.throw(type, value, traceback)
+  File "<workspace>/pylib/Lib/test/support/__init__.py", line 829, in run_with_locale
+    locale.setlocale(category, orig_locale)
+  File "<workspace>/pylib/Lib/test/support/__init__.py", line 826, in run_with_locale
+    yield
+  File "<workspace>/pylib/Lib/contextlib.py", line 74, in inner
+    return func(*args, **kwds)
+  File "<workspace>/pylib/Lib/test/test_types.py", line 413, in test_int__format__locale
+    self.assertEqual(locale.format_string('%d', x, grouping=True), format(x, 'n'))
+AssertionError: '123,456,789,012,345,678,901,234,567,890' != '123456789012345678901234567890'
+- 123,456,789,012,345,678,901,234,567,890
+?    -   -   -   -   -   -   -   -   -
++ 123456789012345678901234567890
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.005s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,39 @@
+{
+  "Lib": {
+    "tracked_count": 2324,
+    "sha256_name_nul_content": "597caaccaf15c9c71cf819e005aebe6c47a8a86eb8df1644a070e01b234fa055",
+    "git_tree": "2f62efb194a326f4abef6d2a61b0c5babc09e96b",
+    "git_diff": ""
+  },
+  "crates/vm/src/stdlib/_sysconfig.rs": {
+    "sha256": "4ba77db2f66f960bfbc3d0b33fc0bddfba22b804df1618ca1d7ecb109f8d6497",
+    "blob": "2de27d71ac97b16dc8d987da053d8ab3bbe1b570"
+  },
+  "crates/vm/src/stdlib/_sysconfigdata.rs": {
+    "sha256": "857ddbd7aa37263c6068e1c4f9dde44a4ee726d6a3d8d342f1ee9766c19b1133",
+    "blob": "dd77caff255ec9b9184487e78f94ad8793f342e0"
+  },
+  "crates/vm/src/builtins/slice.rs": {
+    "sha256": "20038109ab63eca55c543539f0a216f19fdd24537901eb1950fa3eebf42c8a0c",
+    "blob": "8cc53fd16c10f0bc2941437e518ca24d1539f952"
+  },
+  "crates/stdlib/src/lzma.rs": {
+    "sha256": "6e1c8fd67f43af24859527fc97dbb7813c1c66dd081b312605689230024b9cce",
+    "blob": "1e539c821d520c80284bbf0163ecc92bc5fc6de8"
+  },
+  "README.md": {
+    "sha256": "f2c2d8763b1a5689a33f82dd28184d7207845292a30b09be06132a35c14337bc",
+    "blob": "1fc891b790190d730d9b9b21d1d266b6d5de169e"
+  },
+  "cpython": {
+    "args": [
+      "python3",
+      "-B",
+      "-c",
+      "import sys; print(sys.executable); print(sys.version); print(sys.implementation); print(sys.path)"
+    ],
+    "returncode": 0,
+    "stdout": "<home>/.local/bin/python3\n3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]\nnamespace(name='cpython', cache_tag='cpython-314', version=sys.version_info(major=3, minor=14, micro=6, releaselevel='final', serial=0), hexversion=51250928, _multiarch='darwin', supports_isolated_interpreters=True)\n['', '<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip', '<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14', '<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/lib-dynload', '<home>/.local/lib/python3.14/site-packages', '<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/site-packages']\n",
+    "stderr": ""
+  }
+}

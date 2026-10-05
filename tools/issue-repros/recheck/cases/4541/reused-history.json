@@ -1,0 +1,265 @@
+{
+  "number": 4541,
+  "title": "sys.safe_path with Command line parameter -P and environment variable `PYTHONSAFEPATH`",
+  "historical_cases": [
+    {
+      "case_id": "issue-4541-case-01",
+      "historical": {
+        "case_id": "issue-4541-case-01",
+        "issue_number": 4541,
+        "runs": [
+          {
+            "kind": "historical_command",
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "-P",
+              "<survey>/verification-tools/derived-main/issue-4541-case-01.py"
+            ],
+            "cwd": "<workspace>",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "unset_environment": [],
+            "exit_code": 1,
+            "timeout": false,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.01095054199686274,
+            "actual_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+            "binary_sha256": "1dbcf35b227d6be72ddd677cdb5b69f0cb4e874e02405fdc7a0785d44a4bd508",
+            "build_provenance": "logs/build-a-746cb049-partition-rust1671-banner-repair/provenance.json",
+            "code_input_path": "verification-tools/derived-main/issue-4541-case-01.py",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout",
+            "stderr_path": "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr",
+            "derivation": "Replay exact existing current command arguments/cwd/environment; replace interpreter with provenance-bound historical binary and stdlib path with historical Lib.",
+            "code_sha256": "1ac00d4c8b7d69e7836c2baf852ac26a7a457cbd7be87f68a8f5e30924574ade"
+          },
+          {
+            "kind": "historical_command",
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/verification-tools/derived-main/issue-4541-case-01.py"
+            ],
+            "cwd": "<workspace>",
+            "env": {
+              "PYTHONSAFEPATH": "unset",
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "unset_environment": [
+              "PYTHONSAFEPATH"
+            ],
+            "exit_code": 1,
+            "timeout": false,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.03901841599144973,
+            "actual_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+            "binary_sha256": "1dbcf35b227d6be72ddd677cdb5b69f0cb4e874e02405fdc7a0785d44a4bd508",
+            "build_provenance": "logs/build-a-746cb049-partition-rust1671-banner-repair/provenance.json",
+            "code_input_path": null,
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout",
+            "stderr_path": "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr",
+            "derivation": "Replay exact existing current command arguments/cwd/environment; replace interpreter with provenance-bound historical binary and stdlib path with historical Lib."
+          }
+        ],
+        "evidence": [
+          "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr"
+        ],
+        "historical_status": "executed_awaiting_symptom_analysis",
+        "historical_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+        "baseline_role": "required_issue_time_approximation",
+        "baseline_selection": "No case-specific executed SHA or unambiguous release; closest first-parent before issue creation per user section8.",
+        "build_provenance": {
+          "actual_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+          "worktree": "<workspace>",
+          "command": [
+            "cargo",
+            "+1.67.1",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "cargo_lock_sha256": "03f7912a6f53b6fe908c1d9cd82c517e7ae9429e29b6e59d9b57abfb3ed70c00",
+          "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T10:55:31.172177+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-a-746cb049-partition-rust1671-banner-repair/build.stdout",
+            "logs/build-a-746cb049-partition-rust1671-banner-repair/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T10:56:06.577806+00:00",
+          "binary": "<survey>/.build/slot-a/release/rustpython",
+          "binary_sha256": "1dbcf35b227d6be72ddd677cdb5b69f0cb4e874e02405fdc7a0785d44a4bd508",
+          "binary_size": 19737560,
+          "version_banner": "3.10.0alpha (tags/v0.2.0-174-g746cb0493:746cb0493, Feb 22 2023, 00:03:43) \n[rustc 1.67.1]\n",
+          "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+        },
+        "historical_symptom_observed": "-P rejected by CLI parser forcase01; all probes without-P reach AttributeError sys.flags has no safe_path, including PYTHONSAFEPATH=1 and unsetcontrols. Original probe cannot inspect sys.path after that missingattribute; do not claim env path-insertion result.",
+        "evidence_ledger": "analysis/historical-results-a.json"
+      },
+      "adjudication": {
+        "case_id": "issue-4541-case-01",
+        "verdict": "해결 확인",
+        "reason": "근사 746cb049에서 -P가 미지원 옵션으로 거절됐고 현재는 같은 스크립트 실행에서 safe_path=True와 스크립트 경로 추가 억제를 확인했다. 과거 대조 입력은 safe_path 속성 부재에서 멈춰 과거 경로 값까지 비교한 것은 아니다.",
+        "scope": "Original -P CLI rejection is removed; current script-mode safe_path=True and path suppression observed against control.",
+        "historical_execution": true,
+        "historical_version_qualification": "No case-specific executed SHA or unambiguous release; closest first-parent before issue creation per user section8.",
+        "whole_issue_resolution_approved": false,
+        "review_required": false,
+        "independent_review": "review/eighth-review.json",
+        "cause_analysis": "analysis/round8-cause-evidence.json",
+        "review_restrictions": [
+          "Old path insertion cannot be compared because control stops at missing attribute; primary matched defect is flag rejection.",
+          "Only script-mode behavior tested; not every startup mode or PYTHONSAFEPATH case02 historical behavior.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+        ],
+        "cause_reviews": [
+          {
+            "pr_url": "https://github.com/RustPython/RustPython/pull/4611",
+            "commit": "d4be55c2ea02b67d92c04b3e9f682d465acd59b3",
+            "integration_commit": null,
+            "approved_label": "high_relevance",
+            "scope": "PR4611 registers -P, reads the presence of PYTHONSAFEPATH unless environment is ignored, stores settings.safe_path, and exports it via sys.flags.safe_path. This directly fits the reproduced -P parser rejection becoming accepted with True. The old environment-only probe never observes path handling, so no original env-path resolution claim follows.",
+            "boundary_execution_complete": false,
+            "source_diff": "analysis/causes/round8-safe_path_option-pr4611.diff.txt",
+            "source_hash": "940b6cf131d50c05f50606353f03b80a8679faaf66dcc8f656d1ed0dfe1b9cc7",
+            "limits": [
+              "Source correspondence and ancestry only; no first fixing boundary executed.",
+              "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+              "Apply all case-specific scope and environment limits from the adjudication proposal."
+            ]
+          },
+          {
+            "pr_url": "https://github.com/RustPython/RustPython/pull/5049",
+            "commit": "64c66e00d68c70fed261f8b46720438efda746b5",
+            "integration_commit": null,
+            "approved_label": "high_relevance",
+            "scope": "PR5049 starts guarding a startup sys.path insertion with !settings.safe_path. Later startup refactors and PR8605 implement the current mode-specific script-directory insertion. Source relevance supports the flag/path behavior, but no claim that the exact current script-mode path semantics were all first fixed by5049.",
+            "boundary_execution_complete": false,
+            "source_diff": "analysis/causes/round8-safe_path_insertion-pr5049.diff.txt",
+            "source_hash": "c5763423441fa711bcdc4e2aa1631a306df68d9de89d5b8a6d8b9da25599e04b",
+            "limits": [
+              "Source correspondence and ancestry only; no first fixing boundary executed.",
+              "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+              "Apply all case-specific scope and environment limits from the adjudication proposal."
+            ]
+          }
+        ],
+        "evidence": [
+          "logs/issue-4541-case-01/cpython-documented-008.stderr",
+          "logs/issue-4541-case-01/cpython-documented-008.stdout",
+          "logs/issue-4541-case-01/current-documented-008.stderr",
+          "logs/issue-4541-case-01/current-documented-008.stdout",
+          "logs/issue-4541-case-01/current-without-safe-path.stderr",
+          "logs/issue-4541-case-01/current-without-safe-path.stdout",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout",
+          "sources/issues/4541/body.md",
+          "verification-tools/derived-main/issue-4541-case-01.py",
+          "analysis/causes/round8-safe_path_option-pr4611.diff.txt",
+          "analysis/causes/round8-safe_path_insertion-pr5049.diff.txt",
+          "logs/build-a-746cb049-partition-rust1671-banner-repair/provenance.json",
+          "review/eighth-review.json",
+          "analysis/round8-adjudication-proposals.json",
+          "analysis/round8-cause-evidence.json"
+        ]
+      }
+    }
+  ],
+  "related_changes": [
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/4611",
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "commit": "d4be55c2ea02b67d92c04b3e9f682d465acd59b3",
+      "mechanism": "PR4611 registers -P, reads the presence of PYTHONSAFEPATH unless environment is ignored, stores settings.safe_path, and exports it via sys.flags.safe_path. This directly fits the reproduced -P parser rejection becoming accepted with True. The old environment-only probe never observes path handling, so no original env-path resolution claim follows.",
+      "boundary_execution_complete": false,
+      "review_status": "approved_high_relevance",
+      "source_diff_path": "analysis/causes/round8-safe_path_option-pr4611.diff.txt",
+      "source_diff_sha256": "940b6cf131d50c05f50606353f03b80a8679faaf66dcc8f656d1ed0dfe1b9cc7",
+      "source_evidence": "analysis/round8-cause-evidence.json",
+      "runtime_evidence": "analysis/round8-adjudication-proposals.json",
+      "limits": [
+        "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+        "Apply all case-specific scope and environment limits from the adjudication proposal."
+      ],
+      "reviewed_scope": "PR4611 registers -P, reads the presence of PYTHONSAFEPATH unless environment is ignored, stores settings.safe_path, and exports it via sys.flags.safe_path. This directly fits the reproduced -P parser rejection becoming accepted with True. The old environment-only probe never observes path handling, so no original env-path resolution claim follows.",
+      "independent_review": "review/eighth-review.json",
+      "review_restrictions": [
+        "Old path insertion cannot be compared because control stops at missing attribute; primary matched defect is flag rejection.",
+        "Only script-mode behavior tested; not every startup mode or PYTHONSAFEPATH case02 historical behavior.",
+        "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+        "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+      ],
+      "ancestry_check": {
+        "sha": "d4be55c2ea02b67d92c04b3e9f682d465acd59b3",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "verified_diff_sha256": "940b6cf131d50c05f50606353f03b80a8679faaf66dcc8f656d1ed0dfe1b9cc7"
+    },
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/5049",
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "commit": "64c66e00d68c70fed261f8b46720438efda746b5",
+      "mechanism": "PR5049 starts guarding a startup sys.path insertion with !settings.safe_path. Later startup refactors and PR8605 implement the current mode-specific script-directory insertion. Source relevance supports the flag/path behavior, but no claim that the exact current script-mode path semantics were all first fixed by5049.",
+      "boundary_execution_complete": false,
+      "review_status": "approved_high_relevance",
+      "source_diff_path": "analysis/causes/round8-safe_path_insertion-pr5049.diff.txt",
+      "source_diff_sha256": "c5763423441fa711bcdc4e2aa1631a306df68d9de89d5b8a6d8b9da25599e04b",
+      "source_evidence": "analysis/round8-cause-evidence.json",
+      "runtime_evidence": "analysis/round8-adjudication-proposals.json",
+      "limits": [
+        "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+        "Apply all case-specific scope and environment limits from the adjudication proposal."
+      ],
+      "reviewed_scope": "PR5049 starts guarding a startup sys.path insertion with !settings.safe_path. Later startup refactors and PR8605 implement the current mode-specific script-directory insertion. Source relevance supports the flag/path behavior, but no claim that the exact current script-mode path semantics were all first fixed by5049.",
+      "independent_review": "review/eighth-review.json",
+      "review_restrictions": [
+        "Old path insertion cannot be compared because control stops at missing attribute; primary matched defect is flag rejection.",
+        "Only script-mode behavior tested; not every startup mode or PYTHONSAFEPATH case02 historical behavior.",
+        "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+        "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+      ],
+      "ancestry_check": {
+        "sha": "64c66e00d68c70fed261f8b46720438efda746b5",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "verified_diff_sha256": "c5763423441fa711bcdc4e2aa1631a306df68d9de89d5b8a6d8b9da25599e04b"
+    }
+  ]
+}

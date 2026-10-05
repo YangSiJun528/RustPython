@@ -1,0 +1,10 @@
+{
+  "historical": {
+    "sha": "7a6000d181b7611c26f2d1353d0462d7bec26da6",
+    "method": "def test_locale(self):\n        try:\n            oldloc = locale.setlocale(locale.LC_ALL)\n            locale.setlocale(locale.LC_ALL, '')\n        except locale.Error as err:\n            self.skipTest(\"Cannot set locale: {}\".format(err))\n        try:\n            localeconv = locale.localeconv()\n            sep = localeconv['thousands_sep']\n            point = localeconv['decimal_point']\n            grouping = localeconv['grouping']\n\n            text = format(123456789, \"n\")\n            if grouping:\n                self.assertIn(sep, text)\n            self.assertEqual(text.replace(sep, ''), '123456789')\n\n            text = format(1234.5, \"n\")\n            if grouping:\n                self.assertIn(sep, text)\n            self.assertIn(point, text)\n            self.assertEqual(text.replace(sep, ''), '1234' + point + '5')\n        finally:\n            locale.setlocale(locale.LC_ALL, oldloc)"
+  },
+  "current": {
+    "sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "method": "def test_locale(self):\n        try:\n            oldloc = locale.setlocale(locale.LC_ALL)\n            locale.setlocale(locale.LC_ALL, '')\n        except locale.Error as err:\n            self.skipTest(\"Cannot set locale: {}\".format(err))\n        try:\n            localeconv = locale.localeconv()\n            sep = localeconv['thousands_sep']\n            point = localeconv['decimal_point']\n            grouping = localeconv['grouping']\n\n            text = format(123456789, \"n\")\n            if grouping:\n                self.assertIn(sep, text)\n            self.assertEqual(text.replace(sep, ''), '123456789')\n\n            text = format(1234.5, \"n\")\n            if grouping:\n                self.assertIn(sep, text)\n            self.assertIn(point, text)\n            self.assertEqual(text.replace(sep, ''), '1234' + point + '5')\n        finally:\n            locale.setlocale(locale.LC_ALL, oldloc)"
+  }
+}

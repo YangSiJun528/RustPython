@@ -1,0 +1,585 @@
+{
+  "number": 5699,
+  "title": "Blockers for full traceback support (with color)",
+  "historical_cases": [
+    {
+      "case_id": "issue-5699-case-01",
+      "historical": {
+        "case_id": "issue-5699-case-01",
+        "issue_number": 5699,
+        "evidence": [
+          "logs/issue-5699-case-01/historical-a7ad848270-01.stdout",
+          "logs/issue-5699-case-01/historical-a7ad848270-01.stderr"
+        ],
+        "historical_status": "reported_scoped_feature_failure_reproduced",
+        "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+        "reported_symptoms": [
+          "Match classes codegen failing"
+        ],
+        "expected_behavior": "Python traceback/color 경로가 해당 API·구문을 사용 가능",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-b/release/rustpython",
+              "<survey>/verification-tools/derived-main/issue-5699-case-01.py"
+            ],
+            "cwd": "<slot-b-source>",
+            "env": {
+              "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 4560,
+            "rss_guard": true,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.12487008300377056,
+            "code_input_path": "verification-tools/derived-main/issue-5699-case-01.py",
+            "code_sha256": "6114ad663e88d0d88a52f64a0474194eee7fcba4b14097827c2821355cad9f60",
+            "actual_sha": "a7ad84827023508684fd57de1f18781082b57060",
+            "binary_sha256": "9f45091416bcf007f628c82b019055d04cefb1e7ba7bca41cc07b861f5512132",
+            "build_provenance": "logs/build-b-a7ad8482/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-5699-case-01/historical-a7ad848270-01.stdout",
+            "stderr_path": "logs/issue-5699-case-01/historical-a7ad848270-01.stderr"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "a7ad84827023508684fd57de1f18781082b57060",
+          "worktree": "<slot-b-source>",
+          "command": [
+            "cargo",
+            "+1.96.1",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-b"
+          ],
+          "cargo_lock_sha256": "318e2f3b5515fe3efd808d3d89db373245011c23c062d201415d9830a5edef33",
+          "toolchain": "rustc 1.96.1 (31fca3adb 2026-06-26)\nbinary: rustc\ncommit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd\ncommit-date: 2026-06-26\nhost: aarch64-apple-darwin\nrelease: 1.96.1\nLLVM version: 22.1.2\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T09:29:17.319016+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-b-a7ad8482/build.stdout",
+            "logs/build-b-a7ad8482/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T09:30:07.414082+00:00",
+          "binary": "<survey>/.build/slot-b/release/rustpython",
+          "binary_sha256": "9f45091416bcf007f628c82b019055d04cefb1e7ba7bca41cc07b861f5512132",
+          "binary_size": 18239104,
+          "version_banner": "3.13.0alpha (tags/2025-04-14-main-25-1-ga7ad84827:a7ad84827, Apr 15 2025, 08:50:29) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+          "version_banner_stderr": "[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-b"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-b"
+        },
+        "baseline_role": "required_issue_time_approximation",
+        "baseline_selection": "Closest first-parent main before issue creation; original broad report lacks exact runnable originals, same explicitly derived representative current helper reused",
+        "scope_limitation": "Representative class-match, f_builtins, stdlib_module_names and except* probes only. Does not establish the full colored-traceback path or all compiler-feature cases.",
+        "evidence_ledger": "analysis/historical-results.json"
+      },
+      "adjudication": {
+        "case_id": "issue-5699-case-01",
+        "verdict": "해결 확인",
+        "reason": "동일한 대표 class pattern 입력이 과거 a7ad848에서 positional 값 unpack ValueError를 발생시켰고, 현재는 __match_args__에 따라 값 7을 capture하여 assertion을 통과한다. CPython 결과와 일치하며 독립 검사를 통과했다.",
+        "scope": "The derived positional class-pattern C(x), using __match_args__=(\"x\",), matches C(7), captures7 and passes its assertion.",
+        "whole_issue_resolution_approved": false,
+        "historical_execution": true,
+        "historical_version_qualification": "이슈 생성 직전 main의 근사치이며 보고자의 정확한 실행 SHA는 미상이다.",
+        "review_required": true,
+        "independent_review": "review/fifth-review.json",
+        "cause_analysis": "analysis/round5-new-case-adjudication.json",
+        "evidence": [
+          "analysis/round5-new-case-adjudication.json",
+          "review/fifth-review.json",
+          "logs/issue-5699-case-01/historical-a7ad848270-01.stdout",
+          "logs/issue-5699-case-01/historical-a7ad848270-01.stderr",
+          "logs/issue-5699-case-01/current-documented-003.stdout",
+          "logs/issue-5699-case-01/current-documented-003.stderr",
+          "logs/issue-5699-case-01/cpython-documented-003.stdout",
+          "logs/issue-5699-case-01/cpython-documented-003.stderr"
+        ],
+        "review_restrictions": [
+          "Native macOS arm64 evidence; historical rustc1.96.1 and current rustc1.99.0 builds differ.",
+          "Original report does not identify an exact executable revision; historical baseline is the required issue-time approximation.",
+          "No target, build, or reproducer execution was performed by cause analysis.",
+          "Derived representative helper, not an original full application or colored-traceback workflow. No whole-issue close proposal."
+        ]
+      }
+    },
+    {
+      "case_id": "issue-5699-case-02",
+      "historical": {
+        "case_id": "issue-5699-case-02",
+        "issue_number": 5699,
+        "evidence": [
+          "logs/issue-5699-case-02/historical-a7ad848270-01.stdout",
+          "logs/issue-5699-case-02/historical-a7ad848270-01.stderr"
+        ],
+        "historical_status": "reported_scoped_feature_failure_reproduced",
+        "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+        "reported_symptoms": [
+          "frame.f_builtins 누락 blocker"
+        ],
+        "expected_behavior": "Python traceback/color 경로가 해당 API·구문을 사용 가능",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-b/release/rustpython",
+              "<survey>/verification-tools/derived-main/issue-5699-case-02.py"
+            ],
+            "cwd": "<slot-b-source>",
+            "env": {
+              "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 4304,
+            "rss_guard": true,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.12506604100053664,
+            "code_input_path": "verification-tools/derived-main/issue-5699-case-02.py",
+            "code_sha256": "56f8421f866b2eb57a649ed943cd1ba2d16ba5ea56f66ca293b08f0e5c8605cf",
+            "actual_sha": "a7ad84827023508684fd57de1f18781082b57060",
+            "binary_sha256": "9f45091416bcf007f628c82b019055d04cefb1e7ba7bca41cc07b861f5512132",
+            "build_provenance": "logs/build-b-a7ad8482/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-5699-case-02/historical-a7ad848270-01.stdout",
+            "stderr_path": "logs/issue-5699-case-02/historical-a7ad848270-01.stderr"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "a7ad84827023508684fd57de1f18781082b57060",
+          "worktree": "<slot-b-source>",
+          "command": [
+            "cargo",
+            "+1.96.1",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-b"
+          ],
+          "cargo_lock_sha256": "318e2f3b5515fe3efd808d3d89db373245011c23c062d201415d9830a5edef33",
+          "toolchain": "rustc 1.96.1 (31fca3adb 2026-06-26)\nbinary: rustc\ncommit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd\ncommit-date: 2026-06-26\nhost: aarch64-apple-darwin\nrelease: 1.96.1\nLLVM version: 22.1.2\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T09:29:17.319016+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-b-a7ad8482/build.stdout",
+            "logs/build-b-a7ad8482/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T09:30:07.414082+00:00",
+          "binary": "<survey>/.build/slot-b/release/rustpython",
+          "binary_sha256": "9f45091416bcf007f628c82b019055d04cefb1e7ba7bca41cc07b861f5512132",
+          "binary_size": 18239104,
+          "version_banner": "3.13.0alpha (tags/2025-04-14-main-25-1-ga7ad84827:a7ad84827, Apr 15 2025, 08:50:29) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+          "version_banner_stderr": "[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-b"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-b"
+        },
+        "baseline_role": "required_issue_time_approximation",
+        "baseline_selection": "Closest first-parent main before issue creation; original broad report lacks exact runnable originals, same explicitly derived representative current helper reused",
+        "scope_limitation": "Representative class-match, f_builtins, stdlib_module_names and except* probes only. Does not establish the full colored-traceback path or all compiler-feature cases.",
+        "evidence_ledger": "analysis/historical-results.json"
+      },
+      "adjudication": {
+        "case_id": "issue-5699-case-02",
+        "verdict": "해결 확인",
+        "reason": "과거 a7ad848에서는 frame.f_builtins가 없어 AttributeError가 발생했다. 현재 동일 입력은 dict를 반환하고 그 len이 builtins.len과 동일함을 확인한다. CPython과 일치하며 독립 검사를 통과했다.",
+        "scope": "The derived frame probe exposes f_builtins as a dict and its len value is the current builtins.len object.",
+        "whole_issue_resolution_approved": false,
+        "historical_execution": true,
+        "historical_version_qualification": "이슈 생성 직전 main의 근사치이며 보고자의 정확한 실행 SHA는 미상이다.",
+        "review_required": true,
+        "independent_review": "review/fifth-review.json",
+        "cause_analysis": "analysis/round5-new-case-adjudication.json",
+        "evidence": [
+          "analysis/round5-new-case-adjudication.json",
+          "review/fifth-review.json",
+          "logs/issue-5699-case-02/historical-a7ad848270-01.stdout",
+          "logs/issue-5699-case-02/historical-a7ad848270-01.stderr",
+          "logs/issue-5699-case-02/current-documented-004.stdout",
+          "logs/issue-5699-case-02/current-documented-004.stderr",
+          "logs/issue-5699-case-02/cpython-documented-004.stdout",
+          "logs/issue-5699-case-02/cpython-documented-004.stderr"
+        ],
+        "review_restrictions": [
+          "Native macOS arm64 evidence; historical rustc1.96.1 and current rustc1.99.0 builds differ.",
+          "Original report does not identify an exact executable revision; historical baseline is the required issue-time approximation.",
+          "No target, build, or reproducer execution was performed by cause analysis.",
+          "Derived representative helper, not an original full application or colored-traceback workflow. No whole-issue close proposal."
+        ]
+      }
+    },
+    {
+      "case_id": "issue-5699-case-03",
+      "historical": {
+        "case_id": "issue-5699-case-03",
+        "issue_number": 5699,
+        "evidence": [
+          "logs/issue-5699-case-03/historical-a7ad848270-01.stdout",
+          "logs/issue-5699-case-03/historical-a7ad848270-01.stderr"
+        ],
+        "historical_status": "reported_scoped_feature_failure_reproduced",
+        "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+        "reported_symptoms": [
+          "sys.stdlib_module_names 누락 blocker"
+        ],
+        "expected_behavior": "Python traceback/color 경로가 해당 API·구문을 사용 가능",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-b/release/rustpython",
+              "<survey>/verification-tools/derived-main/issue-5699-case-03.py"
+            ],
+            "cwd": "<slot-b-source>",
+            "env": {
+              "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 3648,
+            "rss_guard": true,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.12513420901086647,
+            "code_input_path": "verification-tools/derived-main/issue-5699-case-03.py",
+            "code_sha256": "f75900b929619a27ce95f8ba28c2af6ac79b13515a642df409835e7a019ab7f6",
+            "actual_sha": "a7ad84827023508684fd57de1f18781082b57060",
+            "binary_sha256": "9f45091416bcf007f628c82b019055d04cefb1e7ba7bca41cc07b861f5512132",
+            "build_provenance": "logs/build-b-a7ad8482/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-5699-case-03/historical-a7ad848270-01.stdout",
+            "stderr_path": "logs/issue-5699-case-03/historical-a7ad848270-01.stderr"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "a7ad84827023508684fd57de1f18781082b57060",
+          "worktree": "<slot-b-source>",
+          "command": [
+            "cargo",
+            "+1.96.1",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-b"
+          ],
+          "cargo_lock_sha256": "318e2f3b5515fe3efd808d3d89db373245011c23c062d201415d9830a5edef33",
+          "toolchain": "rustc 1.96.1 (31fca3adb 2026-06-26)\nbinary: rustc\ncommit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd\ncommit-date: 2026-06-26\nhost: aarch64-apple-darwin\nrelease: 1.96.1\nLLVM version: 22.1.2\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T09:29:17.319016+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-b-a7ad8482/build.stdout",
+            "logs/build-b-a7ad8482/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T09:30:07.414082+00:00",
+          "binary": "<survey>/.build/slot-b/release/rustpython",
+          "binary_sha256": "9f45091416bcf007f628c82b019055d04cefb1e7ba7bca41cc07b861f5512132",
+          "binary_size": 18239104,
+          "version_banner": "3.13.0alpha (tags/2025-04-14-main-25-1-ga7ad84827:a7ad84827, Apr 15 2025, 08:50:29) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+          "version_banner_stderr": "[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-b"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-b"
+        },
+        "baseline_role": "required_issue_time_approximation",
+        "baseline_selection": "Closest first-parent main before issue creation; original broad report lacks exact runnable originals, same explicitly derived representative current helper reused",
+        "scope_limitation": "Representative class-match, f_builtins, stdlib_module_names and except* probes only. Does not establish the full colored-traceback path or all compiler-feature cases.",
+        "evidence_ledger": "analysis/historical-results.json"
+      },
+      "adjudication": {
+        "case_id": "issue-5699-case-03",
+        "verdict": "해결 확인",
+        "reason": "과거 a7ad848에서는 sys.stdlib_module_names가 없어 AttributeError가 발생했다. 현재 동일 입력은 frozenset과 대표 원소 sys·os의 포함을 확인하며 CPython과 일치한다. 전체 원소 목록의 완전성을 검증한 것은 아니다.",
+        "scope": "sys.stdlib_module_names exists as a frozenset containing sys and os in the derived probe; exhaustive membership is not checked.",
+        "whole_issue_resolution_approved": false,
+        "historical_execution": true,
+        "historical_version_qualification": "이슈 생성 직전 main의 근사치이며 보고자의 정확한 실행 SHA는 미상이다.",
+        "review_required": true,
+        "independent_review": "review/fifth-review.json",
+        "cause_analysis": "analysis/round5-new-case-adjudication.json",
+        "evidence": [
+          "analysis/round5-new-case-adjudication.json",
+          "review/fifth-review.json",
+          "logs/issue-5699-case-03/historical-a7ad848270-01.stdout",
+          "logs/issue-5699-case-03/historical-a7ad848270-01.stderr",
+          "logs/issue-5699-case-03/current-documented-005.stdout",
+          "logs/issue-5699-case-03/current-documented-005.stderr",
+          "logs/issue-5699-case-03/cpython-documented-005.stdout",
+          "logs/issue-5699-case-03/cpython-documented-005.stderr"
+        ],
+        "review_restrictions": [
+          "Native macOS arm64 evidence; historical rustc1.96.1 and current rustc1.99.0 builds differ.",
+          "Original report does not identify an exact executable revision; historical baseline is the required issue-time approximation.",
+          "No target, build, or reproducer execution was performed by cause analysis.",
+          "Derived representative helper, not an original full application or colored-traceback workflow. No whole-issue close proposal."
+        ]
+      }
+    },
+    {
+      "case_id": "issue-5699-case-04",
+      "historical": {
+        "case_id": "issue-5699-case-04",
+        "issue_number": 5699,
+        "evidence": [
+          "logs/issue-5699-case-04/historical-a7ad848270-01.stdout",
+          "logs/issue-5699-case-04/historical-a7ad848270-01.stderr"
+        ],
+        "historical_status": "reported_scoped_feature_failure_reproduced",
+        "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+        "reported_symptoms": [
+          "try-except with star codegen not implemented"
+        ],
+        "expected_behavior": "Python traceback/color 경로가 해당 API·구문을 사용 가능",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-b/release/rustpython",
+              "<survey>/verification-tools/derived-main/issue-5699-case-04.py"
+            ],
+            "cwd": "<slot-b-source>",
+            "env": {
+              "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 3600,
+            "rss_guard": true,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.12219958299829159,
+            "code_input_path": "verification-tools/derived-main/issue-5699-case-04.py",
+            "code_sha256": "270bf1d6a817d520f4107c66f214d032bcd83609f60de5d0c8e522ef144bbd3e",
+            "actual_sha": "a7ad84827023508684fd57de1f18781082b57060",
+            "binary_sha256": "9f45091416bcf007f628c82b019055d04cefb1e7ba7bca41cc07b861f5512132",
+            "build_provenance": "logs/build-b-a7ad8482/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-5699-case-04/historical-a7ad848270-01.stdout",
+            "stderr_path": "logs/issue-5699-case-04/historical-a7ad848270-01.stderr"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "a7ad84827023508684fd57de1f18781082b57060",
+          "worktree": "<slot-b-source>",
+          "command": [
+            "cargo",
+            "+1.96.1",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-b"
+          ],
+          "cargo_lock_sha256": "318e2f3b5515fe3efd808d3d89db373245011c23c062d201415d9830a5edef33",
+          "toolchain": "rustc 1.96.1 (31fca3adb 2026-06-26)\nbinary: rustc\ncommit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd\ncommit-date: 2026-06-26\nhost: aarch64-apple-darwin\nrelease: 1.96.1\nLLVM version: 22.1.2\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T09:29:17.319016+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-b-a7ad8482/build.stdout",
+            "logs/build-b-a7ad8482/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T09:30:07.414082+00:00",
+          "binary": "<survey>/.build/slot-b/release/rustpython",
+          "binary_sha256": "9f45091416bcf007f628c82b019055d04cefb1e7ba7bca41cc07b861f5512132",
+          "binary_size": 18239104,
+          "version_banner": "3.13.0alpha (tags/2025-04-14-main-25-1-ga7ad84827:a7ad84827, Apr 15 2025, 08:50:29) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+          "version_banner_stderr": "[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[2026-10-04T09:30:08Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-b"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-b"
+        },
+        "baseline_role": "required_issue_time_approximation",
+        "baseline_selection": "Closest first-parent main before issue creation; original broad report lacks exact runnable originals, same explicitly derived representative current helper reused",
+        "scope_limitation": "Representative class-match, f_builtins, stdlib_module_names and except* probes only. Does not establish the full colored-traceback path or all compiler-feature cases.",
+        "evidence_ledger": "analysis/historical-results.json"
+      },
+      "adjudication": {
+        "case_id": "issue-5699-case-04",
+        "verdict": "해결 확인",
+        "reason": "과거 a7ad848에서는 동일 except* 입력이 미구현 SyntaxError로 컴파일되지 않았다. 현재는 ExceptionGroup의 ValueError·TypeError를 각 handler로 나눠 각각 1개씩 처리하며 CPython과 일치한다. 대표 프로그램 범위의 해결이다.",
+        "scope": "The derived except* program compiles and divides its two-member ExceptionGroup into the ValueError and TypeError handlers, one exception each.",
+        "whole_issue_resolution_approved": false,
+        "historical_execution": true,
+        "historical_version_qualification": "이슈 생성 직전 main의 근사치이며 보고자의 정확한 실행 SHA는 미상이다.",
+        "review_required": true,
+        "independent_review": "review/fifth-review.json",
+        "cause_analysis": "analysis/round5-new-case-adjudication.json",
+        "evidence": [
+          "analysis/round5-new-case-adjudication.json",
+          "review/fifth-review.json",
+          "logs/issue-5699-case-04/historical-a7ad848270-01.stdout",
+          "logs/issue-5699-case-04/historical-a7ad848270-01.stderr",
+          "logs/issue-5699-case-04/current-documented-006.stdout",
+          "logs/issue-5699-case-04/current-documented-006.stderr",
+          "logs/issue-5699-case-04/cpython-documented-006.stdout",
+          "logs/issue-5699-case-04/cpython-documented-006.stderr"
+        ],
+        "review_restrictions": [
+          "Native macOS arm64 evidence; historical rustc1.96.1 and current rustc1.99.0 builds differ.",
+          "Original report does not identify an exact executable revision; historical baseline is the required issue-time approximation.",
+          "No target, build, or reproducer execution was performed by cause analysis.",
+          "Derived representative helper, not an original full application or colored-traceback workflow. No whole-issue close proposal."
+        ]
+      }
+    }
+  ],
+  "related_changes": [
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/6110",
+      "pr_number": 6110,
+      "reachable_commit": "50c557419e9d7066af7bdb5f3d29280587103a1e",
+      "parent": "c6d1a5784a623c256c854ffade900aa14b7faf77",
+      "ancestor_of_current": true,
+      "ancestor_of_required_historical": false,
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "mechanism": "MatchClass previously ignored its positional count and extracted only keyword attributes. With no keyword attributes it produced an empty tuple, matching the observed unpack failure. The change consumes nargs, reads __match_args__, validates the positional count, and extracts each requested subject attribute before the keyword attributes.",
+      "causal_scope": "The derived positional class-pattern C(x), using __match_args__=(\"x\",), matches C(7), captures7 and passes its assertion.",
+      "boundary_execution_complete": false,
+      "source_diff_path": "analysis/causes/round5-pr6110-50c557419e.diff",
+      "source_diff_sha256": "1e7ffc4682066ce92b7a74bcd2f7fae972679ffc79ba82caea704575dd2df517",
+      "review_status": "approved_high_relevance",
+      "limits": [
+        "Actual required-historical/current behavior and directly matching source change support high relevance. The PR parent/commit pair has not been executed; no confirmed causal-boundary claim."
+      ],
+      "pr_merge_commit": "1c992f84e53c7f1c52270d3c5ab52a8b2d1ea41a",
+      "pr_merge_git_title": "Merge pull request #6110 from youknowone/pattern-mapping",
+      "branch_commit_ancestor_of_PR_second_parent": true,
+      "independent_review": "review/fifth-review.json",
+      "verified_diff_sha256": "1e7ffc4682066ce92b7a74bcd2f7fae972679ffc79ba82caea704575dd2df517",
+      "ancestry_check": {
+        "sha": "50c557419e9d7066af7bdb5f3d29280587103a1e",
+        "exit_code": 0,
+        "stderr": ""
+      }
+    },
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/6568",
+      "pr_number": 6568,
+      "reachable_commit": "feb5066be2d4854ef0d49b8a725093743598d54d",
+      "parent": "45a1940fc6c98540411012bcea37388a1a8de882",
+      "ancestor_of_current": true,
+      "ancestor_of_required_historical": false,
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "mechanism": "Adds the Python f_builtins getset on Frame, returning the frame builtins dictionary. This directly supplies the missing attribute observed on the historical probe.",
+      "causal_scope": "The derived frame probe exposes f_builtins as a dict and its len value is the current builtins.len object.",
+      "boundary_execution_complete": false,
+      "source_diff_path": "analysis/causes/round5-pr6568-feb5066be2.diff",
+      "source_diff_sha256": "21c9d8e2296d3c2752ac82c59ddeda7c0d28f332558570c1df83f66591bae5af",
+      "review_status": "approved_high_relevance",
+      "limits": [
+        "Actual required-historical/current behavior and directly matching source change support high relevance. The PR parent/commit pair has not been executed; no confirmed causal-boundary claim."
+      ],
+      "independent_review": "review/fifth-review.json",
+      "verified_diff_sha256": "21c9d8e2296d3c2752ac82c59ddeda7c0d28f332558570c1df83f66591bae5af",
+      "ancestry_check": {
+        "sha": "feb5066be2d4854ef0d49b8a725093743598d54d",
+        "exit_code": 0,
+        "stderr": ""
+      }
+    },
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/6530",
+      "pr_number": 6530,
+      "reachable_commit": "4a6e8fb29edfe09827e529aca2d1ac4c1b1c51d7",
+      "parent": "57b4b4ae4520521971cadf705c2fa294e7189f72",
+      "ancestor_of_current": true,
+      "ancestor_of_required_historical": false,
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "mechanism": "Replaces the compile_try_star_statement NotImplementedYet stub with except-star compilation, adds CheckEgMatch dispatch and exception-group matching/reraising support. The removed compile-time stub directly matches the old unsupported-feature SyntaxError. Later except-star fixes also exist; this attribution is not proof that this first PR alone passes every current assertion.",
+      "causal_scope": "The derived except* program compiles and divides its two-member ExceptionGroup into the ValueError and TypeError handlers, one exception each.",
+      "boundary_execution_complete": false,
+      "source_diff_path": "analysis/causes/round5-pr6530-4a6e8fb29e.diff",
+      "source_diff_sha256": "2f6dc5ffdbd2f6f8f07d3df31d08fdb5a1117963223791a0aa137ba4b2b05ed7",
+      "review_status": "approved_high_relevance",
+      "limits": [
+        "Actual required-historical/current behavior and directly matching source change support high relevance. The PR parent/commit pair has not been executed; no confirmed causal-boundary claim."
+      ],
+      "independent_review": "review/fifth-review.json",
+      "verified_diff_sha256": "2f6dc5ffdbd2f6f8f07d3df31d08fdb5a1117963223791a0aa137ba4b2b05ed7",
+      "ancestry_check": {
+        "sha": "4a6e8fb29edfe09827e529aca2d1ac4c1b1c51d7",
+        "exit_code": 0,
+        "stderr": ""
+      }
+    }
+  ]
+}

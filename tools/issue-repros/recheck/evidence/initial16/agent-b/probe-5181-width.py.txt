@@ -1,0 +1,5 @@
+import locale
+for name in ['en_US.UTF-8','de_DE.UTF-8','hi_IN.UTF-8']:
+    locale.setlocale(locale.LC_ALL,name)
+    text=format(123456789,'015n')
+    print(name,repr(text),len(text))

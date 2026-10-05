@@ -1,0 +1,119 @@
+diff --git a/Lib/test/test_builtin.py b/Lib/test/test_builtin.py
+index a5306b71d..b957f79b8 100644
+--- a/Lib/test/test_builtin.py
++++ b/Lib/test/test_builtin.py
+@@ -2399,8 +2399,6 @@ def test_type_nokwargs(self):
+         with self.assertRaises(TypeError):
+             type('a', (), dict={})
+ 
+-    # TODO: RUSTPYTHON
+-    @unittest.expectedFailure
+     def test_type_name(self):
+         for name in 'A', '\xc4', '\U0001f40d', 'B.A', '42', '':
+             with self.subTest(name=name):
+@@ -2450,8 +2448,6 @@ def test_type_qualname(self):
+             A.__qualname__ = b'B'
+         self.assertEqual(A.__qualname__, 'D.E')
+ 
+-    # TODO: RUSTPYTHON
+-    @unittest.expectedFailure
+     def test_type_doc(self):
+         for doc in 'x', '\xc4', '\U0001f40d', 'x\x00y', b'x', 42, None:
+             A = type('A', (), {'__doc__': doc})
+diff --git a/crates/vm/src/builtins/str.rs b/crates/vm/src/builtins/str.rs
+index df65fd5a4..fa35c1725 100644
+--- a/crates/vm/src/builtins/str.rs
++++ b/crates/vm/src/builtins/str.rs
+@@ -441,7 +441,7 @@ impl PyStr {
+         self.data.as_str()
+     }
+ 
+-    fn ensure_valid_utf8(&self, vm: &VirtualMachine) -> PyResult<()> {
++    pub(crate) fn ensure_valid_utf8(&self, vm: &VirtualMachine) -> PyResult<()> {
+         if self.is_utf8() {
+             Ok(())
+         } else {
+@@ -1336,7 +1336,7 @@ impl PyStr {
+     }
+ 
+     #[pymethod]
+-    fn isidentifier(&self) -> bool {
++    pub fn isidentifier(&self) -> bool {
+         let Some(s) = self.to_str() else { return false };
+         let mut chars = s.chars();
+         let is_identifier_start = chars.next().is_some_and(|c| c == '_' || is_xid_start(c));
+diff --git a/crates/vm/src/builtins/type.rs b/crates/vm/src/builtins/type.rs
+index bc567cd09..de34678ae 100644
+--- a/crates/vm/src/builtins/type.rs
++++ b/crates/vm/src/builtins/type.rs
+@@ -1163,6 +1163,7 @@ impl PyType {
+         if name.as_bytes().contains(&0) {
+             return Err(vm.new_value_error("type name must not contain null characters"));
+         }
++        name.ensure_valid_utf8(vm)?;
+ 
+         // Use std::mem::replace to swap the new value in and get the old value out,
+         // then drop the old value after releasing the lock (similar to CPython's Py_SETREF)
+@@ -1254,6 +1255,7 @@ impl Constructor for PyType {
+         if name.as_bytes().contains(&0) {
+             return Err(vm.new_value_error("type name must not contain null characters"));
+         }
++        name.ensure_valid_utf8(vm)?;
+ 
+         let (metatype, base, bases, base_is_type) = if bases.is_empty() {
+             let base = vm.ctx.types.object_type.to_owned();
+@@ -1306,6 +1308,13 @@ impl Constructor for PyType {
+             });
+         let mut attributes = dict.to_attributes(vm);
+ 
++        // Check __doc__ for surrogates - raises UnicodeEncodeError during type creation
++        if let Some(doc) = attributes.get(identifier!(vm, __doc__))
++            && let Some(doc_str) = doc.downcast_ref::<PyStr>()
++        {
++            doc_str.ensure_valid_utf8(vm)?;
++        }
++
+         if let Some(f) = attributes.get_mut(identifier!(vm, __init_subclass__))
+             && f.class().is(vm.ctx.types.function_type)
+         {
+@@ -1340,6 +1349,13 @@ impl Constructor for PyType {
+ 
+         let (heaptype_slots, add_dict): (Option<PyRef<PyTuple<PyStrRef>>>, bool) =
+             if let Some(x) = attributes.get(identifier!(vm, __slots__)) {
++                // Check if __slots__ is bytes - not allowed
++                if x.class().is(vm.ctx.types.bytes_type) {
++                    return Err(vm.new_type_error(
++                        "__slots__ items must be strings, not 'bytes'".to_owned(),
++                    ));
++                }
++
+                 let slots = if x.class().is(vm.ctx.types.str_type) {
+                     let x = unsafe { x.downcast_unchecked_ref::<PyStr>() };
+                     PyTuple::new_ref_typed(vec![x.to_owned()], &vm.ctx)
+@@ -1348,6 +1364,12 @@ impl Constructor for PyType {
+                     let elements = {
+                         let mut elements = Vec::new();
+                         while let PyIterReturn::Return(element) = iter.next(vm)? {
++                            // Check if any slot item is bytes
++                            if element.class().is(vm.ctx.types.bytes_type) {
++                                return Err(vm.new_type_error(
++                                    "__slots__ items must be strings, not 'bytes'".to_owned(),
++                                ));
++                            }
+                             elements.push(element);
+                         }
+                         elements
+@@ -1356,6 +1378,13 @@ impl Constructor for PyType {
+                     tuple.try_into_typed(vm)?
+                 };
+ 
++                // Validate that all slots are valid identifiers
++                for slot in slots.iter() {
++                    if !slot.isidentifier() {
++                        return Err(vm.new_type_error("__slots__ must be identifiers".to_owned()));
++                    }
++                }
++
+                 // Check if __dict__ is in slots
+                 let dict_name = "__dict__";
+                 let has_dict = slots.iter().any(|s| s.as_str() == dict_name);

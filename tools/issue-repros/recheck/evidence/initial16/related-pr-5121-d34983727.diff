@@ -1,0 +1,36 @@
+commit d34983727548cb216060176d450c97dfcec147d3
+Author:     dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+AuthorDate: Tue Sep 29 11:45:48 2026 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Tue Sep 29 11:45:48 2026 +0900
+
+    build(deps): bump reviewdog/action-actionlint from 1.74.0 to 1.76.0 (#8889)
+    
+    Bumps [reviewdog/action-actionlint](https://github.com/reviewdog/action-actionlint) from 1.74.0 to 1.76.0.
+    - [Release notes](https://github.com/reviewdog/action-actionlint/releases)
+    - [Commits](https://github.com/reviewdog/action-actionlint/compare/8b682e1e7e512151d73a6b9449cbff173846226e...320fcdd9c860767cf17fab3b20e22e739d5d02b8)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: reviewdog/action-actionlint
+      dependency-version: 1.76.0
+      dependency-type: direct:production
+      update-type: version-update:semver-minor
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+    Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+diff --git a/.github/workflows/ci.yaml b/.github/workflows/ci.yaml
+index 22040327b..b2089e464 100644
+--- a/.github/workflows/ci.yaml
++++ b/.github/workflows/ci.yaml
+@@ -753,7 +753,7 @@ jobs:
+           components: rustfmt
+ 
+       - name: actionlint
+-        uses: reviewdog/action-actionlint@8b682e1e7e512151d73a6b9449cbff173846226e # v1.74.0
++        uses: reviewdog/action-actionlint@320fcdd9c860767cf17fab3b20e22e739d5d02b8 # v1.76.0
+ 
+       - name: zizmor
+         uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482 # v0.6.4

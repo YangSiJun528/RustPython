@@ -1,0 +1,843 @@
+commit 8ff3141f3f3622d2f4cfe944f44a2ad0ebf961c1
+Author:     Shahar Naveh <50263213+ShaharNaveh@users.noreply.github.com>
+AuthorDate: Sun May 17 18:23:06 2026 +0300
+Commit:     GitHub <noreply@github.com>
+CommitDate: Mon May 18 00:23:06 2026 +0900
+
+    Update `test/support` to 3.14.5 (#7896)
+    
+    * Update `test/support` to 3.14.5
+    
+    * Adjuat test markers
+    
+    * Add `test_set` to env polluting tests
+
+diff --git a/.github/workflows/ci.yaml b/.github/workflows/ci.yaml
+index c9dfb04bc..a163ee11c 100644
+--- a/.github/workflows/ci.yaml
++++ b/.github/workflows/ci.yaml
+@@ -290,18 +290,21 @@ jobs:
+         - os: macos-latest
+           extra_test_args:
+             - '-u all'
+-          env_polluting_tests: []
++          env_polluting_tests:
++            - test_set
+           skips: []
+           timeout: 50
+         - os: ubuntu-latest
+           extra_test_args:
+             - '-u all'
+-          env_polluting_tests: []
++          env_polluting_tests:
++            - test_set
+           skips: []
+           timeout: 60
+         - os: windows-2025
+           extra_test_args: [] # TODO: Enable '-u all'
+-          env_polluting_tests: []
++          env_polluting_tests:
++            - test_set
+           skips:
+             - test_rlcompleter
+             - test_pathlib # panic by surrogate chars
+diff --git a/Lib/test/seq_tests.py b/Lib/test/seq_tests.py
+index 7b2d6521b..e8834c2ba 100644
+--- a/Lib/test/seq_tests.py
++++ b/Lib/test/seq_tests.py
+@@ -439,7 +439,7 @@ def test_pickle(self):
+             self.assertEqual(lst2, lst)
+             self.assertNotEqual(id(lst2), id(lst))
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
++    @unittest.skip("TODO: RUSTPYTHON; hangs")
+     def test_free_after_iterating(self):
+         support.check_free_after_iterating(self, iter, self.type2test)
+         support.check_free_after_iterating(self, reversed, self.type2test)
+diff --git a/Lib/test/support/__init__.py b/Lib/test/support/__init__.py
+index 6b3f2c447..6635ec347 100644
+--- a/Lib/test/support/__init__.py
++++ b/Lib/test/support/__init__.py
+@@ -548,7 +548,6 @@ def requires_lzma(reason='requires lzma'):
+         import lzma
+     except ImportError:
+         lzma = None
+-    lzma = None # XXX: RUSTPYTHON; xz is not supported yet
+     return unittest.skipUnless(lzma, reason)
+ 
+ def requires_zstd(reason='requires zstd'):
+@@ -856,8 +855,6 @@ def gc_collect():
+     longer than expected.  This function tries its best to force all garbage
+     objects to disappear.
+     """
+-    return # TODO: RUSTPYTHON
+-
+     import gc
+     gc.collect()
+     gc.collect()
+@@ -865,13 +862,6 @@ def gc_collect():
+ 
+ @contextlib.contextmanager
+ def disable_gc():
+-    # TODO: RUSTPYTHON; GC is not supported yet
+-    try:
+-        yield
+-    finally:
+-        pass
+-    return
+-
+     import gc
+     have_gc = gc.isenabled()
+     gc.disable()
+@@ -2004,10 +1994,6 @@ def _check_tracemalloc():
+ 
+ 
+ def check_free_after_iterating(test, iter, cls, args=()):
+-    # TODO: RUSTPYTHON; GC is not supported yet
+-    test.assertTrue(False)
+-    return
+-
+     done = False
+     def wrapper():
+         class A(cls):
+@@ -3048,6 +3034,10 @@ def get_signal_name(exitcode):
+     except KeyError:
+         pass
+ 
++    # Format Windows exit status as hexadecimal
++    if 0xC0000000 <= exitcode:
++        return f"0x{exitcode:X}"
++
+     return None
+ 
+ class BrokenIter:
+diff --git a/Lib/test/support/_hypothesis_stubs/__init__.py b/Lib/test/support/_hypothesis_stubs/__init__.py
+index 9a57c3096..6ba5bb814 100644
+--- a/Lib/test/support/_hypothesis_stubs/__init__.py
++++ b/Lib/test/support/_hypothesis_stubs/__init__.py
+@@ -1,6 +1,6 @@
++from enum import Enum
+ import functools
+ import unittest
+-from enum import Enum
+ 
+ __all__ = [
+     "given",
+diff --git a/Lib/test/support/ast_helper.py b/Lib/test/support/ast_helper.py
+index 98eaf0b27..173d299af 100644
+--- a/Lib/test/support/ast_helper.py
++++ b/Lib/test/support/ast_helper.py
+@@ -1,6 +1,5 @@
+ import ast
+ 
+-
+ class ASTTestMixin:
+     """Test mixing to have basic assertions for AST nodes."""
+ 
+diff --git a/Lib/test/support/asyncore.py b/Lib/test/support/asyncore.py
+index 658c22fdc..870e42837 100644
+--- a/Lib/test/support/asyncore.py
++++ b/Lib/test/support/asyncore.py
+@@ -51,27 +51,17 @@
+ sophisticated high-performance network servers and clients a snap.
+ """
+ 
+-import os
+ import select
+ import socket
+ import sys
+ import time
+ import warnings
+-from errno import (
+-    EAGAIN,
+-    EALREADY,
+-    EBADF,
+-    ECONNABORTED,
+-    ECONNRESET,
+-    EINPROGRESS,
+-    EINVAL,
+-    EISCONN,
+-    ENOTCONN,
+-    EPIPE,
+-    ESHUTDOWN,
+-    EWOULDBLOCK,
+-    errorcode,
+-)
++
++import os
++from errno import EALREADY, EINPROGRESS, EWOULDBLOCK, ECONNRESET, EINVAL, \
++     ENOTCONN, ESHUTDOWN, EISCONN, EBADF, ECONNABORTED, EPIPE, EAGAIN, \
++     errorcode
++
+ 
+ _DISCONNECTED = frozenset({ECONNRESET, ENOTCONN, ESHUTDOWN, ECONNABORTED, EPIPE,
+                            EBADF})
+diff --git a/Lib/test/support/bytecode_helper.py b/Lib/test/support/bytecode_helper.py
+index 4a3c8c2c4..f6426c3e2 100644
+--- a/Lib/test/support/bytecode_helper.py
++++ b/Lib/test/support/bytecode_helper.py
+@@ -1,10 +1,9 @@
+ """bytecode_helper - support tools for testing correct bytecode generation"""
+ 
++import unittest
+ import dis
+ import io
+ import opcode
+-import unittest
+-
+ try:
+     import _testinternalcapi
+ except ImportError:
+diff --git a/Lib/test/support/channels.py b/Lib/test/support/channels.py
+index 3f7b46030..5352f7d4d 100644
+--- a/Lib/test/support/channels.py
++++ b/Lib/test/support/channels.py
+@@ -1,23 +1,19 @@
+ """Cross-interpreter Channels High Level Module."""
+ 
+ import time
+-from concurrent.interpreters import _crossinterp
+-from concurrent.interpreters._crossinterp import (
+-    UNBOUND_ERROR,
+-    UNBOUND_REMOVE,
+-)
+-
+ import _interpchannels as _channels
++from concurrent.interpreters import _crossinterp
+ 
+ # aliases:
+ from _interpchannels import (
+-    ChannelClosedError,
+-    ChannelEmptyError,
+-    ChannelError,
+-    ChannelNotEmptyError,
+-    ChannelNotFoundError,
++    ChannelError, ChannelNotFoundError, ChannelClosedError,
++    ChannelEmptyError, ChannelNotEmptyError,
++)
++from concurrent.interpreters._crossinterp import (
++    UNBOUND_ERROR, UNBOUND_REMOVE,
+ )
+ 
++
+ __all__ = [
+     'UNBOUND', 'UNBOUND_ERROR', 'UNBOUND_REMOVE',
+     'create', 'list_all',
+diff --git a/Lib/test/support/hashlib_helper.py b/Lib/test/support/hashlib_helper.py
+index 75dc2ba75..7032257b0 100644
+--- a/Lib/test/support/hashlib_helper.py
++++ b/Lib/test/support/hashlib_helper.py
+@@ -2,7 +2,6 @@
+ import hashlib
+ import importlib
+ import unittest
+-
+ from test.support.import_helper import import_module
+ 
+ try:
+diff --git a/Lib/test/support/hypothesis_helper.py b/Lib/test/support/hypothesis_helper.py
+index 6e9e168f6..a99a4963f 100644
+--- a/Lib/test/support/hypothesis_helper.py
++++ b/Lib/test/support/hypothesis_helper.py
+@@ -7,10 +7,9 @@
+ else:
+     # Regrtest changes to use a tempdir as the working directory, so we have
+     # to tell Hypothesis to use the original in order to persist the database.
+-    from hypothesis.configuration import set_hypothesis_home_dir
+-
+     from test.support import has_socket_support
+     from test.support.os_helper import SAVEDCWD
++    from hypothesis.configuration import set_hypothesis_home_dir
+ 
+     set_hypothesis_home_dir(os.path.join(SAVEDCWD, ".hypothesis"))
+ 
+diff --git a/Lib/test/support/i18n_helper.py b/Lib/test/support/i18n_helper.py
+index af97cdc9c..2e304f29e 100644
+--- a/Lib/test/support/i18n_helper.py
++++ b/Lib/test/support/i18n_helper.py
+@@ -3,10 +3,10 @@
+ import sys
+ import unittest
+ from pathlib import Path
+-
+ from test.support import REPO_ROOT, TEST_HOME_DIR, requires_subprocess
+ from test.test_tools import skip_if_missing
+ 
++
+ pygettext = Path(REPO_ROOT) / 'Tools' / 'i18n' / 'pygettext.py'
+ 
+ msgid_pattern = re.compile(r'msgid(.*?)(?:msgid_plural|msgctxt|msgstr)',
+diff --git a/Lib/test/support/logging_helper.py b/Lib/test/support/logging_helper.py
+index db556c7f5..12fcca4f0 100644
+--- a/Lib/test/support/logging_helper.py
++++ b/Lib/test/support/logging_helper.py
+@@ -1,6 +1,5 @@
+ import logging.handlers
+ 
+-
+ class TestHandler(logging.handlers.BufferingHandler):
+     def __init__(self, matcher):
+         # BufferingHandler takes a "capacity" argument
+diff --git a/Lib/test/support/os_helper.py b/Lib/test/support/os_helper.py
+index d3d6fa632..2c45fe236 100644
+--- a/Lib/test/support/os_helper.py
++++ b/Lib/test/support/os_helper.py
+@@ -13,6 +13,7 @@
+ 
+ from test import support
+ 
++
+ # Filename used for testing
+ TESTFN_ASCII = '@test'
+ 
+diff --git a/Lib/test/support/pty_helper.py b/Lib/test/support/pty_helper.py
+index 7e1ae9e59..dbe7fa429 100644
+--- a/Lib/test/support/pty_helper.py
++++ b/Lib/test/support/pty_helper.py
+@@ -10,12 +10,19 @@
+ 
+ from test.support.import_helper import import_module
+ 
+-
+ def run_pty(script, input=b"dummy input\r", env=None):
+     pty = import_module('pty')
+     output = bytearray()
+     [master, slave] = pty.openpty()
+     args = (sys.executable, '-c', script)
++
++    # Isolate readline from personal init files by setting INPUTRC
++    # to an empty file. See also GH-142353.
++    if env is None:
++        env = {**os.environ.copy(), "INPUTRC": os.devnull}
++    else:
++        env.setdefault("INPUTRC", os.devnull)
++
+     proc = subprocess.Popen(args, stdin=slave, stdout=slave, stderr=slave, env=env)
+     os.close(slave)
+     with ExitStack() as cleanup:
+diff --git a/Lib/test/support/script_helper.py b/Lib/test/support/script_helper.py
+index a338f4844..46ce95043 100644
+--- a/Lib/test/support/script_helper.py
++++ b/Lib/test/support/script_helper.py
+@@ -3,16 +3,17 @@
+ 
+ import collections
+ import importlib
++import sys
+ import os
+ import os.path
+-import py_compile
+ import subprocess
+-import sys
+-from importlib.util import source_from_cache
++import py_compile
+ 
++from importlib.util import source_from_cache
+ from test import support
+ from test.support.import_helper import make_legacy_pyc
+ 
++
+ # Cached result of the expensive test performed in the function below.
+ __cached_interp_requires_environment = None
+ 
+diff --git a/Lib/test/support/smtpd.py b/Lib/test/support/smtpd.py
+index cf333aaf6..6537679db 100755
+--- a/Lib/test/support/smtpd.py
++++ b/Lib/test/support/smtpd.py
+@@ -70,17 +70,16 @@
+ # - Handle more ESMTP extensions
+ # - handle error codes from the backend smtpd
+ 
+-import collections
++import sys
++import os
+ import errno
+ import getopt
+-import os
+-import socket
+-import sys
+ import time
+-from email._header_value_parser import get_addr_spec, get_angle_addr
++import socket
++import collections
++from test.support import asyncore, asynchat
+ from warnings import warn
+-
+-from test.support import asynchat, asyncore
++from email._header_value_parser import get_addr_spec, get_angle_addr
+ 
+ __all__ = [
+     "SMTPChannel", "SMTPServer", "DebuggingServer", "PureProxy",
+diff --git a/Lib/test/support/socket_helper.py b/Lib/test/support/socket_helper.py
+index 655ffbea0..a41e487f3 100644
+--- a/Lib/test/support/socket_helper.py
++++ b/Lib/test/support/socket_helper.py
+@@ -2,8 +2,8 @@
+ import errno
+ import os.path
+ import socket
+-import subprocess
+ import sys
++import subprocess
+ import tempfile
+ import unittest
+ 
+diff --git a/Lib/test/support/strace_helper.py b/Lib/test/support/strace_helper.py
+index abc93dee2..cf95f7bdc 100644
+--- a/Lib/test/support/strace_helper.py
++++ b/Lib/test/support/strace_helper.py
+@@ -1,11 +1,10 @@
+-import os
+ import re
+ import sys
+ import textwrap
++import os
+ import unittest
+ from dataclasses import dataclass
+ from functools import cache
+-
+ from test import support
+ from test.support.script_helper import run_python_until_end
+ 
+diff --git a/Lib/test/support/threading_helper.py b/Lib/test/support/threading_helper.py
+index 9b2b8f2df..cf87233f0 100644
+--- a/Lib/test/support/threading_helper.py
++++ b/Lib/test/support/threading_helper.py
+@@ -8,6 +8,7 @@
+ 
+ from test import support
+ 
++
+ #=======================================================================
+ # Threading support to prevent reporting refleaks when running regrtest.py -R
+ 
+@@ -249,21 +250,32 @@ def requires_working_threading(*, module=False):
+         return unittest.skipUnless(can_start_thread, msg)
+ 
+ 
+-def run_concurrently(worker_func, nthreads, args=(), kwargs={}):
++def run_concurrently(worker_func, nthreads=None, args=(), kwargs={}):
+     """
+-    Run the worker function concurrently in multiple threads.
++    Run the worker function(s) concurrently in multiple threads.
++
++    If `worker_func` is a single callable, it is used for all threads.
++    If it is a list of callables, each callable is used for one thread.
+     """
++    from collections.abc import Iterable
++
++    if nthreads is None:
++        nthreads = len(worker_func)
++    if not isinstance(worker_func, Iterable):
++        worker_func = [worker_func] * nthreads
++    assert len(worker_func) == nthreads
++
+     barrier = threading.Barrier(nthreads)
+ 
+-    def wrapper_func(*args, **kwargs):
++    def wrapper_func(func, *args, **kwargs):
+         # Wait for all threads to reach this point before proceeding.
+         barrier.wait()
+-        worker_func(*args, **kwargs)
++        func(*args, **kwargs)
+ 
+     with catch_threading_exception() as cm:
+         workers = [
+-            threading.Thread(target=wrapper_func, args=args, kwargs=kwargs)
+-            for _ in range(nthreads)
++            threading.Thread(target=wrapper_func, args=(func, *args), kwargs=kwargs)
++            for func in worker_func
+         ]
+         with start_threads(workers):
+             pass
+diff --git a/Lib/test/support/venv.py b/Lib/test/support/venv.py
+index b60f6097e..757392b51 100644
+--- a/Lib/test/support/venv.py
++++ b/Lib/test/support/venv.py
+@@ -1,8 +1,8 @@
+ import contextlib
+ import logging
+ import os
+-import shlex
+ import subprocess
++import shlex
+ import sys
+ import sysconfig
+ import tempfile
+diff --git a/Lib/test/test_array.py b/Lib/test/test_array.py
+index db09e50e8..d300337b9 100644
+--- a/Lib/test/test_array.py
++++ b/Lib/test/test_array.py
+@@ -1200,7 +1200,7 @@ def test_obsolete_write_lock(self):
+         a = array.array('B', b"")
+         self.assertRaises(BufferError, _testcapi.getbuffer_with_null_view, a)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
++    @unittest.skip("TODO: RUSTPYTHON; hangs")
+     def test_free_after_iterating(self):
+         support.check_free_after_iterating(self, iter, array.array,
+                                            (self.typecode,))
+diff --git a/Lib/test/test_ast/test_ast.py b/Lib/test/test_ast/test_ast.py
+index 0578b755d..89db63460 100644
+--- a/Lib/test/test_ast/test_ast.py
++++ b/Lib/test/test_ast/test_ast.py
+@@ -114,7 +114,6 @@ def cleanup():
+         with self.assertRaisesRegex(AttributeError, msg):
+             ast.AST()
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: <test.test_ast.test_ast.AST_Tests.test_AST_garbage_collection.<locals>.X object at 0x7e85c3a80> is not None
+     def test_AST_garbage_collection(self):
+         class X:
+             pass
+diff --git a/Lib/test/test_asyncio/test_sslproto.py b/Lib/test/test_asyncio/test_sslproto.py
+index 7ab6e1511..3e304c166 100644
+--- a/Lib/test/test_asyncio/test_sslproto.py
++++ b/Lib/test/test_asyncio/test_sslproto.py
+@@ -282,7 +282,6 @@ def buffer_updated(self, nsize):
+             with self.assertRaisesRegex(RuntimeError, 'empty buffer'):
+                 protocols._feed_data_to_buffered_proto(proto, b'12345')
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; - gc.collect() doesn't release SSLContext properly
+     def test_start_tls_client_reg_proto_1(self):
+         HELLO_MSG = b'1' * self.PAYLOAD_SIZE
+ 
+@@ -349,7 +348,6 @@ async def client(addr):
+         support.gc_collect()
+         self.assertIsNone(client_context())
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; - gc.collect() doesn't release SSLContext properly
+     def test_create_connection_memory_leak(self):
+         HELLO_MSG = b'1' * self.PAYLOAD_SIZE
+ 
+@@ -668,7 +666,6 @@ async def main():
+ 
+         self.loop.run_until_complete(main())
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; - gc.collect() doesn't release SSLContext properly
+     def test_handshake_timeout(self):
+         # bpo-29970: Check that a connection is aborted if handshake is not
+         # completed in timeout period, instead of remaining open indefinitely
+diff --git a/Lib/test/test_asyncio/test_tasks.py b/Lib/test/test_asyncio/test_tasks.py
+index 8a291f1cb..9fbad3d0e 100644
+--- a/Lib/test/test_asyncio/test_tasks.py
++++ b/Lib/test/test_asyncio/test_tasks.py
+@@ -2989,10 +2989,6 @@ class PyTask_CFutureSubclass_Tests(BaseTaskTests, test_utils.TestCase):
+     all_tasks = staticmethod(tasks._py_all_tasks)
+     current_task = staticmethod(tasks._py_current_task)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; Actual: not called.
+-    def test_log_destroyed_pending_task(self):
+-        return super().test_log_destroyed_pending_task()
+-
+ 
+ @unittest.skipUnless(hasattr(tasks, '_CTask'),
+                      'requires the C _asyncio module')
+@@ -3008,7 +3004,6 @@ def test_log_destroyed_pending_task(self):
+         return super().test_log_destroyed_pending_task()
+ 
+ 
+-
+ @unittest.skipUnless(hasattr(futures, '_CFuture'),
+                      'requires the C _asyncio module')
+ class PyTask_CFuture_Tests(BaseTaskTests, test_utils.TestCase):
+@@ -3018,10 +3013,6 @@ class PyTask_CFuture_Tests(BaseTaskTests, test_utils.TestCase):
+     all_tasks = staticmethod(tasks._py_all_tasks)
+     current_task = staticmethod(tasks._py_current_task)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; Actual: not called.
+-    def test_log_destroyed_pending_task(self):
+-        return super().test_log_destroyed_pending_task()
+-
+ 
+ class PyTask_PyFuture_Tests(BaseTaskTests, SetMethodsTest,
+                             test_utils.TestCase):
+@@ -3031,10 +3022,6 @@ class PyTask_PyFuture_Tests(BaseTaskTests, SetMethodsTest,
+     all_tasks = staticmethod(tasks._py_all_tasks)
+     current_task = staticmethod(tasks._py_current_task)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; Actual: not called.
+-    def test_log_destroyed_pending_task(self):
+-        return super().test_log_destroyed_pending_task()
+-
+ 
+ @add_subclass_tests
+ class PyTask_PyFuture_SubclassTests(BaseTaskTests, test_utils.TestCase):
+@@ -3043,9 +3030,6 @@ class PyTask_PyFuture_SubclassTests(BaseTaskTests, test_utils.TestCase):
+     all_tasks = staticmethod(tasks._py_all_tasks)
+     current_task = staticmethod(tasks._py_current_task)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; Actual: not called.
+-    def test_log_destroyed_pending_task(self):
+-        return super().test_log_destroyed_pending_task()
+ 
+ @unittest.skipUnless(hasattr(tasks, '_CTask'),
+                      'requires the C _asyncio module')
+diff --git a/Lib/test/test_bytes.py b/Lib/test/test_bytes.py
+index df8a4d688..a72bc03c3 100644
+--- a/Lib/test/test_bytes.py
++++ b/Lib/test/test_bytes.py
+@@ -1042,7 +1042,7 @@ def test_find_etc_raise_correct_error_messages(self):
+         self.assertRaisesRegex(TypeError, r'\bendswith\b', b.endswith,
+                                 x, None, None, None)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
++    @unittest.skip("TODO: RUSTPYTHON; hangs")
+     def test_free_after_iterating(self):
+         test.support.check_free_after_iterating(self, iter, self.type2test)
+         test.support.check_free_after_iterating(self, reversed, self.type2test)
+diff --git a/Lib/test/test_descr.py b/Lib/test/test_descr.py
+index ec60e99f8..92bf7998d 100644
+--- a/Lib/test/test_descr.py
++++ b/Lib/test/test_descr.py
+@@ -4339,7 +4339,6 @@ class C:
+         C.__name__ = Nasty("abc")
+         C.__name__ = "normal"
+ 
+-    @unittest.expectedFailureIf(support.is_android, "TODO: RUSTPYTHON; AssertionError: 'C.__rfloordiv__' != 'C.__floordiv__'")
+     def test_subclass_right_op(self):
+         # Testing correct dispatch of subclass overloading __r<op>__...
+ 
+@@ -5017,7 +5016,6 @@ def test_qualname_dict(self):
+         ns = {'__qualname__': 1}
+         self.assertRaises(TypeError, type, 'Foo', (), ns)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_cycle_through_dict(self):
+         # See bug #1469629
+         class X(dict):
+diff --git a/Lib/test/test_dict.py b/Lib/test/test_dict.py
+index 80d9e87d3..79c975946 100644
+--- a/Lib/test/test_dict.py
++++ b/Lib/test/test_dict.py
+@@ -1259,7 +1259,7 @@ def __eq__(self, o):
+         d = {X(): 0, 1: 1}
+         self.assertRaises(RuntimeError, d.update, other)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
++    @unittest.skip("TODO: RUSTPYTHON; hangs")
+     def test_free_after_iterating(self):
+         support.check_free_after_iterating(self, iter, dict)
+         support.check_free_after_iterating(self, lambda d: iter(d.keys()), dict)
+diff --git a/Lib/test/test_generators.py b/Lib/test/test_generators.py
+index 8da74ff53..49bf5bc6a 100644
+--- a/Lib/test/test_generators.py
++++ b/Lib/test/test_generators.py
+@@ -68,7 +68,6 @@ def gen():
+         del frame
+         support.gc_collect()
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: False is not true
+     def test_refcycle(self):
+         # A generator caught in a refcycle gets finalized anyway.
+         old_garbage = gc.garbage[:]
+@@ -114,7 +113,6 @@ def g3(): return (yield from f())
+                 gen.send(2)
+             self.assertEqual(cm.exception.value, 2)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: 0 != 1
+     def test_generator_resurrect(self):
+         # Test that a resurrected generator still has a valid gi_code
+         resurrected = []
+diff --git a/Lib/test/test_io.py b/Lib/test/test_io.py
+index 4496ecd65..c51b547f3 100644
+--- a/Lib/test/test_io.py
++++ b/Lib/test/test_io.py
+@@ -804,7 +804,6 @@ def test_closefd_attr(self):
+             file = self.open(f.fileno(), "r", encoding="utf-8", closefd=False)
+             self.assertEqual(file.buffer.raw.closefd, False)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: filter ('', ResourceWarning) did not catch any warning
+     @unittest.skipIf(sys.platform == "win32", "TODO: RUSTPYTHON; cyclic GC not supported, causes file locking")
+     def test_garbage_collection(self):
+         # FileIO objects are collected, and collecting them flushes
+@@ -1114,7 +1113,6 @@ def reader(file, barrier):
+ 
+ class CIOTest(IOTest):
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; cyclic gc
+     def test_IOBase_finalize(self):
+         # Issue #12149: segmentation fault on _PyIOBase_finalize when both a
+         # class which inherits IOBase and an object of this class are caught
+@@ -1823,7 +1821,6 @@ def test_misbehaved_io_read(self):
+         # checking this is not so easy.
+         self.assertRaises(OSError, bufio.read, 10)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: filter ('', ResourceWarning) did not catch any warning
+     @unittest.skipIf(sys.platform == "win32", "TODO: RUSTPYTHON; cyclic GC not supported, causes file locking")
+     def test_garbage_collection(self):
+         # C BufferedReader objects are collected.
+@@ -2173,7 +2170,6 @@ def test_initialization(self):
+         self.assertRaises(ValueError, bufio.__init__, rawio, buffer_size=-1)
+         self.assertRaises(ValueError, bufio.write, b"def")
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: filter ('', ResourceWarning) did not catch any warning
+     @unittest.skipIf(sys.platform == "win32", "TODO: RUSTPYTHON; cyclic GC not supported, causes file locking")
+     def test_garbage_collection(self):
+         # C BufferedWriter objects are collected, and collecting them flushes
+@@ -2674,7 +2670,6 @@ def test_interleaved_readline_write(self):
+ class CBufferedRandomTest(BufferedRandomTest, SizeofTest):
+     tp = io.BufferedRandom
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: filter ('', ResourceWarning) did not catch any warning
+     @unittest.skipIf(sys.platform == "win32", "TODO: RUSTPYTHON; cyclic GC not supported, causes file locking")
+     def test_garbage_collection(self):
+         CBufferedReaderTest.test_garbage_collection(self)
+@@ -4119,7 +4114,6 @@ def test_initialization(self):
+         t = self.TextIOWrapper.__new__(self.TextIOWrapper)
+         self.assertRaises(Exception, repr, t)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: filter ('', ResourceWarning) did not catch any warning
+     @unittest.skipIf(sys.platform == "win32", "TODO: RUSTPYTHON; cyclic GC not supported, causes file locking")
+     def test_garbage_collection(self):
+         # C TextIOWrapper objects are collected, and collecting them flushes
+diff --git a/Lib/test/test_iter.py b/Lib/test/test_iter.py
+index 9c26eb085..7ac48a502 100644
+--- a/Lib/test/test_iter.py
++++ b/Lib/test/test_iter.py
+@@ -1137,7 +1137,7 @@ def test_iter_neg_setstate(self):
+         self.assertEqual(next(it), 0)
+         self.assertEqual(next(it), 1)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: False is not true
++    @unittest.skip("TODO: RUSTPYTHON; hangs")
+     def test_free_after_iterating(self):
+         check_free_after_iterating(self, iter, SequenceClass, (0,))
+ 
+diff --git a/Lib/test/test_module/__init__.py b/Lib/test/test_module/__init__.py
+index 4704ad299..d4ed61648 100644
+--- a/Lib/test/test_module/__init__.py
++++ b/Lib/test/test_module/__init__.py
+@@ -103,7 +103,6 @@ def f():
+         gc_collect()
+         self.assertEqual(f().__dict__["bar"], 4)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_clear_dict_in_ref_cycle(self):
+         destroyed = []
+         m = ModuleType("foo")
+diff --git a/Lib/test/test_ordered_dict.py b/Lib/test/test_ordered_dict.py
+index 378f6c5ab..ae7935ac0 100644
+--- a/Lib/test/test_ordered_dict.py
++++ b/Lib/test/test_ordered_dict.py
+@@ -680,7 +680,6 @@ class A:
+         gc.collect()
+         self.assertIsNone(r())
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: False is not true
+     def test_free_after_iterating(self):
+         support.check_free_after_iterating(self, iter, self.OrderedDict)
+         support.check_free_after_iterating(self, lambda d: iter(d.keys()), self.OrderedDict)
+diff --git a/Lib/test/test_set.py b/Lib/test/test_set.py
+index de36b4525..d88f2c598 100644
+--- a/Lib/test/test_set.py
++++ b/Lib/test/test_set.py
+@@ -363,7 +363,7 @@ class C(object):
+         gc.collect()
+         self.assertTrue(ref() is None, "Cycle was not collected")
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
++    @unittest.skipIf("RUSTPYTHON_SKIP_ENV_POLLUTERS" in __import__("os").environ, "TODO: RUSTPYTHON")
+     def test_free_after_iterating(self):
+         support.check_free_after_iterating(self, iter, self.thetype)
+ 
+diff --git a/Lib/test/test_slice.py b/Lib/test/test_slice.py
+index 6de7e73c3..c35a2293f 100644
+--- a/Lib/test/test_slice.py
++++ b/Lib/test/test_slice.py
+@@ -286,7 +286,6 @@ def test_deepcopy(self):
+         self.assertIsNot(s.stop, c.stop)
+         self.assertIsNot(s.step, c.step)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_cycle(self):
+         class myobj(): pass
+         o = myobj()
+diff --git a/Lib/test/test_str.py b/Lib/test/test_str.py
+index a48596435..baef29428 100644
+--- a/Lib/test/test_str.py
++++ b/Lib/test/test_str.py
+@@ -2607,7 +2607,7 @@ def test_compare(self):
+         self.assertTrue(astral >= bmp2)
+         self.assertFalse(astral >= astral2)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: False is not true
++    @unittest.skip("TODO: RUSTPYTHON; hangs")
+     def test_free_after_iterating(self):
+         support.check_free_after_iterating(self, iter, str)
+         if not support.Py_GIL_DISABLED:
+diff --git a/Lib/test/test_support.py b/Lib/test/test_support.py
+index 37b5543ba..6b3aa466d 100644
+--- a/Lib/test/test_support.py
++++ b/Lib/test/test_support.py
+@@ -560,16 +560,28 @@ def test_args_from_interpreter_flags(self):
+             # -X options
+             ['-X', 'dev'],
+             ['-Wignore', '-X', 'dev'],
++            ['-X', 'cpu_count=4'],
++            ['-X', 'disable-remote-debug'],
+             ['-X', 'faulthandler'],
+             ['-X', 'importtime'],
+             ['-X', 'importtime=2'],
++            ['-X', 'int_max_str_digits=1000'],
++            ['-X', 'lazy_imports=all'],
++            ['-X', 'no_debug_ranges'],
+             ['-X', 'showrefcount'],
+             ['-X', 'tracemalloc'],
+             ['-X', 'tracemalloc=3'],
++            ['-X', 'warn_default_encoding'],
+         ):
+             with self.subTest(opts=opts):
+                 self.check_options(opts, 'args_from_interpreter_flags')
+ 
++        with os_helper.temp_dir() as temp_path:
++            prefix = os.path.join(temp_path, 'pycache')
++            opts = ['-X', f'pycache_prefix={prefix}']
++            with self.subTest(opts=opts):
++                self.check_options(opts, 'args_from_interpreter_flags')
++
+         self.check_options(['-I', '-E', '-s', '-P'],
+                            'args_from_interpreter_flags',
+                            ['-I'])
+@@ -781,6 +793,7 @@ def test_get_signal_name(self):
+             (128 + int(signal.SIGABRT), 'SIGABRT'),
+             (3221225477, "STATUS_ACCESS_VIOLATION"),
+             (0xC00000FD, "STATUS_STACK_OVERFLOW"),
++            (0xC0000906, "0xC0000906"),
+         ):
+             self.assertEqual(support.get_signal_name(exitcode), expected,
+                              exitcode)
+diff --git a/Lib/test/test_threading_local.py b/Lib/test/test_threading_local.py
+index 99052de4c..8d752dbb7 100644
+--- a/Lib/test/test_threading_local.py
++++ b/Lib/test/test_threading_local.py
+@@ -185,7 +185,6 @@ class LocalSubclass(self._local):
+             """To test that subclasses behave properly."""
+         self._test_dict_attribute(LocalSubclass)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON; cycle detection/collection
+     def test_cycle_collection(self):
+         class X:
+             pass
+@@ -233,6 +232,10 @@ class ThreadLocalTest(unittest.TestCase, BaseLocalTest):
+     def test_arguments(self):
+         return super().test_arguments()
+ 
++    @unittest.expectedFailure # TODO: RUSTPYTHON
++    def test_cycle_collection(self):
++        return super().test_cycle_collection()
++
+ class PyThreadingLocalTest(unittest.TestCase, BaseLocalTest):
+     _local = _threading_local.local
+ 
+diff --git a/Lib/test/test_xml_etree.py b/Lib/test/test_xml_etree.py
+index a7c347693..43db6c9b4 100644
+--- a/Lib/test/test_xml_etree.py
++++ b/Lib/test/test_xml_etree.py
+@@ -2672,7 +2672,6 @@ def __deepcopy__(self, memo):
+             e[:] = [E('bar')]
+             self.assertRaises(TypeError, copy.deepcopy, e)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_cyclic_gc(self):
+         class Dummy:
+             pass

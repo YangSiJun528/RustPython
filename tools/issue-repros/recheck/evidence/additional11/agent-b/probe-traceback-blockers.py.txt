@@ -1,0 +1,66 @@
+import sys
+import json
+import builtins
+import traceback
+import ast
+
+class Point:
+    __match_args__ = ('x', 'y')
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+
+match Point(3, 4):
+    case Point(3, y=answer):
+        assert answer == 4
+    case _:
+        raise AssertionError('class pattern did not execute')
+
+assert sys._getframe().f_builtins['len'] is len
+custom = {'__builtins__': {'custom_marker': 42}, 'frame': sys._getframe}
+exec('actual = frame().f_builtins', custom)
+assert custom['actual'] is custom['__builtins__']
+assert isinstance(sys.stdlib_module_names, frozenset)
+assert {'sys', 'io', '_io', 'traceback'} <= sys.stdlib_module_names
+
+handled = []
+try:
+    raise ExceptionGroup('split', [ValueError('v'), TypeError('t')])
+except* ValueError as exc:
+    handled.append(('value', len(exc.exceptions)))
+except* TypeError as exc:
+    handled.append(('type', len(exc.exceptions)))
+assert handled == [('value', 1), ('type', 1)]
+
+anchors = traceback._extract_caret_anchors_from_line_segment('x + y')
+assert anchors is not None, 'actual traceback class-pattern branch failed'
+records = {'class_match': answer, 'builtins': True, 'stdlib_module_names': True,
+    'except_star': handled, 'anchors': list(anchors)}
+
+def zero():
+    return 1 / 0
+
+def builtins_typo():
+    return ZeroDivisionErrrrr
+
+def stdlib_missing():
+    return io.StringIO()
+
+def group():
+    raise ExceptionGroup('colored group', [ValueError('v'), TypeError('t')])
+
+for label, function, needle in (
+    ('zero', zero, 'ZeroDivisionError'),
+    ('builtins_typo', builtins_typo, "Did you mean: 'ZeroDivisionError'?"),
+    ('stdlib_missing', stdlib_missing, "forget to import 'io'"),
+    ('group', group, 'ExceptionGroup'),
+):
+    try:
+        function()
+    except Exception as exc:
+        plain = ''.join(traceback.format_exception(exc, colorize=False))
+        colored = ''.join(traceback.format_exception(exc, colorize=True))
+        assert needle in plain, (label, plain)
+        assert '\x1b[' in colored, (label, colored)
+        assert needle in colored or label == 'zero', (label, colored)
+        records[label] = {'plain': plain, 'colored': colored}
+print(json.dumps(records, ensure_ascii=True, indent=2))

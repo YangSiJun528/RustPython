@@ -1,0 +1,26 @@
+{
+  "command": [
+    "curl",
+    "--location",
+    "--max-time",
+    "30",
+    "--output",
+    "<initial16-audit>/agent-b/fresh-4784-docs.html",
+    "--dump-header",
+    "<initial16-audit>/agent-b/fresh-4784-headers.txt",
+    "--write-out",
+    "status=%{http_code}\\nurl=%{url_effective}\\n",
+    "https://docs.rs/rustpython"
+  ],
+  "cwd": "<slot-b-source>",
+  "exit": 0,
+  "stdout": "status=200\nurl=https://docs.rs/rustpython/latest/rustpython/\n",
+  "stderr": "curl progress meter only (captured in tool transcript, not a separate file)",
+  "status": 200,
+  "final_url": "https://docs.rs/rustpython/latest/rustpython/",
+  "body_sha256": "7c2720c5ba4b1991c865aca7b5d76824ce21b554ecff9d0632143fa461b7bf71",
+  "headers_sha256": "2c615edab1c4d45e1aef8ffcb64d75c7c2d7c14bbeb177d4946588e0a63f3afd",
+  "observed_version": "0.6.0",
+  "scope": "Current external docs destination, not docs built from target source",
+  "metadata_note": "JSON assembled from the completed curl tool result after execution; original raw headers and HTML saved during execution."
+}

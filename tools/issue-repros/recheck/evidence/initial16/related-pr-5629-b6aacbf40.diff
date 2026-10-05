@@ -1,0 +1,11 @@
+commit b6aacbf4016ec614b3508fd2778de4b3a29d4aef
+Merge: cd89aa51f dd467f6c7
+Author:     Noa <coolreader18@gmail.com>
+AuthorDate: Thu Mar 27 10:15:41 2025 -0500
+Commit:     GitHub <noreply@github.com>
+CommitDate: Thu Mar 27 10:15:41 2025 -0500
+
+    Merge pull request #5629 from coolreader18/surrogate-literals
+    
+     Parse surrogates in string literals properly
+

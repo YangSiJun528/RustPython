@@ -1,0 +1,239 @@
+{
+  "number": 4907,
+  "title": "SyntaxError in await-for-in structure",
+  "historical_cases": [
+    {
+      "case_id": "issue-4907-case-01",
+      "historical": {
+        "case_id": "issue-4907-case-01",
+        "issue_number": 4907,
+        "evidence": [
+          "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stdout",
+          "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stderr",
+          "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stdout",
+          "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stderr"
+        ],
+        "historical_status": "executed_awaiting_symptom_analysis",
+        "historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+        "reported_symptoms": [
+          "SyntaxError: 'await' outside async function at line 141 column 5"
+        ],
+        "expected_behavior": "CPython 3.11처럼 함수 정의가 성공; bar() 실행은 원문의 기대 범위 아님",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/repros/4907/issue-4907-case-01/source-01.txt"
+            ],
+            "cwd": "<workspace>",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 0,
+            "rss_guard": false,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.10815408400958404,
+            "code_input_path": "repros/4907/issue-4907-case-01/source-01.txt",
+            "code_sha256": "fe88d3497c70da370d8dfa2934b54b6501cde0d654ab824bc4a6b6901c9dd781",
+            "actual_sha": "3794c178be20a24f19153e36ba59758c61a96fb6",
+            "binary_sha256": "c1d93c6de82423829d75fd07bf595ff5c8913131274d344192e455fb08001fe9",
+            "build_provenance": "logs/build-a-3794c178-partition-rust1671/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stdout",
+            "stderr_path": "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stderr",
+            "baseline_role": "supplemental_issue_time_approximation"
+          },
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/repros/4907/issue-4907-case-01/source-01.txt"
+            ],
+            "cwd": "<workspace>",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 0,
+            "rss_guard": false,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.10654220898868516,
+            "code_input_path": "repros/4907/issue-4907-case-01/source-01.txt",
+            "code_sha256": "fe88d3497c70da370d8dfa2934b54b6501cde0d654ab824bc4a6b6901c9dd781",
+            "actual_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+            "binary_sha256": "43e71e4ce4e1605ed8eaa51992f3fcb0f1ad22d36dfb383c181bd9b8674dc37d",
+            "build_provenance": "logs/build-a-c7faae9b-reported-v020-rust1671/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stdout",
+            "stderr_path": "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stderr",
+            "baseline_role": "reported_release_tag_proxy"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+          "worktree": "<workspace>",
+          "command": [
+            "cargo",
+            "+1.67.1",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "cargo_lock_sha256": "ba72a552612f6aef8e650922c3a51c7796b767573d4f1a684b6f82a7cddedc8e",
+          "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T11:10:16.875391+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-a-c7faae9b-reported-v020-rust1671/build.stdout",
+            "logs/build-a-c7faae9b-reported-v020-rust1671/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T11:11:22.149059+00:00",
+          "binary": "<survey>/.build/slot-a/release/rustpython",
+          "binary_sha256": "43e71e4ce4e1605ed8eaa51992f3fcb0f1ad22d36dfb383c181bd9b8674dc37d",
+          "binary_size": 19712776,
+          "version_banner": "3.10.0alpha (tags/v0.2.0:c7faae9b2, Jan 11 2023, 15:14:28) \n[rustc 1.67.1]\n",
+          "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+        },
+        "baseline_role": "reported_release_tag_proxy",
+        "historical_symptom_observed": "Reportedrelease-tag originalinput/wrappers executed; exactstderr retained; approximationruns preserved supplementary.",
+        "baseline_priority_followup": "Root/critic require explicitly reported v0.2.0 tag c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100; approximation runs preserved as supplemental.",
+        "baseline_selection": "Explicit reported v0.2.0 uses local release tag c7faae9b; original reporter executable identity remains unknown.",
+        "evidence_ledger": "analysis/historical-results-a.json",
+        "previous_queue_records": [
+          {
+            "case_id": "issue-4907-case-01",
+            "issue_number": 4907,
+            "historical_status": "selected_pending_baseline_review",
+            "selection_reason": "Original input executes expected operation without reported exception; current and CPython outputs inspected.",
+            "evidence": [],
+            "evidence_ledger": "analysis/historical-results.json"
+          }
+        ]
+      },
+      "adjudication": {
+        "case_id": "issue-4907-case-01",
+        "verdict": "해결 확인",
+        "reason": "보고된 v0.2.0의 태그 c7faae9b에서 원문 async 함수 정의가 await outside async function 구문 오류로 실패했다. 현재는 같은 정의가 CPython과 함께 컴파일된다. bar 호출이나 await print(i)의 런타임 동작은 확인하지 않았다. 보고자의 정확한 실행 파일은 식별되지 않았고, 3794c178 근사 결과는 보충 증거다.",
+        "scope": "Compilation of the exact async function definition containing await in a synchronous-for list comprehension.",
+        "historical_execution": true,
+        "historical_version_qualification": {
+          "role": "reported_release_tag_proxy",
+          "reported_versions": [
+            "RustPython 0.2.0",
+            "CPython 3.11.3"
+          ],
+          "issue_created_at": "2023-04-21T05:38:59Z",
+          "actual_historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+          "closest_preissue_first_parent_check": "3794c178be20a24f19153e36ba59758c61a96fb6",
+          "matches_required_fallback": true,
+          "supplemental_approximate_sha": "3794c178be20a24f19153e36ba59758c61a96fb6",
+          "qualification": "Identifiable reported v0.2.0 prioritized; tag is a version proxy, not proof of exact reporter executable identity."
+        },
+        "whole_issue_resolution_approved": false,
+        "review_required": false,
+        "independent_review": "review/seventh-review.json",
+        "cause_analysis": "analysis/round7-cause-evidence.json",
+        "review_restrictions": [
+          "bar is defined but never called. await print(i) runtime correctness is not established.",
+          "Native macOS26.5.2 arm64 verification; historical compiler differs from current Rust1.99.0. Build provenance is retained with each run.",
+          "Approximate issue-time baselines, where used, reproduce the symptom at that baseline only; they are not assertions about an unspecified exact reporter build.",
+          "Reported v0.2.0 release-tag proxy executed and reviewed; reporter's exact executable remains unidentified. Issue-time approximation retained only as supplemental."
+        ],
+        "cause_reviews": [
+          {
+            "pr_url": "https://github.com/RustPython/RustPython/pull/5334",
+            "commit": "7996a10116681e9f85eda03413d5011b805e577f",
+            "approved_label": "high_relevance",
+            "scope": "PR5334 detects await in the comprehension element and creates an async comprehension context inside an outer async function even when the generator uses plain for. It emits the necessary await for list/set/dict comprehensions. This matches rejection of the await expression during function-definition compilation. The saved example never calls bar().",
+            "boundary_executed": false,
+            "source_diff": "analysis/causes/round7-await_comprehension-pr5334.diff.txt",
+            "source_hash": "90e42a283472b0be0d08da3e23a9b1abed1fdf4f9ef3a422cda649a350ca812d"
+          }
+        ],
+        "evidence": [
+          "logs/issue-4907-case-01/cpython-01.stderr",
+          "logs/issue-4907-case-01/cpython-01.stdout",
+          "logs/issue-4907-case-01/current-01.stderr",
+          "logs/issue-4907-case-01/current-01.stdout",
+          "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stderr",
+          "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stdout",
+          "repros/4907/issue-4907-case-01/source-01.txt",
+          "logs/build-a-3794c178-partition-rust1671/provenance.json",
+          "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stdout",
+          "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stderr",
+          "logs/build-a-c7faae9b-reported-v020-rust1671/provenance.json",
+          "analysis/historical-v020-baseline-correction-main.json",
+          "analysis/round7-adjudication-proposals.json",
+          "analysis/round7-fixture-equivalence.json",
+          "review/seventh-review.json",
+          "analysis/round7-evidence-corrections-main.json"
+        ]
+      }
+    }
+  ],
+  "related_changes": [
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/5334",
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "commit": "7996a10116681e9f85eda03413d5011b805e577f",
+      "mechanism": "PR5334 detects await in the comprehension element and creates an async comprehension context inside an outer async function even when the generator uses plain for. It emits the necessary await for list/set/dict comprehensions. This matches rejection of the await expression during function-definition compilation. The saved example never calls bar().",
+      "boundary_execution_complete": false,
+      "review_status": "approved_high_relevance",
+      "source_diff_path": "analysis/causes/round7-await_comprehension-pr5334.diff.txt",
+      "source_diff_sha256": "90e42a283472b0be0d08da3e23a9b1abed1fdf4f9ef3a422cda649a350ca812d",
+      "source_evidence": "analysis/round7-cause-evidence.json",
+      "runtime_evidence": "analysis/round7-adjudication-proposals.json",
+      "limits": [
+        "Exact parent/commit runtime boundary was not executed. Source correspondence supports high relevance only.",
+        "Case-specific scope and environment limits in the adjudication proposal are part of this cause claim."
+      ],
+      "reviewed_scope": "PR5334 detects await in the comprehension element and creates an async comprehension context inside an outer async function even when the generator uses plain for. It emits the necessary await for list/set/dict comprehensions. This matches rejection of the await expression during function-definition compilation. The saved example never calls bar().",
+      "independent_review": "review/seventh-review.json",
+      "review_restrictions": [
+        "bar is defined but never called. await print(i) runtime correctness is not established.",
+        "Native macOS26.5.2 arm64 verification; historical compiler differs from current Rust1.99.0. Build provenance is retained with each run.",
+        "Approximate issue-time baselines, where used, reproduce the symptom at that baseline only; they are not assertions about an unspecified exact reporter build.",
+        "Reported v0.2.0 release-tag proxy executed and reviewed; reporter's exact executable remains unidentified. Issue-time approximation retained only as supplemental."
+      ],
+      "ancestry_check": {
+        "sha": "7996a10116681e9f85eda03413d5011b805e577f",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "verified_diff_sha256": "90e42a283472b0be0d08da3e23a9b1abed1fdf4f9ef3a422cda649a350ca812d"
+    }
+  ]
+}

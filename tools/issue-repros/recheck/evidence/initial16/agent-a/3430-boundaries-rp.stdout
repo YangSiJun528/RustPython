@@ -1,0 +1,6 @@
+root Element root None 0
+parsed root [('a', '1')] before [('child', 'after')]
+parsed {urn:test}r [] None [('{urn:test}a', None)]
+parsed r [] é []
+direct-expat [('u}r', {}), ('u}a', {})]
+malformed-accepted

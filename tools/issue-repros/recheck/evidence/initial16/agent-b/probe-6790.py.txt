@@ -1,0 +1,22 @@
+import lzma,io
+DATA=b'RustPython independent xz probe\n' * 8
+FIXTURE=bytes.fromhex('fd377a585a000004e6d6b4460200210116000000742fe5a3e000ff00265d00291d4a676e62b3eba66db6aa865728962569f10e686905c3e4801a617213ed05b6eb803e0000000000ee4ab9683be553160001428002000000a3072a9ab1c467fb020000000004595a')
+print('known CPython xz',lzma.decompress(FIXTURE)==DATA)
+for check in [lzma.CHECK_NONE,lzma.CHECK_CRC32,lzma.CHECK_CRC64,lzma.CHECK_SHA256]:
+    compressed=lzma.compress(DATA,format=lzma.FORMAT_XZ,check=check)
+    d=lzma.LZMADecompressor(format=lzma.FORMAT_XZ)
+    out=d.decompress(compressed)
+    print('check',check,lzma.is_check_supported(check),out==DATA,d.eof,d.check,d.unused_data)
+compressed=lzma.compress(DATA)
+d=lzma.LZMADecompressor();chunks=[]
+for i in range(0,len(compressed),7):chunks.append(d.decompress(compressed[i:i+7]))
+print('incremental',b''.join(chunks)==DATA,d.eof,d.check)
+print('concat',lzma.decompress(compressed+FIXTURE)==DATA*2)
+print('trailing junk',lzma.decompress(compressed+b'junk')==DATA)
+for name,bad in [('truncated',FIXTURE[:-1]),('invalid',b'not xz')]:
+    try:lzma.decompress(bad)
+    except Exception as e:print(name,type(e).__name__)
+with lzma.LZMAFile(io.BytesIO(FIXTURE)) as f:print('file read',f.read()==DATA)
+dst=io.BytesIO()
+with lzma.LZMAFile(dst,'wb') as f:print('file write size',f.write(DATA))
+print('file roundtrip',lzma.decompress(dst.getvalue())==DATA)

@@ -1,0 +1,3359 @@
+[
+  {
+    "number": 4541,
+    "title": "sys.safe_path with Command line parameter -P and environment variable `PYTHONSAFEPATH`",
+    "historical_cases": [
+      {
+        "case_id": "issue-4541-case-01",
+        "historical": {
+          "case_id": "issue-4541-case-01",
+          "issue_number": 4541,
+          "runs": [
+            {
+              "kind": "historical_command",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "-P",
+                "<survey>/verification-tools/derived-main/issue-4541-case-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "unset_environment": [],
+              "exit_code": 1,
+              "timeout": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.01095054199686274,
+              "actual_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+              "binary_sha256": "1dbcf35b227d6be72ddd677cdb5b69f0cb4e874e02405fdc7a0785d44a4bd508",
+              "build_provenance": "logs/build-a-746cb049-partition-rust1671-banner-repair/provenance.json",
+              "code_input_path": "verification-tools/derived-main/issue-4541-case-01.py",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout",
+              "stderr_path": "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr",
+              "derivation": "Replay exact existing current command arguments/cwd/environment; replace interpreter with provenance-bound historical binary and stdlib path with historical Lib.",
+              "code_sha256": "1ac00d4c8b7d69e7836c2baf852ac26a7a457cbd7be87f68a8f5e30924574ade"
+            },
+            {
+              "kind": "historical_command",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-main/issue-4541-case-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "PYTHONSAFEPATH": "unset",
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "unset_environment": [
+                "PYTHONSAFEPATH"
+              ],
+              "exit_code": 1,
+              "timeout": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.03901841599144973,
+              "actual_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+              "binary_sha256": "1dbcf35b227d6be72ddd677cdb5b69f0cb4e874e02405fdc7a0785d44a4bd508",
+              "build_provenance": "logs/build-a-746cb049-partition-rust1671-banner-repair/provenance.json",
+              "code_input_path": null,
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout",
+              "stderr_path": "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr",
+              "derivation": "Replay exact existing current command arguments/cwd/environment; replace interpreter with provenance-bound historical binary and stdlib path with historical Lib."
+            }
+          ],
+          "evidence": [
+            "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout",
+            "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr",
+            "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout",
+            "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr"
+          ],
+          "historical_status": "executed_awaiting_symptom_analysis",
+          "historical_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+          "baseline_role": "required_issue_time_approximation",
+          "baseline_selection": "No case-specific executed SHA or unambiguous release; closest first-parent before issue creation per user section8.",
+          "build_provenance": {
+            "actual_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "03f7912a6f53b6fe908c1d9cd82c517e7ae9429e29b6e59d9b57abfb3ed70c00",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:55:31.172177+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-746cb049-partition-rust1671-banner-repair/build.stdout",
+              "logs/build-a-746cb049-partition-rust1671-banner-repair/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:56:06.577806+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "1dbcf35b227d6be72ddd677cdb5b69f0cb4e874e02405fdc7a0785d44a4bd508",
+            "binary_size": 19737560,
+            "version_banner": "3.10.0alpha (tags/v0.2.0-174-g746cb0493:746cb0493, Feb 22 2023, 00:03:43) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.96.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "-P rejected by CLI parser forcase01; all probes without-P reach AttributeError sys.flags has no safe_path, including PYTHONSAFEPATH=1 and unsetcontrols. Original probe cannot inspect sys.path after that missingattribute; do not claim env path-insertion result.",
+          "evidence_ledger": "analysis/historical-results-a.json"
+        },
+        "adjudication": {
+          "case_id": "issue-4541-case-01",
+          "verdict": "해결 확인",
+          "reason": "근사 746cb049에서 -P가 미지원 옵션으로 거절됐고 현재는 같은 스크립트 실행에서 safe_path=True와 스크립트 경로 추가 억제를 확인했다. 과거 대조 입력은 safe_path 속성 부재에서 멈춰 과거 경로 값까지 비교한 것은 아니다.",
+          "scope": "Original -P CLI rejection is removed; current script-mode safe_path=True and path suppression observed against control.",
+          "historical_execution": true,
+          "historical_version_qualification": "No case-specific executed SHA or unambiguous release; closest first-parent before issue creation per user section8.",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/eighth-review.json",
+          "cause_analysis": "analysis/round8-cause-evidence.json",
+          "review_restrictions": [
+            "Old path insertion cannot be compared because control stops at missing attribute; primary matched defect is flag rejection.",
+            "Only script-mode behavior tested; not every startup mode or PYTHONSAFEPATH case02 historical behavior.",
+            "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+            "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+          ],
+          "cause_reviews": [
+            {
+              "pr_url": "https://github.com/RustPython/RustPython/pull/4611",
+              "commit": "d4be55c2ea02b67d92c04b3e9f682d465acd59b3",
+              "integration_commit": null,
+              "approved_label": "high_relevance",
+              "scope": "PR4611 registers -P, reads the presence of PYTHONSAFEPATH unless environment is ignored, stores settings.safe_path, and exports it via sys.flags.safe_path. This directly fits the reproduced -P parser rejection becoming accepted with True. The old environment-only probe never observes path handling, so no original env-path resolution claim follows.",
+              "boundary_execution_complete": false,
+              "source_diff": "analysis/causes/round8-safe_path_option-pr4611.diff.txt",
+              "source_hash": "940b6cf131d50c05f50606353f03b80a8679faaf66dcc8f656d1ed0dfe1b9cc7",
+              "limits": [
+                "Source correspondence and ancestry only; no first fixing boundary executed.",
+                "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+                "Apply all case-specific scope and environment limits from the adjudication proposal."
+              ]
+            },
+            {
+              "pr_url": "https://github.com/RustPython/RustPython/pull/5049",
+              "commit": "64c66e00d68c70fed261f8b46720438efda746b5",
+              "integration_commit": null,
+              "approved_label": "high_relevance",
+              "scope": "PR5049 starts guarding a startup sys.path insertion with !settings.safe_path. Later startup refactors and PR8605 implement the current mode-specific script-directory insertion. Source relevance supports the flag/path behavior, but no claim that the exact current script-mode path semantics were all first fixed by5049.",
+              "boundary_execution_complete": false,
+              "source_diff": "analysis/causes/round8-safe_path_insertion-pr5049.diff.txt",
+              "source_hash": "c5763423441fa711bcdc4e2aa1631a306df68d9de89d5b8a6d8b9da25599e04b",
+              "limits": [
+                "Source correspondence and ancestry only; no first fixing boundary executed.",
+                "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+                "Apply all case-specific scope and environment limits from the adjudication proposal."
+              ]
+            }
+          ],
+          "evidence": [
+            "logs/issue-4541-case-01/cpython-documented-008.stderr",
+            "logs/issue-4541-case-01/cpython-documented-008.stdout",
+            "logs/issue-4541-case-01/current-documented-008.stderr",
+            "logs/issue-4541-case-01/current-documented-008.stdout",
+            "logs/issue-4541-case-01/current-without-safe-path.stderr",
+            "logs/issue-4541-case-01/current-without-safe-path.stdout",
+            "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr",
+            "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout",
+            "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr",
+            "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout",
+            "sources/issues/4541/body.md",
+            "verification-tools/derived-main/issue-4541-case-01.py",
+            "analysis/causes/round8-safe_path_option-pr4611.diff.txt",
+            "analysis/causes/round8-safe_path_insertion-pr5049.diff.txt",
+            "logs/build-a-746cb049-partition-rust1671-banner-repair/provenance.json",
+            "review/eighth-review.json",
+            "analysis/round8-adjudication-proposals.json",
+            "analysis/round8-cause-evidence.json"
+          ]
+        }
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/4611",
+        "causal_label": "high_relevance",
+        "causal_label_korean": "관련성 높음",
+        "commit": "d4be55c2ea02b67d92c04b3e9f682d465acd59b3",
+        "mechanism": "PR4611 registers -P, reads the presence of PYTHONSAFEPATH unless environment is ignored, stores settings.safe_path, and exports it via sys.flags.safe_path. This directly fits the reproduced -P parser rejection becoming accepted with True. The old environment-only probe never observes path handling, so no original env-path resolution claim follows.",
+        "boundary_execution_complete": false,
+        "review_status": "approved_high_relevance",
+        "source_diff_path": "analysis/causes/round8-safe_path_option-pr4611.diff.txt",
+        "source_diff_sha256": "940b6cf131d50c05f50606353f03b80a8679faaf66dcc8f656d1ed0dfe1b9cc7",
+        "source_evidence": "analysis/round8-cause-evidence.json",
+        "runtime_evidence": "analysis/round8-adjudication-proposals.json",
+        "limits": [
+          "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+          "Apply all case-specific scope and environment limits from the adjudication proposal."
+        ],
+        "reviewed_scope": "PR4611 registers -P, reads the presence of PYTHONSAFEPATH unless environment is ignored, stores settings.safe_path, and exports it via sys.flags.safe_path. This directly fits the reproduced -P parser rejection becoming accepted with True. The old environment-only probe never observes path handling, so no original env-path resolution claim follows.",
+        "independent_review": "review/eighth-review.json",
+        "review_restrictions": [
+          "Old path insertion cannot be compared because control stops at missing attribute; primary matched defect is flag rejection.",
+          "Only script-mode behavior tested; not every startup mode or PYTHONSAFEPATH case02 historical behavior.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+        ],
+        "ancestry_check": {
+          "sha": "d4be55c2ea02b67d92c04b3e9f682d465acd59b3",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "verified_diff_sha256": "940b6cf131d50c05f50606353f03b80a8679faaf66dcc8f656d1ed0dfe1b9cc7"
+      },
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/5049",
+        "causal_label": "high_relevance",
+        "causal_label_korean": "관련성 높음",
+        "commit": "64c66e00d68c70fed261f8b46720438efda746b5",
+        "mechanism": "PR5049 starts guarding a startup sys.path insertion with !settings.safe_path. Later startup refactors and PR8605 implement the current mode-specific script-directory insertion. Source relevance supports the flag/path behavior, but no claim that the exact current script-mode path semantics were all first fixed by5049.",
+        "boundary_execution_complete": false,
+        "review_status": "approved_high_relevance",
+        "source_diff_path": "analysis/causes/round8-safe_path_insertion-pr5049.diff.txt",
+        "source_diff_sha256": "c5763423441fa711bcdc4e2aa1631a306df68d9de89d5b8a6d8b9da25599e04b",
+        "source_evidence": "analysis/round8-cause-evidence.json",
+        "runtime_evidence": "analysis/round8-adjudication-proposals.json",
+        "limits": [
+          "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+          "Apply all case-specific scope and environment limits from the adjudication proposal."
+        ],
+        "reviewed_scope": "PR5049 starts guarding a startup sys.path insertion with !settings.safe_path. Later startup refactors and PR8605 implement the current mode-specific script-directory insertion. Source relevance supports the flag/path behavior, but no claim that the exact current script-mode path semantics were all first fixed by5049.",
+        "independent_review": "review/eighth-review.json",
+        "review_restrictions": [
+          "Old path insertion cannot be compared because control stops at missing attribute; primary matched defect is flag rejection.",
+          "Only script-mode behavior tested; not every startup mode or PYTHONSAFEPATH case02 historical behavior.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+        ],
+        "ancestry_check": {
+          "sha": "64c66e00d68c70fed261f8b46720438efda746b5",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "verified_diff_sha256": "c5763423441fa711bcdc4e2aa1631a306df68d9de89d5b8a6d8b9da25599e04b"
+      }
+    ]
+  },
+  {
+    "number": 4769,
+    "title": "Pickling deque subclasses ignores their `__dict__`.",
+    "historical_cases": [
+      {
+        "case_id": "issue-4769-case-02",
+        "historical": {
+          "case_id": "issue-4769-case-02",
+          "issue_number": 4769,
+          "evidence": [
+            "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stdout",
+            "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stderr",
+            "analysis/historical-a-4769-selector-equivalence.json"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "25ca331dc81e617498465ecdb2f848ec81025f71",
+          "baseline_selection": "approximate closest first-parent main before issue creation; no exact reported runtime SHA",
+          "baseline_role": "required_issue_time_approximation",
+          "runs": [
+            {
+              "kind": "historical_catalog",
+              "baseline_role": "required_issue_time_approximation",
+              "baseline_selection": "approximate closest first-parent main before issue creation; no exact reported runtime SHA",
+              "catalog_records": [
+                {
+                  "kind": "start",
+                  "case_id": "issue-4769-case-02",
+                  "selector": "test.test_deque.TestSubclass.test_copy_pickle",
+                  "interpreter": "3.11.0alpha (tags/v0.2.0-604-g25ca331dc:25ca331dc, Mar 25 2023, 21:53:53) \n[rustc 1.67.1]",
+                  "executable": "<survey>/.build/slot-a/release/rustpython",
+                  "cwd": "<survey>/logs/scratch-history-a/25ca331dc8",
+                  "selector_derivation": null,
+                  "original_selector": null,
+                  "derivation": "TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared"
+                },
+                {
+                  "kind": "selection",
+                  "case_id": "issue-4769-case-02",
+                  "selected_ids": [
+                    "test.test_deque.TestSubclass.test_copy_pickle"
+                  ],
+                  "loader_errors": [],
+                  "module_origin": "<workspace>/pylib/Lib/test/test_deque.py",
+                  "module_sha256": "80bf52da28d59465f6fda4002092772c99afce0a30c0594ba6b5234bfdb4962c",
+                  "bypassed_decorators": [
+                    {
+                      "kind": "expectedFailure",
+                      "object": "test.test_deque.TestSubclass.test_copy_pickle",
+                      "action": "clear selected object metadata; preserve body"
+                    }
+                  ],
+                  "note": "Import-time bypass records include unselected tests; only selected_ids are executed"
+                },
+                {
+                  "kind": "test",
+                  "test_id": "test.test_deque.TestSubclass.test_copy_pickle",
+                  "outcome": "error",
+                  "exception": "AttributeError",
+                  "message": "'Deque' object has no attribute 'x'"
+                },
+                {
+                  "kind": "complete",
+                  "case_id": "issue-4769-case-02",
+                  "status": "completed",
+                  "tests_run": 1,
+                  "selected_count": 1,
+                  "failures": 0,
+                  "errors": 1,
+                  "skipped": [],
+                  "expected_failures": 0,
+                  "unexpected_successes": 0,
+                  "passing": false
+                }
+              ],
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/catalog_runner.py",
+                "<survey>/verification-tools/main-procedure-test-plan.json",
+                "issue-4769-case-02"
+              ],
+              "cwd": "<survey>/logs/scratch-history-a/25ca331dc8",
+              "cwd_difference": "Writable survey scratch cwd replaces source checkout cwd to permit relative temporary test files; fixtures remain historical module-relative",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "rss_guard_error": null,
+              "timeout_seconds": 60,
+              "elapsed_seconds": 0.3136532499920577,
+              "stdout_path": "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stdout",
+              "stderr_path": "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stderr",
+              "actual_sha": "25ca331dc81e617498465ecdb2f848ec81025f71",
+              "binary_sha256": "243876f389486948c047f4dd8a599e4af16d0a06fda4aff16e8d4882fb1d6a7c",
+              "build_provenance": "logs/build-a-25ca331d-partition-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 50,
+                "core_bytes": 0
+              },
+              "derivation": "Same catalog_runner.py; in-memory skip/expectedFailure bypass explicitly logged; historical Lib source and fixtures used."
+            }
+          ],
+          "catalog_records": [
+            {
+              "kind": "start",
+              "case_id": "issue-4769-case-02",
+              "selector": "test.test_deque.TestSubclass.test_copy_pickle",
+              "interpreter": "3.11.0alpha (tags/v0.2.0-604-g25ca331dc:25ca331dc, Mar 25 2023, 21:53:53) \n[rustc 1.67.1]",
+              "executable": "<survey>/.build/slot-a/release/rustpython",
+              "cwd": "<survey>/logs/scratch-history-a/25ca331dc8",
+              "selector_derivation": null,
+              "original_selector": null,
+              "derivation": "TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared"
+            },
+            {
+              "kind": "selection",
+              "case_id": "issue-4769-case-02",
+              "selected_ids": [
+                "test.test_deque.TestSubclass.test_copy_pickle"
+              ],
+              "loader_errors": [],
+              "module_origin": "<workspace>/pylib/Lib/test/test_deque.py",
+              "module_sha256": "80bf52da28d59465f6fda4002092772c99afce0a30c0594ba6b5234bfdb4962c",
+              "bypassed_decorators": [
+                {
+                  "kind": "expectedFailure",
+                  "object": "test.test_deque.TestSubclass.test_copy_pickle",
+                  "action": "clear selected object metadata; preserve body"
+                }
+              ],
+              "note": "Import-time bypass records include unselected tests; only selected_ids are executed"
+            },
+            {
+              "kind": "test",
+              "test_id": "test.test_deque.TestSubclass.test_copy_pickle",
+              "outcome": "error",
+              "exception": "AttributeError",
+              "message": "'Deque' object has no attribute 'x'"
+            },
+            {
+              "kind": "complete",
+              "case_id": "issue-4769-case-02",
+              "status": "completed",
+              "tests_run": 1,
+              "selected_count": 1,
+              "failures": 0,
+              "errors": 1,
+              "skipped": [],
+              "expected_failures": 0,
+              "unexpected_successes": 0,
+              "passing": false
+            }
+          ],
+          "historical_symptom_observed": "Selected original TestSubclass.test_copy_pickle executes; self.assertEqual(e.x,d.x) at line839 raises AttributeError: 'Deque' object has no attribute 'x'. Original expectedFailure cleared in-memory only; no assertions altered.",
+          "evidence_ledger": "analysis/historical-results-a.json"
+        },
+        "adjudication": {
+          "case_id": "issue-4769-case-02",
+          "verdict": "해결 확인",
+          "reason": "원문이 연결한 25ca331d의 TestSubclass.test_copy_pickle은 pickle 왕복 후 e.x가 없어 AttributeError로 실패했다. 현재 같은 관련 fixture·상태 assertion을 가진 테스트 1개가 skip·expectedFailure 없이 통과한다. 이 deque subclass 상태 보존 테스트에 한정하며 다른 사례나 재귀 pickle은 포함하지 않는다.",
+          "scope": "Existing TestSubclass.test_copy_pickle assertions for deque subclass instance/slot state.",
+          "historical_execution": true,
+          "historical_version_qualification": {
+            "role": "closest_preissue_main_approximation",
+            "reported_versions": [
+              "25ca331dc81e617498465ecdb2f848ec81025f71 (테스트 링크)"
+            ],
+            "issue_created_at": "2023-03-25T13:37:33Z",
+            "actual_historical_sha": "25ca331dc81e617498465ecdb2f848ec81025f71",
+            "closest_preissue_first_parent_check": "25ca331dc81e617498465ecdb2f848ec81025f71",
+            "matches_required_fallback": true
+          },
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/seventh-review.json",
+          "cause_analysis": "analysis/round7-cause-evidence.json",
+          "review_restrictions": [
+            "One named test completes current with no skip/xfail and old fails e.x after pickle. Historical selected RustPython expectedFailure metadata cleared only in memory.",
+            "Original linked test25ca exact source is used. Deque/DequeWithSlots and data e.x/e.z match; both protocol ranges0..5. Final absent-y assertFalse(hasattr) becomes assertNotHasAttr using same hasattr predicate.",
+            "Other4769cases and recursive pickling are excluded; broken transcript in case01 is not substituted for this linked-test case.",
+            "Native macOS26.5.2 arm64 verification; historical compiler differs from current Rust1.99.0. Build provenance is retained with each run.",
+            "Approximate issue-time baselines, where used, reproduce the symptom at that baseline only; they are not assertions about an unspecified exact reporter build."
+          ],
+          "cause_reviews": [
+            {
+              "pr_url": "https://github.com/RustPython/RustPython/pull/7699",
+              "commit": "6182bbf221482bfa9151e63951bd1f51d354b21a",
+              "approved_label": "high_relevance",
+              "scope": "PR7699 changes deque.__reduce__ tuple state from None to vm.call_method(..., '__getstate__', ()), preserving subclass __dict__ and __slots__. It removes the exact RustPython expectedFailure annotation for TestSubclass.test_copy_pickle, whose e.x lookup fails in the historical execution. The existing assertions and fixtures are retained.",
+              "boundary_executed": false,
+              "source_diff": "analysis/causes/round7-deque_state-pr7699.diff.txt",
+              "source_hash": "85b02e688b7db6b434a8e0262473fcbbfdf02bdb5e307f362ebbb3c888b5ec5a"
+            }
+          ],
+          "evidence": [
+            "logs/issue-4769-case-02/current-procedure.stderr",
+            "logs/issue-4769-case-02/current-procedure.stdout",
+            "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stderr",
+            "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stdout",
+            "logs/build-a-25ca331d-partition-rust1671/provenance.json",
+            "analysis/round7-adjudication-proposals.json",
+            "analysis/round7-fixture-equivalence.json",
+            "review/seventh-review.json",
+            "analysis/round7-evidence-corrections-main.json"
+          ]
+        }
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/7699",
+        "causal_label": "high_relevance",
+        "causal_label_korean": "관련성 높음",
+        "commit": "6182bbf221482bfa9151e63951bd1f51d354b21a",
+        "mechanism": "PR7699 changes deque.__reduce__ tuple state from None to vm.call_method(..., '__getstate__', ()), preserving subclass __dict__ and __slots__. It removes the exact RustPython expectedFailure annotation for TestSubclass.test_copy_pickle, whose e.x lookup fails in the historical execution. The existing assertions and fixtures are retained.",
+        "boundary_execution_complete": false,
+        "review_status": "approved_high_relevance",
+        "source_diff_path": "analysis/causes/round7-deque_state-pr7699.diff.txt",
+        "source_diff_sha256": "85b02e688b7db6b434a8e0262473fcbbfdf02bdb5e307f362ebbb3c888b5ec5a",
+        "source_evidence": "analysis/round7-cause-evidence.json",
+        "runtime_evidence": "analysis/round7-adjudication-proposals.json",
+        "limits": [
+          "Exact parent/commit runtime boundary was not executed. Source correspondence supports high relevance only.",
+          "Case-specific scope and environment limits in the adjudication proposal are part of this cause claim."
+        ],
+        "reviewed_scope": "PR7699 changes deque.__reduce__ tuple state from None to vm.call_method(..., '__getstate__', ()), preserving subclass __dict__ and __slots__. It removes the exact RustPython expectedFailure annotation for TestSubclass.test_copy_pickle, whose e.x lookup fails in the historical execution. The existing assertions and fixtures are retained.",
+        "independent_review": "review/seventh-review.json",
+        "review_restrictions": [
+          "One named test completes current with no skip/xfail and old fails e.x after pickle. Historical selected RustPython expectedFailure metadata cleared only in memory.",
+          "Original linked test25ca exact source is used. Deque/DequeWithSlots and data e.x/e.z match; both protocol ranges0..5. Final absent-y assertFalse(hasattr) becomes assertNotHasAttr using same hasattr predicate.",
+          "Other4769cases and recursive pickling are excluded; broken transcript in case01 is not substituted for this linked-test case.",
+          "Native macOS26.5.2 arm64 verification; historical compiler differs from current Rust1.99.0. Build provenance is retained with each run.",
+          "Approximate issue-time baselines, where used, reproduce the symptom at that baseline only; they are not assertions about an unspecified exact reporter build."
+        ],
+        "ancestry_check": {
+          "sha": "6182bbf221482bfa9151e63951bd1f51d354b21a",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "verified_diff_sha256": "85b02e688b7db6b434a8e0262473fcbbfdf02bdb5e307f362ebbb3c888b5ec5a"
+      }
+    ]
+  },
+  {
+    "number": 4907,
+    "title": "SyntaxError in await-for-in structure",
+    "historical_cases": [
+      {
+        "case_id": "issue-4907-case-01",
+        "historical": {
+          "case_id": "issue-4907-case-01",
+          "issue_number": 4907,
+          "evidence": [
+            "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stdout",
+            "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stderr",
+            "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stdout",
+            "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stderr"
+          ],
+          "historical_status": "executed_awaiting_symptom_analysis",
+          "historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+          "reported_symptoms": [
+            "SyntaxError: 'await' outside async function at line 141 column 5"
+          ],
+          "expected_behavior": "CPython 3.11처럼 함수 정의가 성공; bar() 실행은 원문의 기대 범위 아님",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4907/issue-4907-case-01/source-01.txt"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.10815408400958404,
+              "code_input_path": "repros/4907/issue-4907-case-01/source-01.txt",
+              "code_sha256": "fe88d3497c70da370d8dfa2934b54b6501cde0d654ab824bc4a6b6901c9dd781",
+              "actual_sha": "3794c178be20a24f19153e36ba59758c61a96fb6",
+              "binary_sha256": "c1d93c6de82423829d75fd07bf595ff5c8913131274d344192e455fb08001fe9",
+              "build_provenance": "logs/build-a-3794c178-partition-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stdout",
+              "stderr_path": "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stderr",
+              "baseline_role": "supplemental_issue_time_approximation"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4907/issue-4907-case-01/source-01.txt"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.10654220898868516,
+              "code_input_path": "repros/4907/issue-4907-case-01/source-01.txt",
+              "code_sha256": "fe88d3497c70da370d8dfa2934b54b6501cde0d654ab824bc4a6b6901c9dd781",
+              "actual_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+              "binary_sha256": "43e71e4ce4e1605ed8eaa51992f3fcb0f1ad22d36dfb383c181bd9b8674dc37d",
+              "build_provenance": "logs/build-a-c7faae9b-reported-v020-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stdout",
+              "stderr_path": "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stderr",
+              "baseline_role": "reported_release_tag_proxy"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "ba72a552612f6aef8e650922c3a51c7796b767573d4f1a684b6f82a7cddedc8e",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T11:10:16.875391+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-c7faae9b-reported-v020-rust1671/build.stdout",
+              "logs/build-a-c7faae9b-reported-v020-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T11:11:22.149059+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "43e71e4ce4e1605ed8eaa51992f3fcb0f1ad22d36dfb383c181bd9b8674dc37d",
+            "binary_size": 19712776,
+            "version_banner": "3.10.0alpha (tags/v0.2.0:c7faae9b2, Jan 11 2023, 15:14:28) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.96.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "baseline_role": "reported_release_tag_proxy",
+          "historical_symptom_observed": "Reportedrelease-tag originalinput/wrappers executed; exactstderr retained; approximationruns preserved supplementary.",
+          "baseline_priority_followup": "Root/critic require explicitly reported v0.2.0 tag c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100; approximation runs preserved as supplemental.",
+          "baseline_selection": "Explicit reported v0.2.0 uses local release tag c7faae9b; original reporter executable identity remains unknown.",
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4907-case-01",
+              "issue_number": 4907,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original input executes expected operation without reported exception; current and CPython outputs inspected.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4907-case-01",
+          "verdict": "해결 확인",
+          "reason": "보고된 v0.2.0의 태그 c7faae9b에서 원문 async 함수 정의가 await outside async function 구문 오류로 실패했다. 현재는 같은 정의가 CPython과 함께 컴파일된다. bar 호출이나 await print(i)의 런타임 동작은 확인하지 않았다. 보고자의 정확한 실행 파일은 식별되지 않았고, 3794c178 근사 결과는 보충 증거다.",
+          "scope": "Compilation of the exact async function definition containing await in a synchronous-for list comprehension.",
+          "historical_execution": true,
+          "historical_version_qualification": {
+            "role": "reported_release_tag_proxy",
+            "reported_versions": [
+              "RustPython 0.2.0",
+              "CPython 3.11.3"
+            ],
+            "issue_created_at": "2023-04-21T05:38:59Z",
+            "actual_historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+            "closest_preissue_first_parent_check": "3794c178be20a24f19153e36ba59758c61a96fb6",
+            "matches_required_fallback": true,
+            "supplemental_approximate_sha": "3794c178be20a24f19153e36ba59758c61a96fb6",
+            "qualification": "Identifiable reported v0.2.0 prioritized; tag is a version proxy, not proof of exact reporter executable identity."
+          },
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/seventh-review.json",
+          "cause_analysis": "analysis/round7-cause-evidence.json",
+          "review_restrictions": [
+            "bar is defined but never called. await print(i) runtime correctness is not established.",
+            "Native macOS26.5.2 arm64 verification; historical compiler differs from current Rust1.99.0. Build provenance is retained with each run.",
+            "Approximate issue-time baselines, where used, reproduce the symptom at that baseline only; they are not assertions about an unspecified exact reporter build.",
+            "Reported v0.2.0 release-tag proxy executed and reviewed; reporter's exact executable remains unidentified. Issue-time approximation retained only as supplemental."
+          ],
+          "cause_reviews": [
+            {
+              "pr_url": "https://github.com/RustPython/RustPython/pull/5334",
+              "commit": "7996a10116681e9f85eda03413d5011b805e577f",
+              "approved_label": "high_relevance",
+              "scope": "PR5334 detects await in the comprehension element and creates an async comprehension context inside an outer async function even when the generator uses plain for. It emits the necessary await for list/set/dict comprehensions. This matches rejection of the await expression during function-definition compilation. The saved example never calls bar().",
+              "boundary_executed": false,
+              "source_diff": "analysis/causes/round7-await_comprehension-pr5334.diff.txt",
+              "source_hash": "90e42a283472b0be0d08da3e23a9b1abed1fdf4f9ef3a422cda649a350ca812d"
+            }
+          ],
+          "evidence": [
+            "logs/issue-4907-case-01/cpython-01.stderr",
+            "logs/issue-4907-case-01/cpython-01.stdout",
+            "logs/issue-4907-case-01/current-01.stderr",
+            "logs/issue-4907-case-01/current-01.stdout",
+            "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stderr",
+            "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stdout",
+            "repros/4907/issue-4907-case-01/source-01.txt",
+            "logs/build-a-3794c178-partition-rust1671/provenance.json",
+            "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stdout",
+            "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stderr",
+            "logs/build-a-c7faae9b-reported-v020-rust1671/provenance.json",
+            "analysis/historical-v020-baseline-correction-main.json",
+            "analysis/round7-adjudication-proposals.json",
+            "analysis/round7-fixture-equivalence.json",
+            "review/seventh-review.json",
+            "analysis/round7-evidence-corrections-main.json"
+          ]
+        }
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/5334",
+        "causal_label": "high_relevance",
+        "causal_label_korean": "관련성 높음",
+        "commit": "7996a10116681e9f85eda03413d5011b805e577f",
+        "mechanism": "PR5334 detects await in the comprehension element and creates an async comprehension context inside an outer async function even when the generator uses plain for. It emits the necessary await for list/set/dict comprehensions. This matches rejection of the await expression during function-definition compilation. The saved example never calls bar().",
+        "boundary_execution_complete": false,
+        "review_status": "approved_high_relevance",
+        "source_diff_path": "analysis/causes/round7-await_comprehension-pr5334.diff.txt",
+        "source_diff_sha256": "90e42a283472b0be0d08da3e23a9b1abed1fdf4f9ef3a422cda649a350ca812d",
+        "source_evidence": "analysis/round7-cause-evidence.json",
+        "runtime_evidence": "analysis/round7-adjudication-proposals.json",
+        "limits": [
+          "Exact parent/commit runtime boundary was not executed. Source correspondence supports high relevance only.",
+          "Case-specific scope and environment limits in the adjudication proposal are part of this cause claim."
+        ],
+        "reviewed_scope": "PR5334 detects await in the comprehension element and creates an async comprehension context inside an outer async function even when the generator uses plain for. It emits the necessary await for list/set/dict comprehensions. This matches rejection of the await expression during function-definition compilation. The saved example never calls bar().",
+        "independent_review": "review/seventh-review.json",
+        "review_restrictions": [
+          "bar is defined but never called. await print(i) runtime correctness is not established.",
+          "Native macOS26.5.2 arm64 verification; historical compiler differs from current Rust1.99.0. Build provenance is retained with each run.",
+          "Approximate issue-time baselines, where used, reproduce the symptom at that baseline only; they are not assertions about an unspecified exact reporter build.",
+          "Reported v0.2.0 release-tag proxy executed and reviewed; reporter's exact executable remains unidentified. Issue-time approximation retained only as supplemental."
+        ],
+        "ancestry_check": {
+          "sha": "7996a10116681e9f85eda03413d5011b805e577f",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "verified_diff_sha256": "90e42a283472b0be0d08da3e23a9b1abed1fdf4f9ef3a422cda649a350ca812d"
+      }
+    ]
+  },
+  {
+    "number": 4950,
+    "title": "Additional format cases that fails to support bool value ",
+    "historical_cases": [
+      {
+        "case_id": "issue-4950-case-01",
+        "historical": {
+          "case_id": "issue-4950-case-01",
+          "issue_number": 4950,
+          "evidence": [
+            "logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stdout",
+            "logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stderr",
+            "logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stdout",
+            "logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+          "reported_symptoms": [
+            "ValueError: Invalid format specifier (목록 전체에 대한 보고, traceback은 o 사례)"
+          ],
+          "expected_behavior": "CPython처럼 bool을 숫자 포맷으로 처리",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4950/issue-4950-case-01/source-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.11594158300431445,
+              "code_input_path": "repros/4950/issue-4950-case-01/source-01.py",
+              "code_sha256": "75703bc41524da9773a244f9abea5d31957ab136104d909edd3dfb1ad9931da5",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stderr"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-4950-case-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.11211641700356267,
+              "code_input_path": "verification-tools/derived-a/issue-4950-case-01.py",
+              "code_sha256": "b2e445913976aefb1d0630002515593496509947428dc2bbcaba9d0043cd93bf",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "524449632d0fe6e512cead20e000c3119bcd2248f881e07be965d9c8fe644221",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:23:35.309663+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-fa790558-rust1671/build.stdout",
+              "logs/build-a-fa790558-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:26:00.541396+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+            "binary_size": 20165592,
+            "version_banner": "3.11.0alpha (tags/v0.2.0-860-gfa7905582:fa7905582, Apr 30 2023, 16:29:04) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.67.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "Both unchanged original expression and existing print(repr(...)) wrapper raise reported ValueError: Invalid format specifier. No timeout; stdout empty. Existing six __del__ warning lines precede traceback.",
+          "baseline_role": "case_specific_reported_revision",
+          "input_file_sha256": "dadc75effc221925fc8bd56a15a8defa0550bd526909fc61fb9d48a21b019d98",
+          "build_attempt_evidence": [
+            "logs/build-a-fa790558/provenance.json",
+            "logs/build-a-fa790558-rust1671/provenance.json"
+          ],
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4950-case-01",
+              "issue_number": 4950,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original format expression completed without reported ValueError; successful return-value check still needs derived print probe.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4950-case-01",
+          "verdict": "해결 확인",
+          "reason": "보고된 정확한 fa790558 커밋에서 원문 '{:f}'.format(False)과 값을 출력하는 동일 식의 wrapper가 모두 Invalid format specifier ValueError로 실패했다. 현재는 '0.000000'를 반환하며 CPython3.14.6 출력과 바이트 단위로 일치한다. 해당 False·포맷 지정자 조합에 한정하며 case10이나 이슈 전체의 해결은 아니다.",
+          "scope": "'{:f}'.format(False) only; tested macOS arm64 default release; no whole-issue claim",
+          "historical_execution": true,
+          "historical_version_qualification": "exact reported revision",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/sixth-review.json",
+          "cause_analysis": "analysis/round6-cause-evidence.json",
+          "cause_review": {
+            "label": "high_relevance",
+            "pr_url": "https://github.com/RustPython/Parser/pull/91",
+            "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+            "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+            "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "scope": "Explicit float presentation routes bool to format_float",
+            "source_evidence": [
+              "analysis/causes/parser_bool_edcfcb4.diff.txt",
+              "review/round6-parser-update-parentdiff.diff.txt"
+            ],
+            "boundary_executed": false
+          },
+          "review_restrictions": [
+            "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+            "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+            "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+            "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+          ],
+          "evidence": [
+            "logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stdout",
+            "logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stderr",
+            "logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stdout",
+            "logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stderr",
+            "logs/issue-4950-case-01/current-01.stdout",
+            "logs/issue-4950-case-01/current-01.stderr",
+            "logs/issue-4950-case-01/cpython-01.stdout",
+            "logs/issue-4950-case-01/cpython-01.stderr",
+            "logs/issue-4950-case-01/current-value.stdout",
+            "logs/issue-4950-case-01/current-value.stderr",
+            "logs/issue-4950-case-01/cpython-value.stdout",
+            "logs/issue-4950-case-01/cpython-value.stderr",
+            "analysis/round6-adjudication-proposals.json",
+            "review/sixth-review.json",
+            "analysis/round6-evidence-corrections-main.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-4950-case-02",
+        "historical": {
+          "case_id": "issue-4950-case-02",
+          "issue_number": 4950,
+          "evidence": [
+            "logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stdout",
+            "logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stderr",
+            "logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stdout",
+            "logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+          "reported_symptoms": [
+            "ValueError: Invalid format specifier (목록 전체에 대한 보고, traceback은 o 사례)"
+          ],
+          "expected_behavior": "CPython처럼 bool을 숫자 포맷으로 처리",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4950/issue-4950-case-02/source-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.1160440420062514,
+              "code_input_path": "repros/4950/issue-4950-case-02/source-01.py",
+              "code_sha256": "6377cef92ce86f2ec9eac5d93aebe379e361ebbc455c2734f3abf647ee96869a",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stderr"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-4950-case-02.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.11931391700636595,
+              "code_input_path": "verification-tools/derived-a/issue-4950-case-02.py",
+              "code_sha256": "2e437aacdee99bc40f37ddb58d670c607af36f290e7ea547b8f2ffe24611ab07",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "524449632d0fe6e512cead20e000c3119bcd2248f881e07be965d9c8fe644221",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:23:35.309663+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-fa790558-rust1671/build.stdout",
+              "logs/build-a-fa790558-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:26:00.541396+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+            "binary_size": 20165592,
+            "version_banner": "3.11.0alpha (tags/v0.2.0-860-gfa7905582:fa7905582, Apr 30 2023, 16:29:04) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.67.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "Both unchanged original expression and existing print(repr(...)) wrapper raise reported ValueError: Invalid format specifier. No timeout; stdout empty. Existing six __del__ warning lines precede traceback.",
+          "baseline_role": "case_specific_reported_revision",
+          "input_file_sha256": "dadc75effc221925fc8bd56a15a8defa0550bd526909fc61fb9d48a21b019d98",
+          "build_attempt_evidence": [
+            "logs/build-a-fa790558/provenance.json",
+            "logs/build-a-fa790558-rust1671/provenance.json"
+          ],
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4950-case-02",
+              "issue_number": 4950,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original format expression completed without reported ValueError; successful return-value check still needs derived print probe.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4950-case-02",
+          "verdict": "해결 확인",
+          "reason": "보고된 정확한 fa790558 커밋에서 원문 '{:x}'.format(False)과 값을 출력하는 동일 식의 wrapper가 모두 Invalid format specifier ValueError로 실패했다. 현재는 '0'를 반환하며 CPython3.14.6 출력과 바이트 단위로 일치한다. 해당 False·포맷 지정자 조합에 한정하며 case10이나 이슈 전체의 해결은 아니다.",
+          "scope": "'{:x}'.format(False) only; tested macOS arm64 default release; no whole-issue claim",
+          "historical_execution": true,
+          "historical_version_qualification": "exact reported revision",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/sixth-review.json",
+          "cause_analysis": "analysis/round6-cause-evidence.json",
+          "cause_review": {
+            "label": "high_relevance",
+            "pr_url": "https://github.com/RustPython/Parser/pull/91",
+            "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+            "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+            "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "scope": "Explicit integer/general/character presentation routes bool to format_int",
+            "source_evidence": [
+              "analysis/causes/parser_bool_edcfcb4.diff.txt",
+              "review/round6-parser-update-parentdiff.diff.txt"
+            ],
+            "boundary_executed": false
+          },
+          "review_restrictions": [
+            "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+            "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+            "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+            "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+          ],
+          "evidence": [
+            "logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stdout",
+            "logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stderr",
+            "logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stdout",
+            "logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stderr",
+            "logs/issue-4950-case-02/current-01.stdout",
+            "logs/issue-4950-case-02/current-01.stderr",
+            "logs/issue-4950-case-02/cpython-01.stdout",
+            "logs/issue-4950-case-02/cpython-01.stderr",
+            "logs/issue-4950-case-02/current-value.stdout",
+            "logs/issue-4950-case-02/current-value.stderr",
+            "logs/issue-4950-case-02/cpython-value.stdout",
+            "logs/issue-4950-case-02/cpython-value.stderr",
+            "analysis/round6-adjudication-proposals.json",
+            "review/sixth-review.json",
+            "analysis/round6-evidence-corrections-main.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-4950-case-03",
+        "historical": {
+          "case_id": "issue-4950-case-03",
+          "issue_number": 4950,
+          "evidence": [
+            "logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stdout",
+            "logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stderr",
+            "logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stdout",
+            "logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+          "reported_symptoms": [
+            "ValueError: Invalid format specifier (목록 전체에 대한 보고, traceback은 o 사례)"
+          ],
+          "expected_behavior": "CPython처럼 bool을 숫자 포맷으로 처리",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4950/issue-4950-case-03/source-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.12183166599425022,
+              "code_input_path": "repros/4950/issue-4950-case-03/source-01.py",
+              "code_sha256": "9fbf9a3f13a1ac98a65fb9829c244ddd4b58ecc54f23323f76c3b43ae4711a41",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stderr"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-4950-case-03.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.12251258299511392,
+              "code_input_path": "verification-tools/derived-a/issue-4950-case-03.py",
+              "code_sha256": "d98fd71af2c2a9252721fe6d4da1d1f50e6b31e85db0f3501eddae1c9b8a1ab9",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "524449632d0fe6e512cead20e000c3119bcd2248f881e07be965d9c8fe644221",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:23:35.309663+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-fa790558-rust1671/build.stdout",
+              "logs/build-a-fa790558-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:26:00.541396+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+            "binary_size": 20165592,
+            "version_banner": "3.11.0alpha (tags/v0.2.0-860-gfa7905582:fa7905582, Apr 30 2023, 16:29:04) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.67.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "Both unchanged original expression and existing print(repr(...)) wrapper raise reported ValueError: Invalid format specifier. No timeout; stdout empty. Existing six __del__ warning lines precede traceback.",
+          "baseline_role": "case_specific_reported_revision",
+          "input_file_sha256": "dadc75effc221925fc8bd56a15a8defa0550bd526909fc61fb9d48a21b019d98",
+          "build_attempt_evidence": [
+            "logs/build-a-fa790558/provenance.json",
+            "logs/build-a-fa790558-rust1671/provenance.json"
+          ],
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4950-case-03",
+              "issue_number": 4950,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original format expression completed without reported ValueError; successful return-value check still needs derived print probe.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4950-case-03",
+          "verdict": "해결 확인",
+          "reason": "보고된 정확한 fa790558 커밋에서 원문 '{:X}'.format(False)과 값을 출력하는 동일 식의 wrapper가 모두 Invalid format specifier ValueError로 실패했다. 현재는 '0'를 반환하며 CPython3.14.6 출력과 바이트 단위로 일치한다. 해당 False·포맷 지정자 조합에 한정하며 case10이나 이슈 전체의 해결은 아니다.",
+          "scope": "'{:X}'.format(False) only; tested macOS arm64 default release; no whole-issue claim",
+          "historical_execution": true,
+          "historical_version_qualification": "exact reported revision",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/sixth-review.json",
+          "cause_analysis": "analysis/round6-cause-evidence.json",
+          "cause_review": {
+            "label": "high_relevance",
+            "pr_url": "https://github.com/RustPython/Parser/pull/91",
+            "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+            "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+            "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "scope": "Explicit integer/general/character presentation routes bool to format_int",
+            "source_evidence": [
+              "analysis/causes/parser_bool_edcfcb4.diff.txt",
+              "review/round6-parser-update-parentdiff.diff.txt"
+            ],
+            "boundary_executed": false
+          },
+          "review_restrictions": [
+            "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+            "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+            "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+            "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+          ],
+          "evidence": [
+            "logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stdout",
+            "logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stderr",
+            "logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stdout",
+            "logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stderr",
+            "logs/issue-4950-case-03/current-01.stdout",
+            "logs/issue-4950-case-03/current-01.stderr",
+            "logs/issue-4950-case-03/cpython-01.stdout",
+            "logs/issue-4950-case-03/cpython-01.stderr",
+            "logs/issue-4950-case-03/current-value.stdout",
+            "logs/issue-4950-case-03/current-value.stderr",
+            "logs/issue-4950-case-03/cpython-value.stdout",
+            "logs/issue-4950-case-03/cpython-value.stderr",
+            "analysis/round6-adjudication-proposals.json",
+            "review/sixth-review.json",
+            "analysis/round6-evidence-corrections-main.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-4950-case-04",
+        "historical": {
+          "case_id": "issue-4950-case-04",
+          "issue_number": 4950,
+          "evidence": [
+            "logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stdout",
+            "logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stderr",
+            "logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stdout",
+            "logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+          "reported_symptoms": [
+            "ValueError: Invalid format specifier (목록 전체에 대한 보고, traceback은 o 사례)"
+          ],
+          "expected_behavior": "CPython처럼 bool을 숫자 포맷으로 처리",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4950/issue-4950-case-04/source-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.11184804199729115,
+              "code_input_path": "repros/4950/issue-4950-case-04/source-01.py",
+              "code_sha256": "81b97ae129791c22f37a733a1e64b6f71a8330e8afb139b604286233553bb805",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stderr"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-4950-case-04.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.1149334159999853,
+              "code_input_path": "verification-tools/derived-a/issue-4950-case-04.py",
+              "code_sha256": "8cd7087653e1f83a013c27b1b90cc5955b8d588f9169c69958e236cb3ab6540d",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "524449632d0fe6e512cead20e000c3119bcd2248f881e07be965d9c8fe644221",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:23:35.309663+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-fa790558-rust1671/build.stdout",
+              "logs/build-a-fa790558-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:26:00.541396+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+            "binary_size": 20165592,
+            "version_banner": "3.11.0alpha (tags/v0.2.0-860-gfa7905582:fa7905582, Apr 30 2023, 16:29:04) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.67.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "Both unchanged original expression and existing print(repr(...)) wrapper raise reported ValueError: Invalid format specifier. No timeout; stdout empty. Existing six __del__ warning lines precede traceback.",
+          "baseline_role": "case_specific_reported_revision",
+          "input_file_sha256": "dadc75effc221925fc8bd56a15a8defa0550bd526909fc61fb9d48a21b019d98",
+          "build_attempt_evidence": [
+            "logs/build-a-fa790558/provenance.json",
+            "logs/build-a-fa790558-rust1671/provenance.json"
+          ],
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4950-case-04",
+              "issue_number": 4950,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original format expression completed without reported ValueError; successful return-value check still needs derived print probe.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4950-case-04",
+          "verdict": "해결 확인",
+          "reason": "보고된 정확한 fa790558 커밋에서 원문 '{:e}'.format(False)과 값을 출력하는 동일 식의 wrapper가 모두 Invalid format specifier ValueError로 실패했다. 현재는 '0.000000e+00'를 반환하며 CPython3.14.6 출력과 바이트 단위로 일치한다. 해당 False·포맷 지정자 조합에 한정하며 case10이나 이슈 전체의 해결은 아니다.",
+          "scope": "'{:e}'.format(False) only; tested macOS arm64 default release; no whole-issue claim",
+          "historical_execution": true,
+          "historical_version_qualification": "exact reported revision",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/sixth-review.json",
+          "cause_analysis": "analysis/round6-cause-evidence.json",
+          "cause_review": {
+            "label": "high_relevance",
+            "pr_url": "https://github.com/RustPython/Parser/pull/91",
+            "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+            "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+            "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "scope": "Explicit float presentation routes bool to format_float",
+            "source_evidence": [
+              "analysis/causes/parser_bool_edcfcb4.diff.txt",
+              "review/round6-parser-update-parentdiff.diff.txt"
+            ],
+            "boundary_executed": false
+          },
+          "review_restrictions": [
+            "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+            "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+            "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+            "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+          ],
+          "evidence": [
+            "logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stdout",
+            "logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stderr",
+            "logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stdout",
+            "logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stderr",
+            "logs/issue-4950-case-04/current-01.stdout",
+            "logs/issue-4950-case-04/current-01.stderr",
+            "logs/issue-4950-case-04/cpython-01.stdout",
+            "logs/issue-4950-case-04/cpython-01.stderr",
+            "logs/issue-4950-case-04/current-value.stdout",
+            "logs/issue-4950-case-04/current-value.stderr",
+            "logs/issue-4950-case-04/cpython-value.stdout",
+            "logs/issue-4950-case-04/cpython-value.stderr",
+            "analysis/round6-adjudication-proposals.json",
+            "review/sixth-review.json",
+            "analysis/round6-evidence-corrections-main.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-4950-case-05",
+        "historical": {
+          "case_id": "issue-4950-case-05",
+          "issue_number": 4950,
+          "evidence": [
+            "logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stdout",
+            "logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stderr",
+            "logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stdout",
+            "logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+          "reported_symptoms": [
+            "ValueError: Invalid format specifier (목록 전체에 대한 보고, traceback은 o 사례)"
+          ],
+          "expected_behavior": "CPython처럼 bool을 숫자 포맷으로 처리",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4950/issue-4950-case-05/source-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.11396550000063144,
+              "code_input_path": "repros/4950/issue-4950-case-05/source-01.py",
+              "code_sha256": "cddac37ab1f52d9dcecec93ee3411911551acbd1e5da8b5963e33e8cc13fee7c",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stderr"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-4950-case-05.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.11781787499785423,
+              "code_input_path": "verification-tools/derived-a/issue-4950-case-05.py",
+              "code_sha256": "4ab03d61b8c686181e18a10cb3da65fb298a0f408b91beb740dc96bde5307179",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "524449632d0fe6e512cead20e000c3119bcd2248f881e07be965d9c8fe644221",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:23:35.309663+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-fa790558-rust1671/build.stdout",
+              "logs/build-a-fa790558-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:26:00.541396+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+            "binary_size": 20165592,
+            "version_banner": "3.11.0alpha (tags/v0.2.0-860-gfa7905582:fa7905582, Apr 30 2023, 16:29:04) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.67.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "Both unchanged original expression and existing print(repr(...)) wrapper raise reported ValueError: Invalid format specifier. No timeout; stdout empty. Existing six __del__ warning lines precede traceback.",
+          "baseline_role": "case_specific_reported_revision",
+          "input_file_sha256": "dadc75effc221925fc8bd56a15a8defa0550bd526909fc61fb9d48a21b019d98",
+          "build_attempt_evidence": [
+            "logs/build-a-fa790558/provenance.json",
+            "logs/build-a-fa790558-rust1671/provenance.json"
+          ],
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4950-case-05",
+              "issue_number": 4950,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original format expression completed without reported ValueError; successful return-value check still needs derived print probe.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4950-case-05",
+          "verdict": "해결 확인",
+          "reason": "보고된 정확한 fa790558 커밋에서 원문 '{:E}'.format(False)과 값을 출력하는 동일 식의 wrapper가 모두 Invalid format specifier ValueError로 실패했다. 현재는 '0.000000E+00'를 반환하며 CPython3.14.6 출력과 바이트 단위로 일치한다. 해당 False·포맷 지정자 조합에 한정하며 case10이나 이슈 전체의 해결은 아니다.",
+          "scope": "'{:E}'.format(False) only; tested macOS arm64 default release; no whole-issue claim",
+          "historical_execution": true,
+          "historical_version_qualification": "exact reported revision",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/sixth-review.json",
+          "cause_analysis": "analysis/round6-cause-evidence.json",
+          "cause_review": {
+            "label": "high_relevance",
+            "pr_url": "https://github.com/RustPython/Parser/pull/91",
+            "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+            "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+            "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "scope": "Explicit float presentation routes bool to format_float",
+            "source_evidence": [
+              "analysis/causes/parser_bool_edcfcb4.diff.txt",
+              "review/round6-parser-update-parentdiff.diff.txt"
+            ],
+            "boundary_executed": false
+          },
+          "review_restrictions": [
+            "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+            "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+            "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+            "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+          ],
+          "evidence": [
+            "logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stdout",
+            "logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stderr",
+            "logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stdout",
+            "logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stderr",
+            "logs/issue-4950-case-05/current-01.stdout",
+            "logs/issue-4950-case-05/current-01.stderr",
+            "logs/issue-4950-case-05/cpython-01.stdout",
+            "logs/issue-4950-case-05/cpython-01.stderr",
+            "logs/issue-4950-case-05/current-value.stdout",
+            "logs/issue-4950-case-05/current-value.stderr",
+            "logs/issue-4950-case-05/cpython-value.stdout",
+            "logs/issue-4950-case-05/cpython-value.stderr",
+            "analysis/round6-adjudication-proposals.json",
+            "review/sixth-review.json",
+            "analysis/round6-evidence-corrections-main.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-4950-case-06",
+        "historical": {
+          "case_id": "issue-4950-case-06",
+          "issue_number": 4950,
+          "evidence": [
+            "logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stdout",
+            "logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stderr",
+            "logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stdout",
+            "logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+          "reported_symptoms": [
+            "ValueError: Invalid format specifier (목록 전체에 대한 보고, traceback은 o 사례)"
+          ],
+          "expected_behavior": "CPython처럼 bool을 숫자 포맷으로 처리",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4950/issue-4950-case-06/source-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.10552183300023898,
+              "code_input_path": "repros/4950/issue-4950-case-06/source-01.py",
+              "code_sha256": "a952e209e899b544a640e73504d76f01fb954ee310e812fb66ef2889c078de64",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stderr"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-4950-case-06.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.11578150000423193,
+              "code_input_path": "verification-tools/derived-a/issue-4950-case-06.py",
+              "code_sha256": "01087bc7445d3e3a6eb529e1fafbce971a8125dc2d7caf9ffde6283308e08fbf",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "524449632d0fe6e512cead20e000c3119bcd2248f881e07be965d9c8fe644221",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:23:35.309663+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-fa790558-rust1671/build.stdout",
+              "logs/build-a-fa790558-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:26:00.541396+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+            "binary_size": 20165592,
+            "version_banner": "3.11.0alpha (tags/v0.2.0-860-gfa7905582:fa7905582, Apr 30 2023, 16:29:04) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.67.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "Both unchanged original expression and existing print(repr(...)) wrapper raise reported ValueError: Invalid format specifier. No timeout; stdout empty. Existing six __del__ warning lines precede traceback.",
+          "baseline_role": "case_specific_reported_revision",
+          "input_file_sha256": "dadc75effc221925fc8bd56a15a8defa0550bd526909fc61fb9d48a21b019d98",
+          "build_attempt_evidence": [
+            "logs/build-a-fa790558/provenance.json",
+            "logs/build-a-fa790558-rust1671/provenance.json"
+          ],
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4950-case-06",
+              "issue_number": 4950,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original format expression completed without reported ValueError; successful return-value check still needs derived print probe.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4950-case-06",
+          "verdict": "해결 확인",
+          "reason": "보고된 정확한 fa790558 커밋에서 원문 '{:c}'.format(False)과 값을 출력하는 동일 식의 wrapper가 모두 Invalid format specifier ValueError로 실패했다. 현재는 '\\x00'를 반환하며 CPython3.14.6 출력과 바이트 단위로 일치한다. 해당 False·포맷 지정자 조합에 한정하며 case10이나 이슈 전체의 해결은 아니다.",
+          "scope": "'{:c}'.format(False) only; tested macOS arm64 default release; no whole-issue claim",
+          "historical_execution": true,
+          "historical_version_qualification": "exact reported revision",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/sixth-review.json",
+          "cause_analysis": "analysis/round6-cause-evidence.json",
+          "cause_review": {
+            "label": "high_relevance",
+            "pr_url": "https://github.com/RustPython/Parser/pull/91",
+            "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+            "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+            "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "scope": "Explicit integer/general/character presentation routes bool to format_int",
+            "source_evidence": [
+              "analysis/causes/parser_bool_edcfcb4.diff.txt",
+              "review/round6-parser-update-parentdiff.diff.txt"
+            ],
+            "boundary_executed": false
+          },
+          "review_restrictions": [
+            "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+            "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+            "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+            "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+          ],
+          "evidence": [
+            "logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stdout",
+            "logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stderr",
+            "logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stdout",
+            "logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stderr",
+            "logs/issue-4950-case-06/current-01.stdout",
+            "logs/issue-4950-case-06/current-01.stderr",
+            "logs/issue-4950-case-06/cpython-01.stdout",
+            "logs/issue-4950-case-06/cpython-01.stderr",
+            "logs/issue-4950-case-06/current-value.stdout",
+            "logs/issue-4950-case-06/current-value.stderr",
+            "logs/issue-4950-case-06/cpython-value.stdout",
+            "logs/issue-4950-case-06/cpython-value.stderr",
+            "analysis/round6-adjudication-proposals.json",
+            "review/sixth-review.json",
+            "analysis/round6-evidence-corrections-main.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-4950-case-07",
+        "historical": {
+          "case_id": "issue-4950-case-07",
+          "issue_number": 4950,
+          "evidence": [
+            "logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stdout",
+            "logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stderr",
+            "logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stdout",
+            "logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+          "reported_symptoms": [
+            "ValueError: Invalid format specifier (목록 전체에 대한 보고, traceback은 o 사례)"
+          ],
+          "expected_behavior": "CPython처럼 bool을 숫자 포맷으로 처리",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4950/issue-4950-case-07/source-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.12060570799803827,
+              "code_input_path": "repros/4950/issue-4950-case-07/source-01.py",
+              "code_sha256": "c8a4b5ea79424c080963d5c8c21d34f486d15a825cfaf9936053a0f3a3858d93",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stderr"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-4950-case-07.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.12097833299776539,
+              "code_input_path": "verification-tools/derived-a/issue-4950-case-07.py",
+              "code_sha256": "1fdaa574f234db57a2c5cf408ca94b4c05a3a456b97def8007bfc2ef301f9ba5",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "524449632d0fe6e512cead20e000c3119bcd2248f881e07be965d9c8fe644221",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:23:35.309663+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-fa790558-rust1671/build.stdout",
+              "logs/build-a-fa790558-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:26:00.541396+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+            "binary_size": 20165592,
+            "version_banner": "3.11.0alpha (tags/v0.2.0-860-gfa7905582:fa7905582, Apr 30 2023, 16:29:04) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.67.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "Both unchanged original expression and existing print(repr(...)) wrapper raise reported ValueError: Invalid format specifier. No timeout; stdout empty. Existing six __del__ warning lines precede traceback.",
+          "baseline_role": "case_specific_reported_revision",
+          "input_file_sha256": "dadc75effc221925fc8bd56a15a8defa0550bd526909fc61fb9d48a21b019d98",
+          "build_attempt_evidence": [
+            "logs/build-a-fa790558/provenance.json",
+            "logs/build-a-fa790558-rust1671/provenance.json"
+          ],
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4950-case-07",
+              "issue_number": 4950,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original format expression completed without reported ValueError; successful return-value check still needs derived print probe.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4950-case-07",
+          "verdict": "해결 확인",
+          "reason": "보고된 정확한 fa790558 커밋에서 원문 '{:g}'.format(False)과 값을 출력하는 동일 식의 wrapper가 모두 Invalid format specifier ValueError로 실패했다. 현재는 '0'를 반환하며 CPython3.14.6 출력과 바이트 단위로 일치한다. 해당 False·포맷 지정자 조합에 한정하며 case10이나 이슈 전체의 해결은 아니다.",
+          "scope": "'{:g}'.format(False) only; tested macOS arm64 default release; no whole-issue claim",
+          "historical_execution": true,
+          "historical_version_qualification": "exact reported revision",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/sixth-review.json",
+          "cause_analysis": "analysis/round6-cause-evidence.json",
+          "cause_review": {
+            "label": "high_relevance",
+            "pr_url": "https://github.com/RustPython/Parser/pull/91",
+            "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+            "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+            "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "scope": "Explicit integer/general/character presentation routes bool to format_int",
+            "source_evidence": [
+              "analysis/causes/parser_bool_edcfcb4.diff.txt",
+              "review/round6-parser-update-parentdiff.diff.txt"
+            ],
+            "boundary_executed": false
+          },
+          "review_restrictions": [
+            "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+            "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+            "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+            "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+          ],
+          "evidence": [
+            "logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stdout",
+            "logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stderr",
+            "logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stdout",
+            "logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stderr",
+            "logs/issue-4950-case-07/current-01.stdout",
+            "logs/issue-4950-case-07/current-01.stderr",
+            "logs/issue-4950-case-07/cpython-01.stdout",
+            "logs/issue-4950-case-07/cpython-01.stderr",
+            "logs/issue-4950-case-07/current-value.stdout",
+            "logs/issue-4950-case-07/current-value.stderr",
+            "logs/issue-4950-case-07/cpython-value.stdout",
+            "logs/issue-4950-case-07/cpython-value.stderr",
+            "analysis/round6-adjudication-proposals.json",
+            "review/sixth-review.json",
+            "analysis/round6-evidence-corrections-main.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-4950-case-08",
+        "historical": {
+          "case_id": "issue-4950-case-08",
+          "issue_number": 4950,
+          "evidence": [
+            "logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stdout",
+            "logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stderr",
+            "logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stdout",
+            "logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+          "reported_symptoms": [
+            "ValueError: Invalid format specifier (목록 전체에 대한 보고, traceback은 o 사례)"
+          ],
+          "expected_behavior": "CPython처럼 bool을 숫자 포맷으로 처리",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4950/issue-4950-case-08/source-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.12388508299773093,
+              "code_input_path": "repros/4950/issue-4950-case-08/source-01.py",
+              "code_sha256": "c45afd3e2ddb91ec36aca2244b39f8e0ef8da817661fadc2014766c85b3d4026",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stderr"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-4950-case-08.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.10837658400123473,
+              "code_input_path": "verification-tools/derived-a/issue-4950-case-08.py",
+              "code_sha256": "0c6076c9e45e8d6d84d1de3539dc860133d8e0ff0a492561a6b42eef78613b4d",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "524449632d0fe6e512cead20e000c3119bcd2248f881e07be965d9c8fe644221",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:23:35.309663+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-fa790558-rust1671/build.stdout",
+              "logs/build-a-fa790558-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:26:00.541396+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+            "binary_size": 20165592,
+            "version_banner": "3.11.0alpha (tags/v0.2.0-860-gfa7905582:fa7905582, Apr 30 2023, 16:29:04) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.67.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "Both unchanged original expression and existing print(repr(...)) wrapper raise reported ValueError: Invalid format specifier. No timeout; stdout empty. Existing six __del__ warning lines precede traceback.",
+          "baseline_role": "case_specific_reported_revision",
+          "input_file_sha256": "dadc75effc221925fc8bd56a15a8defa0550bd526909fc61fb9d48a21b019d98",
+          "build_attempt_evidence": [
+            "logs/build-a-fa790558/provenance.json",
+            "logs/build-a-fa790558-rust1671/provenance.json"
+          ],
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4950-case-08",
+              "issue_number": 4950,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original format expression completed without reported ValueError; successful return-value check still needs derived print probe.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4950-case-08",
+          "verdict": "해결 확인",
+          "reason": "보고된 정확한 fa790558 커밋에서 원문 '{:o}'.format(False)과 값을 출력하는 동일 식의 wrapper가 모두 Invalid format specifier ValueError로 실패했다. 현재는 '0'를 반환하며 CPython3.14.6 출력과 바이트 단위로 일치한다. 해당 False·포맷 지정자 조합에 한정하며 case10이나 이슈 전체의 해결은 아니다.",
+          "scope": "'{:o}'.format(False) only; tested macOS arm64 default release; no whole-issue claim",
+          "historical_execution": true,
+          "historical_version_qualification": "exact reported revision",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/sixth-review.json",
+          "cause_analysis": "analysis/round6-cause-evidence.json",
+          "cause_review": {
+            "label": "high_relevance",
+            "pr_url": "https://github.com/RustPython/Parser/pull/91",
+            "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+            "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+            "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "scope": "Explicit integer/general/character presentation routes bool to format_int",
+            "source_evidence": [
+              "analysis/causes/parser_bool_edcfcb4.diff.txt",
+              "review/round6-parser-update-parentdiff.diff.txt"
+            ],
+            "boundary_executed": false
+          },
+          "review_restrictions": [
+            "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+            "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+            "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+            "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+          ],
+          "evidence": [
+            "logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stdout",
+            "logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stderr",
+            "logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stdout",
+            "logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stderr",
+            "logs/issue-4950-case-08/current-01.stdout",
+            "logs/issue-4950-case-08/current-01.stderr",
+            "logs/issue-4950-case-08/cpython-01.stdout",
+            "logs/issue-4950-case-08/cpython-01.stderr",
+            "logs/issue-4950-case-08/current-value.stdout",
+            "logs/issue-4950-case-08/current-value.stderr",
+            "logs/issue-4950-case-08/cpython-value.stdout",
+            "logs/issue-4950-case-08/cpython-value.stderr",
+            "analysis/round6-adjudication-proposals.json",
+            "review/sixth-review.json",
+            "analysis/round6-evidence-corrections-main.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-4950-case-09",
+        "historical": {
+          "case_id": "issue-4950-case-09",
+          "issue_number": 4950,
+          "evidence": [
+            "logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stdout",
+            "logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stderr",
+            "logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stdout",
+            "logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+          "reported_symptoms": [
+            "ValueError: Invalid format specifier (목록 전체에 대한 보고, traceback은 o 사례)"
+          ],
+          "expected_behavior": "CPython처럼 bool을 숫자 포맷으로 처리",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/repros/4950/issue-4950-case-09/source-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.11657829199975822,
+              "code_input_path": "repros/4950/issue-4950-case-09/source-01.py",
+              "code_sha256": "05563f759018a18e077d661f58debd053dc7b98560b539ceed5fcc6c0db62993",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stderr"
+            },
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-4950-case-09.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.12237608300347347,
+              "code_input_path": "verification-tools/derived-a/issue-4950-case-09.py",
+              "code_sha256": "c338bca27792753414ad37f5ddc34a341ed0548fe4e09921761cc719301ed361",
+              "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+              "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+              "build_provenance": "logs/build-a-fa790558-rust1671/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stdout",
+              "stderr_path": "logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "fa790558211ec690541299258f44d7453501958a",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.67.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "524449632d0fe6e512cead20e000c3119bcd2248f881e07be965d9c8fe644221",
+            "toolchain": "rustc 1.67.1 (d5a82bbd2 2023-02-07)\nbinary: rustc\ncommit-hash: d5a82bbd26e1ad8b7401f6a718a9c57c96905483\ncommit-date: 2023-02-07\nhost: aarch64-apple-darwin\nrelease: 1.67.1\nLLVM version: 15.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:23:35.309663+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-fa790558-rust1671/build.stdout",
+              "logs/build-a-fa790558-rust1671/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T10:26:00.541396+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "6d760217eb9a408db3e82b75ba51a606795c41436acdb34c016758178c3215a1",
+            "binary_size": 20165592,
+            "version_banner": "3.11.0alpha (tags/v0.2.0-860-gfa7905582:fa7905582, Apr 30 2023, 16:29:04) \n[rustc 1.67.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.67.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "historical_symptom_observed": "Both unchanged original expression and existing print(repr(...)) wrapper raise reported ValueError: Invalid format specifier. No timeout; stdout empty. Existing six __del__ warning lines precede traceback.",
+          "baseline_role": "case_specific_reported_revision",
+          "input_file_sha256": "dadc75effc221925fc8bd56a15a8defa0550bd526909fc61fb9d48a21b019d98",
+          "build_attempt_evidence": [
+            "logs/build-a-fa790558/provenance.json",
+            "logs/build-a-fa790558-rust1671/provenance.json"
+          ],
+          "evidence_ledger": "analysis/historical-results-a.json",
+          "previous_queue_records": [
+            {
+              "case_id": "issue-4950-case-09",
+              "issue_number": 4950,
+              "historical_status": "selected_pending_baseline_review",
+              "selection_reason": "Original format expression completed without reported ValueError; successful return-value check still needs derived print probe.",
+              "evidence": [],
+              "evidence_ledger": "analysis/historical-results.json"
+            }
+          ]
+        },
+        "adjudication": {
+          "case_id": "issue-4950-case-09",
+          "verdict": "해결 확인",
+          "reason": "보고된 정확한 fa790558 커밋에서 원문 '{:%}'.format(False)과 값을 출력하는 동일 식의 wrapper가 모두 Invalid format specifier ValueError로 실패했다. 현재는 '0.000000%'를 반환하며 CPython3.14.6 출력과 바이트 단위로 일치한다. 해당 False·포맷 지정자 조합에 한정하며 case10이나 이슈 전체의 해결은 아니다.",
+          "scope": "'{:%}'.format(False) only; tested macOS arm64 default release; no whole-issue claim",
+          "historical_execution": true,
+          "historical_version_qualification": "exact reported revision",
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/sixth-review.json",
+          "cause_analysis": "analysis/round6-cause-evidence.json",
+          "cause_review": {
+            "label": "high_relevance",
+            "pr_url": "https://github.com/RustPython/Parser/pull/91",
+            "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+            "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+            "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "scope": "Explicit float presentation routes bool to format_float",
+            "source_evidence": [
+              "analysis/causes/parser_bool_edcfcb4.diff.txt",
+              "review/round6-parser-update-parentdiff.diff.txt"
+            ],
+            "boundary_executed": false
+          },
+          "review_restrictions": [
+            "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+            "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+            "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+            "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+          ],
+          "evidence": [
+            "logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stdout",
+            "logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stderr",
+            "logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stdout",
+            "logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stderr",
+            "logs/issue-4950-case-09/current-01.stdout",
+            "logs/issue-4950-case-09/current-01.stderr",
+            "logs/issue-4950-case-09/cpython-01.stdout",
+            "logs/issue-4950-case-09/cpython-01.stderr",
+            "logs/issue-4950-case-09/current-value.stdout",
+            "logs/issue-4950-case-09/current-value.stderr",
+            "logs/issue-4950-case-09/cpython-value.stdout",
+            "logs/issue-4950-case-09/cpython-value.stderr",
+            "analysis/round6-adjudication-proposals.json",
+            "review/sixth-review.json",
+            "analysis/round6-evidence-corrections-main.json"
+          ]
+        }
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/Parser/pull/91",
+        "causal_label": "high_relevance",
+        "causal_label_korean": "관련성 높음",
+        "commit": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+        "integration_pr_url": "https://github.com/RustPython/RustPython/pull/5012",
+        "integration_commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+        "mechanism": "Historical format_bool accepts only Decimal or no format type and rejects the nine reported types. Parser PR91 changes the branch to route hex/octal/character/general and other integer formats through format_int, and exponent/fixed/percentage through format_float, adding regression assertions for every reported false-value format. RustPython PR5012 changes the parser/format dependency from b2f95e2 (does not contain PR91) to69d27d9 (contains it). Current monorepo retains those branches. This directly matches each observed ValueError-to-correct-value change.",
+        "boundary_execution_complete": false,
+        "review_status": "approved_high_relevance",
+        "limits": [
+          "No runtime execution immediately before/after Parser PR91 or RustPython PR5012. High relevance only, not cause confirmed.",
+          "Later PR8566 fixes nonempty specs without a presentation type; all selected cases have explicit types, so that later PR is not the cause attributed here.",
+          "PR5618 later imports the format code back into the main repository; it is not treated as the original implementation change.",
+          "Reporter Ubuntu18.04 and older CPython references differ from survey macOS26.5.2/CPython3.14.6; portable exact operation reproduced on the reported SHA.",
+          "Rust1.67.1 historical versus1.99 current; compiler versions differ.",
+          "Case10 screenshot {:n}/{:d} with True is outside these nine approvals and remains current-execution blocked.",
+          "No confirmed fix boundary; PR5618 reintegration and PR8566 no-presentation-type fix are not attributed to these explicit types."
+        ],
+        "source_evidence": "analysis/round6-cause-evidence.json",
+        "runtime_evidence": "analysis/round6-adjudication-proposals.json",
+        "independent_review": "review/sixth-review.json",
+        "reviewed_scope": "Explicit float presentation routes bool to format_float",
+        "review_source_evidence": [
+          "analysis/causes/parser_bool_edcfcb4.diff.txt",
+          "review/round6-parser-update-parentdiff.diff.txt"
+        ],
+        "source_extraction_repair": {
+          "empty_original": "analysis/causes/rustpython_parser_update_5012.diff.txt",
+          "superseded_by": "review/round6-parser-update-parentdiff.diff.txt",
+          "sha256": "e0d5f68ab73aaba4a73585e3d49943f29bda352a042664e57567f270cb00852c"
+        },
+        "external_repository_commit_note": "Parser commit belongs to a separate repository; validate RustPython integration commit instead.",
+        "previous_wrong_repository_lookup": {
+          "sha": "edcfcb4a7415b9c20634a856a240fc128b1f59e0",
+          "exit_code": 128,
+          "stderr": "fatal: Not a valid commit name edcfcb4a7415b9c20634a856a240fc128b1f59e0\n"
+        },
+        "ancestry_check": {
+          "sha": "3d2c51962bfdc598310df648dab328bd4550c95b",
+          "exit_code": 0,
+          "stderr": ""
+        }
+      }
+    ]
+  },
+  {
+    "number": 5179,
+    "title": "Add `__buffer__` and `__release_buffer__` methods to builtin types",
+    "historical_cases": [
+      {
+        "case_id": "issue-5179-case-01",
+        "historical": {
+          "case_id": "issue-5179-case-01",
+          "issue_number": 5179,
+          "evidence": [
+            "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stdout",
+            "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr"
+          ],
+          "historical_status": "executed_awaiting_symptom_analysis",
+          "historical_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+          "reported_symptoms": [
+            "적절한 builtin 타입에 __buffer__ 및 __release_buffer__ 정의 부재"
+          ],
+          "expected_behavior": "PEP 688에 따라 Python에서 buffer protocol 접근 가능",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-main/issue-5179-case-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 0,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.1048404170142021,
+              "code_input_path": "verification-tools/derived-main/issue-5179-case-01.py",
+              "code_sha256": "d89ea1305286bad69ac51c63027d268031548ce37bdbdfc3908e7edcf026167d",
+              "actual_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+              "binary_sha256": "92a6951391fb89d6e3a92a2213554361cb777e9c110d03d0b50a1400dd7bdc51",
+              "build_provenance": "logs/build-a-a8ab7dd3-partition-rust1750/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stdout",
+              "stderr_path": "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.75.0",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "ec3ddfce1230c57242fe09420f4c541d89211a57074d5dde3898f993ac0c9e67",
+            "toolchain": "rustc 1.75.0 (82e1608df 2023-12-21)\nbinary: rustc\ncommit-hash: 82e1608dfa6e0b5569232559e3d385fea5a93112\ncommit-date: 2023-12-21\nhost: aarch64-apple-darwin\nrelease: 1.75.0\nLLVM version: 17.0.6\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T10:59:18.172480+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-a8ab7dd3-partition-rust1750/build.stdout",
+              "logs/build-a-a8ab7dd3-partition-rust1750/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T11:00:56.151167+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "92a6951391fb89d6e3a92a2213554361cb777e9c110d03d0b50a1400dd7bdc51",
+            "binary_size": 21301384,
+            "version_banner": "3.12.0alpha (tags/0.3.0-170-ga8ab7dd38:a8ab7dd38, Feb 21 2024, 12:02:54) \n[rustc 1.75.0]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.96.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "baseline_role": "required_issue_time_approximation",
+          "historical_symptom_observed": "Raw original probe output retained for missingbuffer methods or expliciten_USformat mismatch; see stdout/stderr.",
+          "evidence_ledger": "analysis/historical-results-a.json"
+        },
+        "adjudication": {
+          "case_id": "issue-5179-case-01",
+          "verdict": "해결 확인",
+          "reason": "근사 a8ab7dd3에서는 bytes·bytearray·array·memoryview의 Python 버퍼 메서드가 없었다. 현재 동일 대표 입력은 __buffer__(0)의 abc payload를 확인하고 해당 타입의 release 호출을 마친다. bytes에 release 메서드가 없는 것은 CPython과 같으며, 전체 PEP 688·flags·수명 관리 호환성은 검증하지 않았다.",
+          "scope": "Representative bytes, bytearray, array(B), memoryview Python buffer-method availability and exact abc payload.",
+          "historical_execution": true,
+          "historical_version_qualification": {
+            "role": "closest_preissue_main_approximation",
+            "reason": "No case-specific identifiable runtime revision supplied."
+          },
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/eighth-review.json",
+          "cause_analysis": "analysis/round8-cause-evidence.json",
+          "review_restrictions": [
+            "Historical exit0 is not success: printed method absence is the original defect.",
+            "No comprehensive custom-exporter, resize/export lifetime, flags matrix, C API or complete PEP688 conformance claim.",
+            "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+            "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+          ],
+          "cause_reviews": [
+            {
+              "pr_url": "https://github.com/RustPython/RustPython/pull/8523",
+              "commit": "c603eb7c9ad763e72cbec7b323e4cb331aee7e81",
+              "integration_commit": null,
+              "approved_label": "high_relevance",
+              "scope": "PR8523 adds Python-facing __buffer__ and conditional __release_buffer__ to buffer-capable builtins through AsBuffer/protocol slots, with managed exports. Saved current calls return memoryviews containing abc and release where provided; bytes appropriately lacks a release method, also observed in CPython. This is representative Python behavior only, not comprehensive PEP688/C-API/lifetime validation.",
+              "boundary_execution_complete": false,
+              "source_diff": "analysis/causes/round8-python_buffer_methods-pr8523.diff.txt",
+              "source_hash": "d1bba6f489b249a3d3a93a3c8d99d8ea64260582e216e0c8d708dddabaab2877",
+              "limits": [
+                "Source correspondence and ancestry only; no first fixing boundary executed.",
+                "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+                "Apply all case-specific scope and environment limits from the adjudication proposal."
+              ]
+            }
+          ],
+          "evidence": [
+            "logs/issue-5179-case-01/cpython-derived.stderr",
+            "logs/issue-5179-case-01/cpython-derived.stdout",
+            "logs/issue-5179-case-01/current-derived.stderr",
+            "logs/issue-5179-case-01/current-derived.stdout",
+            "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr",
+            "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stdout",
+            "sources/issues/5179/body.md",
+            "verification-tools/derived-main/issue-5179-case-01.py",
+            "analysis/causes/round8-python_buffer_methods-pr8523.diff.txt",
+            "logs/build-a-a8ab7dd3-partition-rust1750/provenance.json",
+            "review/eighth-review.json",
+            "analysis/round8-adjudication-proposals.json",
+            "analysis/round8-cause-evidence.json"
+          ]
+        }
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/8523",
+        "causal_label": "high_relevance",
+        "causal_label_korean": "관련성 높음",
+        "commit": "c603eb7c9ad763e72cbec7b323e4cb331aee7e81",
+        "mechanism": "PR8523 adds Python-facing __buffer__ and conditional __release_buffer__ to buffer-capable builtins through AsBuffer/protocol slots, with managed exports. Saved current calls return memoryviews containing abc and release where provided; bytes appropriately lacks a release method, also observed in CPython. This is representative Python behavior only, not comprehensive PEP688/C-API/lifetime validation.",
+        "boundary_execution_complete": false,
+        "review_status": "approved_high_relevance",
+        "source_diff_path": "analysis/causes/round8-python_buffer_methods-pr8523.diff.txt",
+        "source_diff_sha256": "d1bba6f489b249a3d3a93a3c8d99d8ea64260582e216e0c8d708dddabaab2877",
+        "source_evidence": "analysis/round8-cause-evidence.json",
+        "runtime_evidence": "analysis/round8-adjudication-proposals.json",
+        "limits": [
+          "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+          "Apply all case-specific scope and environment limits from the adjudication proposal."
+        ],
+        "reviewed_scope": "PR8523 adds Python-facing __buffer__ and conditional __release_buffer__ to buffer-capable builtins through AsBuffer/protocol slots, with managed exports. Saved current calls return memoryviews containing abc and release where provided; bytes appropriately lacks a release method, also observed in CPython. This is representative Python behavior only, not comprehensive PEP688/C-API/lifetime validation.",
+        "independent_review": "review/eighth-review.json",
+        "review_restrictions": [
+          "Historical exit0 is not success: printed method absence is the original defect.",
+          "No comprehensive custom-exporter, resize/export lifetime, flags matrix, C API or complete PEP688 conformance claim.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+        ],
+        "ancestry_check": {
+          "sha": "c603eb7c9ad763e72cbec7b323e4cb331aee7e81",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "verified_diff_sha256": "d1bba6f489b249a3d3a93a3c8d99d8ea64260582e216e0c8d708dddabaab2877"
+      }
+    ]
+  },
+  {
+    "number": 8494,
+    "title": "PEP 749: classmethod and staticmethod do not implement annotation wrapper semantics",
+    "historical_cases": [
+      {
+        "case_id": "issue-8494-case-01",
+        "historical": {
+          "case_id": "issue-8494-case-01",
+          "issue_number": 8494,
+          "historical_status": "original_symptom_reproduced",
+          "historical_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+          "baseline_selection": "approximate closest first-parent main commit before issue creation; no RustPython version reported (CPython 3.14.6 only)",
+          "evidence": [
+            "logs/issue-8494-case-01/historical-b304919a63-01.stdout",
+            "logs/issue-8494-case-01/historical-b304919a63-01.stderr"
+          ],
+          "reported_symptoms": [
+            "unresolved-name case에서 wrapper에 delegated value cache 없음",
+            "대입이 wrapped function annotations를 변경"
+          ],
+          "expected_behavior": "각 wrapper __dict__에 annotation 캐시; wrapper에 대입해도 f.__annotations__ 불변",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-b/release/rustpython",
+                "<survey>/repros/8494/issue-8494-case-01/source-01.py"
+              ],
+              "cwd": "<slot-b-source>",
+              "env": {
+                "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 0,
+              "timeout": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.8523857089894591,
+              "code_input_path": "repros/8494/issue-8494-case-01/source-01.py",
+              "code_sha256": "fc5f528f1129ff361f774e5541c2dabe2536271f7547550d21f7219c2ebebe2f",
+              "actual_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+              "binary_sha256": "4090ba1dddb8fade8958d8255287b636859f9df732e7029febac40d0c4388d25",
+              "build_provenance": "logs/build-b-b304919a/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-8494-case-01/historical-b304919a63-01.stdout",
+              "stderr_path": "logs/issue-8494-case-01/historical-b304919a63-01.stderr",
+              "baseline_role": "required_issue_time_approximation"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+            "worktree": "<slot-b-source>",
+            "command": [
+              "cargo",
+              "+1.99.0",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-b"
+            ],
+            "cargo_lock_sha256": "ae723c266a05b9bf11207c301c0491e60b2eb18676d4954375f548e6b9da5b85",
+            "cargo_toml_sha256": "ba4b1a0006cc4e5213c9ce78c0d95ff9dc134f0ea4f57c96dcb5f1922e65a1d2",
+            "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: aarch64-apple-darwin\nrelease: 1.99.0\nLLVM version: 23.1.1",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T07:57:27.430391+00:00",
+            "build_status": "success",
+            "initial_attempt_exit_code": 101,
+            "logs": [
+              "logs/build-b-b304919a/build.stdout",
+              "logs/build-b-b304919a/build.stderr",
+              "logs/build-b-b304919a/build-escalated.stdout",
+              "logs/build-b-b304919a/build-escalated.stderr"
+            ],
+            "binary": "<survey>/.build/slot-b/release/rustpython",
+            "build_exit_code": 0,
+            "binary_sha256": "4090ba1dddb8fade8958d8255287b636859f9df732e7029febac40d0c4388d25",
+            "binary_size": 33597136,
+            "build_completed_at": "2026-10-04T08:01:47.152917+00:00"
+          },
+          "observed_symptom": "Both wrappers report cache False; setting wrapper.__annotations__ changes f.__annotations__, matching report. Exit0 is failure of expected semantics, not success.",
+          "evidence_ledger": "analysis/historical-results.json"
+        },
+        "adjudication": {
+          "case_id": "issue-8494-case-01",
+          "verdict": "해결 확인",
+          "reason": "과거 b304919에서 classmethod와 staticmethod의 wrapper 캐시가 없고, __annotations__ 대입이 원래 함수의 annotations를 변경했다. 현재 동일 입력은 캐시 존재와 원래 함수의 불변을 확인하며 CPython 3.14.6과 일치한다. 독립 검토를 통과했다.",
+          "scope": "입력의 __annotations__ 조회·캐시·대입 사례에 한정한다. PEP 749 전체 __annotate__ 계약을 포괄하지 않는다.",
+          "historical_execution": true,
+          "review_required": true,
+          "independent_review": "review/initial-review.json",
+          "cause_analysis": "analysis/causes/issue-8494.json",
+          "evidence": [
+            "analysis/current-results.json",
+            "analysis/historical-results.json",
+            "review/initial-review.json"
+          ],
+          "historical_version_qualification": "이슈 생성 직전 main의 근사치다. 보고자가 사용한 정확한 SHA를 확인했다는 뜻은 아니다."
+        }
+      }
+    ],
+    "related_changes": [
+      {
+        "issue_number": 8494,
+        "candidate_commit": "73e547a9c31f347875982102dae3c29a71ac8f89",
+        "candidate_parent": "d7e41ebff587e27e57efb08651900543bf2a2910",
+        "candidate_reachable_from_fixed_main": true,
+        "related_pr": "https://github.com/RustPython/RustPython/pull/8701",
+        "causal_label": "high_relevance",
+        "causal_label_korean": "관련성 높음",
+        "boundary_execution_complete": false,
+        "reason": "__annotations__ now checks and stores the wrapper own dict. Setters assign there instead of callable.set_attr, so wrapper changes no longer mutate wrapped annotations. Current full four-line-per-wrapper output matches CPython3.14.6.",
+        "limitations": [
+          "Reported CPython3.14.6 is suitable; Python<3.14 fails at unresolved annotation definition and is not a valid original comparator.",
+          "Actual historical/current pair establishes scoped behavior difference; exact PR parent/commit boundary has not been executed, so cause remains high relevance."
+        ],
+        "source_diff_path": "analysis/causes/issue-8494-pr-8701.diff",
+        "source_diff_command": [
+          "git",
+          "diff",
+          "d7e41ebff587e27e57efb08651900543bf2a2910",
+          "73e547a9c31f347875982102dae3c29a71ac8f89",
+          "--",
+          "crates/vm/src/builtins/classmethod.rs",
+          "crates/vm/src/builtins/staticmethod.rs"
+        ],
+        "fixed_main_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+        "case_scope": [
+          "issue-8494-case-01"
+        ],
+        "runtime_pair_status": "original_historical_symptom_reproduced_and_current_expected_behavior_observed",
+        "required_historical_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+        "historical_evidence": [
+          "logs/issue-8494-case-01/historical-b304919a63-01.stdout",
+          "logs/issue-8494-case-01/historical-b304919a63-01.stderr"
+        ],
+        "current_evidence": [
+          "logs/issue-8494-case-01/current-01.stdout",
+          "logs/issue-8494-case-01/current-01.stderr",
+          "logs/issue-8494-case-01/cpython-01.stdout",
+          "logs/issue-8494-case-01/cpython-01.stderr"
+        ],
+        "review_status": "scoped_resolution_approved_by_independent_review",
+        "ancestry_check": {
+          "sha": "73e547a9c31f347875982102dae3c29a71ac8f89",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "verified_diff_sha256": "3fdc0a5188d84be4e2919ba9802d920e116af9994ee66078ef8e0a0e9f5c042c"
+      }
+    ]
+  },
+  {
+    "number": 3846,
+    "title": "Add missing dis features for modulefinder",
+    "historical_cases": [
+      {
+        "case_id": "issue-3846-case-01",
+        "historical": {
+          "case_id": "issue-3846-case-01",
+          "issue_number": 3846,
+          "evidence": [
+            "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout",
+            "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+          "reported_symptoms": [
+            "AttributeError: module 'dis' has no attribute 'opmap'"
+          ],
+          "expected_behavior": "보고한 CPython에서는 LOAD_CONST 100, EXTENDED_ARG 144, _unpack_opargs(100) generator 반환; opcode 수치는 버전 의존",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-3846-case-01.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.10527120799815748,
+              "code_input_path": "verification-tools/derived-a/issue-3846-case-01.py",
+              "code_sha256": "7f102daa75e4f5c5ee5b39f78b39060613b3d72a1bf39de2528f1379ec541402",
+              "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+              "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+              "build_provenance": "logs/build-a-5631d210-partition-rust1621/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout",
+              "stderr_path": "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.62.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "0cbc52a0ce6405f88b62b6ff315899d90eb45c64b963449c181a4891c9956846",
+            "toolchain": "rustc 1.62.1 (e092d0b6b 2022-07-16)\nbinary: rustc\ncommit-hash: e092d0b6b43f2de967af0887873151bb1c0b18d3\ncommit-date: 2022-07-16\nhost: aarch64-apple-darwin\nrelease: 1.62.1\nLLVM version: 14.0.5\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T11:06:22.990201+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-5631d210-partition-rust1621/build.stdout",
+              "logs/build-a-5631d210-partition-rust1621/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T11:08:26.915686+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+            "binary_size": 16042760,
+            "version_banner": "3.10.0alpha (tags/0.1.0-7810-g5631d2102:5631d2102, Jul  8 2022, 16:28:53) \n[rustc 1.62.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.96.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "build_attempt_evidence": [
+            "logs/build-a-5631d210-partition-rust1671/provenance.json",
+            "logs/build-a-5631d210-partition-rust1621/provenance.json"
+          ],
+          "baseline_role": "required_issue_time_approximation",
+          "historical_symptom_observed": "Selected dis API raises reported AttributeError for absent opmap/EXTENDED_ARG/_unpack_opargs; exit1/no timeout.",
+          "evidence_ledger": "analysis/historical-results-a.json"
+        },
+        "adjudication": {
+          "case_id": "issue-3846-case-01",
+          "verdict": "해결 확인",
+          "reason": "근사 5631d210에서 dis.opmap 부재가 재현됐고 현재 원문 LOAD_CONST 조회는 CPython 3.14.6과 같은 82를 반환한다. 원문의 100은 이전 opcode 표 값이며, 전체 bytecode·modulefinder 호환성을 뜻하지 않는다.",
+          "scope": "Exact dis.opmap[LOAD_CONST] availability and current-version value.",
+          "historical_execution": true,
+          "historical_version_qualification": {
+            "role": "closest_preissue_main_approximation",
+            "reason": "No case-specific identifiable runtime revision supplied."
+          },
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/eighth-review.json",
+          "cause_analysis": "analysis/round8-cause-evidence.json",
+          "review_restrictions": [
+            "Original100 reflects an older opcode table; values are version-dependent.",
+            "No general bytecode compatibility or whole modulefinder success claim.",
+            "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+            "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+          ],
+          "cause_reviews": [
+            {
+              "pr_url": "https://github.com/RustPython/RustPython/pull/5377",
+              "commit": "152d10bfea2374ca15fc835c146d720b437f803a",
+              "integration_commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+              "approved_label": "high_relevance",
+              "scope": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+              "boundary_execution_complete": false,
+              "source_diff": "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+              "source_hash": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d",
+              "limits": [
+                "Source correspondence and ancestry only; no first fixing boundary executed.",
+                "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+                "Apply all case-specific scope and environment limits from the adjudication proposal."
+              ]
+            }
+          ],
+          "evidence": [
+            "logs/issue-3846-case-01/cpython-documented-000.stderr",
+            "logs/issue-3846-case-01/cpython-documented-000.stdout",
+            "logs/issue-3846-case-01/current-documented-000.stderr",
+            "logs/issue-3846-case-01/current-documented-000.stdout",
+            "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr",
+            "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout",
+            "repros/3846/issue-3846-case-01/source-01.py",
+            "sources/issues/3846/body.md",
+            "sources/issues/3846/comment-1189392760.md",
+            "verification-tools/derived-a/issue-3846-case-01.py",
+            "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+            "logs/build-a-5631d210-partition-rust1621/provenance.json",
+            "review/eighth-review.json",
+            "analysis/round8-adjudication-proposals.json",
+            "analysis/round8-cause-evidence.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-3846-case-02",
+        "historical": {
+          "case_id": "issue-3846-case-02",
+          "issue_number": 3846,
+          "evidence": [
+            "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout",
+            "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+          "reported_symptoms": [
+            "AttributeError: module 'dis' has no attribute 'EXTENDED_ARG'"
+          ],
+          "expected_behavior": "보고한 CPython에서는 LOAD_CONST 100, EXTENDED_ARG 144, _unpack_opargs(100) generator 반환; opcode 수치는 버전 의존",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-3846-case-02.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.10813350000535138,
+              "code_input_path": "verification-tools/derived-a/issue-3846-case-02.py",
+              "code_sha256": "1e4ff2f5c7b933128a82d65527c1a1cf0b1f0e39e7a7b9ae0b7ba6ca341a0942",
+              "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+              "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+              "build_provenance": "logs/build-a-5631d210-partition-rust1621/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout",
+              "stderr_path": "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.62.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "0cbc52a0ce6405f88b62b6ff315899d90eb45c64b963449c181a4891c9956846",
+            "toolchain": "rustc 1.62.1 (e092d0b6b 2022-07-16)\nbinary: rustc\ncommit-hash: e092d0b6b43f2de967af0887873151bb1c0b18d3\ncommit-date: 2022-07-16\nhost: aarch64-apple-darwin\nrelease: 1.62.1\nLLVM version: 14.0.5\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T11:06:22.990201+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-5631d210-partition-rust1621/build.stdout",
+              "logs/build-a-5631d210-partition-rust1621/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T11:08:26.915686+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+            "binary_size": 16042760,
+            "version_banner": "3.10.0alpha (tags/0.1.0-7810-g5631d2102:5631d2102, Jul  8 2022, 16:28:53) \n[rustc 1.62.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.96.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "build_attempt_evidence": [
+            "logs/build-a-5631d210-partition-rust1671/provenance.json",
+            "logs/build-a-5631d210-partition-rust1621/provenance.json"
+          ],
+          "baseline_role": "required_issue_time_approximation",
+          "historical_symptom_observed": "Selected dis API raises reported AttributeError for absent opmap/EXTENDED_ARG/_unpack_opargs; exit1/no timeout.",
+          "evidence_ledger": "analysis/historical-results-a.json"
+        },
+        "adjudication": {
+          "case_id": "issue-3846-case-02",
+          "verdict": "해결 확인",
+          "reason": "근사 5631d210에서 dis.EXTENDED_ARG 부재가 재현됐고 현재는 CPython 3.14.6과 같은 69를 반환한다. 원문의 144는 이전 opcode 표 값이며 decoding 동작 전체는 확인하지 않았다.",
+          "scope": "Exact dis.EXTENDED_ARG availability and current-version value.",
+          "historical_execution": true,
+          "historical_version_qualification": {
+            "role": "closest_preissue_main_approximation",
+            "reason": "No case-specific identifiable runtime revision supplied."
+          },
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/eighth-review.json",
+          "cause_analysis": "analysis/round8-cause-evidence.json",
+          "review_restrictions": [
+            "Original144 reflects an older opcode table; values are version-dependent.",
+            "No decoding correctness/modulefinder success inferred.",
+            "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+            "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+          ],
+          "cause_reviews": [
+            {
+              "pr_url": "https://github.com/RustPython/RustPython/pull/5377",
+              "commit": "152d10bfea2374ca15fc835c146d720b437f803a",
+              "integration_commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+              "approved_label": "high_relevance",
+              "scope": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+              "boundary_execution_complete": false,
+              "source_diff": "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+              "source_hash": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d",
+              "limits": [
+                "Source correspondence and ancestry only; no first fixing boundary executed.",
+                "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+                "Apply all case-specific scope and environment limits from the adjudication proposal."
+              ]
+            }
+          ],
+          "evidence": [
+            "logs/issue-3846-case-02/cpython-documented-001.stderr",
+            "logs/issue-3846-case-02/cpython-documented-001.stdout",
+            "logs/issue-3846-case-02/current-documented-001.stderr",
+            "logs/issue-3846-case-02/current-documented-001.stdout",
+            "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr",
+            "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout",
+            "repros/3846/issue-3846-case-02/source-01.py",
+            "sources/issues/3846/body.md",
+            "sources/issues/3846/comment-1189392760.md",
+            "verification-tools/derived-a/issue-3846-case-02.py",
+            "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+            "logs/build-a-5631d210-partition-rust1621/provenance.json",
+            "review/eighth-review.json",
+            "analysis/round8-adjudication-proposals.json",
+            "analysis/round8-cause-evidence.json"
+          ]
+        }
+      },
+      {
+        "case_id": "issue-3846-case-03",
+        "historical": {
+          "case_id": "issue-3846-case-03",
+          "issue_number": 3846,
+          "evidence": [
+            "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout",
+            "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr"
+          ],
+          "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+          "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+          "reported_symptoms": [
+            "AttributeError: module 'dis' has no attribute '_unpack_opargs'"
+          ],
+          "expected_behavior": "보고한 CPython에서는 LOAD_CONST 100, EXTENDED_ARG 144, _unpack_opargs(100) generator 반환; opcode 수치는 버전 의존",
+          "runs": [
+            {
+              "kind": "historical",
+              "command": [
+                "<survey>/.build/slot-a/release/rustpython",
+                "<survey>/verification-tools/derived-a/issue-3846-case-03.py"
+              ],
+              "cwd": "<workspace>",
+              "env": {
+                "RUSTPYTHONPATH": "<workspace>/Lib",
+                "PYTHONDONTWRITEBYTECODE": "1"
+              },
+              "exit_code": 1,
+              "timeout": false,
+              "memory_limit_killed": false,
+              "peak_group_rss_kib": 0,
+              "rss_guard": false,
+              "timeout_seconds": 30,
+              "elapsed_seconds": 0.10861195799952839,
+              "code_input_path": "verification-tools/derived-a/issue-3846-case-03.py",
+              "code_sha256": "60066a5cfb5bac872c67fd63e13b69e961ab6b52ada2959a25115bdf995098ac",
+              "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+              "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+              "build_provenance": "logs/build-a-5631d210-partition-rust1621/provenance.json",
+              "resource_limits": {
+                "cpu_seconds": 25,
+                "core_bytes": 0
+              },
+              "stdout_path": "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout",
+              "stderr_path": "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr"
+            }
+          ],
+          "build_provenance": {
+            "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+            "worktree": "<workspace>",
+            "command": [
+              "cargo",
+              "+1.62.1",
+              "build",
+              "--release",
+              "--locked",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "cargo_lock_sha256": "0cbc52a0ce6405f88b62b6ff315899d90eb45c64b963449c181a4891c9956846",
+            "toolchain": "rustc 1.62.1 (e092d0b6b 2022-07-16)\nbinary: rustc\ncommit-hash: e092d0b6b43f2de967af0887873151bb1c0b18d3\ncommit-date: 2022-07-16\nhost: aarch64-apple-darwin\nrelease: 1.62.1\nLLVM version: 14.0.5\n",
+            "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+            "arch": "arm64",
+            "build_started_at": "2026-10-04T11:06:22.990201+00:00",
+            "build_status": "success",
+            "logs": [
+              "logs/build-a-5631d210-partition-rust1621/build.stdout",
+              "logs/build-a-5631d210-partition-rust1621/build.stderr"
+            ],
+            "build_exit_code": 0,
+            "build_completed_at": "2026-10-04T11:08:26.915686+00:00",
+            "binary": "<survey>/.build/slot-a/release/rustpython",
+            "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+            "binary_size": 16042760,
+            "version_banner": "3.10.0alpha (tags/0.1.0-7810-g5631d2102:5631d2102, Jul  8 2022, 16:28:53) \n[rustc 1.62.1]\n",
+            "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+            "version_banner_exit_code": 0,
+            "version_banner_matches_sha": true,
+            "clean_command": [
+              "cargo",
+              "+1.96.1",
+              "clean",
+              "-p",
+              "rustpython-vm",
+              "--release",
+              "--target-dir",
+              "<survey>/.build/slot-a"
+            ],
+            "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+          },
+          "build_attempt_evidence": [
+            "logs/build-a-5631d210-partition-rust1671/provenance.json",
+            "logs/build-a-5631d210-partition-rust1621/provenance.json"
+          ],
+          "baseline_role": "required_issue_time_approximation",
+          "historical_symptom_observed": "Selected dis API raises reported AttributeError for absent opmap/EXTENDED_ARG/_unpack_opargs; exit1/no timeout.",
+          "evidence_ledger": "analysis/historical-results-a.json"
+        },
+        "adjudication": {
+          "case_id": "issue-3846-case-03",
+          "verdict": "해결 확인",
+          "reason": "근사 5631d210에서 dis._unpack_opargs 부재로 원문 호출이 실패했고 현재 같은 호출은 CPython처럼 generator를 생성한다. generator를 순회하지 않았으며 정수 100은 유효한 bytecode 입력으로 검증되지 않아 함수 본문·decoding의 해결 주장은 하지 않는다.",
+          "scope": "Only construction of generator by exact dis._unpack_opargs(100) call.",
+          "historical_execution": true,
+          "historical_version_qualification": {
+            "role": "closest_preissue_main_approximation",
+            "reason": "No case-specific identifiable runtime revision supplied."
+          },
+          "whole_issue_resolution_approved": false,
+          "review_required": false,
+          "independent_review": "review/eighth-review.json",
+          "cause_analysis": "analysis/round8-cause-evidence.json",
+          "review_restrictions": [
+            "Generator is never iterated. Argument100 is not a validated bytecode sequence; no generator-body execution or decoding correctness claim.",
+            "Do not label symbol-only evidence as bytecode behavior; the scoped original operation is generator construction itself.",
+            "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+            "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+          ],
+          "cause_reviews": [
+            {
+              "pr_url": "https://github.com/RustPython/RustPython/pull/5377",
+              "commit": "152d10bfea2374ca15fc835c146d720b437f803a",
+              "integration_commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+              "approved_label": "high_relevance",
+              "scope": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+              "boundary_execution_complete": false,
+              "source_diff": "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+              "source_hash": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d",
+              "limits": [
+                "Source correspondence and ancestry only; no first fixing boundary executed.",
+                "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+                "Apply all case-specific scope and environment limits from the adjudication proposal."
+              ]
+            }
+          ],
+          "evidence": [
+            "logs/issue-3846-case-03/cpython-documented-002.stderr",
+            "logs/issue-3846-case-03/cpython-documented-002.stdout",
+            "logs/issue-3846-case-03/current-documented-002.stderr",
+            "logs/issue-3846-case-03/current-documented-002.stdout",
+            "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr",
+            "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout",
+            "repros/3846/issue-3846-case-03/source-01.py",
+            "sources/issues/3846/body.md",
+            "sources/issues/3846/comment-1189392760.md",
+            "verification-tools/derived-a/issue-3846-case-03.py",
+            "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+            "logs/build-a-5631d210-partition-rust1621/provenance.json",
+            "review/eighth-review.json",
+            "analysis/round8-adjudication-proposals.json",
+            "analysis/round8-cause-evidence.json"
+          ]
+        }
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/5377",
+        "causal_label": "high_relevance",
+        "causal_label_korean": "관련성 높음",
+        "commit": "152d10bfea2374ca15fc835c146d720b437f803a",
+        "mechanism": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+        "boundary_execution_complete": false,
+        "review_status": "approved_high_relevance",
+        "source_diff_path": "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+        "source_diff_sha256": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d",
+        "source_evidence": "analysis/round8-cause-evidence.json",
+        "runtime_evidence": "analysis/round8-adjudication-proposals.json",
+        "limits": [
+          "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+          "Apply all case-specific scope and environment limits from the adjudication proposal."
+        ],
+        "integration_commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+        "reviewed_scope": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+        "independent_review": "review/eighth-review.json",
+        "review_restrictions": [
+          "Original100 reflects an older opcode table; values are version-dependent.",
+          "No general bytecode compatibility or whole modulefinder success claim.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+        ],
+        "ancestry_check": {
+          "sha": "152d10bfea2374ca15fc835c146d720b437f803a",
+          "exit_code": 0,
+          "stderr": ""
+        },
+        "verified_diff_sha256": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d"
+      }
+    ]
+  }
+]

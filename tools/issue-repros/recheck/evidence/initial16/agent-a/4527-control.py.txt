@@ -1,0 +1,6 @@
+class X:
+    def __del__(self):
+        print('deleted!')
+x = X()
+del x
+print('after-explicit-del')

@@ -1,0 +1,29 @@
+{
+  "label": "identity-cp",
+  "argv": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<initial16-audit>/agent-a/identity.py"
+  ],
+  "cwd": "<workspace>",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "RUSTPYTHONPATH": null
+  },
+  "removed_environment": [
+    "PYTHONPATH",
+    "PYTHONHOME",
+    "PYTHONWARNINGS",
+    "PYTHONSTARTUP"
+  ],
+  "input_path": "<initial16-audit>/agent-a/identity.py",
+  "input_sha256": "08d67a327e44a6cd05d14e88256773385513742d736d4989c985d70117fe0868",
+  "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+  "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "started_unix": 1791190809.637389,
+  "duration_seconds": 0.06760406494140625,
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout_file": "identity-cp.stdout",
+  "stderr_file": "identity-cp.stderr"
+}

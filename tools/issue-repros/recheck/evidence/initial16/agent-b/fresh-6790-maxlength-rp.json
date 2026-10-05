@@ -1,0 +1,21 @@
+{
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "-S",
+    "<initial16-audit>/agent-b/probe-6790-maxlength.py"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "start": 1791191171.592001,
+  "binary_sha256": "d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791191171.859877,
+  "stdout": "compressed 360 first 0 second 100 needs_input False eof False\nfirst correct False second correct False\n",
+  "stderr": ""
+}

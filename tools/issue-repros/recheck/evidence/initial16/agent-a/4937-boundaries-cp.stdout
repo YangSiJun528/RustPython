@@ -1,0 +1,5 @@
+'Subject:=?us-ascii?X?value?=' _UniqueUnstructuredHeader '=?us-ascii?X?value?=' []
+'Subject:=?us-ascii?x?value?=' _UniqueUnstructuredHeader '=?us-ascii?x?value?=' []
+'Subject:=?us-ascii?Q?value?=' _UniqueUnstructuredHeader 'value' []
+'Subject:=?us-ascii?B?dmFsdWU=?=' _UniqueUnstructuredHeader 'value' []
+'Subject:before =?us-ascii?X?value?= after' _UniqueUnstructuredHeader 'before =?us-ascii?X?value?= after' []

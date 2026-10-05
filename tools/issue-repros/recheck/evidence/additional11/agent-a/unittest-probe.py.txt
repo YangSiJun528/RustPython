@@ -1,0 +1,11 @@
+import unittest, json, sys
+suite=unittest.defaultTestLoader.loadTestsFromNames(sys.argv[1:])
+def flatten(item):
+    if isinstance(item,unittest.TestSuite):
+        return [t for child in item for t in flatten(child)]
+    return [item]
+tests=flatten(suite)
+print(json.dumps({'tests':[{'id':t.id(),'skip':bool(getattr(t,'__unittest_skip__',False) or getattr(getattr(t,t._testMethodName),'__unittest_skip__',False)),'expected_failure':bool(getattr(getattr(t,t._testMethodName),'__unittest_expecting_failure__',False))} for t in tests]},sort_keys=True),flush=True)
+result=unittest.TextTestRunner(verbosity=2).run(suite)
+print(json.dumps({'run':result.testsRun,'skips':[(t.id(),reason) for t,reason in result.skipped],'expected_failures':[(t.id(),trace) for t,trace in result.expectedFailures],'unexpected_successes':[t.id() for t in result.unexpectedSuccesses],'success':result.wasSuccessful()},sort_keys=True))
+sys.exit(0 if result.wasSuccessful() else 1)

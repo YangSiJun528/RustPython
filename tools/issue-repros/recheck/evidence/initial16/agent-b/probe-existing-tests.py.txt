@@ -1,0 +1,14 @@
+import sys, unittest
+from test import support
+from test import test_lzma, test_format
+from test.test_json import test_default
+print('requires_lzma gate',support.requires_lzma()(lambda:'executed')())
+suite=unittest.TestSuite()
+loader=unittest.defaultTestLoader
+suite.addTest(test_format.FormatTest('test_locale'))
+suite.addTests(loader.loadTestsFromNames(['TestPyDefault.test_bad_default','TestCDefault.test_bad_default'],test_default))
+suite.addTests(loader.loadTestsFromNames(['CompressorDecompressorTestCase','CompressDecompressFunctionTestCase','MiscellaneousTestCase'],test_lzma))
+result=unittest.TextTestRunner(verbosity=2).run(suite)
+print('counts',result.testsRun,'failures',len(result.failures),'errors',len(result.errors),'skipped',len(result.skipped),'expectedFailures',len(result.expectedFailures),'unexpectedSuccesses',len(result.unexpectedSuccesses))
+for t,tb in result.expectedFailures:print('EXPECTED_FAILURE',t.id(),tb)
+sys.exit(not result.wasSuccessful())

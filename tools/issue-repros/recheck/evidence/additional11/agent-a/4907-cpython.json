@@ -1,0 +1,30 @@
+{
+  "label": "4907-cpython",
+  "interpreter": "cpython",
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<additional11-audit>/agent-a/probes.py",
+    "4907"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4907-cpython/python-history",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4907-cpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4907-cpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4907-cpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4907-cpython"
+  },
+  "started_utc": "2026-10-05T10:48:55.112243+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "original compile: success\n1\noriginal invocation: TypeError from awaiting print result\nlc done\ncomment execution: two awaited sleeps completed\n",
+  "stderr": "",
+  "elapsed_seconds": 2.0725332090078155
+}

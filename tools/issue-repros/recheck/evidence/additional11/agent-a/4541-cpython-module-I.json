@@ -1,0 +1,32 @@
+{
+  "label": "4541-cpython-module-I",
+  "interpreter": "cpython",
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "-I",
+    "-m",
+    "safe_report"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "<additional11-audit>/agent-a",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-I/python-history",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-I/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-I",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-I",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-module-I"
+  },
+  "started_utc": "2026-10-05T10:50:43.347630+00:00",
+  "stdin": null,
+  "exit_code": 1,
+  "timeout": false,
+  "stdout": "",
+  "stderr": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14: No module named safe_report\n",
+  "elapsed_seconds": 0.033598791997064836
+}

@@ -1,0 +1,24 @@
+{
+  "label": "4613-unicode-width-cpython",
+  "command": [
+    "<home>/.local/bin/python3",
+    "-B",
+    "<additional11-audit>/agent-b/probe-locale-unicode-width.py"
+  ],
+  "shell_command": "<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-locale-unicode-width.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8"
+  },
+  "started_unix": 1791197695.353206,
+  "elapsed_seconds": 0.023235082626342773,
+  "exit_code": 0,
+  "timeout": false
+}

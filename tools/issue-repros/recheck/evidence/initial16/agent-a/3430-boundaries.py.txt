@@ -1,0 +1,18 @@
+import xml.etree.ElementTree as etree
+from xml.parsers import expat
+root = etree.XML('<root></root>')
+print('root', type(root).__name__, root.tag, root.text, len(root))
+for source in ['<root a="1">before<child/>after</root>', '<r xmlns="urn:test"><a/></r>', b'<?xml version="1.0" encoding="UTF-8"?><r>\xc3\xa9</r>']:
+    root = etree.XML(source)
+    print('parsed', root.tag, sorted(root.attrib.items()), root.text, [(child.tag, child.tail) for child in root])
+parser = expat.ParserCreate(None, '}')
+events = []
+parser.StartElementHandler = lambda name, attributes: events.append((name, attributes))
+parser.Parse('<r xmlns="u"><a/></r>', True)
+print('direct-expat', events)
+try:
+    etree.XML('<a></b>')
+except Exception as error:
+    print('malformed', type(error).__name__)
+else:
+    print('malformed-accepted')

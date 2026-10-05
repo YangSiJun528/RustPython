@@ -1,0 +1,5 @@
+0
+type int
+implementation cpython
+platform darwin
+gil_enabled True

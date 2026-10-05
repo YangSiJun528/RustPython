@@ -1,0 +1,38 @@
+{
+  "run_count": 24,
+  "exit_counts": {
+    "0": 15,
+    "1": 9
+  },
+  "timeouts": 0,
+  "unchanged_file_check": {
+    "changed_paths": [],
+    "Lib_files_checked_per_checkout": 2324,
+    "package_py_files_checked": 1558
+  },
+  "git_status_B": "?? compiler/\n?? parser/\n",
+  "matrix": {
+    "format_cases": 395,
+    "matching_format_cases": 293,
+    "zero_padding_grouping_mismatches": 84,
+    "unicode_width_only_mismatches": 18,
+    "locale_metadata_matches": 5
+  },
+  "blockers_stdout_exact_equal": true,
+  "uncaught_stderr_exact_equal": {
+    "builtin": true,
+    "stdlib": true,
+    "zero": true,
+    "group": true
+  },
+  "fresh_input_sha256": {
+    "probe-locale-unicode-width.py": "b483b0fc5247da6c2639ad08af87d50cc83914f71c6a6ea52bd141d851fac40f",
+    "probe-sympy-original.py": "7c4bfc3d5e12e8bf06394130695d6ff8e16806b151934133d006f27aa178a938",
+    "probe-traceback-uncaught.py": "481f1cffc7512586e8c7d2dd65026b60f31fa4684072eb1b11bcb4a2a1450348",
+    "probe-original-locale-tests.py": "a0d4481b0e42f6f0dadeeecff106faa601387cfafdd2c3401ebe724a7140d6ab",
+    "probe-locale-zero-padding.py": "ba917bb88c15c4b47aac2561cda3887d00b6d56de5adcb6e15761d358b9691aa",
+    "probe-traceback-blockers.py": "63b5fc4d8df777a23743be2f999d332ff739d8ac7fcacc9dee646dd3c3a41ee0",
+    "probe-provenance.py": "0a06a9b07dc86685671abed4ac5ba63a9db4242ce5abdc225555fcfdda845d83",
+    "probe-locale-matrix.py": "226d71a32fe1bf2f2054327526f618511857ad2f3438345275bb52a857fa4b9b"
+  }
+}

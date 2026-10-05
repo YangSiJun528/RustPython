@@ -1,0 +1,20 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+test_copy_pickle (test.test_deque.TestSubclass.test_copy_pickle) ... ERROR
+
+======================================================================
+ERROR: test_copy_pickle (test.test_deque.TestSubclass.test_copy_pickle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<workspace>/pylib/Lib/test/test_deque.py", line 839, in test_copy_pickle
+    self.assertEqual(e.x, d.x)
+AttributeError: 'Deque' object has no attribute 'x'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.007s
+
+FAILED (errors=1)

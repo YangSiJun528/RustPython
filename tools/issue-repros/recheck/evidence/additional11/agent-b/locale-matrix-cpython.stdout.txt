@@ -1,0 +1,2430 @@
+[
+  {
+    "locale": "C",
+    "effective": "C",
+    "conv": {
+      "decimal_point": ".",
+      "thousands_sep": "",
+      "grouping": []
+    }
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": "n",
+    "result": "0"
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": "+n",
+    "result": "+0"
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": " n",
+    "result": " 0"
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": "20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": ">20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": "*<20n",
+    "result": "0*******************"
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": "^20n",
+    "result": "         0          "
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": "020n",
+    "result": "00000000000000000000"
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": "+020n",
+    "result": "+0000000000000000000"
+  },
+  {
+    "locale": "C",
+    "value": "0",
+    "spec": "0=20n",
+    "result": "00000000000000000000"
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": "n",
+    "result": "1234"
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": "+n",
+    "result": "+1234"
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": " n",
+    "result": " 1234"
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": "20n",
+    "result": "                1234"
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": ">20n",
+    "result": "                1234"
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": "*<20n",
+    "result": "1234****************"
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": "^20n",
+    "result": "        1234        "
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": "020n",
+    "result": "00000000000000001234"
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": "+020n",
+    "result": "+0000000000000001234"
+  },
+  {
+    "locale": "C",
+    "value": "1234",
+    "spec": "0=20n",
+    "result": "00000000000000001234"
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": "n",
+    "result": "-123456789"
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": "+n",
+    "result": "-123456789"
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": " n",
+    "result": "-123456789"
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": "20n",
+    "result": "          -123456789"
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": ">20n",
+    "result": "          -123456789"
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": "*<20n",
+    "result": "-123456789**********"
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": "^20n",
+    "result": "     -123456789     "
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": "020n",
+    "result": "-0000000000123456789"
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": "+020n",
+    "result": "-0000000000123456789"
+  },
+  {
+    "locale": "C",
+    "value": "-123456789",
+    "spec": "0=20n",
+    "result": "-0000000000123456789"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": "n",
+    "result": "123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": "+n",
+    "result": "+123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": " n",
+    "result": " 123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": "20n",
+    "result": "123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": ">20n",
+    "result": "123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": "*<20n",
+    "result": "123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": "^20n",
+    "result": "123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": "020n",
+    "result": "123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": "+020n",
+    "result": "+123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "123456789012345678901234567890",
+    "spec": "0=20n",
+    "result": "123456789012345678901234567890"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "n",
+    "result": "1234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "+n",
+    "result": "+1234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": " n",
+    "result": " 1234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "20n",
+    "result": "              1234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": ">20n",
+    "result": "              1234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "*<20n",
+    "result": "1234.5**************"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "^20n",
+    "result": "       1234.5       "
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "020n",
+    "result": "000000000000001234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "+020n",
+    "result": "+00000000000001234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "0=20n",
+    "result": "000000000000001234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": ".10n",
+    "result": "1234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "20.10n",
+    "result": "              1234.5"
+  },
+  {
+    "locale": "C",
+    "value": "1234.5",
+    "spec": "020.10n",
+    "result": "000000000000001234.5"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "n",
+    "result": "-12345.2"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "+n",
+    "result": "-12345.2"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": " n",
+    "result": "-12345.2"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "20n",
+    "result": "            -12345.2"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": ">20n",
+    "result": "            -12345.2"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "*<20n",
+    "result": "-12345.2************"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "^20n",
+    "result": "      -12345.2      "
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "020n",
+    "result": "-00000000000012345.2"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "+020n",
+    "result": "-00000000000012345.2"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "0=20n",
+    "result": "-00000000000012345.2"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": ".10n",
+    "result": "-12345.25"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "20.10n",
+    "result": "           -12345.25"
+  },
+  {
+    "locale": "C",
+    "value": "-12345.25",
+    "spec": "020.10n",
+    "result": "-0000000000012345.25"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "n",
+    "result": "1.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "+n",
+    "result": "+1.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": " n",
+    "result": " 1.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "20n",
+    "result": "            1.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": ">20n",
+    "result": "            1.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "*<20n",
+    "result": "1.25e+12************"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "^20n",
+    "result": "      1.25e+12      "
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "020n",
+    "result": "0000000000001.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "+020n",
+    "result": "+000000000001.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "0=20n",
+    "result": "0000000000001.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": ".10n",
+    "result": "1.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "20.10n",
+    "result": "            1.25e+12"
+  },
+  {
+    "locale": "C",
+    "value": "1250000000000.0",
+    "spec": "020.10n",
+    "result": "0000000000001.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "effective": "en_US.UTF-8",
+    "conv": {
+      "decimal_point": ".",
+      "thousands_sep": ",",
+      "grouping": [
+        3,
+        0
+      ]
+    }
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": "n",
+    "result": "0"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": "+n",
+    "result": "+0"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": " n",
+    "result": " 0"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": "20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": ">20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": "*<20n",
+    "result": "0*******************"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": "^20n",
+    "result": "         0          "
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": "020n",
+    "result": "0,000,000,000,000,000"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": "+020n",
+    "result": "+000,000,000,000,000"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "0",
+    "spec": "0=20n",
+    "result": "0,000,000,000,000,000"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": "n",
+    "result": "1,234"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": "+n",
+    "result": "+1,234"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": " n",
+    "result": " 1,234"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": "20n",
+    "result": "               1,234"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": ">20n",
+    "result": "               1,234"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": "*<20n",
+    "result": "1,234***************"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": "^20n",
+    "result": "       1,234        "
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": "020n",
+    "result": "0,000,000,000,001,234"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": "+020n",
+    "result": "+000,000,000,001,234"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234",
+    "spec": "0=20n",
+    "result": "0,000,000,000,001,234"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": "n",
+    "result": "-123,456,789"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": "+n",
+    "result": "-123,456,789"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": " n",
+    "result": "-123,456,789"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": "20n",
+    "result": "        -123,456,789"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": ">20n",
+    "result": "        -123,456,789"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": "*<20n",
+    "result": "-123,456,789********"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": "^20n",
+    "result": "    -123,456,789    "
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": "020n",
+    "result": "-000,000,123,456,789"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": "+020n",
+    "result": "-000,000,123,456,789"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-123456789",
+    "spec": "0=20n",
+    "result": "-000,000,123,456,789"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "n",
+    "result": "123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "+n",
+    "result": "+123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": " n",
+    "result": " 123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "20n",
+    "result": "123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": ">20n",
+    "result": "123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "*<20n",
+    "result": "123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "^20n",
+    "result": "123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "020n",
+    "result": "123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "+020n",
+    "result": "+123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "0=20n",
+    "result": "123,456,789,012,345,678,901,234,567,890"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "n",
+    "result": "1,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "+n",
+    "result": "+1,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": " n",
+    "result": " 1,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "20n",
+    "result": "             1,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": ">20n",
+    "result": "             1,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "*<20n",
+    "result": "1,234.5*************"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "^20n",
+    "result": "      1,234.5       "
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "020n",
+    "result": "00,000,000,001,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "+020n",
+    "result": "+0,000,000,001,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "0=20n",
+    "result": "00,000,000,001,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": ".10n",
+    "result": "1,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "20.10n",
+    "result": "             1,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1234.5",
+    "spec": "020.10n",
+    "result": "00,000,000,001,234.5"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "n",
+    "result": "-12,345.2"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "+n",
+    "result": "-12,345.2"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": " n",
+    "result": "-12,345.2"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "20n",
+    "result": "           -12,345.2"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": ">20n",
+    "result": "           -12,345.2"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "*<20n",
+    "result": "-12,345.2***********"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "^20n",
+    "result": "     -12,345.2      "
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "020n",
+    "result": "-0,000,000,012,345.2"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "+020n",
+    "result": "-0,000,000,012,345.2"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "0=20n",
+    "result": "-0,000,000,012,345.2"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": ".10n",
+    "result": "-12,345.25"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "20.10n",
+    "result": "          -12,345.25"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "-12345.25",
+    "spec": "020.10n",
+    "result": "-0,000,000,012,345.25"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "n",
+    "result": "1.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "+n",
+    "result": "+1.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": " n",
+    "result": " 1.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "20n",
+    "result": "            1.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": ">20n",
+    "result": "            1.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "*<20n",
+    "result": "1.25e+12************"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "^20n",
+    "result": "      1.25e+12      "
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "020n",
+    "result": "0,000,000,001.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "+020n",
+    "result": "+0,000,000,001.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "0=20n",
+    "result": "0,000,000,001.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": ".10n",
+    "result": "1.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "20.10n",
+    "result": "            1.25e+12"
+  },
+  {
+    "locale": "en_US.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "020.10n",
+    "result": "0,000,000,001.25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "effective": "de_DE.UTF-8",
+    "conv": {
+      "decimal_point": ",",
+      "thousands_sep": ".",
+      "grouping": [
+        3,
+        0
+      ]
+    }
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": "n",
+    "result": "0"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": "+n",
+    "result": "+0"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": " n",
+    "result": " 0"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": "20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": ">20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": "*<20n",
+    "result": "0*******************"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": "^20n",
+    "result": "         0          "
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": "020n",
+    "result": "0.000.000.000.000.000"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": "+020n",
+    "result": "+000.000.000.000.000"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "0",
+    "spec": "0=20n",
+    "result": "0.000.000.000.000.000"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": "n",
+    "result": "1.234"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": "+n",
+    "result": "+1.234"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": " n",
+    "result": " 1.234"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": "20n",
+    "result": "               1.234"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": ">20n",
+    "result": "               1.234"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": "*<20n",
+    "result": "1.234***************"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": "^20n",
+    "result": "       1.234        "
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": "020n",
+    "result": "0.000.000.000.001.234"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": "+020n",
+    "result": "+000.000.000.001.234"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234",
+    "spec": "0=20n",
+    "result": "0.000.000.000.001.234"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": "n",
+    "result": "-123.456.789"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": "+n",
+    "result": "-123.456.789"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": " n",
+    "result": "-123.456.789"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": "20n",
+    "result": "        -123.456.789"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": ">20n",
+    "result": "        -123.456.789"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": "*<20n",
+    "result": "-123.456.789********"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": "^20n",
+    "result": "    -123.456.789    "
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": "020n",
+    "result": "-000.000.123.456.789"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": "+020n",
+    "result": "-000.000.123.456.789"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-123456789",
+    "spec": "0=20n",
+    "result": "-000.000.123.456.789"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "n",
+    "result": "123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "+n",
+    "result": "+123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": " n",
+    "result": " 123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "20n",
+    "result": "123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": ">20n",
+    "result": "123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "*<20n",
+    "result": "123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "^20n",
+    "result": "123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "020n",
+    "result": "123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "+020n",
+    "result": "+123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "0=20n",
+    "result": "123.456.789.012.345.678.901.234.567.890"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "n",
+    "result": "1.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "+n",
+    "result": "+1.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": " n",
+    "result": " 1.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "20n",
+    "result": "             1.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": ">20n",
+    "result": "             1.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "*<20n",
+    "result": "1.234,5*************"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "^20n",
+    "result": "      1.234,5       "
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "020n",
+    "result": "00.000.000.001.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "+020n",
+    "result": "+0.000.000.001.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "0=20n",
+    "result": "00.000.000.001.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": ".10n",
+    "result": "1.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "20.10n",
+    "result": "             1.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1234.5",
+    "spec": "020.10n",
+    "result": "00.000.000.001.234,5"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "n",
+    "result": "-12.345,2"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "+n",
+    "result": "-12.345,2"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": " n",
+    "result": "-12.345,2"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "20n",
+    "result": "           -12.345,2"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": ">20n",
+    "result": "           -12.345,2"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "*<20n",
+    "result": "-12.345,2***********"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "^20n",
+    "result": "     -12.345,2      "
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "020n",
+    "result": "-0.000.000.012.345,2"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "+020n",
+    "result": "-0.000.000.012.345,2"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "0=20n",
+    "result": "-0.000.000.012.345,2"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": ".10n",
+    "result": "-12.345,25"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "20.10n",
+    "result": "          -12.345,25"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "-12345.25",
+    "spec": "020.10n",
+    "result": "-0.000.000.012.345,25"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "n",
+    "result": "1,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "+n",
+    "result": "+1,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": " n",
+    "result": " 1,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "20n",
+    "result": "            1,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": ">20n",
+    "result": "            1,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "*<20n",
+    "result": "1,25e+12************"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "^20n",
+    "result": "      1,25e+12      "
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "020n",
+    "result": "0.000.000.001,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "+020n",
+    "result": "+0.000.000.001,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "0=20n",
+    "result": "0.000.000.001,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": ".10n",
+    "result": "1,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "20.10n",
+    "result": "            1,25e+12"
+  },
+  {
+    "locale": "de_DE.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "020.10n",
+    "result": "0.000.000.001,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "effective": "fr_FR.UTF-8",
+    "conv": {
+      "decimal_point": ",",
+      "thousands_sep": "\u202f",
+      "grouping": [
+        3,
+        0
+      ]
+    }
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": "n",
+    "result": "0"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": "+n",
+    "result": "+0"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": " n",
+    "result": " 0"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": "20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": ">20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": "*<20n",
+    "result": "0*******************"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": "^20n",
+    "result": "         0          "
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": "020n",
+    "result": "0\u202f000\u202f000\u202f000\u202f000\u202f000"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": "+020n",
+    "result": "+000\u202f000\u202f000\u202f000\u202f000"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "0",
+    "spec": "0=20n",
+    "result": "0\u202f000\u202f000\u202f000\u202f000\u202f000"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": "n",
+    "result": "1\u202f234"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": "+n",
+    "result": "+1\u202f234"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": " n",
+    "result": " 1\u202f234"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": "20n",
+    "result": "               1\u202f234"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": ">20n",
+    "result": "               1\u202f234"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": "*<20n",
+    "result": "1\u202f234***************"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": "^20n",
+    "result": "       1\u202f234        "
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": "020n",
+    "result": "0\u202f000\u202f000\u202f000\u202f001\u202f234"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": "+020n",
+    "result": "+000\u202f000\u202f000\u202f001\u202f234"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234",
+    "spec": "0=20n",
+    "result": "0\u202f000\u202f000\u202f000\u202f001\u202f234"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": "n",
+    "result": "-123\u202f456\u202f789"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": "+n",
+    "result": "-123\u202f456\u202f789"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": " n",
+    "result": "-123\u202f456\u202f789"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": "20n",
+    "result": "        -123\u202f456\u202f789"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": ">20n",
+    "result": "        -123\u202f456\u202f789"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": "*<20n",
+    "result": "-123\u202f456\u202f789********"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": "^20n",
+    "result": "    -123\u202f456\u202f789    "
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": "020n",
+    "result": "-000\u202f000\u202f123\u202f456\u202f789"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": "+020n",
+    "result": "-000\u202f000\u202f123\u202f456\u202f789"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-123456789",
+    "spec": "0=20n",
+    "result": "-000\u202f000\u202f123\u202f456\u202f789"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "n",
+    "result": "123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "+n",
+    "result": "+123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": " n",
+    "result": " 123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "20n",
+    "result": "123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": ">20n",
+    "result": "123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "*<20n",
+    "result": "123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "^20n",
+    "result": "123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "020n",
+    "result": "123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "+020n",
+    "result": "+123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "0=20n",
+    "result": "123\u202f456\u202f789\u202f012\u202f345\u202f678\u202f901\u202f234\u202f567\u202f890"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "n",
+    "result": "1\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "+n",
+    "result": "+1\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": " n",
+    "result": " 1\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "20n",
+    "result": "             1\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": ">20n",
+    "result": "             1\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "*<20n",
+    "result": "1\u202f234,5*************"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "^20n",
+    "result": "      1\u202f234,5       "
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "020n",
+    "result": "00\u202f000\u202f000\u202f001\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "+020n",
+    "result": "+0\u202f000\u202f000\u202f001\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "0=20n",
+    "result": "00\u202f000\u202f000\u202f001\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": ".10n",
+    "result": "1\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "20.10n",
+    "result": "             1\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1234.5",
+    "spec": "020.10n",
+    "result": "00\u202f000\u202f000\u202f001\u202f234,5"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "n",
+    "result": "-12\u202f345,2"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "+n",
+    "result": "-12\u202f345,2"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": " n",
+    "result": "-12\u202f345,2"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "20n",
+    "result": "           -12\u202f345,2"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": ">20n",
+    "result": "           -12\u202f345,2"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "*<20n",
+    "result": "-12\u202f345,2***********"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "^20n",
+    "result": "     -12\u202f345,2      "
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "020n",
+    "result": "-0\u202f000\u202f000\u202f012\u202f345,2"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "+020n",
+    "result": "-0\u202f000\u202f000\u202f012\u202f345,2"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "0=20n",
+    "result": "-0\u202f000\u202f000\u202f012\u202f345,2"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": ".10n",
+    "result": "-12\u202f345,25"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "20.10n",
+    "result": "          -12\u202f345,25"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "-12345.25",
+    "spec": "020.10n",
+    "result": "-0\u202f000\u202f000\u202f012\u202f345,25"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "n",
+    "result": "1,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "+n",
+    "result": "+1,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": " n",
+    "result": " 1,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "20n",
+    "result": "            1,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": ">20n",
+    "result": "            1,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "*<20n",
+    "result": "1,25e+12************"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "^20n",
+    "result": "      1,25e+12      "
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "020n",
+    "result": "0\u202f000\u202f000\u202f001,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "+020n",
+    "result": "+0\u202f000\u202f000\u202f001,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "0=20n",
+    "result": "0\u202f000\u202f000\u202f001,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": ".10n",
+    "result": "1,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "20.10n",
+    "result": "            1,25e+12"
+  },
+  {
+    "locale": "fr_FR.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "020.10n",
+    "result": "0\u202f000\u202f000\u202f001,25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "effective": "hi_IN.UTF-8",
+    "conv": {
+      "decimal_point": ".",
+      "thousands_sep": ",",
+      "grouping": [
+        3,
+        2,
+        0
+      ]
+    }
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": "n",
+    "result": "0"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": "+n",
+    "result": "+0"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": " n",
+    "result": " 0"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": "20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": ">20n",
+    "result": "                   0"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": "*<20n",
+    "result": "0*******************"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": "^20n",
+    "result": "         0          "
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": "020n",
+    "result": "0,00,00,00,00,00,000"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": "+020n",
+    "result": "+0,00,00,00,00,00,000"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "0",
+    "spec": "0=20n",
+    "result": "0,00,00,00,00,00,000"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": "n",
+    "result": "1,234"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": "+n",
+    "result": "+1,234"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": " n",
+    "result": " 1,234"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": "20n",
+    "result": "               1,234"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": ">20n",
+    "result": "               1,234"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": "*<20n",
+    "result": "1,234***************"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": "^20n",
+    "result": "       1,234        "
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": "020n",
+    "result": "0,00,00,00,00,01,234"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": "+020n",
+    "result": "+0,00,00,00,00,01,234"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234",
+    "spec": "0=20n",
+    "result": "0,00,00,00,00,01,234"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": "n",
+    "result": "-12,34,56,789"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": "+n",
+    "result": "-12,34,56,789"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": " n",
+    "result": "-12,34,56,789"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": "20n",
+    "result": "       -12,34,56,789"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": ">20n",
+    "result": "       -12,34,56,789"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": "*<20n",
+    "result": "-12,34,56,789*******"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": "^20n",
+    "result": "   -12,34,56,789    "
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": "020n",
+    "result": "-0,00,00,12,34,56,789"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": "+020n",
+    "result": "-0,00,00,12,34,56,789"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-123456789",
+    "spec": "0=20n",
+    "result": "-0,00,00,12,34,56,789"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "n",
+    "result": "1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "+n",
+    "result": "+1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": " n",
+    "result": " 1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "20n",
+    "result": "1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": ">20n",
+    "result": "1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "*<20n",
+    "result": "1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "^20n",
+    "result": "1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "020n",
+    "result": "1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "+020n",
+    "result": "+1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "123456789012345678901234567890",
+    "spec": "0=20n",
+    "result": "1,23,45,67,89,01,23,45,67,89,01,23,45,67,890"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "n",
+    "result": "1,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "+n",
+    "result": "+1,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": " n",
+    "result": " 1,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "20n",
+    "result": "             1,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": ">20n",
+    "result": "             1,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "*<20n",
+    "result": "1,234.5*************"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "^20n",
+    "result": "      1,234.5       "
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "020n",
+    "result": "00,00,00,00,01,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "+020n",
+    "result": "+0,00,00,00,01,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "0=20n",
+    "result": "00,00,00,00,01,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": ".10n",
+    "result": "1,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "20.10n",
+    "result": "             1,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1234.5",
+    "spec": "020.10n",
+    "result": "00,00,00,00,01,234.5"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "n",
+    "result": "-12,345.2"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "+n",
+    "result": "-12,345.2"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": " n",
+    "result": "-12,345.2"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "20n",
+    "result": "           -12,345.2"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": ">20n",
+    "result": "           -12,345.2"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "*<20n",
+    "result": "-12,345.2***********"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "^20n",
+    "result": "     -12,345.2      "
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "020n",
+    "result": "-0,00,00,00,12,345.2"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "+020n",
+    "result": "-0,00,00,00,12,345.2"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "0=20n",
+    "result": "-0,00,00,00,12,345.2"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": ".10n",
+    "result": "-12,345.25"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "20.10n",
+    "result": "          -12,345.25"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "-12345.25",
+    "spec": "020.10n",
+    "result": "-0,00,00,00,12,345.25"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "n",
+    "result": "1.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "+n",
+    "result": "+1.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": " n",
+    "result": " 1.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "20n",
+    "result": "            1.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": ">20n",
+    "result": "            1.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "*<20n",
+    "result": "1.25e+12************"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "^20n",
+    "result": "      1.25e+12      "
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "020n",
+    "result": "0,00,00,00,001.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "+020n",
+    "result": "+00,00,00,001.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "0=20n",
+    "result": "0,00,00,00,001.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": ".10n",
+    "result": "1.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "20.10n",
+    "result": "            1.25e+12"
+  },
+  {
+    "locale": "hi_IN.UTF-8",
+    "value": "1250000000000.0",
+    "spec": "020.10n",
+    "result": "0,00,00,00,001.25e+12"
+  }
+]

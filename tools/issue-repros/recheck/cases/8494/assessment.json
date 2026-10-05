@@ -1,0 +1,207 @@
+{
+  "issue": 8494,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "원문 module-level 입력, 양속성 read/cache/write/delete 격리, 원본 회귀 테스트가 통과했다. CPython 3.14.6과 같다.",
+  "original_scope": {
+    "description": "classmethod/staticmethod 양쪽의 __annotations__/__annotate__ 캐시 및 독립 대입",
+    "issue_url": "https://github.com/RustPython/RustPython/issues/8494",
+    "frozen_notes": "<additional11-audit>/agent-a/notes-original-scope.md",
+    "fresh_original_body": "<additional11-audit>/agent-a/originals/8494.json",
+    "fresh_original_comments": "<additional11-audit>/agent-a/originals/8494-comments.json"
+  },
+  "fresh_evidence": {
+    "runs": [
+      {
+        "record": "<additional11-audit>/agent-a/8494-cpython.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "8494"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-cpython/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-cpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/8494-cpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/8494-cpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/8494-cpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/8494-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/8494-cpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/8494-original-cpython.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/8494-original.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-original-cpython/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-original-cpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/8494-original-cpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/8494-original-cpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/8494-original-cpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/8494-original-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/8494-original-cpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/8494-original-rustpython.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/8494-original.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-original-rustpython/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-original-rustpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/8494-original-rustpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/8494-original-rustpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/8494-original-rustpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/8494-original-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/8494-original-rustpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/8494-rustpython.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "8494"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-rustpython/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-rustpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/8494-rustpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/8494-rustpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/8494-rustpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/8494-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/8494-rustpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/8494-unittest-rustpython.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/unittest-probe.py",
+          "test.test_descr.ClassPropertiesAndMethods.test_classmethod_staticmethod_annotations"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/8494-unittest-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/8494-unittest-rustpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      }
+    ],
+    "inputs_sha256_file": "<additional11-audit>/agent-a/validation.json",
+    "provenance": "<additional11-audit>/agent-a/fresh-provenance.json",
+    "same_cpython_input": true
+  },
+  "old_evidence": {
+    "reused": true,
+    "reexecuted": false,
+    "metadata": "<additional11-audit>/agent-a/old-evidence-reference.json",
+    "read_logs_with_sha256": "<additional11-audit>/agent-a/old-logs-read.json",
+    "historical_cases": [
+      {
+        "case_id": "issue-8494-case-01",
+        "historical_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+        "status_as_previously_recorded": "original_symptom_reproduced",
+        "files": [
+          "logs/issue-8494-case-01/historical-b304919a63-01.stdout",
+          "logs/issue-8494-case-01/historical-b304919a63-01.stderr"
+        ]
+      }
+    ]
+  },
+  "change_basis": {
+    "description_and_mechanism_in_report": "annotation wrapper\n\n[8494-original.py](8494-original.py)에 원문 module-level 코드를 그대로 보존해 양쪽에서 실행했다. [RP 원문](8494-original-rustpython.json), [CPython 원문](8494-original-cpython.json)은 같다. [probes.py](probes.py)의 `8494`는 local-function 변형과 annotated/unannotated 함수의 양속성 read/cache/write/delete 격리를 보강한다. 이 변형을 원문 그대로인 것과 혼합하지 않는다. [원본 회귀 테스트](8494-unittest-rustpython.json)도 통과한다. wrapper dict에 cache가 생기고 대입은 wrapped callable을 바꾸지 않는다.\n\n과거 재사용: `b304919a63`의 stdout에서는 cache 존재 False, wrapper 대입 후 wrapped도 x:str로 바뀐다. [PR #8701](https://github.com/RustPython/RustPython/pull/8701), 기준 조상 `73e547a9c`는 getter가 wrapper dict를 먼저 읽고 저장하며 setter가 해당 dict만 변경하도록 바꾼다. 두 wrapper의 두 속성이 이 처리를 공유한다. `80eddfc6a`는 기준 조상이 아니다. CPython 3.14.6으로 비교했으며 pre-3.14 eager annotation 결과나 최초 수정 확정과 혼합하지 않는다.\n",
+    "related_changes": [
+      {
+        "pr": 8701,
+        "candidates": [
+          {
+            "commit": "73e547a9c31f347875982102dae3c29a71ac8f89",
+            "subject": "Honor generator close, throw context, and docs (#8701)",
+            "is_baseline_ancestor": true,
+            "diff": "<additional11-audit>/related-pr-8701-73e547a9c-first-parent.diff",
+            "fresh_ancestor_exit_code": 0,
+            "diff_sha256": "7914746a3c934daee3e42cc9e89988aa0f78d397e1f0967fbb1385b8d030e3e7"
+          },
+          {
+            "commit": "80eddfc6ab068d3ce9582680b84322b542a1fac5",
+            "subject": "Honor generator close, throw context, and docs (#8701)",
+            "is_baseline_ancestor": false,
+            "fresh_ancestor_exit_code": 1
+          }
+        ]
+      }
+    ],
+    "first_fix_confirmed": false,
+    "pr_parent_and_commit_executed": false,
+    "source_only_relationship": true
+  },
+  "limits": [
+    "원문은 8494-original.py, local-function 보강 변형은 probes.py에 분리했다. pre-3.14 비교가 아니다.",
+    "기준 f39b054b9의 macOS26.5.2 ARM64 결과이며 최신 HEAD/다른 플랫폼 결과가 아니다.",
+    "기존 binary를 새로 실행했다. 새 build/cargo test/clippy는 파일 보존 제약으로 실행하지 않았다.",
+    "과거 로그는 재사용이며 과거 및 PR 경계 재실행 없이 최초 수정 커밋을 확정하지 않는다."
+  ],
+  "agent": "agent-a"
+}

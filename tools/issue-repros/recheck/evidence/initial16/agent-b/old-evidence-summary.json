@@ -1,0 +1,354 @@
+{
+  "2527": {
+    "historical": {
+      "actual_sha": "163cd1953377f4049e06fdae55c715889857a301",
+      "binary_sha256": "58eea88a470e1d822e9112aa579dad6d4fb788a1e1b374de4f6e6c8e60454ea4",
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "historical.stdout.txt",
+          "expected_export_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+          "actual_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+          "match": true
+        }
+      ],
+      "version_banner": "3.9.0alpha (tags/0.1.0-4637-g163cd1953:163cd1953, Mar 25 2021, 13:04:07) \n[rustc 1.47.0]\n",
+      "not_rerun": true
+    },
+    "current": {
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "62edeb0a360f473213e907dea3c6706e6ed08034bd80976439310069adf7725c",
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "current.stdout.txt",
+          "expected_export_sha256": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d",
+          "actual_sha256": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d",
+          "match": true
+        }
+      ],
+      "version_banner": "3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 04:53:35)\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]\n",
+      "not_rerun": true
+    }
+  },
+  "4856": {
+    "historical": {
+      "actual_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+      "binary_sha256": "43e71e4ce4e1605ed8eaa51992f3fcb0f1ad22d36dfb383c181bd9b8674dc37d",
+      "exit": 101,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "historical.stdout.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        },
+        {
+          "log": "historical.stderr.txt",
+          "expected_export_sha256": "db90093ca6a262108a60abc09852cfe4ebc4a730b7f3bc9a62cb12436d8a3bb3",
+          "actual_sha256": "db90093ca6a262108a60abc09852cfe4ebc4a730b7f3bc9a62cb12436d8a3bb3",
+          "match": true
+        }
+      ],
+      "version_banner": "3.10.0alpha (tags/v0.2.0:c7faae9b2, Jan 11 2023, 15:14:28) \n[rustc 1.67.1]\n",
+      "not_rerun": true
+    },
+    "current": {
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "current.stdout.txt",
+          "expected_export_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+          "actual_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+          "match": true
+        },
+        {
+          "log": "current.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    },
+    "cpython": {
+      "actual_sha": null,
+      "binary_sha256": null,
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "cpython.stdout.txt",
+          "expected_export_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+          "actual_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+          "match": true
+        },
+        {
+          "log": "cpython.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    }
+  },
+  "5181": {
+    "historical": {
+      "actual_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+      "binary_sha256": "92a6951391fb89d6e3a92a2213554361cb777e9c110d03d0b50a1400dd7bdc51",
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "historical.stdout.txt",
+          "expected_export_sha256": "0433b605bb301a008381cb077ae0bca9705660909099719d6a3ea2117925bf8b",
+          "actual_sha256": "0433b605bb301a008381cb077ae0bca9705660909099719d6a3ea2117925bf8b",
+          "match": true
+        },
+        {
+          "log": "historical.stderr.txt",
+          "expected_export_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+          "actual_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+          "match": true
+        }
+      ],
+      "version_banner": "3.12.0alpha (tags/0.3.0-170-ga8ab7dd38:a8ab7dd38, Feb 21 2024, 12:02:54) \n[rustc 1.75.0]\n",
+      "not_rerun": true
+    },
+    "current": {
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "current.stdout.txt",
+          "expected_export_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+          "actual_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+          "match": true
+        },
+        {
+          "log": "current.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    },
+    "cpython": {
+      "actual_sha": null,
+      "binary_sha256": null,
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "cpython.stdout.txt",
+          "expected_export_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+          "actual_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+          "match": true
+        },
+        {
+          "log": "cpython.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    }
+  },
+  "6429": {
+    "historical": {
+      "actual_sha": "e227956a58f0f072f8be177264e0fdc1b9280e8a",
+      "binary_sha256": "16ab25f8f01dde6d6b7d0790f71bcd6b0266f9933678c25ef1b9c33c7db7a93f",
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "historical.stdout.txt",
+          "expected_export_sha256": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+          "actual_sha256": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+          "match": true
+        },
+        {
+          "log": "historical.stderr.txt",
+          "expected_export_sha256": "ef2d96c0914fc24f75dd0cc7c8c96ae0827ce5cf7075be9284103286c67d8919",
+          "actual_sha256": "ef2d96c0914fc24f75dd0cc7c8c96ae0827ce5cf7075be9284103286c67d8919",
+          "match": true
+        }
+      ],
+      "version_banner": "3.13.0alpha (tags/2025-11-10-main-55-172-ge227956a5:e227956a5, Dec 13 2025, 00:02:02) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+      "not_rerun": true
+    },
+    "current": {
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "current.stdout.txt",
+          "expected_export_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "actual_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+          "match": true
+        },
+        {
+          "log": "current.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    },
+    "cpython": {
+      "actual_sha": null,
+      "binary_sha256": null,
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "cpython.stdout.txt",
+          "expected_export_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "actual_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+          "match": true
+        },
+        {
+          "log": "cpython.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    }
+  },
+  "6790": {
+    "historical": {
+      "actual_sha": "ed785e3d868966e2a5f7478632cabd5a630e6934",
+      "binary_sha256": "2b07956ab66da91ad9b60379a89c3b3f789a9266591c1d996ff52d4397d5f909",
+      "exit": 0,
+      "timeout": null,
+      "checked_export_hashes": [
+        {
+          "log": "historical.stdout.txt",
+          "expected_export_sha256": "1a005344dc37b323ea5253cd2bd13ec3cfe5f3b37e0136297d09e57d27449264",
+          "actual_sha256": "1a005344dc37b323ea5253cd2bd13ec3cfe5f3b37e0136297d09e57d27449264",
+          "match": true
+        },
+        {
+          "log": "historical.stderr.txt",
+          "expected_export_sha256": "382d21396ad5fe38c64e4a73bbb701bc7248aa858635784a6f89e1f8325eb82f",
+          "actual_sha256": "382d21396ad5fe38c64e4a73bbb701bc7248aa858635784a6f89e1f8325eb82f",
+          "match": true
+        }
+      ],
+      "version_banner": "3.14.0alpha (tags/2025-11-10-main-55-569-ged785e3d8:ed785e3d8, Jan 19 2026, 00:04:06) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+      "not_rerun": true
+    },
+    "current": {
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit": 0,
+      "timeout": null,
+      "checked_export_hashes": [
+        {
+          "log": "current.stdout.txt",
+          "expected_export_sha256": "4fe6f06736e4e44e586561a797df7966bf40bd1809faddb8d68dab00c8932049",
+          "actual_sha256": "4fe6f06736e4e44e586561a797df7966bf40bd1809faddb8d68dab00c8932049",
+          "match": true
+        },
+        {
+          "log": "current.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    }
+  },
+  "8052": {
+    "historical": {
+      "actual_sha": "83fe92042112f9db89a70495b552ab433d77e751",
+      "binary_sha256": "1b2747c3c05484e9f5e3db8de8000a2a3e66aeb211e55ddba918713053a5cb25",
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "historical.stdout.txt",
+          "expected_export_sha256": "d7e52f41d43b82d4c2a36eee3151cf0db9a9362f986f2fa85b8df2baaf2deb6e",
+          "actual_sha256": "d7e52f41d43b82d4c2a36eee3151cf0db9a9362f986f2fa85b8df2baaf2deb6e",
+          "match": true
+        },
+        {
+          "log": "historical.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    },
+    "current": {
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "current.stdout.txt",
+          "expected_export_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+          "actual_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+          "match": true
+        },
+        {
+          "log": "current.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    },
+    "cpython": {
+      "actual_sha": null,
+      "binary_sha256": null,
+      "exit": 0,
+      "timeout": false,
+      "checked_export_hashes": [
+        {
+          "log": "cpython.stdout.txt",
+          "expected_export_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+          "actual_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+          "match": true
+        },
+        {
+          "log": "cpython.stderr.txt",
+          "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "match": true
+        }
+      ],
+      "version_banner": null,
+      "not_rerun": true
+    }
+  }
+}

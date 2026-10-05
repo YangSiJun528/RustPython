@@ -1,0 +1,30 @@
+{
+  "label": "identity-rustpython",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<additional11-audit>/agent-a/identity.py"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/identity-rustpython/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/identity-rustpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/identity-rustpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/identity-rustpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/identity-rustpython"
+  },
+  "started_utc": "2026-10-05T10:46:40.103127+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\n  \"cwd\": \"<workspace>\",\n  \"dont_write_bytecode\": true,\n  \"executable\": \"<survey>/.build/slot-a/verification/rustpython\",\n  \"git\": [\n    \"RustPython\",\n    \"heads/main\",\n    \"f39b054b9\"\n  ],\n  \"implementation\": \"namespace(name='rustpython', cache_tag='cpython-314', _multiarch='aarch64-apple-darwin', version=sys.version_info(major=0, minor=6, micro=1, releaselevel='alpha', serial=0), hexversion=393632, supports_isolated_interpreters=True)\",\n  \"machine\": \"arm64\",\n  \"modules\": {\n    \"array\": {\n      \"file\": null,\n      \"origin\": \"built-in\",\n      \"sha256\": null\n    },\n    \"asyncio\": {\n      \"file\": \"<workspace>/Lib/asyncio/__init__.py\",\n      \"origin\": \"<workspace>/Lib/asyncio/__init__.py\",\n      \"sha256\": \"8148552daea881e3b33639d6e9bdab0da2021367ab694ee0604431c33c16983f\"\n    },\n    \"collections\": {\n      \"file\": \"<workspace>/Lib/collections/__init__.py\",\n      \"origin\": \"<workspace>/Lib/collections/__init__.py\",\n      \"sha256\": \"cb8367b8edd188662143ea2e3942d360c2deae51c72fd779ec898f5076d2c2b9\"\n    },\n    \"copy\": {\n      \"file\": \"<workspace>/Lib/copy.py\",\n      \"origin\": \"<workspace>/Lib/copy.py\",\n      \"sha256\": \"15154fde290d6e65b5007905689a47a9a5a724822c5e06eec35d9ffbb2a3aa69\"\n    },\n    \"dis\": {\n      \"file\": \"<workspace>/Lib/dis.py\",\n      \"origin\": \"<workspace>/Lib/dis.py\",\n      \"sha256\": \"17d4d9a9195c9ee5aa27a96f3e0871f9363fd501e3a64ef20cb1cc876d7ad553\"\n    },\n    \"modulefinder\": {\n      \"file\": \"<workspace>/Lib/modulefinder.py\",\n      \"origin\": \"<workspace>/Lib/modulefinder.py\",\n      \"sha256\": \"5447268e1fe922d334f59e2f370dae0130ab2b9eff48ca7bd71c4ec544443c8b\"\n    },\n    \"os\": {\n      \"file\": \"<workspace>/Lib/os.py\",\n      \"origin\": \"<workspace>/Lib/os.py\",\n      \"sha256\": \"976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546\"\n    },\n    \"pickle\": {\n      \"file\": \"<workspace>/Lib/pickle.py\",\n      \"origin\": \"<workspace>/Lib/pickle.py\",\n      \"sha256\": \"c9998751cf3b94536b4c2cffd6bb719fa1ee6027bd1bd37235d597c9ecf9f98c\"\n    },\n    \"test.test_deque\": {\n      \"file\": \"<workspace>/Lib/test/test_deque.py\",\n      \"origin\": \"<workspace>/Lib/test/test_deque.py\",\n      \"sha256\": \"6e6750d1079103581dbc7ae161f1f2e1c346674ccb1fb0f277434bbb0f6bce10\"\n    },\n    \"test.test_descr\": {\n      \"file\": \"<workspace>/Lib/test/test_descr.py\",\n      \"origin\": \"<workspace>/Lib/test/test_descr.py\",\n      \"sha256\": \"8a4db97b3b39f6474aff5ece8a008a5e3683deb098824864235a28480a8c61a1\"\n    },\n    \"test.test_modulefinder\": {\n      \"file\": \"<workspace>/Lib/test/test_modulefinder.py\",\n      \"origin\": \"<workspace>/Lib/test/test_modulefinder.py\",\n      \"sha256\": \"6467af078a4e6021f332ffcfeaeddd62aba8f54ebae55483f70024799e798c04\"\n    },\n    \"unittest\": {\n      \"file\": \"<workspace>/Lib/unittest/__init__.py\",\n      \"origin\": \"<workspace>/Lib/unittest/__init__.py\",\n      \"sha256\": \"1ed24bce998fa21f6a72c751ec8269b72bd69b7e1c35a9db8cfb418787d25d4e\"\n    }\n  },\n  \"path\": [\n    \"<additional11-audit>/agent-a\",\n    \"<workspace>/Lib\",\n    \"<workspace>/lib/python314.zip\",\n    \"<workspace>/lib/python3.14\",\n    \"<workspace>/lib/python3.14/lib-dynload\"\n  ],\n  \"platform\": \"macOS-26.5.2-arm64-arm-64bit-Mach-O\",\n  \"version\": \"3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)\\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]\"\n}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.7757445409952197
+}

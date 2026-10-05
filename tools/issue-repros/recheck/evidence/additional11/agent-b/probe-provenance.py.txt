@@ -1,0 +1,20 @@
+import json
+import sys
+import platform
+import locale
+import traceback
+import functools
+import os
+
+print(json.dumps({
+    'version': sys.version,
+    'implementation': str(sys.implementation),
+    'executable': sys.executable,
+    'machine': platform.machine(),
+    'platform': platform.platform(),
+    'path': sys.path,
+    'cwd': os.getcwd(),
+    'dont_write_bytecode': sys.dont_write_bytecode,
+    'stdlib_files': {m.__name__: getattr(m, '__file__', None) for m in (locale, traceback, functools, platform)},
+    'locale': locale.setlocale(locale.LC_ALL),
+}, indent=2))

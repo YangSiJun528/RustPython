@@ -1,0 +1,2 @@
+safe_path False
+path ['<survey>/verification-tools/derived-main', '<workspace>/Lib', '<workspace>/lib/python314.zip', '<workspace>/lib/python3.14', '<workspace>/lib/python3.14/lib-dynload']

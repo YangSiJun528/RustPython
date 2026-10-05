@@ -1,0 +1,98 @@
+[
+  {
+    "pr": 8780,
+    "commit": "afad92bf1b78e33c53b9018fef31233cefcb5225",
+    "subject": "Add OrderedDict, marshal, inspect, and chflags bitflagset (#8780)",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 6582,
+    "commit": "f91ffe34d45ec744cd0d6e00703ed3eb19db0c22",
+    "subject": "Fix pyexpat parse (#6582)",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 8741,
+    "commit": "358f6a875afa154f9eb04411c0bc8288b2f1082a",
+    "subject": "native _json, _pickle, pyexpat, and _elementtree (#8741)",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 6934,
+    "commit": "7004502951741bcb9a7e490411453a1335f10377",
+    "subject": "dealloc and finalize_modules  (#6934)",
+    "ancestor_check_exit": 1,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 6934,
+    "commit": "3814348943491629c37d916af69a5f6ce24b4167",
+    "subject": "dealloc and finalize_modules  (#6934)",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 4766,
+    "commit": "17957405175cd9a62cb15685c2a97ea9f53be28d",
+    "subject": "Allow try_update_quantity_from_tuple to set left alignment when needed (#4766)",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 5629,
+    "commit": "b6aacbf4016ec614b3508fd2778de4b3a29d4aef",
+    "subject": "Merge pull request #5629 from coolreader18/surrogate-literals",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 6547,
+    "commit": "9b2ad34a084a95d55105e32708e039bff11f7ccc",
+    "subject": "check surrogates (#6547)",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 5121,
+    "commit": "4d6a180638f3ee5731856c894f8e58e69588f7ee",
+    "subject": "Update ast, test_ast from CPython 3.12.0 (#5121)",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 5663,
+    "commit": "d52081fe41e5239e9a2fc4ca19d4f9d124b7bfcc",
+    "subject": "Merge pull request #5663 from arihant2math/remove-dep-modules",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 7164,
+    "commit": "b87386f4fc2ab5fad5de0ebf3d5dabc67cec66a4",
+    "subject": "Update test_fstring from v3.14.3 and impl more (#7164)",
+    "ancestor_check_exit": 1,
+    "stderr": "",
+    "first_fix_established": false
+  },
+  {
+    "pr": 7164,
+    "commit": "680de33572dccbd8ed15f3dca0f930d80d2fa0ad",
+    "subject": "Update test_fstring from v3.14.3 and impl more (#7164)",
+    "ancestor_check_exit": 0,
+    "stderr": "",
+    "first_fix_established": false
+  }
+]

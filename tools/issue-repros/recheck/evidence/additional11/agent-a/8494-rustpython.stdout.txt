@@ -1,0 +1,12 @@
+classmethod {'return': <class 'int'>}
+True
+wrapper: {'x': <class 'str'>}
+wrapped: {'return': <class 'int'>}
+staticmethod {'return': <class 'int'>}
+True
+wrapper: {'x': <class 'str'>}
+wrapped: {'return': <class 'int'>}
+classmethod annotated both attributes cache/write/delete isolation passed
+classmethod unannotated both attributes cache/write/delete isolation passed
+staticmethod annotated both attributes cache/write/delete isolation passed
+staticmethod unannotated both attributes cache/write/delete isolation passed

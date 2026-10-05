@@ -1,0 +1,24 @@
+{
+  "label": "locale-matrix-cpython",
+  "command": [
+    "<home>/.local/bin/python3",
+    "-B",
+    "<additional11-audit>/agent-b/probe-locale-matrix.py"
+  ],
+  "shell_command": "<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-locale-matrix.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-locale-matrix-cpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-locale-matrix-cpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-locale-matrix-cpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-matrix-cpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-locale-matrix-cpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8"
+  },
+  "started_unix": 1791197403.950347,
+  "elapsed_seconds": 0.023945093154907227,
+  "exit_code": 0,
+  "timeout": false
+}

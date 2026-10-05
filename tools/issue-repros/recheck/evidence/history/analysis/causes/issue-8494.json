@@ -1,0 +1,42 @@
+{
+  "issue_number": 8494,
+  "candidate_commit": "73e547a9c31f347875982102dae3c29a71ac8f89",
+  "candidate_parent": "d7e41ebff587e27e57efb08651900543bf2a2910",
+  "candidate_reachable_from_fixed_main": true,
+  "related_pr": "https://github.com/RustPython/RustPython/pull/8701",
+  "causal_label": "high_relevance",
+  "causal_label_korean": "관련성 높음",
+  "boundary_execution_complete": false,
+  "reason": "__annotations__ now checks and stores the wrapper own dict. Setters assign there instead of callable.set_attr, so wrapper changes no longer mutate wrapped annotations. Current full four-line-per-wrapper output matches CPython3.14.6.",
+  "limitations": [
+    "Reported CPython3.14.6 is suitable; Python<3.14 fails at unresolved annotation definition and is not a valid original comparator.",
+    "Actual historical/current pair establishes scoped behavior difference; exact PR parent/commit boundary has not been executed, so cause remains high relevance."
+  ],
+  "source_diff_path": "analysis/causes/issue-8494-pr-8701.diff",
+  "source_diff_command": [
+    "git",
+    "diff",
+    "d7e41ebff587e27e57efb08651900543bf2a2910",
+    "73e547a9c31f347875982102dae3c29a71ac8f89",
+    "--",
+    "crates/vm/src/builtins/classmethod.rs",
+    "crates/vm/src/builtins/staticmethod.rs"
+  ],
+  "fixed_main_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+  "case_scope": [
+    "issue-8494-case-01"
+  ],
+  "runtime_pair_status": "original_historical_symptom_reproduced_and_current_expected_behavior_observed",
+  "required_historical_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+  "historical_evidence": [
+    "logs/issue-8494-case-01/historical-b304919a63-01.stdout",
+    "logs/issue-8494-case-01/historical-b304919a63-01.stderr"
+  ],
+  "current_evidence": [
+    "logs/issue-8494-case-01/current-01.stdout",
+    "logs/issue-8494-case-01/current-01.stderr",
+    "logs/issue-8494-case-01/cpython-01.stdout",
+    "logs/issue-8494-case-01/cpython-01.stderr"
+  ],
+  "review_status": "scoped_resolution_approved_by_independent_review"
+}

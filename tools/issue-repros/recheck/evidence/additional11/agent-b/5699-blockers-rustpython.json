@@ -1,0 +1,25 @@
+{
+  "label": "5699-blockers-rustpython",
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "<additional11-audit>/agent-b/probe-traceback-blockers.py"
+  ],
+  "shell_command": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B <additional11-audit>/agent-b/probe-traceback-blockers.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "started_unix": 1791197477.6777909,
+  "elapsed_seconds": 0.4895031452178955,
+  "exit_code": 0,
+  "timeout": false
+}

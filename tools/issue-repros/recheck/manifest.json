@@ -1,0 +1,279 @@
+{
+  "baseline": "f39b054b9c8cbbf884f53123eef028131789990c",
+  "verified_closure_candidates": 24,
+  "partial_not_for_closure": 3,
+  "historical_runs_reused": true,
+  "new_runtime_runs_during_publication": 0,
+  "issues": [
+    {
+      "issue": 2527,
+      "title": "REPL expressions inside blocks",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "Actual PTY sessions now display 0–9 from the original loop and 5 from the file-write block. The same CPython input agrees; displayhook and function-scope controls also pass.",
+      "expected": "The interactive REPL must display expression values in compound statements.",
+      "limits": "The new run is macOS/Rosetta, not Linux. Earlier Linux PTY evidence is reused separately. A new exclusive file path and os._exit prevent overwriting files or REPL history.",
+      "related": "[PR #7067](https://github.com/RustPython/RustPython/pull/7067): display interactive expressions in nested blocks"
+    },
+    {
+      "issue": 3418,
+      "title": "Native OrderedDict export",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The native import succeeds, and ordering, move_to_end, popitem, reversed, equality and a subclass sample agree with CPython.",
+      "expected": "from _collections import OrderedDict must expose the native implementation.",
+      "limits": "This verifies the reported native export and exercised operations, not all OrderedDict behavior.",
+      "related": "[PR #8780](https://github.com/RustPython/RustPython/pull/8780): native OrderedDict and class-method descriptors"
+    },
+    {
+      "issue": 3430,
+      "title": "ElementTree parsing valid XML",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The original empty root parses successfully. Valid child, text, attribute, namespace and UTF-8 samples agree with CPython.",
+      "expected": "`etree.XML(\"<root></root>\")` must parse valid XML without the None-encoding TypeError.",
+      "limits": "A separate malformed input, `<a></b>`, is still accepted where CPython raises ParseError. That difference prevents a full XML-compatibility claim but does not reproduce the original valid-XML TypeError.",
+      "related": "[PR #6582](https://github.com/RustPython/RustPython/pull/6582): accept None as the parser encoding; [PR #8741](https://github.com/RustPython/RustPython/pull/8741): native ElementTree parsing"
+    },
+    {
+      "issue": 3846,
+      "title": "Disassembly support used by modulefinder",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The three requested dis APIs operate on actual bytecode. A five-module import graph and all 17 original ModuleFinderTest tests pass without skip or expectedFailure.",
+      "expected": "The requested dis exports and instruction iteration must support the reported modulefinder path.",
+      "limits": "Opcode numeric equality is not required. Creating a generator from integer 100 is not evidence of bytecode iteration; valid code bytes were iterated instead.",
+      "related": "[PR #5377](https://github.com/RustPython/RustPython/pull/5377): provide dis exports and bytecode/import scanning"
+    },
+    {
+      "issue": 4506,
+      "title": "SymPy import with the reported versions",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "SymPy 1.11.1 with mpmath 1.2.1 imports successfully. Tracing observes the original power.py:378 is_commutative assignment, and the reported Pow path succeeds.",
+      "expected": "The already installed reported package versions must import without the descriptor AttributeError.",
+      "limits": "The same dependency files were used in RustPython and CPython and their RECORD hashes were checked. Package installation and the full SymPy suite were not rerun.",
+      "related": "[PR #6390](https://github.com/RustPython/RustPython/pull/6390): install declared slot descriptors even over inherited attributes"
+    },
+    {
+      "issue": 4527,
+      "title": "Finalization of a global object",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The unchanged original lifetime pattern prints deleted! at interpreter shutdown, with exit 0 and no stderr. An explicit-del control was checked separately.",
+      "expected": "The global object destructor must run during ordinary interpreter shutdown.",
+      "limits": "Process-abort paths and arbitrary shutdown ordering are not promised.",
+      "related": "[PR #6934](https://github.com/RustPython/RustPython/pull/6934): module finalization during shutdown"
+    },
+    {
+      "issue": 4541,
+      "title": "Safe path flags and path insertion",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "Script, -c, -m, symlink and actual PTY REPL checks confirm -P and PYTHONSAFEPATH suppress automatic unsafe paths; environment, -E and -I controls agree with CPython.",
+      "expected": "sys.flags.safe_path, -P and nonempty PYTHONSAFEPATH must control actual automatic sys.path insertion.",
+      "limits": "The four -m -E/-I fixture lookup failures are expected: those options remove the explicit module search environment. TERM=dumb caused a basic REPL fallback in both interpreters.",
+      "related": "[PR #4611](https://github.com/RustPython/RustPython/pull/4611): connect -P, the environment and safe_path flags; [PR #5049](https://github.com/RustPython/RustPython/pull/5049): condition automatic path insertion on safe_path; [PR #8605](https://github.com/RustPython/RustPython/pull/8605): resolve script paths for path insertion"
+    },
+    {
+      "issue": 4613,
+      "title": "Locale support for FormatSpec n",
+      "closure_recommended": false,
+      "status": "partial",
+      "result": "Basic n and the original locale tests pass. Across five available locales, 395 formatting results include 102 differences: 84 zero-padding cases and 18 other Unicode-separator width cases.",
+      "expected": "Locale-sensitive n formatting must preserve grouping and character-based field width.",
+      "limits": "The zero-padding defect was rerun on native ARM64 too. The fr_FR U+202F width counterexample was run with Rosetta RustPython; >20n produces 18 characters rather than 20.",
+      "related": "[PR #7350](https://github.com/RustPython/RustPython/pull/7350): use locale grouping, separator and decimal-point data"
+    },
+    {
+      "issue": 4690,
+      "title": "Native class-method descriptor type",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "Both original descriptor queries return classmethod_descriptor. Binding and representative additional native descriptors agree with CPython.",
+      "expected": "Native class methods must use the classmethod_descriptor type.",
+      "limits": "No claim is made about every descriptor or every introspection API.",
+      "related": "[PR #8780](https://github.com/RustPython/RustPython/pull/8780): native OrderedDict and class-method descriptors"
+    },
+    {
+      "issue": 4762,
+      "title": "Negative dynamic format width",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The original assertion preserves the two trailing spaces in `'abc  '`. Positive, zero and additional negative-width controls also agree with CPython.",
+      "expected": "A negative dynamic width selects left alignment.",
+      "limits": "The checked formatting cases do not establish every formatting combination.",
+      "related": "[PR #4766](https://github.com/RustPython/RustPython/pull/4766): left alignment for negative dynamic widths"
+    },
+    {
+      "issue": 4769,
+      "title": "Deque subclass pickle state",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The original regression test passes. Protocols 0–5 preserve dict/slots state, type, contents and maxlen in 36 subclass round trips.",
+      "expected": "Pickling a deque subclass must preserve its instance state.",
+      "limits": "The issue snippet accidentally pickles pickle.HIGHEST_PROTOCOL itself. That literal and the corrected intended input are separate. Recursive deque pickle is outside this reported nonrecursive case.",
+      "related": "[PR #7699](https://github.com/RustPython/RustPython/pull/7699): include __getstate__ in deque reduction"
+    },
+    {
+      "issue": 4784,
+      "title": "README API documentation link",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The README destination returned HTTP 200 and an actual RustPython 0.6.0 API page, including crate and API content; status alone was not the oracle.",
+      "expected": "The README link must serve API documentation rather than an error or generic page.",
+      "limits": "This is the externally served page observed on October 5, 2026, not a documentation build from the baseline commit. CPython comparison does not apply.",
+      "related": "[Published API documentation](https://docs.rs/rustpython/latest/rustpython/)"
+    },
+    {
+      "issue": 4786,
+      "title": "Surrogate in a type name",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The original surrogate is retained and type creation raises UnicodeEncodeError, matching CPython. Exit 1 for the uncaught exception is expected.",
+      "expected": "A surrogate-containing type name must raise UnicodeEncodeError instead of being silently replaced.",
+      "limits": "A separate adjacent-surrogate input is rejected by both, but UnicodeEncodeError.end differs (2 versus 3). Full error-span parity is not claimed.",
+      "related": "[PR #5629](https://github.com/RustPython/RustPython/pull/5629): retain surrogate literals; [PR #6547](https://github.com/RustPython/RustPython/pull/6547): validate type names as UTF-8"
+    },
+    {
+      "issue": 4856,
+      "title": "Lambda in a class decorator",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The original source compiles without the Rust compiler panic. Executing that original source raises BaseFTests NameError in both interpreters. Separate valid mock.patch and nested-capture controls execute and restore the patched function.",
+      "expected": "Compilation must not panic when a class decorator contains a lambda argument.",
+      "limits": "The original application is not runnable as written; compile success is not application success. The normalized runtime examples are separate inputs.",
+      "related": "[PR #8138](https://github.com/RustPython/RustPython/pull/8138): visit class decorators before entering their class scope"
+    },
+    {
+      "issue": 4907,
+      "title": "Await in an async comprehension",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The original async function compiles. The comment's actual asyncio event-loop and two awaited sleeps finish with lc done.",
+      "expected": "Await inside an async-function comprehension must not be rejected as outside an async function.",
+      "limits": "Calling the original await print(...) function correctly raises TypeError because print returns None. Compilation and execution were assessed separately.",
+      "related": "[PR #5334](https://github.com/RustPython/RustPython/pull/5334): compile await inside an async comprehension"
+    },
+    {
+      "issue": 4908,
+      "title": "AST round trip for a starred subscript",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The original starred subscript unparses to valid syntax and reparses; extended combinations preserve AST structure.",
+      "expected": "Unparsing A[1:2, *l] must yield a valid subscript expression.",
+      "limits": "The claim covers the reported syntax and selected round-trip variants.",
+      "related": "[PR #5121](https://github.com/RustPython/RustPython/pull/5121): valid subscript-tuple unparsing"
+    },
+    {
+      "issue": 4937,
+      "title": "Email Subject with an unknown encoding",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The original X-encoded Subject is returned without KeyError. Unknown encodings and related malformed-header controls were also checked.",
+      "expected": "Retrieving the reported Subject must recover from the unknown encoded-word encoding.",
+      "limits": "Successful recovery is not a guarantee for every malformed email header.",
+      "related": "[PR #5663](https://github.com/RustPython/RustPython/pull/5663): unknown encoded-word recovery"
+    },
+    {
+      "issue": 4950,
+      "title": "Bool numeric format codes",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "False and True match CPython for the original codes, the comment's n/d codes and width/precision controls: 34 recorded results.",
+      "expected": "Explicit numeric format codes must format bool through its numeric value.",
+      "limits": "Locale was C for this issue. The broader locale defects in #4613 and #5181 are separate.",
+      "related": "[PR #5012](https://github.com/RustPython/RustPython/pull/5012): update the parser/format dependency · [Parser PR #91](https://github.com/RustPython/Parser/pull/91)"
+    },
+    {
+      "issue": 4970,
+      "title": "Locale formatting with LC_ALL unset",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "With LC_ALL absent and LANG/LC_NUMERIC=en_US.UTF-8, the unmodified original test_locale and two int/float locale tests pass, with no skip or expectedFailure.",
+      "expected": "The original test must use locale grouping after setlocale(LC_ALL, \"\") even when LC_ALL is absent from the environment.",
+      "limits": "The active comma grouping was verified; a C-locale skip is not counted. This narrower bare-n symptom is distinct from the outstanding width/padding issues.",
+      "related": "[PR #7350](https://github.com/RustPython/RustPython/pull/7350): use locale grouping, separator and decimal-point data"
+    },
+    {
+      "issue": 5179,
+      "title": "Builtin buffer methods",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "Seven builtin/subclass types expose the expected buffer behavior. Writable flags, release, blocked resize during export and successful resize after release agree with CPython.",
+      "expected": "Builtin buffer providers must expose the Python-facing PEP 688 methods where appropriate.",
+      "limits": "__release_buffer__ is optional for types that do not need it. Full C ABI coverage and all lifetime/concurrency combinations were not tested.",
+      "related": "[PR #8523](https://github.com/RustPython/RustPython/pull/8523): PEP 688 methods and managed buffer exports"
+    },
+    {
+      "issue": 5181,
+      "title": "Locale-aware n formatting",
+      "closure_recommended": false,
+      "status": "partial",
+      "result": "Bare n and the original locale test pass, but en_US format(123456789, \"015n\") gives 0000123,456,789 instead of CPython's 000,123,456,789.",
+      "expected": "Locale grouping must also remain correct when n formatting is combined with zero padding.",
+      "limits": "The locale exists and grouping is active. Both outputs have length 15; the defect is grouping, not missing locale setup.",
+      "related": "[PR #7350](https://github.com/RustPython/RustPython/pull/7350): use locale grouping, separator and decimal-point data"
+    },
+    {
+      "issue": 5656,
+      "title": "Invalid escape warning in a bytes literal",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The bytes value is preserved and compilation emits the required SyntaxWarning for the invalid escape. Warning presence and warning-as-error behavior were checked.",
+      "expected": "Compilation of the original bytes literal must report the invalid escape while preserving its value.",
+      "limits": "Exit 0 alone is not the oracle; warning output is required.",
+      "related": "[PR #7164](https://github.com/RustPython/RustPython/pull/7164): warn about invalid string and bytes escapes"
+    },
+    {
+      "issue": 5699,
+      "title": "Blockers for colored tracebacks",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "All four listed blockers execute successfully. Colored traceback APIs and four actual uncaught exception paths match CPython, including builtin and missing-stdlib suggestions.",
+      "expected": "Class-pattern code generation, frame.f_builtins, sys.stdlib_module_names and except* code generation must support traceback rendering.",
+      "limits": "The eight uncaught-exception processes correctly exit 1. The check does not certify every traceback edge case or terminal.",
+      "related": "[PR #6110](https://github.com/RustPython/RustPython/pull/6110): class-pattern code generation; [PR #6568](https://github.com/RustPython/RustPython/pull/6568): provide both frame.f_builtins and sys.stdlib_module_names; [PR #6530](https://github.com/RustPython/RustPython/pull/6530): except* code generation and exception-group handling"
+    },
+    {
+      "issue": 6429,
+      "title": "Py_GIL_DISABLED configuration value",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "sysconfig.get_config_var(\"Py_GIL_DISABLED\") is defined as 1 in the verified POSIX RustPython build.",
+      "expected": "The tested RustPython build must expose its build-time Py_GIL_DISABLED setting instead of None.",
+      "limits": "CPython can legitimately return a different value. This is not proof of full free-threading or C-extension compatibility.",
+      "related": "[PR #6428](https://github.com/RustPython/RustPython/pull/6428): expose the build-time Py_GIL_DISABLED value"
+    },
+    {
+      "issue": 6790,
+      "title": "XZ support and the forced lzma skip",
+      "closure_recommended": false,
+      "status": "partial",
+      "result": "The forced skip is gone and basic XZ operations pass. However, identical CPython-generated XZ input returns 0 bytes from the first decompress(max_length=100) call in RustPython, versus 100 bytes in CPython.",
+      "expected": "The original request conditions removal of the forced skip on working XZ support.",
+      "limits": "The corresponding existing test is an expectedFailure, not a pass. Its marker was retained. The remaining concrete streaming defect prevents closure.",
+      "related": "[PR #7896](https://github.com/RustPython/RustPython/pull/7896): remove the unconditional lzma skip override; [PR #7756](https://github.com/RustPython/RustPython/pull/7756): XZ support"
+    },
+    {
+      "issue": 8052,
+      "title": "Ellipsis type name",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The name and repr are `ellipsis` and `<class 'ellipsis'>`; the types alias, JSON error note and existing JSON regression tests also pass.",
+      "expected": "The Ellipsis singleton type must use the CPython-visible name ellipsis.",
+      "limits": "No first-fixing revision was determined.",
+      "related": "[PR #8580](https://github.com/RustPython/RustPython/pull/8580): correct the Ellipsis type name"
+    },
+    {
+      "issue": 8494,
+      "title": "Classmethod and staticmethod annotations",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "Both wrappers support the two annotation attributes, cache values in the wrapper, and isolate writes/deletes from the wrapped function. The original unresolved-name input and regression test pass.",
+      "expected": "PEP 749 annotation attributes on classmethod/staticmethod must be writable, cached and independent of the original callable.",
+      "limits": "CPython 3.14.6 is the reference; this is not compared to older eager-annotation semantics.",
+      "related": "[PR #8701](https://github.com/RustPython/RustPython/pull/8701): cache and assign annotation attributes on the wrapper"
+    }
+  ]
+}

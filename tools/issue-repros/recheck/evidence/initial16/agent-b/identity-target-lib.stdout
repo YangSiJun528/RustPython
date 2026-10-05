@@ -1,0 +1,11 @@
+version 3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)
+[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]
+git ('RustPython', 'heads/main', 'f39b054b9')
+path ['<initial16-audit>/agent-b', '<workspace>/Lib', '<slot-b-source>/Lib', '<workspace>/lib/python314.zip', '<workspace>/lib/python3.14', '<workspace>/lib/python3.14/lib-dynload']
+encodings <workspace>/Lib/encodings/__init__.py
+locale <workspace>/Lib/locale.py
+lzma <workspace>/Lib/lzma.py
+json <workspace>/Lib/json/__init__.py
+sysconfig <workspace>/Lib/sysconfig/__init__.py
+unittest <workspace>/Lib/unittest/__init__.py
+libdir None

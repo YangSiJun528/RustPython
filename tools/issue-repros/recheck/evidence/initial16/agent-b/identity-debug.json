@@ -1,0 +1,17 @@
+{
+  "label": "debug",
+  "binary": "<survey>/.build/slot-b/debug/rustpython",
+  "sha256": "54cb07ea6a1906f75f8231d0fe803e394982511c6b48ee6a653c761a0e09ad1f",
+  "file": "<survey>/.build/slot-b/debug/rustpython: Mach-O 64-bit executable arm64\n",
+  "command": [
+    "<survey>/.build/slot-b/debug/rustpython",
+    "-B",
+    "-S",
+    "-c",
+    "import sys; print(sys.version); print(sys.implementation); print(getattr(sys,\"_git\",None)); print(sys.path)"
+  ],
+  "cwd": "<slot-b-source>",
+  "exit": 0,
+  "stdout": "3.10.0alpha (tags/v0.2.0:c7faae9b2, Jan 11 2023, 15:14:28) \n[rustc 1.67.1]\nnamespace(name='rustpython', cache_tag='rustpython-01', _multiarch='aarch64-apple-darwin', version=sys.version_info(major=3, minor=10, micro=0, releaselevel='alpha', serial=0), hexversion=50987168)\n('RustPython', 'tags/v0.2.0', 'c7faae9b2')\n['', '<slot-b-source>/pylib/Lib']\n",
+  "stderr": "[WARN  rustpython_vm::import] couldn't init zipimport\nencodings initialization failed. Only utf-8 encoding will be supported.\n[WARN  rustpython] Failed to import site, consider adding the Lib directory to your RUSTPYTHONPATH environment variable\nModuleNotFoundError: No module named 'encodings'\n\nThe above exception was the direct cause of the following exception:\n\nRuntimeError: Could not import encodings. Is your RUSTPYTHONPATH set? If you don't have access to a consistent external environment (e.g. if you're embedding rustpython in another application), try enabling the freeze-stdlib feature\n"
+}

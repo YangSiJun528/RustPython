@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File [35m"<additional11-audit>/agent-b/probe-traceback-uncaught.py"[0m, line [35m5[0m, in [35m<module>[0m
+    [1;31mio[0m.StringIO()
+    [1;31m^^[0m
+[1;35mNameError[0m: [35mname 'io' is not defined. Did you mean: 'id'? Or did you forget to import 'io'?[0m

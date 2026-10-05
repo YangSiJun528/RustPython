@@ -1,0 +1,28 @@
+{
+  "label": "5699-uncaught-builtin-rustpython",
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+    "builtin"
+  ],
+  "shell_command": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B <additional11-audit>/agent-b/probe-traceback-uncaught.py builtin",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+    "PYTHON_COLORS": "1",
+    "FORCE_COLOR": "1"
+  },
+  "started_unix": 1791197478.167788,
+  "elapsed_seconds": 0.2806258201599121,
+  "exit_code": 1,
+  "timeout": false
+}

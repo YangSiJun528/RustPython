@@ -1,0 +1,56 @@
+"""Host CPython orchestrator. Runs one probe process at a time; creates files exclusively."""
+import hashlib
+import json
+import os
+from pathlib import Path
+import signal
+import subprocess
+import sys
+import time
+
+ROOT = Path('<workspace>')
+BASE = ROOT / 'independent-verification/2026-10-05-f39b054/agent-a'
+RP = ROOT / 'cleanup-issues/2026-10-04T155029+0900/.build/slot-a/verification/rustpython'
+CP = Path('<home>/.local/bin/python3.14').resolve()
+
+def save(path, data):
+    with path.open('xb') as output:
+        output.write(data)
+
+def run(label, exe, input_path, options=()):
+    env = os.environ.copy()
+    for name in ('PYTHONPATH', 'PYTHONHOME', 'RUSTPYTHONPATH', 'PYTHONWARNINGS', 'PYTHONSTARTUP'):
+        env.pop(name, None)
+    env['PYTHONDONTWRITEBYTECODE'] = '1'
+    if exe == RP:
+        env['RUSTPYTHONPATH'] = str(ROOT / 'Lib')
+    argv = [str(exe), '-B', *options, str(input_path)]
+    stamp = time.time()
+    proc = subprocess.Popen(argv, cwd=ROOT, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+    timed_out = False
+    try:
+        stdout, stderr = proc.communicate(timeout=45)
+    except subprocess.TimeoutExpired:
+        timed_out = True
+        os.killpg(proc.pid, signal.SIGKILL)
+        stdout, stderr = proc.communicate()
+    metadata = {
+        'label': label, 'argv': argv, 'cwd': str(ROOT),
+        'environment_overrides': {'PYTHONDONTWRITEBYTECODE': '1', 'RUSTPYTHONPATH': env.get('RUSTPYTHONPATH')},
+        'removed_environment': ['PYTHONPATH', 'PYTHONHOME', 'PYTHONWARNINGS', 'PYTHONSTARTUP'],
+        'input_path': str(input_path), 'input_sha256': hashlib.sha256(input_path.read_bytes()).hexdigest(),
+        'executable_realpath': str(exe.resolve()), 'executable_sha256': hashlib.sha256(exe.read_bytes()).hexdigest(),
+        'started_unix': stamp, 'duration_seconds': time.time()-stamp,
+        'exit_code': proc.returncode, 'timed_out': timed_out,
+        'stdout_file': label+'.stdout', 'stderr_file': label+'.stderr',
+    }
+    save(BASE/(label+'.stdout'), stdout)
+    save(BASE/(label+'.stderr'), stderr)
+    save(BASE/(label+'.json'), json.dumps(metadata, indent=2).encode()+b'\n')
+    print(label, 'exit',proc.returncode, 'timeout',timed_out,'stdout',repr(stdout.decode(errors='replace')), 'stderr',repr(stderr.decode(errors='replace')), flush=True)
+
+if __name__ == '__main__':
+    for name in sys.argv[1:]:
+        path = BASE / (name+'.py')
+        run(name+'-rp', RP, path)
+        run(name+'-cp', CP, path)

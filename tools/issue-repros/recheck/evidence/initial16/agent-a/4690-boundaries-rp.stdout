@@ -1,0 +1,12 @@
+types-identity True
+metadata fromkeys dict.fromkeys True
+python-classmethod classmethod
+bound dict True builtin_function_or_method dict {'a': 9}
+bound dict False builtin_function_or_method dict {'a': 9}
+bound Child True builtin_function_or_method Child {'a': 9}
+bound Child False builtin_function_or_method Child {'a': 9}
+direct-call {'a': 2}
+wrong-owner TypeError
+non-type-owner TypeError
+no-receiver TypeError
+wrong-direct TypeError

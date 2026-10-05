@@ -1,0 +1,188 @@
+{
+  "number": 4506,
+  "title": "Sympy fails to import in rustpython",
+  "historical_cases": [
+    {
+      "case_id": "issue-4506-case-01",
+      "historical": {
+        "case_id": "issue-4506-case-01",
+        "issue_number": 4506,
+        "evidence": [
+          "logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stdout",
+          "logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stderr",
+          "logs/issue-4506-case-01/current-pinned-sympy111-mpmath121-b.stdout",
+          "logs/issue-4506-case-01/current-pinned-sympy111-mpmath121-b.stderr"
+        ],
+        "historical_status": "completed_exact_reported_package_original_failure_and_current_success",
+        "historical_sha": "adc23253e4b58980b407ba2760dbe61681d752fc",
+        "baseline_selection": {
+          "role": "case_specific_reported_revision",
+          "sha": "adc23253e4b58980b407ba2760dbe61681d752fc",
+          "reason": "Original traceback checkout adc2325; original pip output explicitly SymPy1.11.1/mpmath1.2.1"
+        },
+        "runs": [
+          {
+            "kind": "historical",
+            "actual_sha": "adc23253e4b58980b407ba2760dbe61681d752fc",
+            "binary_sha256": "f975468d0de51bc4385f099b2e9a5594c50a01c2b50c87155879900e4fe91c7f",
+            "binary": "<survey>/.build/slot-b/saved/history-adc23253/rustpython",
+            "build_provenance": "analysis/history-adc23253-retained-b-provenance.json",
+            "command": [
+              "<survey>/.build/slot-b/saved/history-adc23253/rustpython",
+              "<survey>/verification-tools/derived-b-4506-pinned-import.py"
+            ],
+            "cwd": "<slot-b-source>",
+            "env": {
+              "RUSTPYTHONPATH": "<slot-b-source>/pylib/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "elapsed_seconds": 1.4821241249883315,
+            "stdout_path": "logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stdout",
+            "stderr_path": "logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stderr",
+            "code_input_path": "verification-tools/derived-b-4506-pinned-import.py",
+            "code_sha256": "6580e5f60817f7ee81cf566242e786bd8cca6fcddcc407b6686a08607a0b657f",
+            "package_provenance": "analysis/4506-original-package-provenance-b.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "wall_seconds": 30,
+              "core_bytes": 0
+            },
+            "architecture": "arm64 native macOS"
+          }
+        ],
+        "matched_current_run": {
+          "kind": "current",
+          "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+          "binary_sha256": "d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871",
+          "binary": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+          "build_provenance": "analysis/current-5332-pip25-checkpoint-correctexe-provenance-b.json",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "<survey>/verification-tools/derived-b-4506-pinned-import.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "env": {
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "exit_code": 0,
+          "elapsed_seconds": 3.1205485420068726,
+          "stdout_path": "logs/issue-4506-case-01/current-pinned-sympy111-mpmath121-b.stdout",
+          "stderr_path": "logs/issue-4506-case-01/current-pinned-sympy111-mpmath121-b.stderr",
+          "code_input_path": "verification-tools/derived-b-4506-pinned-import.py",
+          "code_sha256": "6580e5f60817f7ee81cf566242e786bd8cca6fcddcc407b6686a08607a0b657f",
+          "package_provenance": "analysis/4506-original-package-provenance-b.json",
+          "resource_limits": {
+            "cpu_seconds": 25,
+            "wall_seconds": 30,
+            "core_bytes": 0
+          },
+          "architecture": "x86_64 Rosetta macOS"
+        },
+        "package_provenance": "analysis/4506-original-package-provenance-b.json",
+        "symptom_comparison": "Exact SymPy1.11.1/mpmath1.2.1 import at reported revision reaches original power.py378 obj.is_commutative AttributeError cannot set attribute; current same pinned helper imports successfully.",
+        "scope_limitation": "Import only, not full SymPy. Historical arm64 native/current x86 Rosetta on same macOS; original report macOS path. Modern package current comparison retained separately.",
+        "environment_attempt_summary": "Rust1.67.1 historical locked release succeeds, matching banner; exact PyPI wheel hashes verified; coherent current-first f39 B Lib plus verified saved artifact, then restored old source before historical run.",
+        "evidence_ledger": "analysis/historical-results.json"
+      },
+      "adjudication": {
+        "case_id": "issue-4506-case-01",
+        "verdict": "해결 확인",
+        "reason": "명시 adc23253에서 원문에 적힌 SymPy 1.11.1·mpmath 1.2.1로 import sympy 시 power.py의 is_commutative 설정 AttributeError가 재현됐고 현재 같은 두 휠의 파일을 사용한 import는 성공한다. 과거 arm64·현재 x86_64/Rosetta 차이는 분리하지 않았으며 설치 절차·계산 정확성·전체 SymPy 지원을 확인한 것은 아니다.",
+        "scope": "Original import sympy succeeds with exact reported SymPy1.11.1 and mpmath1.2.1 package files.",
+        "historical_execution": true,
+        "historical_version_qualification": {
+          "role": "case_specific_reported_revision",
+          "sha": "adc23253e4b58980b407ba2760dbe61681d752fc",
+          "reason": "Original traceback checkout adc2325; original pip output explicitly SymPy1.11.1/mpmath1.2.1"
+        },
+        "whole_issue_resolution_approved": false,
+        "review_required": false,
+        "independent_review": "review/ninth-review.json",
+        "cause_analysis": "analysis/round9-cause-evidence.json",
+        "review_restrictions": [
+          "Historical native arm64 versus current x86_64/Rosetta; architecture effects not isolated.",
+          "Original package installation command is not replayed; wheels were extracted offline into a common site without modifying package source. Import behavior only.",
+          "Initial SymPy1.14 current/CPython passes are supplemental, not the matching dependency proof.",
+          "No broad SymPy computations, numerical correctness or package installer verdict.",
+          "Exact reported source overrides the generic 0.2.0 banner/fallback selection.",
+          "Old arm64/current x86_64 under Rosetta on macOS26.5.2; architecture effect was not isolated. Toolchains also differ.",
+          "Common package inputs are byte-identical to all 1510 SymPy and 91 mpmath wheel members. No package module was executed by this reviewer.",
+          "Original installer workflow, symbolic/numeric operations and broad SymPy compatibility remain untested. No matching-pinned CPython execution is claimed.",
+          "PR6390 source mechanism directly fits slots overriding an inherited read-only property; no execution establishes it alone enables every import prerequisite.",
+          "All case approvals retain exact input, bounded observation, platform, dependency and partial-scope limits. No whole-issue closure recommendation.",
+          "All 12 PR cause labels approved only as high_relevance source evidence; no executed before/after PR boundaries or first-fix attribution.",
+          "Interrupted jobs outside this completed packet remain failed/excluded under the user's instruction. No retries/workarounds requested or executed."
+        ],
+        "cause_reviews": [
+          {
+            "key": "slot_override",
+            "label": "high_relevance",
+            "boundary_confirmed": false,
+            "scope": "PR6390 removes if !typ.has_attr(attr_name) when installing declared __slots__ member descriptors; slots now override inherited MRO attributes. SymPy1.11.1 Pow declares __slots__=(is_commutative,), while ManagedProperties supplies inherited assumption properties. Historical type construction can retain that read-only inherited property, matching the saved power.py assignment AttributeError. The patch directly fits this slot/property conflict; no executed PR boundary proves it alone enables all SymPy import prerequisites.",
+            "source_diff": "analysis/causes/round9-slot_override-pr6390.diff.txt"
+          }
+        ],
+        "evidence": [
+          "repros/4506/issue-4506-case-01/source-01.py",
+          "sources/issues/4506/body.md",
+          "verification-tools/derived-a/issue-4506-case-01-package.py",
+          "verification-tools/derived-b-4506-pinned-import.py",
+          "logs/issue-4506-case-01/cpython-documented-002.stderr",
+          "logs/issue-4506-case-01/cpython-documented-002.stdout",
+          "logs/issue-4506-case-01/current-documented-002.stderr",
+          "logs/issue-4506-case-01/current-documented-002.stdout",
+          "logs/issue-4506-case-01/current-pinned-sympy111-mpmath121-b.stderr",
+          "logs/issue-4506-case-01/current-pinned-sympy111-mpmath121-b.stdout",
+          "logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stderr",
+          "logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stdout",
+          "analysis/history-adc23253-retained-b-provenance.json",
+          "analysis/4506-original-package-provenance-b.json",
+          "analysis/current-5332-pip25-checkpoint-correctexe-provenance-b.json",
+          "review/ninth-review.json",
+          "analysis/round9-cause-evidence.json",
+          "analysis/round9-adjudication-proposals.json"
+        ]
+      }
+    }
+  ],
+  "related_changes": [
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/6390",
+      "commit": "98fff96f1c911d59fbcb9239b132c6139149a581",
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "mechanism": "PR6390 removes if !typ.has_attr(attr_name) when installing declared __slots__ member descriptors; slots now override inherited MRO attributes. SymPy1.11.1 Pow declares __slots__=(is_commutative,), while ManagedProperties supplies inherited assumption properties. Historical type construction can retain that read-only inherited property, matching the saved power.py assignment AttributeError. The patch directly fits this slot/property conflict; no executed PR boundary proves it alone enables all SymPy import prerequisites.",
+      "review_status": "approved_high_relevance",
+      "boundary_execution_complete": false,
+      "source_diff_path": "analysis/causes/round9-slot_override-pr6390.diff.txt",
+      "source_diff_sha256": "2abe5c71fed4c61ec54a5930482f364825054336d9aab959fc984939aae12d25",
+      "source_evidence": "analysis/round9-cause-evidence.json",
+      "runtime_evidence": "analysis/round9-adjudication-proposals.json",
+      "limits": [
+        "No executed parent/commit boundary.",
+        "Apply case-specific scope and environment restrictions; source relevance is not a whole-issue resolution."
+      ],
+      "reviewed_scope": "PR6390 removes if !typ.has_attr(attr_name) when installing declared __slots__ member descriptors; slots now override inherited MRO attributes. SymPy1.11.1 Pow declares __slots__=(is_commutative,), while ManagedProperties supplies inherited assumption properties. Historical type construction can retain that read-only inherited property, matching the saved power.py assignment AttributeError. The patch directly fits this slot/property conflict; no executed PR boundary proves it alone enables all SymPy import prerequisites.",
+      "review_restrictions": [
+        "Historical native arm64 versus current x86_64/Rosetta; architecture effects not isolated.",
+        "Original package installation command is not replayed; wheels were extracted offline into a common site without modifying package source. Import behavior only.",
+        "Initial SymPy1.14 current/CPython passes are supplemental, not the matching dependency proof.",
+        "No broad SymPy computations, numerical correctness or package installer verdict.",
+        "Exact reported source overrides the generic 0.2.0 banner/fallback selection.",
+        "Old arm64/current x86_64 under Rosetta on macOS26.5.2; architecture effect was not isolated. Toolchains also differ.",
+        "Common package inputs are byte-identical to all 1510 SymPy and 91 mpmath wheel members. No package module was executed by this reviewer.",
+        "Original installer workflow, symbolic/numeric operations and broad SymPy compatibility remain untested. No matching-pinned CPython execution is claimed.",
+        "PR6390 source mechanism directly fits slots overriding an inherited read-only property; no execution establishes it alone enables every import prerequisite."
+      ],
+      "independent_review": "review/ninth-review.json",
+      "ancestry_check": {
+        "sha": "98fff96f1c911d59fbcb9239b132c6139149a581",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "verified_diff_sha256": "2abe5c71fed4c61ec54a5930482f364825054336d9aab959fc984939aae12d25"
+    }
+  ]
+}

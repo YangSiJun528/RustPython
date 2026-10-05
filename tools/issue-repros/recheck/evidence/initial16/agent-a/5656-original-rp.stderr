@@ -1,0 +1,2 @@
+<initial16-audit>/agent-a/5656-original.py:1: SyntaxWarning: "\X" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\X"? A raw string is also an option.
+  assert b"omkmok\Xaa" == bytes([111, 109, 107, 109, 111, 107, 92, 88, 97, 97])

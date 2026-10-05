@@ -1,0 +1,29 @@
+{
+  "label": "5656-whole-snippet-rp",
+  "argv": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<workspace>/extra_tests/snippets/builtin_bytes.py"
+  ],
+  "cwd": "<workspace>",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "RUSTPYTHONPATH": "<workspace>/Lib"
+  },
+  "removed_environment": [
+    "PYTHONPATH",
+    "PYTHONHOME",
+    "PYTHONWARNINGS",
+    "PYTHONSTARTUP"
+  ],
+  "input_path": "<workspace>/extra_tests/snippets/builtin_bytes.py",
+  "input_sha256": "116de89033ee811cbaa0f40a16d2d613a6c7d70ddd2860957f98f87a7725ecce",
+  "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+  "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+  "started_unix": 1791191031.8072598,
+  "duration_seconds": 0.3068423271179199,
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout_file": "5656-whole-snippet-rp.stdout",
+  "stderr_file": "5656-whole-snippet-rp.stderr"
+}

@@ -1,0 +1,25 @@
+{
+  "label": "4613-zero-padding-rustpython",
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "<additional11-audit>/agent-b/probe-locale-zero-padding.py"
+  ],
+  "shell_command": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B <additional11-audit>/agent-b/probe-locale-zero-padding.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "started_unix": 1791197693.799823,
+  "elapsed_seconds": 1.2305610179901123,
+  "exit_code": 0,
+  "timeout": false
+}

@@ -1,0 +1,39 @@
+{
+  "class_match": 4,
+  "builtins": true,
+  "stdlib_module_names": true,
+  "except_star": [
+    [
+      "value",
+      1
+    ],
+    [
+      "type",
+      1
+    ]
+  ],
+  "anchors": [
+    0,
+    2,
+    0,
+    3,
+    "~",
+    "^"
+  ],
+  "zero": {
+    "plain": "Traceback (most recent call last):\n  File \"<additional11-audit>/agent-b/probe-traceback-blockers.py\", line 58, in <module>\n    function()\n    ~~~~~~~~^^\n  File \"<additional11-audit>/agent-b/probe-traceback-blockers.py\", line 40, in zero\n    return 1 / 0\n           ~~^~~\nZeroDivisionError: division by zero\n",
+    "colored": "Traceback (most recent call last):\n  File \u001b[35m\"<additional11-audit>/agent-b/probe-traceback-blockers.py\"\u001b[0m, line \u001b[35m58\u001b[0m, in \u001b[35m<module>\u001b[0m\n    \u001b[31mfunction\u001b[0m\u001b[1;31m()\u001b[0m\n    \u001b[31m~~~~~~~~\u001b[0m\u001b[1;31m^^\u001b[0m\n  File \u001b[35m\"<additional11-audit>/agent-b/probe-traceback-blockers.py\"\u001b[0m, line \u001b[35m40\u001b[0m, in \u001b[35mzero\u001b[0m\n    return \u001b[31m1 \u001b[0m\u001b[1;31m/\u001b[0m\u001b[31m 0\u001b[0m\n           \u001b[31m~~\u001b[0m\u001b[1;31m^\u001b[0m\u001b[31m~~\u001b[0m\n\u001b[1;35mZeroDivisionError\u001b[0m: \u001b[35mdivision by zero\u001b[0m\n"
+  },
+  "builtins_typo": {
+    "plain": "Traceback (most recent call last):\n  File \"<additional11-audit>/agent-b/probe-traceback-blockers.py\", line 58, in <module>\n    function()\n    ~~~~~~~~^^\n  File \"<additional11-audit>/agent-b/probe-traceback-blockers.py\", line 43, in builtins_typo\n    return ZeroDivisionErrrrr\n           ^^^^^^^^^^^^^^^^^^\nNameError: name 'ZeroDivisionErrrrr' is not defined. Did you mean: 'ZeroDivisionError'?\n",
+    "colored": "Traceback (most recent call last):\n  File \u001b[35m\"<additional11-audit>/agent-b/probe-traceback-blockers.py\"\u001b[0m, line \u001b[35m58\u001b[0m, in \u001b[35m<module>\u001b[0m\n    \u001b[31mfunction\u001b[0m\u001b[1;31m()\u001b[0m\n    \u001b[31m~~~~~~~~\u001b[0m\u001b[1;31m^^\u001b[0m\n  File \u001b[35m\"<additional11-audit>/agent-b/probe-traceback-blockers.py\"\u001b[0m, line \u001b[35m43\u001b[0m, in \u001b[35mbuiltins_typo\u001b[0m\n    return \u001b[1;31mZeroDivisionErrrrr\u001b[0m\n           \u001b[1;31m^^^^^^^^^^^^^^^^^^\u001b[0m\n\u001b[1;35mNameError\u001b[0m: \u001b[35mname 'ZeroDivisionErrrrr' is not defined. Did you mean: 'ZeroDivisionError'?\u001b[0m\n"
+  },
+  "stdlib_missing": {
+    "plain": "Traceback (most recent call last):\n  File \"<additional11-audit>/agent-b/probe-traceback-blockers.py\", line 58, in <module>\n    function()\n    ~~~~~~~~^^\n  File \"<additional11-audit>/agent-b/probe-traceback-blockers.py\", line 46, in stdlib_missing\n    return io.StringIO()\n           ^^\nNameError: name 'io' is not defined. Did you mean: 'id'? Or did you forget to import 'io'?\n",
+    "colored": "Traceback (most recent call last):\n  File \u001b[35m\"<additional11-audit>/agent-b/probe-traceback-blockers.py\"\u001b[0m, line \u001b[35m58\u001b[0m, in \u001b[35m<module>\u001b[0m\n    \u001b[31mfunction\u001b[0m\u001b[1;31m()\u001b[0m\n    \u001b[31m~~~~~~~~\u001b[0m\u001b[1;31m^^\u001b[0m\n  File \u001b[35m\"<additional11-audit>/agent-b/probe-traceback-blockers.py\"\u001b[0m, line \u001b[35m46\u001b[0m, in \u001b[35mstdlib_missing\u001b[0m\n    return \u001b[1;31mio\u001b[0m.StringIO()\n           \u001b[1;31m^^\u001b[0m\n\u001b[1;35mNameError\u001b[0m: \u001b[35mname 'io' is not defined. Did you mean: 'id'? Or did you forget to import 'io'?\u001b[0m\n"
+  },
+  "group": {
+    "plain": "  + Exception Group Traceback (most recent call last):\n  |   File \"<additional11-audit>/agent-b/probe-traceback-blockers.py\", line 58, in <module>\n  |     function()\n  |     ~~~~~~~~^^\n  |   File \"<additional11-audit>/agent-b/probe-traceback-blockers.py\", line 49, in group\n  |     raise ExceptionGroup('colored group', [ValueError('v'), TypeError('t')])\n  | ExceptionGroup: colored group (2 sub-exceptions)\n  +-+---------------- 1 ----------------\n    | ValueError: v\n    +---------------- 2 ----------------\n    | TypeError: t\n    +------------------------------------\n",
+    "colored": "  + Exception Group Traceback (most recent call last):\n  |   File \u001b[35m\"<additional11-audit>/agent-b/probe-traceback-blockers.py\"\u001b[0m, line \u001b[35m58\u001b[0m, in \u001b[35m<module>\u001b[0m\n  |     \u001b[31mfunction\u001b[0m\u001b[1;31m()\u001b[0m\n  |     \u001b[31m~~~~~~~~\u001b[0m\u001b[1;31m^^\u001b[0m\n  |   File \u001b[35m\"<additional11-audit>/agent-b/probe-traceback-blockers.py\"\u001b[0m, line \u001b[35m49\u001b[0m, in \u001b[35mgroup\u001b[0m\n  |     raise ExceptionGroup('colored group', [ValueError('v'), TypeError('t')])\n  | \u001b[1;35mExceptionGroup\u001b[0m: \u001b[35mcolored group (2 sub-exceptions)\u001b[0m\n  +-+---------------- 1 ----------------\n    | \u001b[1;35mValueError\u001b[0m: \u001b[35mv\u001b[0m\n    +---------------- 2 ----------------\n    | \u001b[1;35mTypeError\u001b[0m: \u001b[35mt\u001b[0m\n    +------------------------------------\n"
+  }
+}

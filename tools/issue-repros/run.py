@@ -848,7 +848,13 @@ def render_recorded(manifest):
             "",
         ]
     )
-    (BUNDLE / "report.md").write_text("\n".join(aggregate))
+    # Preserve the newer independent-review draft when rendering the old catalog.
+    aggregate_name = (
+        "legacy-report.md"
+        if (BUNDLE / "recheck/manifest.json").exists()
+        else "report.md"
+    )
+    (BUNDLE / aggregate_name).write_text("\n".join(aggregate))
     return "\n".join(index)
 
 

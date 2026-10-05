@@ -1,0 +1,30 @@
+{
+  "label": "4613-cross-rustpython",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<additional11-audit>/agent-b/probe-locale-zero-padding.py"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4613-cross-rustpython/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4613-cross-rustpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4613-cross-rustpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4613-cross-rustpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4613-cross-rustpython"
+  },
+  "started_utc": "2026-10-05T10:52:52.966419+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\n  \"version\": \"3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)\\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]\",\n  \"machine\": \"arm64\",\n  \"locale\": \"en_US.UTF-8\",\n  \"conv\": {\n    \"decimal_point\": \".\",\n    \"thousands_sep\": \",\",\n    \"grouping\": [\n      3,\n      0\n    ]\n  },\n  \"cases\": {\n    \"n\": \"1,234\",\n    \"20n\": \"               1,234\",\n    \"020n\": \"0000000000000001,234\",\n    \"+020n\": \"+000000000000001,234\",\n    \"0=20n\": \"0000000000000001,234\"\n  },\n  \"float\": \"00000000000001,234.5\"\n}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.20678654199582525
+}

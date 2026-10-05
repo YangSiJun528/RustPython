@@ -1,0 +1,192 @@
+{
+  "issue": 3418,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "The original native import succeeds. Native/public type identity, ordering, move_to_end, popitem, reversed, order-sensitive equality and a subclass fromkeys sample also match CPython 3.14.6.",
+  "original_scope": "Expose the native _collections.OrderedDict type; the original executable requirement is from _collections import OrderedDict. The author explicitly distinguishes this from the already available public API.",
+  "original_issue_url": "https://github.com/RustPython/RustPython/issues/3418",
+  "original_issue_snapshot": "<initial16-audit>/agent-a/issue-3418-original.json",
+  "original_comments_read": 0,
+  "fresh_evidence": [
+    {
+      "label": "3418-boundaries-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/3418-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/3418-boundaries.py",
+      "input_sha256": "3af74502b94291f4ddf8377bdac2791602a4fdc20f4d86a4d69e0d1b8def5b47",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190902.69766,
+      "duration_seconds": 0.032501935958862305,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/3418-boundaries-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/3418-boundaries-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/3418-boundaries-cp.json"
+    },
+    {
+      "label": "3418-boundaries-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/3418-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/3418-boundaries.py",
+      "input_sha256": "3af74502b94291f4ddf8377bdac2791602a4fdc20f4d86a4d69e0d1b8def5b47",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190902.5066948,
+      "duration_seconds": 0.19020700454711914,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/3418-boundaries-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/3418-boundaries-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/3418-boundaries-rp.json"
+    },
+    {
+      "label": "3418-original-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/3418-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/3418-original.py",
+      "input_sha256": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190884.6051579,
+      "duration_seconds": 0.03336334228515625,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/3418-original-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/3418-original-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/3418-original-cp.json"
+    },
+    {
+      "label": "3418-original-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/3418-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/3418-original.py",
+      "input_sha256": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190884.435074,
+      "duration_seconds": 0.1692957878112793,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/3418-original-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/3418-original-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/3418-original-rp.json"
+    }
+  ],
+  "old_evidence": {
+    "kind": "reused historical/current export records; no historical executable rerun",
+    "source_directory": "<report-worktree>/tools/issue-repros/cases/3418",
+    "historical_commit": "40fd9c2683d76adf2b9ed0d77c055e2d2514c27d",
+    "historical_binary_sha256": "926dce703c4ccb75258e3977bbeb254b92b67a6a51090dcc06562424e96f2c0c",
+    "historical_input_sha256": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6",
+    "historical_exit_code": 1,
+    "historical_timeout": false,
+    "historical_selection": {
+      "role": "closest_preissue_main_approximation",
+      "reason": "No case-specific executed revision or identifiable RustPython release."
+    },
+    "old_current_binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+    "log_integrity": {
+      "issue": 3418,
+      "historical_recorded_input_hash_matches": true,
+      "canonical_vs_recorded_AST_equal": true,
+      "exported_log_hashes_all_match": true
+    },
+    "input_equivalence_to_live_issue": "The old recorded import uses two spaces and CRLF; canonical and fresh sources use ordinary spacing. The native module/type being imported is unchanged.",
+    "existing_reproducer_sufficiency": "The existing native import is sufficient for the explicit missing-export report. It does not alone prove a complete native OrderedDict implementation; fresh samples supply additional coverage without claiming completeness.",
+    "audit_file": "<initial16-audit>/agent-a/old-evidence-audit.json",
+    "limits": [
+      "Old binary/source/Lib pairing is supported by recorded metadata, not independently reexecuted in this pass.",
+      "Historical logs were path-redacted in the export. Matching export hashes establish integrity of these records, not independent truth of their provenance.",
+      "A historical/current comparison does not establish the first fixing commit."
+    ]
+  },
+  "change_basis": {
+    "description": "PR 8780 adds crates/vm/src/stdlib/_collections/ordered_dict.rs and registers it with #[pymodule(with(ordered_dict::ordered_dict))]. Current sources retain that native module registration.",
+    "related_commits": [
+      {
+        "pr": 8780,
+        "commit": "afad92bf1b78e33c53b9018fef31233cefcb5225",
+        "subject": "Add OrderedDict, marshal, inspect, and chflags bitflagset (#8780)",
+        "ancestor_check_exit": 0,
+        "stderr": "",
+        "first_fix_established": false
+      }
+    ],
+    "first_fix_established": false,
+    "source_identity": "<initial16-audit>/agent-a/source-identity.json"
+  },
+  "limits": [
+    "This is confirmation of the native export and the listed operation samples, not exhaustive OrderedDict conformance."
+  ],
+  "boundary_summary": "All 9 printed observations match CPython, including native-public-identical True.",
+  "environment": {
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "lib_tree": "2f62efb194a326f4abef6d2a61b0c5babc09e96b",
+    "rustpython_binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+    "cpython_binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+    "cpython_version": "3.14.6",
+    "identity_files": [
+      "<initial16-audit>/agent-a/identity-rp.stdout",
+      "<initial16-audit>/agent-a/identity-cp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-rp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-cp.stdout"
+    ]
+  }
+}

@@ -1,0 +1,463 @@
+{
+  "records": 73,
+  "timeouts": [],
+  "nonzero": [
+    {
+      "label": "4541-cpython-module-Eenv1",
+      "exit_code": 1,
+      "stderr": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14: No module named safe_report\n"
+    },
+    {
+      "label": "4541-cpython-module-I",
+      "exit_code": 1,
+      "stderr": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14: No module named safe_report\n"
+    },
+    {
+      "label": "4541-rustpython-module-Eenv1",
+      "exit_code": 1,
+      "stderr": "<survey>/.build/slot-a/verification/rustpython: No module named safe_report\n"
+    },
+    {
+      "label": "4541-rustpython-module-I",
+      "exit_code": 1,
+      "stderr": "<survey>/.build/slot-a/verification/rustpython: No module named safe_report\n"
+    }
+  ],
+  "same_input_comparisons": [
+    {
+      "issue": 4769,
+      "stdout_identical": true,
+      "probe": "<additional11-audit>/agent-a/probes.py",
+      "argv": "4769"
+    },
+    {
+      "issue": 4907,
+      "stdout_identical": true,
+      "probe": "<additional11-audit>/agent-a/probes.py",
+      "argv": "4907"
+    },
+    {
+      "issue": 4950,
+      "stdout_identical": true,
+      "probe": "<additional11-audit>/agent-a/probes.py",
+      "argv": "4950"
+    },
+    {
+      "issue": 5179,
+      "stdout_identical": true,
+      "probe": "<additional11-audit>/agent-a/probes.py",
+      "argv": "5179"
+    },
+    {
+      "issue": 8494,
+      "stdout_identical": true,
+      "probe": "<additional11-audit>/agent-a/probes.py",
+      "argv": "8494"
+    },
+    {
+      "issue": 3846,
+      "stdout_identical": true,
+      "probe": "<additional11-audit>/agent-a/probes.py",
+      "argv": "3846"
+    }
+  ],
+  "safe_path_checks": [
+    {
+      "label": "4541-cpython-command-Eenv1",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": ""
+    },
+    {
+      "label": "4541-cpython-command-I",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-command-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-command-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": ""
+    },
+    {
+      "label": "4541-cpython-command-env0",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-command-env1",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-command-envempty",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": ""
+    },
+    {
+      "label": "4541-cpython-module-Eenv1",
+      "interpretation": "Expected fixture discovery failure on both runtimes: -E/-I ignores the path environment variable used to make safe_report importable. Not a defect; -E/-I flag/path behavior verified via -c/script."
+    },
+    {
+      "label": "4541-cpython-module-I",
+      "interpretation": "Expected fixture discovery failure on both runtimes: -E/-I ignores the path environment variable used to make safe_report importable. Not a defect; -E/-I flag/path behavior verified via -c/script."
+    },
+    {
+      "label": "4541-cpython-module-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-cpython-module-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>"
+    },
+    {
+      "label": "4541-cpython-module-env0",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-cpython-module-env1",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-cpython-module-envempty",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>"
+    },
+    {
+      "label": "4541-cpython-repl-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": false,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-repl-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": false,
+      "path0": ""
+    },
+    {
+      "label": "4541-cpython-repl-env1",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": false,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-script-Eenv1",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-cpython-script-I",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-script-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-script-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-cpython-script-env0",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-script-env1",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-script-envempty",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-cpython-symlink-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip"
+    },
+    {
+      "label": "4541-cpython-symlink-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-rustpython-command-Eenv1",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": ""
+    },
+    {
+      "label": "4541-rustpython-command-I",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-command-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-command-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": ""
+    },
+    {
+      "label": "4541-rustpython-command-env0",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-command-env1",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-command-envempty",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": ""
+    },
+    {
+      "label": "4541-rustpython-module-Eenv1",
+      "interpretation": "Expected fixture discovery failure on both runtimes: -E/-I ignores the path environment variable used to make safe_report importable. Not a defect; -E/-I flag/path behavior verified via -c/script."
+    },
+    {
+      "label": "4541-rustpython-module-I",
+      "interpretation": "Expected fixture discovery failure on both runtimes: -E/-I ignores the path environment variable used to make safe_report importable. Not a defect; -E/-I flag/path behavior verified via -c/script."
+    },
+    {
+      "label": "4541-rustpython-module-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-module-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>"
+    },
+    {
+      "label": "4541-rustpython-module-env0",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-module-env1",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-module-envempty",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>"
+    },
+    {
+      "label": "4541-rustpython-repl-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": false,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-repl-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": false,
+      "path0": ""
+    },
+    {
+      "label": "4541-rustpython-repl-env1",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": false,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-script-Eenv1",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-rustpython-script-I",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-script-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-script-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-rustpython-script-env0",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-script-env1",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-script-envempty",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    },
+    {
+      "label": "4541-rustpython-symlink-P",
+      "safe_path": true,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<workspace>/Lib"
+    },
+    {
+      "label": "4541-rustpython-symlink-default",
+      "safe_path": false,
+      "automatic_path_correct": true,
+      "import_control_correct": true,
+      "path0": "<additional11-audit>/agent-a"
+    }
+  ],
+  "unittests": [
+    {
+      "issue": 4769,
+      "expected_failures": [],
+      "run": 1,
+      "skips": [],
+      "success": true,
+      "unexpected_successes": []
+    },
+    {
+      "issue": 8494,
+      "expected_failures": [],
+      "run": 1,
+      "skips": [],
+      "success": true,
+      "unexpected_successes": []
+    },
+    {
+      "issue": 3846,
+      "expected_failures": [],
+      "run": 17,
+      "skips": [],
+      "success": true,
+      "unexpected_successes": []
+    }
+  ],
+  "probe_sha256": {
+    "8494-original.py": "fc5f528f1129ff361f774e5541c2dabe2536271f7547550d21f7219c2ebebe2f",
+    "identity.py": "93b9047a99fad7b49f7fef17bb76b0fa33a1657e40c1e11ab5cd4ba9c6f47bad",
+    "probes.py": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+    "run-core.py": "cd286b71a116bc989ae6be155f31cbd20b7a63060c7d4e37278c1eadda187378",
+    "run-repl.py": "12ad4145f4299a6f2f719c63ebce7dc61cbefc48fbdbc99cb3d74e4301ef7f76",
+    "run-safe.py": "497bfda11a5c0e84616f6450e1d12a59e423f668e461cdc6c5deab9c39a4bee2",
+    "run-unittests.py": "34d5a90e29b61ff5f3a76ea486c9643009aa978b3ac8f3e6cfd009fade3bd4d9",
+    "runner.py": "ccfc2f754bcc192f50ecd493c6a6afaadb7b4776f2db365b9e187a11dc04e0f2",
+    "safe_fixture.py": "ca5b5327507761d7256eddff95dd6d437ae5b6e80ff2bc277d3aab5398aca78a",
+    "safe_report.py": "3435ac9e193b264de4f9415b8c78ba84b9f265e9c694bf63a4b54488d0ba8b3a",
+    "unittest-probe.py": "3cb7a763f3e9f21bd264713f44a9e7e756bc2731c7a1c965723bd9e65b5d24dc"
+  },
+  "cross_check_input": {
+    "issue": 4613,
+    "path": "<additional11-audit>/agent-b/probe-locale-zero-padding.py",
+    "sha256": "ba917bb88c15c4b47aac2561cda3887d00b6d56de5adcb6e15761d358b9691aa",
+    "separate_from_assigned_seven": true
+  }
+}

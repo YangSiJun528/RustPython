@@ -1,0 +1,30 @@
+{
+  "label": "3846-cpython",
+  "interpreter": "cpython",
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<additional11-audit>/agent-a/probes.py",
+    "3846"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-cpython/python-history",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-cpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/3846-cpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/3846-cpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/3846-cpython"
+  },
+  "started_utc": "2026-10-05T10:48:57.842913+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "opmap, EXTENDED_ARG, _unpack_opargs: usable\nmodule graph: ['__main__', 'first', 'nested_dependency', 'package', 'package.second']\nmissing: ([], [])\n",
+  "stderr": "",
+  "elapsed_seconds": 0.05796733300667256
+}

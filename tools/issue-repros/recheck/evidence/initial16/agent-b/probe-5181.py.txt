@@ -1,0 +1,6 @@
+import locale
+for name in ['C','en_US.UTF-8','de_DE.UTF-8','hi_IN.UTF-8','C']:
+    locale.setlocale(locale.LC_ALL,name)
+    conv=locale.localeconv()
+    print('locale',name,repr(conv['thousands_sep']),conv['grouping'],repr(conv['decimal_point']))
+    for value,spec in [(123456789,'n'),(-123456789,'n'),(123456789,'15n'),(123456789,'015n'),(1234.5,'n')]:print(value,spec,repr(format(value,spec)))

@@ -1,0 +1,187 @@
+{
+  "number": 5179,
+  "title": "Add `__buffer__` and `__release_buffer__` methods to builtin types",
+  "historical_cases": [
+    {
+      "case_id": "issue-5179-case-01",
+      "historical": {
+        "case_id": "issue-5179-case-01",
+        "issue_number": 5179,
+        "evidence": [
+          "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stdout",
+          "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr"
+        ],
+        "historical_status": "executed_awaiting_symptom_analysis",
+        "historical_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+        "reported_symptoms": [
+          "적절한 builtin 타입에 __buffer__ 및 __release_buffer__ 정의 부재"
+        ],
+        "expected_behavior": "PEP 688에 따라 Python에서 buffer protocol 접근 가능",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/verification-tools/derived-main/issue-5179-case-01.py"
+            ],
+            "cwd": "<workspace>",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 0,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 0,
+            "rss_guard": false,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.1048404170142021,
+            "code_input_path": "verification-tools/derived-main/issue-5179-case-01.py",
+            "code_sha256": "d89ea1305286bad69ac51c63027d268031548ce37bdbdfc3908e7edcf026167d",
+            "actual_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+            "binary_sha256": "92a6951391fb89d6e3a92a2213554361cb777e9c110d03d0b50a1400dd7bdc51",
+            "build_provenance": "logs/build-a-a8ab7dd3-partition-rust1750/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stdout",
+            "stderr_path": "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+          "worktree": "<workspace>",
+          "command": [
+            "cargo",
+            "+1.75.0",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "cargo_lock_sha256": "ec3ddfce1230c57242fe09420f4c541d89211a57074d5dde3898f993ac0c9e67",
+          "toolchain": "rustc 1.75.0 (82e1608df 2023-12-21)\nbinary: rustc\ncommit-hash: 82e1608dfa6e0b5569232559e3d385fea5a93112\ncommit-date: 2023-12-21\nhost: aarch64-apple-darwin\nrelease: 1.75.0\nLLVM version: 17.0.6\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T10:59:18.172480+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-a-a8ab7dd3-partition-rust1750/build.stdout",
+            "logs/build-a-a8ab7dd3-partition-rust1750/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T11:00:56.151167+00:00",
+          "binary": "<survey>/.build/slot-a/release/rustpython",
+          "binary_sha256": "92a6951391fb89d6e3a92a2213554361cb777e9c110d03d0b50a1400dd7bdc51",
+          "binary_size": 21301384,
+          "version_banner": "3.12.0alpha (tags/0.3.0-170-ga8ab7dd38:a8ab7dd38, Feb 21 2024, 12:02:54) \n[rustc 1.75.0]\n",
+          "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+        },
+        "baseline_role": "required_issue_time_approximation",
+        "historical_symptom_observed": "Raw original probe output retained for missingbuffer methods or expliciten_USformat mismatch; see stdout/stderr.",
+        "evidence_ledger": "analysis/historical-results-a.json"
+      },
+      "adjudication": {
+        "case_id": "issue-5179-case-01",
+        "verdict": "해결 확인",
+        "reason": "근사 a8ab7dd3에서는 bytes·bytearray·array·memoryview의 Python 버퍼 메서드가 없었다. 현재 동일 대표 입력은 __buffer__(0)의 abc payload를 확인하고 해당 타입의 release 호출을 마친다. bytes에 release 메서드가 없는 것은 CPython과 같으며, 전체 PEP 688·flags·수명 관리 호환성은 검증하지 않았다.",
+        "scope": "Representative bytes, bytearray, array(B), memoryview Python buffer-method availability and exact abc payload.",
+        "historical_execution": true,
+        "historical_version_qualification": {
+          "role": "closest_preissue_main_approximation",
+          "reason": "No case-specific identifiable runtime revision supplied."
+        },
+        "whole_issue_resolution_approved": false,
+        "review_required": false,
+        "independent_review": "review/eighth-review.json",
+        "cause_analysis": "analysis/round8-cause-evidence.json",
+        "review_restrictions": [
+          "Historical exit0 is not success: printed method absence is the original defect.",
+          "No comprehensive custom-exporter, resize/export lifetime, flags matrix, C API or complete PEP688 conformance claim.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+        ],
+        "cause_reviews": [
+          {
+            "pr_url": "https://github.com/RustPython/RustPython/pull/8523",
+            "commit": "c603eb7c9ad763e72cbec7b323e4cb331aee7e81",
+            "integration_commit": null,
+            "approved_label": "high_relevance",
+            "scope": "PR8523 adds Python-facing __buffer__ and conditional __release_buffer__ to buffer-capable builtins through AsBuffer/protocol slots, with managed exports. Saved current calls return memoryviews containing abc and release where provided; bytes appropriately lacks a release method, also observed in CPython. This is representative Python behavior only, not comprehensive PEP688/C-API/lifetime validation.",
+            "boundary_execution_complete": false,
+            "source_diff": "analysis/causes/round8-python_buffer_methods-pr8523.diff.txt",
+            "source_hash": "d1bba6f489b249a3d3a93a3c8d99d8ea64260582e216e0c8d708dddabaab2877",
+            "limits": [
+              "Source correspondence and ancestry only; no first fixing boundary executed.",
+              "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+              "Apply all case-specific scope and environment limits from the adjudication proposal."
+            ]
+          }
+        ],
+        "evidence": [
+          "logs/issue-5179-case-01/cpython-derived.stderr",
+          "logs/issue-5179-case-01/cpython-derived.stdout",
+          "logs/issue-5179-case-01/current-derived.stderr",
+          "logs/issue-5179-case-01/current-derived.stdout",
+          "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr",
+          "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stdout",
+          "sources/issues/5179/body.md",
+          "verification-tools/derived-main/issue-5179-case-01.py",
+          "analysis/causes/round8-python_buffer_methods-pr8523.diff.txt",
+          "logs/build-a-a8ab7dd3-partition-rust1750/provenance.json",
+          "review/eighth-review.json",
+          "analysis/round8-adjudication-proposals.json",
+          "analysis/round8-cause-evidence.json"
+        ]
+      }
+    }
+  ],
+  "related_changes": [
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/8523",
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "commit": "c603eb7c9ad763e72cbec7b323e4cb331aee7e81",
+      "mechanism": "PR8523 adds Python-facing __buffer__ and conditional __release_buffer__ to buffer-capable builtins through AsBuffer/protocol slots, with managed exports. Saved current calls return memoryviews containing abc and release where provided; bytes appropriately lacks a release method, also observed in CPython. This is representative Python behavior only, not comprehensive PEP688/C-API/lifetime validation.",
+      "boundary_execution_complete": false,
+      "review_status": "approved_high_relevance",
+      "source_diff_path": "analysis/causes/round8-python_buffer_methods-pr8523.diff.txt",
+      "source_diff_sha256": "d1bba6f489b249a3d3a93a3c8d99d8ea64260582e216e0c8d708dddabaab2877",
+      "source_evidence": "analysis/round8-cause-evidence.json",
+      "runtime_evidence": "analysis/round8-adjudication-proposals.json",
+      "limits": [
+        "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+        "Apply all case-specific scope and environment limits from the adjudication proposal."
+      ],
+      "reviewed_scope": "PR8523 adds Python-facing __buffer__ and conditional __release_buffer__ to buffer-capable builtins through AsBuffer/protocol slots, with managed exports. Saved current calls return memoryviews containing abc and release where provided; bytes appropriately lacks a release method, also observed in CPython. This is representative Python behavior only, not comprehensive PEP688/C-API/lifetime validation.",
+      "independent_review": "review/eighth-review.json",
+      "review_restrictions": [
+        "Historical exit0 is not success: printed method absence is the original defect.",
+        "No comprehensive custom-exporter, resize/export lifetime, flags matrix, C API or complete PEP688 conformance claim.",
+        "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+        "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+      ],
+      "ancestry_check": {
+        "sha": "c603eb7c9ad763e72cbec7b323e4cb331aee7e81",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "verified_diff_sha256": "d1bba6f489b249a3d3a93a3c8d99d8ea64260582e216e0c8d708dddabaab2877"
+    }
+  ]
+}

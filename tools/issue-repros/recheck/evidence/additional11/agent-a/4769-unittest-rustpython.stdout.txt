@@ -1,0 +1,2 @@
+{"tests": [{"expected_failure": false, "id": "test.test_deque.TestSubclass.test_copy_pickle", "skip": false}]}
+{"expected_failures": [], "run": 1, "skips": [], "success": true, "unexpected_successes": []}

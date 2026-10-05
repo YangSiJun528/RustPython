@@ -1,0 +1,21 @@
+{
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "-S",
+    "<initial16-audit>/agent-b/probe-2527-single.py"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "start": 1791191040.2033632,
+  "binary_sha256": "d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791191040.3418062,
+  "stdout": "for displayhook [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\nnested displayhook [7, None, 10, 11]\nfunction definition hook []\nfunction execution hook []\n",
+  "stderr": ""
+}

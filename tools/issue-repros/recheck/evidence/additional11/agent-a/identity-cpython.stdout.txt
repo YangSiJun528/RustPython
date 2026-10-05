@@ -1,0 +1,78 @@
+{
+  "cwd": "<workspace>",
+  "dont_write_bytecode": true,
+  "executable": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+  "git": [
+    "CPython",
+    "",
+    ""
+  ],
+  "implementation": "namespace(name='cpython', cache_tag='cpython-314', version=sys.version_info(major=3, minor=14, micro=6, releaselevel='final', serial=0), hexversion=51250928, _multiarch='darwin', supports_isolated_interpreters=True)",
+  "machine": "arm64",
+  "modules": {
+    "array": {
+      "file": null,
+      "origin": "built-in",
+      "sha256": null
+    },
+    "asyncio": {
+      "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/__init__.py",
+      "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/__init__.py",
+      "sha256": "8148552daea881e3b33639d6e9bdab0da2021367ab694ee0604431c33c16983f"
+    },
+    "collections": {
+      "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/collections/__init__.py",
+      "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/collections/__init__.py",
+      "sha256": "dbd563752a57c6633b7566b1e9c95bc8ea81df1a1d213b23f61c5335424e5af5"
+    },
+    "copy": {
+      "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/copy.py",
+      "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/copy.py",
+      "sha256": "15154fde290d6e65b5007905689a47a9a5a724822c5e06eec35d9ffbb2a3aa69"
+    },
+    "dis": {
+      "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/dis.py",
+      "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/dis.py",
+      "sha256": "17d4d9a9195c9ee5aa27a96f3e0871f9363fd501e3a64ef20cb1cc876d7ad553"
+    },
+    "modulefinder": {
+      "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/modulefinder.py",
+      "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/modulefinder.py",
+      "sha256": "5447268e1fe922d334f59e2f370dae0130ab2b9eff48ca7bd71c4ec544443c8b"
+    },
+    "os": {
+      "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/os.py",
+      "origin": "frozen",
+      "sha256": "976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546"
+    },
+    "pickle": {
+      "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/pickle.py",
+      "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/pickle.py",
+      "sha256": "c9998751cf3b94536b4c2cffd6bb719fa1ee6027bd1bd37235d597c9ecf9f98c"
+    },
+    "test.test_deque": {
+      "error": "ModuleNotFoundError: No module named 'test'"
+    },
+    "test.test_descr": {
+      "error": "ModuleNotFoundError: No module named 'test'"
+    },
+    "test.test_modulefinder": {
+      "error": "ModuleNotFoundError: No module named 'test'"
+    },
+    "unittest": {
+      "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/unittest/__init__.py",
+      "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/unittest/__init__.py",
+      "sha256": "2698f2daf7a02609a6825b89cd459ebaa283dec2403c7b846315a0701bc74a0d"
+    }
+  },
+  "path": [
+    "<additional11-audit>/agent-a",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/lib-dynload",
+    "<home>/.local/lib/python3.14/site-packages",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/site-packages"
+  ],
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "version": "3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]"
+}

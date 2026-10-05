@@ -1,0 +1,11 @@
+import types,json,collections
+print(type(...).__name__)
+print(repr(type(...)))
+print('alias',types.EllipsisType is type(...))
+def default(obj):
+    if obj is NotImplemented:raise ValueError
+    if obj is ...:return NotImplemented
+    if obj is type:return collections
+    return [...]
+try:json.dumps(type,default=default)
+except ValueError as e:print('notes',e.__notes__)

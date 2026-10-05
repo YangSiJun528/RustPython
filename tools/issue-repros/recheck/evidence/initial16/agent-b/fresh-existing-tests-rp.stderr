@@ -1,0 +1,53 @@
+test_locale (test.test_format.FormatTest.test_locale) ... ok
+test_bad_default (test.test_json.test_default.TestPyDefault.test_bad_default) ... ok
+test_bad_default (test.test_json.test_default.TestCDefault.test_bad_default) ... ok
+test_bad_filter_spec (test.test_lzma.CompressorDecompressorTestCase.test_bad_filter_spec) ... expected failure
+test_compressor_bigmem (test.test_lzma.CompressorDecompressorTestCase.test_compressor_bigmem) ... ok
+test_decompressor_after_eof (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_after_eof) ... ok
+test_decompressor_alone (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_alone) ... ok
+test_decompressor_auto (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_auto) ... ok
+test_decompressor_bad_input (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_bad_input) ... ok
+test_decompressor_bigmem (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_bigmem) ... ok
+test_decompressor_bug_28275 (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_bug_28275) ... ok
+test_decompressor_chunks (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_chunks) ... ok
+test_decompressor_chunks_empty (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_chunks_empty) ... ok
+test_decompressor_chunks_maxsize (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_chunks_maxsize) ... expected failure
+test_decompressor_inputbuf_1 (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_inputbuf_1) ... ok
+test_decompressor_inputbuf_2 (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_inputbuf_2) ... ok
+test_decompressor_inputbuf_3 (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_inputbuf_3) ... ok
+test_decompressor_memlimit (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_memlimit) ... ok
+test_decompressor_multistream (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_multistream) ... ok
+test_decompressor_raw_1 (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_raw_1) ... ok
+test_decompressor_raw_2 (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_raw_2) ... ok
+test_decompressor_raw_3 (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_raw_3) ... ok
+test_decompressor_raw_4 (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_raw_4) ... ok
+test_decompressor_unused_data (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_unused_data) ... ok
+test_decompressor_xz (test.test_lzma.CompressorDecompressorTestCase.test_decompressor_xz) ... ok
+test_pickle (test.test_lzma.CompressorDecompressorTestCase.test_pickle) ... ok
+test_refleaks_in_decompressor___init__ (test.test_lzma.CompressorDecompressorTestCase.test_refleaks_in_decompressor___init__) ... skipped 'implementation detail specific to cpython'
+test_roundtrip_alone (test.test_lzma.CompressorDecompressorTestCase.test_roundtrip_alone) ... ok
+test_roundtrip_chunks (test.test_lzma.CompressorDecompressorTestCase.test_roundtrip_chunks) ... ok
+test_roundtrip_empty_chunks (test.test_lzma.CompressorDecompressorTestCase.test_roundtrip_empty_chunks) ... ok
+test_roundtrip_raw (test.test_lzma.CompressorDecompressorTestCase.test_roundtrip_raw) ... ok
+test_roundtrip_raw_empty (test.test_lzma.CompressorDecompressorTestCase.test_roundtrip_raw_empty) ... ok
+test_roundtrip_xz (test.test_lzma.CompressorDecompressorTestCase.test_roundtrip_xz) ... ok
+test_simple_bad_args (test.test_lzma.CompressorDecompressorTestCase.test_simple_bad_args) ... expected failure
+test_uninitialized_LZMADecompressor_crash (test.test_lzma.CompressorDecompressorTestCase.test_uninitialized_LZMADecompressor_crash) ... ok
+test_bad_args (test.test_lzma.CompressDecompressFunctionTestCase.test_bad_args) ... expected failure
+test_decompress_bad_input (test.test_lzma.CompressDecompressFunctionTestCase.test_decompress_bad_input) ... ok
+test_decompress_good_input (test.test_lzma.CompressDecompressFunctionTestCase.test_decompress_good_input) ... ok
+test_decompress_incomplete_input (test.test_lzma.CompressDecompressFunctionTestCase.test_decompress_incomplete_input) ... ok
+test_decompress_memlimit (test.test_lzma.CompressDecompressFunctionTestCase.test_decompress_memlimit) ... ok
+test_decompress_multistream (test.test_lzma.CompressDecompressFunctionTestCase.test_decompress_multistream) ... ok
+test_decompress_multistream_trailing_junk (test.test_lzma.CompressDecompressFunctionTestCase.test_decompress_multistream_trailing_junk) ... ok
+test_decompress_trailing_junk (test.test_lzma.CompressDecompressFunctionTestCase.test_decompress_trailing_junk) ... ok
+test_roundtrip (test.test_lzma.CompressDecompressFunctionTestCase.test_roundtrip) ... ok
+test__decode_filter_properties (test.test_lzma.MiscellaneousTestCase.test__decode_filter_properties) ... ok
+test__encode_filter_properties (test.test_lzma.MiscellaneousTestCase.test__encode_filter_properties) ... expected failure
+test_filter_properties_roundtrip (test.test_lzma.MiscellaneousTestCase.test_filter_properties_roundtrip) ... ok
+test_is_check_supported (test.test_lzma.MiscellaneousTestCase.test_is_check_supported) ... ok
+
+----------------------------------------------------------------------
+Ran 48 tests in 0.050s
+
+OK (skipped=1, expected failures=5)

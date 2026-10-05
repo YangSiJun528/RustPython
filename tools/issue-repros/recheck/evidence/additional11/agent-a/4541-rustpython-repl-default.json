@@ -1,0 +1,28 @@
+{
+  "label": "4541-rustpython-repl-default",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "-q"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "NO_COLOR": "1",
+    "TERM": "dumb",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-repl-default",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-repl-default/python_history",
+    "LC_ALL": "C",
+    "RUSTPYTHONPATH": "<workspace>/Lib"
+  },
+  "started_utc": "2026-10-05T10:52:19.870729+00:00",
+  "stdin": "import sys, os, json; print('REPL_RESULT='+json.dumps({'safe_path':sys.flags.safe_path,'path':sys.path,'cwd':os.getcwd()}),flush=True); os._exit(0)\n",
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "warning: can't use pyrepl: (5, \"terminal doesn't have the required clear capability\"); TERM=dumb\r\n>>> REPL_RESULT={\"safe_path\": false, \"path\": [\"\", \"<workspace>/Lib\", \"<workspace>/lib/python314.zip\", \"<workspace>/lib/python3.14\", \"<workspace>/lib/python3.14/lib-dynload\"], \"cwd\": \"<workspace>\"}\r\n",
+  "stderr": "",
+  "pty_streams_merged": true,
+  "elapsed_seconds": 0.3617097500100499
+}

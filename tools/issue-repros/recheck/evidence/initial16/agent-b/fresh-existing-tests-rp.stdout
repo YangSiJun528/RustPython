@@ -1,0 +1,34 @@
+requires_lzma gate executed
+counts 48 failures 0 errors 0 skipped 1 expectedFailures 5 unexpectedSuccesses 0
+EXPECTED_FAILURE test.test_lzma.CompressorDecompressorTestCase.test_bad_filter_spec Traceback (most recent call last):
+  File "<workspace>/Lib/test/test_lzma.py", line 71, in test_bad_filter_spec
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+EXPECTED_FAILURE test.test_lzma.CompressorDecompressorTestCase.test_decompressor_chunks_maxsize Traceback (most recent call last):
+  File "<workspace>/Lib/test/test_lzma.py", line 172, in test_decompressor_chunks_maxsize
+    self.assertEqual(len(out[-1]), max_length)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 100
+
+EXPECTED_FAILURE test.test_lzma.CompressorDecompressorTestCase.test_simple_bad_args Traceback (most recent call last):
+  File "<workspace>/Lib/test/test_lzma.py", line 36, in test_simple_bad_args
+    LZMACompressor(preset=7, filters=[{"id": lzma.FILTER_LZMA2}])
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_lzma.LZMAError: Cannot specify both preset and filter chain
+
+EXPECTED_FAILURE test.test_lzma.CompressDecompressFunctionTestCase.test_bad_args Traceback (most recent call last):
+  File "<workspace>/Lib/test/test_lzma.py", line 404, in test_bad_args
+    lzma.compress(b"", preset=3, filters=[{"id": lzma.FILTER_LZMA2}])
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<workspace>/Lib/lzma.py", line 335, in compress
+    comp = LZMACompressor(format, check, preset, filters)
+_lzma.LZMAError: Cannot specify both preset and filter chain
+
+EXPECTED_FAILURE test.test_lzma.MiscellaneousTestCase.test__encode_filter_properties Traceback (most recent call last):
+  File "<workspace>/Lib/test/test_lzma.py", line 1536, in test__encode_filter_properties
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+

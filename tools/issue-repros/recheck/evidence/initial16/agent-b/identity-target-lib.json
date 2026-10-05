@@ -1,0 +1,21 @@
+{
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "-S",
+    "<initial16-audit>/agent-b/probe-identity.py"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "start": 1791190970.633269,
+  "binary_sha256": "d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791190971.404337,
+  "stdout": "version 3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]\ngit ('RustPython', 'heads/main', 'f39b054b9')\npath ['<initial16-audit>/agent-b', '<workspace>/Lib', '<slot-b-source>/Lib', '<workspace>/lib/python314.zip', '<workspace>/lib/python3.14', '<workspace>/lib/python3.14/lib-dynload']\nencodings <workspace>/Lib/encodings/__init__.py\nlocale <workspace>/Lib/locale.py\nlzma <workspace>/Lib/lzma.py\njson <workspace>/Lib/json/__init__.py\nsysconfig <workspace>/Lib/sysconfig/__init__.py\nunittest <workspace>/Lib/unittest/__init__.py\nlibdir None\n",
+  "stderr": ""
+}

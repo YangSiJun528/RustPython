@@ -1,0 +1,868 @@
+[
+  {
+    "issue": 4506,
+    "status": "해결 확인",
+    "closure_recommended": true,
+    "reason": "원문 버전 SymPy 1.11.1·mpmath 1.2.1의 실제 import와 power.py:378 is_commutative 대입이 fresh RustPython/CPython 실행에서 통과한다.",
+    "original_scope": "RustPython 0.2.0에서 이미 설치된 SymPy1.11.1/mpmath1.2.1 import가 LambertW 초기화 -> Pow(S.Exp1,-1,evaluate=False) -> power.py:378 obj.is_commutative 대입의 AttributeError로 실패. 0.3.0 동일 실패 댓글. 설치 자체의 실패나 전체 SymPy 지원을 요구한 증거는 아니다.",
+    "fresh_evidence": {
+      "description": "Exact reported dependency versions, actual module files, successful import, original assignment line observed by sys.settrace, commutativity and polynomial smoke check; stdout identical.",
+      "runs": [
+        {
+          "metadata": "<additional11-audit>/agent-b/4506-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/4506-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/4506-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-sympy-original.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-4506-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-4506-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-4506-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4506-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-4506-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/4506-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/4506-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/4506-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-sympy-original.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-4506-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-4506-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-4506-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4506-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-4506-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        }
+      ],
+      "identity": "<additional11-audit>/agent-b/fresh-file-provenance.json",
+      "runtime_identity": [
+        "<additional11-audit>/agent-b/provenance-rustpython.stdout.txt",
+        "<additional11-audit>/agent-b/provenance-cpython.stdout.txt"
+      ],
+      "input": "<additional11-audit>/agent-b/probe-sympy-original.py",
+      "package_integrity": "SymPy RECORD 1510 rows, mpmath RECORD 91 rows; all entries bearing hashes matched; __version__ and import __file__ verified."
+    },
+    "old_evidence": {
+      "reused": true,
+      "fresh_historical_execution": false,
+      "source": "<additional11-audit>/agent-b/reused-historical-summary.json",
+      "historical_sha": "adc23253e4b58980b407ba2760dbe61681d752fc",
+      "description": "Existing ledger records original pinned import AttributeError at power.py:378. Not independently rerun now."
+    },
+    "change_basis": [
+      {
+        "pr": "https://github.com/RustPython/RustPython/pull/6390",
+        "baseline_ancestor_commit": "98fff96f1c911d59fbcb9239b132c6139149a581",
+        "mechanism": "Declaring __slots__ now installs member descriptors even when inherited MRO attributes have the same name; Pow.__slots__ contains is_commutative.",
+        "first_fix_verified": false
+      }
+    ],
+    "limits": [
+      "Current B RustPython is macOS 26.5.2 x86_64/Rosetta; CPython 3.14.6 is arm64. No Linux or Windows reproduction.",
+      "No historical interpreter or PR parent/commit boundary was executed in this run; first fixing commit remains unverified.",
+      "Verification only: no source/test edits, installation, rebuild, remote writes, or issue state changes.",
+      "Package installation and full SymPy compatibility/numeric correctness were not tested; only the reported import/assignment and small smoke operation."
+    ],
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "original_scope_notes": "<additional11-audit>/agent-b/original-scope.md",
+    "fresh_original_sources": [
+      "<additional11-audit>/agent-b/fresh-github-4506.json",
+      "<additional11-audit>/agent-b/fresh-github-4506-comments.json"
+    ]
+  },
+  {
+    "issue": 4613,
+    "status": "부분 해결",
+    "closure_recommended": false,
+    "reason": "기본 locale n과 연결 원본 테스트는 성공하나 0 채움+grouping 및 비ASCII separator 폭 계산의 실제 불일치가 남는다. 395개 format case 중 84개 zero-padding mismatch, 18개 Unicode-width-only mismatch; 293개 일치. ARM64에서도 zero-padding 반례 재현.",
+    "original_scope": "FormatSpec n은 실제 active locale의 grouping/thousands separator/decimal point를 반영해야 한다. 원문/댓글은 locale 정보 전달과 test_int__format__locale을 지목하며 해당 test에는 폭/정렬 확인도 있다. C locale 통과나 사용할 locale 부재는 해결/버그 증거가 아니다.",
+    "fresh_evidence": {
+      "description": "Real C/en_US/de_DE/fr_FR/hi_IN locale matrix and unchanged integer/float tests. Locale metadata matches. en_US format(1234,\"020n\") RP 0000000000000001,234 vs CP 0,000,000,000,001,234. fr_FR len(format(1234,\">20n\")) RP18 vs CP20.",
+      "runs": [
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-original-unset-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-original-unset-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-original-unset-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-original-set-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-original-set-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-original-set-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+            "LC_ALL": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-original-unset-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-original-unset-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-original-unset-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-original-set-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-original-set-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-original-set-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-set-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-original-set-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-original-set-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-set-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-set-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "LC_ALL": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-matrix-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-matrix-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-matrix-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-locale-matrix.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-matrix-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-matrix-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-matrix-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-matrix-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-matrix-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-matrix-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-matrix-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-matrix-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-locale-matrix.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-matrix-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-matrix-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-matrix-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-matrix-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-matrix-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/4613-zero-padding-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/4613-zero-padding-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/4613-zero-padding-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-locale-zero-padding.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-4613-zero-padding-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/4613-zero-padding-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/4613-zero-padding-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/4613-zero-padding-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-locale-zero-padding.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-4613-zero-padding-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-4613-zero-padding-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-4613-zero-padding-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4613-zero-padding-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-4613-zero-padding-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/4613-unicode-width-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/4613-unicode-width-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/4613-unicode-width-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-locale-unicode-width.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+          },
+          "exit_code": 1,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/4613-unicode-width-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/4613-unicode-width-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/4613-unicode-width-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-locale-unicode-width.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-4613-unicode-width-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        }
+      ],
+      "identity": "<additional11-audit>/agent-b/fresh-file-provenance.json",
+      "runtime_identity": [
+        "<additional11-audit>/agent-b/provenance-rustpython.stdout.txt",
+        "<additional11-audit>/agent-b/provenance-cpython.stdout.txt"
+      ],
+      "inputs": [
+        "<additional11-audit>/agent-b/probe-locale-matrix.py",
+        "<additional11-audit>/agent-b/probe-original-locale-tests.py",
+        "<additional11-audit>/agent-b/probe-locale-zero-padding.py",
+        "<additional11-audit>/agent-b/probe-locale-unicode-width.py"
+      ],
+      "comparison": "<additional11-audit>/agent-b/locale-matrix-comparison.json",
+      "native_arm_crosscheck": [
+        "<additional11-audit>/agent-a/4613-cross-rustpython.json",
+        "<additional11-audit>/agent-a/4613-cross-cpython.json"
+      ],
+      "differential_counts": {
+        "format_cases": 395,
+        "matching": 293,
+        "zero_padding_grouping_mismatches": 84,
+        "unicode_width_only_mismatches": 18,
+        "metadata_matches": 5
+      }
+    },
+    "old_evidence": {
+      "reused": true,
+      "fresh_historical_execution": false,
+      "source": "<additional11-audit>/agent-b/reused-historical-summary.json",
+      "historical_sha": "a7c985685146ca401011eb0c25c0b2805a767ce7",
+      "baseline_role": "issue-time approximation",
+      "description": "Existing ledger records absent integer grouping and unsupported float n. Previous 70-case report covered basic en_US n/.10n and omitted these new zero-padding/Unicode-width combinations."
+    },
+    "change_basis": [
+      {
+        "pr": "https://github.com/RustPython/RustPython/pull/7350",
+        "baseline_ancestor_commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+        "github_merge_sha_not_baseline_ancestor": "3b91466f62de07501f4e4088a279d830649af45e",
+        "mechanism": "Adds localeconv input and locale-aware formatters; removes corresponding test markers. Establishes relevant improvement, not full resolution.",
+        "first_fix_verified": false
+      },
+      {
+        "source": "crates/common/src/format.rs",
+        "mechanism": "apply_locale_formatting runs before padding; new padding zeros are not grouped. Locale result is wrapped in AsciiStr whose char_len uses UTF-8 byte length, matching U+202F width failure.",
+        "first_fix_verified": false
+      }
+    ],
+    "limits": [
+      "Current B RustPython is macOS 26.5.2 x86_64/Rosetta; CPython 3.14.6 is arm64. No Linux or Windows reproduction.",
+      "No historical interpreter or PR parent/commit boundary was executed in this run; first fixing commit remains unverified.",
+      "Verification only: no source/test edits, installation, rebuild, remote writes, or issue state changes.",
+      "Native ARM crosscheck covers zero padding only; fr_FR Unicode width minimal assertion was newly run on B x86 and arm64 CPython.",
+      "102 differing cases represent two observed symptom classes, not 102 independent bugs or failure of every n format.",
+      "No exhaustive validation of every locale, numeric value, grouping rule, or format combination."
+    ],
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "original_scope_notes": "<additional11-audit>/agent-b/original-scope.md",
+    "fresh_original_sources": [
+      "<additional11-audit>/agent-b/fresh-github-4613.json",
+      "<additional11-audit>/agent-b/fresh-github-4613-comments.json"
+    ]
+  },
+  {
+    "issue": 4970,
+    "status": "해결 확인",
+    "closure_recommended": true,
+    "reason": "LC_ALL을 제거하고 LANG/LC_NUMERIC=en_US.UTF-8로 원본 FormatTest.test_locale을 실행했다. 실제 comma/[3,0] grouping과 소수점을 확인하고 int/float 원본 assertions가 통과한다. LC_ALL 설정 대조군과 CPython 비교도 성공.",
+    "original_scope": "LC_ALL unset 상태에서 locale.setlocale(LC_ALL, \"\") 이후 comma grouping이 활성인데 format(123456789,\"n\")가 123456789여서 test_format.FormatTest.test_locale이 실패. Comment suspects duplicate #4613, but original concrete failure does not include width or zero padding.",
+    "fresh_evidence": {
+      "description": "Same unchanged B checkout test_format/test_types modules; three tests per run with zero skips/expectedFailures/unexpectedSuccesses. LC_ALL absent in unset run, actual effective en_US.UTF-8, thousands_sep comma, decimal_point dot, grouping[3,0]; format integer123,456,789 and float1,234.5.",
+      "runs": [
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-original-unset-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-original-unset-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-original-unset-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-original-set-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-original-set-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-original-set-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+            "LC_ALL": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-original-unset-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-original-unset-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-original-unset-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/locale-original-set-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/locale-original-set-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/locale-original-set-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-set-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-locale-original-set-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-locale-original-set-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-set-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-set-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "LC_ALL": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        }
+      ],
+      "identity": "<additional11-audit>/agent-b/fresh-file-provenance.json",
+      "runtime_identity": [
+        "<additional11-audit>/agent-b/provenance-rustpython.stdout.txt",
+        "<additional11-audit>/agent-b/provenance-cpython.stdout.txt"
+      ],
+      "input": "<additional11-audit>/agent-b/probe-original-locale-tests.py",
+      "actual_test": "test.test_format.FormatTest.test_locale"
+    },
+    "old_evidence": {
+      "reused": true,
+      "fresh_historical_execution": false,
+      "source": "<additional11-audit>/agent-b/reused-historical-summary.json",
+      "historical_sha": "7a6000d181b7611c26f2d1353d0462d7bec26da6",
+      "baseline_role": "issue-time approximation",
+      "description": "Existing ledger reports LC_ALL-unset original integer comma assertion failure. Historical setting workaround/float portion and architecture effects were limited; not re-executed now."
+    },
+    "change_basis": [
+      {
+        "pr": "https://github.com/RustPython/RustPython/pull/7350",
+        "baseline_ancestor_commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+        "mechanism": "Connects active localeconv data to n formatting and removes test_format.test_locale skip.",
+        "first_fix_verified": false
+      }
+    ],
+    "limits": [
+      "Current B RustPython is macOS 26.5.2 x86_64/Rosetta; CPython 3.14.6 is arm64. No Linux or Windows reproduction.",
+      "No historical interpreter or PR parent/commit boundary was executed in this run; first fixing commit remains unverified.",
+      "Verification only: no source/test edits, installation, rebuild, remote writes, or issue state changes.",
+      "Original reporter did not specify exact OS, locale or commit. The tested actual grouping locale is en_US.UTF-8.",
+      "The remaining #4613 width/zero-padding failures do not reproduce this narrower unadorned n/test_locale failure."
+    ],
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "original_scope_notes": "<additional11-audit>/agent-b/original-scope.md",
+    "fresh_original_sources": [
+      "<additional11-audit>/agent-b/fresh-github-4970.json",
+      "<additional11-audit>/agent-b/fresh-github-4970-comments.json"
+    ]
+  },
+  {
+    "issue": 5699,
+    "status": "해결 확인",
+    "closure_recommended": true,
+    "reason": "원문의 네 blocker를 실제 실행하고 stdlib traceback class-pattern/builtins suggestion/stdlib import hint/ExceptionGroup/color 경로까지 통과했다. 별도 기본 uncaught 예외 네 종류도 양쪽 stderr가 바이트 단위로 일치한다.",
+    "original_scope": "Four unchecked items: class-pattern codegen, frame.f_builtins, sys.stdlib_module_names, except* codegen. No original snippet/package/platform or comments. Verify execution and actual colored traceback paths, not mere import or attribute presence.",
+    "fresh_evidence": {
+      "description": "Positional/keyword class matching, default/custom frame builtins dictionary, stdlib names type/membership, ExceptionGroup split into two except* handlers. Actual AST caret anchors and four colorize=True/False API cases pass with equal stdout. Four forced-color uncaught stderr pairs exactly match; their exit1 is intentional.",
+      "runs": [
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-blockers-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-blockers-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-blockers-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-blockers.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-blockers-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-blockers-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-blockers-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-blockers-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-blockers.py"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-blockers-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-blockers-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-blockers-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-blockers-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-blockers-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8"
+          },
+          "exit_code": 0,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-uncaught-builtin-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-uncaught-builtin-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-uncaught-builtin-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+            "builtin"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+            "PYTHON_COLORS": "1",
+            "FORCE_COLOR": "1"
+          },
+          "exit_code": 1,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-uncaught-stdlib-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-uncaught-stdlib-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-uncaught-stdlib-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+            "stdlib"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+            "PYTHON_COLORS": "1",
+            "FORCE_COLOR": "1"
+          },
+          "exit_code": 1,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-uncaught-zero-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-uncaught-zero-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-uncaught-zero-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+            "zero"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+            "PYTHON_COLORS": "1",
+            "FORCE_COLOR": "1"
+          },
+          "exit_code": 1,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-uncaught-group-rustpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-uncaught-group-rustpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-uncaught-group-rustpython.stderr.txt",
+          "command": [
+            "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+            "group"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-group-rustpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+            "PYTHON_COLORS": "1",
+            "FORCE_COLOR": "1"
+          },
+          "exit_code": 1,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-uncaught-builtin-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-uncaught-builtin-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-uncaught-builtin-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+            "builtin"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-builtin-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "PYTHON_COLORS": "1",
+            "FORCE_COLOR": "1"
+          },
+          "exit_code": 1,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-uncaught-stdlib-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-uncaught-stdlib-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-uncaught-stdlib-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+            "stdlib"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-stdlib-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "PYTHON_COLORS": "1",
+            "FORCE_COLOR": "1"
+          },
+          "exit_code": 1,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-uncaught-zero-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-uncaught-zero-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-uncaught-zero-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+            "zero"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "PYTHON_COLORS": "1",
+            "FORCE_COLOR": "1"
+          },
+          "exit_code": 1,
+          "timeout": false
+        },
+        {
+          "metadata": "<additional11-audit>/agent-b/5699-uncaught-group-cpython.json",
+          "stdout": "<additional11-audit>/agent-b/5699-uncaught-group-cpython.stdout.txt",
+          "stderr": "<additional11-audit>/agent-b/5699-uncaught-group-cpython.stderr.txt",
+          "command": [
+            "<home>/.local/bin/python3",
+            "-B",
+            "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+            "group"
+          ],
+          "cwd": "<slot-b-source>",
+          "environment": {
+            "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython",
+            "PYTHONDONTWRITEBYTECODE": "1",
+            "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython",
+            "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython",
+            "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython/python-history",
+            "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython/shell-history",
+            "LANG": "en_US.UTF-8",
+            "LC_NUMERIC": "en_US.UTF-8",
+            "PYTHON_COLORS": "1",
+            "FORCE_COLOR": "1"
+          },
+          "exit_code": 1,
+          "timeout": false
+        }
+      ],
+      "identity": "<additional11-audit>/agent-b/fresh-file-provenance.json",
+      "runtime_identity": [
+        "<additional11-audit>/agent-b/provenance-rustpython.stdout.txt",
+        "<additional11-audit>/agent-b/provenance-cpython.stdout.txt"
+      ],
+      "inputs": [
+        "<additional11-audit>/agent-b/probe-traceback-blockers.py",
+        "<additional11-audit>/agent-b/probe-traceback-uncaught.py"
+      ],
+      "comparison": "<additional11-audit>/agent-b/fresh-evidence-summary.json"
+    },
+    "old_evidence": {
+      "reused": true,
+      "fresh_historical_execution": false,
+      "source": "<additional11-audit>/agent-b/reused-historical-summary.json",
+      "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+      "baseline_role": "issue-time approximation",
+      "description": "Existing ledger records positional MatchClass unpack failure, missing frame.f_builtins, missing sys.stdlib_module_names and except* not-implemented SyntaxError for derived representative probes. Not freshly executed."
+    },
+    "change_basis": [
+      {
+        "pr": "https://github.com/RustPython/RustPython/pull/6110",
+        "baseline_ancestor_commit": "50c557419e9d7066af7bdb5f3d29280587103a1e",
+        "mechanism": "MatchClass consumes positional count, __match_args__, and extracts requested attributes.",
+        "first_fix_verified": false
+      },
+      {
+        "pr": "https://github.com/RustPython/RustPython/pull/6568",
+        "baseline_ancestor_commit": "feb5066be2d4854ef0d49b8a725093743598d54d",
+        "mechanism": "Adds both sys.stdlib_module_names and frame.f_builtins.",
+        "first_fix_verified": false
+      },
+      {
+        "pr": "https://github.com/RustPython/RustPython/pull/6530",
+        "baseline_ancestor_commit": "4a6e8fb29edfe09827e529aca2d1ac4c1b1c51d7",
+        "mechanism": "Replaces except* compiler stub and adds exception-group matching/dispatch handling.",
+        "first_fix_verified": false
+      }
+    ],
+    "limits": [
+      "Current B RustPython is macOS 26.5.2 x86_64/Rosetta; CPython 3.14.6 is arm64. No Linux or Windows reproduction.",
+      "No historical interpreter or PR parent/commit boundary was executed in this run; first fixing commit remains unverified.",
+      "Verification only: no source/test edits, installation, rebuild, remote writes, or issue state changes.",
+      "Closure refers to the four blockers and exercised actual traceback paths, not all match/except* edge cases, every stdlib name, all traceback tests or all terminal types."
+    ],
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "original_scope_notes": "<additional11-audit>/agent-b/original-scope.md",
+    "fresh_original_sources": [
+      "<additional11-audit>/agent-b/fresh-github-5699.json",
+      "<additional11-audit>/agent-b/fresh-github-5699-comments.json"
+    ]
+  }
+]

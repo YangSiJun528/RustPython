@@ -1,0 +1,27 @@
+{
+  "label": "5699-uncaught-zero-cpython",
+  "command": [
+    "<home>/.local/bin/python3",
+    "-B",
+    "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+    "zero"
+  ],
+  "shell_command": "<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-traceback-uncaught.py zero",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-zero-cpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8",
+    "PYTHON_COLORS": "1",
+    "FORCE_COLOR": "1"
+  },
+  "started_unix": 1791197479.322956,
+  "elapsed_seconds": 0.03328585624694824,
+  "exit_code": 1,
+  "timeout": false
+}

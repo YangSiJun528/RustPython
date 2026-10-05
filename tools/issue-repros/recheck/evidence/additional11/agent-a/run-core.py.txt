@@ -1,0 +1,4 @@
+from runner import ROOT,run
+for issue in ('4769','4907','4950','5179','8494','3846'):
+    for runtime in ('rustpython','cpython'):
+        run(issue+'-'+runtime,runtime,[str(ROOT/'probes.py'),issue],timeout=45)

@@ -1,0 +1,31 @@
+{
+  "label": "3846-rustpython",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<additional11-audit>/agent-a/probes.py",
+    "3846"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-rustpython/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-rustpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/3846-rustpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/3846-rustpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/3846-rustpython"
+  },
+  "started_utc": "2026-10-05T10:48:57.599654+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "opmap, EXTENDED_ARG, _unpack_opargs: usable\nmodule graph: ['__main__', 'first', 'nested_dependency', 'package', 'package.second']\nmissing: ([], [])\n",
+  "stderr": "",
+  "elapsed_seconds": 0.24250799999572337
+}

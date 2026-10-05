@@ -1,0 +1,98 @@
+{
+  "issue": 5181,
+  "status": "부분 해결",
+  "closure_recommended": false,
+  "reason": "기본 n 및 원문 test_locale는 해결됐지만 0-padding된 n에서 padding 영역의 로캘 grouping을 적용하지 않는다. en_US의 015n은 RustPython 0000123,456,789, CPython 000,123,456,789. 두 결과 길이는 모두 15.",
+  "original_scope": "n이 d처럼 숫자를 표현하되 활성 locale의 grouping/separator를 적용. 원문의 단일 예시만 아니라 n 형식의 locale 지원 요구.",
+  "fresh_evidence": [
+    "<initial16-audit>/agent-b/fresh-5181-rp.json",
+    "<initial16-audit>/agent-b/fresh-5181-cp.json",
+    "<initial16-audit>/agent-b/fresh-5181-width-rp.json",
+    "<initial16-audit>/agent-b/fresh-5181-width-cp.json",
+    "<initial16-audit>/agent-b/fresh-existing-tests-rp.json"
+  ],
+  "old_evidence": {
+    "path": "<report-worktree>/tools/issue-repros/cases/5181",
+    "summary": {
+      "historical": {
+        "actual_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+        "binary_sha256": "92a6951391fb89d6e3a92a2213554361cb777e9c110d03d0b50a1400dd7bdc51",
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "historical.stdout.txt",
+            "expected_export_sha256": "0433b605bb301a008381cb077ae0bca9705660909099719d6a3ea2117925bf8b",
+            "actual_sha256": "0433b605bb301a008381cb077ae0bca9705660909099719d6a3ea2117925bf8b",
+            "match": true
+          },
+          {
+            "log": "historical.stderr.txt",
+            "expected_export_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+            "actual_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+            "match": true
+          }
+        ],
+        "version_banner": "3.12.0alpha (tags/0.3.0-170-ga8ab7dd38:a8ab7dd38, Feb 21 2024, 12:02:54) \n[rustc 1.75.0]\n",
+        "not_rerun": true
+      },
+      "current": {
+        "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+        "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "current.stdout.txt",
+            "expected_export_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+            "actual_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+            "match": true
+          },
+          {
+            "log": "current.stderr.txt",
+            "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "match": true
+          }
+        ],
+        "version_banner": null,
+        "not_rerun": true
+      },
+      "cpython": {
+        "actual_sha": null,
+        "binary_sha256": null,
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "cpython.stdout.txt",
+            "expected_export_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+            "actual_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+            "match": true
+          },
+          {
+            "log": "cpython.stderr.txt",
+            "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "match": true
+          }
+        ],
+        "version_banner": null,
+        "not_rerun": true
+      }
+    },
+    "assessment": "기존 재현은 en_US에서 format(123456789, n) 한 예시만 검사. 해당 예시 해결은 유효하나 locale-aware n 지원 전체 완료를 입증하지 못함."
+  },
+  "change_basis": {
+    "pr": 7350,
+    "commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+    "observed_change": "LocaleInfo 및 locale grouping 구현, test_format.test_locale skip 제거. 현재 format_int_locale는 grouping 후 align을 적용.",
+    "first_fix_confirmed": false
+  },
+  "limits": [
+    "C/en_US/de_DE/hi_IN 로캘만 현재 host에서 직접 확인.",
+    "test_locale는 int/float에 bare n만 적용해 zero-pad 조합을 커버하지 않음; 이번 실행 skip/xfail 없이 통과.",
+    "새 차이는 출력 길이가 아닌 grouping 차이다.",
+    "원문 단일 예시는 해결 확인되지만 broader locale formatting 요구는 부분 해결로 분류."
+  ]
+}

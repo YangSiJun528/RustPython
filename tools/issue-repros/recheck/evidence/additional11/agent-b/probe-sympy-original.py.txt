@@ -1,0 +1,32 @@
+import sys
+import json
+
+site = '<survey>/verification-tools/package-history-4506-original/site'
+sys.path.insert(0, site)
+import sympy
+import mpmath
+from sympy import Pow, S, Symbol, expand
+from sympy.core.cache import clear_cache
+
+assert sympy.__version__ == '1.11.1'
+assert mpmath.__version__ == '1.2.1'
+assert sympy.__file__.startswith(site + '/')
+assert mpmath.__file__.startswith(site + '/')
+clear_cache()
+events = []
+def trace(frame, event, arg):
+    if event == 'line' and frame.f_code.co_filename == site + '/sympy/core/power.py' and frame.f_lineno == 378:
+        events.append([frame.f_code.co_name, frame.f_lineno])
+    return trace
+
+sys.settrace(trace)
+value = Pow(S.Exp1, -1, evaluate=False)
+sys.settrace(None)
+assert value.is_commutative is True
+assert events, 'Original power.py assignment was not observed'
+x = Symbol('x')
+assert expand((x + 1)**2) == x**2 + 2*x + 1
+print(json.dumps({'versions': [sympy.__version__, mpmath.__version__],
+    'files': [sympy.__file__, mpmath.__file__], 'original_assignment': events,
+    'pow': str(value), 'is_commutative': value.is_commutative,
+    'expanded': str(expand((x + 1)**2))}, indent=2))

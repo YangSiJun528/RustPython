@@ -1,0 +1,6 @@
+import sys,encodings,locale,lzma,json,sysconfig,unittest
+print('version',sys.version)
+print('git',getattr(sys,'_git',None))
+print('path',sys.path)
+for module in [encodings,locale,lzma,json,sysconfig,unittest]:print(module.__name__,module.__file__)
+print('libdir',sysconfig.get_config_var('LIBDIR'))

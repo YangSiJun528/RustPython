@@ -1,0 +1,10 @@
+import sys
+import os
+import ast
+print('flags', sys.flags)
+for name in ['PYTHONOPTIMIZE', 'PYTHONWARNINGS', 'PYTHONPATH', 'PYTHONHOME', 'RUSTPYTHONPATH', 'PYTHONDONTWRITEBYTECODE']:
+    print('environment', name, repr(os.environ.get(name)))
+print('unparse', ast.unparse(ast.parse('A[1:2, *l]')))
+module = sys.modules.get('_ast_unparse')
+print('unparser-module', getattr(module, '__file__', None))
+print('native-build', sys.implementation.name, sys.platform)

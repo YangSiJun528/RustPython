@@ -1,0 +1,21 @@
+{
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "-S",
+    "<initial16-audit>/agent-b/probe-6790.py"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "start": 1791191122.651071,
+  "binary_sha256": "d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791191122.948364,
+  "stdout": "known CPython xz True\ncheck 0 True True True 0 b''\ncheck 1 True True True 1 b''\ncheck 4 True True True 4 b''\ncheck 10 True True True 10 b''\nincremental True True 4\nconcat True\ntrailing junk True\ntruncated LZMAError\ninvalid LZMAError\nfile read True\nfile write size 256\nfile roundtrip True\n",
+  "stderr": ""
+}

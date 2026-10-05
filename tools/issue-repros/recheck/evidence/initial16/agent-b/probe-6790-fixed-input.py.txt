@@ -1,0 +1,8 @@
+import lzma
+compressed=bytes.fromhex('fd377a585a000004e6d6b4460200210116000000742fe5a3e000ff00265d00291d4a676e62b3eba66db6aa865728962569f10e686905c3e4801a617213ed05b6eb803e0000000000ee4ab9683be553160001428002000000a3072a9ab1c467fb020000000004595a')
+payload=b'RustPython independent xz probe\n'*8
+d=lzma.LZMADecompressor()
+a=d.decompress(compressed,max_length=100)
+b=d.decompress(b'',max_length=100)
+print('first',len(a),'second',len(b),'needs_input',d.needs_input,'eof',d.eof)
+print('first correct',a==payload[:100],'second correct',b==payload[100:200])

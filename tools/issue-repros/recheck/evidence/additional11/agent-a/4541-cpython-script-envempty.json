@@ -1,0 +1,30 @@
+{
+  "label": "4541-cpython-script-envempty",
+  "interpreter": "cpython",
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<additional11-audit>/agent-a/safe_report.py"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONSAFEPATH": "",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty/python-history",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty"
+  },
+  "started_utc": "2026-10-05T10:50:42.977002+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\"bare_import\": \"new-safe-path-fixture\", \"cwd\": \"<workspace>\", \"cwd_import\": false, \"isolated\": 0, \"path\": [\"<additional11-audit>/agent-a\", \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip\", \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14\", \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/lib-dynload\", \"<home>/.local/lib/python3.14/site-packages\", \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/site-packages\"], \"safe_path\": false}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.036106749990722165
+}

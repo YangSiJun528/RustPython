@@ -1,0 +1,30 @@
+{
+  "label": "8494-original-rustpython",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<additional11-audit>/agent-a/8494-original.py"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-original-rustpython/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-original-rustpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/8494-original-rustpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/8494-original-rustpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/8494-original-rustpython"
+  },
+  "started_utc": "2026-10-05T10:50:42.547613+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "classmethod {'return': <class 'int'>}\nTrue\nwrapper: {'x': <class 'str'>}\nwrapped: {'return': <class 'int'>}\nstaticmethod {'return': <class 'int'>}\nTrue\nwrapper: {'x': <class 'str'>}\nwrapped: {'return': <class 'int'>}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.04856504200142808
+}

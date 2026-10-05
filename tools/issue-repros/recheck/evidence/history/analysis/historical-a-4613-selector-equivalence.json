@@ -1,0 +1,16 @@
+{
+  "historical": {
+    "sha": "a7c985685146ca401011eb0c25c0b2805a767ce7",
+    "methods": {
+      "test_float__format__locale": "def test_float__format__locale(self):\n        # test locale support for __format__ code 'n'\n\n        for i in range(-10, 10):\n            x = 1234567890.0 * (10.0 ** i)\n            self.assertEqual(locale.format_string('%g', x, grouping=True), format(x, 'n'))\n            self.assertEqual(locale.format_string('%.10g', x, grouping=True), format(x, '.10n'))",
+      "test_int__format__locale": "def test_int__format__locale(self):\n        # test locale support for __format__ code 'n' for integers\n\n        x = 123456789012345678901234567890\n        for i in range(0, 30):\n            self.assertEqual(locale.format_string('%d', x, grouping=True), format(x, 'n'))\n\n            # move to the next integer to test\n            x = x // 10\n\n        rfmt = \">20n\"\n        lfmt = \"<20n\"\n        cfmt = \"^20n\"\n        for x in (1234, 12345, 123456, 1234567, 12345678, 123456789, 1234567890, 12345678900):\n            self.assertEqual(len(format(0, rfmt)), len(format(x, rfmt)))\n            self.assertEqual(len(format(0, lfmt)), len(format(x, lfmt)))\n            self.assertEqual(len(format(0, cfmt)), len(format(x, cfmt)))"
+    }
+  },
+  "current": {
+    "sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "methods": {
+      "test_float__format__locale": "def test_float__format__locale(self):\n        # test locale support for __format__ code 'n'\n\n        for i in range(-10, 10):\n            x = 1234567890.0 * (10.0 ** i)\n            self.assertEqual(locale.format_string('%g', x, grouping=True), format(x, 'n'))\n            self.assertEqual(locale.format_string('%.10g', x, grouping=True), format(x, '.10n'))",
+      "test_int__format__locale": "def test_int__format__locale(self):\n        # test locale support for __format__ code 'n' for integers\n\n        x = 123456789012345678901234567890\n        for i in range(0, 30):\n            self.assertEqual(locale.format_string('%d', x, grouping=True), format(x, 'n'))\n\n            # move to the next integer to test\n            x = x // 10\n\n        rfmt = \">20n\"\n        lfmt = \"<20n\"\n        cfmt = \"^20n\"\n        for x in (1234, 12345, 123456, 1234567, 12345678, 123456789, 1234567890, 12345678900):\n            self.assertEqual(len(format(0, rfmt)), len(format(x, rfmt)))\n            self.assertEqual(len(format(0, lfmt)), len(format(x, lfmt)))\n            self.assertEqual(len(format(0, cfmt)), len(format(x, cfmt)))"
+    }
+  }
+}

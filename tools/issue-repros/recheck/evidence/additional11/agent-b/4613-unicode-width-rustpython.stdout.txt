@@ -1,0 +1,17 @@
+{
+  "locale": "fr_FR.UTF-8",
+  "conv": {
+    "decimal_point": ",",
+    "thousands_sep": "\u202f",
+    "grouping": [
+      3,
+      0
+    ]
+  },
+  "plain": "1\u202f234",
+  "plain_characters": 5,
+  "plain_bytes": 7,
+  "padded": "             1\u202f234",
+  "padded_characters": 18,
+  "padded_bytes": 20
+}

@@ -1,0 +1,29 @@
+import hashlib,json,os,pathlib,subprocess,sys,time
+ROOT=pathlib.Path(__file__).parent
+CWD=pathlib.Path('<slot-b-source>')
+RP='<survey>/.build/slot-b/saved/current-f39-x86/rustpython'
+CP='<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14'
+def run(label, interpreter, args, timeout=45, extra=None):
+    assert pathlib.Path.cwd()==CWD
+    env=os.environ.copy()
+    for key in ['PYTHONPATH','RUSTPYTHONPATH','PYTHONHOME','RUSTPYTHONHOME','PYTHONSTARTUP']:env.pop(key,None)
+    overrides={'PYTHONDONTWRITEBYTECODE':'1','LC_ALL':'en_US.UTF-8'}
+    if interpreter==RP:overrides['RUSTPYTHONPATH']=str(CWD/'Lib')
+    if extra:overrides.update(extra)
+    env.update(overrides)
+    cmd=[interpreter,'-B','-S']+args
+    d={'command':cmd,'cwd':str(CWD),'env_overrides':overrides,'start':time.time(),'binary_sha256':hashlib.file_digest(open(interpreter,'rb'),'sha256').hexdigest()}
+    try:
+        p=subprocess.run(cmd,env=env,capture_output=True,timeout=timeout)
+        d.update(exit=p.returncode,timeout=False);out=p.stdout;err=p.stderr
+    except subprocess.TimeoutExpired as e:
+        d.update(exit=None,timeout=True);out=e.stdout or b'';err=e.stderr or b''
+    d['end']=time.time()
+    for name,content in [('stdout',out),('stderr',err)]:
+        with (ROOT/(label+'.'+name)).open('xb') as f:f.write(content)
+        d[name]=content.decode(errors='replace')
+    with (ROOT/(label+'.json')).open('x') as f:json.dump(d,f,indent=2)
+    print(json.dumps(d,ensure_ascii=False),flush=True)
+if __name__=='__main__':
+    label,kind,*args=sys.argv[1:]
+    run(label, RP if kind=='rp' else CP,args,timeout=90)

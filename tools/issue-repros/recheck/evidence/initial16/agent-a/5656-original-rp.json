@@ -1,0 +1,29 @@
+{
+  "label": "5656-original-rp",
+  "argv": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<initial16-audit>/agent-a/5656-original.py"
+  ],
+  "cwd": "<workspace>",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "RUSTPYTHONPATH": "<workspace>/Lib"
+  },
+  "removed_environment": [
+    "PYTHONPATH",
+    "PYTHONHOME",
+    "PYTHONWARNINGS",
+    "PYTHONSTARTUP"
+  ],
+  "input_path": "<initial16-audit>/agent-a/5656-original.py",
+  "input_sha256": "093e8074aea912bac097a5880529c45db190a47d790faac2d2b5c307626a92fc",
+  "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+  "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+  "started_unix": 1791190885.9624362,
+  "duration_seconds": 0.14434266090393066,
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout_file": "5656-original-rp.stdout",
+  "stderr_file": "5656-original-rp.stderr"
+}

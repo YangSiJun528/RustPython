@@ -1,0 +1,63 @@
+{
+  "issue": 2527,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "실제 macOS PTY REPL에서 for 블록 0–9와 with/file.write 블록 5가 출력되며 동일 입력 CPython 3.14.6과 일치. single-mode custom displayhook와 함수 scope 보강도 일치.",
+  "original_scope": "REPL compound statement 안 표현식 값 표시. 원문 2개 블록 및 댓글의 displayhook/single-mode 범위.",
+  "fresh_evidence": [
+    "<initial16-audit>/agent-b/fresh-2527-pty-rp.json",
+    "<initial16-audit>/agent-b/fresh-2527-pty-cp.json",
+    "<initial16-audit>/agent-b/fresh-2527-single-rp.json",
+    "<initial16-audit>/agent-b/fresh-2527-single-cp.json"
+  ],
+  "old_evidence": {
+    "path": "<report-worktree>/tools/issue-repros/cases/2527",
+    "summary": {
+      "historical": {
+        "actual_sha": "163cd1953377f4049e06fdae55c715889857a301",
+        "binary_sha256": "58eea88a470e1d822e9112aa579dad6d4fb788a1e1b374de4f6e6c8e60454ea4",
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "historical.stdout.txt",
+            "expected_export_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+            "actual_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+            "match": true
+          }
+        ],
+        "version_banner": "3.9.0alpha (tags/0.1.0-4637-g163cd1953:163cd1953, Mar 25 2021, 13:04:07) \n[rustc 1.47.0]\n",
+        "not_rerun": true
+      },
+      "current": {
+        "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+        "binary_sha256": "62edeb0a360f473213e907dea3c6706e6ed08034bd80976439310069adf7725c",
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "current.stdout.txt",
+            "expected_export_sha256": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d",
+            "actual_sha256": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d",
+            "match": true
+          }
+        ],
+        "version_banner": "3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 04:53:35)\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]\n",
+        "not_rerun": true
+      }
+    },
+    "assessment": "과거 Linux PTY는 두 원문 블록을 보존하여 범위상 충분. 새 결과는 별도의 macOS PTY 실행이다."
+  },
+  "change_basis": {
+    "pr": 7067,
+    "commit": "46a86ec03663f060d1013dda83ab7964a6615059",
+    "observed_change": "single mode interactive flag와 모듈 scope expression의 Print intrinsic 추가",
+    "first_fix_confirmed": false
+  },
+  "limits": [
+    "현재 macOS x86_64 binary on arm64 host/Rosetta에서 확인; Linux/Windows 새 실행 없음.",
+    "파일 안전을 위해 경로를 evidence 위치로 변경하고 open mode를 w에서 x로 변경. CPython/RustPython 동일 입력은 구현명별 새 파일을 생성.",
+    "PTY stdout/stderr는 터미널 transcript로 합쳐져 있음; os._exit(0)로 기존 REPL history 저장을 회피.",
+    "과거 기록은 재실행하지 않았으며 최초 수정 커밋을 bisect/인접 revision 실행으로 확인하지 않음."
+  ]
+}

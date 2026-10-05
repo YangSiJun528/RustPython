@@ -1,0 +1,22 @@
+{
+  "packages": [
+    {
+      "name": "sympy",
+      "version": "1.11.1",
+      "url": "https://files.pythonhosted.org/packages/2d/49/a2d03101e2d28ad528968144831d506344418ef1cc04839acdbe185889c2/sympy-1.11.1-py3-none-any.whl",
+      "filename": "sympy-1.11.1-py3-none-any.whl",
+      "sha256": "938f984ee2b1e8eae8a07b884c8b7a1146010040fccddc6539c54f401c8f6fcf",
+      "site": "<survey>/verification-tools/package-history-4506-original/site",
+      "version_selection": "Exact versions recorded in original issue4506 pip output"
+    },
+    {
+      "name": "mpmath",
+      "version": "1.2.1",
+      "url": "https://files.pythonhosted.org/packages/d4/cf/3965bddbb4f1a61c49aacae0e78fd1fe36b5dc36c797b31f30cf07dcbbb7/mpmath-1.2.1-py3-none-any.whl",
+      "filename": "mpmath-1.2.1-py3-none-any.whl",
+      "sha256": "604bc21bd22d2322a177c73bdb573994ef76e62edd595d17e00aff24b0667e5c",
+      "site": "<survey>/verification-tools/package-history-4506-original/site",
+      "version_selection": "Exact versions recorded in original issue4506 pip output"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "label": "3418-boundaries-cp",
+  "argv": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<initial16-audit>/agent-a/3418-boundaries.py"
+  ],
+  "cwd": "<workspace>",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "RUSTPYTHONPATH": null
+  },
+  "removed_environment": [
+    "PYTHONPATH",
+    "PYTHONHOME",
+    "PYTHONWARNINGS",
+    "PYTHONSTARTUP"
+  ],
+  "input_path": "<initial16-audit>/agent-a/3418-boundaries.py",
+  "input_sha256": "3af74502b94291f4ddf8377bdac2791602a4fdc20f4d86a4d69e0d1b8def5b47",
+  "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+  "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "started_unix": 1791190902.69766,
+  "duration_seconds": 0.032501935958862305,
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout_file": "3418-boundaries-cp.stdout",
+  "stderr_file": "3418-boundaries-cp.stderr"
+}

@@ -1,0 +1,12 @@
+import locale
+import json
+
+locale.setlocale(locale.LC_ALL, 'fr_FR.UTF-8')
+conv = locale.localeconv()
+plain = format(1234, 'n')
+padded = format(1234, '>20n')
+print(json.dumps({'locale': locale.setlocale(locale.LC_ALL),
+    'conv': {k: conv[k] for k in ('decimal_point', 'thousands_sep', 'grouping')},
+    'plain': plain, 'plain_characters': len(plain), 'plain_bytes': len(plain.encode()),
+    'padded': padded, 'padded_characters': len(padded), 'padded_bytes': len(padded.encode())}, indent=2))
+assert len(padded) == 20, 'Locale separator must count as one character in field width'

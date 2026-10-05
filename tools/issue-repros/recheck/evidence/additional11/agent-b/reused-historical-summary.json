@@ -1,0 +1,199 @@
+[
+  {
+    "issue": 4506,
+    "fresh_execution": false,
+    "reused_file": "<workspace>/cleanup-issues/deterministic-recheck-20261005T183358+0900/historical-and-cause-evidence.json",
+    "cases": [
+      {
+        "case": "issue-4506-case-01",
+        "status": "completed_exact_reported_package_original_failure_and_current_success",
+        "historical_sha": "adc23253e4b58980b407ba2760dbe61681d752fc",
+        "baseline_role": null,
+        "prior_reason": "명시 adc23253에서 원문에 적힌 SymPy 1.11.1·mpmath 1.2.1로 import sympy 시 power.py의 is_commutative 설정 AttributeError가 재현됐고 현재 같은 두 휠의 파일을 사용한 import는 성공한다. 과거 arm64·현재 x86_64/Rosetta 차이는 분리하지 않았으며 설치 절차·계산 정확성·전체 SymPy 지원을 확인한 것은 아니다.",
+        "runs": [
+          {
+            "kind": "historical",
+            "sha": "adc23253e4b58980b407ba2760dbe61681d752fc",
+            "exit": 1,
+            "stdout_path": "logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stdout",
+            "stderr_path": "logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stderr"
+          }
+        ]
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/6390",
+        "commit": "98fff96f1c911d59fbcb9239b132c6139149a581",
+        "reachable_commit": null,
+        "mechanism": "PR6390 removes if !typ.has_attr(attr_name) when installing declared __slots__ member descriptors; slots now override inherited MRO attributes. SymPy1.11.1 Pow declares __slots__=(is_commutative,), while ManagedProperties supplies inherited assumption properties. Historical type construction can retain that read-only inherited property, matching the saved power.py assignment AttributeError. The patch directly fits this slot/property conflict; no executed PR boundary proves it alone enables all SymPy import prerequisites.",
+        "boundary_execution_complete": false
+      }
+    ]
+  },
+  {
+    "issue": 4613,
+    "fresh_execution": false,
+    "reused_file": "<workspace>/cleanup-issues/deterministic-recheck-20261005T183358+0900/historical-and-cause-evidence.json",
+    "cases": [
+      {
+        "case": "issue-4613-case-01",
+        "status": "executed_original_symptom_observed_awaiting_cause_review",
+        "historical_sha": "a7c985685146ca401011eb0c25c0b2805a767ce7",
+        "baseline_role": "required_issue_time_approximation",
+        "prior_reason": "이슈 작성 전 근사 a7c98568에서 실제 en_US.UTF-8·grouping [3,0]·쉼표 구분자를 확인한 뒤 float의 n 미구현 오류와 int의 누락된 그룹 구분 assertion 실패를 관찰했다. 현재 같은 메서드 본문 두 개가 같은 로케일 값에서 통과한다. 원래 로케일 데코레이터와 실행 보조 함수는 서로 다르며, 과거 native arm64·현재 x86_64/Rosetta 차이를 분리 검증하지 않았다.",
+        "runs": [
+          {
+            "kind": "historical_catalog",
+            "sha": "a7c985685146ca401011eb0c25c0b2805a767ce7",
+            "exit": 1,
+            "stdout_path": "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch.stdout",
+            "stderr_path": "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch.stderr"
+          },
+          {
+            "kind": "historical_catalog",
+            "sha": "a7c985685146ca401011eb0c25c0b2805a767ce7",
+            "exit": 1,
+            "stdout_path": "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch-audited-locale.stdout",
+            "stderr_path": "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch-audited-locale.stderr"
+          }
+        ]
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/7350",
+        "commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+        "reachable_commit": null,
+        "mechanism": "PR7350 obtains localeconv thousands separator, decimal point and grouping, routes int/float n-format through locale-aware formatters, and implements grouping/decimal replacement. It removes the existing locale-format test skips. This directly fits both the exact US grouped integer and the existing float/int locale test results.",
+        "boundary_execution_complete": false
+      }
+    ]
+  },
+  {
+    "issue": 4970,
+    "fresh_execution": false,
+    "reused_file": "<workspace>/cleanup-issues/deterministic-recheck-20261005T183358+0900/historical-and-cause-evidence.json",
+    "cases": [
+      {
+        "case": "issue-4970-case-01",
+        "status": "executed_original_symptom_observed_awaiting_cause_review",
+        "historical_sha": "7a6000d181b7611c26f2d1353d0462d7bec26da6",
+        "baseline_role": "required_issue_time_approximation",
+        "prior_reason": "근사 7a6000d1에서 LC_ALL 미설정 상태로 원래 test_locale 본문을 실행해 en_US 그룹 구분자를 확인했고 정수 출력에 쉼표가 없어 assertion이 실패했다. 현재 같은 본문은 실제 쉼표·[3,0] grouping 상태에서 통과한다. 보조 함수·초기 로케일 범주와 arm64/x86_64 차이는 남으며 과거 float 부분과 LC_ALL 설정 우회책은 확인하지 않았다.",
+        "runs": [
+          {
+            "kind": "historical_catalog",
+            "sha": "7a6000d181b7611c26f2d1353d0462d7bec26da6",
+            "exit": 1,
+            "stdout_path": "logs/issue-4970-case-01/historical-catalog-7a6000d181-scratch-actual-locale.stdout",
+            "stderr_path": "logs/issue-4970-case-01/historical-catalog-7a6000d181-scratch-actual-locale.stderr"
+          }
+        ]
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/7350",
+        "commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+        "reachable_commit": null,
+        "mechanism": "PR7350 reads localeconv separators/grouping and formats integers/floats with locale-aware n handling. It directly fits the old comma-not-found assertion and current unchanged complete test under observed US grouping. Original LC_ALL-set workaround was not separately compared and architecture differs across the authoritative pair.",
+        "boundary_execution_complete": false
+      }
+    ]
+  },
+  {
+    "issue": 5699,
+    "fresh_execution": false,
+    "reused_file": "<workspace>/cleanup-issues/deterministic-recheck-20261005T183358+0900/historical-and-cause-evidence.json",
+    "cases": [
+      {
+        "case": "issue-5699-case-01",
+        "status": "reported_scoped_feature_failure_reproduced",
+        "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+        "baseline_role": "required_issue_time_approximation",
+        "prior_reason": "동일한 대표 class pattern 입력이 과거 a7ad848에서 positional 값 unpack ValueError를 발생시켰고, 현재는 __match_args__에 따라 값 7을 capture하여 assertion을 통과한다. CPython 결과와 일치하며 독립 검사를 통과했다.",
+        "runs": [
+          {
+            "kind": "historical",
+            "sha": "a7ad84827023508684fd57de1f18781082b57060",
+            "exit": 1,
+            "stdout_path": "logs/issue-5699-case-01/historical-a7ad848270-01.stdout",
+            "stderr_path": "logs/issue-5699-case-01/historical-a7ad848270-01.stderr"
+          }
+        ]
+      },
+      {
+        "case": "issue-5699-case-02",
+        "status": "reported_scoped_feature_failure_reproduced",
+        "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+        "baseline_role": "required_issue_time_approximation",
+        "prior_reason": "과거 a7ad848에서는 frame.f_builtins가 없어 AttributeError가 발생했다. 현재 동일 입력은 dict를 반환하고 그 len이 builtins.len과 동일함을 확인한다. CPython과 일치하며 독립 검사를 통과했다.",
+        "runs": [
+          {
+            "kind": "historical",
+            "sha": "a7ad84827023508684fd57de1f18781082b57060",
+            "exit": 1,
+            "stdout_path": "logs/issue-5699-case-02/historical-a7ad848270-01.stdout",
+            "stderr_path": "logs/issue-5699-case-02/historical-a7ad848270-01.stderr"
+          }
+        ]
+      },
+      {
+        "case": "issue-5699-case-03",
+        "status": "reported_scoped_feature_failure_reproduced",
+        "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+        "baseline_role": "required_issue_time_approximation",
+        "prior_reason": "과거 a7ad848에서는 sys.stdlib_module_names가 없어 AttributeError가 발생했다. 현재 동일 입력은 frozenset과 대표 원소 sys·os의 포함을 확인하며 CPython과 일치한다. 전체 원소 목록의 완전성을 검증한 것은 아니다.",
+        "runs": [
+          {
+            "kind": "historical",
+            "sha": "a7ad84827023508684fd57de1f18781082b57060",
+            "exit": 1,
+            "stdout_path": "logs/issue-5699-case-03/historical-a7ad848270-01.stdout",
+            "stderr_path": "logs/issue-5699-case-03/historical-a7ad848270-01.stderr"
+          }
+        ]
+      },
+      {
+        "case": "issue-5699-case-04",
+        "status": "reported_scoped_feature_failure_reproduced",
+        "historical_sha": "a7ad84827023508684fd57de1f18781082b57060",
+        "baseline_role": "required_issue_time_approximation",
+        "prior_reason": "과거 a7ad848에서는 동일 except* 입력이 미구현 SyntaxError로 컴파일되지 않았다. 현재는 ExceptionGroup의 ValueError·TypeError를 각 handler로 나눠 각각 1개씩 처리하며 CPython과 일치한다. 대표 프로그램 범위의 해결이다.",
+        "runs": [
+          {
+            "kind": "historical",
+            "sha": "a7ad84827023508684fd57de1f18781082b57060",
+            "exit": 1,
+            "stdout_path": "logs/issue-5699-case-04/historical-a7ad848270-01.stdout",
+            "stderr_path": "logs/issue-5699-case-04/historical-a7ad848270-01.stderr"
+          }
+        ]
+      }
+    ],
+    "related_changes": [
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/6110",
+        "commit": null,
+        "reachable_commit": "50c557419e9d7066af7bdb5f3d29280587103a1e",
+        "mechanism": "MatchClass previously ignored its positional count and extracted only keyword attributes. With no keyword attributes it produced an empty tuple, matching the observed unpack failure. The change consumes nargs, reads __match_args__, validates the positional count, and extracts each requested subject attribute before the keyword attributes.",
+        "boundary_execution_complete": false
+      },
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/6568",
+        "commit": null,
+        "reachable_commit": "feb5066be2d4854ef0d49b8a725093743598d54d",
+        "mechanism": "Adds the Python f_builtins getset on Frame, returning the frame builtins dictionary. This directly supplies the missing attribute observed on the historical probe.",
+        "boundary_execution_complete": false
+      },
+      {
+        "pr_url": "https://github.com/RustPython/RustPython/pull/6530",
+        "commit": null,
+        "reachable_commit": "4a6e8fb29edfe09827e529aca2d1ac4c1b1c51d7",
+        "mechanism": "Replaces the compile_try_star_statement NotImplementedYet stub with except-star compilation, adds CheckEgMatch dispatch and exception-group matching/reraising support. The removed compile-time stub directly matches the old unsupported-feature SyntaxError. Later except-star fixes also exist; this attribution is not proof that this first PR alone passes every current assertion.",
+        "boundary_execution_complete": false
+      }
+    ]
+  }
+]

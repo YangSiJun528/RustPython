@@ -1,0 +1,101 @@
+[
+  {
+    "issue": 3418,
+    "original_scope": "Expose the native _collections.OrderedDict type; the original executable requirement is from _collections import OrderedDict. The author explicitly distinguishes this from the already available public API.",
+    "reason": "The original native import succeeds. Native/public type identity, ordering, move_to_end, popitem, reversed, order-sensitive equality and a subclass fromkeys sample also match CPython 3.14.6.",
+    "boundary_summary": "All 9 printed observations match CPython, including native-public-identical True.",
+    "input_equivalence": "The old recorded import uses two spaces and CRLF; canonical and fresh sources use ordinary spacing. The native module/type being imported is unchanged.",
+    "old_sufficiency": "The existing native import is sufficient for the explicit missing-export report. It does not alone prove a complete native OrderedDict implementation; fresh samples supply additional coverage without claiming completeness.",
+    "prs": [8780],
+    "change_description": "PR 8780 adds crates/vm/src/stdlib/_collections/ordered_dict.rs and registers it with #[pymodule(with(ordered_dict::ordered_dict))]. Current sources retain that native module registration.",
+    "limits": ["This is confirmation of the native export and the listed operation samples, not exhaustive OrderedDict conformance."]
+  },
+  {
+    "issue": 3430,
+    "original_scope": "etree.XML(\"<root></root>\") should return a valid root element instead of rejecting the None encoding passed to expat.ParserCreate.",
+    "reason": "The exact valid-XML call succeeds. The returned root is Element/root/None/0; child/text/attribute/namespace/UTF-8 samples and direct expat.ParserCreate(None, '}') also work.",
+    "boundary_summary": "Valid XML observations match CPython. A distinct malformed input etree.XML('<a></b>') is accepted by RustPython whereas CPython raises ParseError. This prevents any claim of complete ElementTree/expat compatibility but does not reproduce the reported valid-XML TypeError.",
+    "input_equivalence": "The existing case removes REPL prompts, assigns the original call result and prints its type/tag/text/child count. The original call and its argument are retained. Fresh original runs the exact call; a separate fresh boundary probe prints the same root properties.",
+    "old_sufficiency": "The existing case is sufficient for the original valid-XML/None-encoding failure. It is insufficient for malformed XML validation or general expat compatibility.",
+    "prs": [6582, 8741],
+    "change_description": "PR 6582 changes ParserCreate encoding and namespace_separator from OptionalArg<PyStrRef> to Option<PyStrRef>, allowing explicit None. PR 8741 supplies native ElementTree/pyexpat integration. The current ParserCreateArgs encoding is Option<PyStrRef>; current code still says explicit encoding is unused and xml-rs handles the declaration.",
+    "limits": ["Original valid-XML TypeError only: closure does not certify all XML behavior.", "Fresh unresolved adjacent difference: mismatched closing tags '<a></b>' are accepted; see 3430-boundaries-{rp,cp}.stdout.", "Explicit non-None ParserCreate encoding handling is not established by these probes."]
+  },
+  {
+    "issue": 4527,
+    "original_scope": "An X instance retained by module global x must execute __del__ and print deleted! during ordinary script process shutdown.",
+    "reason": "The unchanged top-level lifetime pattern prints deleted! at process shutdown, with exit 0 and no stderr, matching CPython. The separate explicit-del control also behaves normally.",
+    "boundary_summary": "Exact shutdown result is 'deleted!\\n'. Explicit del is a separate control and is not the basis for closure.",
+    "input_equivalence": "Existing canonical source changes quote style/blank lines only. It retains the global x until interpreter exit and does not insert del x.",
+    "old_sufficiency": "The existing whole-process script is sufficient for the specific missing finalizer output. An embedded exec or explicit deletion would not suffice; neither was substituted in fresh original execution.",
+    "prs": [6934],
+    "change_description": "Baseline ancestor 3814348943491629c37d916af69a5f6ce24b4167 for PR 6934 invokes vm.finalize_modules() after atexit and before flushing streams and adds ordered module-dict clearing. The duplicate PR-number commit 7004502 is not a baseline ancestor and was excluded.",
+    "limits": ["No claim about finalizer ordering, cycles, daemon threads, resurrection, abnormal exit, or embedded-interpreter teardown."]
+  },
+  {
+    "issue": 4690,
+    "original_scope": "The raw dict.fromkeys descriptor must have type classmethod_descriptor while bound dict.fromkeys remains builtin_function_or_method. Python-authored @classmethod must remain distinct.",
+    "reason": "Both original type expressions match CPython exactly. Native descriptor identity via types.ClassMethodDescriptorType, metadata, dict/subclass binding and invalid-owner rejection also match.",
+    "boundary_summary": "All 12 printed descriptor observations match CPython; the Python-authored decorator remains classmethod.",
+    "input_equivalence": "The old reproducer prints each type's __name__ instead of REPL repr, preserving both observable names. The manifest only requires a first-line prefix, whereas the old raw output and the fresh exact repr check both lines.",
+    "old_sufficiency": "The existing input is sufficient, and its raw output has both expected names. Its automated stdout_prefix criterion alone is weaker than the full original example; fresh verification checks both outputs and native type identity.",
+    "prs": [8780],
+    "change_description": "PR 8780 adds PyClassMethodDescriptor named classmethod_descriptor, a dedicated type-zoo entry, and native classmethod construction returning that descriptor instead of wrapping a method descriptor in PyClassMethod.",
+    "limits": ["No claim that every native classmethod or all descriptor error-message text is CPython-identical.", "The reused historical proxy prints bound type 'method', unlike the original issue transcript's 'builtin_function_or_method'; it is not the reporter's exact executable."]
+  },
+  {
+    "issue": 4762,
+    "original_scope": "Negative dynamic printf width must select left alignment, specifically '%*s' % (-5, 'abc') == 'abc  '; the issue names both str and bytes formatting implementations.",
+    "reason": "The exact assertion passes. Fresh str/bytes width/precision matrices and negative-width flag interactions match CPython including trailing spaces.",
+    "boundary_summary": "Width [-5,-3,-1,0,1,3,5] crossed with precision [-3,-1,0,1,3,5] for str and bytes gives 84 matching lines; 5 additional flag cases match.",
+    "input_equivalence": "The old canonical assertion changes quotes and redundant parentheses only; the negative width, value and two trailing spaces are retained.",
+    "old_sufficiency": "The existing assertion is sufficient for the explicit example. The issue also names bytes; fresh probes add bytes, precision and flag interactions that the old single assertion did not cover.",
+    "prs": [4766],
+    "change_description": "PR 4766 detects negative tuple width and inserts LEFT_ADJUST, passing flags through both cformat_bytes and cformat_string. Current cformat.rs directly performs width < 0 then inserts LEFT_ADJUST before taking unsigned_abs.",
+    "limits": ["Extreme-width overflow, non-int star operands and every numeric conversion are outside the sampled scope."]
+  },
+  {
+    "issue": 4786,
+    "original_scope": "type(\"A\\udcdcB\", (), {}) must raise UnicodeEncodeError rather than silently creating a class with a replacement character.",
+    "reason": "The exact expression raises the expected UnicodeEncodeError, exit 1, with stderr byte-for-byte matching CPython. The single-surrogate exception's encoding/object/start/end/reason all match.",
+    "boundary_summary": "High/low surrogate names are rejected and ordinary Unicode names are accepted. For the adjacent name A\\ud800\\udfffB, both reject it but RustPython's UnicodeEncodeError.end is 2 and CPython's is 3; full span parity remains unverified/unequal.",
+    "input_equivalence": "The old probe wraps the original constructor in print(repr(...)) to reveal an incorrectly accepted class. The constructor and lone surrogate remain unchanged. Fresh original removes the wrapper and confirms failure occurs during construction, not during printing.",
+    "old_sufficiency": "The old reproducer is sufficient for creation-vs-rejection, but its exit/stderr substring check does not validate UnicodeEncodeError fields. Fresh probes check those fields and expose a multi-surrogate span difference.",
+    "prs": [5629, 6547],
+    "change_description": "PR 5629 implements surrogate-preserving literal/string handling. PR 6547 adds ensure_valid_utf8 checks to type-name assignment and construction. Current constructor uses name.try_into_utf8(vm)? before class construction.",
+    "limits": ["Original lone-surrogate rejection is confirmed; this is not complete Unicode error-detail parity.", "Fresh unresolved adjacent difference: contiguous surrogate error span ends at 2 in RustPython and 3 in CPython; see 4786-boundaries-{rp,cp}.stdout."]
+  },
+  {
+    "issue": 4908,
+    "original_scope": "ast.parse('A[1:2, *l]') followed by ast.unparse and ast.parse must round-trip without producing invalid A[(1:2, *l)].",
+    "reason": "The original source unparses to A[1:2, *l] and reparses successfully. All seven slice/starred-subscript samples retain AST equivalence and match CPython output.",
+    "boundary_summary": "Seven parsed/unparsed/reparsed cases, including starred first/last, step slices, empty tuple and singleton tuple, all report equivalent True.",
+    "input_equivalence": "Existing canonical and recorded sources preserve the same operations and exact tested expression; only spacing/comments differ. Fresh original preserves this operation sequence.",
+    "old_sufficiency": "Existing parse/unparse/reparse sequence is sufficient for the reported syntax failure, but does not check AST equality; fresh samples add structural equality ignoring locations.",
+    "prs": [5121],
+    "change_description": "PR 5121 changes visit_Subscript to omit outer parentheses for all nonempty tuple slices, removing the exclusion for Starred elements. At baseline the corresponding Python implementation resides in Lib/_ast_unparse.py and is loaded through Lib/ast.py.",
+    "limits": ["This does not certify all AST transformations or execution semantics beyond the sampled AST round trips."]
+  },
+  {
+    "issue": 4937,
+    "original_scope": "Under email.policy.default, reading Subject from 'Subject:=?us-ascii?X?value?=' must complete without KeyError('x').",
+    "reason": "The exact original policy and input complete without error. Returned header text/type/defects match CPython; invalid X/x encodings are retained verbatim, valid Q/B encodings decode to value.",
+    "boundary_summary": "Five header samples match CPython, including the original value '=?us-ascii?X?value?=' with an empty defects list.",
+    "input_equivalence": "Canonical input keeps email.policy.default and the exact header text; formatting and quote style only differ from the recorded source. Fresh source retains both crucial details.",
+    "old_sufficiency": "The existing no-exception test is sufficient for the reported KeyError. It does not verify the returned header; fresh probes check returned text, type and defects.",
+    "prs": [5663],
+    "change_description": "PR 5663 changes get_encoded_word to catch (ValueError, KeyError) and raise _InvalidEwError for parser recovery. Current Lib/email/_header_value_parser.py retains this handling.",
+    "limits": ["Unknown encoding recovery is confirmed for these samples, not all malformed email input or every policy."]
+  },
+  {
+    "issue": 5656,
+    "original_scope": "Running builtin_bytes.py should emit an invalid-escape warning for its b\"omkmok\\Xaa\" literal, while preserving the bytes value. Original CPython warning category depends on interpreter version.",
+    "reason": "The original literal and the unchanged complete repository snippet both exit 0 and emit SyntaxWarning for \\X, byte-for-byte matching CPython 3.14.6 stderr. Runtime compile with always/error filters and valid/raw escape controls also match.",
+    "boundary_summary": "Invalid bytes and str literals warn under always and raise SyntaxError under error. Escaped-backslash, raw bytes and valid hex-escape controls do not warn. Complete builtin_bytes.py passes with the warning at current line 25.",
+    "input_equivalence": "The existing case extracts the exact literal/assertion named in the issue, with a final newline added. It is sufficient for the missing-warning symptom but is a subset of the originally invoked file. Fresh verification additionally runs the entire unchanged current repository snippet.",
+    "old_sufficiency": "Existing stderr SyntaxWarning/\\X checks test the actual symptom; exit 0 alone would not. Fresh verification supplies CPython's identified 3.14.6 version, direct compile/filter coverage and the full snippet run.",
+    "prs": [7164],
+    "change_description": "Baseline ancestor 680de33572dccbd8ed15f3dca0f930d80d2fa0ad for PR 7164 introduces string/bytes invalid-escape scanning and SyntaxWarning emission during compilation. Current compile.rs retains and expands warning generation. Duplicate b87386f is not a baseline ancestor and was excluded.",
+    "limits": ["Category/text parity is confirmed against CPython 3.14.6, not every historical CPython release.", "No claim that all invalid escapes, f-strings, t-strings, source encodings or warning interactions are fully covered."]
+  }
+]

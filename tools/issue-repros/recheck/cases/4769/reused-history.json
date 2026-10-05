@@ -1,0 +1,247 @@
+{
+  "number": 4769,
+  "title": "Pickling deque subclasses ignores their `__dict__`.",
+  "historical_cases": [
+    {
+      "case_id": "issue-4769-case-02",
+      "historical": {
+        "case_id": "issue-4769-case-02",
+        "issue_number": 4769,
+        "evidence": [
+          "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stdout",
+          "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stderr",
+          "analysis/historical-a-4769-selector-equivalence.json"
+        ],
+        "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+        "historical_sha": "25ca331dc81e617498465ecdb2f848ec81025f71",
+        "baseline_selection": "approximate closest first-parent main before issue creation; no exact reported runtime SHA",
+        "baseline_role": "required_issue_time_approximation",
+        "runs": [
+          {
+            "kind": "historical_catalog",
+            "baseline_role": "required_issue_time_approximation",
+            "baseline_selection": "approximate closest first-parent main before issue creation; no exact reported runtime SHA",
+            "catalog_records": [
+              {
+                "kind": "start",
+                "case_id": "issue-4769-case-02",
+                "selector": "test.test_deque.TestSubclass.test_copy_pickle",
+                "interpreter": "3.11.0alpha (tags/v0.2.0-604-g25ca331dc:25ca331dc, Mar 25 2023, 21:53:53) \n[rustc 1.67.1]",
+                "executable": "<survey>/.build/slot-a/release/rustpython",
+                "cwd": "<survey>/logs/scratch-history-a/25ca331dc8",
+                "selector_derivation": null,
+                "original_selector": null,
+                "derivation": "TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared"
+              },
+              {
+                "kind": "selection",
+                "case_id": "issue-4769-case-02",
+                "selected_ids": [
+                  "test.test_deque.TestSubclass.test_copy_pickle"
+                ],
+                "loader_errors": [],
+                "module_origin": "<workspace>/pylib/Lib/test/test_deque.py",
+                "module_sha256": "80bf52da28d59465f6fda4002092772c99afce0a30c0594ba6b5234bfdb4962c",
+                "bypassed_decorators": [
+                  {
+                    "kind": "expectedFailure",
+                    "object": "test.test_deque.TestSubclass.test_copy_pickle",
+                    "action": "clear selected object metadata; preserve body"
+                  }
+                ],
+                "note": "Import-time bypass records include unselected tests; only selected_ids are executed"
+              },
+              {
+                "kind": "test",
+                "test_id": "test.test_deque.TestSubclass.test_copy_pickle",
+                "outcome": "error",
+                "exception": "AttributeError",
+                "message": "'Deque' object has no attribute 'x'"
+              },
+              {
+                "kind": "complete",
+                "case_id": "issue-4769-case-02",
+                "status": "completed",
+                "tests_run": 1,
+                "selected_count": 1,
+                "failures": 0,
+                "errors": 1,
+                "skipped": [],
+                "expected_failures": 0,
+                "unexpected_successes": 0,
+                "passing": false
+              }
+            ],
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/verification-tools/catalog_runner.py",
+              "<survey>/verification-tools/main-procedure-test-plan.json",
+              "issue-4769-case-02"
+            ],
+            "cwd": "<survey>/logs/scratch-history-a/25ca331dc8",
+            "cwd_difference": "Writable survey scratch cwd replaces source checkout cwd to permit relative temporary test files; fixtures remain historical module-relative",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 0,
+            "rss_guard": false,
+            "rss_guard_error": null,
+            "timeout_seconds": 60,
+            "elapsed_seconds": 0.3136532499920577,
+            "stdout_path": "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stdout",
+            "stderr_path": "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stderr",
+            "actual_sha": "25ca331dc81e617498465ecdb2f848ec81025f71",
+            "binary_sha256": "243876f389486948c047f4dd8a599e4af16d0a06fda4aff16e8d4882fb1d6a7c",
+            "build_provenance": "logs/build-a-25ca331d-partition-rust1671/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 50,
+              "core_bytes": 0
+            },
+            "derivation": "Same catalog_runner.py; in-memory skip/expectedFailure bypass explicitly logged; historical Lib source and fixtures used."
+          }
+        ],
+        "catalog_records": [
+          {
+            "kind": "start",
+            "case_id": "issue-4769-case-02",
+            "selector": "test.test_deque.TestSubclass.test_copy_pickle",
+            "interpreter": "3.11.0alpha (tags/v0.2.0-604-g25ca331dc:25ca331dc, Mar 25 2023, 21:53:53) \n[rustc 1.67.1]",
+            "executable": "<survey>/.build/slot-a/release/rustpython",
+            "cwd": "<survey>/logs/scratch-history-a/25ca331dc8",
+            "selector_derivation": null,
+            "original_selector": null,
+            "derivation": "TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared"
+          },
+          {
+            "kind": "selection",
+            "case_id": "issue-4769-case-02",
+            "selected_ids": [
+              "test.test_deque.TestSubclass.test_copy_pickle"
+            ],
+            "loader_errors": [],
+            "module_origin": "<workspace>/pylib/Lib/test/test_deque.py",
+            "module_sha256": "80bf52da28d59465f6fda4002092772c99afce0a30c0594ba6b5234bfdb4962c",
+            "bypassed_decorators": [
+              {
+                "kind": "expectedFailure",
+                "object": "test.test_deque.TestSubclass.test_copy_pickle",
+                "action": "clear selected object metadata; preserve body"
+              }
+            ],
+            "note": "Import-time bypass records include unselected tests; only selected_ids are executed"
+          },
+          {
+            "kind": "test",
+            "test_id": "test.test_deque.TestSubclass.test_copy_pickle",
+            "outcome": "error",
+            "exception": "AttributeError",
+            "message": "'Deque' object has no attribute 'x'"
+          },
+          {
+            "kind": "complete",
+            "case_id": "issue-4769-case-02",
+            "status": "completed",
+            "tests_run": 1,
+            "selected_count": 1,
+            "failures": 0,
+            "errors": 1,
+            "skipped": [],
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "passing": false
+          }
+        ],
+        "historical_symptom_observed": "Selected original TestSubclass.test_copy_pickle executes; self.assertEqual(e.x,d.x) at line839 raises AttributeError: 'Deque' object has no attribute 'x'. Original expectedFailure cleared in-memory only; no assertions altered.",
+        "evidence_ledger": "analysis/historical-results-a.json"
+      },
+      "adjudication": {
+        "case_id": "issue-4769-case-02",
+        "verdict": "해결 확인",
+        "reason": "원문이 연결한 25ca331d의 TestSubclass.test_copy_pickle은 pickle 왕복 후 e.x가 없어 AttributeError로 실패했다. 현재 같은 관련 fixture·상태 assertion을 가진 테스트 1개가 skip·expectedFailure 없이 통과한다. 이 deque subclass 상태 보존 테스트에 한정하며 다른 사례나 재귀 pickle은 포함하지 않는다.",
+        "scope": "Existing TestSubclass.test_copy_pickle assertions for deque subclass instance/slot state.",
+        "historical_execution": true,
+        "historical_version_qualification": {
+          "role": "closest_preissue_main_approximation",
+          "reported_versions": [
+            "25ca331dc81e617498465ecdb2f848ec81025f71 (테스트 링크)"
+          ],
+          "issue_created_at": "2023-03-25T13:37:33Z",
+          "actual_historical_sha": "25ca331dc81e617498465ecdb2f848ec81025f71",
+          "closest_preissue_first_parent_check": "25ca331dc81e617498465ecdb2f848ec81025f71",
+          "matches_required_fallback": true
+        },
+        "whole_issue_resolution_approved": false,
+        "review_required": false,
+        "independent_review": "review/seventh-review.json",
+        "cause_analysis": "analysis/round7-cause-evidence.json",
+        "review_restrictions": [
+          "One named test completes current with no skip/xfail and old fails e.x after pickle. Historical selected RustPython expectedFailure metadata cleared only in memory.",
+          "Original linked test25ca exact source is used. Deque/DequeWithSlots and data e.x/e.z match; both protocol ranges0..5. Final absent-y assertFalse(hasattr) becomes assertNotHasAttr using same hasattr predicate.",
+          "Other4769cases and recursive pickling are excluded; broken transcript in case01 is not substituted for this linked-test case.",
+          "Native macOS26.5.2 arm64 verification; historical compiler differs from current Rust1.99.0. Build provenance is retained with each run.",
+          "Approximate issue-time baselines, where used, reproduce the symptom at that baseline only; they are not assertions about an unspecified exact reporter build."
+        ],
+        "cause_reviews": [
+          {
+            "pr_url": "https://github.com/RustPython/RustPython/pull/7699",
+            "commit": "6182bbf221482bfa9151e63951bd1f51d354b21a",
+            "approved_label": "high_relevance",
+            "scope": "PR7699 changes deque.__reduce__ tuple state from None to vm.call_method(..., '__getstate__', ()), preserving subclass __dict__ and __slots__. It removes the exact RustPython expectedFailure annotation for TestSubclass.test_copy_pickle, whose e.x lookup fails in the historical execution. The existing assertions and fixtures are retained.",
+            "boundary_executed": false,
+            "source_diff": "analysis/causes/round7-deque_state-pr7699.diff.txt",
+            "source_hash": "85b02e688b7db6b434a8e0262473fcbbfdf02bdb5e307f362ebbb3c888b5ec5a"
+          }
+        ],
+        "evidence": [
+          "logs/issue-4769-case-02/current-procedure.stderr",
+          "logs/issue-4769-case-02/current-procedure.stdout",
+          "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stderr",
+          "logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stdout",
+          "logs/build-a-25ca331d-partition-rust1671/provenance.json",
+          "analysis/round7-adjudication-proposals.json",
+          "analysis/round7-fixture-equivalence.json",
+          "review/seventh-review.json",
+          "analysis/round7-evidence-corrections-main.json"
+        ]
+      }
+    }
+  ],
+  "related_changes": [
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/7699",
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "commit": "6182bbf221482bfa9151e63951bd1f51d354b21a",
+      "mechanism": "PR7699 changes deque.__reduce__ tuple state from None to vm.call_method(..., '__getstate__', ()), preserving subclass __dict__ and __slots__. It removes the exact RustPython expectedFailure annotation for TestSubclass.test_copy_pickle, whose e.x lookup fails in the historical execution. The existing assertions and fixtures are retained.",
+      "boundary_execution_complete": false,
+      "review_status": "approved_high_relevance",
+      "source_diff_path": "analysis/causes/round7-deque_state-pr7699.diff.txt",
+      "source_diff_sha256": "85b02e688b7db6b434a8e0262473fcbbfdf02bdb5e307f362ebbb3c888b5ec5a",
+      "source_evidence": "analysis/round7-cause-evidence.json",
+      "runtime_evidence": "analysis/round7-adjudication-proposals.json",
+      "limits": [
+        "Exact parent/commit runtime boundary was not executed. Source correspondence supports high relevance only.",
+        "Case-specific scope and environment limits in the adjudication proposal are part of this cause claim."
+      ],
+      "reviewed_scope": "PR7699 changes deque.__reduce__ tuple state from None to vm.call_method(..., '__getstate__', ()), preserving subclass __dict__ and __slots__. It removes the exact RustPython expectedFailure annotation for TestSubclass.test_copy_pickle, whose e.x lookup fails in the historical execution. The existing assertions and fixtures are retained.",
+      "independent_review": "review/seventh-review.json",
+      "review_restrictions": [
+        "One named test completes current with no skip/xfail and old fails e.x after pickle. Historical selected RustPython expectedFailure metadata cleared only in memory.",
+        "Original linked test25ca exact source is used. Deque/DequeWithSlots and data e.x/e.z match; both protocol ranges0..5. Final absent-y assertFalse(hasattr) becomes assertNotHasAttr using same hasattr predicate.",
+        "Other4769cases and recursive pickling are excluded; broken transcript in case01 is not substituted for this linked-test case.",
+        "Native macOS26.5.2 arm64 verification; historical compiler differs from current Rust1.99.0. Build provenance is retained with each run.",
+        "Approximate issue-time baselines, where used, reproduce the symptom at that baseline only; they are not assertions about an unspecified exact reporter build."
+      ],
+      "ancestry_check": {
+        "sha": "6182bbf221482bfa9151e63951bd1f51d354b21a",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "verified_diff_sha256": "85b02e688b7db6b434a8e0262473fcbbfdf02bdb5e307f362ebbb3c888b5ec5a"
+    }
+  ]
+}

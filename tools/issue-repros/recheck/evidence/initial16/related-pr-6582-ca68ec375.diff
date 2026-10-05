@@ -1,0 +1,72 @@
+commit ca68ec3758b6eb7aff2e649a53f6e6183d250932
+Author:     dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+AuthorDate: Mon Feb 16 14:37:32 2026 +0000
+Commit:     Jeong, YunWon <69878+youknowone@users.noreply.github.com>
+CommitDate: Tue Feb 17 10:31:13 2026 +0900
+
+    Bump github/gh-aw from 0.43.22 to 0.45.0
+    
+    Bumps [github/gh-aw](https://github.com/github/gh-aw) from 0.43.22 to 0.45.0.
+    - [Release notes](https://github.com/github/gh-aw/releases)
+    - [Changelog](https://github.com/github/gh-aw/blob/main/CHANGELOG.md)
+    - [Commits](https://github.com/github/gh-aw/compare/fe858c3e14589bf396594a0b106e634d9065823e...58d1d157fbac0f1204798500faefc4f7461ebe28)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: github/gh-aw
+      dependency-version: 0.45.0
+      dependency-type: direct:production
+      update-type: version-update:semver-minor
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+
+diff --git a/.github/workflows/upgrade-pylib.lock.yml b/.github/workflows/upgrade-pylib.lock.yml
+index 8010f2ef8..4d8bd37a0 100644
+--- a/.github/workflows/upgrade-pylib.lock.yml
++++ b/.github/workflows/upgrade-pylib.lock.yml
+@@ -58,7 +58,7 @@ jobs:
+       comment_repo: ""
+     steps:
+       - name: Setup Scripts
+-        uses: github/gh-aw/actions/setup@fe858c3e14589bf396594a0b106e634d9065823e # v0.43.22
++        uses: github/gh-aw/actions/setup@58d1d157fbac0f1204798500faefc4f7461ebe28 # v0.45.0
+         with:
+           destination: /opt/gh-aw/actions
+       - name: Check workflow file timestamps
+@@ -99,7 +99,7 @@ jobs:
+       secret_verification_result: ${{ steps.validate-secret.outputs.verification_result }}
+     steps:
+       - name: Setup Scripts
+-        uses: github/gh-aw/actions/setup@fe858c3e14589bf396594a0b106e634d9065823e # v0.43.22
++        uses: github/gh-aw/actions/setup@58d1d157fbac0f1204798500faefc4f7461ebe28 # v0.45.0
+         with:
+           destination: /opt/gh-aw/actions
+       - name: Checkout repository
+@@ -804,7 +804,7 @@ jobs:
+       total_count: ${{ steps.missing_tool.outputs.total_count }}
+     steps:
+       - name: Setup Scripts
+-        uses: github/gh-aw/actions/setup@fe858c3e14589bf396594a0b106e634d9065823e # v0.43.22
++        uses: github/gh-aw/actions/setup@58d1d157fbac0f1204798500faefc4f7461ebe28 # v0.45.0
+         with:
+           destination: /opt/gh-aw/actions
+       - name: Download agent output artifact
+@@ -925,7 +925,7 @@ jobs:
+       success: ${{ steps.parse_results.outputs.success }}
+     steps:
+       - name: Setup Scripts
+-        uses: github/gh-aw/actions/setup@fe858c3e14589bf396594a0b106e634d9065823e # v0.43.22
++        uses: github/gh-aw/actions/setup@58d1d157fbac0f1204798500faefc4f7461ebe28 # v0.45.0
+         with:
+           destination: /opt/gh-aw/actions
+       - name: Download agent artifacts
+@@ -1037,7 +1037,7 @@ jobs:
+       process_safe_outputs_temporary_id_map: ${{ steps.process_safe_outputs.outputs.temporary_id_map }}
+     steps:
+       - name: Setup Scripts
+-        uses: github/gh-aw/actions/setup@fe858c3e14589bf396594a0b106e634d9065823e # v0.43.22
++        uses: github/gh-aw/actions/setup@58d1d157fbac0f1204798500faefc4f7461ebe28 # v0.45.0
+         with:
+           destination: /opt/gh-aw/actions
+       - name: Download agent output artifact

@@ -1,0 +1,10 @@
+import sys, os, platform, json, hashlib, importlib
+modules = {}
+for name in ('os','pickle','copy','collections','array','asyncio','dis','modulefinder','unittest','test.test_deque','test.test_descr','test.test_modulefinder'):
+    try:
+        m=importlib.import_module(name)
+        file=getattr(m,'__file__',None)
+        modules[name]={'file':file,'origin':m.__spec__.origin,'sha256':hashlib.sha256(open(file,'rb').read()).hexdigest() if file and os.path.isfile(file) else None}
+    except Exception as e:
+        modules[name]={'error':type(e).__name__+': '+str(e)}
+print(json.dumps({'version':sys.version,'implementation':repr(sys.implementation),'git':getattr(sys,'_git',None),'executable':sys.executable,'platform':platform.platform(),'machine':platform.machine(),'cwd':os.getcwd(),'path':sys.path,'dont_write_bytecode':sys.dont_write_bytecode,'modules':modules},indent=2,sort_keys=True))

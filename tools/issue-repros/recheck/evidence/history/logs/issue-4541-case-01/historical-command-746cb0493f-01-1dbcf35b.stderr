@@ -1,0 +1,6 @@
+error: Found argument '-P' which wasn't expected, or isn't valid in this context
+
+USAGE:
+    rustpython [OPTIONS] [-c CMD | -m MODULE | FILE] [PYARGS]...
+
+For more information try --help

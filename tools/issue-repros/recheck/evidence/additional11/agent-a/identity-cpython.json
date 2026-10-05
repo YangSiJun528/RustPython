@@ -1,0 +1,29 @@
+{
+  "label": "identity-cpython",
+  "interpreter": "cpython",
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<additional11-audit>/agent-a/identity.py"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/identity-cpython/python-history",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/identity-cpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/identity-cpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/identity-cpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/identity-cpython"
+  },
+  "started_utc": "2026-10-05T10:46:40.910792+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\n  \"cwd\": \"<workspace>\",\n  \"dont_write_bytecode\": true,\n  \"executable\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14\",\n  \"git\": [\n    \"CPython\",\n    \"\",\n    \"\"\n  ],\n  \"implementation\": \"namespace(name='cpython', cache_tag='cpython-314', version=sys.version_info(major=3, minor=14, micro=6, releaselevel='final', serial=0), hexversion=51250928, _multiarch='darwin', supports_isolated_interpreters=True)\",\n  \"machine\": \"arm64\",\n  \"modules\": {\n    \"array\": {\n      \"file\": null,\n      \"origin\": \"built-in\",\n      \"sha256\": null\n    },\n    \"asyncio\": {\n      \"file\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/__init__.py\",\n      \"origin\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/__init__.py\",\n      \"sha256\": \"8148552daea881e3b33639d6e9bdab0da2021367ab694ee0604431c33c16983f\"\n    },\n    \"collections\": {\n      \"file\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/collections/__init__.py\",\n      \"origin\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/collections/__init__.py\",\n      \"sha256\": \"dbd563752a57c6633b7566b1e9c95bc8ea81df1a1d213b23f61c5335424e5af5\"\n    },\n    \"copy\": {\n      \"file\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/copy.py\",\n      \"origin\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/copy.py\",\n      \"sha256\": \"15154fde290d6e65b5007905689a47a9a5a724822c5e06eec35d9ffbb2a3aa69\"\n    },\n    \"dis\": {\n      \"file\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/dis.py\",\n      \"origin\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/dis.py\",\n      \"sha256\": \"17d4d9a9195c9ee5aa27a96f3e0871f9363fd501e3a64ef20cb1cc876d7ad553\"\n    },\n    \"modulefinder\": {\n      \"file\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/modulefinder.py\",\n      \"origin\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/modulefinder.py\",\n      \"sha256\": \"5447268e1fe922d334f59e2f370dae0130ab2b9eff48ca7bd71c4ec544443c8b\"\n    },\n    \"os\": {\n      \"file\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/os.py\",\n      \"origin\": \"frozen\",\n      \"sha256\": \"976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546\"\n    },\n    \"pickle\": {\n      \"file\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/pickle.py\",\n      \"origin\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/pickle.py\",\n      \"sha256\": \"c9998751cf3b94536b4c2cffd6bb719fa1ee6027bd1bd37235d597c9ecf9f98c\"\n    },\n    \"test.test_deque\": {\n      \"error\": \"ModuleNotFoundError: No module named 'test'\"\n    },\n    \"test.test_descr\": {\n      \"error\": \"ModuleNotFoundError: No module named 'test'\"\n    },\n    \"test.test_modulefinder\": {\n      \"error\": \"ModuleNotFoundError: No module named 'test'\"\n    },\n    \"unittest\": {\n      \"file\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/unittest/__init__.py\",\n      \"origin\": \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/unittest/__init__.py\",\n      \"sha256\": \"2698f2daf7a02609a6825b89cd459ebaa283dec2403c7b846315a0701bc74a0d\"\n    }\n  },\n  \"path\": [\n    \"<additional11-audit>/agent-a\",\n    \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip\",\n    \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14\",\n    \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/lib-dynload\",\n    \"<home>/.local/lib/python3.14/site-packages\",\n    \"<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/site-packages\"\n  ],\n  \"platform\": \"macOS-26.5.2-arm64-arm-64bit-Mach-O\",\n  \"version\": \"3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]\"\n}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.10525866600801237
+}

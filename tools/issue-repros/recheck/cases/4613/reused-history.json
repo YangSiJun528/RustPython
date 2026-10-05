@@ -1,0 +1,669 @@
+{
+  "number": 4613,
+  "title": "Support locale for FormatSpec `n`",
+  "historical_cases": [
+    {
+      "case_id": "issue-4613-case-01",
+      "historical": {
+        "case_id": "issue-4613-case-01",
+        "issue_number": 4613,
+        "evidence": [
+          "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch.stdout",
+          "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch.stderr",
+          "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch-audited-locale.stdout",
+          "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch-audited-locale.stderr",
+          "analysis/historical-a-4613-selector-equivalence.json"
+        ],
+        "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+        "historical_sha": "a7c985685146ca401011eb0c25c0b2805a767ce7",
+        "baseline_selection": "approximate closest first-parent main before issue creation; no exact reported runtime SHA",
+        "baseline_role": "required_issue_time_approximation",
+        "runs": [
+          {
+            "kind": "historical_catalog",
+            "baseline_role": "required_issue_time_approximation",
+            "baseline_selection": "approximate closest first-parent main before issue creation; no exact reported runtime SHA",
+            "catalog_records": [
+              {
+                "kind": "start",
+                "case_id": "issue-4613-case-01",
+                "selector": "test.test_types.TypesTests.{test_float__format__locale,test_int__format__locale}",
+                "interpreter": "3.11.0alpha (tags/v0.2.0-311-ga7c985685:a7c985685, Mar  2 2023, 15:34:45) \n[rustc 1.67.1]",
+                "executable": "<survey>/.build/slot-a/release/rustpython",
+                "cwd": "<survey>/logs/scratch-history-a/a7c9856851",
+                "selector_derivation": "Exact locale n-format tests referenced through issue4613/PR4609, now lines433–448. Run with en_US.UTF-8 installed and LC_ALL unset; retain run_with_locale wrapper. Log actual locale so fallback C locale cannot masquerade as locale-grouping proof.",
+                "original_selector": null,
+                "derivation": "TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared"
+              },
+              {
+                "kind": "selection",
+                "case_id": "issue-4613-case-01",
+                "selected_ids": [
+                  "test.test_types.TypesTests.test_float__format__locale",
+                  "test.test_types.TypesTests.test_int__format__locale"
+                ],
+                "loader_errors": [],
+                "module_origin": "<workspace>/pylib/Lib/test/test_types.py",
+                "module_sha256": "18f8783da5a0ce95f3dda32f99829f506161a11a3e11c035a6bbdaac02fe19ed",
+                "bypassed_decorators": [
+                  {
+                    "kind": "skip",
+                    "object": "test.test_types.TypesTests.test_int__format__locale",
+                    "reason": "TODO: RustPython format code n is not integrated with locale",
+                    "action": "decoration-time identity; original body and other decorators retained"
+                  },
+                  {
+                    "kind": "expectedFailure_preserved",
+                    "object": "test.test_types.TypesTests.test_float__format__locale",
+                    "action": "No explicit RustPython marker in declaration prefix; preserve upstream metadata"
+                  }
+                ],
+                "note": "Import-time bypass records include unselected tests; only selected_ids are executed"
+              },
+              {
+                "kind": "test",
+                "test_id": "test.test_types.TypesTests.test_float__format__locale",
+                "outcome": "expected_failure",
+                "exception": "ValueError"
+              },
+              {
+                "kind": "test",
+                "test_id": "test.test_types.TypesTests.test_int__format__locale",
+                "outcome": "success"
+              },
+              {
+                "kind": "complete",
+                "case_id": "issue-4613-case-01",
+                "status": "completed",
+                "tests_run": 2,
+                "selected_count": 2,
+                "failures": 0,
+                "errors": 0,
+                "skipped": [],
+                "expected_failures": 1,
+                "unexpected_successes": 0,
+                "passing": false
+              }
+            ],
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/verification-tools/catalog_runner.py",
+              "<survey>/verification-tools/main-additional-procedure-plan.json",
+              "issue-4613-case-01"
+            ],
+            "cwd": "<survey>/logs/scratch-history-a/a7c9856851",
+            "cwd_difference": "Writable survey scratch cwd replaces source checkout cwd to permit relative temporary test files; fixtures remain historical module-relative",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "unset_environment": [
+              "LC_ALL"
+            ],
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 0,
+            "rss_guard": false,
+            "rss_guard_error": null,
+            "timeout_seconds": 60,
+            "elapsed_seconds": 0.3174335829971824,
+            "stdout_path": "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch.stdout",
+            "stderr_path": "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch.stderr",
+            "actual_sha": "a7c985685146ca401011eb0c25c0b2805a767ce7",
+            "binary_sha256": "28359911eb929ff8b7a535caa14c0904843ff4ec7c212231d6cdfc9e06c2cd60",
+            "build_provenance": "logs/build-a-a7c98568-partition-rust1671/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 50,
+              "core_bytes": 0
+            },
+            "derivation": "Same catalog_runner.py; in-memory skip/expectedFailure bypass explicitly logged; historical Lib source and fixtures used."
+          },
+          {
+            "kind": "historical_catalog",
+            "baseline_role": "required_issue_time_approximation",
+            "baseline_selection": "approximate closest first-parent main before issue creation; no exact reported runtime SHA",
+            "catalog_records": [
+              {
+                "kind": "start",
+                "case_id": "issue-4613-case-01",
+                "selector": "test.test_types.TypesTests.{test_float__format__locale,test_int__format__locale}",
+                "interpreter": "3.11.0alpha (tags/v0.2.0-311-ga7c985685:a7c985685, Mar  2 2023, 15:34:45) \n[rustc 1.67.1]",
+                "executable": "<survey>/.build/slot-a/release/rustpython",
+                "cwd": "<survey>/logs/scratch-history-a/a7c9856851",
+                "selector_derivation": "Exact locale n-format tests referenced through issue4613/PR4609, now lines433–448. Run with en_US.UTF-8 installed and LC_ALL unset; retain run_with_locale wrapper. Log actual locale so fallback C locale cannot masquerade as locale-grouping proof.",
+                "original_selector": null,
+                "derivation": "TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared"
+              },
+              {
+                "kind": "locale_observation",
+                "arguments": "(4, 'en_US.UTF-8')",
+                "result": "en_US.UTF-8",
+                "localeconv": {
+                  "mon_grouping": [],
+                  "grouping": [
+                    3,
+                    0
+                  ],
+                  "int_frac_digits": 127,
+                  "frac_digits": 127,
+                  "p_cs_precedes": 127,
+                  "p_sep_by_space": 127,
+                  "n_cs_precedes": 127,
+                  "p_sign_posn": 127,
+                  "n_sign_posn": 127,
+                  "decimal_point": ".",
+                  "thousands_sep": ",",
+                  "int_curr_symbol": "",
+                  "currency_symbol": "",
+                  "mon_decimal_point": "",
+                  "mon_thousands_sep": "",
+                  "n_sep_by_space": 127,
+                  "positive_sign": "",
+                  "negative_sign": ""
+                }
+              },
+              {
+                "kind": "selection",
+                "case_id": "issue-4613-case-01",
+                "selected_ids": [
+                  "test.test_types.TypesTests.test_float__format__locale",
+                  "test.test_types.TypesTests.test_int__format__locale"
+                ],
+                "loader_errors": [],
+                "module_origin": "<workspace>/pylib/Lib/test/test_types.py",
+                "module_sha256": "18f8783da5a0ce95f3dda32f99829f506161a11a3e11c035a6bbdaac02fe19ed",
+                "bypassed_decorators": [
+                  {
+                    "kind": "skip",
+                    "object": "test.test_types.TypesTests.test_int__format__locale",
+                    "reason": "TODO: RustPython format code n is not integrated with locale",
+                    "action": "decoration-time identity; original body and other decorators retained"
+                  },
+                  {
+                    "kind": "expectedFailure",
+                    "object": "test.test_types.TypesTests.test_float__format__locale",
+                    "action": "clear selected object metadata; preserve body"
+                  }
+                ],
+                "note": "Import-time bypass records include unselected tests; only selected_ids are executed"
+              },
+              {
+                "kind": "locale_observation",
+                "arguments": "(4,)",
+                "result": "en_US.UTF-8",
+                "localeconv": {
+                  "mon_grouping": [],
+                  "grouping": [
+                    3,
+                    0
+                  ],
+                  "int_frac_digits": 127,
+                  "frac_digits": 127,
+                  "p_cs_precedes": 127,
+                  "p_sep_by_space": 127,
+                  "n_cs_precedes": 127,
+                  "p_sign_posn": 127,
+                  "n_sign_posn": 127,
+                  "decimal_point": ".",
+                  "thousands_sep": ",",
+                  "int_curr_symbol": "",
+                  "currency_symbol": "",
+                  "mon_decimal_point": "",
+                  "mon_thousands_sep": "",
+                  "n_sep_by_space": 127,
+                  "positive_sign": "",
+                  "negative_sign": ""
+                }
+              },
+              {
+                "kind": "locale_observation",
+                "arguments": "(4, 'en_US.UTF-8')",
+                "result": "en_US.UTF-8",
+                "localeconv": {
+                  "mon_grouping": [],
+                  "grouping": [
+                    3,
+                    0
+                  ],
+                  "int_frac_digits": 127,
+                  "frac_digits": 127,
+                  "p_cs_precedes": 127,
+                  "p_sep_by_space": 127,
+                  "n_cs_precedes": 127,
+                  "p_sign_posn": 127,
+                  "n_sign_posn": 127,
+                  "decimal_point": ".",
+                  "thousands_sep": ",",
+                  "int_curr_symbol": "",
+                  "currency_symbol": "",
+                  "mon_decimal_point": "",
+                  "mon_thousands_sep": "",
+                  "n_sep_by_space": 127,
+                  "positive_sign": "",
+                  "negative_sign": ""
+                }
+              },
+              {
+                "kind": "test",
+                "test_id": "test.test_types.TypesTests.test_float__format__locale",
+                "outcome": "error",
+                "exception": "ValueError",
+                "message": "Format code 'n' for object of type 'float' not implemented yet"
+              },
+              {
+                "kind": "locale_observation",
+                "arguments": "(4,)",
+                "result": "en_US.UTF-8",
+                "localeconv": {
+                  "mon_grouping": [],
+                  "grouping": [
+                    3,
+                    0
+                  ],
+                  "int_frac_digits": 127,
+                  "frac_digits": 127,
+                  "p_cs_precedes": 127,
+                  "p_sep_by_space": 127,
+                  "n_cs_precedes": 127,
+                  "p_sign_posn": 127,
+                  "n_sign_posn": 127,
+                  "decimal_point": ".",
+                  "thousands_sep": ",",
+                  "int_curr_symbol": "",
+                  "currency_symbol": "",
+                  "mon_decimal_point": "",
+                  "mon_thousands_sep": "",
+                  "n_sep_by_space": 127,
+                  "positive_sign": "",
+                  "negative_sign": ""
+                }
+              },
+              {
+                "kind": "locale_observation",
+                "arguments": "(4, 'en_US.UTF-8')",
+                "result": "en_US.UTF-8",
+                "localeconv": {
+                  "mon_grouping": [],
+                  "grouping": [
+                    3,
+                    0
+                  ],
+                  "int_frac_digits": 127,
+                  "frac_digits": 127,
+                  "p_cs_precedes": 127,
+                  "p_sep_by_space": 127,
+                  "n_cs_precedes": 127,
+                  "p_sign_posn": 127,
+                  "n_sign_posn": 127,
+                  "decimal_point": ".",
+                  "thousands_sep": ",",
+                  "int_curr_symbol": "",
+                  "currency_symbol": "",
+                  "mon_decimal_point": "",
+                  "mon_thousands_sep": "",
+                  "n_sep_by_space": 127,
+                  "positive_sign": "",
+                  "negative_sign": ""
+                }
+              },
+              {
+                "kind": "test",
+                "test_id": "test.test_types.TypesTests.test_int__format__locale",
+                "outcome": "failure",
+                "exception": "AssertionError",
+                "message": "'123,456,789,012,345,678,901,234,567,890' != '123456789012345678901234567890'\n- 123,456,789,012,345,678,901,234,567,890\n?    -   -   -   -   -   -   -   -   -\n+ 123456789012345678901234567890\n"
+              },
+              {
+                "kind": "complete",
+                "case_id": "issue-4613-case-01",
+                "status": "completed",
+                "tests_run": 2,
+                "selected_count": 2,
+                "failures": 1,
+                "errors": 1,
+                "skipped": [],
+                "expected_failures": 0,
+                "unexpected_successes": 0,
+                "passing": false
+              }
+            ],
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/analysis/catalog_runner_locale4613_a.py",
+              "<survey>/verification-tools/main-additional-procedure-plan.json",
+              "issue-4613-case-01"
+            ],
+            "cwd": "<survey>/logs/scratch-history-a/a7c9856851",
+            "cwd_difference": "Writable survey scratch cwd replaces source checkout cwd to permit relative temporary test files; fixtures remain historical module-relative",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "unset_environment": [
+              "LC_ALL"
+            ],
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 0,
+            "rss_guard": false,
+            "rss_guard_error": null,
+            "timeout_seconds": 60,
+            "elapsed_seconds": 0.3175195410003653,
+            "stdout_path": "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch-audited-locale.stdout",
+            "stderr_path": "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch-audited-locale.stderr",
+            "actual_sha": "a7c985685146ca401011eb0c25c0b2805a767ce7",
+            "binary_sha256": "28359911eb929ff8b7a535caa14c0904843ff4ec7c212231d6cdfc9e06c2cd60",
+            "build_provenance": "logs/build-a-a7c98568-partition-rust1671/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 50,
+              "core_bytes": 0
+            },
+            "derivation": "Same catalog_runner.py; in-memory skip/expectedFailure bypass explicitly logged; historical Lib source and fixtures used.",
+            "runner_sha256": "91f6c7f638ab48c2d3e274ad0751c1b6bbcae4210ec51bacfd5158065865caa7"
+          }
+        ],
+        "catalog_records": [
+          {
+            "kind": "start",
+            "case_id": "issue-4613-case-01",
+            "selector": "test.test_types.TypesTests.{test_float__format__locale,test_int__format__locale}",
+            "interpreter": "3.11.0alpha (tags/v0.2.0-311-ga7c985685:a7c985685, Mar  2 2023, 15:34:45) \n[rustc 1.67.1]",
+            "executable": "<survey>/.build/slot-a/release/rustpython",
+            "cwd": "<survey>/logs/scratch-history-a/a7c9856851",
+            "selector_derivation": "Exact locale n-format tests referenced through issue4613/PR4609, now lines433–448. Run with en_US.UTF-8 installed and LC_ALL unset; retain run_with_locale wrapper. Log actual locale so fallback C locale cannot masquerade as locale-grouping proof.",
+            "original_selector": null,
+            "derivation": "TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared"
+          },
+          {
+            "kind": "locale_observation",
+            "arguments": "(4, 'en_US.UTF-8')",
+            "result": "en_US.UTF-8",
+            "localeconv": {
+              "mon_grouping": [],
+              "grouping": [
+                3,
+                0
+              ],
+              "int_frac_digits": 127,
+              "frac_digits": 127,
+              "p_cs_precedes": 127,
+              "p_sep_by_space": 127,
+              "n_cs_precedes": 127,
+              "p_sign_posn": 127,
+              "n_sign_posn": 127,
+              "decimal_point": ".",
+              "thousands_sep": ",",
+              "int_curr_symbol": "",
+              "currency_symbol": "",
+              "mon_decimal_point": "",
+              "mon_thousands_sep": "",
+              "n_sep_by_space": 127,
+              "positive_sign": "",
+              "negative_sign": ""
+            }
+          },
+          {
+            "kind": "selection",
+            "case_id": "issue-4613-case-01",
+            "selected_ids": [
+              "test.test_types.TypesTests.test_float__format__locale",
+              "test.test_types.TypesTests.test_int__format__locale"
+            ],
+            "loader_errors": [],
+            "module_origin": "<workspace>/pylib/Lib/test/test_types.py",
+            "module_sha256": "18f8783da5a0ce95f3dda32f99829f506161a11a3e11c035a6bbdaac02fe19ed",
+            "bypassed_decorators": [
+              {
+                "kind": "skip",
+                "object": "test.test_types.TypesTests.test_int__format__locale",
+                "reason": "TODO: RustPython format code n is not integrated with locale",
+                "action": "decoration-time identity; original body and other decorators retained"
+              },
+              {
+                "kind": "expectedFailure",
+                "object": "test.test_types.TypesTests.test_float__format__locale",
+                "action": "clear selected object metadata; preserve body"
+              }
+            ],
+            "note": "Import-time bypass records include unselected tests; only selected_ids are executed"
+          },
+          {
+            "kind": "locale_observation",
+            "arguments": "(4,)",
+            "result": "en_US.UTF-8",
+            "localeconv": {
+              "mon_grouping": [],
+              "grouping": [
+                3,
+                0
+              ],
+              "int_frac_digits": 127,
+              "frac_digits": 127,
+              "p_cs_precedes": 127,
+              "p_sep_by_space": 127,
+              "n_cs_precedes": 127,
+              "p_sign_posn": 127,
+              "n_sign_posn": 127,
+              "decimal_point": ".",
+              "thousands_sep": ",",
+              "int_curr_symbol": "",
+              "currency_symbol": "",
+              "mon_decimal_point": "",
+              "mon_thousands_sep": "",
+              "n_sep_by_space": 127,
+              "positive_sign": "",
+              "negative_sign": ""
+            }
+          },
+          {
+            "kind": "locale_observation",
+            "arguments": "(4, 'en_US.UTF-8')",
+            "result": "en_US.UTF-8",
+            "localeconv": {
+              "mon_grouping": [],
+              "grouping": [
+                3,
+                0
+              ],
+              "int_frac_digits": 127,
+              "frac_digits": 127,
+              "p_cs_precedes": 127,
+              "p_sep_by_space": 127,
+              "n_cs_precedes": 127,
+              "p_sign_posn": 127,
+              "n_sign_posn": 127,
+              "decimal_point": ".",
+              "thousands_sep": ",",
+              "int_curr_symbol": "",
+              "currency_symbol": "",
+              "mon_decimal_point": "",
+              "mon_thousands_sep": "",
+              "n_sep_by_space": 127,
+              "positive_sign": "",
+              "negative_sign": ""
+            }
+          },
+          {
+            "kind": "test",
+            "test_id": "test.test_types.TypesTests.test_float__format__locale",
+            "outcome": "error",
+            "exception": "ValueError",
+            "message": "Format code 'n' for object of type 'float' not implemented yet"
+          },
+          {
+            "kind": "locale_observation",
+            "arguments": "(4,)",
+            "result": "en_US.UTF-8",
+            "localeconv": {
+              "mon_grouping": [],
+              "grouping": [
+                3,
+                0
+              ],
+              "int_frac_digits": 127,
+              "frac_digits": 127,
+              "p_cs_precedes": 127,
+              "p_sep_by_space": 127,
+              "n_cs_precedes": 127,
+              "p_sign_posn": 127,
+              "n_sign_posn": 127,
+              "decimal_point": ".",
+              "thousands_sep": ",",
+              "int_curr_symbol": "",
+              "currency_symbol": "",
+              "mon_decimal_point": "",
+              "mon_thousands_sep": "",
+              "n_sep_by_space": 127,
+              "positive_sign": "",
+              "negative_sign": ""
+            }
+          },
+          {
+            "kind": "locale_observation",
+            "arguments": "(4, 'en_US.UTF-8')",
+            "result": "en_US.UTF-8",
+            "localeconv": {
+              "mon_grouping": [],
+              "grouping": [
+                3,
+                0
+              ],
+              "int_frac_digits": 127,
+              "frac_digits": 127,
+              "p_cs_precedes": 127,
+              "p_sep_by_space": 127,
+              "n_cs_precedes": 127,
+              "p_sign_posn": 127,
+              "n_sign_posn": 127,
+              "decimal_point": ".",
+              "thousands_sep": ",",
+              "int_curr_symbol": "",
+              "currency_symbol": "",
+              "mon_decimal_point": "",
+              "mon_thousands_sep": "",
+              "n_sep_by_space": 127,
+              "positive_sign": "",
+              "negative_sign": ""
+            }
+          },
+          {
+            "kind": "test",
+            "test_id": "test.test_types.TypesTests.test_int__format__locale",
+            "outcome": "failure",
+            "exception": "AssertionError",
+            "message": "'123,456,789,012,345,678,901,234,567,890' != '123456789012345678901234567890'\n- 123,456,789,012,345,678,901,234,567,890\n?    -   -   -   -   -   -   -   -   -\n+ 123456789012345678901234567890\n"
+          },
+          {
+            "kind": "complete",
+            "case_id": "issue-4613-case-01",
+            "status": "completed",
+            "tests_run": 2,
+            "selected_count": 2,
+            "failures": 1,
+            "errors": 1,
+            "skipped": [],
+            "expected_failures": 0,
+            "unexpected_successes": 0,
+            "passing": false
+          }
+        ],
+        "historical_symptom_observed": "Explicit en_US.UTF-8 grouping[3,0]/comma; float originaltest errors ValueError n notimplemented; int originaltest fails groupedexpected != ungroupedactual. Initial pass for int under C locale is not locale-support evidence.",
+        "harness_difference": "Selected float expectedFailure identified manually from historicallines395-398 TODO:RUSTPYTHON because contextmanager wrapper hides declaration from generic inspect. In-memory metadata only; original tests/wrappers/assertions retained. locale.setlocale observed without changing its result; initial LC_NUMERIC explicitly en_US.UTF-8; LC_ALL unset.",
+        "evidence_ledger": "analysis/historical-results-a.json"
+      },
+      "adjudication": {
+        "case_id": "issue-4613-case-01",
+        "verdict": "해결 확인",
+        "reason": "이슈 작성 전 근사 a7c98568에서 실제 en_US.UTF-8·grouping [3,0]·쉼표 구분자를 확인한 뒤 float의 n 미구현 오류와 int의 누락된 그룹 구분 assertion 실패를 관찰했다. 현재 같은 메서드 본문 두 개가 같은 로케일 값에서 통과한다. 원래 로케일 데코레이터와 실행 보조 함수는 서로 다르며, 과거 native arm64·현재 x86_64/Rosetta 차이를 분리 검증하지 않았다.",
+        "scope": "Existing int and float locale n-format tests under observed en_US.UTF-8 with grouping[3,0] and comma.",
+        "historical_execution": true,
+        "historical_version_qualification": "approximate closest first-parent main before issue creation; no exact reported runtime SHA",
+        "whole_issue_resolution_approved": false,
+        "review_required": false,
+        "independent_review": "review/eighth-review.json",
+        "cause_analysis": "analysis/round8-cause-evidence.json",
+        "review_restrictions": [
+          "Initial current pass and first B supplemental C.UTF8 pass do not prove locale grouping; final explicit environment sidecar is authoritative.",
+          "Old native arm64 versus final current x86_64/Rosetta; both on same macOS. Locale values, selectors and method bodies explicitly compared.",
+          "Original locale wrappers/assertions retained. Only RustPython skip/expectedFailure metadata bypassed in memory; unrelated skips not ignored.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained.",
+          "Method bodies match but original locale decorators differ: old only 'en_US.UTF8', current 'en_US.UTF8',''. Current helper has stricter no-locale SkipTest handling; old swallows failure. Logged grouping en_US.UTF-8 before both executed bodies supports this specific comparison; do not describe wrappers/helpers as identical.",
+          "Final current success is x86_64/Rosetta only; native current grouping was not established. Architecture effects were not isolated by an otherwise identical runtime pair."
+        ],
+        "cause_reviews": [
+          {
+            "pr_url": "https://github.com/RustPython/RustPython/pull/7350",
+            "commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+            "integration_commit": null,
+            "approved_label": "high_relevance",
+            "scope": "PR7350 obtains localeconv thousands separator, decimal point and grouping, routes int/float n-format through locale-aware formatters, and implements grouping/decimal replacement. It removes the existing locale-format test skips. This directly fits both the exact US grouped integer and the existing float/int locale test results.",
+            "boundary_execution_complete": false,
+            "source_diff": "analysis/causes/round8-locale_n-pr7350.diff.txt",
+            "source_hash": "0d7aa197ac231ba617ee9770ea17a3673fba13def1734974905e91eaa07f99f7",
+            "limits": [
+              "Source correspondence and ancestry only; no first fixing boundary executed.",
+              "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+              "Apply all case-specific scope and environment limits from the adjudication proposal."
+            ]
+          }
+        ],
+        "evidence": [
+          "logs/issue-4613-case-01/current-additional-procedure.stderr",
+          "logs/issue-4613-case-01/current-additional-procedure.stdout",
+          "logs/issue-4613-case-01/current-b-explicit-enUS-environment-locale.stderr",
+          "logs/issue-4613-case-01/current-b-explicit-enUS-environment-locale.stdout",
+          "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch-audited-locale.stderr",
+          "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch-audited-locale.stdout",
+          "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch.stderr",
+          "logs/issue-4613-case-01/historical-catalog-a7c9856851-scratch.stdout",
+          "sources/issues/4613/body.md",
+          "analysis/catalog_runner_locale4613_a.py",
+          "analysis/causes/round8-locale_n-pr7350.diff.txt",
+          "logs/build-a-a7c98568-partition-rust1671/provenance.json",
+          "review/eighth-review.json",
+          "analysis/round8-adjudication-proposals.json",
+          "analysis/round8-cause-evidence.json"
+        ]
+      }
+    }
+  ],
+  "related_changes": [
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/7350",
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+      "mechanism": "PR7350 obtains localeconv thousands separator, decimal point and grouping, routes int/float n-format through locale-aware formatters, and implements grouping/decimal replacement. It removes the existing locale-format test skips. This directly fits both the exact US grouped integer and the existing float/int locale test results.",
+      "boundary_execution_complete": false,
+      "review_status": "approved_high_relevance",
+      "source_diff_path": "analysis/causes/round8-locale_n-pr7350.diff.txt",
+      "source_diff_sha256": "0d7aa197ac231ba617ee9770ea17a3673fba13def1734974905e91eaa07f99f7",
+      "source_evidence": "analysis/round8-cause-evidence.json",
+      "runtime_evidence": "analysis/round8-adjudication-proposals.json",
+      "limits": [
+        "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+        "Apply all case-specific scope and environment limits from the adjudication proposal."
+      ],
+      "reviewed_scope": "PR7350 obtains localeconv thousands separator, decimal point and grouping, routes int/float n-format through locale-aware formatters, and implements grouping/decimal replacement. It removes the existing locale-format test skips. This directly fits both the exact US grouped integer and the existing float/int locale test results.",
+      "independent_review": "review/eighth-review.json",
+      "review_restrictions": [
+        "Initial current pass and first B supplemental C.UTF8 pass do not prove locale grouping; final explicit environment sidecar is authoritative.",
+        "Old native arm64 versus final current x86_64/Rosetta; both on same macOS. Locale values, selectors and method bodies explicitly compared.",
+        "Original locale wrappers/assertions retained. Only RustPython skip/expectedFailure metadata bypassed in memory; unrelated skips not ignored.",
+        "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+        "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained.",
+        "Method bodies match but original locale decorators differ: old only 'en_US.UTF8', current 'en_US.UTF8',''. Current helper has stricter no-locale SkipTest handling; old swallows failure. Logged grouping en_US.UTF-8 before both executed bodies supports this specific comparison; do not describe wrappers/helpers as identical.",
+        "Final current success is x86_64/Rosetta only; native current grouping was not established. Architecture effects were not isolated by an otherwise identical runtime pair."
+      ],
+      "ancestry_check": {
+        "sha": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "verified_diff_sha256": "0d7aa197ac231ba617ee9770ea17a3673fba13def1734974905e91eaa07f99f7"
+    }
+  ]
+}

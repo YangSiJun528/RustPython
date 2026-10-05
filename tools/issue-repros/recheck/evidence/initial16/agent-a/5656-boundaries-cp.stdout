@@ -1,0 +1,10 @@
+always b"omkmok\Xaa" b'omkmok\\Xaa' [('SyntaxWarning', '"\\X" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\\\X"? A raw string is also an option.', 1)]
+error b"omkmok\Xaa" SyntaxError
+always "omkmok\Xaa" 'omkmok\\Xaa' [('SyntaxWarning', '"\\X" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\\\X"? A raw string is also an option.', 1)]
+error "omkmok\Xaa" SyntaxError
+always b"omkmok\\Xaa" b'omkmok\\Xaa' []
+error b"omkmok\\Xaa" accepted
+always rb"omkmok\Xaa" b'omkmok\\Xaa' []
+error rb"omkmok\Xaa" accepted
+always b"\xff" b'\xff' []
+error b"\xff" accepted

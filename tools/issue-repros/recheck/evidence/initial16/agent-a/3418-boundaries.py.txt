@@ -1,0 +1,17 @@
+from _collections import OrderedDict
+import collections
+print('native-public-identical', OrderedDict is collections.OrderedDict)
+d = OrderedDict([('a', 1), ('b', 2), ('c', 3)])
+print('initial', list(d.items()))
+d.move_to_end('a')
+print('move-end', list(d.items()))
+d.move_to_end('c', last=False)
+print('move-start', list(d.items()), list(reversed(d)))
+print('pop-first', d.popitem(last=False))
+print('pop-last', d.popitem())
+print('order-sensitive', OrderedDict([('a', 1), ('b', 2)]) == OrderedDict([('b', 2), ('a', 1)]))
+print('dict-equality', OrderedDict([('a', 1), ('b', 2)]) == {'b': 2, 'a': 1})
+class Child(OrderedDict):
+    pass
+c = Child.fromkeys(['b', 'a'], 7)
+print('subclass', type(c).__name__, list(c.items()))

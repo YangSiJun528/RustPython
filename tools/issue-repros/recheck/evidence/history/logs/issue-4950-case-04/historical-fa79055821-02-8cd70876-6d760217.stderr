@@ -1,0 +1,10 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+Traceback (most recent call last):
+  File "<survey>/verification-tools/derived-a/issue-4950-case-04.py", line 1, in <module>
+    print(repr('{:e}'.format(False)))
+ValueError: Invalid format specifier

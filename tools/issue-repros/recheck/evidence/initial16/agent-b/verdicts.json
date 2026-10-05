@@ -1,0 +1,556 @@
+[
+  {
+    "issue": 2527,
+    "status": "해결 확인",
+    "closure_recommended": true,
+    "reason": "실제 macOS PTY REPL에서 for 블록 0–9와 with/file.write 블록 5가 출력되며 동일 입력 CPython 3.14.6과 일치. single-mode custom displayhook와 함수 scope 보강도 일치.",
+    "original_scope": "REPL compound statement 안 표현식 값 표시. 원문 2개 블록 및 댓글의 displayhook/single-mode 범위.",
+    "fresh_evidence": [
+      "<initial16-audit>/agent-b/fresh-2527-pty-rp.json",
+      "<initial16-audit>/agent-b/fresh-2527-pty-cp.json",
+      "<initial16-audit>/agent-b/fresh-2527-single-rp.json",
+      "<initial16-audit>/agent-b/fresh-2527-single-cp.json"
+    ],
+    "old_evidence": {
+      "path": "<report-worktree>/tools/issue-repros/cases/2527",
+      "summary": {
+        "historical": {
+          "actual_sha": "163cd1953377f4049e06fdae55c715889857a301",
+          "binary_sha256": "58eea88a470e1d822e9112aa579dad6d4fb788a1e1b374de4f6e6c8e60454ea4",
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "historical.stdout.txt",
+              "expected_export_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+              "actual_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+              "match": true
+            }
+          ],
+          "version_banner": "3.9.0alpha (tags/0.1.0-4637-g163cd1953:163cd1953, Mar 25 2021, 13:04:07) \n[rustc 1.47.0]\n",
+          "not_rerun": true
+        },
+        "current": {
+          "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+          "binary_sha256": "62edeb0a360f473213e907dea3c6706e6ed08034bd80976439310069adf7725c",
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "current.stdout.txt",
+              "expected_export_sha256": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d",
+              "actual_sha256": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d",
+              "match": true
+            }
+          ],
+          "version_banner": "3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 04:53:35)\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]\n",
+          "not_rerun": true
+        }
+      },
+      "assessment": "과거 Linux PTY는 두 원문 블록을 보존하여 범위상 충분. 새 결과는 별도의 macOS PTY 실행이다."
+    },
+    "change_basis": {
+      "pr": 7067,
+      "commit": "46a86ec03663f060d1013dda83ab7964a6615059",
+      "observed_change": "single mode interactive flag와 모듈 scope expression의 Print intrinsic 추가",
+      "first_fix_confirmed": false
+    },
+    "limits": [
+      "현재 macOS x86_64 binary on arm64 host/Rosetta에서 확인; Linux/Windows 새 실행 없음.",
+      "파일 안전을 위해 경로를 evidence 위치로 변경하고 open mode를 w에서 x로 변경. CPython/RustPython 동일 입력은 구현명별 새 파일을 생성.",
+      "PTY stdout/stderr는 터미널 transcript로 합쳐져 있음; os._exit(0)로 기존 REPL history 저장을 회피.",
+      "과거 기록은 재실행하지 않았으며 최초 수정 커밋을 bisect/인접 revision 실행으로 확인하지 않음."
+    ]
+  },
+  {
+    "issue": 4784,
+    "status": "해결 확인",
+    "closure_recommended": true,
+    "reason": "기준 README의 docs.rs/rustpython 링크를 새 curl 조회하면 HTTP 200과 실제 RustPython 0.6.0 API 문서를 반환.",
+    "original_scope": "README가 약속하는 release API 문서 링크의 죽은 목적지. 로컬 cargo doc 빌드는 대안일 뿐 완료 조건이 아니다.",
+    "fresh_evidence": [
+      "<initial16-audit>/agent-b/fresh-4784-http.json",
+      "<initial16-audit>/agent-b/fresh-4784-docs.html",
+      "<initial16-audit>/agent-b/fresh-4784-headers.txt",
+      "<initial16-audit>/agent-b/source-lib-identification.json"
+    ],
+    "old_evidence": {
+      "path": "<report-worktree>/tools/issue-repros/cases/4784",
+      "assessment": "기존 http-checks.json은 HTTP status와 redirect만 기록해 API 본문 여부까지 단독 입증하기는 약함. 새 HTML에서 crate docs/API 항목 확인."
+    },
+    "change_basis": {
+      "pr": null,
+      "commit": null,
+      "observed_change": "README는 동일 docs.rs destination 유지. 현재 게시된 문서가 실제 존재한다.",
+      "first_fix_confirmed": false
+    },
+    "limits": [
+      "현재 외부 서비스 상태를 검증한 것으로 f39 소스의 API 문서 빌드 검증이 아님.",
+      "RustPython/CPython 실행 비교는 문서 링크 이슈에 해당 없음.",
+      "온라인 검색 캐시는 0.5.0을 보였지만 새 curl HTML은 0.6.0; 현재 버전 판단은 curl에 근거.",
+      "최초 정상 게시 릴리스/커밋은 미확인."
+    ]
+  },
+  {
+    "issue": 4856,
+    "status": "해결 확인",
+    "closure_recommended": true,
+    "reason": "원문 소스 compile 성공. 실행하면 양쪽 모두 BaseFTests NameError이고 Rust panic 없음. 정상화한 mock.patch lambda 및 중첩 capture는 기대값을 반환하고 원래 함수를 복원.",
+    "original_scope": "클래스 decorator의 lambda 인수로 발생한 compiler table.sub_tables.is_empty panic 제거. 원문은 그 외 런타임 오류를 포함.",
+    "fresh_evidence": [
+      "<initial16-audit>/agent-b/fresh-4856-rp.json",
+      "<initial16-audit>/agent-b/fresh-4856-cp.json",
+      "<initial16-audit>/agent-b/original-4856.py"
+    ],
+    "old_evidence": {
+      "path": "<report-worktree>/tools/issue-repros/cases/4856",
+      "summary": {
+        "historical": {
+          "actual_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+          "binary_sha256": "43e71e4ce4e1605ed8eaa51992f3fcb0f1ad22d36dfb383c181bd9b8674dc37d",
+          "exit": 101,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "historical.stdout.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            },
+            {
+              "log": "historical.stderr.txt",
+              "expected_export_sha256": "db90093ca6a262108a60abc09852cfe4ebc4a730b7f3bc9a62cb12436d8a3bb3",
+              "actual_sha256": "db90093ca6a262108a60abc09852cfe4ebc4a730b7f3bc9a62cb12436d8a3bb3",
+              "match": true
+            }
+          ],
+          "version_banner": "3.10.0alpha (tags/v0.2.0:c7faae9b2, Jan 11 2023, 15:14:28) \n[rustc 1.67.1]\n",
+          "not_rerun": true
+        },
+        "current": {
+          "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+          "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "current.stdout.txt",
+              "expected_export_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+              "actual_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+              "match": true
+            },
+            {
+              "log": "current.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        },
+        "cpython": {
+          "actual_sha": null,
+          "binary_sha256": null,
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "cpython.stdout.txt",
+              "expected_export_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+              "actual_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+              "match": true
+            },
+            {
+              "log": "cpython.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        }
+      },
+      "assessment": "원문 compile-only reproducer는 보고된 컴파일러 panic에 직접 대응하여 충분. 애플리케이션 전체 실행 성공으로 해석하면 안 됨."
+    },
+    "change_basis": {
+      "pr": 8138,
+      "commit": "a1ba6a662cff93e66582de8e1e44b367c01824b7",
+      "observed_change": "symbol-table class 처리에서 decorators를 class scope 진입 전 방문하도록 변경; codegen nested scope 순서 보강",
+      "first_fix_confirmed": false
+    },
+    "limits": [
+      "원문 BaseFTests는 미정의이고 mock.patch 빈 target도 잘못됨. 정상화한 runtime 입력은 추가 검증으로 구분.",
+      "원문 Ubuntu 18.04 대신 현재 macOS에서 실행.",
+      "v0.2.0 과거 panic은 보존 로그 재사용이며 새 재실행 아님.",
+      "관련 PR 확인은 최초 수정 revision 확정이 아님."
+    ]
+  },
+  {
+    "issue": 5181,
+    "status": "부분 해결",
+    "closure_recommended": false,
+    "reason": "기본 n 및 원문 test_locale는 해결됐지만 0-padding된 n에서 padding 영역의 로캘 grouping을 적용하지 않는다. en_US의 015n은 RustPython 0000123,456,789, CPython 000,123,456,789. 두 결과 길이는 모두 15.",
+    "original_scope": "n이 d처럼 숫자를 표현하되 활성 locale의 grouping/separator를 적용. 원문의 단일 예시만 아니라 n 형식의 locale 지원 요구.",
+    "fresh_evidence": [
+      "<initial16-audit>/agent-b/fresh-5181-rp.json",
+      "<initial16-audit>/agent-b/fresh-5181-cp.json",
+      "<initial16-audit>/agent-b/fresh-5181-width-rp.json",
+      "<initial16-audit>/agent-b/fresh-5181-width-cp.json",
+      "<initial16-audit>/agent-b/fresh-existing-tests-rp.json"
+    ],
+    "old_evidence": {
+      "path": "<report-worktree>/tools/issue-repros/cases/5181",
+      "summary": {
+        "historical": {
+          "actual_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+          "binary_sha256": "92a6951391fb89d6e3a92a2213554361cb777e9c110d03d0b50a1400dd7bdc51",
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "historical.stdout.txt",
+              "expected_export_sha256": "0433b605bb301a008381cb077ae0bca9705660909099719d6a3ea2117925bf8b",
+              "actual_sha256": "0433b605bb301a008381cb077ae0bca9705660909099719d6a3ea2117925bf8b",
+              "match": true
+            },
+            {
+              "log": "historical.stderr.txt",
+              "expected_export_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+              "actual_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+              "match": true
+            }
+          ],
+          "version_banner": "3.12.0alpha (tags/0.3.0-170-ga8ab7dd38:a8ab7dd38, Feb 21 2024, 12:02:54) \n[rustc 1.75.0]\n",
+          "not_rerun": true
+        },
+        "current": {
+          "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+          "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "current.stdout.txt",
+              "expected_export_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+              "actual_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+              "match": true
+            },
+            {
+              "log": "current.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        },
+        "cpython": {
+          "actual_sha": null,
+          "binary_sha256": null,
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "cpython.stdout.txt",
+              "expected_export_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+              "actual_sha256": "c2c9b4553c21ac938dbb9741040657839c86aa35ef96166e82a1181bb3cf945e",
+              "match": true
+            },
+            {
+              "log": "cpython.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        }
+      },
+      "assessment": "기존 재현은 en_US에서 format(123456789, n) 한 예시만 검사. 해당 예시 해결은 유효하나 locale-aware n 지원 전체 완료를 입증하지 못함."
+    },
+    "change_basis": {
+      "pr": 7350,
+      "commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+      "observed_change": "LocaleInfo 및 locale grouping 구현, test_format.test_locale skip 제거. 현재 format_int_locale는 grouping 후 align을 적용.",
+      "first_fix_confirmed": false
+    },
+    "limits": [
+      "C/en_US/de_DE/hi_IN 로캘만 현재 host에서 직접 확인.",
+      "test_locale는 int/float에 bare n만 적용해 zero-pad 조합을 커버하지 않음; 이번 실행 skip/xfail 없이 통과.",
+      "새 차이는 출력 길이가 아닌 grouping 차이다.",
+      "원문 단일 예시는 해결 확인되지만 broader locale formatting 요구는 부분 해결로 분류."
+    ]
+  },
+  {
+    "issue": 6429,
+    "status": "해결 확인",
+    "closure_recommended": true,
+    "reason": "macOS RustPython에서 query는 int 1, sys._is_gil_enabled는 False. 원문 기대 만족.",
+    "original_scope": "sysconfig.get_config_var(Py_GIL_DISABLED)가 None 대신 1. Windows에는 이미 있다는 댓글이 있어 POSIX 경로가 중요.",
+    "fresh_evidence": [
+      "<initial16-audit>/agent-b/fresh-6429-rp.json",
+      "<initial16-audit>/agent-b/fresh-6429-cp.json"
+    ],
+    "old_evidence": {
+      "path": "<report-worktree>/tools/issue-repros/cases/6429",
+      "summary": {
+        "historical": {
+          "actual_sha": "e227956a58f0f072f8be177264e0fdc1b9280e8a",
+          "binary_sha256": "16ab25f8f01dde6d6b7d0790f71bcd6b0266f9933678c25ef1b9c33c7db7a93f",
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "historical.stdout.txt",
+              "expected_export_sha256": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+              "actual_sha256": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+              "match": true
+            },
+            {
+              "log": "historical.stderr.txt",
+              "expected_export_sha256": "ef2d96c0914fc24f75dd0cc7c8c96ae0827ce5cf7075be9284103286c67d8919",
+              "actual_sha256": "ef2d96c0914fc24f75dd0cc7c8c96ae0827ce5cf7075be9284103286c67d8919",
+              "match": true
+            }
+          ],
+          "version_banner": "3.13.0alpha (tags/2025-11-10-main-55-172-ge227956a5:e227956a5, Dec 13 2025, 00:02:02) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+          "not_rerun": true
+        },
+        "current": {
+          "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+          "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "current.stdout.txt",
+              "expected_export_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+              "actual_sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+              "match": true
+            },
+            {
+              "log": "current.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        },
+        "cpython": {
+          "actual_sha": null,
+          "binary_sha256": null,
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "cpython.stdout.txt",
+              "expected_export_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+              "actual_sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+              "match": true
+            },
+            {
+              "log": "cpython.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        }
+      },
+      "assessment": "기존 import+print 재현은 원문 query 요구를 직접 검사해 충분. CPython 값은 build-dependent라는 제한이 필요."
+    },
+    "change_basis": {
+      "pr": 6428,
+      "commit": "3e2ada058651d9a1648bdb1453999758a32c4d13",
+      "observed_change": "build_time_vars에 Py_GIL_DISABLED => 1 추가. 현재 _sysconfigdata/_sysconfig 양쪽 설정 존재.",
+      "first_fix_confirmed": false
+    },
+    "limits": [
+      "새 실행은 macOS만.",
+      "동일 CPython 3.14.6 GIL-enabled build는 0/True로 정상적으로 다름; RP 기대 1의 반례가 아님.",
+      "최초 수정 커밋은 인접 revision 실행으로 확인하지 않음."
+    ]
+  },
+  {
+    "issue": 6790,
+    "status": "부분 해결",
+    "closure_recommended": false,
+    "reason": "강제 lzma skip 제거와 기본 xz 기능은 확인. 그러나 동일 CPython 생성 xz bytes에 decompress(max_length=100)를 적용하면 첫 반환이 RP 0 bytes/CP 100 bytes이며 기존 test_decompressor_chunks_maxsize도 같은 기대 위반으로 expectedFailure.",
+    "original_scope": "xz가 올바르게 지원된 뒤 test.support의 무조건 lzma=None을 제거하라는 요청. gate 제거만으로 완료되지 않는다.",
+    "fresh_evidence": [
+      "<initial16-audit>/agent-b/fresh-6790-rp.json",
+      "<initial16-audit>/agent-b/fresh-6790-cp.json",
+      "<initial16-audit>/agent-b/fresh-6790-fixed-input-rp.json",
+      "<initial16-audit>/agent-b/fresh-6790-fixed-input-cp.json",
+      "<initial16-audit>/agent-b/fixture-6790-cpython.json",
+      "<initial16-audit>/agent-b/fresh-existing-tests-rp.json"
+    ],
+    "old_evidence": {
+      "path": "<report-worktree>/tools/issue-repros/cases/6790",
+      "summary": {
+        "historical": {
+          "actual_sha": "ed785e3d868966e2a5f7478632cabd5a630e6934",
+          "binary_sha256": "2b07956ab66da91ad9b60379a89c3b3f789a9266591c1d996ff52d4397d5f909",
+          "exit": 0,
+          "timeout": null,
+          "checked_export_hashes": [
+            {
+              "log": "historical.stdout.txt",
+              "expected_export_sha256": "1a005344dc37b323ea5253cd2bd13ec3cfe5f3b37e0136297d09e57d27449264",
+              "actual_sha256": "1a005344dc37b323ea5253cd2bd13ec3cfe5f3b37e0136297d09e57d27449264",
+              "match": true
+            },
+            {
+              "log": "historical.stderr.txt",
+              "expected_export_sha256": "382d21396ad5fe38c64e4a73bbb701bc7248aa858635784a6f89e1f8325eb82f",
+              "actual_sha256": "382d21396ad5fe38c64e4a73bbb701bc7248aa858635784a6f89e1f8325eb82f",
+              "match": true
+            }
+          ],
+          "version_banner": "3.14.0alpha (tags/2025-11-10-main-55-569-ged785e3d8:ed785e3d8, Jan 19 2026, 00:04:06) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+          "not_rerun": true
+        },
+        "current": {
+          "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+          "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+          "exit": 0,
+          "timeout": null,
+          "checked_export_hashes": [
+            {
+              "log": "current.stdout.txt",
+              "expected_export_sha256": "4fe6f06736e4e44e586561a797df7966bf40bd1809faddb8d68dab00c8932049",
+              "actual_sha256": "4fe6f06736e4e44e586561a797df7966bf40bd1809faddb8d68dab00c8932049",
+              "match": true
+            },
+            {
+              "log": "current.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        }
+      },
+      "assessment": "기존 재현은 requires_lzma dummy를 호출하여 강제 skip 제거만 검사. 실제 xz compress/decompress를 호출하지 않아 원문의 선행 조건을 입증하지 못함."
+    },
+    "change_basis": {
+      "pr": 7896,
+      "commit": "8ff3141f3f3622d2f4cfe944f44a2ad0ebf961c1",
+      "observed_change": "requires_lzma의 무조건 lzma=None 제거. 별도 관련 xz PR #7756 cf4d076ad440a97576a2e9aa2308daba8daaf0b0도 baseline에 포함.",
+      "first_fix_confirmed": false
+    },
+    "limits": [
+      "부분 해결 근거는 모든 LZMA 기능에 대한 무제한 완벽성 요구가 아니라 구체적인 xz incremental decompression max_length API 결함이다.",
+      "기본 xz roundtrip, CPython fixture, CHECK_NONE/CRC32/CRC64/SHA256, 7-byte chunk decode, concat, trailing junk, bad/truncated data, BytesIO LZMAFile은 같은 입력 CPython과 일치.",
+      "45개 test_lzma 선택 실행: pass39/skip1/expectedFailure5, fail0/error0; full test_lzma 파일/file-mode 전체는 실행 안 함.",
+      "선택 suite 전체 48개: 위45+test_format1+test_json2; 42 pass,1 skip,5 xfail. xfail은 성공으로 세지 않음.",
+      "원래 expectedFailure 주석은 check attribute 오류지만 현재 실제 이유는 first output 0 != 100으로 변함.",
+      "과거 xz 지원 최초 도입이나 완전 해결 revision은 확정하지 않음."
+    ]
+  },
+  {
+    "issue": 8052,
+    "status": "해결 확인",
+    "closure_recommended": true,
+    "reason": "원문 name/repr, types alias identity, JSON PEP678 note 네 항목과 기존 Py/C test_bad_default가 모두 기대와 일치.",
+    "original_scope": "ellipsis builtin name/repr을 CPython과 맞추고 types.EllipsisType alias를 유지; JSON note의 ellipsis 이름도 기대.",
+    "fresh_evidence": [
+      "<initial16-audit>/agent-b/fresh-8052-rp.json",
+      "<initial16-audit>/agent-b/fresh-8052-cp.json",
+      "<initial16-audit>/agent-b/fresh-existing-tests-rp.json"
+    ],
+    "old_evidence": {
+      "path": "<report-worktree>/tools/issue-repros/cases/8052",
+      "summary": {
+        "historical": {
+          "actual_sha": "83fe92042112f9db89a70495b552ab433d77e751",
+          "binary_sha256": "1b2747c3c05484e9f5e3db8de8000a2a3e66aeb211e55ddba918713053a5cb25",
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "historical.stdout.txt",
+              "expected_export_sha256": "d7e52f41d43b82d4c2a36eee3151cf0db9a9362f986f2fa85b8df2baaf2deb6e",
+              "actual_sha256": "d7e52f41d43b82d4c2a36eee3151cf0db9a9362f986f2fa85b8df2baaf2deb6e",
+              "match": true
+            },
+            {
+              "log": "historical.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        },
+        "current": {
+          "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+          "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "current.stdout.txt",
+              "expected_export_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+              "actual_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+              "match": true
+            },
+            {
+              "log": "current.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        },
+        "cpython": {
+          "actual_sha": null,
+          "binary_sha256": null,
+          "exit": 0,
+          "timeout": false,
+          "checked_export_hashes": [
+            {
+              "log": "cpython.stdout.txt",
+              "expected_export_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+              "actual_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+              "match": true
+            },
+            {
+              "log": "cpython.stderr.txt",
+              "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "match": true
+            }
+          ],
+          "version_banner": null,
+          "not_rerun": true
+        }
+      },
+      "assessment": "기존 name/repr 최소 재현은 핵심 원문에 충분하나 alias/JSON 파급은 이번 새 실행으로 보강. 기존 historical_selection은 null이라 선택 근거 부족."
+    },
+    "change_basis": {
+      "pr": 8580,
+      "commit": "f87cfe7e7a24e4cbe2861d312f2c44904df90524",
+      "observed_change": "PyEllipsis pyclass name EllipsisType를 ellipsis로 변경",
+      "first_fix_confirmed": false
+    },
+    "limits": [
+      "macOS에서 실행.",
+      "원문은 8e35cc9e72ea243df2705acb2cfb1a63fb8fbe0b source link를 제공하지만 이는 신고자의 executable commit 증명은 아님. 기존 과거 실행은 83fe920421이며 동일 revision으로 오인하지 않음.",
+      "관련 rename commit은 확인했으나 first-fix bisect/인접 실행 없음."
+    ]
+  }
+]

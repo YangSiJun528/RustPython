@@ -1,0 +1,197 @@
+[
+  {
+    "pr": 7067,
+    "candidates": [
+      {
+        "commit": "fa59402def1d5d23d9501394df71ba716b84550d",
+        "subject": "Merge pull request #7067 from youknowone/doctest",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "46a86ec03663f060d1013dda83ab7964a6615059",
+        "subject": "Merge pull request #7067 from youknowone/doctest",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 8780,
+    "candidates": [
+      {
+        "commit": "afad92bf1b78e33c53b9018fef31233cefcb5225",
+        "subject": "Add OrderedDict, marshal, inspect, and chflags bitflagset (#8780)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 6582,
+    "candidates": [
+      {
+        "commit": "f91ffe34d45ec744cd0d6e00703ed3eb19db0c22",
+        "subject": "Fix pyexpat parse (#6582)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 8741,
+    "candidates": [
+      {
+        "commit": "358f6a875afa154f9eb04411c0bc8288b2f1082a",
+        "subject": "native _json, _pickle, pyexpat, and _elementtree (#8741)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 6934,
+    "candidates": [
+      {
+        "commit": "7004502951741bcb9a7e490411453a1335f10377",
+        "subject": "dealloc and finalize_modules  (#6934)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "3814348943491629c37d916af69a5f6ce24b4167",
+        "subject": "dealloc and finalize_modules  (#6934)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 4766,
+    "candidates": [
+      {
+        "commit": "17957405175cd9a62cb15685c2a97ea9f53be28d",
+        "subject": "Allow try_update_quantity_from_tuple to set left alignment when needed (#4766)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 5629,
+    "candidates": [
+      {
+        "commit": "b6aacbf4016ec614b3508fd2778de4b3a29d4aef",
+        "subject": "Merge pull request #5629 from coolreader18/surrogate-literals",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 6547,
+    "candidates": [
+      {
+        "commit": "9b2ad34a084a95d55105e32708e039bff11f7ccc",
+        "subject": "check surrogates (#6547)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 8138,
+    "candidates": [
+      {
+        "commit": "3b4c5f65dd02022601f98b95fab9697451af4046",
+        "subject": "Align compiler and AST behavior with CPython (#8138)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "a1ba6a662cff93e66582de8e1e44b367c01824b7",
+        "subject": "Align compiler and AST behavior with CPython (#8138)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 5121,
+    "candidates": [
+      {
+        "commit": "4d6a180638f3ee5731856c894f8e58e69588f7ee",
+        "subject": "Update ast, test_ast from CPython 3.12.0 (#5121)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 5663,
+    "candidates": [
+      {
+        "commit": "d52081fe41e5239e9a2fc4ca19d4f9d124b7bfcc",
+        "subject": "Merge pull request #5663 from arihant2math/remove-dep-modules",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 7350,
+    "candidates": [
+      {
+        "commit": "3b91466f62de07501f4e4088a279d830649af45e",
+        "subject": "Implement locale-aware 'n' format specifier for int, float, complex (#7350)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+        "subject": "Implement locale-aware 'n' format specifier for int, float, complex (#7350)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 7164,
+    "candidates": [
+      {
+        "commit": "b87386f4fc2ab5fad5de0ebf3d5dabc67cec66a4",
+        "subject": "Update test_fstring from v3.14.3 and impl more (#7164)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "680de33572dccbd8ed15f3dca0f930d80d2fa0ad",
+        "subject": "Update test_fstring from v3.14.3 and impl more (#7164)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 6428,
+    "candidates": [
+      {
+        "commit": "3e2ada058651d9a1648bdb1453999758a32c4d13",
+        "subject": "Update `test_sys.py` from 3.13.11 (#6428)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 7896,
+    "candidates": [
+      {
+        "commit": "3ed8c91fef7b475d60b5b079daca2993007b052f",
+        "subject": "Update `test/support` to 3.14.5 (#7896)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "8ff3141f3f3622d2f4cfe944f44a2ad0ebf961c1",
+        "subject": "Update `test/support` to 3.14.5 (#7896)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  },
+  {
+    "pr": 8580,
+    "candidates": [
+      {
+        "commit": "48a3a1f8e04eb4f1ea16c6324e936e6ece3f0201",
+        "subject": "Match CPython on code objects, ast, symtable and syntax error positions (#8580)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "f87cfe7e7a24e4cbe2861d312f2c44904df90524",
+        "subject": "Match CPython on code objects, ast, symtable and syntax error positions (#8580)",
+        "is_baseline_ancestor": true
+      }
+    ]
+  }
+]

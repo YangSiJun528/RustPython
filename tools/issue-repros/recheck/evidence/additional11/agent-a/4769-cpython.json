@@ -1,0 +1,30 @@
+{
+  "label": "4769-cpython",
+  "interpreter": "cpython",
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<additional11-audit>/agent-a/probes.py",
+    "4769"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4769-cpython/python-history",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4769-cpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4769-cpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4769-cpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4769-cpython"
+  },
+  "started_utc": "2026-10-05T10:48:52.754271+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "literal original: integer has no __dict__\npickle protocols: [0, 1, 2, 3, 4, 5]\nsubclass roundtrips: 36\n",
+  "stderr": "",
+  "elapsed_seconds": 0.029760333985905163
+}

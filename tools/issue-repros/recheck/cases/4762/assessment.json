@@ -1,0 +1,196 @@
+{
+  "issue": 4762,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "The exact assertion passes. Fresh str/bytes width/precision matrices and negative-width flag interactions match CPython including trailing spaces.",
+  "original_scope": "Negative dynamic printf width must select left alignment, specifically '%*s' % (-5, 'abc') == 'abc  '; the issue names both str and bytes formatting implementations.",
+  "original_issue_url": "https://github.com/RustPython/RustPython/issues/4762",
+  "original_issue_snapshot": "<initial16-audit>/agent-a/issue-4762-original.json",
+  "original_comments_read": 2,
+  "fresh_evidence": [
+    {
+      "label": "4762-boundaries-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/4762-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4762-boundaries.py",
+      "input_sha256": "6cdbcf19e3bd96a71e7a92c6ec4c42b13a6921d7495623160d02866927999c89",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190903.274849,
+      "duration_seconds": 0.02762007713317871,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4762-boundaries-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4762-boundaries-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4762-boundaries-cp.json"
+    },
+    {
+      "label": "4762-boundaries-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/4762-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4762-boundaries.py",
+      "input_sha256": "6cdbcf19e3bd96a71e7a92c6ec4c42b13a6921d7495623160d02866927999c89",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190903.181986,
+      "duration_seconds": 0.09211277961730957,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4762-boundaries-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4762-boundaries-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4762-boundaries-rp.json"
+    },
+    {
+      "label": "4762-original-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/4762-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4762-original.py",
+      "input_sha256": "5d3dafda40d639e3e3ee81737fa1cbe1e14478fbbb1bb069a222c2a679d3bf9f",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190885.2255218,
+      "duration_seconds": 0.0359041690826416,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4762-original-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4762-original-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4762-original-cp.json"
+    },
+    {
+      "label": "4762-original-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/4762-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4762-original.py",
+      "input_sha256": "5d3dafda40d639e3e3ee81737fa1cbe1e14478fbbb1bb069a222c2a679d3bf9f",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190885.132591,
+      "duration_seconds": 0.09223508834838867,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4762-original-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4762-original-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4762-original-rp.json"
+    }
+  ],
+  "old_evidence": {
+    "kind": "reused historical/current export records; no historical executable rerun",
+    "source_directory": "<report-worktree>/tools/issue-repros/cases/4762",
+    "historical_commit": "c36e3612e7dd1c7abd9fc7b76b912372bd26afbf",
+    "historical_binary_sha256": "dfc791ade6c9844ac1b256d6e4b1d1447bd395e3eb28f8b645eca43226c782c1",
+    "historical_input_sha256": "0941e3e88d10a2765597d3e425694e87f6709456f1c92445a474719888c0939b",
+    "historical_exit_code": 1,
+    "historical_timeout": false,
+    "historical_selection": {
+      "role": "closest_preissue_main_approximation",
+      "reported_versions": [],
+      "issue_created_at": "2023-03-25T10:20:35Z",
+      "actual_historical_sha": "c36e3612e7dd1c7abd9fc7b76b912372bd26afbf",
+      "closest_preissue_first_parent_check": "c36e3612e7dd1c7abd9fc7b76b912372bd26afbf",
+      "matches_required_fallback": true
+    },
+    "old_current_binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+    "log_integrity": {
+      "issue": 4762,
+      "historical_recorded_input_hash_matches": true,
+      "canonical_vs_recorded_AST_equal": true,
+      "exported_log_hashes_all_match": true
+    },
+    "input_equivalence_to_live_issue": "The old canonical assertion changes quotes and redundant parentheses only; the negative width, value and two trailing spaces are retained.",
+    "existing_reproducer_sufficiency": "The existing assertion is sufficient for the explicit example. The issue also names bytes; fresh probes add bytes, precision and flag interactions that the old single assertion did not cover.",
+    "audit_file": "<initial16-audit>/agent-a/old-evidence-audit.json",
+    "limits": [
+      "Old binary/source/Lib pairing is supported by recorded metadata, not independently reexecuted in this pass.",
+      "Historical logs were path-redacted in the export. Matching export hashes establish integrity of these records, not independent truth of their provenance.",
+      "A historical/current comparison does not establish the first fixing commit."
+    ]
+  },
+  "change_basis": {
+    "description": "PR 4766 detects negative tuple width and inserts LEFT_ADJUST, passing flags through both cformat_bytes and cformat_string. Current cformat.rs directly performs width < 0 then inserts LEFT_ADJUST before taking unsigned_abs.",
+    "related_commits": [
+      {
+        "pr": 4766,
+        "commit": "17957405175cd9a62cb15685c2a97ea9f53be28d",
+        "subject": "Allow try_update_quantity_from_tuple to set left alignment when needed (#4766)",
+        "ancestor_check_exit": 0,
+        "stderr": "",
+        "first_fix_established": false
+      }
+    ],
+    "first_fix_established": false,
+    "source_identity": "<initial16-audit>/agent-a/source-identity.json"
+  },
+  "limits": [
+    "Extreme-width overflow, non-int star operands and every numeric conversion are outside the sampled scope."
+  ],
+  "boundary_summary": "Width [-5,-3,-1,0,1,3,5] crossed with precision [-3,-1,0,1,3,5] for str and bytes gives 84 matching lines; 5 additional flag cases match.",
+  "environment": {
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "lib_tree": "2f62efb194a326f4abef6d2a61b0c5babc09e96b",
+    "rustpython_binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+    "cpython_binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+    "cpython_version": "3.14.6",
+    "identity_files": [
+      "<initial16-audit>/agent-a/identity-rp.stdout",
+      "<initial16-audit>/agent-a/identity-cp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-rp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-cp.stdout"
+    ]
+  }
+}

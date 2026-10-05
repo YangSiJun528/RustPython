@@ -1,0 +1,16 @@
+from runner import ROOT,CWD,run
+options=[('default',[],{}),('P',['-P'],{}),('env1',[],{'PYTHONSAFEPATH':'1'}),('env0',[],{'PYTHONSAFEPATH':'0'}),('envempty',[],{'PYTHONSAFEPATH':''}),('Eenv1',['-E'],{'PYTHONSAFEPATH':'1'}),('I',['-I'],{})]
+code=(ROOT/'safe_report.py').read_text()
+(ROOT/'safe_symlink').mkdir(exist_ok=False)
+(ROOT/'safe_symlink'/'report.py').symlink_to(ROOT/'safe_report.py')
+for runtime in ('rustpython','cpython'):
+    for mode,args in [('command',['-c',code]),('script',[str(ROOT/'safe_report.py')]),('module',['-m','safe_report'])]:
+        for option,flags,changes in options:
+            extra=dict(changes)
+            # -m module itself is deliberately made available; nested cwd import is the unsafe-path witness.
+            if mode=='module':
+                extra['RUSTPYTHONPATH' if runtime=='rustpython' else 'PYTHONPATH']=(str(CWD/'Lib')+':' if runtime=='rustpython' else '')+str(ROOT)
+            run('4541-'+runtime+'-'+mode+'-'+option,runtime,flags+args,extra)
+    for option,flags,changes in options[:2]:
+        run('4541-'+runtime+'-symlink-'+option,runtime,flags+[str(ROOT/'safe_symlink'/'report.py')],changes)
+    run('8494-original-'+runtime,runtime,[str(ROOT/'8494-original.py')])

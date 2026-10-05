@@ -1,0 +1,255 @@
+{
+  "baseline": "f39b054b9c8cbbf884f53123eef028131789990c",
+  "binary": "<survey>/.build/slot-a/verification/rustpython",
+  "binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+  "runtime": {
+    "cwd": "<workspace>",
+    "dont_write_bytecode": true,
+    "executable": "<survey>/.build/slot-a/verification/rustpython",
+    "git": [
+      "RustPython",
+      "heads/main",
+      "f39b054b9"
+    ],
+    "implementation": "namespace(name='rustpython', cache_tag='cpython-314', _multiarch='aarch64-apple-darwin', version=sys.version_info(major=0, minor=6, micro=1, releaselevel='alpha', serial=0), hexversion=393632, supports_isolated_interpreters=True)",
+    "machine": "arm64",
+    "modules": {
+      "array": {
+        "file": null,
+        "origin": "built-in",
+        "sha256": null
+      },
+      "asyncio": {
+        "file": "<workspace>/Lib/asyncio/__init__.py",
+        "origin": "<workspace>/Lib/asyncio/__init__.py",
+        "sha256": "8148552daea881e3b33639d6e9bdab0da2021367ab694ee0604431c33c16983f"
+      },
+      "collections": {
+        "file": "<workspace>/Lib/collections/__init__.py",
+        "origin": "<workspace>/Lib/collections/__init__.py",
+        "sha256": "cb8367b8edd188662143ea2e3942d360c2deae51c72fd779ec898f5076d2c2b9"
+      },
+      "copy": {
+        "file": "<workspace>/Lib/copy.py",
+        "origin": "<workspace>/Lib/copy.py",
+        "sha256": "15154fde290d6e65b5007905689a47a9a5a724822c5e06eec35d9ffbb2a3aa69"
+      },
+      "dis": {
+        "file": "<workspace>/Lib/dis.py",
+        "origin": "<workspace>/Lib/dis.py",
+        "sha256": "17d4d9a9195c9ee5aa27a96f3e0871f9363fd501e3a64ef20cb1cc876d7ad553"
+      },
+      "modulefinder": {
+        "file": "<workspace>/Lib/modulefinder.py",
+        "origin": "<workspace>/Lib/modulefinder.py",
+        "sha256": "5447268e1fe922d334f59e2f370dae0130ab2b9eff48ca7bd71c4ec544443c8b"
+      },
+      "os": {
+        "file": "<workspace>/Lib/os.py",
+        "origin": "<workspace>/Lib/os.py",
+        "sha256": "976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546"
+      },
+      "pickle": {
+        "file": "<workspace>/Lib/pickle.py",
+        "origin": "<workspace>/Lib/pickle.py",
+        "sha256": "c9998751cf3b94536b4c2cffd6bb719fa1ee6027bd1bd37235d597c9ecf9f98c"
+      },
+      "test.test_deque": {
+        "file": "<workspace>/Lib/test/test_deque.py",
+        "origin": "<workspace>/Lib/test/test_deque.py",
+        "sha256": "6e6750d1079103581dbc7ae161f1f2e1c346674ccb1fb0f277434bbb0f6bce10"
+      },
+      "test.test_descr": {
+        "file": "<workspace>/Lib/test/test_descr.py",
+        "origin": "<workspace>/Lib/test/test_descr.py",
+        "sha256": "8a4db97b3b39f6474aff5ece8a008a5e3683deb098824864235a28480a8c61a1"
+      },
+      "test.test_modulefinder": {
+        "file": "<workspace>/Lib/test/test_modulefinder.py",
+        "origin": "<workspace>/Lib/test/test_modulefinder.py",
+        "sha256": "6467af078a4e6021f332ffcfeaeddd62aba8f54ebae55483f70024799e798c04"
+      },
+      "unittest": {
+        "file": "<workspace>/Lib/unittest/__init__.py",
+        "origin": "<workspace>/Lib/unittest/__init__.py",
+        "sha256": "1ed24bce998fa21f6a72c751ec8269b72bd69b7e1c35a9db8cfb418787d25d4e"
+      }
+    },
+    "path": [
+      "<additional11-audit>/agent-a",
+      "<workspace>/Lib",
+      "<workspace>/lib/python314.zip",
+      "<workspace>/lib/python3.14",
+      "<workspace>/lib/python3.14/lib-dynload"
+    ],
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "version": "3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]"
+  },
+  "cpython": {
+    "cwd": "<workspace>",
+    "dont_write_bytecode": true,
+    "executable": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "git": [
+      "CPython",
+      "",
+      ""
+    ],
+    "implementation": "namespace(name='cpython', cache_tag='cpython-314', version=sys.version_info(major=3, minor=14, micro=6, releaselevel='final', serial=0), hexversion=51250928, _multiarch='darwin', supports_isolated_interpreters=True)",
+    "machine": "arm64",
+    "modules": {
+      "array": {
+        "file": null,
+        "origin": "built-in",
+        "sha256": null
+      },
+      "asyncio": {
+        "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/__init__.py",
+        "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/__init__.py",
+        "sha256": "8148552daea881e3b33639d6e9bdab0da2021367ab694ee0604431c33c16983f"
+      },
+      "collections": {
+        "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/collections/__init__.py",
+        "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/collections/__init__.py",
+        "sha256": "dbd563752a57c6633b7566b1e9c95bc8ea81df1a1d213b23f61c5335424e5af5"
+      },
+      "copy": {
+        "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/copy.py",
+        "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/copy.py",
+        "sha256": "15154fde290d6e65b5007905689a47a9a5a724822c5e06eec35d9ffbb2a3aa69"
+      },
+      "dis": {
+        "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/dis.py",
+        "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/dis.py",
+        "sha256": "17d4d9a9195c9ee5aa27a96f3e0871f9363fd501e3a64ef20cb1cc876d7ad553"
+      },
+      "modulefinder": {
+        "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/modulefinder.py",
+        "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/modulefinder.py",
+        "sha256": "5447268e1fe922d334f59e2f370dae0130ab2b9eff48ca7bd71c4ec544443c8b"
+      },
+      "os": {
+        "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/os.py",
+        "origin": "frozen",
+        "sha256": "976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546"
+      },
+      "pickle": {
+        "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/pickle.py",
+        "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/pickle.py",
+        "sha256": "c9998751cf3b94536b4c2cffd6bb719fa1ee6027bd1bd37235d597c9ecf9f98c"
+      },
+      "test.test_deque": {
+        "error": "ModuleNotFoundError: No module named 'test'"
+      },
+      "test.test_descr": {
+        "error": "ModuleNotFoundError: No module named 'test'"
+      },
+      "test.test_modulefinder": {
+        "error": "ModuleNotFoundError: No module named 'test'"
+      },
+      "unittest": {
+        "file": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/unittest/__init__.py",
+        "origin": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/unittest/__init__.py",
+        "sha256": "2698f2daf7a02609a6825b89cd459ebaa283dec2403c7b846315a0701bc74a0d"
+      }
+    },
+    "path": [
+      "<additional11-audit>/agent-a",
+      "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip",
+      "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14",
+      "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/lib-dynload",
+      "<home>/.local/lib/python3.14/site-packages",
+      "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/site-packages"
+    ],
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "version": "3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]"
+  },
+  "source_files": {
+    "Lib/asyncio/__init__.py": {
+      "sha256": "8148552daea881e3b33639d6e9bdab0da2021367ab694ee0604431c33c16983f",
+      "baseline_sha256": "8148552daea881e3b33639d6e9bdab0da2021367ab694ee0604431c33c16983f",
+      "matches_baseline": true
+    },
+    "Lib/collections/__init__.py": {
+      "sha256": "cb8367b8edd188662143ea2e3942d360c2deae51c72fd779ec898f5076d2c2b9",
+      "baseline_sha256": "cb8367b8edd188662143ea2e3942d360c2deae51c72fd779ec898f5076d2c2b9",
+      "matches_baseline": true
+    },
+    "Lib/copy.py": {
+      "sha256": "15154fde290d6e65b5007905689a47a9a5a724822c5e06eec35d9ffbb2a3aa69",
+      "baseline_sha256": "15154fde290d6e65b5007905689a47a9a5a724822c5e06eec35d9ffbb2a3aa69",
+      "matches_baseline": true
+    },
+    "Lib/dis.py": {
+      "sha256": "17d4d9a9195c9ee5aa27a96f3e0871f9363fd501e3a64ef20cb1cc876d7ad553",
+      "baseline_sha256": "17d4d9a9195c9ee5aa27a96f3e0871f9363fd501e3a64ef20cb1cc876d7ad553",
+      "matches_baseline": true
+    },
+    "Lib/modulefinder.py": {
+      "sha256": "5447268e1fe922d334f59e2f370dae0130ab2b9eff48ca7bd71c4ec544443c8b",
+      "baseline_sha256": "5447268e1fe922d334f59e2f370dae0130ab2b9eff48ca7bd71c4ec544443c8b",
+      "matches_baseline": true
+    },
+    "Lib/os.py": {
+      "sha256": "976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546",
+      "baseline_sha256": "976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546",
+      "matches_baseline": true
+    },
+    "Lib/pickle.py": {
+      "sha256": "c9998751cf3b94536b4c2cffd6bb719fa1ee6027bd1bd37235d597c9ecf9f98c",
+      "baseline_sha256": "c9998751cf3b94536b4c2cffd6bb719fa1ee6027bd1bd37235d597c9ecf9f98c",
+      "matches_baseline": true
+    },
+    "Lib/test/test_deque.py": {
+      "sha256": "6e6750d1079103581dbc7ae161f1f2e1c346674ccb1fb0f277434bbb0f6bce10",
+      "baseline_sha256": "6e6750d1079103581dbc7ae161f1f2e1c346674ccb1fb0f277434bbb0f6bce10",
+      "matches_baseline": true
+    },
+    "Lib/test/test_descr.py": {
+      "sha256": "8a4db97b3b39f6474aff5ece8a008a5e3683deb098824864235a28480a8c61a1",
+      "baseline_sha256": "8a4db97b3b39f6474aff5ece8a008a5e3683deb098824864235a28480a8c61a1",
+      "matches_baseline": true
+    },
+    "Lib/test/test_modulefinder.py": {
+      "sha256": "6467af078a4e6021f332ffcfeaeddd62aba8f54ebae55483f70024799e798c04",
+      "baseline_sha256": "6467af078a4e6021f332ffcfeaeddd62aba8f54ebae55483f70024799e798c04",
+      "matches_baseline": true
+    },
+    "Lib/unittest/__init__.py": {
+      "sha256": "1ed24bce998fa21f6a72c751ec8269b72bd69b7e1c35a9db8cfb418787d25d4e",
+      "baseline_sha256": "1ed24bce998fa21f6a72c751ec8269b72bd69b7e1c35a9db8cfb418787d25d4e",
+      "matches_baseline": true
+    },
+    "crates/vm/src/builtins/classmethod.rs": {
+      "sha256": "4a1214e66be7d010057d8125f621f29274d438217f506b21ac070ee4e4a6084c",
+      "baseline_sha256": "4a1214e66be7d010057d8125f621f29274d438217f506b21ac070ee4e4a6084c",
+      "matches_baseline": true
+    },
+    "crates/vm/src/builtins/staticmethod.rs": {
+      "sha256": "afc9703a67a1663128d200ec53d7d5e8689ab3107add182043b126dfd0ae115f",
+      "baseline_sha256": "afc9703a67a1663128d200ec53d7d5e8689ab3107add182043b126dfd0ae115f",
+      "matches_baseline": true
+    },
+    "crates/vm/src/stdlib/_collections.rs": {
+      "sha256": "5f1c7190223358fcb28492a98cf6d79eba5a2a3325c6f23dde28990fd1293a57",
+      "baseline_sha256": "5f1c7190223358fcb28492a98cf6d79eba5a2a3325c6f23dde28990fd1293a57",
+      "matches_baseline": true
+    },
+    "src/lib.rs": {
+      "sha256": "d7a3e75b21dfadd3213b39ec5577db0af68aa49965cdf436886c7a6278558d14",
+      "baseline_sha256": "d7a3e75b21dfadd3213b39ec5577db0af68aa49965cdf436886c7a6278558d14",
+      "matches_baseline": true
+    },
+    "src/settings.rs": {
+      "sha256": "a5de8be49c0f8db905bc00a9bf2a0bbc041dda912dab53317841ddc8f875a420",
+      "baseline_sha256": "a5de8be49c0f8db905bc00a9bf2a0bbc041dda912dab53317841ddc8f875a420",
+      "matches_baseline": true
+    },
+    "src/shell.rs": {
+      "sha256": "9cae8e77456712b886d769e6eab67e5498d2a6d29d287862c9c96c4f9e4adce2",
+      "baseline_sha256": "9cae8e77456712b886d769e6eab67e5498d2a6d29d287862c9c96c4f9e4adce2",
+      "matches_baseline": true
+    }
+  },
+  "git_head": "f39b054b9c8cbbf884f53123eef028131789990c",
+  "tracked_changes": ""
+}

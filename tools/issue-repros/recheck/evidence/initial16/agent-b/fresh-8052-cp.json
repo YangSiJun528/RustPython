@@ -1,0 +1,20 @@
+{
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "-S",
+    "<initial16-audit>/agent-b/probe-8052.py"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8"
+  },
+  "start": 1791191040.171081,
+  "binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791191040.202529,
+  "stdout": "ellipsis\n<class 'ellipsis'>\nalias True\nnotes ['when serializing ellipsis object', 'when serializing list item 0', 'when serializing module object', 'when serializing type object']\n",
+  "stderr": ""
+}

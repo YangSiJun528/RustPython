@@ -1,0 +1,30 @@
+{
+  "label": "5179-cpython",
+  "interpreter": "cpython",
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<additional11-audit>/agent-a/probes.py",
+    "5179"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/5179-cpython/python-history",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/5179-cpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/5179-cpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/5179-cpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/5179-cpython"
+  },
+  "started_utc": "2026-10-05T10:48:57.452416+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\"builtins\": [{\"buffer\": true, \"data\": \"abc\", \"readonly\": true, \"release\": false, \"type\": \"bytes\", \"writable\": \"BufferError\"}, {\"buffer\": true, \"data\": \"abc\", \"readonly\": false, \"release\": true, \"released\": true, \"type\": \"bytearray\", \"writable\": true}, {\"buffer\": true, \"data\": \"abc\", \"readonly\": false, \"release\": true, \"released\": true, \"type\": \"array\", \"writable\": true}, {\"buffer\": true, \"data\": \"abc\", \"readonly\": true, \"release\": true, \"released\": true, \"type\": \"memoryview\", \"writable\": \"BufferError\"}, {\"buffer\": true, \"data\": \"abc\", \"readonly\": true, \"release\": false, \"type\": \"BytesSubclass\", \"writable\": \"BufferError\"}, {\"buffer\": true, \"data\": \"abc\", \"readonly\": false, \"release\": true, \"released\": true, \"type\": \"BytearraySubclass\", \"writable\": true}, {\"buffer\": true, \"data\": \"abc\", \"readonly\": false, \"release\": true, \"released\": true, \"type\": \"mmap\", \"writable\": true}], \"custom_exporter\": [[\"get\", 284], [\"release\"]], \"resize_after_release\": true}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.03173612500540912
+}

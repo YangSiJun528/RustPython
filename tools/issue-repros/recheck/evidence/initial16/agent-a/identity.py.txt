@@ -1,0 +1,13 @@
+import sys
+print('version', repr(sys.version))
+print('implementation', repr(sys.implementation))
+print('executable', repr(sys.executable))
+print('prefix', repr(sys.prefix))
+print('path', repr(sys.path))
+print('dont_write_bytecode', sys.dont_write_bytecode)
+for name in ('ast', 'collections', '_collections', 'xml.etree.ElementTree', 'pyexpat', '_elementtree', 'email', 'email.policy', 'email._header_value_parser'):
+    try:
+        module = __import__(name, fromlist=['*'])
+        print('module', name, repr(getattr(module, '__file__', None)), repr(getattr(getattr(module, '__spec__', None), 'origin', None)))
+    except Exception as error:
+        print('module-error', name, type(error).__name__, str(error))

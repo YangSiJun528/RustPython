@@ -1,0 +1,12 @@
+import locale
+import json
+import sys
+import platform
+
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+conv = locale.localeconv()
+print(json.dumps({'version': sys.version, 'machine': platform.machine(),
+    'locale': locale.setlocale(locale.LC_ALL),
+    'conv': {k: conv[k] for k in ('decimal_point', 'thousands_sep', 'grouping')},
+    'cases': {spec: format(1234, spec) for spec in ('n', '20n', '020n', '+020n', '0=20n')},
+    'float': format(1234.5, '020n')}, indent=2))

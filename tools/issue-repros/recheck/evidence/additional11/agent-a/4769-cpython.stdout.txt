@@ -1,0 +1,3 @@
+literal original: integer has no __dict__
+pickle protocols: [0, 1, 2, 3, 4, 5]
+subclass roundtrips: 36

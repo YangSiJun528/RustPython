@@ -1,0 +1,62 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+Traceback (most recent call last):
+  File "<survey>/verification-tools/derived-b-4506-pinned-import.py", line 3, in <module>
+    import sympy
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/__init__.py", line 73, in <module>
+    from .polys import (Poly, PurePoly, poly_from_expr, parallel_poly_from_expr,
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/polys/__init__.py", line 75, in <module>
+    from .polyfuncs import (symmetrize, horner, interpolate,
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/polys/polyfuncs.py", line 11, in <module>
+    from sympy.polys.specialpolys import (
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/polys/specialpolys.py", line 297, in <module>
+    from sympy.polys.rings import ring
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/polys/rings.py", line 30, in <module>
+    from sympy.printing.defaults import DefaultPrinting
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/printing/__init__.py", line 5, in <module>
+    from .latex import latex, print_latex, multiline_latex
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/printing/latex.py", line 18, in <module>
+    from sympy.tensor.array import NDimArray
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/tensor/__init__.py", line 4, in <module>
+    from .indexed import IndexedBase, Idx, Indexed
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/tensor/indexed.py", line 114, in <module>
+    from sympy.functions.special.tensor_functions import KroneckerDelta
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/functions/__init__.py", line 10, in <module>
+    from sympy.functions.combinatorial.numbers import (carmichael, fibonacci, lucas, tribonacci,
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/functions/combinatorial/numbers.py", line 329, in <module>
+    class tribonacci(Function):
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/functions/combinatorial/numbers.py", line 374, in tribonacci
+    @recurrence_memo([S.Zero, S.One, _sym**2])
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/expr.py", line 232, in __pow__
+    return self._pow(other)
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/decorators.py", line 236, in _func
+    return func(self, other)
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/decorators.py", line 106, in binary_op_wrapper
+    return func(self, other)
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/expr.py", line 228, in _pow
+    return Pow(self, other)
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/cache.py", line 74, in wrapper
+    retval = func(*args, **kwargs)
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/cache.py", line 70, in wrapper
+    retval = cfunc(*args, **kwargs)
+  File "<slot-b-source>/pylib/Lib/functools.py", line 593, in wrapper
+    result = user_function(*args, **kwds)
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/power.py", line 355, in __new__
+    from sympy.functions.elementary.exponential import exp_polar
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/functions/elementary/exponential.py", line 1124, in <module>
+    class LambertW(Function):
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/functions/elementary/exponential.py", line 1159, in LambertW
+    _singularities = (-Pow(S.Exp1, -1, evaluate=False), S.ComplexInfinity)
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/cache.py", line 74, in wrapper
+    retval = func(*args, **kwargs)
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/cache.py", line 70, in wrapper
+    retval = cfunc(*args, **kwargs)
+  File "<slot-b-source>/pylib/Lib/functools.py", line 593, in wrapper
+    result = user_function(*args, **kwds)
+  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/power.py", line 378, in __new__
+    obj.is_commutative = (b.is_commutative and e.is_commutative)
+AttributeError: can't set attribute

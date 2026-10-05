@@ -1,0 +1,201 @@
+"""Run one preserved catalog selection; the caller provides process limits.
+
+Usage: rustpython catalog_runner.py current-plan.json CASE_ID
+This runner never edits a repository test. TODO RustPython skip decorators are
+bypassed at decoration time so every other wrapper, assertion and input remains
+intact. All other skips remain active. Expected-failure metadata is cleared on
+selected tests and recorded. A passing process is not itself a passing case:
+inspect the structured result, skipped subtests and fixture failures.
+"""
+
+import hashlib
+import importlib
+import inspect
+import json
+import os
+import sys
+import traceback
+import unittest
+import unittest.case as unittest_case
+
+
+def emit(kind, **fields):
+    print("CATALOG_RECORD " + json.dumps(dict(kind=kind, **fields), ensure_ascii=True), flush=True)
+
+
+def flatten(suite):
+    for item in suite:
+        if isinstance(item, unittest.TestSuite):
+            yield from flatten(item)
+        else:
+            yield item
+
+
+def main():
+    with open(sys.argv[1], encoding="utf-8") as file:
+        plan = json.load(file)
+    case = next(c for c in plan["cases"] if c["case_id"] == sys.argv[2])
+    if case["kind"] != "unittest_catalog":
+        raise ValueError("The selected case is not a unittest catalog item")
+    module_name = case["module"]
+    class_name = case["class_name"]
+    method_name = case["method_name"]
+    method_names = case.get("method_names")
+    bypassed = []
+    original_skip = unittest.skip
+    original_case_skip = unittest_case.skip
+
+    def skip(reason):
+        if "rustpython" not in str(reason).lower():
+            return original_skip(reason)
+
+        def identity(obj):
+            bypassed.append({
+                "kind": "skip",
+                "object": getattr(obj, "__module__", "") + "." + getattr(obj, "__qualname__", repr(obj)),
+                "reason": str(reason),
+                "action": "decoration-time identity; original body and other decorators retained",
+            })
+            return obj
+        return identity
+
+    unittest.skip = skip
+    # skipIf/skipUnless resolve skip in unittest.case's globals, not the
+    # re-export in unittest. Patch both aliases to preserve their conditions.
+    unittest_case.skip = skip
+    emit("start", case_id=case["case_id"], selector=case["selector"],
+         interpreter=sys.version, executable=sys.executable, cwd=os.getcwd(),
+         selector_derivation=case.get("selector_derivation"),
+         original_selector=case.get("original_selector"),
+         derivation="TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared")
+    try:
+        if case["case_id"] == "issue-4613-case-01":
+            import locale
+            original_setlocale = locale.setlocale
+            def observed_setlocale(*args, **kwargs):
+                value = original_setlocale(*args, **kwargs)
+                emit("locale_observation", arguments=repr(args), result=value, localeconv=locale.localeconv())
+                return value
+            locale.setlocale = observed_setlocale
+            locale.setlocale(locale.LC_NUMERIC, "en_US.UTF-8")
+        module = importlib.import_module(module_name)
+        # Discovery preserves modules with load_tests hooks and generated classes.
+        loader = unittest.TestLoader()
+        available = list(flatten(loader.loadTestsFromModule(module)))
+        requested_class = getattr(module, class_name, None)
+        selected = []
+        for test in available:
+            cls = type(test)
+            actual_method = getattr(test, "_testMethodName", None)
+            exact_class = cls.__name__ == class_name
+            inherited_mixin = (isinstance(requested_class, type)
+                               and not issubclass(requested_class, unittest.TestCase)
+                               and isinstance(test, requested_class))
+            if not (exact_class or inherited_mixin):
+                continue
+            if method_name is not None and actual_method != method_name:
+                continue
+            if method_names is not None and actual_method not in method_names:
+                continue
+            selected.append(test)
+            for obj in (cls, getattr(cls, actual_method, None)):
+                if obj is not None and getattr(obj, "__unittest_expecting_failure__", False):
+                    # Expected-failure metadata has no reason field; inspect only the
+                    # target declaration's decorator/comment prefix, never its body.
+                    try:
+                        lines, first = inspect.getsourcelines(obj)
+                        prefix = []
+                        for line in lines:
+                            if line.lstrip().startswith(("def ", "async def ", "class ")):
+                                break
+                            prefix.append(line)
+                        filename = inspect.getsourcefile(obj)
+                        if filename:
+                            with open(filename, encoding="utf-8") as source:
+                                preceding = source.readlines()[:first-1]
+                            for line in reversed(preceding):
+                                if not line.lstrip().startswith("#"):
+                                    break
+                                prefix.append(line)
+                        rustpython_marker = "rustpython" in "".join(prefix).lower()
+                    except (OSError, TypeError, IOError):
+                        rustpython_marker = False
+                    if case["case_id"] == "issue-4613-case-01" and test.id() == "test.test_types.TypesTests.test_float__format__locale":
+                        # Audited historical declaration lines395-398 explicitly has TODO RUSTPYTHON.
+                        rustpython_marker = True
+                    if not rustpython_marker:
+                        bypassed.append({"kind": "expectedFailure_preserved", "object": test.id(),
+                                         "action": "No explicit RustPython marker in declaration prefix; preserve upstream metadata"})
+                        continue
+                    bypassed.append({"kind": "expectedFailure", "object": test.id(),
+                                     "action": "clear selected object metadata; preserve body"})
+                    obj.__unittest_expecting_failure__ = False
+        origin = getattr(module, "__file__", None)
+        source_hash = None
+        if origin and os.path.isfile(origin):
+            with open(origin, "rb") as file:
+                source_hash = hashlib.sha256(file.read()).hexdigest()
+        emit("selection", case_id=case["case_id"], selected_ids=[t.id() for t in selected],
+             loader_errors=loader.errors, module_origin=origin, module_sha256=source_hash,
+             bypassed_decorators=bypassed,
+             note="Import-time bypass records include unselected tests; only selected_ids are executed")
+        if not selected:
+            emit("complete", case_id=case["case_id"], status="no_matching_tests",
+                 tests_run=0, passing=False, available_ids=[t.id() for t in available])
+            return 3
+
+        class Result(unittest.TextTestResult):
+            def addSuccess(self, test):
+                super().addSuccess(test)
+                emit("test", test_id=test.id(), outcome="success")
+
+            def addFailure(self, test, err):
+                super().addFailure(test, err)
+                emit("test", test_id=test.id(), outcome="failure", exception=err[0].__name__,
+                     message=str(err[1]))
+
+            def addError(self, test, err):
+                super().addError(test, err)
+                emit("test", test_id=test.id(), outcome="error", exception=err[0].__name__,
+                     message=str(err[1]))
+
+            def addSkip(self, test, reason):
+                super().addSkip(test, reason)
+                emit("test", test_id=test.id(), outcome="skip", reason=reason)
+
+            def addExpectedFailure(self, test, err):
+                super().addExpectedFailure(test, err)
+                emit("test", test_id=test.id(), outcome="expected_failure", exception=err[0].__name__)
+
+            def addUnexpectedSuccess(self, test):
+                super().addUnexpectedSuccess(test)
+                emit("test", test_id=test.id(), outcome="unexpected_success")
+
+            def addSubTest(self, test, subtest, err):
+                super().addSubTest(test, subtest, err)
+                if err is not None:
+                    emit("subtest", test_id=test.id(), subtest_id=subtest.id(),
+                         outcome="failure_or_error", exception=err[0].__name__, message=str(err[1]))
+
+        result = unittest.TextTestRunner(verbosity=2, resultclass=Result).run(unittest.TestSuite(selected))
+        fully_executed = result.testsRun == len(selected) and not result.skipped
+        passing = (fully_executed and result.wasSuccessful()
+                   and not result.expectedFailures and not result.unexpectedSuccesses)
+        emit("complete", case_id=case["case_id"], status="completed", tests_run=result.testsRun,
+             selected_count=len(selected), failures=len(result.failures), errors=len(result.errors),
+             skipped=[{"test_id": t.id(), "reason": reason} for t, reason in result.skipped],
+             expected_failures=len(result.expectedFailures),
+             unexpected_successes=len(result.unexpectedSuccesses), passing=passing)
+        return 0 if passing else 1
+    except BaseException as exc:
+        emit("setup_exception", case_id=case["case_id"], exception=type(exc).__name__,
+             message=str(exc), bypassed_decorators=bypassed, passing=False)
+        traceback.print_exc()
+        return 2
+    finally:
+        unittest.skip = original_skip
+        unittest_case.skip = original_case_skip
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,32 @@
+{
+  "label": "4541-rustpython-module-I",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "-I",
+    "-m",
+    "safe_report"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I"
+  },
+  "started_utc": "2026-10-05T10:50:42.257200+00:00",
+  "stdin": null,
+  "exit_code": 1,
+  "timeout": false,
+  "stdout": "",
+  "stderr": "<survey>/.build/slot-a/verification/rustpython: No module named safe_report\n",
+  "elapsed_seconds": 0.05814908299362287
+}

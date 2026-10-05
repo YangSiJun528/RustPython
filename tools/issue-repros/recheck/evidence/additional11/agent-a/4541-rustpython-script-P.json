@@ -1,0 +1,31 @@
+{
+  "label": "4541-rustpython-script-P",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "-P",
+    "<additional11-audit>/agent-a/safe_report.py"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P"
+  },
+  "started_utc": "2026-10-05T10:50:40.288169+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\"bare_import\": false, \"cwd\": \"<workspace>\", \"cwd_import\": false, \"isolated\": 0, \"path\": [\"<workspace>/Lib\", \"<workspace>/lib/python314.zip\", \"<workspace>/lib/python3.14\", \"<workspace>/lib/python3.14/lib-dynload\"], \"safe_path\": true}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.18650999999954365
+}

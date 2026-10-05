@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<initial16-audit>/agent-a/4786-original.py", line 1, in <module>
+    type("A\udcdcB", (), {})
+    ~~~~^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'utf-8' codec can't encode character '\udcdc' in position 1: surrogates not allowed

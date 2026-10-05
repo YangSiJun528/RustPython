@@ -1,0 +1,31 @@
+{
+  "label": "4907-rustpython",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<additional11-audit>/agent-a/probes.py",
+    "4907"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4907-rustpython/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4907-rustpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4907-rustpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4907-rustpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4907-rustpython"
+  },
+  "started_utc": "2026-10-05T10:48:52.784861+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "original compile: success\n1\noriginal invocation: TypeError from awaiting print result\nlc done\ncomment execution: two awaited sleeps completed\n",
+  "stderr": "",
+  "elapsed_seconds": 2.326643749998766
+}

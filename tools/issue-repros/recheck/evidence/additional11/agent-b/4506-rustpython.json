@@ -1,0 +1,25 @@
+{
+  "label": "4506-rustpython",
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "<additional11-audit>/agent-b/probe-sympy-original.py"
+  ],
+  "shell_command": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B <additional11-audit>/agent-b/probe-sympy-original.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-4506-rustpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-4506-rustpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-4506-rustpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4506-rustpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-4506-rustpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "started_unix": 1791197334.6317592,
+  "elapsed_seconds": 3.4631149768829346,
+  "exit_code": 0,
+  "timeout": false
+}

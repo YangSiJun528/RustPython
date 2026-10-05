@@ -1,0 +1,20 @@
+{
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "-S",
+    "<initial16-audit>/agent-b/probe-4856.py"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8"
+  },
+  "start": 1791191039.2864609,
+  "binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791191039.406519,
+  "stdout": "original compile success\noriginal execution NameError name 'BaseFTests' is not defined\nvalid patch method 3 outside 1\nnested capture 7 outside 1\n",
+  "stderr": ""
+}

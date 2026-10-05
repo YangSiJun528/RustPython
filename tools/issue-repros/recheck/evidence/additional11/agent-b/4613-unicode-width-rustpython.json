@@ -1,0 +1,25 @@
+{
+  "label": "4613-unicode-width-rustpython",
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "<additional11-audit>/agent-b/probe-locale-unicode-width.py"
+  ],
+  "shell_command": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B <additional11-audit>/agent-b/probe-locale-unicode-width.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-4613-unicode-width-rustpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+  },
+  "started_unix": 1791197695.03087,
+  "elapsed_seconds": 0.29532694816589355,
+  "exit_code": 1,
+  "timeout": false
+}

@@ -1,0 +1,8 @@
+classmethod {'return': <class 'int'>}
+True
+wrapper: {'x': <class 'str'>}
+wrapped: {'return': <class 'int'>}
+staticmethod {'return': <class 'int'>}
+True
+wrapper: {'x': <class 'str'>}
+wrapped: {'return': <class 'int'>}

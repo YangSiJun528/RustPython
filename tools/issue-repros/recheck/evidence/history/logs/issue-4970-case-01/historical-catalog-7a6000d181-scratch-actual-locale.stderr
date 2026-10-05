@@ -1,0 +1,24 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+test_locale (test.test_format.FormatTest) ... FAIL
+
+======================================================================
+FAIL: test_locale (test.test_format.FormatTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<workspace>/Lib/test/test_format.py", line 446, in test_locale
+    locale.setlocale(locale.LC_ALL, oldloc)
+  File "<workspace>/Lib/test/test_format.py", line 444, in test_locale
+    self.assertEqual(text.replace(sep, ''), '1234' + point + '5')
+  File "<workspace>/Lib/test/test_format.py", line 437, in test_locale
+    self.assertIn(sep, text)
+AssertionError: ',' not found in '123456789'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)

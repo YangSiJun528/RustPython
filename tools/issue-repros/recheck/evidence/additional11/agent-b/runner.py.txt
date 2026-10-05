@@ -1,0 +1,57 @@
+"""Host-only orchestration; all behavior probes use explicit interpreters."""
+from pathlib import Path
+import json
+import os
+import shlex
+import subprocess
+import sys
+import time
+
+ROOT = Path(__file__).parent
+CWD = Path('<slot-b-source>')
+MAIN = Path('<workspace>')
+RP = MAIN / 'cleanup-issues/2026-10-04T155029+0900/.build/slot-b/saved/current-f39-x86/rustpython'
+CP = Path('<home>/.local/bin/python3')
+SITE = MAIN / 'cleanup-issues/2026-10-04T155029+0900/verification-tools/package-history-4506-original/site'
+
+def run(label, interpreter, args, overrides=None, timeout=120):
+    env = dict(os.environ)
+    for key in list(env):
+        if key.startswith(('PYTHON', 'RUSTPYTHON', 'LC_')) or key in ('LANG', 'NO_COLOR', 'FORCE_COLOR'):
+            env.pop(key)
+    temp = ROOT / ('temp-' + label)
+    temp.mkdir(exist_ok=False)
+    env.update(PYTHONDONTWRITEBYTECODE='1', TMPDIR=str(temp), TMP=str(temp), TEMP=str(temp),
+               PYTHON_HISTORY=str(temp / 'python-history'), HISTFILE=str(temp / 'shell-history'),
+               LANG='en_US.UTF-8', LC_NUMERIC='en_US.UTF-8')
+    if interpreter == 'rustpython':
+        env['RUSTPYTHONPATH'] = str(CWD / 'Lib')
+    if overrides:
+        for key, value in overrides.items():
+            if value is None:
+                env.pop(key, None)
+            else:
+                env[key] = value
+    command = [str(RP if interpreter == 'rustpython' else CP), '-B', *map(str, args)]
+    started = time.time()
+    try:
+        result = subprocess.run(command, cwd=CWD, env=env, capture_output=True, timeout=timeout)
+        stdout, stderr, code, expired = result.stdout, result.stderr, result.returncode, False
+    except subprocess.TimeoutExpired as exc:
+        stdout, stderr, code, expired = exc.stdout or b'', exc.stderr or b'', None, True
+    for name, value in [('stdout', stdout), ('stderr', stderr)]:
+        with (ROOT / f'{label}.{name}.txt').open('xb') as file:
+            file.write(value)
+    metadata = dict(label=label, command=command, shell_command=shlex.join(command), cwd=str(CWD),
+                    env={k: v for k, v in env.items() if k.startswith(('PYTHON', 'RUSTPYTHON', 'LC_')) or k in ('LANG', 'TMPDIR', 'TMP', 'TEMP', 'HISTFILE', 'FORCE_COLOR')},
+                    started_unix=started, elapsed_seconds=time.time()-started,
+                    exit_code=code, timeout=expired)
+    with (ROOT / f'{label}.json').open('x') as file:
+        json.dump(metadata, file, indent=2)
+    print(json.dumps(metadata), flush=True)
+    print(stdout.decode(errors='replace')[:18000], flush=True)
+    print(stderr.decode(errors='replace')[:3000], flush=True)
+    return metadata
+
+if __name__ == '__main__':
+    run(sys.argv[1], sys.argv[2], sys.argv[3:])

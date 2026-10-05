@@ -1,0 +1,2 @@
+warning: can't use pyrepl: (5, "terminal doesn't have the required clear capability"); TERM=dumb
+>>> REPL_RESULT={"safe_path": false, "path": ["", "<workspace>/Lib", "<workspace>/lib/python314.zip", "<workspace>/lib/python3.14", "<workspace>/lib/python3.14/lib-dynload"], "cwd": "<workspace>"}

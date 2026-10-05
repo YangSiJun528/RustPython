@@ -1,0 +1,122 @@
+{
+  "issue": 4907,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "원문 함수 compile 성공, 호출 시 await print의 예상 TypeError 확인, 실제 event loop/sleep 2회 완료. CPython과 동일하다.",
+  "original_scope": {
+    "description": "async def 안 plain-for list comprehension의 await 컴파일 및 댓글 asyncio 실행",
+    "issue_url": "https://github.com/RustPython/RustPython/issues/4907",
+    "frozen_notes": "<additional11-audit>/agent-a/notes-original-scope.md",
+    "fresh_original_body": "<additional11-audit>/agent-a/originals/4907.json",
+    "fresh_original_comments": "<additional11-audit>/agent-a/originals/4907-comments.json"
+  },
+  "fresh_evidence": {
+    "runs": [
+      {
+        "record": "<additional11-audit>/agent-a/4907-cpython.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "4907"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4907-cpython/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4907-cpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4907-cpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4907-cpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4907-cpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4907-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4907-cpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4907-rustpython.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "4907"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4907-rustpython/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4907-rustpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4907-rustpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4907-rustpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4907-rustpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4907-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4907-rustpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      }
+    ],
+    "inputs_sha256_file": "<additional11-audit>/agent-a/validation.json",
+    "provenance": "<additional11-audit>/agent-a/fresh-provenance.json",
+    "same_cpython_input": true
+  },
+  "old_evidence": {
+    "reused": true,
+    "reexecuted": false,
+    "metadata": "<additional11-audit>/agent-a/old-evidence-reference.json",
+    "read_logs_with_sha256": "<additional11-audit>/agent-a/old-logs-read.json",
+    "historical_cases": [
+      {
+        "case_id": "issue-4907-case-01",
+        "historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+        "status_as_previously_recorded": "executed_awaiting_symptom_analysis",
+        "files": [
+          "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stdout",
+          "logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stderr",
+          "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stdout",
+          "logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stderr"
+        ]
+      }
+    ]
+  },
+  "change_basis": {
+    "description_and_mechanism_in_report": "await comprehension\n\n원문 async 함수는 [fresh 입력](probes.py)의 `4907`에서 compile/exec에 성공한다. 실제 호출은 `print()`의 None을 await하므로 TypeError가 맞으며 컴파일 결함과 구분했다. 댓글의 `new_event_loop/create_task/wait/run_until_complete`와 두 `sleep(1)`은 실제 완료하고 `lc done`을 출력한다. [RP](4907-rustpython.json)와 [CPython](4907-cpython.json)이 같다.\n\n과거 재사용: v0.2.0 `c7faae9b22` 및 별도 `3794c178be` 로그에는 원문 정의의 `await outside async function` SyntaxError가 있다. [PR #5334](https://github.com/RustPython/RustPython/pull/5334), 기준 조상 `7996a1011`은 comprehension 요소의 await를 감지하고 외부 async 문맥에 맞는 comprehension과 await 코드를 생성한다. 원 보고 Ubuntu 18.04는 재현하지 않았고 같은 언어·asyncio 입력을 macOS에서 비교했다. PR 직전/직후를 실행하지 않아 최초 수정은 미확정이다.\n",
+    "related_changes": [
+      {
+        "pr": 5334,
+        "candidates": [
+          {
+            "commit": "7996a10116681e9f85eda03413d5011b805e577f",
+            "subject": "await in list comprehension (#5334)",
+            "is_baseline_ancestor": true,
+            "diff": "<additional11-audit>/related-pr-5334-7996a1011-first-parent.diff",
+            "fresh_ancestor_exit_code": 0,
+            "diff_sha256": "e981b20a6d049fd505e1ae51dd61203d2e72d6d3f239fe6ce655b870f9df56e9"
+          }
+        ]
+      }
+    ],
+    "first_fix_confirmed": false,
+    "pr_parent_and_commit_executed": false,
+    "source_only_relationship": true
+  },
+  "limits": [
+    "원문 print는 awaitable이 아니다. Ubuntu 18.04는 재실행하지 않았다.",
+    "기준 f39b054b9의 macOS26.5.2 ARM64 결과이며 최신 HEAD/다른 플랫폼 결과가 아니다.",
+    "기존 binary를 새로 실행했다. 새 build/cargo test/clippy는 파일 보존 제약으로 실행하지 않았다.",
+    "과거 로그는 재사용이며 과거 및 PR 경계 재실행 없이 최초 수정 커밋을 확정하지 않는다."
+  ],
+  "agent": "agent-a"
+}

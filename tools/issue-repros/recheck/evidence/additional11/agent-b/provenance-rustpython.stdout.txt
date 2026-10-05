@@ -1,0 +1,24 @@
+{
+  "version": "3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]",
+  "implementation": "namespace(name='rustpython', cache_tag='cpython-314', _multiarch='x86_64-apple-darwin', version=sys.version_info(major=0, minor=6, micro=1, releaselevel='alpha', serial=0), hexversion=393632, supports_isolated_interpreters=True)",
+  "executable": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+  "machine": "x86_64",
+  "platform": "macOS-26.5.2-x86_64-i386-64bit-Mach-O",
+  "path": [
+    "<additional11-audit>/agent-b",
+    "<workspace>/Lib",
+    "<slot-b-source>/Lib",
+    "<workspace>/lib/python314.zip",
+    "<workspace>/lib/python3.14",
+    "<workspace>/lib/python3.14/lib-dynload"
+  ],
+  "cwd": "<slot-b-source>",
+  "dont_write_bytecode": true,
+  "stdlib_files": {
+    "locale": "<workspace>/Lib/locale.py",
+    "traceback": "<workspace>/Lib/traceback.py",
+    "functools": "<workspace>/Lib/functools.py",
+    "platform": "<workspace>/Lib/platform.py"
+  },
+  "locale": "C"
+}

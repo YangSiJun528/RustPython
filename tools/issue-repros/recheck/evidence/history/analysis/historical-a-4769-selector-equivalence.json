@@ -1,0 +1,12 @@
+{
+  "historical": {
+    "sha": "25ca331dc81e617498465ecdb2f848ec81025f71",
+    "method": "def test_copy_pickle(self):\n        for cls in Deque, DequeWithSlots:\n            for d in cls('abc'), cls('abcde', maxlen=4):\n                d.x = ['x']\n                d.z = ['z']\n\n                e = d.__copy__()\n                self.assertEqual(type(d), type(e))\n                self.assertEqual(list(d), list(e))\n\n                e = cls(d)\n                self.assertEqual(type(d), type(e))\n                self.assertEqual(list(d), list(e))\n\n                for proto in range(pickle.HIGHEST_PROTOCOL + 1):\n                    s = pickle.dumps(d, proto)\n                    e = pickle.loads(s)\n                    self.assertNotEqual(id(d), id(e))\n                    self.assertEqual(type(d), type(e))\n                    self.assertEqual(list(d), list(e))\n                    self.assertEqual(e.x, d.x)\n                    self.assertEqual(e.z, d.z)\n                    self.assertFalse(hasattr(e, 'y'))",
+    "method_sha256": "f5b8904eace0876ab897b94b70c647c878ef5717df9186682542fb2cf6fc0fc1"
+  },
+  "current": {
+    "sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "method": "def test_copy_pickle(self):\n        for cls in Deque, DequeWithSlots:\n            for d in cls('abc'), cls('abcde', maxlen=4):\n                d.x = ['x']\n                d.z = ['z']\n\n                e = d.__copy__()\n                self.assertEqual(type(d), type(e))\n                self.assertEqual(list(d), list(e))\n\n                e = cls(d)\n                self.assertEqual(type(d), type(e))\n                self.assertEqual(list(d), list(e))\n\n                for proto in range(pickle.HIGHEST_PROTOCOL + 1):\n                    s = pickle.dumps(d, proto)\n                    e = pickle.loads(s)\n                    self.assertNotEqual(id(d), id(e))\n                    self.assertEqual(type(d), type(e))\n                    self.assertEqual(list(d), list(e))\n                    self.assertEqual(e.x, d.x)\n                    self.assertEqual(e.z, d.z)\n                    self.assertNotHasAttr(e, 'y')",
+    "method_sha256": "1beff22bf1cddda3641c41769e85cd463fb202d4ea6bf51f374c879481e77301"
+  }
+}

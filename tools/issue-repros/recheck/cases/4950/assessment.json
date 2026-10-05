@@ -1,0 +1,210 @@
+{
+  "issue": 4950,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "원문과 댓글 전체 및 True/width/precision 보강 34개 출력이 CPython과 같다.",
+  "original_scope": {
+    "description": "False f/x/X/e/E/c/g/o/%/o 및 댓글 n/d",
+    "issue_url": "https://github.com/RustPython/RustPython/issues/4950",
+    "frozen_notes": "<additional11-audit>/agent-a/notes-original-scope.md",
+    "fresh_original_body": "<additional11-audit>/agent-a/originals/4950.json",
+    "fresh_original_comments": "<additional11-audit>/agent-a/originals/4950-comments.json"
+  },
+  "fresh_evidence": {
+    "runs": [
+      {
+        "record": "<additional11-audit>/agent-a/4950-cpython.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "4950"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4950-cpython/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4950-cpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4950-cpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4950-cpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4950-cpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4950-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4950-cpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4950-rustpython.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "4950"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4950-rustpython/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4950-rustpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4950-rustpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4950-rustpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4950-rustpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4950-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4950-rustpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      }
+    ],
+    "inputs_sha256_file": "<additional11-audit>/agent-a/validation.json",
+    "provenance": "<additional11-audit>/agent-a/fresh-provenance.json",
+    "same_cpython_input": true
+  },
+  "old_evidence": {
+    "reused": true,
+    "reexecuted": false,
+    "metadata": "<additional11-audit>/agent-a/old-evidence-reference.json",
+    "read_logs_with_sha256": "<additional11-audit>/agent-a/old-logs-read.json",
+    "historical_cases": [
+      {
+        "case_id": "issue-4950-case-01",
+        "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stdout",
+          "logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stderr",
+          "logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stdout",
+          "logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-4950-case-02",
+        "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stdout",
+          "logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stderr",
+          "logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stdout",
+          "logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-4950-case-03",
+        "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stdout",
+          "logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stderr",
+          "logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stdout",
+          "logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-4950-case-04",
+        "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stdout",
+          "logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stderr",
+          "logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stdout",
+          "logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-4950-case-05",
+        "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stdout",
+          "logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stderr",
+          "logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stdout",
+          "logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-4950-case-06",
+        "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stdout",
+          "logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stderr",
+          "logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stdout",
+          "logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-4950-case-07",
+        "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stdout",
+          "logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stderr",
+          "logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stdout",
+          "logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-4950-case-08",
+        "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stdout",
+          "logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stderr",
+          "logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stdout",
+          "logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-4950-case-09",
+        "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stdout",
+          "logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stderr",
+          "logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stdout",
+          "logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stderr"
+        ]
+      }
+    ]
+  },
+  "change_basis": {
+    "description_and_mechanism_in_report": "bool format\n\n[fresh 입력](probes.py)의 `4950`은 원문 f/x/X/e/E/c/g/o/%/o, 댓글 n/d와 보강 width/precision을 False·True에 적용했다. 총 34개 결과가 양쪽에서 같고 `int(bool)` formatter 결과와도 같다. `c`의 NUL도 JSON에 보존했다. locale은 양쪽 C로 고정했다. [RP](4950-rustpython.json), [CPython](4950-cpython.json).\n\n과거 재사용: 보고 revision `fa79055821`의 로그에서 원문 9개 명시 형식이 ValueError였다. 새로 조회한 [Parser PR #91 diff](originals/parser-pr91-files.json)는 bool 값을 정수/실수 formatter로 분기한다. [RustPython PR #5012](https://github.com/RustPython/RustPython/pull/5012)의 기준 조상 `3d2c51962`는 parser/format dependency를 b2f95e2에서 69d27d9로 갱신한다. 현재 `crates/common/src/format.rs`에 해당 분기가 있다. 정확한 dependency 최초 해결 경계는 재실행하지 않았다.\n\n모든 locale/padding 조합 호환을 뜻하지 않는다. 별도 #4613의 locale zero-padding 결함은 #4950 원문의 단순 bool 형식 요구와 구분한다.\n",
+    "related_changes": [
+      {
+        "pr": 5012,
+        "candidates": [
+          {
+            "commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+            "subject": "Update parser (#5012)",
+            "is_baseline_ancestor": true,
+            "diff": "<additional11-audit>/related-pr-5012-3d2c51962-first-parent.diff",
+            "fresh_ancestor_exit_code": 0,
+            "diff_sha256": "b29e748b77ff20645d1c0a532b1dfae05bbb4ca8d8293f0eda725fbf722d8d95"
+          }
+        ]
+      }
+    ],
+    "first_fix_confirmed": false,
+    "pr_parent_and_commit_executed": false,
+    "source_only_relationship": true
+  },
+  "limits": [
+    "C locale의 명시 형식 검증이다. 모든 locale/padding 조합을 뜻하지 않으며 별도 #4613은 분리한다. Parser PR91의 fresh patch도 originals/parser-pr91-files.json에 저장했다.",
+    "기준 f39b054b9의 macOS26.5.2 ARM64 결과이며 최신 HEAD/다른 플랫폼 결과가 아니다.",
+    "기존 binary를 새로 실행했다. 새 build/cargo test/clippy는 파일 보존 제약으로 실행하지 않았다.",
+    "과거 로그는 재사용이며 과거 및 PR 경계 재실행 없이 최초 수정 커밋을 확정하지 않는다."
+  ],
+  "agent": "agent-a"
+}

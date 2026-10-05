@@ -1,0 +1,141 @@
+{
+  "commands": [
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ],
+      "stdout": "f39b054b9c8cbbf884f53123eef028131789990c\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "rev-parse",
+        "HEAD:Lib"
+      ],
+      "stdout": "2f62efb194a326f4abef6d2a61b0c5babc09e96b\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "status",
+        "--porcelain",
+        "--untracked-files=no"
+      ],
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "git",
+        "diff",
+        "HEAD",
+        "--stat"
+      ],
+      "stdout": "",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "argv": [
+        "uname",
+        "-a"
+      ],
+      "stdout": "Darwin sijun-yangui-MacBookPro.local 25.5.0 Darwin Kernel Version 25.5.0: Tue Jun  9 22:18:58 PDT 2026; root:xnu-12377.121.10~1/RELEASE_ARM64_T6000 arm64\n",
+      "stderr": "",
+      "exit_code": 0
+    }
+  ],
+  "files": {
+    "Lib/ast.py": {
+      "sha256": "5ea9a796353544bea0d706153516f04ef3d92be305d15a73238403837d77e34c",
+      "git_blob": "2f11683ecf7c681d4c76cb0c234587370aea08d5"
+    },
+    "Lib/_ast_unparse.py": {
+      "sha256": "2c477f40fe644f8e8454e8af97aaf3de90579bdce5ddfe597f29d3012d10443f",
+      "git_blob": "1c8741b5a5548334cd95041a07968accde03df72"
+    },
+    "Lib/collections/__init__.py": {
+      "sha256": "cb8367b8edd188662143ea2e3942d360c2deae51c72fd779ec898f5076d2c2b9",
+      "git_blob": "0aeca1ed7e5a743cbda8e893b3abca9c4e51fbbf"
+    },
+    "Lib/xml/etree/ElementTree.py": {
+      "sha256": "9623c9e6c2f45c906fae8d4b221648a7efb8ac81bd4f6cd79c5eb2698fb015ef",
+      "git_blob": "0a4203d372ce9914d6319ae2a32e8b535399f9a6"
+    },
+    "Lib/email/__init__.py": {
+      "sha256": "dafca994154b9a6eb2b69d0e6e69e7596f397c2aec9bc62702259f4b39bd111a",
+      "git_blob": "6d597006e5eefe1a7e48bf632aa0971c0a23eb39"
+    },
+    "Lib/email/policy.py": {
+      "sha256": "9dcd0d4849a92b8e3250b04ac02ebccead57b7172057984fc8abb85f818ba01d",
+      "git_blob": "4169150101a29d615a9f43c9f892848edb37ab9e"
+    },
+    "Lib/email/_header_value_parser.py": {
+      "sha256": "7beea37afd292ebc963afec0efb6e003638ec93d894dbd2ce631fd989c5106b7",
+      "git_blob": "c02175e24e0e08eeebd9a11e4a05504c80eea738"
+    },
+    "crates/vm/src/stdlib/_collections.rs": {
+      "sha256": "5f1c7190223358fcb28492a98cf6d79eba5a2a3325c6f23dde28990fd1293a57",
+      "git_blob": "1e562f0815b7a3a89d141eae8cbae697de7697bd"
+    },
+    "crates/vm/src/stdlib/_collections/ordered_dict.rs": {
+      "sha256": "b4c8bc879533e3493d33be8c7b51d720ae705c5fb1c018859bff9a014382fb73",
+      "git_blob": "4ba9777fef5c511df0042e9bbf2f853d375d3375"
+    },
+    "crates/vm/src/builtins/descriptor.rs": {
+      "sha256": "ccfa4fcd5950e2173c4b6212361a80b2035caf66c62de57065240263668b5698",
+      "git_blob": "b3189e592a8dc1a221a09a2e6bd5c65170bc96ca"
+    },
+    "crates/vm/src/builtins/type.rs": {
+      "sha256": "57f6e68fd2da1d2170a338348c1a870500035791b322b91be2d469ea1c4f50e8",
+      "git_blob": "3eb9c94df52cdaf804897f81e4e6b773c99933db"
+    },
+    "crates/vm/src/cformat.rs": {
+      "sha256": "9fecb8a1bca0596b8635e53cb2d4203ce268d682823edb33a6662af05a80aaa4",
+      "git_blob": "c9533835f6c112657310d4838b59208dd0b27520"
+    },
+    "crates/vm/src/vm/interpreter.rs": {
+      "sha256": "faae7baf3647d3b93c2ced1fcc716c57376942d3b5483a1f852f69f709fb0124",
+      "git_blob": "75f31574d5cf1a78a38ea9aa714df18973652e5f"
+    },
+    "crates/vm/src/vm/mod.rs": {
+      "sha256": "8698d4abc967bf6a6b2c80e926ea551f758fd286954af953d8c6c5849c265293",
+      "git_blob": "7cc636b37e346ac9840eeb5369cdaf11918bc67b"
+    },
+    "crates/vm/src/vm/compile.rs": {
+      "sha256": "d5276838564b38b584f22dbddd78c2681d48c0f83b945806f2fec4946f61be68",
+      "git_blob": "626659f19e1773b1cc6584c9178f59f858389730"
+    },
+    "crates/stdlib/src/pyexpat.rs": {
+      "sha256": "9d2dbed42a2b02ee2a3602f2b0cda87050ab378e2f75aef017eaa72d1acd0eac",
+      "git_blob": "5a516dd782171ee2c804563628e6f1106befb8b4"
+    },
+    "crates/stdlib/src/elementtree.rs": {
+      "sha256": "2b2bce9a91122b4e85011c69ef47d3c46519bb89c9da0450d3f3ab05034be4ae",
+      "git_blob": "57c793d54944e74c61647f00219900f8beb356ea"
+    },
+    "extra_tests/snippets/builtin_bytes.py": {
+      "sha256": "116de89033ee811cbaa0f40a16d2d613a6c7d70ddd2860957f98f87a7725ecce",
+      "git_blob": "f30ae89e0ec0a36cc9f0268b2565a73d27801516"
+    },
+    "extra_tests/snippets/testutils.py": {
+      "sha256": "f817d0abfb892a8693ed66a7b23a6d707094af5bceae37117ccac3e346c3d736",
+      "git_blob": "aac153441e5405256c1f34caa8d4bbc94f643c15"
+    },
+    "Cargo.lock": {
+      "sha256": "a8ae29f11a8d18c3d2eb25b8ec82078ceb9abe239bd3942a58a3607718743786",
+      "git_blob": "3f3a54435c0212b993c8de3d52271d57b56e1b00"
+    },
+    "Cargo.toml": {
+      "sha256": "ba2fa5095131ee539a1d4a1eaab23561713de05277b4c70596ad36e2800f6440",
+      "git_blob": "74565c4b09e46904670cf0751385cd905098df0b"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "label": "saved-x86",
+  "binary": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+  "sha256": "d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871",
+  "file": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython: Mach-O 64-bit executable x86_64\n",
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "-S",
+    "-c",
+    "import sys; print(sys.version); print(sys.implementation); print(getattr(sys,\"_git\",None)); print(sys.path)"
+  ],
+  "cwd": "<slot-b-source>",
+  "exit": 0,
+  "stdout": "3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]\nnamespace(name='rustpython', cache_tag='cpython-314', _multiarch='x86_64-apple-darwin', version=sys.version_info(major=0, minor=6, micro=1, releaselevel='alpha', serial=0), hexversion=393632, supports_isolated_interpreters=True)\n('RustPython', 'heads/main', 'f39b054b9')\n['', '<workspace>/Lib', '<workspace>/lib/python314.zip', '<workspace>/lib/python3.14', '<workspace>/lib/python3.14/lib-dynload']\n",
+  "stderr": ""
+}

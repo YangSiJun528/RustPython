@@ -1,0 +1,8 @@
+bytes __buffer__ True __release_buffer__ False
+bytes view memoryview b'abc'
+bytearray __buffer__ True __release_buffer__ True
+bytearray view memoryview b'abc'
+array __buffer__ True __release_buffer__ True
+array view memoryview b'abc'
+memoryview __buffer__ True __release_buffer__ True
+memoryview view memoryview b'abc'

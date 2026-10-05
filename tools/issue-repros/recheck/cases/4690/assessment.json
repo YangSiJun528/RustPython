@@ -1,0 +1,197 @@
+{
+  "issue": 4690,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "Both original type expressions match CPython exactly. Native descriptor identity via types.ClassMethodDescriptorType, metadata, dict/subclass binding and invalid-owner rejection also match.",
+  "original_scope": "The raw dict.fromkeys descriptor must have type classmethod_descriptor while bound dict.fromkeys remains builtin_function_or_method. Python-authored @classmethod must remain distinct.",
+  "original_issue_url": "https://github.com/RustPython/RustPython/issues/4690",
+  "original_issue_snapshot": "<initial16-audit>/agent-a/issue-4690-original.json",
+  "original_comments_read": 2,
+  "fresh_evidence": [
+    {
+      "label": "4690-boundaries-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/4690-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4690-boundaries.py",
+      "input_sha256": "74a2f1f237c05601fc021439234e20ba9fc0a03d4563fd617a5c6481a7d0a616",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190903.153474,
+      "duration_seconds": 0.02783489227294922,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4690-boundaries-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4690-boundaries-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4690-boundaries-cp.json"
+    },
+    {
+      "label": "4690-boundaries-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/4690-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4690-boundaries.py",
+      "input_sha256": "74a2f1f237c05601fc021439234e20ba9fc0a03d4563fd617a5c6481a7d0a616",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190903.060981,
+      "duration_seconds": 0.0918130874633789,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4690-boundaries-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4690-boundaries-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4690-boundaries-rp.json"
+    },
+    {
+      "label": "4690-original-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/4690-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4690-original.py",
+      "input_sha256": "fd9f8e767e0506616199747dc1132bb7a3694497f780ad578880ec96833fd04f",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190885.102744,
+      "duration_seconds": 0.028473854064941406,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4690-original-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4690-original-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4690-original-cp.json"
+    },
+    {
+      "label": "4690-original-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/4690-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4690-original.py",
+      "input_sha256": "fd9f8e767e0506616199747dc1132bb7a3694497f780ad578880ec96833fd04f",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190884.985748,
+      "duration_seconds": 0.11605095863342285,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4690-original-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4690-original-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4690-original-rp.json"
+    }
+  ],
+  "old_evidence": {
+    "kind": "reused historical/current export records; no historical executable rerun",
+    "source_directory": "<report-worktree>/tools/issue-repros/cases/4690",
+    "historical_commit": "8ff947e83a65b74c920edc63aed8a0a5854b8612",
+    "historical_binary_sha256": "64952562b4fff651a93257d988091f28a1cbcbd5d1d1abfd415eff7eb1388fc9",
+    "historical_input_sha256": "61871ee725ff3c4446199c3e6298b5f503e35877c3774ab93c3e6540cee3f017",
+    "historical_exit_code": 0,
+    "historical_timeout": false,
+    "historical_selection": {
+      "role": "closest_preissue_main_approximation",
+      "reported_versions": [],
+      "issue_created_at": "2023-03-15T13:56:59Z",
+      "actual_historical_sha": "8ff947e83a65b74c920edc63aed8a0a5854b8612",
+      "closest_preissue_first_parent_check": "8ff947e83a65b74c920edc63aed8a0a5854b8612",
+      "matches_required_fallback": true
+    },
+    "old_current_binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+    "log_integrity": {
+      "issue": 4690,
+      "historical_recorded_input_hash_matches": true,
+      "canonical_vs_recorded_AST_equal": true,
+      "exported_log_hashes_all_match": true
+    },
+    "input_equivalence_to_live_issue": "The old reproducer prints each type's __name__ instead of REPL repr, preserving both observable names. The manifest only requires a first-line prefix, whereas the old raw output and the fresh exact repr check both lines.",
+    "existing_reproducer_sufficiency": "The existing input is sufficient, and its raw output has both expected names. Its automated stdout_prefix criterion alone is weaker than the full original example; fresh verification checks both outputs and native type identity.",
+    "audit_file": "<initial16-audit>/agent-a/old-evidence-audit.json",
+    "limits": [
+      "Old binary/source/Lib pairing is supported by recorded metadata, not independently reexecuted in this pass.",
+      "Historical logs were path-redacted in the export. Matching export hashes establish integrity of these records, not independent truth of their provenance.",
+      "A historical/current comparison does not establish the first fixing commit."
+    ]
+  },
+  "change_basis": {
+    "description": "PR 8780 adds PyClassMethodDescriptor named classmethod_descriptor, a dedicated type-zoo entry, and native classmethod construction returning that descriptor instead of wrapping a method descriptor in PyClassMethod.",
+    "related_commits": [
+      {
+        "pr": 8780,
+        "commit": "afad92bf1b78e33c53b9018fef31233cefcb5225",
+        "subject": "Add OrderedDict, marshal, inspect, and chflags bitflagset (#8780)",
+        "ancestor_check_exit": 0,
+        "stderr": "",
+        "first_fix_established": false
+      }
+    ],
+    "first_fix_established": false,
+    "source_identity": "<initial16-audit>/agent-a/source-identity.json"
+  },
+  "limits": [
+    "No claim that every native classmethod or all descriptor error-message text is CPython-identical.",
+    "The reused historical proxy prints bound type 'method', unlike the original issue transcript's 'builtin_function_or_method'; it is not the reporter's exact executable."
+  ],
+  "boundary_summary": "All 12 printed descriptor observations match CPython; the Python-authored decorator remains classmethod.",
+  "environment": {
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "lib_tree": "2f62efb194a326f4abef6d2a61b0c5babc09e96b",
+    "rustpython_binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+    "cpython_binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+    "cpython_version": "3.14.6",
+    "identity_files": [
+      "<initial16-audit>/agent-a/identity-rp.stdout",
+      "<initial16-audit>/agent-a/identity-cp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-rp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-cp.stdout"
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "label": "4769-rustpython",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<additional11-audit>/agent-a/probes.py",
+    "4769"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4769-rustpython/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4769-rustpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4769-rustpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4769-rustpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4769-rustpython"
+  },
+  "started_utc": "2026-10-05T10:48:52.559388+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "literal original: integer has no __dict__\npickle protocols: [0, 1, 2, 3, 4, 5]\nsubclass roundtrips: 36\n",
+  "stderr": "",
+  "elapsed_seconds": 0.19407662500452716
+}

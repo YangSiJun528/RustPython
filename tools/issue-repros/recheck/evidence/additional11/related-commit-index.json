@@ -1,0 +1,181 @@
+[
+  {
+    "pr": 6390,
+    "candidates": [
+      {
+        "commit": "98fff96f1c911d59fbcb9239b132c6139149a581",
+        "subject": "__doc__ handing in the right way (#6390)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-6390-98fff96f1-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 7699,
+    "candidates": [
+      {
+        "commit": "1d42ee565f8ee6ba3862dd8557059bc94c19f6b8",
+        "subject": "Preserve __dict__ and __slots__ state in deque.__reduce__ (#7699)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "6182bbf221482bfa9151e63951bd1f51d354b21a",
+        "subject": "Preserve __dict__ and __slots__ state in deque.__reduce__ (#7699)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-7699-6182bbf22-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 5334,
+    "candidates": [
+      {
+        "commit": "7996a10116681e9f85eda03413d5011b805e577f",
+        "subject": "await in list comprehension (#5334)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-5334-7996a1011-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 5012,
+    "candidates": [
+      {
+        "commit": "3d2c51962bfdc598310df648dab328bd4550c95b",
+        "subject": "Update parser (#5012)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-5012-3d2c51962-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 4611,
+    "candidates": [
+      {
+        "commit": "d4be55c2ea02b67d92c04b3e9f682d465acd59b3",
+        "subject": "Add command line parameter -P (#4611)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-4611-d4be55c2e-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 5049,
+    "candidates": [
+      {
+        "commit": "64c66e00d68c70fed261f8b46720438efda746b5",
+        "subject": "Fix `encodings` related error messages to be less confusing (#5049)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-5049-64c66e00d-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 8605,
+    "candidates": [
+      {
+        "commit": "1e3573c6b344f65f79401f183a59966b15026ebd",
+        "subject": "Implement CPython 3.14 subinterpreter APIs (#8605)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "7c6c78f95525c091eb872d96b73090e7454be6d5",
+        "subject": "Implement CPython 3.14 subinterpreter APIs (#8605)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-8605-7c6c78f95-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 7350,
+    "candidates": [
+      {
+        "commit": "3b91466f62de07501f4e4088a279d830649af45e",
+        "subject": "Implement locale-aware 'n' format specifier for int, float, complex (#7350)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+        "subject": "Implement locale-aware 'n' format specifier for int, float, complex (#7350)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-7350-1bd40ffd8-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 8523,
+    "candidates": [
+      {
+        "commit": "f24b2570a92aa8de5c1077185cdc5572e7162cc5",
+        "subject": "Implement PEP 688 and rework the buffer protocol around managed exports (#8523)",
+        "is_baseline_ancestor": false
+      },
+      {
+        "commit": "c603eb7c9ad763e72cbec7b323e4cb331aee7e81",
+        "subject": "Implement PEP 688 and rework the buffer protocol around managed exports (#8523)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-8523-c603eb7c9-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 8701,
+    "candidates": [
+      {
+        "commit": "73e547a9c31f347875982102dae3c29a71ac8f89",
+        "subject": "Honor generator close, throw context, and docs (#8701)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-8701-73e547a9c-first-parent.diff"
+      },
+      {
+        "commit": "80eddfc6ab068d3ce9582680b84322b542a1fac5",
+        "subject": "Honor generator close, throw context, and docs (#8701)",
+        "is_baseline_ancestor": false
+      }
+    ]
+  },
+  {
+    "pr": 5377,
+    "candidates": [
+      {
+        "commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+        "subject": "Merge pull request #5377 from youknowone/inspect",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-5377-093ba251a-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 6110,
+    "candidates": [
+      {
+        "commit": "1c992f84e53c7f1c52270d3c5ab52a8b2d1ea41a",
+        "subject": "Merge pull request #6110 from youknowone/pattern-mapping",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-6110-1c992f84e-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 6568,
+    "candidates": [
+      {
+        "commit": "feb5066be2d4854ef0d49b8a725093743598d54d",
+        "subject": "stdlib_module_names (#6568)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-6568-feb5066be-first-parent.diff"
+      }
+    ]
+  },
+  {
+    "pr": 6530,
+    "candidates": [
+      {
+        "commit": "4a6e8fb29edfe09827e529aca2d1ac4c1b1c51d7",
+        "subject": "Add except* support (#6530)",
+        "is_baseline_ancestor": true,
+        "diff": "<additional11-audit>/related-pr-6530-4a6e8fb29-first-parent.diff"
+      }
+    ]
+  }
+]

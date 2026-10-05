@@ -1,0 +1,6 @@
+import email
+import email.policy
+for source in ['Subject:=?us-ascii?X?value?=', 'Subject:=?us-ascii?x?value?=', 'Subject:=?us-ascii?Q?value?=', 'Subject:=?us-ascii?B?dmFsdWU=?=', 'Subject:before =?us-ascii?X?value?= after']:
+    message = email.message_from_string(source, policy=email.policy.default)
+    header = message.get('Subject')
+    print(repr(source), type(header).__name__, repr(str(header)), [(type(item).__name__, str(item)) for item in header.defects])

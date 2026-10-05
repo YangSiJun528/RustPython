@@ -1,0 +1,26 @@
+{
+  "label": "locale-original-set-rustpython",
+  "command": [
+    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+    "-B",
+    "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+  ],
+  "shell_command": "<survey>/.build/slot-b/saved/current-f39-x86/rustpython -B <additional11-audit>/agent-b/probe-original-locale-tests.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8",
+    "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+    "LC_ALL": "en_US.UTF-8"
+  },
+  "started_unix": 1791197402.842579,
+  "elapsed_seconds": 0.683056116104126,
+  "exit_code": 0,
+  "timeout": false
+}

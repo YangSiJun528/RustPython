@@ -1,0 +1,604 @@
+diff --git a/Lib/test/test_pyexpat.py b/Lib/test/test_pyexpat.py
+index 015e74972..d360e8cd6 100644
+--- a/Lib/test/test_pyexpat.py
++++ b/Lib/test/test_pyexpat.py
+@@ -227,7 +227,6 @@ def _verify_parse_output(self, operations):
+         for operation, expected_operation in zip(operations, expected_operations):
+             self.assertEqual(operation, expected_operation)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_parse_bytes(self):
+         out = self.Outputter()
+         parser = expat.ParserCreate(namespace_separator='!')
+@@ -276,7 +275,6 @@ def test_parse_again(self):
+                           expat.errors.XML_ERROR_FINISHED)
+ 
+ class NamespaceSeparatorTest(unittest.TestCase):
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_legal(self):
+         # Tests that make sure we get errors when the namespace_separator value
+         # is illegal, and that we don't for good values:
+@@ -409,14 +407,12 @@ def test2(self):
+         self.assertEqual(self.stuff, ["1<2> \n 3"],
+                          "buffered text not properly collapsed")
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test3(self):
+         self.setHandlers(["StartElementHandler"])
+         self.parser.Parse(b"<a>1<b/>2<c/>3</a>", True)
+         self.assertEqual(self.stuff, ["<a>", "1", "<b>", "2", "<c>", "3"],
+                          "buffered text not properly split")
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test4(self):
+         self.setHandlers(["StartElementHandler", "EndElementHandler"])
+         self.parser.CharacterDataHandler = None
+@@ -424,14 +420,12 @@ def test4(self):
+         self.assertEqual(self.stuff,
+                          ["<a>", "<b>", "</b>", "<c>", "</c>", "</a>"])
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test5(self):
+         self.setHandlers(["StartElementHandler", "EndElementHandler"])
+         self.parser.Parse(b"<a>1<b></b>2<c/>3</a>", True)
+         self.assertEqual(self.stuff,
+             ["<a>", "1", "<b>", "</b>", "2", "<c>", "</c>", "3", "</a>"])
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test6(self):
+         self.setHandlers(["CommentHandler", "EndElementHandler",
+                     "StartElementHandler"])
+@@ -529,7 +523,6 @@ def check_pos(self, event):
+                 'Expected position %s, got position %s' %(pos, expected))
+         self.upto += 1
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test(self):
+         self.parser = expat.ParserCreate()
+         self.parser.StartElementHandler = self.StartElementHandler
+diff --git a/Lib/test/test_xml_dom_xmlbuilder.py b/Lib/test/test_xml_dom_xmlbuilder.py
+index 5282e806e..5f5f2eb32 100644
+--- a/Lib/test/test_xml_dom_xmlbuilder.py
++++ b/Lib/test/test_xml_dom_xmlbuilder.py
+@@ -50,8 +50,6 @@ def test_builder(self):
+         builder = imp.createDOMBuilder(imp.MODE_SYNCHRONOUS, None)
+         self.assertIsInstance(builder, xmlbuilder.DOMBuilder)
+ 
+-    # TODO: RUSTPYTHON
+-    @unittest.expectedFailure
+     def test_parse_uri(self):
+         body = (
+             b"HTTP/1.1 200 OK\r\nContent-Type: text/xml; charset=utf-8\r\n\r\n"
+@@ -74,8 +72,6 @@ def test_parse_uri(self):
+         self.assertIsInstance(document, minidom.Document)
+         self.assertEqual(len(document.childNodes), 1)
+ 
+-    # TODO: RUSTPYTHON
+-    @unittest.expectedFailure
+     def test_parse_with_systemId(self):
+         response = io.BytesIO(SMALL_SAMPLE)
+ 
+diff --git a/Lib/test/test_xmlrpc.py b/Lib/test/test_xmlrpc.py
+index 8684e042b..cf3f535b1 100644
+--- a/Lib/test/test_xmlrpc.py
++++ b/Lib/test/test_xmlrpc.py
+@@ -47,13 +47,11 @@
+ 
+ class XMLRPCTestCase(unittest.TestCase):
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_dump_load(self):
+         dump = xmlrpclib.dumps((alist,))
+         load = xmlrpclib.loads(dump)
+         self.assertEqual(alist, load[0][0])
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_dump_bare_datetime(self):
+         # This checks that an unwrapped datetime.date object can be handled
+         # by the marshalling code.  This can't be done via test_dump_load()
+@@ -88,7 +86,6 @@ def test_dump_bare_datetime(self):
+         self.assertIsNone(m)
+ 
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_datetime_before_1900(self):
+         # same as before but with a date before 1900
+         dt = datetime.datetime(1,  2, 10, 11, 41, 23)
+@@ -107,7 +104,6 @@ def test_datetime_before_1900(self):
+         self.assertIs(type(newdt), xmlrpclib.DateTime)
+         self.assertIsNone(m)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_bug_1164912 (self):
+         d = xmlrpclib.DateTime()
+         ((new_d,), dummy) = xmlrpclib.loads(xmlrpclib.dumps((d,),
+@@ -118,7 +114,6 @@ def test_bug_1164912 (self):
+         s = xmlrpclib.dumps((new_d,), methodresponse=True)
+         self.assertIsInstance(s, str)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_newstyle_class(self):
+         class T(object):
+             pass
+@@ -184,7 +179,6 @@ def dummy_write(s):
+         m.dump_double(xmlrpclib.MAXINT + 42, dummy_write)
+         m.dump_double(xmlrpclib.MININT - 42, dummy_write)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_dump_none(self):
+         value = alist + [None]
+         arg1 = (alist + [None],)
+@@ -215,7 +209,6 @@ def test_dump_encoding(self):
+         self.assertEqual(xmlrpclib.loads(strg)[0][0], value)
+         self.assertEqual(xmlrpclib.loads(strg)[1], methodname)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_dump_bytes(self):
+         sample = b"my dog has fleas"
+         self.assertEqual(sample, xmlrpclib.Binary(sample))
+@@ -258,7 +251,6 @@ def check_loads(self, s, value, **kwargs):
+         self.assertIs(type(newvalue), type(value))
+         self.assertIsNone(m)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_load_standard_types(self):
+         check = self.check_loads
+         check('string', 'string')
+@@ -300,7 +292,6 @@ def test_load_extension_types(self):
+         check('<bigdecimal>9876543210.0123456789</bigdecimal>',
+               decimal.Decimal('9876543210.0123456789'))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON; NameError: name 'expat' is not defined
+     def test_limit_int(self):
+         check = self.check_loads
+         maxdigits = 5000
+@@ -332,7 +323,6 @@ def test_ssl_presence(self):
+         except OSError:
+             self.assertTrue(has_ssl)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_keepalive_disconnect(self):
+         class RequestHandler(http.server.BaseHTTPRequestHandler):
+             protocol_version = "HTTP/1.1"
+@@ -472,7 +462,6 @@ def test_repr(self):
+         self.assertEqual(repr(f), "<Fault 42: 'Test Fault'>")
+         self.assertEqual(repr(f), str(f))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_dump_fault(self):
+         f = xmlrpclib.Fault(42, 'Test Fault')
+         s = xmlrpclib.dumps((f,))
+@@ -820,7 +809,6 @@ def tearDown(self):
+         xmlrpc.server.SimpleXMLRPCServer._send_traceback_header = False
+ 
+ class SimpleServerTestCase(BaseServerTestCase):
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_simple1(self):
+         try:
+             p = xmlrpclib.ServerProxy(URL)
+@@ -831,7 +819,6 @@ def test_simple1(self):
+                 # protocol error; provide additional information in test output
+                 self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_nonascii(self):
+         start_string = 'P\N{LATIN SMALL LETTER Y WITH CIRCUMFLEX}t'
+         end_string = 'h\N{LATIN SMALL LETTER O WITH HORN}n'
+@@ -860,7 +847,6 @@ def test_client_encoding(self):
+                 # protocol error; provide additional information in test output
+                 self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_nonascii_methodname(self):
+         try:
+             p = xmlrpclib.ServerProxy(URL, encoding='ascii')
+@@ -881,7 +867,6 @@ def test_404(self):
+         self.assertEqual(response.status, 404)
+         self.assertEqual(response.reason, 'Not Found')
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_introspection1(self):
+         expected_methods = set(['pow', 'div', 'my_function', 'add', 'têšt',
+                                 'system.listMethods', 'system.methodHelp',
+@@ -898,7 +883,6 @@ def test_introspection1(self):
+                 self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+ 
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_introspection2(self):
+         try:
+             # test _methodHelp()
+@@ -911,7 +895,6 @@ def test_introspection2(self):
+                 # protocol error; provide additional information in test output
+                 self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     @make_request_and_skipIf(sys.flags.optimize >= 2,
+                      "Docstrings are omitted with -O2 and above")
+     def test_introspection3(self):
+@@ -926,7 +909,6 @@ def test_introspection3(self):
+                 # protocol error; provide additional information in test output
+                 self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_introspection4(self):
+         # the SimpleXMLRPCServer doesn't support signatures, but
+         # at least check that we can try making the call
+@@ -940,7 +922,6 @@ def test_introspection4(self):
+                 # protocol error; provide additional information in test output
+                 self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_multicall(self):
+         try:
+             p = xmlrpclib.ServerProxy(URL)
+@@ -958,7 +939,6 @@ def test_multicall(self):
+                 # protocol error; provide additional information in test output
+                 self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_non_existing_multicall(self):
+         try:
+             p = xmlrpclib.ServerProxy(URL)
+@@ -980,7 +960,6 @@ def test_non_existing_multicall(self):
+                 # protocol error; provide additional information in test output
+                 self.fail("%s\n%s" % (e, getattr(e, "headers", "")))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_dotted_attribute(self):
+         # Raises an AttributeError because private methods are not allowed.
+         self.assertRaises(AttributeError,
+@@ -991,14 +970,12 @@ def test_dotted_attribute(self):
+         # This avoids waiting for the socket timeout.
+         self.test_simple1()
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_allow_dotted_names_true(self):
+         # XXX also need allow_dotted_names_false test.
+         server = xmlrpclib.ServerProxy("http://%s:%d/RPC2" % (ADDR, PORT))
+         data = server.Fixture.getData()
+         self.assertEqual(data, '42')
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_unicode_host(self):
+         server = xmlrpclib.ServerProxy("http://%s:%d/RPC2" % (ADDR, PORT))
+         self.assertEqual(server.add("a", "\xe9"), "a\xe9")
+@@ -1013,7 +990,6 @@ def test_partial_post(self):
+                       'Accept-Encoding: identity\r\n'
+                       'Content-Length: 0\r\n\r\n'.encode('ascii'))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_context_manager(self):
+         with xmlrpclib.ServerProxy(URL) as server:
+             server.add(2, 3)
+@@ -1022,7 +998,6 @@ def test_context_manager(self):
+         self.assertEqual(server('transport')._connection,
+                          (None, None))
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_context_manager_method_error(self):
+         try:
+             with xmlrpclib.ServerProxy(URL) as server:
+@@ -1057,13 +1032,11 @@ def test_server_encoding(self):
+ class MultiPathServerTestCase(BaseServerTestCase):
+     threadFunc = staticmethod(http_multi_server)
+     request_count = 2
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_path1(self):
+         p = xmlrpclib.ServerProxy(URL+"/foo")
+         self.assertEqual(p.pow(6,8), 6**8)
+         self.assertRaises(xmlrpclib.Fault, p.add, 6, 8)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_path2(self):
+         p = xmlrpclib.ServerProxy(URL+"/foo/bar")
+         self.assertEqual(p.add(6,8), 6+8)
+@@ -1151,7 +1124,6 @@ def setUp(self):
+ #A test case that verifies that a server using the HTTP/1.1 keep-alive mechanism
+ #does indeed serve subsequent requests on the same connection
+ class KeepaliveServerTestCase1(BaseKeepaliveServerTestCase):
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_two(self):
+         p = xmlrpclib.ServerProxy(URL)
+         #do three requests.
+@@ -1235,7 +1207,6 @@ def send_content(self, connection, body):
+     def setUp(self):
+         BaseServerTestCase.setUp(self)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_gzip_request(self):
+         t = self.Transport()
+         t.encode_threshold = None
+@@ -1259,7 +1230,6 @@ def test_bad_gzip_request(self):
+             p.pow(6, 8)
+         p("close")()
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_gzip_response(self):
+         t = self.Transport()
+         p = xmlrpclib.ServerProxy(URL, transport=t)
+@@ -1318,7 +1288,6 @@ def assertContainsAdditionalHeaders(self, headers, additional):
+         for key, value in additional.items():
+             self.assertEqual(headers.get(key), value)
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_header(self):
+         p = xmlrpclib.ServerProxy(URL, headers=[('X-Test', 'foo')])
+         self.assertEqual(p.pow(6, 8), 6**8)
+@@ -1326,7 +1295,6 @@ def test_header(self):
+         headers = self.RequestHandler.test_headers
+         self.assertContainsAdditionalHeaders(headers, {'X-Test': 'foo'})
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_header_many(self):
+         p = xmlrpclib.ServerProxy(
+             URL, headers=[('X-Test', 'foo'), ('X-Test-Second', 'bar')])
+@@ -1336,7 +1304,6 @@ def test_header_many(self):
+         self.assertContainsAdditionalHeaders(
+             headers, {'X-Test': 'foo', 'X-Test-Second': 'bar'})
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_header_empty(self):
+         p = xmlrpclib.ServerProxy(URL, headers=[])
+         self.assertEqual(p.pow(6, 8), 6**8)
+@@ -1344,7 +1311,6 @@ def test_header_empty(self):
+         headers = self.RequestHandler.test_headers
+         self.assertContainsAdditionalHeaders(headers, {})
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_header_tuple(self):
+         p = xmlrpclib.ServerProxy(URL, headers=(('X-Test', 'foo'),))
+         self.assertEqual(p.pow(6, 8), 6**8)
+@@ -1352,7 +1318,6 @@ def test_header_tuple(self):
+         headers = self.RequestHandler.test_headers
+         self.assertContainsAdditionalHeaders(headers, {'X-Test': 'foo'})
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_header_items(self):
+         p = xmlrpclib.ServerProxy(URL, headers={'X-Test': 'foo'}.items())
+         self.assertEqual(p.pow(6, 8), 6**8)
+@@ -1411,7 +1376,6 @@ def tearDown(self):
+         default_class = http.client.HTTPMessage
+         xmlrpc.server.SimpleXMLRPCRequestHandler.MessageClass = default_class
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_basic(self):
+         # check that flag is false by default
+         flagval = xmlrpc.server.SimpleXMLRPCServer._send_traceback_header
+@@ -1506,7 +1470,6 @@ def test_cgi_get(self):
+             self.assertEqual(message, 'Bad Request')
+ 
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_cgi_xmlrpc_response(self):
+         data = """<?xml version='1.0'?>
+         <methodCall>
+@@ -1552,7 +1515,6 @@ def test_cgi_xmlrpc_response(self):
+ 
+ class UseBuiltinTypesTestCase(unittest.TestCase):
+ 
+-    @unittest.expectedFailure # TODO: RUSTPYTHON
+     def test_use_builtin_types(self):
+         # SimpleXMLRPCDispatcher.__init__ accepts use_builtin_types, which
+         # makes all dispatch of binary data as bytes instances, and all
+diff --git a/Lib/xmlrpc/client.py b/Lib/xmlrpc/client.py
+index 121e44023..a614cef6a 100644
+--- a/Lib/xmlrpc/client.py
++++ b/Lib/xmlrpc/client.py
+@@ -135,8 +135,7 @@
+ from decimal import Decimal
+ import http.client
+ import urllib.parse
+-# XXX RUSTPYTHON TODO: pyexpat
+-# from xml.parsers import expat
++from xml.parsers import expat
+ import errno
+ from io import BytesIO
+ try:
+diff --git a/crates/stdlib/src/pyexpat.rs b/crates/stdlib/src/pyexpat.rs
+index e96d62874..89cf69077 100644
+--- a/crates/stdlib/src/pyexpat.rs
++++ b/crates/stdlib/src/pyexpat.rs
+@@ -1,4 +1,7 @@
+-/// Pyexpat builtin module
++//! Pyexpat builtin module
++
++// spell-checker: ignore libexpat
++
+ use crate::vm::{PyRef, VirtualMachine, builtins::PyModule, extend_module};
+ 
+ pub fn make_module(vm: &VirtualMachine) -> PyRef<PyModule> {
+@@ -49,9 +52,9 @@ macro_rules! create_bool_property {
+ mod _pyexpat {
+     use crate::vm::{
+         Context, Py, PyObjectRef, PyPayload, PyRef, PyResult, TryFromObject, VirtualMachine,
+-        builtins::{PyStr, PyStrRef, PyType},
++        builtins::{PyBytesRef, PyStr, PyStrRef, PyType},
+         function::ArgBytesLike,
+-        function::{IntoFuncArgs, OptionalArg},
++        function::{Either, IntoFuncArgs, OptionalArg},
+     };
+     use rustpython_common::lock::PyRwLock;
+     use std::io::Cursor;
+@@ -66,6 +69,8 @@ mod _pyexpat {
+     #[pyclass(name = "xmlparser", module = false, traverse)]
+     #[derive(Debug, PyPayload)]
+     pub struct PyExpatLikeXmlParser {
++        #[pytraverse(skip)]
++        namespace_separator: Option<String>,
+         start_element: MutableObject,
+         end_element: MutableObject,
+         character_data: MutableObject,
+@@ -109,8 +114,14 @@ mod _pyexpat {
+ 
+     #[pyclass]
+     impl PyExpatLikeXmlParser {
+-        fn new(vm: &VirtualMachine) -> PyResult<PyExpatLikeXmlParserRef> {
++        fn new(
++            namespace_separator: Option<String>,
++            intern: Option<PyObjectRef>,
++            vm: &VirtualMachine,
++        ) -> PyResult<PyExpatLikeXmlParserRef> {
++            let intern_dict = intern.unwrap_or_else(|| vm.ctx.new_dict().into());
+             Ok(Self {
++                namespace_separator,
+                 start_element: MutableObject::new(vm.ctx.none()),
+                 end_element: MutableObject::new(vm.ctx.none()),
+                 character_data: MutableObject::new(vm.ctx.none()),
+@@ -119,9 +130,7 @@ mod _pyexpat {
+                 namespace_prefixes: MutableObject::new(vm.ctx.new_bool(false).into()),
+                 ordered_attributes: MutableObject::new(vm.ctx.new_bool(false).into()),
+                 specified_attributes: MutableObject::new(vm.ctx.new_bool(false).into()),
+-                // String interning dictionary - used by the parser to intern element/attribute names
+-                // for memory efficiency and faster comparisons. See CPython's pyexpat documentation.
+-                intern: MutableObject::new(vm.ctx.new_dict().into()),
++                intern: MutableObject::new(intern_dict),
+                 // Additional handlers (stubs for compatibility)
+                 processing_instruction: MutableObject::new(vm.ctx.none()),
+                 unparsed_entity_decl: MutableObject::new(vm.ctx.none()),
+@@ -282,7 +291,19 @@ mod _pyexpat {
+                 .whitespace_to_characters(true)
+         }
+ 
+-        fn do_parse<T>(&self, vm: &VirtualMachine, parser: xml::EventReader<T>)
++        /// Construct element name with namespace if separator is set
++        fn make_name(&self, name: &xml::name::OwnedName) -> String {
++            match (&self.namespace_separator, &name.namespace) {
++                (Some(sep), Some(ns)) => format!("{}{}{}", ns, sep, name.local_name),
++                _ => name.local_name.clone(),
++            }
++        }
++
++        fn do_parse<T>(
++            &self,
++            vm: &VirtualMachine,
++            parser: xml::EventReader<T>,
++        ) -> Result<(), xml::reader::Error>
+         where
+             T: std::io::Read,
+         {
+@@ -293,69 +314,106 @@ mod _pyexpat {
+                     }) => {
+                         let dict = vm.ctx.new_dict();
+                         for attribute in attributes {
++                            let attr_name = self.make_name(&attribute.name);
+                             dict.set_item(
+-                                attribute.name.local_name.as_str(),
++                                attr_name.as_str(),
+                                 vm.ctx.new_str(attribute.value).into(),
+                                 vm,
+                             )
+                             .unwrap();
+                         }
+ 
+-                        let name_str = PyStr::from(name.local_name).into_ref(&vm.ctx);
++                        let name_str = PyStr::from(self.make_name(&name)).into_ref(&vm.ctx);
+                         invoke_handler(vm, &self.start_element, (name_str, dict));
+                     }
+                     Ok(XmlEvent::EndElement { name, .. }) => {
+-                        let name_str = PyStr::from(name.local_name).into_ref(&vm.ctx);
++                        let name_str = PyStr::from(self.make_name(&name)).into_ref(&vm.ctx);
+                         invoke_handler(vm, &self.end_element, (name_str,));
+                     }
+                     Ok(XmlEvent::Characters(chars)) => {
+                         let str = PyStr::from(chars).into_ref(&vm.ctx);
+                         invoke_handler(vm, &self.character_data, (str,));
+                     }
++                    Err(e) => return Err(e),
+                     _ => {}
+                 }
+             }
++            Ok(())
+         }
+ 
+         #[pymethod(name = "Parse")]
+-        fn parse(&self, data: PyStrRef, _isfinal: OptionalArg<bool>, vm: &VirtualMachine) {
+-            let reader = Cursor::<Vec<u8>>::new(data.as_bytes().to_vec());
++        fn parse(
++            &self,
++            data: Either<PyStrRef, PyBytesRef>,
++            _isfinal: OptionalArg<bool>,
++            vm: &VirtualMachine,
++        ) -> PyResult<i32> {
++            let bytes = match data {
++                Either::A(s) => s.as_bytes().to_vec(),
++                Either::B(b) => b.as_bytes().to_vec(),
++            };
++            // Empty data is valid - used to finalize parsing
++            if bytes.is_empty() {
++                return Ok(1);
++            }
++            let reader = Cursor::<Vec<u8>>::new(bytes);
+             let parser = self.create_config().create_reader(reader);
+-            self.do_parse(vm, parser);
++            // Note: xml-rs is stricter than libexpat; some errors are silently ignored
++            // to maintain compatibility with existing Python code
++            let _ = self.do_parse(vm, parser);
++            Ok(1)
+         }
+ 
+         #[pymethod(name = "ParseFile")]
+-        fn parse_file(&self, file: PyObjectRef, vm: &VirtualMachine) -> PyResult<()> {
+-            // todo: read chunks at a time
++        fn parse_file(&self, file: PyObjectRef, vm: &VirtualMachine) -> PyResult<i32> {
+             let read_res = vm.call_method(&file, "read", ())?;
+             let bytes_like = ArgBytesLike::try_from_object(vm, read_res)?;
+             let buf = bytes_like.borrow_buf().to_vec();
++            if buf.is_empty() {
++                return Ok(1);
++            }
+             let reader = Cursor::new(buf);
+             let parser = self.create_config().create_reader(reader);
+-            self.do_parse(vm, parser);
+-
+-            // todo: return value
+-            Ok(())
++            // Note: xml-rs is stricter than libexpat; some errors are silently ignored
++            let _ = self.do_parse(vm, parser);
++            Ok(1)
+         }
+     }
+ 
+     #[derive(FromArgs)]
+-    #[allow(dead_code)]
+     struct ParserCreateArgs {
+         #[pyarg(any, optional)]
+-        encoding: OptionalArg<PyStrRef>,
++        encoding: Option<PyStrRef>,
+         #[pyarg(any, optional)]
+-        namespace_separator: OptionalArg<PyStrRef>,
++        namespace_separator: Option<PyStrRef>,
+         #[pyarg(any, optional)]
+-        intern: OptionalArg<PyStrRef>,
++        intern: Option<PyObjectRef>,
+     }
+ 
+     #[pyfunction(name = "ParserCreate")]
+     fn parser_create(
+-        _args: ParserCreateArgs,
++        args: ParserCreateArgs,
+         vm: &VirtualMachine,
+     ) -> PyResult<PyExpatLikeXmlParserRef> {
+-        PyExpatLikeXmlParser::new(vm)
++        // Validate namespace_separator: must be at most one character
++        let ns_sep = match args.namespace_separator {
++            Some(ref s) => {
++                let chars: Vec<char> = s.as_str().chars().collect();
++                if chars.len() > 1 {
++                    return Err(vm.new_value_error(
++                        "namespace_separator must be at most one character, omitted, or None"
++                            .to_owned(),
++                    ));
++                }
++                Some(s.as_str().to_owned())
++            }
++            None => None,
++        };
++
++        // encoding parameter is currently not used (xml-rs handles encoding from XML declaration)
++        let _ = args.encoding;
++
++        PyExpatLikeXmlParser::new(ns_sep, args.intern, vm)
+     }
+ }
+ 

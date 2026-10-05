@@ -1,0 +1,29 @@
+{
+  "label": "identity-rp",
+  "argv": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<initial16-audit>/agent-a/identity.py"
+  ],
+  "cwd": "<workspace>",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "RUSTPYTHONPATH": "<workspace>/Lib"
+  },
+  "removed_environment": [
+    "PYTHONPATH",
+    "PYTHONHOME",
+    "PYTHONWARNINGS",
+    "PYTHONSTARTUP"
+  ],
+  "input_path": "<initial16-audit>/agent-a/identity.py",
+  "input_sha256": "08d67a327e44a6cd05d14e88256773385513742d736d4989c985d70117fe0868",
+  "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+  "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+  "started_unix": 1791190809.284725,
+  "duration_seconds": 0.3514540195465088,
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout_file": "identity-rp.stdout",
+  "stderr_file": "identity-rp.stderr"
+}

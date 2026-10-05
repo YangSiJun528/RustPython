@@ -1,0 +1,155 @@
+{
+  "number": 8494,
+  "title": "PEP 749: classmethod and staticmethod do not implement annotation wrapper semantics",
+  "historical_cases": [
+    {
+      "case_id": "issue-8494-case-01",
+      "historical": {
+        "case_id": "issue-8494-case-01",
+        "issue_number": 8494,
+        "historical_status": "original_symptom_reproduced",
+        "historical_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+        "baseline_selection": "approximate closest first-parent main commit before issue creation; no RustPython version reported (CPython 3.14.6 only)",
+        "evidence": [
+          "logs/issue-8494-case-01/historical-b304919a63-01.stdout",
+          "logs/issue-8494-case-01/historical-b304919a63-01.stderr"
+        ],
+        "reported_symptoms": [
+          "unresolved-name case에서 wrapper에 delegated value cache 없음",
+          "대입이 wrapped function annotations를 변경"
+        ],
+        "expected_behavior": "각 wrapper __dict__에 annotation 캐시; wrapper에 대입해도 f.__annotations__ 불변",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-b/release/rustpython",
+              "<survey>/repros/8494/issue-8494-case-01/source-01.py"
+            ],
+            "cwd": "<slot-b-source>",
+            "env": {
+              "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 0,
+            "timeout": false,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.8523857089894591,
+            "code_input_path": "repros/8494/issue-8494-case-01/source-01.py",
+            "code_sha256": "fc5f528f1129ff361f774e5541c2dabe2536271f7547550d21f7219c2ebebe2f",
+            "actual_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+            "binary_sha256": "4090ba1dddb8fade8958d8255287b636859f9df732e7029febac40d0c4388d25",
+            "build_provenance": "logs/build-b-b304919a/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-8494-case-01/historical-b304919a63-01.stdout",
+            "stderr_path": "logs/issue-8494-case-01/historical-b304919a63-01.stderr",
+            "baseline_role": "required_issue_time_approximation"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+          "worktree": "<slot-b-source>",
+          "command": [
+            "cargo",
+            "+1.99.0",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-b"
+          ],
+          "cargo_lock_sha256": "ae723c266a05b9bf11207c301c0491e60b2eb18676d4954375f548e6b9da5b85",
+          "cargo_toml_sha256": "ba4b1a0006cc4e5213c9ce78c0d95ff9dc134f0ea4f57c96dcb5f1922e65a1d2",
+          "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)\nbinary: rustc\ncommit-hash: b940084d7eb6a299eb4bfeb8e34901bc051e7ac4\ncommit-date: 2026-09-28\nhost: aarch64-apple-darwin\nrelease: 1.99.0\nLLVM version: 23.1.1",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T07:57:27.430391+00:00",
+          "build_status": "success",
+          "initial_attempt_exit_code": 101,
+          "logs": [
+            "logs/build-b-b304919a/build.stdout",
+            "logs/build-b-b304919a/build.stderr",
+            "logs/build-b-b304919a/build-escalated.stdout",
+            "logs/build-b-b304919a/build-escalated.stderr"
+          ],
+          "binary": "<survey>/.build/slot-b/release/rustpython",
+          "build_exit_code": 0,
+          "binary_sha256": "4090ba1dddb8fade8958d8255287b636859f9df732e7029febac40d0c4388d25",
+          "binary_size": 33597136,
+          "build_completed_at": "2026-10-04T08:01:47.152917+00:00"
+        },
+        "observed_symptom": "Both wrappers report cache False; setting wrapper.__annotations__ changes f.__annotations__, matching report. Exit0 is failure of expected semantics, not success.",
+        "evidence_ledger": "analysis/historical-results.json"
+      },
+      "adjudication": {
+        "case_id": "issue-8494-case-01",
+        "verdict": "해결 확인",
+        "reason": "과거 b304919에서 classmethod와 staticmethod의 wrapper 캐시가 없고, __annotations__ 대입이 원래 함수의 annotations를 변경했다. 현재 동일 입력은 캐시 존재와 원래 함수의 불변을 확인하며 CPython 3.14.6과 일치한다. 독립 검토를 통과했다.",
+        "scope": "입력의 __annotations__ 조회·캐시·대입 사례에 한정한다. PEP 749 전체 __annotate__ 계약을 포괄하지 않는다.",
+        "historical_execution": true,
+        "review_required": true,
+        "independent_review": "review/initial-review.json",
+        "cause_analysis": "analysis/causes/issue-8494.json",
+        "evidence": [
+          "analysis/current-results.json",
+          "analysis/historical-results.json",
+          "review/initial-review.json"
+        ],
+        "historical_version_qualification": "이슈 생성 직전 main의 근사치다. 보고자가 사용한 정확한 SHA를 확인했다는 뜻은 아니다."
+      }
+    }
+  ],
+  "related_changes": [
+    {
+      "issue_number": 8494,
+      "candidate_commit": "73e547a9c31f347875982102dae3c29a71ac8f89",
+      "candidate_parent": "d7e41ebff587e27e57efb08651900543bf2a2910",
+      "candidate_reachable_from_fixed_main": true,
+      "related_pr": "https://github.com/RustPython/RustPython/pull/8701",
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "boundary_execution_complete": false,
+      "reason": "__annotations__ now checks and stores the wrapper own dict. Setters assign there instead of callable.set_attr, so wrapper changes no longer mutate wrapped annotations. Current full four-line-per-wrapper output matches CPython3.14.6.",
+      "limitations": [
+        "Reported CPython3.14.6 is suitable; Python<3.14 fails at unresolved annotation definition and is not a valid original comparator.",
+        "Actual historical/current pair establishes scoped behavior difference; exact PR parent/commit boundary has not been executed, so cause remains high relevance."
+      ],
+      "source_diff_path": "analysis/causes/issue-8494-pr-8701.diff",
+      "source_diff_command": [
+        "git",
+        "diff",
+        "d7e41ebff587e27e57efb08651900543bf2a2910",
+        "73e547a9c31f347875982102dae3c29a71ac8f89",
+        "--",
+        "crates/vm/src/builtins/classmethod.rs",
+        "crates/vm/src/builtins/staticmethod.rs"
+      ],
+      "fixed_main_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "case_scope": [
+        "issue-8494-case-01"
+      ],
+      "runtime_pair_status": "original_historical_symptom_reproduced_and_current_expected_behavior_observed",
+      "required_historical_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+      "historical_evidence": [
+        "logs/issue-8494-case-01/historical-b304919a63-01.stdout",
+        "logs/issue-8494-case-01/historical-b304919a63-01.stderr"
+      ],
+      "current_evidence": [
+        "logs/issue-8494-case-01/current-01.stdout",
+        "logs/issue-8494-case-01/current-01.stderr",
+        "logs/issue-8494-case-01/cpython-01.stdout",
+        "logs/issue-8494-case-01/cpython-01.stderr"
+      ],
+      "review_status": "scoped_resolution_approved_by_independent_review",
+      "ancestry_check": {
+        "sha": "73e547a9c31f347875982102dae3c29a71ac8f89",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "verified_diff_sha256": "3fdc0a5188d84be4e2919ba9802d920e116af9994ee66078ef8e0a0e9f5c042c"
+    }
+  ]
+}

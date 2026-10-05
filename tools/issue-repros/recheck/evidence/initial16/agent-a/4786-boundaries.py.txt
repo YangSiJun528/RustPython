@@ -1,0 +1,8 @@
+for name in ['A\udcdcB', '\ud800', 'A\udfffB', 'A\ud800\udfffB', 'AéB', 'A🚀B']:
+    try:
+        created = type(name, (), {})
+        print('accepted', ascii(name), ascii(created.__name__))
+    except UnicodeEncodeError as error:
+        print('rejected', ascii(name), type(error).__name__, error.encoding, ascii(error.object), error.start, error.end, error.reason)
+    except Exception as error:
+        print('other-error', ascii(name), type(error).__name__, ascii(str(error)))

@@ -1,0 +1,9 @@
+native-public-identical True
+initial [('a', 1), ('b', 2), ('c', 3)]
+move-end [('b', 2), ('c', 3), ('a', 1)]
+move-start [('c', 3), ('b', 2), ('a', 1)] ['a', 'b', 'c']
+pop-first ('c', 3)
+pop-last ('a', 1)
+order-sensitive False
+dict-equality True
+subclass Child [('b', 7), ('a', 7)]

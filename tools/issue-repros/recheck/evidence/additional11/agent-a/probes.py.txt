@@ -1,0 +1,181 @@
+"""Fresh independent issue inputs. Same file is executed by both runtimes."""
+import sys, json
+
+def issue4769():
+    import pickle, copy
+    from collections import deque
+    global Deque, DequeWithSlots
+    class Deque(deque): pass
+    class DequeWithSlots(deque):
+        __slots__ = ('slot', '__dict__')
+    # Names must be globally resolvable for pickle.
+    Deque.__qualname__ = 'Deque'
+    DequeWithSlots.__qualname__ = 'DequeWithSlots'
+    literal = pickle.loads(pickle.dumps(pickle.HIGHEST_PROTOCOL))
+    try: literal.__dict__
+    except AttributeError: print('literal original: integer has no __dict__')
+    total = 0
+    for cls in (Deque, DequeWithSlots):
+        for values, maxlen in (([], None), (['a','b','c'], None), (['a','b','c'], 2)):
+            d = cls(values, maxlen=maxlen)
+            d.x = 'value'
+            d.extra = ['list state']
+            if cls is DequeWithSlots: d.slot = ['slot state']
+            for protocol in range(pickle.HIGHEST_PROTOCOL+1):
+                e = pickle.loads(pickle.dumps(d, protocol))
+                assert type(e) is cls and e is not d
+                assert list(e) == list(d) and e.maxlen == d.maxlen
+                assert e.__dict__ == d.__dict__
+                if cls is DequeWithSlots: assert e.slot == d.slot
+                total += 1
+    print('pickle protocols:', list(range(pickle.HIGHEST_PROTOCOL+1)))
+    print('subclass roundtrips:', total)
+
+def issue4907():
+    import asyncio, time
+    source = 'async def bar():\n    [await print(i) for i in [1, 2, 3]]\n'
+    namespace={}
+    exec(compile(source, '<original-4907>', 'exec'), namespace)
+    print('original compile: success')
+    original = namespace['bar']()
+    try:
+        original.send(None)
+    except TypeError:
+        print('original invocation: TypeError from awaiting print result')
+    else: raise AssertionError('expected TypeError')
+    async def lc():
+        [await asyncio.sleep(1) for _ in range(2)]
+        print('lc done')
+    start=time.monotonic()
+    loop=asyncio.new_event_loop()
+    tasks=[loop.create_task(lc())]
+    done,pending=loop.run_until_complete(asyncio.wait(tasks))
+    assert not pending
+    for task in done: assert task.result() is None
+    loop.close()
+    assert time.monotonic()-start >= 1.9
+    print('comment execution: two awaited sleeps completed')
+
+def issue4950():
+    import locale
+    locale.setlocale(locale.LC_ALL,'C')
+    cases=['f','x','X','e','E','c','g','o','%','o','n','d']
+    cases+=['08x','+08d','.2f','.1%','>5n']
+    results=[]
+    for value in (False,True):
+        for spec in cases:
+            actual=('{:'+spec+'}').format(value)
+            assert actual==format(int(value),spec)
+            results.append([value,spec,actual])
+    print(json.dumps({'locale':locale.setlocale(locale.LC_ALL),'results':results},sort_keys=True))
+
+def issue5179():
+    import array, mmap, inspect
+    class BytesSubclass(bytes): pass
+    class BytearraySubclass(bytearray): pass
+    objects=[bytes(b'abc'),bytearray(b'abc'),array.array('B',b'abc'),memoryview(b'abc'),BytesSubclass(b'abc'),BytearraySubclass(b'abc')]
+    mapping=mmap.mmap(-1,3)
+    mapping[:]=b'abc'
+    objects.append(mapping)
+    rows=[]
+    for obj in objects:
+        row={'type':type(obj).__name__,'buffer':hasattr(obj,'__buffer__'),'release':hasattr(obj,'__release_buffer__')}
+        view=obj.__buffer__(0)
+        assert isinstance(view,memoryview)
+        row['data']=view.tobytes().decode('ascii')
+        row['readonly']=view.readonly
+        assert row['data']=='abc'
+        if hasattr(obj,'__release_buffer__'):
+            obj.__release_buffer__(view)
+            try: view.tobytes()
+            except ValueError: row['released']=True
+            else: row['released']=False
+        else: view.release()
+        try:
+            writable=obj.__buffer__(inspect.BufferFlags.WRITABLE)
+        except Exception as e:
+            row['writable']=type(e).__name__
+        else:
+            row['writable']=not writable.readonly
+            if hasattr(obj,'__release_buffer__'): obj.__release_buffer__(writable)
+            else: writable.release()
+        rows.append(row)
+    objects[3].release()
+    mapping.close()
+    ba=bytearray(b'abc')
+    view=ba.__buffer__(0)
+    try: ba.append(100)
+    except BufferError: pass
+    else: raise AssertionError('resize while exported should be blocked')
+    ba.__release_buffer__(view)
+    ba.append(100)
+    assert ba==b'abcd'
+    events=[]
+    class Exporter:
+        def __buffer__(self,flags):
+            events.append(['get',flags])
+            self.view=memoryview(bytearray(b'xyz'))
+            return self.view
+        def __release_buffer__(self,view):
+            assert view is self.view
+            events.append(['release'])
+            view.release()
+    obj=Exporter()
+    with memoryview(obj) as view:
+        assert view.tobytes()==b'xyz'
+        view[0]=65
+        assert view.tobytes()==b'Ayz'
+    assert events[-1]==['release']
+    print(json.dumps({'builtins':rows,'resize_after_release':True,'custom_exporter':events},sort_keys=True))
+
+def issue8494():
+    # This is the literal original, including creating both wrappers before Missing.
+    def f() -> Missing: pass
+    for wrapper in (classmethod(f),staticmethod(f)):
+        Missing=int
+        print(type(wrapper).__name__,wrapper.__annotations__)
+        print('__annotations__' in wrapper.__dict__)
+        wrapper.__annotations__={'x':str}
+        print('wrapper:',wrapper.__annotations__)
+        print('wrapped:',f.__annotations__)
+    for decorator in (classmethod,staticmethod):
+        def annotated(x: int) -> str: pass
+        def unannotated(x): pass
+        for function in (annotated,unannotated):
+            wrapper=decorator(function)
+            for name,replacement in [('__annotations__',{'new':bytes}),('__annotate__',lambda format: {'new':bytes})]:
+                assert name not in wrapper.__dict__
+                original=getattr(function,name)
+                assert getattr(wrapper,name) is original
+                assert wrapper.__dict__[name] is original
+                setattr(wrapper,name,replacement)
+                assert getattr(wrapper,name) is replacement
+                assert getattr(function,name) is original
+                delattr(wrapper,name)
+                assert name not in wrapper.__dict__
+                assert getattr(wrapper,name) is original
+            print(decorator.__name__,function.__name__,'both attributes cache/write/delete isolation passed')
+
+def issue3846():
+    import dis,modulefinder,pathlib,tempfile,types
+    source='import first\nfrom package import second\nfrom package.second import value\ndef nested():\n    import nested_dependency\n'
+    code=compile(source,'<independent-3846>','exec')
+    assert isinstance(dis.opmap['LOAD_CONST'],int)
+    assert isinstance(dis.EXTENDED_ARG,int)
+    instructions=list(dis._unpack_opargs(code.co_code))
+    assert instructions and all(isinstance(x,tuple) for x in instructions)
+    print('opmap, EXTENDED_ARG, _unpack_opargs: usable')
+    root=pathlib.Path(tempfile.mkdtemp(prefix='modulefinder-'))
+    (root/'package').mkdir()
+    files={'main.py':source,'first.py':'flag=True\n','package/__init__.py':'from . import second\n','package/second.py':'value=42\n','nested_dependency.py':'x=1\n'}
+    for name,content in files.items():
+        with (root/name).open('x') as out: out.write(content)
+    finder=modulefinder.ModuleFinder(path=[str(root)])
+    finder.run_script(str(root/'main.py'))
+    expected=['__main__','first','nested_dependency','package','package.second']
+    assert sorted(finder.modules)==expected, sorted(finder.modules)
+    assert finder.any_missing_maybe()==([],[])
+    print('module graph:',sorted(finder.modules))
+    print('missing:',finder.any_missing_maybe())
+
+globals()['issue'+sys.argv[1]]()

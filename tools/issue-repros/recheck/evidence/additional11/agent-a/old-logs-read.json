@@ -1,0 +1,450 @@
+[
+  {
+    "issue": 4541,
+    "historical_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+    "file": "<survey>/logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4541,
+    "historical_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+    "file": "<survey>/logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr",
+    "sha256": "a7c478987554e7c07804065a4b9eaae722bcbb2232107d55b6a010ee1a8a8ac5",
+    "reexecuted": false,
+    "content": "error: Found argument '-P' which wasn't expected, or isn't valid in this context\n\nUSAGE:\n    rustpython [OPTIONS] [-c CMD | -m MODULE | FILE] [PYARGS]...\n\nFor more information try --help\n"
+  },
+  {
+    "issue": 4541,
+    "historical_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+    "file": "<survey>/logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4541,
+    "historical_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+    "file": "<survey>/logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr",
+    "sha256": "db359c9ddba94d0b630eb3dda97dd2a150a79c451fd8805a08daa310c61292bf",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-main/issue-4541-case-01.py\", line 2, in <module>\n    print(\"safe_path\", sys.flags.safe_path, flush=True)\nAttributeError: 'flags' object has no attribute 'safe_path'\n"
+  },
+  {
+    "issue": 4769,
+    "historical_sha": "25ca331dc81e617498465ecdb2f848ec81025f71",
+    "file": "<survey>/logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stdout",
+    "sha256": "d021e9bdc454d8580a1fd134dd29c6c5477b6f4a92fad11acfc174b3b9c13e08",
+    "reexecuted": false,
+    "content": "CATALOG_RECORD {\"kind\": \"start\", \"case_id\": \"issue-4769-case-02\", \"selector\": \"test.test_deque.TestSubclass.test_copy_pickle\", \"interpreter\": \"3.11.0alpha (tags/v0.2.0-604-g25ca331dc:25ca331dc, Mar 25 2023, 21:53:53) \\n[rustc 1.67.1]\", \"executable\": \"<survey>/.build/slot-a/release/rustpython\", \"cwd\": \"<survey>/logs/scratch-history-a/25ca331dc8\", \"selector_derivation\": null, \"original_selector\": null, \"derivation\": \"TODO RustPython skip decorators bypassed in memory; targeted expectedFailure flags cleared\"}\nCATALOG_RECORD {\"kind\": \"selection\", \"case_id\": \"issue-4769-case-02\", \"selected_ids\": [\"test.test_deque.TestSubclass.test_copy_pickle\"], \"loader_errors\": [], \"module_origin\": \"<workspace>/pylib/Lib/test/test_deque.py\", \"module_sha256\": \"80bf52da28d59465f6fda4002092772c99afce0a30c0594ba6b5234bfdb4962c\", \"bypassed_decorators\": [{\"kind\": \"expectedFailure\", \"object\": \"test.test_deque.TestSubclass.test_copy_pickle\", \"action\": \"clear selected object metadata; preserve body\"}], \"note\": \"Import-time bypass records include unselected tests; only selected_ids are executed\"}\nCATALOG_RECORD {\"kind\": \"test\", \"test_id\": \"test.test_deque.TestSubclass.test_copy_pickle\", \"outcome\": \"error\", \"exception\": \"AttributeError\", \"message\": \"'Deque' object has no attribute 'x'\"}\nCATALOG_RECORD {\"kind\": \"complete\", \"case_id\": \"issue-4769-case-02\", \"status\": \"completed\", \"tests_run\": 1, \"selected_count\": 1, \"failures\": 0, \"errors\": 1, \"skipped\": [], \"expected_failures\": 0, \"unexpected_successes\": 0, \"passing\": false}\n"
+  },
+  {
+    "issue": 4769,
+    "historical_sha": "25ca331dc81e617498465ecdb2f848ec81025f71",
+    "file": "<survey>/logs/issue-4769-case-02/historical-catalog-25ca331dc8-scratch.stderr",
+    "sha256": "f50259b808c47ec4d4179682e2fdc7b1a5150abbb04e0e665732d01ca0e03e33",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\ntest_copy_pickle (test.test_deque.TestSubclass.test_copy_pickle) ... ERROR\n\n======================================================================\nERROR: test_copy_pickle (test.test_deque.TestSubclass.test_copy_pickle)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"<workspace>/pylib/Lib/test/test_deque.py\", line 839, in test_copy_pickle\n    self.assertEqual(e.x, d.x)\nAttributeError: 'Deque' object has no attribute 'x'\n\n----------------------------------------------------------------------\nRan 1 test in 0.007s\n\nFAILED (errors=1)\n"
+  },
+  {
+    "issue": 4907,
+    "historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+    "file": "<survey>/logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4907,
+    "historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+    "file": "<survey>/logs/issue-4907-case-01/historical-3794c178be-01-fe88d349-c1d93c6d.stderr",
+    "sha256": "ab4a3a7dde94c3eaf8174b5e955135355d73d30181e9ca3b5db01fc245806162",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nSyntaxError: 'await' outside async function at line 2 column 5\n    [await print(i) for i in [1, 2, 3]]\r\n    ^\n"
+  },
+  {
+    "issue": 4907,
+    "historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+    "file": "<survey>/logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4907,
+    "historical_sha": "c7faae9b22ce31a3ba1f2cc1cd3ad759b54ce100",
+    "file": "<survey>/logs/issue-4907-case-01/historical-c7faae9b22-01-fe88d349-43e71e4c.stderr",
+    "sha256": "ab4a3a7dde94c3eaf8174b5e955135355d73d30181e9ca3b5db01fc245806162",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nSyntaxError: 'await' outside async function at line 2 column 5\n    [await print(i) for i in [1, 2, 3]]\r\n    ^\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stderr",
+    "sha256": "8708caee74853d30e6e0b3ad30823fd1425736dc23231fc71854c04f6ad33708",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/repros/4950/issue-4950-case-01/source-01.py\", line 1, in <module>\n    '{:f}'.format(False)\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stderr",
+    "sha256": "3cb57107855301f9348115182579db202f704752d11a9af2f1e2f159993f9501",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-4950-case-01.py\", line 1, in <module>\n    print(repr('{:f}'.format(False)))\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stderr",
+    "sha256": "70c659f73f0c6c2b3772e32c7facbfea23e8548f34660e558b2522e3444861f5",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/repros/4950/issue-4950-case-02/source-01.py\", line 1, in <module>\n    '{:x}'.format(False)\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stderr",
+    "sha256": "349a24a6569a5bc3f6c7a20a79edbdea1e8f1b0d0fce4e427f1de44c2d6d390c",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-4950-case-02.py\", line 1, in <module>\n    print(repr('{:x}'.format(False)))\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stderr",
+    "sha256": "983272e56f8e12b88dbe79cf4cfa5ec9a36ff0136bdbc2b78ddebb71f8aea55b",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/repros/4950/issue-4950-case-03/source-01.py\", line 1, in <module>\n    '{:X}'.format(False)\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stderr",
+    "sha256": "e6f959f94bcb28d6c5cba07673f1de1ec0bf2a948696494aef2ce007c403d626",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-4950-case-03.py\", line 1, in <module>\n    print(repr('{:X}'.format(False)))\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stderr",
+    "sha256": "f35da71260d911fb6ce4faf15d2da6ef6592682144ffa59a7831ea73da1a1887",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/repros/4950/issue-4950-case-04/source-01.py\", line 1, in <module>\n    '{:e}'.format(False)\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stderr",
+    "sha256": "5deccd69c306d481d19b6317bc8a1a705b13f0280081f34aeec8a68679186621",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-4950-case-04.py\", line 1, in <module>\n    print(repr('{:e}'.format(False)))\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stderr",
+    "sha256": "d753a30d83eb5d42e1f9795293eb2864349e8614ef132bea1576d6c639fb26f2",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/repros/4950/issue-4950-case-05/source-01.py\", line 1, in <module>\n    '{:E}'.format(False)\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stderr",
+    "sha256": "01a23a71a06c28856073b73fe3df500962edd53124bb1033576c139bbd406510",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-4950-case-05.py\", line 1, in <module>\n    print(repr('{:E}'.format(False)))\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stderr",
+    "sha256": "182264b54971b582473dc80672a54327850fdd5c178a41a90ebb3f489179bb2f",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/repros/4950/issue-4950-case-06/source-01.py\", line 1, in <module>\n    '{:c}'.format(False)\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stderr",
+    "sha256": "cecf91ac46c7540924038391bb9419ef1e9551524a03e29e3188b85ef81e42f8",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-4950-case-06.py\", line 1, in <module>\n    print(repr('{:c}'.format(False)))\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stderr",
+    "sha256": "8951e06fca37e6235068aa91b4e0d7db3c7fbda3ab57db4b0dd5b0e0cfd81383",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/repros/4950/issue-4950-case-07/source-01.py\", line 1, in <module>\n    '{:g}'.format(False)\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stderr",
+    "sha256": "e53e765747e93b5852db568ce9ecff2175e4ef476df4687db21499362d0216c5",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-4950-case-07.py\", line 1, in <module>\n    print(repr('{:g}'.format(False)))\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stderr",
+    "sha256": "12d536bfaa69c652a4b84e79b119e6518b634012c9d4e8326159759ed4eacd8f",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/repros/4950/issue-4950-case-08/source-01.py\", line 1, in <module>\n    '{:o}'.format(False)\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stderr",
+    "sha256": "8c62ebdc6c464b4d9f24e4d7e6fb9b0cea90b3ec654df7c03f677fde5cf660d4",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-4950-case-08.py\", line 1, in <module>\n    print(repr('{:o}'.format(False)))\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stderr",
+    "sha256": "ea358add8ee0e23390408a3d0b9d0e5dd982f4055b2707296f5e29c101ea6801",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/repros/4950/issue-4950-case-09/source-01.py\", line 1, in <module>\n    '{:%}'.format(False)\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 4950,
+    "historical_sha": "fa790558211ec690541299258f44d7453501958a",
+    "file": "<survey>/logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stderr",
+    "sha256": "404b8518c5326e459d2f7da9675005e2933776500bb5691045a87746f4ea7c6f",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-4950-case-09.py\", line 1, in <module>\n    print(repr('{:%}'.format(False)))\nValueError: Invalid format specifier\n"
+  },
+  {
+    "issue": 5179,
+    "historical_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+    "file": "<survey>/logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stdout",
+    "sha256": "cb2ee2e619e0a1adb4dfc6c5f53ae1ea416b949e91fada71835452b3e219cbf3",
+    "reexecuted": false,
+    "content": "bytes __buffer__ False __release_buffer__ False\nbytearray __buffer__ False __release_buffer__ False\narray __buffer__ False __release_buffer__ False\nmemoryview __buffer__ False __release_buffer__ False\n"
+  },
+  {
+    "issue": 5179,
+    "historical_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+    "file": "<survey>/logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr",
+    "sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n"
+  },
+  {
+    "issue": 8494,
+    "historical_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+    "file": "<survey>/logs/issue-8494-case-01/historical-b304919a63-01.stdout",
+    "sha256": "4885376b88bd2156f8cbff7795c919537c19064e92e4e9914eb7122b325622ca",
+    "reexecuted": false,
+    "content": "classmethod {'return': <class 'int'>}\nFalse\nwrapper: {'x': <class 'str'>}\nwrapped: {'x': <class 'str'>}\nstaticmethod {'x': <class 'str'>}\nFalse\nwrapper: {'x': <class 'str'>}\nwrapped: {'x': <class 'str'>}\n"
+  },
+  {
+    "issue": 8494,
+    "historical_sha": "b304919a63010f78daa65bc5db14fd487829aeb9",
+    "file": "<survey>/logs/issue-8494-case-01/historical-b304919a63-01.stderr",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 3846,
+    "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+    "file": "<survey>/logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 3846,
+    "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+    "file": "<survey>/logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr",
+    "sha256": "3b160541b479c3119e8e1deae9cb782ca5995e7276b6e42b8d7ffd130dc52f74",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-3846-case-01.py\", line 2, in <module>\n    print(repr(dis.opmap['LOAD_CONST']))\nAttributeError: module 'dis' has no attribute 'opmap'\n"
+  },
+  {
+    "issue": 3846,
+    "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+    "file": "<survey>/logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 3846,
+    "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+    "file": "<survey>/logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr",
+    "sha256": "164230a2fa4bfd9566a84877aee54470c7855ae0872d7a5c0337a7ad134dbb1b",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-3846-case-02.py\", line 2, in <module>\n    print(repr(dis.EXTENDED_ARG))\nAttributeError: module 'dis' has no attribute 'EXTENDED_ARG'\n"
+  },
+  {
+    "issue": 3846,
+    "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+    "file": "<survey>/logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reexecuted": false,
+    "content": ""
+  },
+  {
+    "issue": 3846,
+    "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+    "file": "<survey>/logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr",
+    "sha256": "59f4cdea75a3a376fdb044e203b70ce0471445a2a1e2e7892195d428577283a3",
+    "reexecuted": false,
+    "content": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\nTraceback (most recent call last):\n  File \"<survey>/verification-tools/derived-a/issue-3846-case-03.py\", line 2, in <module>\n    print(repr(dis._unpack_opargs(100)))\nAttributeError: module 'dis' has no attribute '_unpack_opargs'\n"
+  }
+]

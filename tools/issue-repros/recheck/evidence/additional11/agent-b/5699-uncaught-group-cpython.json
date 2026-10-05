@@ -1,0 +1,27 @@
+{
+  "label": "5699-uncaught-group-cpython",
+  "command": [
+    "<home>/.local/bin/python3",
+    "-B",
+    "<additional11-audit>/agent-b/probe-traceback-uncaught.py",
+    "group"
+  ],
+  "shell_command": "<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-traceback-uncaught.py group",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-5699-uncaught-group-cpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8",
+    "PYTHON_COLORS": "1",
+    "FORCE_COLOR": "1"
+  },
+  "started_unix": 1791197479.356651,
+  "elapsed_seconds": 0.03388214111328125,
+  "exit_code": 1,
+  "timeout": false
+}

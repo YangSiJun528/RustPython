@@ -1,0 +1,6 @@
+import ast
+for source in ['A[1:2, *l]', 'A[:, *l]', 'A[*l, 1:2]', 'A[1:2:3, *l, :]', 'A[*l]', 'A[()]', 'A[1,]']:
+    tree = ast.parse(source)
+    emitted = ast.unparse(tree)
+    reparsed = ast.parse(emitted)
+    print(source, '->', emitted, 'equivalent', ast.dump(tree) == ast.dump(reparsed))

@@ -1,0 +1,56 @@
+[
+  {
+    "issue": 3418,
+    "historical_recorded_input_hash_matches": true,
+    "canonical_vs_recorded_AST_equal": true,
+    "exported_log_hashes_all_match": true
+  },
+  {
+    "issue": 3430,
+    "historical_recorded_input_hash_matches": true,
+    "canonical_vs_recorded_AST_equal": true,
+    "exported_log_hashes_all_match": true
+  },
+  {
+    "issue": 4527,
+    "historical_recorded_input_hash_matches": true,
+    "canonical_vs_recorded_AST_equal": true,
+    "exported_log_hashes_all_match": true
+  },
+  {
+    "issue": 4690,
+    "historical_recorded_input_hash_matches": true,
+    "canonical_vs_recorded_AST_equal": true,
+    "exported_log_hashes_all_match": true
+  },
+  {
+    "issue": 4762,
+    "historical_recorded_input_hash_matches": true,
+    "canonical_vs_recorded_AST_equal": true,
+    "exported_log_hashes_all_match": true
+  },
+  {
+    "issue": 4786,
+    "historical_recorded_input_hash_matches": true,
+    "canonical_vs_recorded_AST_equal": true,
+    "exported_log_hashes_all_match": true
+  },
+  {
+    "issue": 4908,
+    "historical_recorded_input_hash_matches": true,
+    "canonical_vs_recorded_AST_equal": true,
+    "exported_log_hashes_all_match": true
+  },
+  {
+    "issue": 4937,
+    "historical_recorded_input_hash_matches": true,
+    "canonical_vs_recorded_AST_equal": true,
+    "exported_log_hashes_all_match": true
+  },
+  {
+    "issue": 5656,
+    "historical_recorded_input_hash_matches": true,
+    "canonical_vs_recorded_AST_equal": true,
+    "exported_log_hashes_all_match": true
+  }
+]

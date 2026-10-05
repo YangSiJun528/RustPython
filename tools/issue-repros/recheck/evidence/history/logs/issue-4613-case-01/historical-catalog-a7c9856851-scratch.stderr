@@ -1,0 +1,13 @@
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+test_float__format__locale (test.test_types.TypesTests.test_float__format__locale) ... expected failure
+test_int__format__locale (test.test_types.TypesTests.test_int__format__locale) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.004s
+
+OK (expected failures=1)

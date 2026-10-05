@@ -1,0 +1,6 @@
+test_classmethod_staticmethod_annotations (test.test_descr.ClassPropertiesAndMethods.test_classmethod_staticmethod_annotations) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK

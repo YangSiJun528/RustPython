@@ -1,0 +1,13 @@
+known CPython xz True
+check 0 True True True 0 b''
+check 1 True True True 1 b''
+check 4 True True True 4 b''
+check 10 True True True 10 b''
+incremental True True 4
+concat True
+trailing junk True
+truncated LZMAError
+invalid LZMAError
+file read True
+file write size 256
+file roundtrip True

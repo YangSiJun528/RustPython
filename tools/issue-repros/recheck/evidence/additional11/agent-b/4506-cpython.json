@@ -1,0 +1,24 @@
+{
+  "label": "4506-cpython",
+  "command": [
+    "<home>/.local/bin/python3",
+    "-B",
+    "<additional11-audit>/agent-b/probe-sympy-original.py"
+  ],
+  "shell_command": "<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-sympy-original.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-4506-cpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-4506-cpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-4506-cpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-4506-cpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-4506-cpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8"
+  },
+  "started_unix": 1791197338.0953522,
+  "elapsed_seconds": 1.3261008262634277,
+  "exit_code": 0,
+  "timeout": false
+}

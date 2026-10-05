@@ -1,0 +1,31 @@
+{
+  "label": "8494-unittest-rustpython",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<additional11-audit>/agent-a/unittest-probe.py",
+    "test.test_descr.ClassPropertiesAndMethods.test_classmethod_staticmethod_annotations"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/8494-unittest-rustpython"
+  },
+  "started_utc": "2026-10-05T10:50:44.366344+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\"tests\": [{\"expected_failure\": false, \"id\": \"test.test_descr.ClassPropertiesAndMethods.test_classmethod_staticmethod_annotations\", \"skip\": false}]}\n{\"expected_failures\": [], \"run\": 1, \"skips\": [], \"success\": true, \"unexpected_successes\": []}\n",
+  "stderr": "test_classmethod_staticmethod_annotations (test.test_descr.ClassPropertiesAndMethods.test_classmethod_staticmethod_annotations) ... ok\n\n----------------------------------------------------------------------\nRan 1 test in 0.001s\n\nOK\n",
+  "elapsed_seconds": 0.6680309169896645
+}

@@ -1,0 +1,31 @@
+{
+  "issue": 4784,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "기준 README의 docs.rs/rustpython 링크를 새 curl 조회하면 HTTP 200과 실제 RustPython 0.6.0 API 문서를 반환.",
+  "original_scope": "README가 약속하는 release API 문서 링크의 죽은 목적지. 로컬 cargo doc 빌드는 대안일 뿐 완료 조건이 아니다.",
+  "fresh_evidence": [
+    "<initial16-audit>/agent-b/fresh-4784-http.json",
+    "<initial16-audit>/agent-b/fresh-4784-docs.html",
+    "<initial16-audit>/agent-b/fresh-4784-headers.txt",
+    "<initial16-audit>/agent-b/source-lib-identification.json",
+    "<initial16-audit>/docs-final.json",
+    "<initial16-audit>/docs-final-content-check.json"
+  ],
+  "old_evidence": {
+    "path": "<report-worktree>/tools/issue-repros/cases/4784",
+    "assessment": "기존 http-checks.json은 HTTP status와 redirect만 기록해 API 본문 여부까지 단독 입증하기는 약함. 새 HTML에서 crate docs/API 항목 확인."
+  },
+  "change_basis": {
+    "pr": null,
+    "commit": null,
+    "observed_change": "README는 동일 docs.rs destination 유지. 현재 게시된 문서가 실제 존재한다.",
+    "first_fix_confirmed": false
+  },
+  "limits": [
+    "현재 외부 서비스 상태를 검증한 것으로 f39 소스의 API 문서 빌드 검증이 아님.",
+    "RustPython/CPython 실행 비교는 문서 링크 이슈에 해당 없음.",
+    "온라인 검색 캐시는 0.5.0을 보였지만 새 curl HTML은 0.6.0; 현재 버전 판단은 curl에 근거.",
+    "최초 정상 게시 릴리스/커밋은 미확인."
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "issue": 5656,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "The original literal and the unchanged complete repository snippet both exit 0 and emit SyntaxWarning for \\X, byte-for-byte matching CPython 3.14.6 stderr. Runtime compile with always/error filters and valid/raw escape controls also match.",
+  "original_scope": "Running builtin_bytes.py should emit an invalid-escape warning for its b\"omkmok\\Xaa\" literal, while preserving the bytes value. Original CPython warning category depends on interpreter version.",
+  "original_issue_url": "https://github.com/RustPython/RustPython/issues/5656",
+  "original_issue_snapshot": "<initial16-audit>/agent-a/issue-5656-original.json",
+  "original_comments_read": 1,
+  "fresh_evidence": [
+    {
+      "label": "5656-boundaries-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/5656-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/5656-boundaries.py",
+      "input_sha256": "6da7b09c4f5119aa67e5f2093aae8fa40b6a29514ee49d2c5a2785d310062c2d",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190903.963978,
+      "duration_seconds": 0.029603004455566406,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/5656-boundaries-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/5656-boundaries-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/5656-boundaries-cp.json"
+    },
+    {
+      "label": "5656-boundaries-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/5656-boundaries.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/5656-boundaries.py",
+      "input_sha256": "6da7b09c4f5119aa67e5f2093aae8fa40b6a29514ee49d2c5a2785d310062c2d",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190903.871283,
+      "duration_seconds": 0.0919640064239502,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/5656-boundaries-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/5656-boundaries-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/5656-boundaries-rp.json"
+    },
+    {
+      "label": "5656-original-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/5656-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/5656-original.py",
+      "input_sha256": "093e8074aea912bac097a5880529c45db190a47d790faac2d2b5c307626a92fc",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190886.108308,
+      "duration_seconds": 0.03427600860595703,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/5656-original-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/5656-original-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/5656-original-cp.json"
+    },
+    {
+      "label": "5656-original-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/5656-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/5656-original.py",
+      "input_sha256": "093e8074aea912bac097a5880529c45db190a47d790faac2d2b5c307626a92fc",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190885.9624362,
+      "duration_seconds": 0.14434266090393066,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/5656-original-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/5656-original-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/5656-original-rp.json"
+    },
+    {
+      "label": "5656-whole-snippet-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<workspace>/extra_tests/snippets/builtin_bytes.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<workspace>/extra_tests/snippets/builtin_bytes.py",
+      "input_sha256": "116de89033ee811cbaa0f40a16d2d613a6c7d70ddd2860957f98f87a7725ecce",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791191032.116993,
+      "duration_seconds": 0.06452798843383789,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/5656-whole-snippet-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/5656-whole-snippet-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/5656-whole-snippet-cp.json"
+    },
+    {
+      "label": "5656-whole-snippet-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<workspace>/extra_tests/snippets/builtin_bytes.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<workspace>/extra_tests/snippets/builtin_bytes.py",
+      "input_sha256": "116de89033ee811cbaa0f40a16d2d613a6c7d70ddd2860957f98f87a7725ecce",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791191031.8072598,
+      "duration_seconds": 0.3068423271179199,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/5656-whole-snippet-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/5656-whole-snippet-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/5656-whole-snippet-rp.json"
+    }
+  ],
+  "old_evidence": {
+    "kind": "reused historical/current export records; no historical executable rerun",
+    "source_directory": "<report-worktree>/tools/issue-repros/cases/5656",
+    "historical_commit": "c3ed002b1204d9ff156b5192b634a4056101b255",
+    "historical_binary_sha256": "95b86c447051fbd2cb51a54a2ad55445187f1ecb6a692c073a1549a857d9ac4f",
+    "historical_input_sha256": "ff9e66256ffa467422e5318d4a1c25fae278e53e13afcb463d19e7158e795c2a",
+    "historical_exit_code": 0,
+    "historical_timeout": false,
+    "historical_selection": "approximate closest first-parent before issue creation; independently verified",
+    "old_current_binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+    "log_integrity": {
+      "issue": 5656,
+      "historical_recorded_input_hash_matches": true,
+      "canonical_vs_recorded_AST_equal": true,
+      "exported_log_hashes_all_match": true
+    },
+    "input_equivalence_to_live_issue": "The existing case extracts the exact literal/assertion named in the issue, with a final newline added. It is sufficient for the missing-warning symptom but is a subset of the originally invoked file. Fresh verification additionally runs the entire unchanged current repository snippet.",
+    "existing_reproducer_sufficiency": "Existing stderr SyntaxWarning/\\X checks test the actual symptom; exit 0 alone would not. Fresh verification supplies CPython's identified 3.14.6 version, direct compile/filter coverage and the full snippet run.",
+    "audit_file": "<initial16-audit>/agent-a/old-evidence-audit.json",
+    "limits": [
+      "Old binary/source/Lib pairing is supported by recorded metadata, not independently reexecuted in this pass.",
+      "Historical logs were path-redacted in the export. Matching export hashes establish integrity of these records, not independent truth of their provenance.",
+      "A historical/current comparison does not establish the first fixing commit."
+    ]
+  },
+  "change_basis": {
+    "description": "Baseline ancestor 680de33572dccbd8ed15f3dca0f930d80d2fa0ad for PR 7164 introduces string/bytes invalid-escape scanning and SyntaxWarning emission during compilation. Current compile.rs retains and expands warning generation. Duplicate b87386f is not a baseline ancestor and was excluded.",
+    "related_commits": [
+      {
+        "pr": 7164,
+        "commit": "680de33572dccbd8ed15f3dca0f930d80d2fa0ad",
+        "subject": "Update test_fstring from v3.14.3 and impl more (#7164)",
+        "ancestor_check_exit": 0,
+        "stderr": "",
+        "first_fix_established": false
+      }
+    ],
+    "first_fix_established": false,
+    "source_identity": "<initial16-audit>/agent-a/source-identity.json"
+  },
+  "limits": [
+    "Category/text parity is confirmed against CPython 3.14.6, not every historical CPython release.",
+    "No claim that all invalid escapes, f-strings, t-strings, source encodings or warning interactions are fully covered."
+  ],
+  "boundary_summary": "Invalid bytes and str literals warn under always and raise SyntaxError under error. Escaped-backslash, raw bytes and valid hex-escape controls do not warn. Complete builtin_bytes.py passes with the warning at current line 25.",
+  "environment": {
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "lib_tree": "2f62efb194a326f4abef6d2a61b0c5babc09e96b",
+    "rustpython_binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+    "cpython_binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+    "cpython_version": "3.14.6",
+    "identity_files": [
+      "<initial16-audit>/agent-a/identity-rp.stdout",
+      "<initial16-audit>/agent-a/identity-cp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-rp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-cp.stdout"
+    ]
+  }
+}

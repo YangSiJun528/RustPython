@@ -1,0 +1,24 @@
+{
+  "label": "provenance-cpython",
+  "command": [
+    "<home>/.local/bin/python3",
+    "-B",
+    "<additional11-audit>/agent-b/probe-provenance.py"
+  ],
+  "shell_command": "<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-provenance.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-provenance-cpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-provenance-cpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-provenance-cpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-provenance-cpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-provenance-cpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8"
+  },
+  "started_unix": 1791197259.145945,
+  "elapsed_seconds": 0.05846405029296875,
+  "exit_code": 0,
+  "timeout": false
+}

@@ -1,0 +1,145 @@
+{
+  "issue": 4970,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "LC_ALL을 제거하고 LANG/LC_NUMERIC=en_US.UTF-8로 원본 FormatTest.test_locale을 실행했다. 실제 comma/[3,0] grouping과 소수점을 확인하고 int/float 원본 assertions가 통과한다. LC_ALL 설정 대조군과 CPython 비교도 성공.",
+  "original_scope": "LC_ALL unset 상태에서 locale.setlocale(LC_ALL, \"\") 이후 comma grouping이 활성인데 format(123456789,\"n\")가 123456789여서 test_format.FormatTest.test_locale이 실패. Comment suspects duplicate #4613, but original concrete failure does not include width or zero padding.",
+  "fresh_evidence": {
+    "description": "Same unchanged B checkout test_format/test_types modules; three tests per run with zero skips/expectedFailures/unexpectedSuccesses. LC_ALL absent in unset run, actual effective en_US.UTF-8, thousands_sep comma, decimal_point dot, grouping[3,0]; format integer123,456,789 and float1,234.5.",
+    "runs": [
+      {
+        "metadata": "<additional11-audit>/agent-b/locale-original-unset-rustpython.json",
+        "stdout": "<additional11-audit>/agent-b/locale-original-unset-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/locale-original-unset-rustpython.stderr.txt",
+        "command": [
+          "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+          "-B",
+          "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-unset-rustpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "RUSTPYTHONPATH": "<slot-b-source>/Lib"
+        },
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/locale-original-set-rustpython.json",
+        "stdout": "<additional11-audit>/agent-b/locale-original-set-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/locale-original-set-rustpython.stderr.txt",
+        "command": [
+          "<survey>/.build/slot-b/saved/current-f39-x86/rustpython",
+          "-B",
+          "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-set-rustpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "RUSTPYTHONPATH": "<slot-b-source>/Lib",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/locale-original-unset-cpython.json",
+        "stdout": "<additional11-audit>/agent-b/locale-original-unset-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/locale-original-unset-cpython.stderr.txt",
+        "command": [
+          "<home>/.local/bin/python3",
+          "-B",
+          "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8"
+        },
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "metadata": "<additional11-audit>/agent-b/locale-original-set-cpython.json",
+        "stdout": "<additional11-audit>/agent-b/locale-original-set-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-b/locale-original-set-cpython.stderr.txt",
+        "command": [
+          "<home>/.local/bin/python3",
+          "-B",
+          "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+        ],
+        "cwd": "<slot-b-source>",
+        "environment": {
+          "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-set-cpython",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "TMP": "<additional11-audit>/agent-b/temp-locale-original-set-cpython",
+          "TEMP": "<additional11-audit>/agent-b/temp-locale-original-set-cpython",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-set-cpython/python-history",
+          "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-set-cpython/shell-history",
+          "LANG": "en_US.UTF-8",
+          "LC_NUMERIC": "en_US.UTF-8",
+          "LC_ALL": "en_US.UTF-8"
+        },
+        "exit_code": 0,
+        "timeout": false
+      }
+    ],
+    "identity": "<additional11-audit>/agent-b/fresh-file-provenance.json",
+    "runtime_identity": [
+      "<additional11-audit>/agent-b/provenance-rustpython.stdout.txt",
+      "<additional11-audit>/agent-b/provenance-cpython.stdout.txt"
+    ],
+    "input": "<additional11-audit>/agent-b/probe-original-locale-tests.py",
+    "actual_test": "test.test_format.FormatTest.test_locale"
+  },
+  "old_evidence": {
+    "reused": true,
+    "fresh_historical_execution": false,
+    "source": "<additional11-audit>/agent-b/reused-historical-summary.json",
+    "historical_sha": "7a6000d181b7611c26f2d1353d0462d7bec26da6",
+    "baseline_role": "issue-time approximation",
+    "description": "Existing ledger reports LC_ALL-unset original integer comma assertion failure. Historical setting workaround/float portion and architecture effects were limited; not re-executed now."
+  },
+  "change_basis": [
+    {
+      "pr": "https://github.com/RustPython/RustPython/pull/7350",
+      "baseline_ancestor_commit": "1bd40ffd86c289f6fe4e22770f271d0b65636fca",
+      "mechanism": "Connects active localeconv data to n formatting and removes test_format.test_locale skip.",
+      "first_fix_verified": false
+    }
+  ],
+  "limits": [
+    "Current B RustPython is macOS 26.5.2 x86_64/Rosetta; CPython 3.14.6 is arm64. No Linux or Windows reproduction.",
+    "No historical interpreter or PR parent/commit boundary was executed in this run; first fixing commit remains unverified.",
+    "Verification only: no source/test edits, installation, rebuild, remote writes, or issue state changes.",
+    "Original reporter did not specify exact OS, locale or commit. The tested actual grouping locale is en_US.UTF-8.",
+    "The remaining #4613 width/zero-padding failures do not reproduce this narrower unadorned n/test_locale failure."
+  ],
+  "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+  "original_scope_notes": "<additional11-audit>/agent-b/original-scope.md",
+  "fresh_original_sources": [
+    "<additional11-audit>/agent-b/fresh-github-4970.json",
+    "<additional11-audit>/agent-b/fresh-github-4970-comments.json"
+  ],
+  "agent": "agent-b"
+}

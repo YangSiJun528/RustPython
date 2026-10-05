@@ -1,0 +1,33 @@
+{
+  "label": "4541-cpython-module-Eenv1",
+  "interpreter": "cpython",
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "-E",
+    "-m",
+    "safe_report"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONPATH": "<additional11-audit>/agent-a",
+    "PYTHONSAFEPATH": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1/python-history",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1"
+  },
+  "started_utc": "2026-10-05T10:50:43.305261+00:00",
+  "stdin": null,
+  "exit_code": 1,
+  "timeout": false,
+  "stdout": "",
+  "stderr": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14: No module named safe_report\n",
+  "elapsed_seconds": 0.03915754199260846
+}

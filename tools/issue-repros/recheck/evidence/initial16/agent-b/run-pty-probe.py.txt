@@ -1,0 +1,45 @@
+import errno,fcntl,hashlib,json,os,pathlib,pty,re,select,struct,sys,termios,time
+from run_probe import ROOT,CWD,RP,CP
+assert pathlib.Path.cwd()==CWD
+lines=["import sys", "for i in range(10):", "    i", "", "with open("+repr(str(ROOT/'repl-created-'))+" + sys.implementation.name + '.txt', 'x') as f:", "    f.write('hello')", "", "import os; sys.stdout.flush(); sys.stderr.flush(); os._exit(0)"]
+for label,exe in [('rp',RP),('cp',CP)]:
+    env=os.environ.copy()
+    for k in ['PYTHONPATH','RUSTPYTHONPATH','PYTHONHOME','RUSTPYTHONHOME','PYTHONSTARTUP']:env.pop(k,None)
+    overrides={'PYTHONDONTWRITEBYTECODE':'1','TERM':'xterm','LC_ALL':'en_US.UTF-8','PYTHON_BASIC_REPL':'1'}
+    if exe==RP:overrides['RUSTPYTHONPATH']=str(CWD/'Lib')
+    env.update(overrides);cmd=[exe,'-B','-S','-q']
+    pid,fd=pty.fork()
+    if pid==0:os.execve(exe,cmd,env)
+    fcntl.ioctl(fd,termios.TIOCSWINSZ,struct.pack('HHHH',100,240,0,0))
+    raw=bytearray();timeouts=[];waited=False
+    def read_prompt(index):
+        start=len(raw);deadline=time.monotonic()+8
+        while time.monotonic()<deadline:
+            r,_,_=select.select([fd],[],[],.1)
+            if r:
+                try:b=os.read(fd,65536)
+                except OSError:return
+                if not b:return
+                raw.extend(b)
+                if b'>>> ' in raw[start:] or b'... ' in raw[start:]:return
+        timeouts.append(index)
+    read_prompt(-1)
+    for i,line in enumerate(lines):
+        os.write(fd,(line+'\n').encode())
+        if i<len(lines)-1:read_prompt(i)
+    deadline=time.monotonic()+5
+    while time.monotonic()<deadline:
+        r,_,_=select.select([fd],[],[],.1)
+        if r:
+            try:b=os.read(fd,65536)
+            except OSError:break
+            if not b:break
+            raw.extend(b)
+    endpid,status=os.waitpid(pid,os.WNOHANG)
+    if not endpid:
+        os.kill(pid,15);_,status=os.waitpid(pid,0)
+    os.close(fd)
+    d={'command':cmd,'cwd':str(CWD),'env_overrides':overrides,'input':lines,'stdout_stderr_merged':True,'exit':os.waitstatus_to_exitcode(status),'prompt_timeouts':timeouts,'binary_sha256':hashlib.file_digest(open(exe,'rb'),'sha256').hexdigest(),'note':'Actual PTY. os._exit avoids saving existing user REPL history. Same input uses exclusive file creation with implementation-specific filename.'}
+    with (ROOT/('fresh-2527-pty-'+label+'.json')).open('x') as f:json.dump(d,f,indent=2)
+    with (ROOT/('fresh-2527-pty-'+label+'.transcript')).open('xb') as f:f.write(raw)
+    print(json.dumps(d),flush=True);print(raw.decode(errors='replace'),flush=True)

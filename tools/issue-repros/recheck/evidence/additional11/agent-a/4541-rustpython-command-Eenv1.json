@@ -1,0 +1,33 @@
+{
+  "label": "4541-rustpython-command-Eenv1",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "-E",
+    "-c",
+    "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHONSAFEPATH": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1"
+  },
+  "started_utc": "2026-10-05T10:50:39.385994+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\"bare_import\": false, \"cwd\": \"<workspace>\", \"cwd_import\": \"new-safe-path-fixture\", \"isolated\": 0, \"path\": [\"\", \"<workspace>/Lib\", \"<workspace>/lib/python314.zip\", \"<workspace>/lib/python3.14\", \"<workspace>/lib/python3.14/lib-dynload\"], \"safe_path\": false}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.304300667005009
+}

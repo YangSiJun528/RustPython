@@ -1,0 +1,12 @@
+{
+  "Crate rustpython": true,
+  "rustpython 0.6.0": true,
+  "Modules": false,
+  "Functions": true,
+  "fn.run.html": true,
+  "struct.InterpreterConfig.html": false,
+  "is not a library": false,
+  "title": [
+    "rustpython - Rust"
+  ]
+}

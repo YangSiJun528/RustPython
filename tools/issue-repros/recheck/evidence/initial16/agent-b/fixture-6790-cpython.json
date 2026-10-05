@@ -1,0 +1,21 @@
+{
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "-S",
+    "-c",
+    "import lzma; print(lzma.compress(b\"RustPython independent xz probe\\n\" * 8).hex())"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "LC_ALL": "en_US.UTF-8"
+  },
+  "start": 1791191122.487746,
+  "binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "exit": 0,
+  "timeout": false,
+  "end": 1791191122.5257962,
+  "stdout": "fd377a585a000004e6d6b4460200210116000000742fe5a3e000ff00265d00291d4a676e62b3eba66db6aa865728962569f10e686905c3e4801a617213ed05b6eb803e0000000000ee4ab9683be553160001428002000000a3072a9ab1c467fb020000000004595a\n",
+  "stderr": ""
+}

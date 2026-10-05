@@ -1,0 +1,24 @@
+{
+  "label": "5699-blockers-cpython",
+  "command": [
+    "<home>/.local/bin/python3",
+    "-B",
+    "<additional11-audit>/agent-b/probe-traceback-blockers.py"
+  ],
+  "shell_command": "<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-traceback-blockers.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-5699-blockers-cpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-5699-blockers-cpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-5699-blockers-cpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-5699-blockers-cpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-5699-blockers-cpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8"
+  },
+  "started_unix": 1791197479.2037,
+  "elapsed_seconds": 0.047286033630371094,
+  "exit_code": 0,
+  "timeout": false
+}

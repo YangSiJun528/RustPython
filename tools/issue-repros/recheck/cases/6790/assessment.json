@@ -1,0 +1,79 @@
+{
+  "issue": 6790,
+  "status": "부분 해결",
+  "closure_recommended": false,
+  "reason": "강제 lzma skip 제거와 기본 xz 기능은 확인. 그러나 동일 CPython 생성 xz bytes에 decompress(max_length=100)를 적용하면 첫 반환이 RP 0 bytes/CP 100 bytes이며 기존 test_decompressor_chunks_maxsize도 같은 기대 위반으로 expectedFailure.",
+  "original_scope": "xz가 올바르게 지원된 뒤 test.support의 무조건 lzma=None을 제거하라는 요청. gate 제거만으로 완료되지 않는다.",
+  "fresh_evidence": [
+    "<initial16-audit>/agent-b/fresh-6790-rp.json",
+    "<initial16-audit>/agent-b/fresh-6790-cp.json",
+    "<initial16-audit>/agent-b/fresh-6790-fixed-input-rp.json",
+    "<initial16-audit>/agent-b/fresh-6790-fixed-input-cp.json",
+    "<initial16-audit>/agent-b/fixture-6790-cpython.json",
+    "<initial16-audit>/agent-b/fresh-existing-tests-rp.json"
+  ],
+  "old_evidence": {
+    "path": "<report-worktree>/tools/issue-repros/cases/6790",
+    "summary": {
+      "historical": {
+        "actual_sha": "ed785e3d868966e2a5f7478632cabd5a630e6934",
+        "binary_sha256": "2b07956ab66da91ad9b60379a89c3b3f789a9266591c1d996ff52d4397d5f909",
+        "exit": 0,
+        "timeout": null,
+        "checked_export_hashes": [
+          {
+            "log": "historical.stdout.txt",
+            "expected_export_sha256": "1a005344dc37b323ea5253cd2bd13ec3cfe5f3b37e0136297d09e57d27449264",
+            "actual_sha256": "1a005344dc37b323ea5253cd2bd13ec3cfe5f3b37e0136297d09e57d27449264",
+            "match": true
+          },
+          {
+            "log": "historical.stderr.txt",
+            "expected_export_sha256": "382d21396ad5fe38c64e4a73bbb701bc7248aa858635784a6f89e1f8325eb82f",
+            "actual_sha256": "382d21396ad5fe38c64e4a73bbb701bc7248aa858635784a6f89e1f8325eb82f",
+            "match": true
+          }
+        ],
+        "version_banner": "3.14.0alpha (tags/2025-11-10-main-55-569-ged785e3d8:ed785e3d8, Jan 19 2026, 00:04:06) \n[RustPython 0.4.0 with rustc 1.96.1 (31fca3adb 2026-06-26)]\n",
+        "not_rerun": true
+      },
+      "current": {
+        "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+        "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+        "exit": 0,
+        "timeout": null,
+        "checked_export_hashes": [
+          {
+            "log": "current.stdout.txt",
+            "expected_export_sha256": "4fe6f06736e4e44e586561a797df7966bf40bd1809faddb8d68dab00c8932049",
+            "actual_sha256": "4fe6f06736e4e44e586561a797df7966bf40bd1809faddb8d68dab00c8932049",
+            "match": true
+          },
+          {
+            "log": "current.stderr.txt",
+            "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "match": true
+          }
+        ],
+        "version_banner": null,
+        "not_rerun": true
+      }
+    },
+    "assessment": "기존 재현은 requires_lzma dummy를 호출하여 강제 skip 제거만 검사. 실제 xz compress/decompress를 호출하지 않아 원문의 선행 조건을 입증하지 못함."
+  },
+  "change_basis": {
+    "pr": 7896,
+    "commit": "8ff3141f3f3622d2f4cfe944f44a2ad0ebf961c1",
+    "observed_change": "requires_lzma의 무조건 lzma=None 제거. 별도 관련 xz PR #7756 cf4d076ad440a97576a2e9aa2308daba8daaf0b0도 baseline에 포함.",
+    "first_fix_confirmed": false
+  },
+  "limits": [
+    "부분 해결 근거는 모든 LZMA 기능에 대한 무제한 완벽성 요구가 아니라 구체적인 xz incremental decompression max_length API 결함이다.",
+    "기본 xz roundtrip, CPython fixture, CHECK_NONE/CRC32/CRC64/SHA256, 7-byte chunk decode, concat, trailing junk, bad/truncated data, BytesIO LZMAFile은 같은 입력 CPython과 일치.",
+    "45개 test_lzma 선택 실행: pass39/skip1/expectedFailure5, fail0/error0; full test_lzma 파일/file-mode 전체는 실행 안 함.",
+    "선택 suite 전체 48개: 위45+test_format1+test_json2; 42 pass,1 skip,5 xfail. xfail은 성공으로 세지 않음.",
+    "원래 expectedFailure 주석은 check attribute 오류지만 현재 실제 이유는 first output 0 != 100으로 변함.",
+    "과거 xz 지원 최초 도입이나 완전 해결 revision은 확정하지 않음."
+  ]
+}

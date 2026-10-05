@@ -1,0 +1,3 @@
+warning: can't use pyrepl: (5, "terminal doesn't have the required clear capability"); TERM=dumb
+>>> import sys, os, json; print('REPL_RESULT='+json.dumps({'safe_path':sys.flags.safe_path,'path':sys.path,'cwd':os.getcwd()}),flush=True); os._exit(0)
+REPL_RESULT={"safe_path": false, "path": ["", "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip", "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14", "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/lib-dynload", "<home>/.local/lib/python3.14/site-packages", "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/site-packages"], "cwd": "<workspace>"}
