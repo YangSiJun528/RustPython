@@ -641,8 +641,9 @@ def render_recorded(manifest):
             [
                 f"- **[#{number}]({item['url']}) — {subject}.**",
                 f"  {comparison}",
-                f"  {item['references']} "
-                f"[Reproduction and results](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/cases/{number}/README.md).",
+                f"  {item['references']}",
+                "",
+                f"  - [Reproduction and results](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/cases/{number}/README.md).",
                 "",
             ]
         )
