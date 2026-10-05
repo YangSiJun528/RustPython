@@ -172,8 +172,137 @@ def run_repl(binary, source, env, cwd, timeout):
     }
 
 
+def reproduction_setup(item):
+    case = BUNDLE / "cases" / str(item["issue"])
+    runs = json.loads((case / "evidence/metadata.json").read_text())["runs"]
+    phases = ("historical", "current")
+    versions = {
+        phase: re.search(r"rustc (\d+\.\d+\.\d+)", runs[phase]["build"]["toolchain"])[1]
+        for phase in phases
+    }
+    is_repl = item["kind"] == "repl"
+    environment = (
+        "The recorded comparison used Linux ARM64 in Docker. Install Git and Docker with Linux ARM64 support; the commands pin the two recorded Rust images by digest."
+        if is_repl
+        else "The recorded comparison used macOS ARM64. Install Git, rustup and the Xcode Command Line Tools. For the repository's native build prerequisites, see [CONTRIBUTING.md](https://github.com/RustPython/RustPython/blob/f39b054b9c8cbbf884f53123eef028131789990c/CONTRIBUTING.md#setting-up-a-development-environment)."
+    )
+    lines = [
+        environment,
+        "",
+        "Run the shell blocks in order in the same Bash or Zsh session. Stop if checkout, build or version verification fails. The commands create two independent checkouts and build directories under a new temporary directory; keep `rustpython_repro_root` set for all subsequent steps. Keep both source directories until finished: historical binaries can retain standard-library paths from build time.",
+        "",
+        "### 1. Check out the two recorded revisions",
+        "",
+        "```sh",
+        'rustpython_repro_root="$(mktemp -d)"',
+        "(",
+        "  set -eu",
+    ]
+    for phase in phases:
+        sha = runs[phase]["actual_sha"]
+        source = f'"$rustpython_repro_root/{phase}"'
+        lines.extend(
+            [
+                f"  git init -q {source}",
+                f"  git -C {source} fetch --depth 1 \\",
+                f"    https://github.com/RustPython/RustPython.git {sha}",
+                f"  git -C {source} checkout --detach FETCH_HEAD",
+                f'  test "$(git -C {source} rev-parse HEAD)" = {sha}',
+            ]
+        )
+    lines.extend(
+        [
+            ")",
+            "```",
+            "",
+            "### 2. Build and verify each interpreter",
+            "",
+            f"Historical: Rust **{versions['historical']}**. Current: Rust **{versions['current']}**. Both builds use default features and the selected revision's committed `Cargo.lock` with `--locked`.",
+            "",
+            "```sh",
+        ]
+    )
+    if is_repl:
+        for phase in phases:
+            lines.append(
+                f'rustpython_repro_{phase}_image="{runs[phase]["build"]["image_digest"]}"'
+            )
+        lines.extend(["(", "  set -eu"])
+        for phase in phases:
+            lines.extend(
+                [
+                    f'  mkdir -p "$rustpython_repro_root/target-{phase}"',
+                    "  docker run --rm --platform linux/arm64 --cpus 2 --memory 4g \\",
+                    f'    --mount "type=bind,source=$rustpython_repro_root/{phase},target=/repo,readonly" \\',
+                    f'    --mount "type=bind,source=$rustpython_repro_root/target-{phase},target=/target" \\',
+                    f"    --env CARGO_BUILD_JOBS=2 --env RUSTUP_TOOLCHAIN={versions[phase]} \\",
+                    f'    --workdir /repo "$rustpython_repro_{phase}_image" \\',
+                    "    sh -c 'git config --global --add safe.directory /repo && cargo build --release --locked --target-dir /target'",
+                ]
+            )
+        lines.append(")")
+    else:
+        lines.extend(["(", "  set -eu"])
+        for version in dict.fromkeys(versions.values()):
+            lines.append(f"  rustup toolchain install {version} --profile minimal")
+        for phase in phases:
+            lines.extend(
+                [
+                    f'  cd "$rustpython_repro_root/{phase}"',
+                    f"  CARGO_BUILD_JOBS=2 cargo +{versions[phase]} build --release --locked \\",
+                    f'    --target-dir "$rustpython_repro_root/target-{phase}"',
+                ]
+            )
+        lines.append(")")
+    lines.extend(
+        [
+            "```",
+            "",
+            "Check the embedded commit in each executable before running the reproducer. Both commands below must succeed; each prints `sys.version` and asserts the expected commit prefix. The version changes because a different compiled executable is selected. Shallow checkouts may change branch/tag text in the banner; the assertions verify the pinned commit.",
+            "",
+            "```sh",
+            "(",
+            "  set -eu",
+            "  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE",
+        ]
+    )
+    for phase in phases:
+        check = shlex.quote(
+            f'import sys; print(sys.version); assert "{runs[phase]["actual_sha"][:7]}" in sys.version'
+        )
+        if is_repl:
+            lines.extend(
+                [
+                    "  docker run --rm --platform linux/arm64 --network none \\",
+                    f'    --mount "type=bind,source=$rustpython_repro_root/{phase},target=/repo,readonly" \\',
+                    f'    --mount "type=bind,source=$rustpython_repro_root/target-{phase},target=/target,readonly" \\',
+                    "    --env RUSTPYTHONPATH=/repo/Lib --env PYTHONDONTWRITEBYTECODE=1 \\",
+                    f'    --workdir /repo "$rustpython_repro_{phase}_image" \\',
+                    f"    /target/release/rustpython -c {check}",
+                ]
+            )
+        else:
+            lines.extend(
+                [
+                    f'  RUSTPYTHONPATH="$rustpython_repro_root/{phase}/Lib" PYTHONDONTWRITEBYTECODE=1 \\',
+                    f'    "$rustpython_repro_root/target-{phase}/release/rustpython" \\',
+                    f"    -c {check}",
+                ]
+            )
+    lines.extend(
+        [
+            ")",
+            "```",
+            "",
+            "Each interpreter below is paired with `Lib` from its own checkout. These revisions all have a top-level `Lib` directory.",
+            "",
+        ]
+    )
+    return lines
+
+
 def reproduction_steps(item):
-    """Commands for readers to reproduce behavior directly in RustPython."""
+    """Explicit checkout, build and before/after commands for report readers."""
     number = item["issue"]
     case = BUNDLE / "cases" / str(number)
     if item["kind"] == "documentation":
@@ -184,35 +313,49 @@ def reproduction_steps(item):
             "",
             "Follow redirects and inspect the returned API documentation. The recorded response was the RustPython 0.6.0 API page.",
         ]
+    steps = reproduction_setup(item)
     if item["kind"] == "repl":
-        return [
-            "On Linux, start the interactive interpreter in a scratch directory with a writable history directory:",
-            "",
-            "```sh",
-            "(",
-            '  rustpython_repro_bin="$PWD/target/release/rustpython"',
-            '  rustpython_repro_lib="$PWD/Lib"',
-            "  rustpython_repro_tmp=$(mktemp -d)",
-            '  mkdir -p "$rustpython_repro_tmp/config/rustpython"',
-            '  cd "$rustpython_repro_tmp" || exit',
-            '  TERM=xterm XDG_CONFIG_HOME="$rustpython_repro_tmp/config" \\',
-            '    RUSTPYTHONPATH="$rustpython_repro_lib" "$rustpython_repro_bin"',
-            ")",
-            "```",
-            "",
-            "Enter the two blocks below, pressing Enter on an empty line after each block. Use the REPL: running this as a script does not exercise expression display.",
-            "",
-            "```python",
-            "for i in range(10):",
-            "    i",
-            "",
-            'with open("repl-output.txt", "w") as f:',
-            '    f.write("hello")',
-            "",
-            "```",
-            "",
-            "The current interpreter should display 0 through 9 after the loop and 5 after the `with` block, returning to the primary prompt after each. Enter `exit()` when finished.",
-        ]
+        for step, phase in enumerate(("historical", "current"), 3):
+            expected = (
+                "Neither block should display expression values on this historical build."
+                if phase == "historical"
+                else "The loop should display 0 through 9, and the `with` block should display 5."
+            )
+            steps.extend(
+                [
+                    f"### {step}. Run the {phase} interpreter interactively",
+                    "",
+                    "Run this in a terminal with a TTY. The container uses its matching checkout and executable and writes REPL history/output only in its scratch directory.",
+                    "",
+                    "```sh",
+                    f'mkdir -p "$rustpython_repro_root/scratch-{phase}/config/rustpython"',
+                    "docker run --rm -it --platform linux/arm64 --network none \\",
+                    f'  --mount "type=bind,source=$rustpython_repro_root/{phase},target=/repo,readonly" \\',
+                    f'  --mount "type=bind,source=$rustpython_repro_root/target-{phase},target=/target,readonly" \\',
+                    f'  --mount "type=bind,source=$rustpython_repro_root/scratch-{phase},target=/scratch" \\',
+                    "  --env TERM=xterm --env XDG_CONFIG_HOME=/scratch/config \\",
+                    "  --env RUSTPYTHONPATH=/repo/Lib --env PYTHONDONTWRITEBYTECODE=1 \\",
+                    f'  --workdir /scratch "$rustpython_repro_{phase}_image" \\',
+                    "  /target/release/rustpython",
+                    "```",
+                    "",
+                    "Enter these lines at the Python prompts. Press Enter on an empty line after each indented block, wait for the primary prompt, then enter the next block. Use these same inputs for both versions:",
+                    "",
+                    "```python",
+                    "for i in range(10):",
+                    "    i",
+                    "",
+                    'with open("repl-output.txt", "w") as f:',
+                    '    f.write("hello")',
+                    "",
+                    "```",
+                    "",
+                    expected
+                    + " After both blocks return to the primary prompt, enter `exit()` to return to the shell before continuing.",
+                    "",
+                ]
+            )
+        return steps[:-1]
     code = (case / item["input"]).read_text().rstrip()
     if number == 4690:
         # The report concerns the raw descriptor, which is the first expression.
@@ -224,21 +367,71 @@ def reproduction_steps(item):
             + source
             + '"""\ncompile(source, "repro.py", "exec")\nprint("compile_success")'
         )
-    prefix = 'RUSTPYTHONPATH="$PWD/Lib" ./target/release/rustpython'
-    lines = [line for line in code.splitlines() if line]
-    if len(lines) <= 2 and not any(line[0].isspace() for line in lines):
-        command = [prefix + " -c " + shlex.quote("; ".join(lines))]
-    else:
-        command = [prefix + " -c " + shlex.quote("\n" + code + "\n")]
-    steps = ["```sh", *command, "```"]
     prerequisites = {
         4856: "This compiles the original source without executing it, directly testing the reported compiler panic.",
-        5181: "The system must provide `en_US.UTF-8` (`locale -a`). The command selects that locale explicitly.",
-        6790: "Use the matching RustPython standard library, including `test.support`, with lzma available. The function is actually invoked after applying the decorator.",
+        5181: "The system must provide `en_US.UTF-8`. Check with `locale -a` before running either version; the input selects that locale explicitly.",
+        6790: "Both builds use their own `test.support` and lzma implementation. The input applies the decorator and actually invokes the wrapped function.",
     }
+    steps.extend(
+        [
+            "### 3. Save the shared reproduction input",
+            "",
+            "Write the input once; both runs below execute this exact file.",
+            "",
+        ]
+    )
     if number in prerequisites:
-        steps.extend(["", prerequisites[number]])
-    return steps
+        steps.extend([prerequisites[number], ""])
+    steps.extend(
+        [
+            "```sh",
+            "cat > \"$rustpython_repro_root/repro.py\" <<'PY'",
+            code,
+            "PY",
+            "```",
+            "",
+            "### 4. Run the historical and current builds",
+            "",
+            "Each command prints the process exit code, including expected failures, so an old-version exception does not prevent the current-version check. Compare the output with the table below.",
+            "",
+        ]
+    )
+    for phase in ("historical", "current"):
+        steps.extend(
+            [
+                f"**{phase.capitalize()}:**",
+                "",
+                "```sh",
+                "(",
+                '  cd "$rustpython_repro_root" || exit',
+                "  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE",
+                f'  if RUSTPYTHONPATH="$rustpython_repro_root/{phase}/Lib" PYTHONDONTWRITEBYTECODE=1 \\',
+                f'    "$rustpython_repro_root/target-{phase}/release/rustpython" \\',
+                '    "$rustpython_repro_root/repro.py"; then',
+                "    printf 'exit_code=0\\n'",
+                "  else",
+                "    printf 'exit_code=%s\\n' \"$?\"",
+                "  fi",
+                ")",
+                "```",
+                "",
+            ]
+        )
+    if number == 4786:
+        steps.extend(
+            [
+                "The current run is expected to exit with code `1` and `UnicodeEncodeError`; that rejection is the corrected behavior.",
+                "",
+            ]
+        )
+    elif number == 5656:
+        steps.extend(
+            [
+                "Both runs exit with code `0`; the current run must additionally emit the `SyntaxWarning` for `\\X`.",
+                "",
+            ]
+        )
+    return steps[:-1]
 
 
 def historical_label(item):
@@ -372,22 +565,6 @@ def render_recorded(manifest):
     current_link = (
         f"[{sha[:12]}](https://github.com/RustPython/RustPython/commit/{sha})"
     )
-    setup = [
-        "Run from a RustPython checkout of the revision being tested. The recorded current revision is "
-        + current_link
-        + ". Build its default-feature release interpreter:",
-        "",
-        "```sh",
-        "cargo build --release --locked",
-        "```",
-        "",
-        "The commands below invoke RustPython directly and include the reproduction input. The runtime comparisons were recorded on macOS ARM64, except the REPL comparison on Linux ARM64.",
-    ]
-    history_help = (
-        "To repeat a historical comparison, use the same input with an interpreter built from the listed historical revision and that checkout's standard library. "
-        "Replace both `./target/release/rustpython` and `RUSTPYTHONPATH` in the command; older trees may use `pylib/Lib` or `vm/pylib-crate/Lib`. "
-        "The linked execution metadata records the historical build toolchain."
-    )
     submission_results = {
         2527: (
             "REPL expressions inside blocks",
@@ -513,8 +690,6 @@ def render_recorded(manifest):
             "## Reproduction procedure",
             "",
         ]
-        if item["kind"] != "documentation":
-            text.extend([*setup, ""])
         text.extend(
             [
                 *steps,
@@ -530,7 +705,6 @@ def render_recorded(manifest):
         )
         if item["historical_sha"]:
             text.extend(recorded_output_table(item))
-            text.extend([history_help, ""])
         text.extend(
             [
                 "## Analysis and closure rationale",

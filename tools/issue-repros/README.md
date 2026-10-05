@@ -7,8 +7,9 @@ REPL examples, and one documentation URL check. The interpreter baseline is
 
 - [Combined issue submission draft](report.md): a closure request with each issue's
   before/after behavior, related changes and link to its detailed report.
-- [Detailed reports](cases/): reproduction commands, inline before/after output
-  comparisons, analysis and relevant PRs in a separate file for each issue.
+- [Detailed reports](cases/): exact historical/current checkout commands, pinned
+  build toolchains, executable version checks, identical reproduction inputs,
+  inline output comparisons, analysis and relevant PRs for each issue.
   Full logs remain linked; display-only omissions are labeled in the comparison.
 - [Case definitions and expected results](manifest.json)
 - [Local validation record](VALIDATION.md)
@@ -78,11 +79,19 @@ python3 tools/issue-repros/run.py \
   --issue 4762
 ```
 
-Older checkouts may put the standard library under `pylib/Lib` or
-`vm/pylib-crate/Lib`. Use the layout of that checkout. The case document identifies
-the recorded revision, and `evidence/metadata.json` records available toolchain,
-binary and input hashes. Historical builds can require older Rust toolchains
-and dependency resolution; this bundle does not rebuild them automatically.
+For the recorded comparisons, follow the complete checkout/build/run procedure
+in the individual case document. It creates separate source and target directories
+for the two exact commits, pins the recorded Rust toolchains, verifies each
+binary's embedded commit, then executes the same input with that version's `Lib`.
+All selected revisions have a top-level `Lib` directory. #2527 uses the recorded
+Linux ARM64 Docker images and starts each REPL separately in a real terminal.
+The other runtime reports describe the recorded macOS ARM64 builds.
+
+The local runner above consumes already-built interpreters. Changing a working
+directory or `RUSTPYTHONPATH` does not select a different interpreter version;
+select the separately built executable as well as its matching standard library.
+Keep the source checkout used to build it: historical binaries may retain that
+checkout's standard-library path, which `RUSTPYTHONPATH` does not necessarily replace.
 
 The runner always checks the **current expected behavior**. An old build that
 reproduces the original failure should therefore report `FAIL`; inspect its
