@@ -36,18 +36,23 @@ pull request, comment or issue-state mutation is part of this task.
 
 AI assistance: OpenAI Codex prepared and checked the publication packet.
 
-## Local readability review
+## Readability validation
 
-The subsequent local edit changes presentation and corrects template text; it
-does not rerun interpreters or change closure verdicts.
+The documentation edit changes presentation without rerunning interpreters or
+changing closure verdicts.
 
-- All 27 current case documents and the environment guide use vertical sections
-  and lists instead of output-comparison or execution-record tables. Long code
-  and logs use expandable sections. Raw evidence files remain unchanged.
-- Shared reproducer excerpts show the selected issue function. The safe-path
-  case describes its actual command and PTY checks, and the HTTP case omits
-  inapplicable interpreter fields.
-- Current Markdown parses, evidence links resolve, and the 24-issue body retains
-  its manually reviewed text when the renderer runs.
-- The local preview of the expanded safe-path results fits a 390-pixel viewport
-  without horizontal page overflow. This is a local preview, not a remote update.
+- All 27 detailed reports use ordinary sections and lists, with no Markdown
+  tables or expandable sections. Reproduction inputs, prerequisite versions and
+  locales, commands, expected results and recorded results appear inline.
+- Shared Python probes include the selected function, imports and dispatcher.
+  Companion input files and supplementary regression-test runners are included
+  where needed. REPL input remains literal terminal input.
+- Displayed Python code is checked against archived source. Differences are
+  limited to documented path substitutions and presentation; formatting changes
+  preserve the syntax tree. The safe-path fixture uses a shorter directory name.
+- Repeated shutdown warnings and runner metadata are omitted from historical
+  excerpts. Essential failure messages remain. Reformatted output is identified.
+- Current Markdown parses, local evidence links resolve, and the renderer is
+  deterministic. The combined draft still contains exactly 24 closure candidates.
+- Raw evidence, historical archives, executable caches and interpreter sources
+  remain unchanged. This validation runs no behavior probes.

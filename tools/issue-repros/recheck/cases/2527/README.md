@@ -1,33 +1,53 @@
 # REPL expressions inside blocks (#2527)
 
-## Summary
+[Original issue](https://github.com/RustPython/RustPython/issues/2527). **Resolved in the reported scope.** The interactive REPL displays expression values inside the original `for` and `with` blocks.
 
-The behavior reported in [#2527](https://github.com/RustPython/RustPython/issues/2527) is resolved in the tested interactive REPL. Both original compound-statement examples display their expression values, matching CPython.
+## Environment
 
-Verified at [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c) on October 5, 2026.
+- Source and standard library: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
+- Verified October 5, 2026 on macOS 26.5.2 ARM64.
+- RustPython 0.6.1 / Python 3.14.0.alpha, x86_64 through Rosetta.
+- Comparison: CPython 3.14.6 ARM64.
 
-## Reproducer
+Use absolute paths: set `RP` and `CP` to those executables, `SRC` to the matching source directory, and `CASE` to an existing writable directory for the two new output files.
 
-Send the following lines to an actual PTY REPL, including the blank line after each block. The same input was sent to RustPython and CPython. This is interactive input, not a script invocation.
+```sh
+export RP CP SRC CASE
+unset PYTHONPATH PYTHONHOME PYTHONWARNINGS PYTHONSTARTUP
+export PYTHONDONTWRITEBYTECODE=1
+export TERM=xterm LC_ALL=en_US.UTF-8 PYTHON_BASIC_REPL=1
+cd "$SRC"
+```
+
+## Reproduce in an actual REPL
+
+Start each interpreter in a terminal or PTY:
+
+```sh
+RUSTPYTHONPATH="$SRC/Lib" "$RP" -B -S -q
+"$CP" -B -S -q
+```
+
+Enter the following input in each session, retaining the blank line after each block. The file path uses `CASE` in place of the recorded absolute directory; the two expression statements are unchanged.
 
 ```text
-import sys
+import os, sys
 for i in range(10):
     i
 
-with open('<initial16-audit>/agent-b/repl-created-' + sys.implementation.name + '.txt', 'x') as f:
-    f.write('hello')
+name = "repl-created-" + sys.implementation.name + ".txt"
+path = os.path.join(os.environ["CASE"], name)
+with open(path, "x") as f:
+    f.write("hello")
 
-import os; sys.stdout.flush(); sys.stderr.flush(); os._exit(0)
+sys.stdout.flush(); sys.stderr.flush(); os._exit(0)
 ```
 
-The file path is a placeholder for the recorded scratch directory. The original file-write example used mode `w`; this run used `x` and an implementation-specific filename to preserve existing files. `os._exit(0)` avoided writing REPL history. Both changes are recorded in the [execution metadata](../../evidence/initial16/agent-b/fresh-2527-pty-rp.json).
+The original file-write example used `w`. The recorded check used `x` and a distinct filename per interpreter so existing files were preserved. Use unused filenames for another run. `os._exit(0)` followed explicit flushing and prevented REPL-history writes.
 
-## Expected and observed results
+## Results
 
-### RustPython and CPython
-
-The loop should display `0` through `9`, and `f.write('hello')` should display `5`. Both PTY sessions produced those values:
+Both sessions displayed these expression values, exited `0` and reached every expected prompt without a timeout:
 
 ```text
 0
@@ -43,16 +63,43 @@ The loop should display `0` through `9`, and `f.write('hello')` should display `
 5
 ```
 
-This excerpt contains the expression results only. Prompts, echoed input and ANSI terminal-control sequences are omitted for readability; the complete transcripts are linked below.
+The first ten lines come from the loop; the final `5` is the return value of `f.write("hello")`. Prompts, echoed input and ANSI cursor-control sequences are omitted here. The PTY captured stdout and stderr together.
 
-Both processes exited with code `0`, with no prompt timeouts. PTY stdout and stderr were captured together, so there is no separate stderr result.
+### Displayhook and function-scope check
 
-- **RustPython:** [command, input and environment](../../evidence/initial16/agent-b/fresh-2527-pty-rp.json) · [complete PTY transcript](../../evidence/initial16/agent-b/fresh-2527-pty-rp.transcript).
-- **CPython 3.14.6:** [command, input and environment](../../evidence/initial16/agent-b/fresh-2527-pty-cp.json) · [complete PTY transcript](../../evidence/initial16/agent-b/fresh-2527-pty-cp.transcript).
+Save this additional input as `probe-2527-single.py`:
 
-### Additional displayhook checks
+```python
+import sys
 
-Separate single-mode checks cover the issue comment's displayhook behavior and function scope. Both interpreters produced:
+seen = []
+sys.displayhook = seen.append
+exec(compile("for i in range(10):\n    i\n", "for", "single"))
+print("for displayhook", seen)
+seen.clear()
+exec(
+    compile(
+        "if True:\n    7\n    None\n    for i in range(2):\n        i + 10\n",
+        "nested",
+        "single",
+    )
+)
+print("nested displayhook", seen)
+seen.clear()
+exec(compile("def f():\n    9\n", "function", "single"))
+print("function definition hook", seen)
+f()
+print("function execution hook", seen)
+```
+
+Run it with both interpreters:
+
+```sh
+RUSTPYTHONPATH="$SRC/Lib" "$RP" -B -S "$CASE/probe-2527-single.py"
+"$CP" -B -S "$CASE/probe-2527-single.py"
+```
+
+Both exited `0` with empty stderr and printed:
 
 ```text
 for displayhook [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -61,50 +108,25 @@ function definition hook []
 function execution hook []
 ```
 
-Both checks exited with code `0`, without a timeout or stderr output. These supplement the actual PTY sessions above.
-
-- **RustPython:** [execution record](../../evidence/initial16/agent-b/fresh-2527-single-rp.json) · [stdout](../../evidence/initial16/agent-b/fresh-2527-single-rp.stdout) · [stderr](../../evidence/initial16/agent-b/fresh-2527-single-rp.stderr).
-- **CPython:** [execution record](../../evidence/initial16/agent-b/fresh-2527-single-cp.json) · [stdout](../../evidence/initial16/agent-b/fresh-2527-single-cp.stdout) · [stderr](../../evidence/initial16/agent-b/fresh-2527-single-cp.stderr).
-
 ### Historical failure
 
-The reused Linux PTY record at [`163cd1953377`](https://github.com/RustPython/RustPython/commit/163cd1953377f4049e06fdae55c715889857a301) shows both blocks returning to the prompt without displaying their expression values. That process also exited with code `0`; the missing output is the reported failure.
+The previously recorded Linux PTY run at [`163cd1953377`](https://github.com/RustPython/RustPython/commit/163cd1953377f4049e06fdae55c715889857a301) returned to the prompt after both blocks without displaying their values. It also exited `0`; missing expression output was the failure. That historical run was not repeated with the current macOS comparison.
 
-This historical run was not repeated in the independent verification. Its input, platform and file-handling details differ from the new run and are preserved in the [historical metadata](../../../cases/2527/evidence/metadata.json) and [complete transcript](../../../cases/2527/evidence/historical.stdout.txt).
+## Related change and scope
 
-## Commands and environment
+[PR #7067](https://github.com/RustPython/RustPython/pull/7067) displays interactive expressions in nested blocks. The original REPL examples and the displayhook checks support closure. The current comparison covers macOS/Rosetta; the first fixing commit was not established.
 
-These are the recorded PTY launch commands, with local paths represented by placeholders. Substitute the paths described in [environment and path mapping](../../ENVIRONMENT.md), then send the interactive input above.
+## Evidence
 
-**RustPython:**
+Recorded executable SHA-256 values:
 
-```sh
-cd "<slot-b-source>"
-env PYTHONDONTWRITEBYTECODE=1 TERM=xterm LC_ALL=en_US.UTF-8 \
-    PYTHON_BASIC_REPL=1 RUSTPYTHONPATH="<slot-b-source>/Lib" \
-    "<survey>/.build/slot-b/saved/current-f39-x86/rustpython" -B -S -q
-```
+- RustPython: `d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871`.
+- CPython: `58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef`.
 
-**CPython:**
+- [RustPython PTY record](../../evidence/initial16/agent-b/fresh-2527-pty-rp.json) and [transcript](../../evidence/initial16/agent-b/fresh-2527-pty-rp.transcript).
+- [CPython PTY record](../../evidence/initial16/agent-b/fresh-2527-pty-cp.json) and [transcript](../../evidence/initial16/agent-b/fresh-2527-pty-cp.transcript).
+- [RustPython displayhook record](../../evidence/initial16/agent-b/fresh-2527-single-rp.json) and [CPython displayhook record](../../evidence/initial16/agent-b/fresh-2527-single-cp.json).
+- [Historical metadata](../../../cases/2527/evidence/metadata.json) and [transcript](../../../cases/2527/evidence/historical.stdout.txt).
+- [Scope and execution inventory](assessment.json).
 
-```sh
-cd "<slot-b-source>"
-env PYTHONDONTWRITEBYTECODE=1 TERM=xterm LC_ALL=en_US.UTF-8 \
-    PYTHON_BASIC_REPL=1 \
-    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14" -B -S -q
-```
-
-- Host: macOS 26.5.2 ARM64.
-- RustPython: x86_64 executable through Rosetta, with the matching baseline standard library.
-- CPython: 3.14.6 ARM64.
-- Executable SHA-256 values are in each linked execution record; source and standard-library identity are documented in [ENVIRONMENT.md](../../ENVIRONMENT.md).
-
-## Related change and closure rationale
-
-[PR #7067](https://github.com/RustPython/RustPython/pull/7067) adds display of interactive expressions in nested blocks. That change explains the behavior observed in the two original REPL examples and the displayhook checks.
-
-These results support closing #2527 for its reported scope. The new executions cover macOS/Rosetta; Linux evidence is reused, and no new Windows run was performed. The first fixing commit was not established by adjacent-revision execution or bisect.
-
-[Independent assessment and evidence provenance](assessment.json).
-
-AI assistance: verification and drafting with OpenAI Codex.
+AI assistance: OpenAI Codex.

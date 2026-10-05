@@ -1,67 +1,50 @@
 # RustPython resolved-issue reproducers
 
-The October 5, 2026 independent review recommends **24 issues for closure** and
-keeps **3 partially resolved issues open**. The interpreter baseline remains
+The October 5, 2026 review recommends **24 issues for closure** and identifies
+**3 partially resolved issues** at
 [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
 
-- [Combined issue submission draft](report.md): the 24 closure candidates, using
-  the existing issue-summary, related-change and reproduction-link format.
-- [Current detailed reports](recheck/cases/): executed input, expected and observed
-  output, commands, rationale, environment and linked evidence for all 27 issues.
-- [Not ready for closure](recheck/not-ready.md): #4613, #5181 and #6790, including
-  the counterexamples that changed the previous recommendations.
-- [Current case manifest](recheck/manifest.json).
-- [Executable and standard-library identity](recheck/ENVIRONMENT.md).
-- [Publication validation](recheck/VALIDATION.md).
+- [Combined issue draft](report.md): the 24 closure recommendations.
+- [Detailed reports](recheck/cases/): all 27 cases, with complete reproduction
+  inputs, commands, environment, expected results and recorded results inline.
+- [Partially resolved issues](recheck/not-ready.md): #4613, #5181 and #6790.
+- [Case manifest](recheck/manifest.json).
+- [Environment and evidence mapping](recheck/ENVIRONMENT.md).
+- [Validation record](recheck/VALIDATION.md).
 
-This branch contains a draft only. No GitHub issue, PR or comment was submitted.
-#6697 and #5361 are outside these independent reviews and are not included.
+## Reading and reproducing a case
 
-## Read and reproduce the current evidence
+Each detailed report can be read from top to bottom without expanding sections
+or opening supporting files. Raw evidence links provide the original execution
+records and full logs in addition to the relevant results shown inline.
 
-Each current case presents the reproducer, expected and observed results,
-commands, analysis, versions and linked evidence. Output is grouped vertically
-by execution, with long code and logs in expandable sections. Historical results
-are explicitly marked as reused evidence. The October 5 current results
-were independently executed; publication itself does not claim new executions.
+Use the interpreter versions, matching source and standard library, dependency
+versions and locale settings specified in the case. Commands use named path
+variables in place of machine-specific paths. Archived inputs use a `.py.txt`
+suffix to preserve the executed source independently of document formatting.
 
-The [environment guide](recheck/ENVIRONMENT.md) explains the two existing execution
-slots, exact binary hashes, actual imported `Lib` locations, CPython version and
-local-path placeholders. Archived Python inputs retain a `.py.txt` suffix so
-formatting tools cannot silently alter the executed evidence. They are readable
-Python source, not a new build environment or automatically portable setup.
+Current results were executed on October 5; historical results are labeled
+separately. Related changes explain the observed behavior without claiming an
+unverified first fixing commit.
 
-The independent review used new agents without inherited conclusions. They read
-the original issue requirements before reading the previous report. The current
-verdicts are based on fresh behavior and source inspection, with historical logs
-clearly separated. Related PRs are not asserted to be the first fixing commits.
-
-Regenerate the current draft and detailed reports without running interpreters:
+Regenerate the current documents without running interpreters:
 
 ```sh
 python3 tools/issue-repros/recheck/render.py
 ```
 
-## Preserved October 4 material
+## Historical archive
 
-The original [16-case catalog](manifest.json), [case files](cases/), [runner](run.py)
-and [validation record](VALIDATION.md) are retained. Their passing narrow oracles
-do not override the independent verdicts: in particular, the bare locale example
-and forced-skip check do not establish closure of #5181 or #6790.
+The original [16-case manifest](manifest.json), [case files](cases/),
+[validation record](VALIDATION.md), [combined draft](recheck/archive/report-before-independent-review.md)
+and [setup guide](recheck/archive/README-before-independent-review.md) are
+preserved for comparison. Current closure recommendations are in `report.md`.
 
-The former [combined draft](recheck/archive/report-before-independent-review.md)
-and [setup/runner guide](recheck/archive/README-before-independent-review.md) are
-archived. Those documents describe the earlier scope and are not the current
-closure recommendation. Existing `BUILD.md` recipes are historical instructions;
-no clone, checkout, new target directory or rebuild was used for this update.
-
-The legacy renderer still regenerates its 16 case documents. Once this recheck
-catalog is present, its aggregate output goes to `legacy-report.md`, preserving
-the current 24-case `report.md`:
+The [legacy runner](run.py) writes its aggregate output to `legacy-report.md`
+when the current recheck catalog is present:
 
 ```sh
 python3 tools/issue-repros/run.py --render-recorded
 ```
 
-AI assistance: OpenAI Codex assisted with independent verification, evidence
-selection, packaging and drafting.
+AI assistance: OpenAI Codex.

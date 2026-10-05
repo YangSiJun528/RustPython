@@ -1,23 +1,55 @@
 # SymPy import with the reported versions (#4506)
 
-Original issue: [#4506](https://github.com/RustPython/RustPython/issues/4506)
+[Original issue](https://github.com/RustPython/RustPython/issues/4506). **Resolved in the reported scope.** SymPy 1.11.1 with mpmath 1.2.1 imports successfully. Tracing observes the original power.py:378 is_commutative assignment, and the reported Pow path succeeds.
 
-**Verified closure candidate:** SymPy 1.11.1 with mpmath 1.2.1 imports successfully. Tracing observes the original power.py:378 is_commutative assignment, and the reported Pow path succeeds.
+## Environment
 
-**Current verification:** `f39b054b9c8cbbf884f53123eef028131789990c` (October 5, 2026). Historical observations are reused and are explicitly separated below.
+- Source and standard library: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
+- Verified October 5, 2026 on macOS 26.5.2 ARM64.
+- RustPython: 0.6.1, Python 3.14.0.alpha; x86_64 through Rosetta.
+- Comparison: CPython 3.14.6 ARM64.
+
+Use absolute paths for the variables below:
+
+- `RP`: the RustPython executable for this commit.
+- `CP`: the CPython 3.14.6 executable.
+- `SRC`: the source directory at this commit, including its matching `Lib`.
+- `CASE`: the directory containing the files shown below.
+
+Shell variables replace recorded absolute paths. Export them so the Python inputs can use them:
+
+```sh
+export RP CP SRC CASE
+unset PYTHONPATH PYTHONHOME PYTHONWARNINGS PYTHONSTARTUP
+export PYTHONDONTWRITEBYTECODE=1
+```
+
+```sh
+export LANG=en_US.UTF-8 LC_NUMERIC=en_US.UTF-8
+```
+
+`LC_ALL` was unset in these recorded runs.
+
+```sh
+unset LC_ALL
+```
+
+Dependencies: **SymPy 1.11.1** and **mpmath 1.2.1**. Set `SYMPY_SITE` to their shared package directory and export it. Both interpreters used the same package files; package installation and the full SymPy suite are outside this check.
+
+```sh
+export SYMPY_SITE
+```
 
 ## Reproducer
 
-Executed input: [probe-sympy-original.py](../../evidence/additional11/agent-b/probe-sympy-original.py.txt). The export preserves the executed code except for documented local-path substitutions.
-
-<details>
-<summary>Reproducer code</summary>
+Save as `probe-sympy-original.py`. `SYMPY_SITE` replaces the recorded package path.
 
 ```python
 import sys
+import os
 import json
 
-site = "<survey>/verification-tools/package-history-4506-original/site"
+site = os.environ["SYMPY_SITE"]
 sys.path.insert(0, site)
 import sympy
 import mpmath
@@ -64,28 +96,43 @@ print(
 )
 ```
 
-</details>
+## Run
 
-## Expected and observed results
+```sh
+cd "$SRC"
+```
+
+**RustPython:**
+
+```sh
+RUSTPYTHONPATH="$SRC/Lib" "$RP" -B "$CASE/probe-sympy-original.py"
+```
+
+**CPython:**
+
+```sh
+"$CP" -B "$CASE/probe-sympy-original.py"
+```
+
+## Results
 
 **Expected:** The already installed reported package versions must import without the descriptor AttributeError.
 
-**Observed:** SymPy 1.11.1 with mpmath 1.2.1 imports successfully. Tracing observes the original power.py:378 is_commutative assignment, and the reported Pow path succeeds.
+### RustPython and CPython 3.14.6
 
-Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
-
-<details>
-<summary>Current verification — exit 0</summary>
+Exit code: `0`. No timeout.
 
 **stdout:**
 
-```text
+```json
 {
   "versions": [
     "1.11.1",
     "1.2.1"
-...
-    "<survey>/verification-tools/package-history-4506-original/site/mpmath/__init__.py"
+  ],
+  "files": [
+    "$SYMPY_SITE/sympy/__init__.py",
+    "$SYMPY_SITE/mpmath/__init__.py"
   ],
   "original_assignment": [
     [
@@ -99,130 +146,55 @@ Output is grouped by execution below. Historical and current runs may use differ
 }
 ```
 
-Excerpt; complete output is in the linked execution record.
-
 **stderr:**
 
 ```text
-<survey>/verification-tools/package-history-4506-original/site/sympy/testing/runtests.py:275: SyntaxWarning: 'return' in a 'finally' block
+$SYMPY_SITE/sympy/testing/runtests.py:275: SyntaxWarning: 'return' in a 'finally' block
   return p.returncode
 ```
 
-</details>
+### Historical failure
 
-<details>
-<summary>CPython 3.14.6 — exit 0</summary>
-
-**stdout:**
-
-```text
-{
-  "versions": [
-    "1.11.1",
-    "1.2.1"
-...
-    "<survey>/verification-tools/package-history-4506-original/site/mpmath/__init__.py"
-  ],
-  "original_assignment": [
-    [
-      "__new__",
-      378
-    ]
-  ],
-  "pow": "1/E",
-  "is_commutative": true,
-  "expanded": "x**2 + 2*x + 1"
-}
-```
-
-Excerpt; complete output is in the linked execution record.
-
-**stderr:**
-
-```text
-<survey>/verification-tools/package-history-4506-original/site/sympy/testing/runtests.py:275: SyntaxWarning: 'return' in a 'finally' block
-  return p.returncode
-```
-
-</details>
-
-<details>
-<summary>RustPython before (reused) — exit 1</summary>
+Previously recorded at [`adc23253e4b5`](https://github.com/RustPython/RustPython/commit/adc23253e4b58980b407ba2760dbe61681d752fc); exit code `1`. This run was not repeated alongside the current results. Historical inputs may differ from the expanded checks above.
 
 **stdout:** No output.
 
 **stderr:**
 
 ```text
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-...
     class LambertW(Function):
-  File "<survey>/verification-tools/package-history-4506-original/site/sympy/functions/elementary/exponential.py", line 1159, in LambertW
+  File "$SYMPY_SITE/sympy/functions/elementary/exponential.py", line 1159, in LambertW
     _singularities = (-Pow(S.Exp1, -1, evaluate=False), S.ComplexInfinity)
-  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/cache.py", line 74, in wrapper
+  File "$SYMPY_SITE/sympy/core/cache.py", line 74, in wrapper
     retval = func(*args, **kwargs)
-  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/cache.py", line 70, in wrapper
+  File "$SYMPY_SITE/sympy/core/cache.py", line 70, in wrapper
     retval = cfunc(*args, **kwargs)
-  File "<slot-b-source>/pylib/Lib/functools.py", line 593, in wrapper
+  File "$SRC/pylib/Lib/functools.py", line 593, in wrapper
     result = user_function(*args, **kwds)
-  File "<survey>/verification-tools/package-history-4506-original/site/sympy/core/power.py", line 378, in __new__
+  File "$SYMPY_SITE/sympy/core/power.py", line 378, in __new__
     obj.is_commutative = (b.is_commutative and e.is_commutative)
 AttributeError: can't set attribute
 ```
 
-Excerpt; complete output is in the linked execution record.
-
-</details>
-
-## Run
-
-Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
-
-```sh
-'<survey>/.build/slot-b/saved/current-f39-x86/rustpython' -B \
-  '<additional11-audit>/agent-b/probe-sympy-original.py'
-```
-
-CPython reference command:
-
-```sh
-'<home>/.local/bin/python3' -B '<additional11-audit>/agent-b/probe-sympy-original.py'
-```
-
-All environment overrides, cwd, input and executable identity are preserved in the execution records below.
-
-## Analysis and closure rationale
-
-SymPy 1.11.1 with mpmath 1.2.1 imports successfully. Tracing observes the original power.py:378 is_commutative assignment, and the reported Pow path succeeds.
+## Related change and scope
 
 [PR #6390](https://github.com/RustPython/RustPython/pull/6390): install declared slot descriptors even over inherited attributes.
 
-The changes explain the observed behavior. No adjacent parent/commit execution or bisect established the first fixing commit.
+The same dependency files were used in RustPython and CPython and their RECORD hashes were checked. Package installation and the full SymPy suite were not rerun.
 
-**Scope and limitations:** The same dependency files were used in RustPython and CPython and their RECORD hashes were checked. Package installation and the full SymPy suite were not rerun.
+First fixing commit: not established.
 
-## Versions and environment
+## Evidence
 
-- Baseline source: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
-- Host: macOS 26.5.2 ARM64. Slot A uses native ARM64 RustPython; slot B uses x86_64 RustPython through Rosetta. CPython is 3.14.6 ARM64.
-- This primary record is from slot B/Rosetta.
-- [Binary hashes, actual imported Lib, and resource constraints](../../ENVIRONMENT.md).
-- Historical runs were not replayed during the independent recheck or this publication. Approximate historical baselines remain marked in their metadata.
+Recorded executable SHA-256 values:
 
-## Recorded evidence
+- RustPython: `d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871`.
+- CPython: `58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef`.
 
-- [Reused historical metadata and evidence](reused-history.json).
-- Historical baseline: [`adc23253e4b5`](https://github.com/RustPython/RustPython/commit/adc23253e4b58980b407ba2760dbe61681d752fc), reused only. Exact/release/approximate selection is recorded in the historical metadata.
-- [Full reused historical-pinned-sympy111-mpmath121-b.stdout](../../evidence/history/logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stdout).
-- [Full reused historical-pinned-sympy111-mpmath121-b.stderr](../../evidence/history/logs/issue-4506-case-01/historical-pinned-sympy111-mpmath121-b.stderr).
-- [Independent assessment, original scope and limitations](assessment.json).
+- [CPython command, environment and output record](../../evidence/additional11/agent-b/4506-cpython.json).
+- [RustPython command, environment and output record](../../evidence/additional11/agent-b/4506-rustpython.json).
+- [Executed source](../../evidence/additional11/agent-b/probe-sympy-original.py.txt).
+- [Scope and complete execution inventory](assessment.json).
+- [Historical record](reused-history.json).
 
-- **[4506-cpython](../../evidence/additional11/agent-b/4506-cpython.json)** — exit `0`; timeout `false`.
-  stdout: [stdout](../../evidence/additional11/agent-b/4506-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/4506-cpython.stderr.txt).
-- **[4506-rustpython](../../evidence/additional11/agent-b/4506-rustpython.json)** — exit `0`; timeout `false`.
-  stdout: [stdout](../../evidence/additional11/agent-b/4506-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-b/4506-rustpython.stderr.txt).
-
-AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.
+AI assistance: OpenAI Codex.

@@ -1,17 +1,36 @@
 # Ellipsis type name (#8052)
 
-Original issue: [#8052](https://github.com/RustPython/RustPython/issues/8052)
+[Original issue](https://github.com/RustPython/RustPython/issues/8052). **Resolved in the reported scope.** The name and repr are `ellipsis` and `<class 'ellipsis'>`; the types alias and all four JSON error notes also match CPython.
 
-**Verified closure candidate:** The name and repr are `ellipsis` and `<class 'ellipsis'>`; the types alias, JSON error note and existing JSON regression tests also pass.
+## Environment
 
-**Current verification:** `f39b054b9c8cbbf884f53123eef028131789990c` (October 5, 2026). Historical observations are reused and are explicitly separated below.
+- Source and standard library: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
+- Verified October 5, 2026 on macOS 26.5.2 ARM64.
+- RustPython: 0.6.1, Python 3.14.0.alpha; x86_64 through Rosetta.
+- Comparison: CPython 3.14.6 ARM64.
+
+Use absolute paths for the variables below:
+
+- `RP`: the RustPython executable for this commit.
+- `CP`: the CPython 3.14.6 executable.
+- `SRC`: the source directory at this commit, including its matching `Lib`.
+- `CASE`: the directory containing the files shown below.
+
+Shell variables replace recorded absolute paths. Export them so the Python inputs can use them:
+
+```sh
+export RP CP SRC CASE
+unset PYTHONPATH PYTHONHOME PYTHONWARNINGS PYTHONSTARTUP
+export PYTHONDONTWRITEBYTECODE=1
+```
+
+```sh
+export LC_ALL=en_US.UTF-8
+```
 
 ## Reproducer
 
-Executed input: [probe-8052.py](../../evidence/initial16/agent-b/probe-8052.py.txt). The export preserves the executed code except for documented local-path substitutions.
-
-<details>
-<summary>Reproducer code</summary>
+Save as `probe-8052.py`.
 
 ```python
 import types, json, collections
@@ -37,18 +56,31 @@ except ValueError as e:
     print("notes", e.__notes__)
 ```
 
-</details>
+## Run
 
-## Expected and observed results
+```sh
+cd "$SRC"
+```
+
+**RustPython:**
+
+```sh
+RUSTPYTHONPATH="$SRC/Lib" "$RP" -B -S "$CASE/probe-8052.py"
+```
+
+**CPython:**
+
+```sh
+"$CP" -B -S "$CASE/probe-8052.py"
+```
+
+## Results
 
 **Expected:** The Ellipsis singleton type must use the CPython-visible name ellipsis.
 
-**Observed:** The name and repr are `ellipsis` and `<class 'ellipsis'>`; the types alias, JSON error note and existing JSON regression tests also pass.
+### RustPython and CPython 3.14.6
 
-Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
-
-<details>
-<summary>Current verification — exit 0</summary>
+Exit code: `0`. No timeout.
 
 **stdout:**
 
@@ -56,31 +88,23 @@ Output is grouped by execution below. Historical and current runs may use differ
 ellipsis
 <class 'ellipsis'>
 alias True
-notes ['when serializing ellipsis object', 'when serializing list item 0', 'when serializing module object', 'when serializing type object']
+notes [
+  'when serializing ellipsis object',
+  'when serializing list item 0',
+  'when serializing module object',
+  'when serializing type object',
+]
 ```
 
-**stderr:** No output.
+The notes list is line-wrapped for readability.
 
-</details>
+**stderr:**
 
-<details>
-<summary>CPython 3.14.6 — exit 0</summary>
+No output.
 
-**stdout:**
+### Historical failure
 
-```text
-ellipsis
-<class 'ellipsis'>
-alias True
-notes ['when serializing ellipsis object', 'when serializing list item 0', 'when serializing module object', 'when serializing type object']
-```
-
-**stderr:** No output.
-
-</details>
-
-<details>
-<summary>RustPython before (reused) — exit 0</summary>
+Previously recorded at [`83fe92042112`](https://github.com/RustPython/RustPython/commit/83fe92042112f9db89a70495b552ab433d77e751); exit code `0`. This run was not repeated alongside the current results. Historical inputs may differ from the expanded checks above.
 
 **stdout:**
 
@@ -91,55 +115,23 @@ EllipsisType
 
 **stderr:** No output.
 
-</details>
-
-## Run
-
-Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
-
-```sh
-'<survey>/.build/slot-b/saved/current-f39-x86/rustpython' -B -S \
-  '<initial16-audit>/agent-b/probe-8052.py'
-```
-
-CPython reference command:
-
-```sh
-'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B -S \
-  '<initial16-audit>/agent-b/probe-8052.py'
-```
-
-All environment overrides, cwd, input and executable identity are preserved in the execution records below.
-
-## Analysis and closure rationale
-
-The name and repr are `ellipsis` and `<class 'ellipsis'>`; the types alias, JSON error note and existing JSON regression tests also pass.
+## Related change and scope
 
 [PR #8580](https://github.com/RustPython/RustPython/pull/8580): correct the Ellipsis type name.
 
-The changes explain the observed behavior. No adjacent parent/commit execution or bisect established the first fixing commit.
+First fixing commit: not established.
 
-**Scope and limitations:** No first-fixing revision was determined.
+## Evidence
 
-## Versions and environment
+Recorded executable SHA-256 values:
 
-- Baseline source: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
-- Host: macOS 26.5.2 ARM64. Slot A uses native ARM64 RustPython; slot B uses x86_64 RustPython through Rosetta. CPython is 3.14.6 ARM64.
-- This primary record is from slot B/Rosetta.
-- [Binary hashes, actual imported Lib, and resource constraints](../../ENVIRONMENT.md).
-- Historical runs were not replayed during the independent recheck or this publication. Approximate historical baselines remain marked in their metadata.
+- RustPython: `d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871`.
+- CPython: `58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef`.
 
-## Recorded evidence
+- [CPython command, environment and output record](../../evidence/initial16/agent-b/fresh-8052-cp.json).
+- [RustPython command, environment and output record](../../evidence/initial16/agent-b/fresh-8052-rp.json).
+- [Executed source](../../evidence/initial16/agent-b/probe-8052.py.txt).
+- [Scope and complete execution inventory](assessment.json).
+- [Historical record](../../../cases/8052/evidence/metadata.json).
 
-- [Reused historical metadata and evidence](../../../cases/8052/evidence/metadata.json).
-- Historical baseline: [`83fe92042112`](https://github.com/RustPython/RustPython/commit/83fe92042112f9db89a70495b552ab433d77e751), reused only. Exact/release/approximate selection is recorded in the historical metadata.
-- [Full reused historical.stdout.txt](../../../cases/8052/evidence/historical.stdout.txt).
-- [Full reused historical.stderr.txt](../../../cases/8052/evidence/historical.stderr.txt).
-- [Independent assessment, original scope and limitations](assessment.json).
-
-- **[fresh-8052-cp](../../evidence/initial16/agent-b/fresh-8052-cp.json)** — exit `0`; timeout `false`.
-  stdout: [stdout](../../evidence/initial16/agent-b/fresh-8052-cp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-8052-cp.stderr).
-- **[fresh-8052-rp](../../evidence/initial16/agent-b/fresh-8052-rp.json)** — exit `0`; timeout `false`.
-  stdout: [stdout](../../evidence/initial16/agent-b/fresh-8052-rp.stdout); stderr: [stderr](../../evidence/initial16/agent-b/fresh-8052-rp.stderr).
-
-AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.
+AI assistance: OpenAI Codex.

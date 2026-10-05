@@ -1,8 +1,7 @@
 # Verification environment and evidence mapping
 
 These reports describe completed October 5, 2026 executions at
-`f39b054b9c8cbbf884f53123eef028131789990c`. Publishing this packet did not rerun
-the interpreters or build a new executable.
+`f39b054b9c8cbbf884f53123eef028131789990c`. Each case includes its reproduction inputs and relevant results inline.
 
 ## Executables and actual standard library
 
@@ -43,9 +42,8 @@ tracked Lib files in both locations matched the baseline blobs.
 
 ## Reading and replaying archived commands
 
-Machine-specific roots are replaced consistently. This is a publication edit,
-not a change to the completed local evidence. The [export manifest](export-manifest.json)
-records both original and exported SHA-256 values.
+Machine-specific roots in the raw records use the aliases below. The
+[export manifest](export-manifest.json) records original and exported SHA-256 values.
 
 - `<workspace>`: Existing main RustPython checkout.
 - `<slot-b-source>`: Existing second source checkout, `issue-history-b/RustPython`.
@@ -57,19 +55,10 @@ records both original and exported SHA-256 values.
 
 An execution JSON preserves argv, cwd, environment overrides, exit code and
 timeout, plus inline output or companion log references. These are recorded
-commands with explicit placeholders. To replay, use already available verified
-interpreters, map those roots to your setup, and copy the linked `.py.txt` input
-back to its original `.py` name in a new scratch location. Keep companion input
-files together and substitute the same roots inside the input where present.
-Do not run an archived host orchestration script without reviewing its paths.
-
-For an ordinary standalone input after that mapping:
-
-```sh
-RUSTPYTHONPATH="$RUSTPYTHON_SOURCE/Lib" PYTHONDONTWRITEBYTECODE=1 \
-  "$RUSTPYTHON" -B "$REPRO_INPUT"
-PYTHONDONTWRITEBYTECODE=1 "$CPYTHON" -B "$REPRO_INPUT"
-```
+commands with explicit placeholders. The detailed reports provide self-contained
+inputs and commands using `RP`, `CP`, `SRC` and `CASE` as absolute-path variables.
+To replay a raw record instead, map its aliases to your setup and save each
+`.py.txt` input under its original `.py` name. Keep companion files together.
 
 Preserve the selected record's additional arguments and environment. The shared
 additional-11 `probes.py` requires its issue number argument. SymPy uses the
@@ -85,13 +74,7 @@ user history. In six additional-11 PTY records, the field named `started_utc`
 was captured after `proc.wait()`, not before spawning. Raw metadata is retained;
 this known timing-label error does not change the input, output or exit status.
 
-## Resource limits and interpretation
-
-Each slot belonged to one agent; synchronous process calls completed before the
-next job in that slot. At most two behavior processes could run, one per slot.
-No new clone, worktree, target, package environment or rebuild was created.
-`-B` and `PYTHONDONTWRITEBYTECODE=1` prevented bytecode-cache writes. Existing
-source, binaries, logs and caches were preserved.
+## Interpreting results
 
 Timeouts, wrong environments and startup failures are not resolution evidence.
 An uncaught expected exception can legitimately exit 1 (#4786 and #5699), while

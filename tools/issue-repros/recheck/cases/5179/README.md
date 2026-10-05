@@ -1,19 +1,41 @@
 # Builtin buffer methods (#5179)
 
-Original issue: [#5179](https://github.com/RustPython/RustPython/issues/5179)
+[Original issue](https://github.com/RustPython/RustPython/issues/5179). **Resolved in the reported scope.** Seven builtin/subclass types expose the expected buffer behavior. Writable flags, release, blocked resize during export and successful resize after release agree with CPython.
 
-**Verified closure candidate:** Seven builtin/subclass types expose the expected buffer behavior. Writable flags, release, blocked resize during export and successful resize after release agree with CPython.
+## Environment
 
-**Current verification:** `f39b054b9c8cbbf884f53123eef028131789990c` (October 5, 2026). Historical observations are reused and are explicitly separated below.
+- Source and standard library: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
+- Verified October 5, 2026 on macOS 26.5.2 ARM64.
+- RustPython: 0.6.1, Python 3.14.0.alpha; native ARM64.
+- Comparison: CPython 3.14.6 ARM64.
+
+Use absolute paths for the variables below:
+
+- `RP`: the RustPython executable for this commit.
+- `CP`: the CPython 3.14.6 executable.
+- `SRC`: the source directory at this commit, including its matching `Lib`.
+- `CASE`: the directory containing the files shown below.
+
+Shell variables replace recorded absolute paths. Export them so the Python inputs can use them:
+
+```sh
+export RP CP SRC CASE
+unset PYTHONPATH PYTHONHOME PYTHONWARNINGS PYTHONSTARTUP
+export PYTHONDONTWRITEBYTECODE=1
+```
+
+```sh
+export LANG=C LC_ALL=C NO_COLOR=1 TERM=dumb
+```
 
 ## Reproducer
 
-Run the shared [probes.py](../../evidence/additional11/agent-a/probes.py.txt) with selector `5179`, as shown in the recorded command. The relevant function is `issue5179`; the full file supplies its imports and dispatcher. The excerpt is formatted for readability.
-
-<details>
-<summary>Reproducer function: issue5179</summary>
+Save as `probes.py`. This contains the selected function plus the original imports and dispatcher; unrelated issue functions are omitted.
 
 ```python
+import sys, json
+
+
 def issue5179():
     import array, mmap, inspect
 
@@ -105,198 +127,100 @@ def issue5179():
             sort_keys=True,
         )
     )
+
+
+globals()["issue" + sys.argv[1]]()
 ```
 
-</details>
+## Run
 
-## Expected and observed results
+```sh
+cd "$SRC"
+```
+
+**RustPython:**
+
+```sh
+RUSTPYTHONPATH="$SRC/Lib" "$RP" -B "$CASE/probes.py" 5179
+```
+
+**CPython:**
+
+```sh
+"$CP" -B "$CASE/probes.py" 5179
+```
+
+## Results
 
 **Expected:** Builtin buffer providers must expose the Python-facing PEP 688 methods where appropriate.
 
-**Observed:** Seven builtin/subclass types expose the expected buffer behavior. Writable flags, release, blocked resize during export and successful resize after release agree with CPython.
+### RustPython and CPython 3.14.6
 
-Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
-
-<details>
-<summary>Current verification — exit 0</summary>
+Exit code: `0`. No timeout.
 
 **stdout:**
 
-```json
-{
-  "builtins": [
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": true,
-      "release": false,
-      "type": "bytes",
-      "writable": "BufferError"
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": false,
-      "release": true,
-      "released": true,
-      "type": "bytearray",
-      "writable": true
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": false,
-      "release": true,
-      "released": true,
-      "type": "array",
-      "writable": true
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": true,
-      "release": true,
-      "released": true,
-      "type": "memoryview",
-      "writable": "BufferError"
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": true,
-      "release": false,
-      "type": "BytesSubclass",
-      "writable": "BufferError"
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": false,
-      "release": true,
-      "released": true,
-      "type": "BytearraySubclass",
-      "writable": true
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": false,
-      "release": true,
-      "released": true,
-      "type": "mmap",
-      "writable": true
-    }
-  ],
-  "custom_exporter": [
-    [
-      "get",
-      284
-    ],
-    [
-      "release"
-    ]
-  ],
-  "resize_after_release": true
-}
+```text
+bytes:
+  buffer=True
+  data='abc'
+  readonly=True
+  release=False
+  writable='BufferError'
+bytearray:
+  buffer=True
+  data='abc'
+  readonly=False
+  release=True
+  released=True
+  writable=True
+array:
+  buffer=True
+  data='abc'
+  readonly=False
+  release=True
+  released=True
+  writable=True
+memoryview:
+  buffer=True
+  data='abc'
+  readonly=True
+  release=True
+  released=True
+  writable='BufferError'
+BytesSubclass:
+  buffer=True
+  data='abc'
+  readonly=True
+  release=False
+  writable='BufferError'
+BytearraySubclass:
+  buffer=True
+  data='abc'
+  readonly=False
+  release=True
+  released=True
+  writable=True
+mmap:
+  buffer=True
+  data='abc'
+  readonly=False
+  release=True
+  released=True
+  writable=True
+resize_after_release=True
+custom_exporter=[['get', 284], ['release']]
 ```
 
-JSON whitespace is expanded for readability.
+All fields from the recorded JSON are shown above.
 
-**stderr:** No output.
+**stderr:**
 
-</details>
+No output.
 
-<details>
-<summary>CPython 3.14.6 — exit 0</summary>
+### Historical failure
 
-**stdout:**
-
-```json
-{
-  "builtins": [
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": true,
-      "release": false,
-      "type": "bytes",
-      "writable": "BufferError"
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": false,
-      "release": true,
-      "released": true,
-      "type": "bytearray",
-      "writable": true
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": false,
-      "release": true,
-      "released": true,
-      "type": "array",
-      "writable": true
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": true,
-      "release": true,
-      "released": true,
-      "type": "memoryview",
-      "writable": "BufferError"
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": true,
-      "release": false,
-      "type": "BytesSubclass",
-      "writable": "BufferError"
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": false,
-      "release": true,
-      "released": true,
-      "type": "BytearraySubclass",
-      "writable": true
-    },
-    {
-      "buffer": true,
-      "data": "abc",
-      "readonly": false,
-      "release": true,
-      "released": true,
-      "type": "mmap",
-      "writable": true
-    }
-  ],
-  "custom_exporter": [
-    [
-      "get",
-      284
-    ],
-    [
-      "release"
-    ]
-  ],
-  "resize_after_release": true
-}
-```
-
-JSON whitespace is expanded for readability.
-
-**stderr:** No output.
-
-</details>
-
-<details>
-<summary>RustPython before (reused) — exit 0</summary>
+Previously recorded at [`a8ab7dd38814`](https://github.com/RustPython/RustPython/commit/a8ab7dd3881437ad2eef31b3470427db20656a84); exit code `0`. This run was not repeated alongside the current results. Historical inputs may differ from the expanded checks above.
 
 **stdout:**
 
@@ -307,66 +231,25 @@ array __buffer__ False __release_buffer__ False
 memoryview __buffer__ False __release_buffer__ False
 ```
 
-**stderr:**
-
-```text
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-```
-
-</details>
-
-## Run
-
-Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
-
-```sh
-'<survey>/.build/slot-a/verification/rustpython' -B '<additional11-audit>/agent-a/probes.py' \
-  5179
-```
-
-CPython reference command:
-
-```sh
-'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B \
-  '<additional11-audit>/agent-a/probes.py' 5179
-```
-
-All environment overrides, cwd, input and executable identity are preserved in the execution records below.
-
-## Analysis and closure rationale
-
-Seven builtin/subclass types expose the expected buffer behavior. Writable flags, release, blocked resize during export and successful resize after release agree with CPython.
+## Related change and scope
 
 [PR #8523](https://github.com/RustPython/RustPython/pull/8523): PEP 688 methods and managed buffer exports.
 
-The changes explain the observed behavior. No adjacent parent/commit execution or bisect established the first fixing commit.
+__release_buffer__ is optional for types that do not need it. Full C ABI coverage and all lifetime/concurrency combinations were not tested.
 
-**Scope and limitations:** __release_buffer__ is optional for types that do not need it. Full C ABI coverage and all lifetime/concurrency combinations were not tested.
+First fixing commit: not established.
 
-## Versions and environment
+## Evidence
 
-- Baseline source: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
-- Host: macOS 26.5.2 ARM64. Slot A uses native ARM64 RustPython; slot B uses x86_64 RustPython through Rosetta. CPython is 3.14.6 ARM64.
-- This primary record is from slot A/native ARM64.
-- [Binary hashes, actual imported Lib, and resource constraints](../../ENVIRONMENT.md).
-- Historical runs were not replayed during the independent recheck or this publication. Approximate historical baselines remain marked in their metadata.
+Recorded executable SHA-256 values:
 
-## Recorded evidence
+- RustPython: `a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99`.
+- CPython: `58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef`.
 
-- [Reused historical metadata and evidence](reused-history.json).
-- Historical baseline: [`a8ab7dd38814`](https://github.com/RustPython/RustPython/commit/a8ab7dd3881437ad2eef31b3470427db20656a84), reused only. Exact/release/approximate selection is recorded in the historical metadata.
-- [Full reused historical-a8ab7dd388-01-d89ea130-92a69513.stdout](../../evidence/history/logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stdout).
-- [Full reused historical-a8ab7dd388-01-d89ea130-92a69513.stderr](../../evidence/history/logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr).
-- [Independent assessment, original scope and limitations](assessment.json).
+- [CPython command, environment and output record](../../evidence/additional11/agent-a/5179-cpython.json).
+- [RustPython command, environment and output record](../../evidence/additional11/agent-a/5179-rustpython.json).
+- [Executed source](../../evidence/additional11/agent-a/probes.py.txt).
+- [Scope and complete execution inventory](assessment.json).
+- [Historical record](reused-history.json).
 
-- **[5179-cpython](../../evidence/additional11/agent-a/5179-cpython.json)** — exit `0`; timeout `false`.
-  stdout: [stdout](../../evidence/additional11/agent-a/5179-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/5179-cpython.stderr.txt).
-- **[5179-rustpython](../../evidence/additional11/agent-a/5179-rustpython.json)** — exit `0`; timeout `false`.
-  stdout: [stdout](../../evidence/additional11/agent-a/5179-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/5179-rustpython.stderr.txt).
-
-AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.
+AI assistance: OpenAI Codex.

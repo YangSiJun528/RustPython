@@ -1,19 +1,41 @@
 # Bool numeric format codes (#4950)
 
-Original issue: [#4950](https://github.com/RustPython/RustPython/issues/4950)
+[Original issue](https://github.com/RustPython/RustPython/issues/4950). **Resolved in the reported scope.** False and True match CPython for the original codes, the comment's n/d codes and width/precision controls: 34 recorded results.
 
-**Verified closure candidate:** False and True match CPython for the original codes, the comment's n/d codes and width/precision controls: 34 recorded results.
+## Environment
 
-**Current verification:** `f39b054b9c8cbbf884f53123eef028131789990c` (October 5, 2026). Historical observations are reused and are explicitly separated below.
+- Source and standard library: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
+- Verified October 5, 2026 on macOS 26.5.2 ARM64.
+- RustPython: 0.6.1, Python 3.14.0.alpha; native ARM64.
+- Comparison: CPython 3.14.6 ARM64.
+
+Use absolute paths for the variables below:
+
+- `RP`: the RustPython executable for this commit.
+- `CP`: the CPython 3.14.6 executable.
+- `SRC`: the source directory at this commit, including its matching `Lib`.
+- `CASE`: the directory containing the files shown below.
+
+Shell variables replace recorded absolute paths. Export them so the Python inputs can use them:
+
+```sh
+export RP CP SRC CASE
+unset PYTHONPATH PYTHONHOME PYTHONWARNINGS PYTHONSTARTUP
+export PYTHONDONTWRITEBYTECODE=1
+```
+
+```sh
+export LANG=C LC_ALL=C NO_COLOR=1 TERM=dumb
+```
 
 ## Reproducer
 
-Run the shared [probes.py](../../evidence/additional11/agent-a/probes.py.txt) with selector `4950`, as shown in the recorded command. The relevant function is `issue4950`; the full file supplies its imports and dispatcher. The excerpt is formatted for readability.
-
-<details>
-<summary>Reproducer function: issue4950</summary>
+Save as `probes.py`. This contains the selected function plus the original imports and dispatcher; unrelated issue functions are omitted.
 
 ```python
+import sys, json
+
+
 def issue4950():
     import locale
 
@@ -32,465 +54,117 @@ def issue4950():
             sort_keys=True,
         )
     )
+
+
+globals()["issue" + sys.argv[1]]()
 ```
 
-</details>
+## Run
 
-## Expected and observed results
+```sh
+cd "$SRC"
+```
+
+**RustPython:**
+
+```sh
+RUSTPYTHONPATH="$SRC/Lib" "$RP" -B "$CASE/probes.py" 4950
+```
+
+**CPython:**
+
+```sh
+"$CP" -B "$CASE/probes.py" 4950
+```
+
+## Results
 
 **Expected:** Explicit numeric format codes must format bool through its numeric value.
 
-**Observed:** False and True match CPython for the original codes, the comment's n/d codes and width/precision controls: 34 recorded results.
+### RustPython and CPython 3.14.6
 
-Output is grouped by execution below. Historical and current runs may use different expanded probes; they compare the reported symptom rather than identical before/after inputs. The paired CPython and current inputs are identified in their execution records.
-
-<details>
-<summary>Current verification — exit 0</summary>
+Exit code: `0`. No timeout.
 
 **stdout:**
 
-```json
-{
-  "locale": "C",
-  "results": [
-    [
-      false,
-      "f",
-      "0.000000"
-    ],
-    [
-      false,
-      "x",
-      "0"
-    ],
-    [
-      false,
-      "X",
-      "0"
-    ],
-    [
-      false,
-      "e",
-      "0.000000e+00"
-    ],
-    [
-      false,
-      "E",
-      "0.000000E+00"
-    ],
-    [
-      false,
-      "c",
-      "\u0000"
-    ],
-    [
-      false,
-      "g",
-      "0"
-    ],
-    [
-      false,
-      "o",
-      "0"
-    ],
-    [
-      false,
-      "%",
-      "0.000000%"
-    ],
-    [
-      false,
-      "o",
-      "0"
-    ],
-    [
-      false,
-      "n",
-      "0"
-    ],
-    [
-      false,
-      "d",
-      "0"
-    ],
-    [
-      false,
-      "08x",
-      "00000000"
-    ],
-    [
-      false,
-      "+08d",
-      "+0000000"
-    ],
-    [
-      false,
-      ".2f",
-      "0.00"
-    ],
-    [
-      false,
-      ".1%",
-      "0.0%"
-    ],
-    [
-      false,
-      ">5n",
-      "    0"
-    ],
-    [
-      true,
-      "f",
-      "1.000000"
-    ],
-    [
-      true,
-      "x",
-      "1"
-    ],
-    [
-      true,
-      "X",
-      "1"
-    ],
-    [
-      true,
-      "e",
-      "1.000000e+00"
-    ],
-    [
-      true,
-      "E",
-      "1.000000E+00"
-    ],
-    [
-      true,
-      "c",
-      "\u0001"
-    ],
-    [
-      true,
-      "g",
-      "1"
-    ],
-    [
-      true,
-      "o",
-      "1"
-    ],
-    [
-      true,
-      "%",
-      "100.000000%"
-    ],
-    [
-      true,
-      "o",
-      "1"
-    ],
-    [
-      true,
-      "n",
-      "1"
-    ],
-    [
-      true,
-      "d",
-      "1"
-    ],
-    [
-      true,
-      "08x",
-      "00000001"
-    ],
-    [
-      true,
-      "+08d",
-      "+0000001"
-    ],
-    [
-      true,
-      ".2f",
-      "1.00"
-    ],
-    [
-      true,
-      ".1%",
-      "100.0%"
-    ],
-    [
-      true,
-      ">5n",
-      "    1"
-    ]
-  ]
-}
+```text
+locale: C
+False 'f'     -> '0.000000'
+False 'x'     -> '0'
+False 'X'     -> '0'
+False 'e'     -> '0.000000e+00'
+False 'E'     -> '0.000000E+00'
+False 'c'     -> '\x00'
+False 'g'     -> '0'
+False 'o'     -> '0'
+False '%'     -> '0.000000%'
+False 'o'     -> '0'
+False 'n'     -> '0'
+False 'd'     -> '0'
+False '08x'   -> '00000000'
+False '+08d'  -> '+0000000'
+False '.2f'   -> '0.00'
+False '.1%'   -> '0.0%'
+False '>5n'   -> '    0'
+True  'f'     -> '1.000000'
+True  'x'     -> '1'
+True  'X'     -> '1'
+True  'e'     -> '1.000000e+00'
+True  'E'     -> '1.000000E+00'
+True  'c'     -> '\x01'
+True  'g'     -> '1'
+True  'o'     -> '1'
+True  '%'     -> '100.000000%'
+True  'o'     -> '1'
+True  'n'     -> '1'
+True  'd'     -> '1'
+True  '08x'   -> '00000001'
+True  '+08d'  -> '+0000001'
+True  '.2f'   -> '1.00'
+True  '.1%'   -> '100.0%'
+True  '>5n'   -> '    1'
 ```
 
-JSON whitespace is expanded for readability.
+Recorded JSON rows shown as value, format specifier and result.
 
-**stderr:** No output.
+**stderr:**
 
-</details>
+No output.
 
-<details>
-<summary>CPython 3.14.6 — exit 0</summary>
+### Historical failure
 
-**stdout:**
-
-```json
-{
-  "locale": "C",
-  "results": [
-    [
-      false,
-      "f",
-      "0.000000"
-    ],
-    [
-      false,
-      "x",
-      "0"
-    ],
-    [
-      false,
-      "X",
-      "0"
-    ],
-    [
-      false,
-      "e",
-      "0.000000e+00"
-    ],
-    [
-      false,
-      "E",
-      "0.000000E+00"
-    ],
-    [
-      false,
-      "c",
-      "\u0000"
-    ],
-    [
-      false,
-      "g",
-      "0"
-    ],
-    [
-      false,
-      "o",
-      "0"
-    ],
-    [
-      false,
-      "%",
-      "0.000000%"
-    ],
-    [
-      false,
-      "o",
-      "0"
-    ],
-    [
-      false,
-      "n",
-      "0"
-    ],
-    [
-      false,
-      "d",
-      "0"
-    ],
-    [
-      false,
-      "08x",
-      "00000000"
-    ],
-    [
-      false,
-      "+08d",
-      "+0000000"
-    ],
-    [
-      false,
-      ".2f",
-      "0.00"
-    ],
-    [
-      false,
-      ".1%",
-      "0.0%"
-    ],
-    [
-      false,
-      ">5n",
-      "    0"
-    ],
-    [
-      true,
-      "f",
-      "1.000000"
-    ],
-    [
-      true,
-      "x",
-      "1"
-    ],
-    [
-      true,
-      "X",
-      "1"
-    ],
-    [
-      true,
-      "e",
-      "1.000000e+00"
-    ],
-    [
-      true,
-      "E",
-      "1.000000E+00"
-    ],
-    [
-      true,
-      "c",
-      "\u0001"
-    ],
-    [
-      true,
-      "g",
-      "1"
-    ],
-    [
-      true,
-      "o",
-      "1"
-    ],
-    [
-      true,
-      "%",
-      "100.000000%"
-    ],
-    [
-      true,
-      "o",
-      "1"
-    ],
-    [
-      true,
-      "n",
-      "1"
-    ],
-    [
-      true,
-      "d",
-      "1"
-    ],
-    [
-      true,
-      "08x",
-      "00000001"
-    ],
-    [
-      true,
-      "+08d",
-      "+0000001"
-    ],
-    [
-      true,
-      ".2f",
-      "1.00"
-    ],
-    [
-      true,
-      ".1%",
-      "100.0%"
-    ],
-    [
-      true,
-      ">5n",
-      "    1"
-    ]
-  ]
-}
-```
-
-JSON whitespace is expanded for readability.
-
-**stderr:** No output.
-
-</details>
-
-<details>
-<summary>RustPython before (reused) — exit 1</summary>
+Previously recorded at [`fa790558211e`](https://github.com/RustPython/RustPython/commit/fa790558211ec690541299258f44d7453501958a); exit code `1`. This run was not repeated alongside the current results. Historical inputs may differ from the expanded checks above.
 
 **stdout:** No output.
 
 **stderr:**
 
 ```text
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
-[WARN  rustpython_vm::object::core] couldn't run __del__ method for object
 Traceback (most recent call last):
   File "<survey>/repros/4950/issue-4950-case-01/source-01.py", line 1, in <module>
     '{:f}'.format(False)
 ValueError: Invalid format specifier
 ```
 
-</details>
-
-## Run
-
-Use existing verified executables and a matching baseline Lib; see [environment and path mapping](../../ENVIRONMENT.md). No new build or environment was created for this publication. The command below is the archived argv with local paths replaced by placeholders, not a new execution. Restore those paths to your existing setup before running it.
-
-```sh
-'<survey>/.build/slot-a/verification/rustpython' -B '<additional11-audit>/agent-a/probes.py' \
-  4950
-```
-
-CPython reference command:
-
-```sh
-'<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14' -B \
-  '<additional11-audit>/agent-a/probes.py' 4950
-```
-
-All environment overrides, cwd, input and executable identity are preserved in the execution records below.
-
-## Analysis and closure rationale
-
-False and True match CPython for the original codes, the comment's n/d codes and width/precision controls: 34 recorded results.
+## Related change and scope
 
 [PR #5012](https://github.com/RustPython/RustPython/pull/5012): update the parser/format dependency · [Parser PR #91](https://github.com/RustPython/Parser/pull/91).
 
-The changes explain the observed behavior. No adjacent parent/commit execution or bisect established the first fixing commit.
+These numeric format checks used the C locale.
 
-**Scope and limitations:** Locale was C for this issue. The broader locale defects in #4613 and #5181 are separate.
+First fixing commit: not established.
 
-## Versions and environment
+## Evidence
 
-- Baseline source: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
-- Host: macOS 26.5.2 ARM64. Slot A uses native ARM64 RustPython; slot B uses x86_64 RustPython through Rosetta. CPython is 3.14.6 ARM64.
-- This primary record is from slot A/native ARM64.
-- [Binary hashes, actual imported Lib, and resource constraints](../../ENVIRONMENT.md).
-- Historical runs were not replayed during the independent recheck or this publication. Approximate historical baselines remain marked in their metadata.
+Recorded executable SHA-256 values:
 
-## Recorded evidence
+- RustPython: `a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99`.
+- CPython: `58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef`.
 
-- [Reused historical metadata and evidence](reused-history.json).
-- Historical baseline: [`fa790558211e`](https://github.com/RustPython/RustPython/commit/fa790558211ec690541299258f44d7453501958a), reused only. Exact/release/approximate selection is recorded in the historical metadata.
-- [Full reused historical-fa79055821-01-75703bc4-6d760217.stdout](../../evidence/history/logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stdout).
-- [Full reused historical-fa79055821-01-75703bc4-6d760217.stderr](../../evidence/history/logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stderr).
-- [Independent assessment, original scope and limitations](assessment.json).
+- [CPython command, environment and output record](../../evidence/additional11/agent-a/4950-cpython.json).
+- [RustPython command, environment and output record](../../evidence/additional11/agent-a/4950-rustpython.json).
+- [Executed source](../../evidence/additional11/agent-a/probes.py.txt).
+- [Scope and complete execution inventory](assessment.json).
+- [Historical record](reused-history.json).
 
-- **[4950-cpython](../../evidence/additional11/agent-a/4950-cpython.json)** — exit `0`; timeout `false`.
-  stdout: [stdout](../../evidence/additional11/agent-a/4950-cpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/4950-cpython.stderr.txt).
-- **[4950-rustpython](../../evidence/additional11/agent-a/4950-rustpython.json)** — exit `0`; timeout `false`.
-  stdout: [stdout](../../evidence/additional11/agent-a/4950-rustpython.stdout.txt); stderr: [stderr](../../evidence/additional11/agent-a/4950-rustpython.stderr.txt).
-
-AI assistance: OpenAI Codex assisted with independent verification, evidence packaging and drafting.
+AI assistance: OpenAI Codex.
