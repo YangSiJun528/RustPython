@@ -2,124 +2,32 @@
 
 Original issue: [#8052](https://github.com/RustPython/RustPython/issues/8052)
 
-## Reproduction procedure
+**Verified closure candidate:** `type(...).__name__` and the type's repr now give `ellipsis` and `<class 'ellipsis'>`, matching CPython, in place of the previous `EllipsisType` spelling.
 
-The recorded comparison used macOS ARM64. Install Git, rustup and the Xcode Command Line Tools. For the repository's native build prerequisites, see [CONTRIBUTING.md](https://github.com/RustPython/RustPython/blob/f39b054b9c8cbbf884f53123eef028131789990c/CONTRIBUTING.md#setting-up-a-development-environment).
+**Tested commits:** before `83fe92042112` → after `f39b054b9c8c` (October 4, 2026). Historical selection and full build details are below.
 
-Run the shell blocks in order in the same Bash or Zsh session. Stop if checkout, build or version verification fails. The commands create two independent checkouts and build directories under a new temporary directory; keep `rustpython_repro_root` set for all subsequent steps. Keep both source directories until finished: historical binaries can retain standard-library paths from build time.
+## Reproducer
 
-### 1. Check out the two recorded revisions
+Canonical input: [repro.py](repro.py). The original executable input is retained.
 
-```sh
-rustpython_repro_root="$(mktemp -d)"
-(
-  set -eu
-  git init -q "$rustpython_repro_root/historical"
-  git -C "$rustpython_repro_root/historical" fetch --depth 1 \
-    https://github.com/RustPython/RustPython.git 83fe92042112f9db89a70495b552ab433d77e751
-  git -C "$rustpython_repro_root/historical" checkout --detach FETCH_HEAD
-  test "$(git -C "$rustpython_repro_root/historical" rev-parse HEAD)" = 83fe92042112f9db89a70495b552ab433d77e751
-  git init -q "$rustpython_repro_root/current"
-  git -C "$rustpython_repro_root/current" fetch --depth 1 \
-    https://github.com/RustPython/RustPython.git f39b054b9c8cbbf884f53123eef028131789990c
-  git -C "$rustpython_repro_root/current" checkout --detach FETCH_HEAD
-  test "$(git -C "$rustpython_repro_root/current" rev-parse HEAD)" = f39b054b9c8cbbf884f53123eef028131789990c
-)
-```
-
-### 2. Build and verify each interpreter
-
-Historical: Rust **1.99.0**. Current: Rust **1.99.0**. Both builds use default features and the selected revision's committed `Cargo.lock` with `--locked`.
-
-```sh
-(
-  set -eu
-  rustup toolchain install 1.99.0 --profile minimal
-  cd "$rustpython_repro_root/historical"
-  CARGO_BUILD_JOBS=2 cargo +1.99.0 build --release --locked \
-    --target-dir "$rustpython_repro_root/target-historical"
-  cd "$rustpython_repro_root/current"
-  CARGO_BUILD_JOBS=2 cargo +1.99.0 build --release --locked \
-    --target-dir "$rustpython_repro_root/target-current"
-)
-```
-
-Check the embedded commit in each executable before running the reproducer. Both commands below must succeed; each prints `sys.version` and asserts the expected commit prefix. The version changes because a different compiled executable is selected. Shallow checkouts may change branch/tag text in the banner; the assertions verify the pinned commit.
-
-```sh
-(
-  set -eu
-  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE
-  RUSTPYTHONPATH="$rustpython_repro_root/historical/Lib" PYTHONDONTWRITEBYTECODE=1 \
-    "$rustpython_repro_root/target-historical/release/rustpython" \
-    -c 'import sys; print(sys.version); assert "83fe920" in sys.version'
-  RUSTPYTHONPATH="$rustpython_repro_root/current/Lib" PYTHONDONTWRITEBYTECODE=1 \
-    "$rustpython_repro_root/target-current/release/rustpython" \
-    -c 'import sys; print(sys.version); assert "f39b054" in sys.version'
-)
-```
-
-Each interpreter below is paired with `Lib` from its own checkout. These revisions all have a top-level `Lib` directory.
-
-### 3. Save the shared reproduction input
-
-Write the input once; both runs below execute this exact file.
-
-```sh
-cat > "$rustpython_repro_root/repro.py" <<'PY'
+```python
 print(type(...).__name__)
 print(repr(type(...)))
-PY
 ```
 
-### 4. Run the historical and current builds
+## Expected and observed results
 
-Each command prints the process exit code, including expected failures, so an old-version exception does not prevent the current-version check. Compare the output with the table below.
-
-**Historical:**
-
-```sh
-(
-  cd "$rustpython_repro_root" || exit
-  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE
-  if RUSTPYTHONPATH="$rustpython_repro_root/historical/Lib" PYTHONDONTWRITEBYTECODE=1 \
-    "$rustpython_repro_root/target-historical/release/rustpython" \
-    "$rustpython_repro_root/repro.py"; then
-    printf 'exit_code=0\n'
-  else
-    printf 'exit_code=%s\n' "$?"
-  fi
-)
-```
-
-**Current:**
-
-```sh
-(
-  cd "$rustpython_repro_root" || exit
-  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE
-  if RUSTPYTHONPATH="$rustpython_repro_root/current/Lib" PYTHONDONTWRITEBYTECODE=1 \
-    "$rustpython_repro_root/target-current/release/rustpython" \
-    "$rustpython_repro_root/repro.py"; then
-    printf 'exit_code=0\n'
-  else
-    printf 'exit_code=%s\n' "$?"
-  fi
-)
-```
-
-## Before and after
-
-- **Before — [83fe92042112](https://github.com/RustPython/RustPython/commit/83fe92042112f9db89a70495b552ab433d77e751) (nearest pre-issue main revision; approximate baseline):** EllipsisType and <class 'EllipsisType'>.
-- **After — [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c):** ellipsis and <class 'ellipsis'>, matching CPython.
+**Expected:** ellipsis and <class 'ellipsis'>, matching CPython.
 
 Recorded output is shown below. Repeated interpreter cleanup warnings and traceback frames are omitted only where noted; long stderr lines are wrapped for display. The full logs are linked below.
 
 <table>
-<thead><tr><th>Output</th><th>Historical</th><th>Current</th></tr></thead>
+<thead><tr><th>Output</th><th>CPython 3.14.6</th><th>RustPython before</th><th>RustPython after</th></tr></thead>
 <tbody>
 <tr>
 <th>stdout</th>
+<td valign="top"><pre><code>ellipsis
+&lt;class 'ellipsis'&gt;</code></pre></td>
 <td valign="top"><pre><code>EllipsisType
 &lt;class 'EllipsisType'&gt;</code></pre></td>
 <td valign="top"><pre><code>ellipsis
@@ -129,14 +37,56 @@ Recorded output is shown below. Repeated interpreter cleanup warnings and traceb
 <th>stderr</th>
 <td valign="top"><em>No output</em></td>
 <td valign="top"><em>No output</em></td>
+<td valign="top"><em>No output</em></td>
 </tr>
 <tr>
 <th>Exit code</th>
 <td valign="top"><code>0</code></td>
 <td valign="top"><code>0</code></td>
+<td valign="top"><code>0</code></td>
 </tr>
 </tbody>
 </table>
+
+## Run
+
+First complete [BUILD.md](BUILD.md) in the same shell. It creates `rustpython_repro_root`, builds both pinned commits and verifies their versions. Keep both checkouts while running these commands.
+
+Save the code above as `$rustpython_repro_root/repro.py` (or copy the linked `repro.py` there). Both versions execute this one file, each with its matching standard library:
+
+```sh
+(
+  cd "$rustpython_repro_root" || exit
+  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE
+  for phase in historical current; do
+    printf "\n%s\n" "$phase"
+    if RUSTPYTHONPATH="$rustpython_repro_root/$phase/Lib" PYTHONDONTWRITEBYTECODE=1 \
+      "$rustpython_repro_root/target-$phase/release/rustpython" \
+      "$rustpython_repro_root/repro.py"; then
+      printf 'exit_code=0\n'
+    else
+      printf 'exit_code=%s\n' "$?"
+    fi
+  done
+)
+```
+
+CPython reference (3.14.6 in the recorded comparison):
+
+```sh
+(
+  cd "$rustpython_repro_root" || exit
+  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE RUSTPYTHONPATH
+  python3.14 -VV
+  if PYTHONDONTWRITEBYTECODE=1 python3.14 "$rustpython_repro_root/repro.py"; then
+    printf 'exit_code=0\n'
+  else
+    printf 'exit_code=%s\n' "$?"
+  fi
+)
+```
+
+To run the comparison and capture all outputs together, use the optional [comparison command](../../README.md#compare-both-revisions-at-once). Direct commands above do not require that runner.
 
 ## Analysis and closure rationale
 
@@ -146,10 +96,19 @@ The built-in type is now named `ellipsis`. The original query returns `ellipsis`
 
 These source changes match the observed behavior. The exact first-fixing commit was not established by executing each change and its parent.
 
+## Versions and environment
+
+- **Before:** [83fe92042112](https://github.com/RustPython/RustPython/commit/83fe92042112f9db89a70495b552ab433d77e751) (nearest pre-issue main revision; approximate baseline).
+- **After:** [f39b054b9c8c](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
+- **Platform:** macOS ARM64.
+- **Rust toolchains:** before `rustc 1.99.0 (b940084d7 2026-09-28)`; after `rustc 1.99.0 (b940084d7 2026-09-28)`. Default Cargo features, committed lockfiles.
+- **CPython:** `3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]`. [Reference provenance](evidence/reference.json).
+- **Full reproduction:** [BUILD.md](BUILD.md) contains exact checkout, toolchain, build and executable-version checks. Return to the Run section after setup.
+
 ## Recorded evidence
 
 - [Execution metadata, toolchain and log hashes](evidence/metadata.json).
 - [Historical stdout](evidence/historical.stdout.txt) / [current stdout](evidence/current.stdout.txt).
 - [Historical stderr](evidence/historical.stderr.txt) / [current stderr](evidence/current.stderr.txt).
-
+- [CPython stdout](evidence/cpython.stdout.txt) / [CPython stderr](evidence/cpython.stderr.txt).
 AI assistance: OpenAI Codex assisted with verification, evidence analysis and drafting.

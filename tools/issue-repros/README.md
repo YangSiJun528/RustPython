@@ -7,17 +7,18 @@ REPL examples, and one documentation URL check. The interpreter baseline is
 
 - [Combined issue submission draft](report.md): a closure request with each issue's
   before/after behavior, related changes and link to its detailed report.
-- [Detailed reports](cases/): exact historical/current checkout commands, pinned
-  build toolchains, executable version checks, identical reproduction inputs,
-  inline output comparisons, analysis and relevant PRs for each issue.
-  Full logs remain linked; display-only omissions are labeled in the comparison.
+- [Detailed reports](cases/): the reproducer, expected behavior and inline
+  CPython/before/after results come first, followed by direct execution commands,
+  closure rationale and related PRs. Each runtime case's `BUILD.md` contains the
+  exact checkouts, pinned toolchains and executable-version checks.
+  Full logs remain linked and stderr is expandable in the report.
 - [Case definitions and expected results](manifest.json)
 - [Local validation record](VALIDATION.md)
 - Individual inputs, commands and recorded evidence are under `cases/<issue>/`.
 
 ## Optional local batch runner
 
-Use a POSIX host (Linux or macOS) with Python 3. From the repository root, build RustPython and launch the host-side runner:
+Use a POSIX host (Linux or macOS) with Python 3.12 or newer. From the repository root, build RustPython and launch the host-side runner:
 
 ```sh
 cargo build --release --locked
@@ -67,37 +68,61 @@ as passes. A timeout is a failed check, not evidence of an interpreter crash.
   sh tools/issue-repros/cases/4784/check.sh
   ```
 
-## Compare another revision
+## Compare both revisions at once
 
-Supply an already-built historical executable and its matching standard library
-with the same `--issue` option. Run from this branch so the input stays the same:
+For one script case, complete its `BUILD.md` first in the same shell, then run
+this from the report branch's repository root (example: #4762):
 
 ```sh
-python3 tools/issue-repros/run.py \
-  --rustpython /path/to/historical/target/release/rustpython \
-  --stdlib /path/to/historical/Lib \
-  --issue 4762
+python3 tools/issue-repros/run.py --compare --issue 4762 \
+  --reference "$(command -v python3.14)" \
+  --before "$rustpython_repro_root/target-historical/release/rustpython" \
+  --before-stdlib "$rustpython_repro_root/historical/Lib" \
+  --after "$rustpython_repro_root/target-current/release/rustpython" \
+  --after-stdlib "$rustpython_repro_root/current/Lib"
 ```
 
-For the recorded comparisons, follow the complete checkout/build/run procedure
-in the individual case document. It creates separate source and target directories
-for the two exact commits, pins the recorded Rust toolchains, verifies each
-binary's embedded commit, then executes the same input with that version's `Lib`.
-All selected revisions have a top-level `Lib` directory. #2527 uses the recorded
-Linux ARM64 Docker images and starts each REPL separately in a real terminal.
-The other runtime reports describe the recorded macOS ARM64 builds.
+`--reference` is optional; it must name an installed CPython executable. The
+runner executes the case's one canonical input in each interpreter and prints
+stdout, stderr, exit code and the current-behavior oracle side by side. It saves
+full outputs, versions, executable hashes and input hashes in a new ignored
+`runs/` directory (`--output` can select another new directory).
 
-The local runner above consumes already-built interpreters. Changing a working
-directory or `RUSTPYTHONPATH` does not select a different interpreter version;
-select the separately built executable as well as its matching standard library.
-Keep the source checkout used to build it: historical binaries may retain that
-checkout's standard-library path, which `RUSTPYTHONPATH` does not necessarily replace.
+The comparison checks each RustPython executable's embedded commit, the supplied
+checkout's `Lib` tree against that commit, local changes under `Lib`, and the
+actual `os`/`json` import paths. A mismatch is an `ERROR` before the reproducer
+runs. The source Git objects for the recorded commit must remain available;
+`BUILD.md` prepares them. These checks detect common pairing errors, but are not
+an attestation of how an arbitrary supplied executable was built.
 
-The runner always checks the **current expected behavior**. An old build that
-reproduces the original failure should therefore report `FAIL`; inspect its
-captured output against the historical observation. The actual interpreter
-version and binary hash are saved with each fresh result. A new run never changes
-the recorded historical evidence.
+`PASS` / `FAIL` means matching / missing the **current expected behavior** in
+that column. An old build normally shows `FAIL`; compare its diagnostic with
+the report to establish that it is the original failure. A timeout, failed
+startup or mismatched environment is `ERROR`, never evidence of the old bug.
+The comparison exits nonzero for an error, a failed After oracle or a failed
+CPython oracle. Before passing is displayed as such and does not by itself make
+the command fail. Outputs are not required to be byte-identical: diagnostic
+wording, file paths and warnings can differ between interpreters.
+
+- **#6429:** CPython's build setting may be `0` or `1`. Its column reports
+  `CONFIG`; the RustPython POSIX oracle is `1`.
+- **#6790:** omit `--reference`. The case checks the removal of a forced skip in
+  RustPython's own `test.support`, with lzma available, not complete XZ support.
+- **#2527:** use the case's direct Docker/TTY commands for the recorded setup.
+  `--compare` can also run already-built Linux executables on a Linux host with
+  Python 3, Git and PTY support, using each retained checkout's `Lib`.
+- **#4784:** use the direct URL check; interpreter comparisons do not apply.
+
+Changing a working directory or `RUSTPYTHONPATH` does not select an interpreter
+version. Select the separately built executable and its matching standard
+library. Keep the source checkout used to build it: historical binaries may
+retain that checkout's standard-library path, which `RUSTPYTHONPATH` does not
+necessarily replace. Each runtime case's `BUILD.md` preserves complete setup
+instructions; its README also has direct commands that do not need this runner.
+
+For an arbitrary revision outside the pinned comparison, the single-interpreter
+runner above remains available. It records the supplied version and checks the
+current expectation, but does not verify the pinned commit/Lib pairing.
 
 ## Recorded evidence and documents
 
@@ -105,12 +130,17 @@ The selected logs were imported from the completed October 4 verification.
 `original-*.txt` preserves the extracted issue inputs, and `recorded-input.txt`
 preserves the exact previously executed script where one exists. The runnable
 `repro.py` may differ in formatting; transcript extraction and instrumentation
-are explained in each case document.
+are explained in each case document. The displayed code is generated from the
+canonical input, including both #4690 descriptor queries. #4856 compiles its
+original source without executing the application.
 
 Exported logs replace machine-specific user and checkout paths with placeholders.
 Their metadata retains both original and exported SHA-256 hashes. Build-command
 paths in that metadata describe the original environment; use the portable
-commands above for a new run. Only the selected successful comparisons are
+commands above for a new run. Existing evidence is preserved. `evidence/reference.json` records the recovered
+CPython 3.14.6 version and input equivalence for 13 archived script comparisons.
+#2527 adds a separately dated macOS CPython PTY reference; both archived
+RustPython REPL runs used Linux. Only the selected successful comparisons are
 included here; the full survey remains in the original local workspace.
 
 Regenerate the committed individual documents and combined bullet draft from

@@ -191,7 +191,7 @@ def reproduction_setup(item):
         "",
         "Run the shell blocks in order in the same Bash or Zsh session. Stop if checkout, build or version verification fails. The commands create two independent checkouts and build directories under a new temporary directory; keep `rustpython_repro_root` set for all subsequent steps. Keep both source directories until finished: historical binaries can retain standard-library paths from build time.",
         "",
-        "### 1. Check out the two recorded revisions",
+        "## 1. Check out the two recorded revisions",
         "",
         "```sh",
         'rustpython_repro_root="$(mktemp -d)"',
@@ -215,7 +215,7 @@ def reproduction_setup(item):
             ")",
             "```",
             "",
-            "### 2. Build and verify each interpreter",
+            "## 2. Build and verify each interpreter",
             "",
             f"Historical: Rust **{versions['historical']}**. Current: Rust **{versions['current']}**. Both builds use default features and the selected revision's committed `Cargo.lock` with `--locked`.",
             "",
@@ -302,136 +302,96 @@ def reproduction_setup(item):
 
 
 def reproduction_steps(item):
-    """Explicit checkout, build and before/after commands for report readers."""
-    number = item["issue"]
-    case = BUNDLE / "cases" / str(number)
+    """Short direct commands; exact checkout/build instructions live in BUILD.md."""
     if item["kind"] == "documentation":
         return [
             "```sh",
             "curl --fail --location https://docs.rs/rustpython",
             "```",
             "",
-            "Follow redirects and inspect the returned API documentation. The recorded response was the RustPython 0.6.0 API page.",
+            "Follow redirects and inspect the API page. An HTTP 200 response alone is insufficient: the old crate landing page also returns 200.",
         ]
-    steps = reproduction_setup(item)
+    steps = [
+        "First complete [BUILD.md](BUILD.md) in the same shell. It creates `rustpython_repro_root`, builds both pinned commits and verifies their versions. Keep both checkouts while running these commands.",
+        "",
+    ]
     if item["kind"] == "repl":
-        for step, phase in enumerate(("historical", "current"), 3):
-            expected = (
-                "Neither block should display expression values on this historical build."
-                if phase == "historical"
-                else "The loop should display 0 through 9, and the `with` block should display 5."
-            )
-            steps.extend(
-                [
-                    f"### {step}. Run the {phase} interpreter interactively",
-                    "",
-                    "Run this in a terminal with a TTY. The container uses its matching checkout and executable and writes REPL history/output only in its scratch directory.",
-                    "",
-                    "```sh",
-                    f'mkdir -p "$rustpython_repro_root/scratch-{phase}/config/rustpython"',
-                    "docker run --rm -it --platform linux/arm64 --network none \\",
-                    f'  --mount "type=bind,source=$rustpython_repro_root/{phase},target=/repo,readonly" \\',
-                    f'  --mount "type=bind,source=$rustpython_repro_root/target-{phase},target=/target,readonly" \\',
-                    f'  --mount "type=bind,source=$rustpython_repro_root/scratch-{phase},target=/scratch" \\',
-                    "  --env TERM=xterm --env XDG_CONFIG_HOME=/scratch/config \\",
-                    "  --env RUSTPYTHONPATH=/repo/Lib --env PYTHONDONTWRITEBYTECODE=1 \\",
-                    f'  --workdir /scratch "$rustpython_repro_{phase}_image" \\',
-                    "  /target/release/rustpython",
-                    "```",
-                    "",
-                    "Enter these lines at the Python prompts. Press Enter on an empty line after each indented block, wait for the primary prompt, then enter the next block. Use these same inputs for both versions:",
-                    "",
-                    "```python",
-                    "for i in range(10):",
-                    "    i",
-                    "",
-                    'with open("repl-output.txt", "w") as f:',
-                    '    f.write("hello")',
-                    "",
-                    "```",
-                    "",
-                    expected
-                    + " After both blocks return to the primary prompt, enter `exit()` to return to the shell before continuing.",
-                    "",
-                ]
-            )
-        return steps[:-1]
-    code = (case / item["input"]).read_text().rstrip()
-    if number == 4690:
-        # The report concerns the raw descriptor, which is the first expression.
-        code = code.splitlines()[0]
-    if number == 4856:
-        source = (case / "original-01.txt").read_text()
-        code = (
-            'source = """\\\n'
-            + source
-            + '"""\ncompile(source, "repro.py", "exec")\nprint("compile_success")'
-        )
-    prerequisites = {
-        4856: "This compiles the original source without executing it, directly testing the reported compiler panic.",
-        5181: "The system must provide `en_US.UTF-8`. Check with `locale -a` before running either version; the input selects that locale explicitly.",
-        6790: "Both builds use their own `test.support` and lzma implementation. The input applies the decorator and actually invokes the wrapped function.",
-    }
-    steps.extend(
-        [
-            "### 3. Save the shared reproduction input",
-            "",
-            "Write the input once; both runs below execute this exact file.",
-            "",
-        ]
-    )
-    if number in prerequisites:
-        steps.extend([prerequisites[number], ""])
-    steps.extend(
-        [
-            "```sh",
-            "cat > \"$rustpython_repro_root/repro.py\" <<'PY'",
-            code,
-            "PY",
-            "```",
-            "",
-            "### 4. Run the historical and current builds",
-            "",
-            "Each command prints the process exit code, including expected failures, so an old-version exception does not prevent the current-version check. Compare the output with the table below.",
-            "",
-        ]
-    )
-    for phase in ("historical", "current"):
         steps.extend(
             [
-                f"**{phase.capitalize()}:**",
+                "Run in a terminal with a TTY. For **each** interpreter, enter the input above, press Enter on an empty line after each indented block, then enter `exit()`. The loop starts historical first, then current. A script or piped stdin does not test interactive display.",
+                "",
+                "```sh",
+                "for phase in historical current; do",
+                '  if [ "$phase" = historical ]; then',
+                '    rustpython_repro_image="$rustpython_repro_historical_image"',
+                "  else",
+                '    rustpython_repro_image="$rustpython_repro_current_image"',
+                "  fi",
+                '  printf "\\n%s REPL\\n" "$phase"',
+                '  mkdir -p "$rustpython_repro_root/scratch-$phase/config/rustpython"',
+                "  docker run --rm -it --platform linux/arm64 --network none \\",
+                '    --mount "type=bind,source=$rustpython_repro_root/$phase,target=/repo,readonly" \\',
+                '    --mount "type=bind,source=$rustpython_repro_root/target-$phase,target=/target,readonly" \\',
+                '    --mount "type=bind,source=$rustpython_repro_root/scratch-$phase,target=/scratch" \\',
+                "    --env TERM=xterm --env XDG_CONFIG_HOME=/scratch/config \\",
+                "    --env RUSTPYTHONPATH=/repo/Lib --env PYTHONDONTWRITEBYTECODE=1 \\",
+                '    --workdir /scratch "$rustpython_repro_image" /target/release/rustpython',
+                "done",
+                "```",
+                "",
+                "For the CPython reference, start `PYTHON_BASIC_REPL=1 python3.14` in a disposable directory and enter the same blocks interactively. Record `python3.14 -VV` first.",
+            ]
+        )
+        return steps
+    steps.extend(
+        [
+            "Save the code above as `$rustpython_repro_root/repro.py` (or copy the linked `repro.py` there). Both versions execute this one file, each with its matching standard library:",
+            "",
+            "```sh",
+            "(",
+            '  cd "$rustpython_repro_root" || exit',
+            "  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE",
+            "  for phase in historical current; do",
+            '    printf "\\n%s\\n" "$phase"',
+            '    if RUSTPYTHONPATH="$rustpython_repro_root/$phase/Lib" PYTHONDONTWRITEBYTECODE=1 \\',
+            '      "$rustpython_repro_root/target-$phase/release/rustpython" \\',
+            '      "$rustpython_repro_root/repro.py"; then',
+            "      printf 'exit_code=0\\n'",
+            "    else",
+            "      printf 'exit_code=%s\\n' \"$?\"",
+            "    fi",
+            "  done",
+            ")",
+            "```",
+        ]
+    )
+    if item["issue"] != 6790:
+        steps.extend(
+            [
+                "",
+                "CPython reference (3.14.6 in the recorded comparison):",
                 "",
                 "```sh",
                 "(",
                 '  cd "$rustpython_repro_root" || exit',
-                "  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE",
-                f'  if RUSTPYTHONPATH="$rustpython_repro_root/{phase}/Lib" PYTHONDONTWRITEBYTECODE=1 \\',
-                f'    "$rustpython_repro_root/target-{phase}/release/rustpython" \\',
-                '    "$rustpython_repro_root/repro.py"; then',
+                "  unset PYTHONHOME PYTHONPATH PYTHONWARNINGS PYTHONOPTIMIZE RUSTPYTHONPATH",
+                "  python3.14 -VV",
+                '  if PYTHONDONTWRITEBYTECODE=1 python3.14 "$rustpython_repro_root/repro.py"; then',
                 "    printf 'exit_code=0\\n'",
                 "  else",
                 "    printf 'exit_code=%s\\n' \"$?\"",
                 "  fi",
                 ")",
                 "```",
-                "",
             ]
         )
-    if number == 4786:
-        steps.extend(
-            [
-                "The current run is expected to exit with code `1` and `UnicodeEncodeError`; that rejection is the corrected behavior.",
-                "",
-            ]
-        )
-    elif number == 5656:
-        steps.extend(
-            [
-                "Both runs exit with code `0`; the current run must additionally emit the `SyntaxWarning` for `\\X`.",
-                "",
-            ]
-        )
-    return steps[:-1]
+    steps.extend(
+        [
+            "",
+            "To run the comparison and capture all outputs together, use the optional [comparison command](../../README.md#compare-both-revisions-at-once). Direct commands above do not require that runner.",
+        ]
+    )
+    return steps
 
 
 def historical_label(item):
@@ -453,7 +413,13 @@ def recorded_output_table(item):
     """Display selected recorded output without changing the evidence files."""
     case = BUNDLE / "cases" / str(item["issue"])
     metadata = json.loads((case / "evidence/metadata.json").read_text())
-    phases = ("historical", "current")
+    reference = case / "evidence/reference.json"
+    phases = ["historical", "current"]
+    if reference.exists():
+        ref = json.loads(reference.read_text())
+        phases.insert(0, "cpython")
+        if "run" in ref:
+            metadata["runs"]["cpython"] = ref["run"]
     is_repl = item["kind"] == "repl"
     rows = []
     for stream in ("stdout",) if is_repl else ("stdout", "stderr"):
@@ -464,8 +430,6 @@ def recorded_output_table(item):
             if is_repl:
                 clean = ANSI.sub("", output).replace("\r", "")
                 output = "\n".join(re.findall(r"(?m)^([0-9]+)$", clean))
-            elif item["issue"] == 4690 and stream == "stdout":
-                output = output.splitlines()[0]
             elif stream == "stderr":
                 lines = output.splitlines()
                 retained = [
@@ -538,13 +502,13 @@ def recorded_output_table(item):
             "are omitted only where noted; long stderr lines are wrapped for display. "
             "The full logs are linked below."
         )
-        if item["issue"] == 4690:
-            note += " Only the first stdout line, from the raw descriptor query reproduced above, is shown."
     lines = [
         note,
         "",
         "<table>",
-        "<thead><tr><th>Output</th><th>Historical</th><th>Current</th></tr></thead>",
+        "<thead><tr><th>Output</th>"
+        + ("<th>CPython 3.14.6</th>" if "cpython" in phases else "")
+        + "<th>RustPython before</th><th>RustPython after</th></tr></thead>",
         "<tbody>",
     ]
     for label, cells in rows:
@@ -687,26 +651,93 @@ def render_recorded(manifest):
             "",
             f"Original issue: [#{number}]({item['url']})",
             "",
-            "## Reproduction procedure",
+            f"**Verified closure candidate:** {comparison}",
             "",
         ]
+        if item["historical_sha"]:
+            text.extend(
+                [
+                    f"**Tested commits:** before `{item['historical_sha'][:12]}` → after `{sha[:12]}` (October 4, 2026). Historical selection and full build details are below.",
+                    "",
+                    "## Reproducer",
+                    "",
+                    f"Canonical input: [{item['input']}]({item['input']}). "
+                    + item["derivation"],
+                    "",
+                ]
+            )
+            if number == 4856:
+                text.extend(
+                    [
+                        "Compile only: the application names in this source need not exist because the source is never executed.",
+                        "",
+                    ]
+                )
+            if number == 5181:
+                text.extend(
+                    ["Requires the `en_US.UTF-8` system locale (`locale -a`).", ""]
+                )
+            if number == 2527:
+                text.extend(
+                    [
+                        "Enter the following in a real REPL, with a blank line after each indented block.",
+                        "",
+                    ]
+                )
+            text.extend(
+                [
+                    "```python",
+                    (case / item["input"]).read_text().rstrip(),
+                    "```",
+                    "",
+                    "## Expected and observed results",
+                    "",
+                    f"**Expected:** {item['current_summary']}",
+                    "",
+                ]
+            )
+            if number == 6429:
+                text.extend(
+                    [
+                        "CPython's recorded GIL-enabled build reports `0`; the RustPython POSIX build reports `1`. This is a build-configuration check: equality with CPython is not the oracle, and this probe does not establish general free-threading compatibility.",
+                        "",
+                    ]
+                )
+            elif number == 6790:
+                text.extend(
+                    [
+                        "This checks RustPython's `test.support.requires_lzma` gate with lzma available. No CPython column is used: the reported defect is RustPython's forced skip. Successful invocation does not establish complete XZ support.",
+                        "",
+                    ]
+                )
+            elif number == 2527:
+                text.extend(
+                    [
+                        "The CPython 3.14.6 reference was recorded separately on macOS ARM64 on October 5; both RustPython runs were on Linux ARM64. The same block input was sent through a PTY in all three runs.",
+                        "",
+                    ]
+                )
+            text.extend(recorded_output_table(item))
+        else:
+            text.extend(
+                [
+                    "## Expected and observed results",
+                    "",
+                    "**Expected:** the README link opens published RustPython API documentation.",
+                    "",
+                    f"- **Before (original report):** {item['historical_summary']}",
+                    f"- **After (checked October 4, 2026):** {item['current_summary']}",
+                    "- The recorded request followed redirects to `https://docs.rs/rustpython/latest/rustpython/` (HTTP 200). The page content was checked separately from the HTTP status.",
+                    "- CPython and interpreter build comparisons do not apply to this documentation-link issue.",
+                    "",
+                ]
+            )
         text.extend(
             [
+                "## Run",
+                "",
                 *steps,
                 "",
-                "## Before and after",
-                "",
-                f"- **Before — {historical}:** {item['historical_summary']}",
-                f"- **After — {current_link}:** {item['current_summary']}"
-                if item["historical_sha"]
-                else f"- **After — documentation checked October 4, 2026:** {item['current_summary']}",
-                "",
-            ]
-        )
-        if item["historical_sha"]:
-            text.extend(recorded_output_table(item))
-        text.extend(
-            [
                 "## Analysis and closure rationale",
                 "",
                 item["reason_to_close"],
@@ -716,9 +747,32 @@ def render_recorded(manifest):
             ]
         )
         if item["historical_sha"]:
+            runs = json.loads((case / "evidence/metadata.json").read_text())["runs"]
+            versions = {
+                phase: runs[phase]["build"]["toolchain"].splitlines()[0]
+                for phase in ("historical", "current")
+            }
             text.extend(
                 [
                     "These source changes match the observed behavior. The exact first-fixing commit was not established by executing each change and its parent.",
+                    "",
+                    "## Versions and environment",
+                    "",
+                    f"- **Before:** {historical}.",
+                    f"- **After:** {current_link}.",
+                    "- **Platform:** "
+                    + ("Linux ARM64 (Docker)." if number == 2527 else "macOS ARM64."),
+                    f"- **Rust toolchains:** before `{versions['historical']}`; after `{versions['current']}`. Default Cargo features, committed lockfiles.",
+                ]
+            )
+            if (case / "evidence/reference.json").exists():
+                reference = json.loads((case / "evidence/reference.json").read_text())
+                text.append(
+                    f"- **CPython:** `{reference['version']}`. [Reference provenance](evidence/reference.json)."
+                )
+            text.extend(
+                [
+                    "- **Full reproduction:** [BUILD.md](BUILD.md) contains exact checkout, toolchain, build and executable-version checks. Return to the Run section after setup.",
                     "",
                     "## Recorded evidence",
                     "",
@@ -730,17 +784,58 @@ def render_recorded(manifest):
                 text.append(
                     "- [Historical stderr](evidence/historical.stderr.txt) / [current stderr](evidence/current.stderr.txt)."
                 )
+            if (case / "evidence/reference.json").exists():
+                text.append(
+                    "- [CPython stdout](evidence/cpython.stdout.txt) / [CPython stderr](evidence/cpython.stderr.txt)."
+                )
+            stderr_logs = [
+                case / "evidence" / f"{phase}.stderr.txt"
+                for phase in ("cpython", "historical", "current")
+            ]
+            if any(log.exists() and log.read_text().strip() for log in stderr_logs):
+                text.extend(
+                    [
+                        "",
+                        "<details>",
+                        "<summary>Full recorded stderr (including traceback frames)</summary>",
+                        "",
+                    ]
+                )
+                for phase in ("cpython", "historical", "current"):
+                    log = case / "evidence" / f"{phase}.stderr.txt"
+                    if log.exists() and log.read_text().strip():
+                        text.extend(
+                            [
+                                f"**{'CPython' if phase == 'cpython' else phase.capitalize()}:**",
+                                "",
+                                "```text",
+                                log.read_text().rstrip(),
+                                "```",
+                                "",
+                            ]
+                        )
+                text.extend(["</details>", ""])
+            build = [
+                f"# Build the two revisions for #{number}",
+                "",
+                "[Case report and reproduction input](README.md)",
+                "",
+                *reproduction_setup(item),
+                "Return to [Run](README.md#run) in the same shell to execute the shared input with both builds.",
+                "",
+            ]
+            (case / "BUILD.md").write_text("\n".join(build))
         else:
             text.extend(
                 [
                     "## Recorded evidence",
                     "",
                     "- [HTTP checks](evidence/http-checks.json).",
+                    "",
                 ]
             )
         text.extend(
             [
-                "",
                 "AI assistance: OpenAI Codex assisted with verification, evidence analysis and drafting.",
                 "",
             ]
@@ -756,10 +851,263 @@ def render_recorded(manifest):
     return "\n".join(index)
 
 
+def clean_environment(stdlib=None):
+    env = os.environ.copy()
+    for key in (
+        "PYTHONHOME",
+        "PYTHONPATH",
+        "PYTHONWARNINGS",
+        "PYTHONOPTIMIZE",
+        "PYTHONSTARTUP",
+        "PYTHON_BASIC_REPL",
+        "RUSTPYTHONPATH",
+    ):
+        env.pop(key, None)
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
+    if stdlib is not None:
+        env["RUSTPYTHONPATH"] = str(stdlib)
+    return env
+
+
+def verify_interpreter(binary, stdlib, expected_sha, cwd, timeout):
+    """Reject a mismatched commit, modified Lib, or stale build-time Lib path."""
+    binary = binary.resolve()
+    if not binary.is_file() or not os.access(binary, os.X_OK):
+        raise ValueError(f"Not an executable file: {binary}")
+    if stdlib is not None:
+        stdlib = stdlib.resolve()
+        if not (stdlib / "os.py").is_file():
+            raise ValueError(f"Not a RustPython Lib directory: {stdlib}")
+
+        def git(*args):
+            return subprocess.check_output(
+                ["git", "-C", str(stdlib), *args],
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=timeout,
+            ).strip()
+
+        root = Path(git("rev-parse", "--show-toplevel")).resolve()
+        if stdlib != root / "Lib":
+            raise ValueError("Use the retained checkout's top-level Lib directory")
+        tree = git("rev-parse", "HEAD:Lib")
+        if tree != git("rev-parse", f"{expected_sha}:Lib") or git(
+            "status", "--porcelain", "--untracked-files=normal", "--", str(stdlib)
+        ):
+            raise ValueError(
+                "Lib differs from the expected revision or has local changes"
+            )
+    env = clean_environment(stdlib)
+    probe = run_script(
+        [
+            str(binary),
+            "-c",
+            "import sys, os, json; print(json.dumps({"
+            "'implementation': sys.implementation.name, 'version': sys.version, "
+            "'os': os.__file__, 'json': json.__file__}))",
+        ],
+        env,
+        cwd,
+        timeout,
+    )
+    if probe["timeout"] or probe["exit_code"] != 0:
+        raise ValueError(f"Interpreter startup failed: {probe}")
+    identity = json.loads(probe["stdout"])
+    wanted = "rustpython" if stdlib is not None else "cpython"
+    if identity["implementation"] != wanted:
+        raise ValueError(f"Expected {wanted}, got {identity['implementation']}")
+    if stdlib is not None:
+        if not re.search(rf"\b{expected_sha[:7]}[0-9a-f]*\b", identity["version"]):
+            raise ValueError(f"Executable does not identify commit {expected_sha}")
+        for module in ("os", "json"):
+            if not Path(identity[module]).resolve().is_relative_to(stdlib):
+                raise ValueError(
+                    f"{module} loaded from {identity[module]}, outside supplied {stdlib}; "
+                    "retain the original checkout or rebuild using BUILD.md"
+                )
+        identity["stdlib_tree"] = tree
+    return {
+        **identity,
+        "binary": str(binary),
+        "binary_sha256": digest(binary),
+        "stdlib": str(stdlib) if stdlib is not None else None,
+    }, env
+
+
+def print_comparison(results):
+    labels = list(results)
+    width = 44
+    print("Field".ljust(10) + " | " + " | ".join(x.ljust(width) for x in labels))
+    print("-" * (13 + (width + 3) * len(labels)))
+    for field in ("stdout", "stderr", "exit_code", "oracle", "error"):
+        cells = [
+            textwrap.wrap(
+                json.dumps(results[label].get(field, ""), ensure_ascii=True), width
+            )
+            or [""]
+            for label in labels
+        ]
+        for row in range(max(map(len, cells))):
+            print(
+                (field if row == 0 else "").ljust(10)
+                + " | "
+                + " | ".join(
+                    (cell[row] if row < len(cell) else "").ljust(width)
+                    for cell in cells
+                )
+            )
+
+
+def compare_interpreters(args, manifest, parser):
+    if not args.issue or len(args.issue) != 1:
+        parser.error("--compare requires exactly one --issue")
+    item = next((i for i in manifest["issues"] if i["issue"] == args.issue[0]), None)
+    if item is None or item["kind"] == "documentation":
+        parser.error("--compare requires a known runtime issue; #4784 uses check.sh")
+    if item["kind"] == "repl" and sys.platform != "linux":
+        parser.error(
+            "The RustPython REPL comparison requires Linux; see cases/2527/BUILD.md"
+        )
+    if not all((args.before, args.before_stdlib, args.after, args.after_stdlib)):
+        parser.error(
+            "--compare requires --before, --before-stdlib, --after and --after-stdlib"
+        )
+    if args.rustpython or args.stdlib:
+        parser.error("Do not combine --compare with single-interpreter options")
+    if args.reference and item["issue"] == 6790:
+        parser.error(
+            "#6790 compares RustPython's own test.support gate; omit --reference"
+        )
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S.%fZ")
+    output = (args.output or BUNDLE / "runs" / stamp).resolve()
+    output.mkdir(parents=True, exist_ok=False)
+    interpreters = []
+    if args.reference:
+        interpreters.append(("CPython", args.reference, None, None))
+    interpreters.extend(
+        [
+            ("Before", args.before, args.before_stdlib, item["historical_sha"]),
+            ("After", args.after, args.after_stdlib, manifest["baseline_sha"]),
+        ]
+    )
+    source = BUNDLE / "cases" / str(item["issue"]) / item["input"]
+    results = {}
+    for label, binary, stdlib, sha in interpreters:
+        result = {"oracle": "ERROR"}
+        try:
+            with tempfile.TemporaryDirectory(
+                prefix=f"compare-{item['issue']}-"
+            ) as scratch:
+                identity, env = verify_interpreter(
+                    binary, stdlib, sha, scratch, args.timeout
+                )
+                result["identity"] = identity
+                result["input_sha256"] = digest(source)
+                result["command"] = [str(binary.resolve())]
+                if item["kind"] != "repl":
+                    result["command"].append(str(source))
+                result["cwd"] = scratch
+                result["environment"] = {
+                    key: env[key]
+                    for key in ("RUSTPYTHONPATH", "PYTHONDONTWRITEBYTECODE")
+                    if key in env
+                }
+                if item["kind"] == "repl":
+                    config = Path(scratch) / "config"
+                    (config / "rustpython").mkdir(parents=True)
+                    env.update(TERM="xterm", XDG_CONFIG_HOME=str(config))
+                    if label == "CPython":
+                        env["PYTHON_BASIC_REPL"] = "1"
+                    result["environment"].update(
+                        {
+                            key: env[key]
+                            for key in ("TERM", "XDG_CONFIG_HOME", "PYTHON_BASIC_REPL")
+                            if key in env
+                        }
+                    )
+                    result.update(
+                        run_repl(
+                            binary.resolve(),
+                            source.read_text(),
+                            env,
+                            scratch,
+                            args.timeout,
+                        )
+                    )
+                    passed = result["passed"]
+                else:
+                    result.update(
+                        run_script(
+                            [str(binary.resolve()), str(source)],
+                            env,
+                            scratch,
+                            args.timeout,
+                        )
+                    )
+                    passed = check_result(item["expected"], result)
+                result["oracle"] = "PASS" if passed else "FAIL"
+                if result.get("timeout") or result.get("error"):
+                    result["oracle"] = "ERROR"
+                if (
+                    label == "CPython"
+                    and item["issue"] == 6429
+                    and result["oracle"] != "ERROR"
+                ):
+                    result["oracle"] = (
+                        "CONFIG"
+                        if result["exit_code"] == 0
+                        and result["stdout"].strip() in ("0", "1")
+                        else "FAIL"
+                    )
+        except (OSError, ValueError, subprocess.SubprocessError) as exc:
+            result.update(error=str(exc), oracle="ERROR")
+        results[label] = result
+        for stream in ("stdout", "stderr"):
+            (output / f"{label.lower()}.{stream}.txt").write_text(
+                result.get(stream, "")
+            )
+    write_json(
+        output / "comparison.json",
+        {
+            "issue": item["issue"],
+            "timestamp_utc": stamp,
+            "platform": platform.platform(),
+            "input_sha256": digest(source),
+            "results": results,
+        },
+    )
+    print_comparison(results)
+    print(
+        "Oracle = current case expectation. Before FAIL alone does not prove the original symptom; compare the recorded diagnostic."
+    )
+    if item["issue"] == 6429:
+        print("CONFIG = CPython build setting, not equality with RustPython.")
+    print("Full outputs and versions:", output)
+    return int(
+        any(r["oracle"] == "ERROR" for r in results.values())
+        or results["After"]["oracle"] != "PASS"
+        or results.get("CPython", {}).get("oracle") == "FAIL"
+    )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--rustpython", type=Path)
     parser.add_argument("--stdlib", type=Path)
+    parser.add_argument(
+        "--compare",
+        action="store_true",
+        help="Compare the two recorded revisions using one input",
+    )
+    parser.add_argument("--before", type=Path, help="Historical RustPython executable")
+    parser.add_argument("--before-stdlib", type=Path)
+    parser.add_argument(
+        "--after", type=Path, help="Current baseline RustPython executable"
+    )
+    parser.add_argument("--after-stdlib", type=Path)
+    parser.add_argument(
+        "--reference", type=Path, help="Optional CPython executable (full path)"
+    )
     parser.add_argument(
         "--issue",
         type=int,
@@ -784,6 +1132,14 @@ def main():
         return 0
     if os.name != "posix":
         parser.error("Execution requires a POSIX host (Linux or macOS)")
+    if args.timeout <= 0:
+        parser.error("--timeout must be positive")
+    if args.compare:
+        return compare_interpreters(args, manifest, parser)
+    if any(
+        (args.before, args.before_stdlib, args.after, args.after_stdlib, args.reference)
+    ):
+        parser.error("Comparison interpreter options require --compare")
     if not args.rustpython or not args.stdlib:
         parser.error("--rustpython and --stdlib are required for execution")
     if args.timeout <= 0:

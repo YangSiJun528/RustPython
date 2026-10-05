@@ -3,6 +3,49 @@
 Validated locally on October 5, 2026 (Asia/Seoul), with RustPython source at
 `f39b054b9c8cbbf884f53123eef028131789990c`.
 
+## Reviewer-facing layout and comparison checks
+
+- All 16 reports now place the original input/expected outcome and observed
+  results before environment setup. Fifteen runtime cases have a separate
+  `BUILD.md`; their checkout, build and version-check shell blocks are unchanged.
+  The combined bullet submission draft and manifest are unchanged.
+- All 74 shell blocks passed Bash and Zsh syntax checks. Displayed Python inputs
+  match their canonical files by AST. The #4856 source string has readable
+  multiline formatting with identical compiled bytes; #4690 now displays both
+  queries already present in its executable and recorded evidence.
+- The 14 current native commands and 13 CPython commands were extracted from the
+  reports and executed successfully, including the expected exception and warning.
+  CPython 3.14.6 versions and input AST equivalence for the 13 archived references
+  were recovered from the original survey; all 84 existing exported log hashes
+  remain unchanged. #2527 adds a separately dated CPython 3.14.6 PTY run on macOS
+  ARM64, with values 0–9 then 5; its platform difference is explicit in the report.
+- The new #2527 shell loop was exercised for each phase through a real Docker
+  PTY using the two retained fresh builds from the earlier procedure validation.
+  Historical output: no expression values. Current output: 0–9 then 5.
+  Both processes exited with code 0.
+- #4762's historical commit was freshly checked out and built with the documented
+  Rust 1.67.1 command. The new `--compare` command ran that executable, the
+  hash-verified current baseline and CPython 3.14.6 on the same input:
+  historical `AssertionError`/exit 1, current and CPython exit 0.
+- Comparison checks rejected the wrong executable, wrong `Lib` tree, a local
+  untracked `Lib` file and a copied checkout paired with an executable retaining
+  the original build-time import path. Startup and execution timeouts were
+  classified as `ERROR`, not historical bug reproduction. Other interpreters
+  continued after a failed column. Controlled outcome checks covered expected
+  `UnicodeEncodeError`/exit 1, missing `SyntaxWarning` and CPython's `CONFIG` value.
+- A fresh historical build exposed that old RustPython's frozen `codecs` has no
+  `__file__`. The environment probe therefore checks `os` and `json` paths,
+  resolving the historical `pylib/Lib` symlink. The subsequent real comparison
+  passed. Version checks are pairing checks, not build attestations.
+- A focused review passed. Local documentation links resolve. The workspace and
+  C-API tests and both Clippy commands listed below were rerun and passed.
+
+Only #4762's historical native build was repeated for this layout revision;
+other historical script results remain the preserved October 4 evidence. The
+REPL comparison mode's native-Linux interface was not freshly built end to end;
+the documented Docker/TTY commands were executed as described above. No new
+HTTP check was needed for the unchanged #4784 dated observation.
+
 ## Version-specific procedure checks
 
 The documentation now provides separate checkout, build, version verification
