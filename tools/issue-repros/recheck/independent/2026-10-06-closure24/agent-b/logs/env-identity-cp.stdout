@@ -1,0 +1,41 @@
+{
+  "version": "3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]",
+  "implementation": "namespace(name='cpython', cache_tag='cpython-314', version=sys.version_info(major=3, minor=14, micro=6, releaselevel='final', serial=0), hexversion=51250928, _multiarch='darwin', supports_isolated_interpreters=True)",
+  "executable": "<home>/.local/bin/python3",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "cwd": "<slot-b-source>",
+  "sys_path": [
+    "<closure24-audit>/agent-b/inputs",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/lib-dynload",
+    "<home>/.local/lib/python3.14/site-packages",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/site-packages"
+  ],
+  "modules": {
+    "os": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/os.py",
+    "ast": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/ast.py",
+    "email.policy": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/email/policy.py",
+    "email._header_value_parser": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/email/_header_value_parser.py",
+    "pickle": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/pickle.py",
+    "collections": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/collections/__init__.py",
+    "asyncio": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/asyncio/__init__.py",
+    "unittest.mock": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/unittest/mock.py",
+    "traceback": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/traceback.py",
+    "types": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/types.py",
+    "test.test_deque": [
+      "ModuleNotFoundError",
+      "No module named 'test'"
+    ],
+    "test.test_descr": [
+      "ModuleNotFoundError",
+      "No module named 'test'"
+    ],
+    "test.test_json.test_default": [
+      "ModuleNotFoundError",
+      "No module named 'test'"
+    ]
+  },
+  "locale": "C/C.UTF-8/C/C/C/C"
+}

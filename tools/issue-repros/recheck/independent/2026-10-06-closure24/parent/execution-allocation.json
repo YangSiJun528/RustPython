@@ -1,0 +1,41 @@
+{
+  "A": {
+    "owner": "verify_slot_a",
+    "cwd": "<workspace>",
+    "queue": [
+      4762,
+      4786,
+      3418,
+      3430,
+      4527,
+      4950,
+      4970,
+      6429,
+      2527,
+      4541,
+      3846,
+      4784
+    ]
+  },
+  "B": {
+    "owner": "verify_slot_b",
+    "cwd": "<slot-b-source>",
+    "queue": [
+      4506,
+      4690,
+      4937,
+      4769,
+      4856,
+      4907,
+      4908,
+      5179,
+      5656,
+      5699,
+      8052,
+      8494
+    ]
+  },
+  "maximum_concurrent_verification_processes": 2,
+  "parent_execution_permission": "none until explicit slot handoff",
+  "new_output_root": "<closure24-audit>"
+}

@@ -1,0 +1,4083 @@
+diff --git a/.cspell.json b/.cspell.json
+index 2889a5184..57f7baab3 100644
+--- a/.cspell.json
++++ b/.cspell.json
+@@ -59,6 +59,7 @@
+     "alnum",
+     "csock",
+     "coro",
++    "contig",
+     "Crnl",
+     "dedentations",
+     "dedents",
+diff --git a/Lib/test/test_buffer.py b/Lib/test/test_buffer.py
+index bc09329e6..19582e757 100644
+--- a/Lib/test/test_buffer.py
++++ b/Lib/test/test_buffer.py
+@@ -4471,7 +4471,6 @@ def test_flags_overflow(self):
+ 
+ 
+ class TestPythonBufferProtocol(unittest.TestCase):
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_basic(self):
+         class MyBuffer:
+             def __buffer__(self, flags):
+@@ -4500,7 +4499,6 @@ def __buffer__(self):
+ 
+         self.assertRaises(TypeError, memoryview, WrongArity())
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_release_buffer(self):
+         class WhatToRelease:
+             def __init__(self):
+@@ -4523,7 +4521,6 @@ def __release_buffer__(self, buffer):
+             self.assertEqual(mv.tobytes(), b"hello")
+         self.assertFalse(wr.held)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_same_buffer_returned(self):
+         class WhatToRelease:
+             def __init__(self):
+@@ -4549,7 +4546,6 @@ def __release_buffer__(self, buffer):
+             self.assertEqual(mv.tobytes(), b"hello")
+         self.assertFalse(wr.held)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_buffer_flags(self):
+         class PossiblyMutable:
+             def __init__(self, data, mutable) -> None:
+@@ -4589,7 +4585,6 @@ def __buffer__(self, flags):
+                 mv[0] = ord(b'x')
+             self.assertEqual(mv.tobytes(), b"hello")
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_call_builtins(self):
+         ba = bytearray(b"hello")
+         mv = ba.__buffer__(0)
+@@ -4651,7 +4646,6 @@ def __buffer__(self, flags):
+         mv = memoryview(a)
+         self.assertEqual(mv.tobytes(), b"hello")
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_inheritance_releasebuffer(self):
+         rb_call_count = 0
+         class B(bytearray):
+@@ -4668,7 +4662,6 @@ def __release_buffer__(self, view):
+             self.assertEqual(rb_call_count, 0)
+         self.assertEqual(rb_call_count, 1)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_inherit_but_return_something_else(self):
+         class A(bytearray):
+             def __buffer__(self, flags):
+@@ -4708,7 +4701,6 @@ def __release_buffer__(self, buffer):
+         with memoryview(c) as mv:
+             self.assertEqual(mv.tobytes(), b"hello")
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_release_saves_reference(self):
+         smuggled_buffer = None
+ 
+@@ -4736,7 +4728,6 @@ def __release_buffer__(s, buffer: memoryview):
+         with self.assertRaises(ValueError):
+             smuggled_buffer.tobytes()
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_release_saves_reference_no_subclassing(self):
+         ba = bytearray(b"hello")
+ 
+@@ -4757,7 +4748,6 @@ def __release_buffer__(self, buffer):
+         c.buffer.release()
+         ba.clear()
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_multiple_inheritance_buffer_last(self):
+         class A:
+             def __buffer__(self, flags):
+@@ -4817,7 +4807,6 @@ def __buffer__(self, flags):
+         c.clear()
+         self.assertIs(c.buffer, None)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON
+     def test_release_buffer_with_exception_set(self):
+         class A:
+             def __buffer__(self, flags):
+diff --git a/Lib/test/test_collections.py b/Lib/test/test_collections.py
+index b5d3411c7..c1dadc4e2 100644
+--- a/Lib/test/test_collections.py
++++ b/Lib/test/test_collections.py
+@@ -1956,7 +1956,6 @@ class X(ByteString): pass
+             # No metaclass conflict
+             class Z(ByteString, Awaitable): pass
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; Need to implement __buffer__ and __release_buffer__ (https://docs.python.org/3.13/reference/datamodel.html#emulating-buffer-types)
+     def test_Buffer(self):
+         for sample in [bytes, bytearray, memoryview]:
+             self.assertIsInstance(sample(b"x"), Buffer)
+diff --git a/Lib/test/test_memoryio.py b/Lib/test/test_memoryio.py
+index 1683a71fc..7f57d20f2 100644
+--- a/Lib/test/test_memoryio.py
++++ b/Lib/test/test_memoryio.py
+@@ -587,7 +587,6 @@ def test_issue5449(self):
+         self.ioclass(initial_bytes=buf)
+         self.assertRaises(TypeError, self.ioclass, buf, foo=None)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; TypeError: a bytes-like object is required, not 'B'
+     def test_write_concurrent_close(self):
+         class B:
+             def __buffer__(self, flags):
+@@ -601,7 +600,6 @@ def __buffer__(self, flags):
+     # concurrently mutates (e.g., closes or exports) 'memio'.
+     # See: https://github.com/python/cpython/issues/143378.
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; TypeError: a bytes-like object is required, not 'B'
+     def test_writelines_concurrent_close(self):
+         class B:
+             def __buffer__(self, flags):
+@@ -611,7 +609,6 @@ def __buffer__(self, flags):
+         memio = self.ioclass()
+         self.assertRaises(ValueError, memio.writelines, [B()])
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; TypeError: a bytes-like object is required, not 'B'
+     def test_write_concurrent_export(self):
+         class B:
+             buf = None
+@@ -622,7 +619,6 @@ def __buffer__(self, flags):
+         memio = self.ioclass()
+         self.assertRaises(BufferError, memio.write, B())
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; TypeError: a bytes-like object is required, not 'B'
+     def test_writelines_concurrent_export(self):
+         class B:
+             buf = None
+@@ -633,7 +629,6 @@ def __buffer__(self, flags):
+         memio = self.ioclass()
+         self.assertRaises(BufferError, memio.writelines, [B()])
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; TypeError: a bytes-like object is required, not 'B'
+     def test_write_mutating_buffer(self):
+         # Test that buffer is exported only once during write().
+         # See: https://github.com/python/cpython/issues/143602.
+@@ -930,9 +925,6 @@ def test_cow_mutable(self):
+     def test_flags(self):
+         return super().test_flags()
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AssertionError: ValueError not raised by write
+-    def test_write(self):
+-        return super().test_write()
+ 
+ class CStringIOTest(PyStringIOTest):
+     ioclass = io.StringIO
+diff --git a/Lib/test/test_memoryview.py b/Lib/test/test_memoryview.py
+index 12e3504e4..707540f29 100644
+--- a/Lib/test/test_memoryview.py
++++ b/Lib/test/test_memoryview.py
+@@ -797,7 +797,6 @@ def __bool__(self):
+             m[0] = MyBool()
+         self.assertEqual(ba[:8], b'\0'*8)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AttributeError: 'memoryview' object has no attribute '__buffer__'
+     def test_buffer_reference_loop(self):
+         m = memoryview(b'abc').__buffer__(0)
+         o = MyObject()
+diff --git a/Lib/test/test_struct.py b/Lib/test/test_struct.py
+index 31d2e58b1..c76639809 100644
+--- a/Lib/test/test_struct.py
++++ b/Lib/test/test_struct.py
+@@ -498,12 +498,10 @@ def _test_pack_into(self, pack_into):
+         with self.assertRaises((IndexError, OverflowError)):
+             pack_into(writable_buf, -2**1000, test_string)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; BufferError: non-contiguous buffer is not a bytes-like object
+     def test_pack_into(self):
+         s = struct.Struct('21s')
+         self._test_pack_into(s.pack_into)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; BufferError: non-contiguous buffer is not a bytes-like object
+     def test_pack_into_fn(self):
+         pack_into = lambda *args: struct.pack_into('21s', *args)
+         self._test_pack_into(pack_into)
+diff --git a/crates/derive-impl/src/pyclass.rs b/crates/derive-impl/src/pyclass.rs
+index 809d3164b..94bb445fe 100644
+--- a/crates/derive-impl/src/pyclass.rs
++++ b/crates/derive-impl/src/pyclass.rs
+@@ -1162,13 +1162,16 @@ where
+         let slot_ident = Ident::new(&slot_ident.to_string().to_lowercase(), slot_ident.span());
+         let slot_name = slot_ident.to_string();
+         let tokens = {
+-            const NON_ATOMIC_SLOTS: &[&str] = &["as_buffer"];
+             const POINTER_SLOTS: &[&str] = &["as_sequence", "as_mapping"];
+             const STATIC_GEN_SLOTS: &[&str] = &["as_number"];
+ 
+-            if NON_ATOMIC_SLOTS.contains(&slot_name.as_str()) {
++            if slot_name == "as_buffer" {
++                // bf_releasebuffer is not a separate function in RustPython; the
++                // exporter's BufferMethods already release. Only its presence is
++                // observable, and AsBuffer declares that.
+                 quote_spanned! { span =>
+-                    slots.#slot_ident = Some(Self::#ident as _);
++                    slots.#slot_ident.store(Some(Self::#ident as _));
++                    slots.has_release_buffer.store(Self::RELEASE_BUFFER);
+                 }
+             } else if POINTER_SLOTS.contains(&slot_name.as_str()) {
+                 quote_spanned! { span =>
+diff --git a/crates/stdlib/src/array.rs b/crates/stdlib/src/array.rs
+index 094e69066..68e7aab25 100644
+--- a/crates/stdlib/src/array.rs
++++ b/crates/stdlib/src/array.rs
+@@ -27,8 +27,8 @@ pub mod array {
+                 ArgBytesLike, ArgIntoFloat, ArgIterable, KwArgs, OptionalArg, PyComparisonValue,
+             },
+             protocol::{
+-                BufferDescriptor, BufferMethods, BufferResizeGuard, PyBuffer, PyIterReturn,
+-                PyMappingMethods, PySequenceMethods,
++                BufferDescriptor, BufferFlags, BufferMethods, BufferResizeGuard, PyBuffer,
++                PyIterReturn, PyMappingMethods, PySequenceMethods,
+             },
+             sequence::{OptionalRangeArgs, SequenceExt, SequenceMutExt},
+             sliceable::{
+@@ -732,12 +732,12 @@ pub mod array {
+                     }
+                 } else if init.downcastable::<PyBytes>() || init.downcastable::<PyByteArray>() {
+                     init.try_bytes_like(vm, |x| array.frombytes(x))?;
+-                } else if let Ok(iter) = ArgIterable::try_from_object(vm, init.clone()) {
++                } else {
++                    // Everything else is taken item by item, buffer or not.
++                    let iter = ArgIterable::try_from_object(vm, init)?;
+                     for obj in iter.iter(vm)? {
+                         array.push(obj?, vm)?;
+                     }
+-                } else {
+-                    init.try_bytes_like(vm, |x| array.frombytes(x))?;
+                 }
+             }
+ 
+@@ -1291,20 +1291,42 @@ pub mod array {
+         }
+     }
+ 
++    impl PyArray {
++        fn buffer_desc(&self) -> BufferDescriptor {
++            let array = self.read();
++            BufferDescriptor::format(
++                array.len() * array.itemsize(),
++                false,
++                array.itemsize(),
++                array.typecode_str().into(),
++            )
++        }
++    }
++
+     impl AsBuffer for PyArray {
++        const RELEASE_BUFFER: bool = true;
++
++        // array_buffer_getbuf, which reports the type code only when the request
++        // asked for a format.
++        fn slot_as_buffer(
++            zelf: &PyObject,
++            flags: BufferFlags,
++            vm: &VirtualMachine,
++        ) -> PyResult<PyBuffer> {
++            let zelf = zelf
++                .downcast_ref::<Self>()
++                .ok_or_else(|| vm.new_type_error("unexpected payload for as_buffer"))?;
++            let desc = zelf.buffer_desc().projected(flags);
++            flags.check_writable(desc.readonly, "Object is not writable.", vm)?;
++            Ok(PyBuffer::new(zelf.to_owned().into(), desc, &BUFFER_METHODS))
++        }
++
+         fn as_buffer(zelf: &Py<Self>, _vm: &VirtualMachine) -> PyResult<PyBuffer> {
+-            let array = zelf.read();
+-            let buf = PyBuffer::new(
++            Ok(PyBuffer::new(
+                 zelf.to_owned().into(),
+-                BufferDescriptor::format(
+-                    array.len() * array.itemsize(),
+-                    false,
+-                    array.itemsize(),
+-                    array.typecode_str().into(),
+-                ),
++                zelf.buffer_desc(),
+                 &BUFFER_METHODS,
+-            );
+-            Ok(buf)
++            ))
+         }
+     }
+ 
+diff --git a/crates/stdlib/src/mmap.rs b/crates/stdlib/src/mmap.rs
+index 91d4058a7..b5dec9765 100644
+--- a/crates/stdlib/src/mmap.rs
++++ b/crates/stdlib/src/mmap.rs
+@@ -611,6 +611,8 @@ mod mmap {
+     };
+ 
+     impl AsBuffer for PyMmap {
++        const RELEASE_BUFFER: bool = true;
++
+         fn as_buffer(zelf: &Py<Self>, _vm: &VirtualMachine) -> PyResult<PyBuffer> {
+             let readonly = matches!(zelf.access, AccessMode::Read);
+             let buf = PyBuffer::new(
+diff --git a/crates/stdlib/src/overlapped.rs b/crates/stdlib/src/overlapped.rs
+index 86ac24e3a..6cdd00146 100644
+--- a/crates/stdlib/src/overlapped.rs
++++ b/crates/stdlib/src/overlapped.rs
+@@ -12,7 +12,7 @@ mod _overlapped {
+         builtins::{PyBaseExceptionRef, PyBytesRef, PyModule, PyStrRef, PyTupleRef, PyType},
+         common::lock::PyMutex,
+         convert::{ToPyException, ToPyObject},
+-        function::OptionalArg,
++        function::{ArgBytesLike, ArgMemoryBuffer, OptionalArg},
+         object::{Traverse, TraverseFn},
+         protocol::PyBuffer,
+         types::{Constructor, Destructor},
+@@ -428,12 +428,14 @@ mod _overlapped {
+         fn ReadFileInto(
+             zelf: &Py<Self>,
+             handle: isize,
+-            buf: PyBuffer,
++            // w*, as _overlapped.Overlapped.ReadFileInto takes
++            buf: ArgMemoryBuffer,
+             vm: &VirtualMachine,
+         ) -> PyResult {
+             use host_winapi::{
+                 ERROR_BROKEN_PIPE, ERROR_IO_PENDING, ERROR_MORE_DATA, ERROR_SUCCESS,
+             };
++            let buf: PyBuffer = buf.into();
+ 
+             let mut inner = zelf.inner.lock();
+             if !matches!(inner.data, OverlappedData::None) {
+@@ -530,13 +532,15 @@ mod _overlapped {
+         fn WSARecvInto(
+             zelf: &Py<Self>,
+             handle: isize,
+-            buf: PyBuffer,
++            // w*, as _overlapped.Overlapped.WSARecvInto takes
++            buf: ArgMemoryBuffer,
+             flags: u32,
+             vm: &VirtualMachine,
+         ) -> PyResult {
+             use host_winapi::{
+                 ERROR_BROKEN_PIPE, ERROR_IO_PENDING, ERROR_MORE_DATA, ERROR_SUCCESS,
+             };
++            let buf: PyBuffer = buf.into();
+ 
+             let mut inner = zelf.inner.lock();
+             if !matches!(inner.data, OverlappedData::None) {
+@@ -583,10 +587,12 @@ mod _overlapped {
+         fn WriteFile(
+             zelf: &Py<Self>,
+             handle: isize,
+-            buf: PyBuffer,
++            // y*, as _overlapped.Overlapped.WriteFile takes
++            buf: ArgBytesLike,
+             vm: &VirtualMachine,
+         ) -> PyResult {
+             use host_winapi::{ERROR_IO_PENDING, ERROR_SUCCESS};
++            let buf: PyBuffer = buf.into();
+ 
+             let mut inner = zelf.inner.lock();
+             if !matches!(inner.data, OverlappedData::None) {
+@@ -629,11 +635,13 @@ mod _overlapped {
+         fn WSASend(
+             zelf: &Py<Self>,
+             handle: isize,
+-            buf: PyBuffer,
++            // y*, as _overlapped.Overlapped.WSASend takes
++            buf: ArgBytesLike,
+             flags: u32,
+             vm: &VirtualMachine,
+         ) -> PyResult {
+             use host_winapi::{ERROR_IO_PENDING, ERROR_SUCCESS};
++            let buf: PyBuffer = buf.into();
+ 
+             let mut inner = zelf.inner.lock();
+             if !matches!(inner.data, OverlappedData::None) {
+@@ -870,12 +878,14 @@ mod _overlapped {
+         fn WSASendTo(
+             zelf: &Py<Self>,
+             handle: isize,
+-            buf: PyBuffer,
++            // y*, as _overlapped.Overlapped.WSASendTo takes
++            buf: ArgBytesLike,
+             flags: u32,
+             address: PyTupleRef,
+             vm: &VirtualMachine,
+         ) -> PyResult {
+             use host_winapi::{ERROR_IO_PENDING, ERROR_SUCCESS};
++            let buf: PyBuffer = buf.into();
+ 
+             let mut inner = zelf.inner.lock();
+             if !matches!(inner.data, OverlappedData::None) {
+@@ -1001,7 +1011,8 @@ mod _overlapped {
+         fn WSARecvFromInto(
+             zelf: &Py<Self>,
+             handle: isize,
+-            buf: PyBuffer,
++            // w*, as _overlapped.Overlapped.WSARecvFromInto takes
++            buf: ArgMemoryBuffer,
+             size: u32,
+             flags: OptionalArg<u32>,
+             vm: &VirtualMachine,
+@@ -1009,6 +1020,7 @@ mod _overlapped {
+             use host_winapi::{
+                 ERROR_BROKEN_PIPE, ERROR_IO_PENDING, ERROR_MORE_DATA, ERROR_SUCCESS,
+             };
++            let buf: PyBuffer = buf.into();
+ 
+             let mut inner = zelf.inner.lock();
+             if !matches!(inner.data, OverlappedData::None) {
+diff --git a/crates/stdlib/src/ssl.rs b/crates/stdlib/src/ssl.rs
+index 18d171a85..b942e27fc 100644
+--- a/crates/stdlib/src/ssl.rs
++++ b/crates/stdlib/src/ssl.rs
+@@ -1158,19 +1158,19 @@ mod _ssl {
+                 let pwd_result = callable.call((), vm)?;
+ 
+                 // Convert callable result to string
+-                let password_from_callable = if let Ok(pwd_str) =
+-                    PyUtf8StrRef::try_from_object(vm, pwd_result.clone())
+-                {
+-                    pwd_str.as_str().to_owned()
+-                } else if let Ok(pwd_bytes_like) = ArgBytesLike::try_from_object(vm, pwd_result) {
+-                    String::from_utf8(pwd_bytes_like.borrow_buf().to_vec()).map_err(|_| {
+-                        vm.new_type_error("password callback returned invalid UTF-8 bytes")
+-                    })?
+-                } else {
+-                    return Err(
+-                        vm.new_type_error("password callback must return a string or bytes")
+-                    );
+-                };
++                let password_from_callable =
++                    if let Ok(pwd_str) = PyUtf8StrRef::try_from_object(vm, pwd_result.clone()) {
++                        pwd_str.as_str().to_owned()
++                    } else if pwd_result.check_buffer() {
++                        let pwd_bytes_like = ArgBytesLike::try_from_object(vm, pwd_result)?;
++                        String::from_utf8(pwd_bytes_like.borrow_buf().to_vec()).map_err(|_| {
++                            vm.new_type_error("password callback returned invalid UTF-8 bytes")
++                        })?
++                    } else {
++                        return Err(
++                            vm.new_type_error("password callback must return a string or bytes")
++                        );
++                    };
+ 
+                 // Validate callable password length
+                 if password_from_callable.len() > PEM_BUFSIZE {
+@@ -1808,7 +1808,8 @@ mod _ssl {
+             // Validate filepath is str or bytes
+             let path_str = if let Ok(s) = PyUtf8StrRef::try_from_object(vm, filepath.clone()) {
+                 s.as_str().to_owned()
+-            } else if let Ok(b) = ArgBytesLike::try_from_object(vm, filepath) {
++            } else if filepath.check_buffer() {
++                let b = ArgBytesLike::try_from_object(vm, filepath)?;
+                 String::from_utf8(b.borrow_buf().to_vec())
+                     .map_err(|_| vm.new_value_error("Invalid path encoding"))?
+             } else {
+@@ -1863,7 +1864,8 @@ mod _ssl {
+             // Validate name is str or bytes
+             let curve_name = if let Ok(s) = PyUtf8StrRef::try_from_object(vm, name.clone()) {
+                 s.as_str().to_owned()
+-            } else if let Ok(b) = ArgBytesLike::try_from_object(vm, name) {
++            } else if name.check_buffer() {
++                let b = ArgBytesLike::try_from_object(vm, name)?;
+                 String::from_utf8(b.borrow_buf().to_vec())
+                     .map_err(|_| vm.new_value_error("Invalid curve name encoding"))?
+             } else {
+@@ -2106,8 +2108,8 @@ mod _ssl {
+                         Ok((Some(pwd_str.as_str().to_owned()), None))
+                     }
+                     // Try bytes-like
+-                    else if let Ok(pwd_bytes_like) = ArgBytesLike::try_from_object(vm, p.clone())
+-                    {
++                    else if p.check_buffer() {
++                        let pwd_bytes_like = ArgBytesLike::try_from_object(vm, p.clone())?;
+                         let pwd = String::from_utf8(pwd_bytes_like.borrow_buf().to_vec())
+                             .map_err(|_| vm.new_type_error("password bytes must be valid UTF-8"))?;
+                         Ok((Some(pwd), None))
+diff --git a/crates/vm/src/anystr.rs b/crates/vm/src/anystr.rs
+index 45a69dbfe..0f187f6d4 100644
+--- a/crates/vm/src/anystr.rs
++++ b/crates/vm/src/anystr.rs
+@@ -4,7 +4,7 @@ use num_traits::{cast::ToPrimitive, sign::Signed};
+ use rustpython_unicode::case;
+ 
+ use crate::{
+-    Py, PyObject, PyObjectRef, PyResult, TryFromObject, VirtualMachine,
++    AsObject, PyObject, PyObjectRef, PyResult, TryFromObject, VirtualMachine,
+     builtins::{PyIntRef, PyTuple},
+     convert::TryFromBorrowedObject,
+     function::OptionalOption,
+@@ -485,19 +485,25 @@ where
+     F: Fn(T) -> PyResult<bool>,
+     M: Fn(&PyObject) -> String,
+ {
+-    if let Ok(single) = obj.try_to_value::<T>(vm) {
+-        (predicate)(single)
+-    } else {
+-        let tuple: &Py<PyTuple> = obj
+-            .try_to_value(vm)
+-            .map_err(|_| vm.new_type_error((message)(obj)))?;
+-
+-        for obj in tuple {
+-            if single_or_tuple_any(obj, predicate, message, vm)? {
++    // _Py_bytes_tailmatch: a tuple is taken apart before anything is converted, and
++    // each item is converted on its own terms, so a tuple of tuples is not an affix.
++    if let Some(tuple) = obj.downcast_ref::<PyTuple>() {
++        for item in tuple {
++            if (predicate)(item.try_to_value::<T>(vm)?)? {
+                 return Ok(true);
+             }
+         }
+-
+-        Ok(false)
++        return Ok(false);
+     }
++
++    // Only the argument simply being the wrong kind of object is reported as such;
++    // whatever the conversion itself raised belongs to the caller.
++    let single = obj.try_to_value::<T>(vm).map_err(|exc| {
++        if exc.fast_isinstance(vm.ctx.exceptions.type_error) {
++            vm.new_type_error((message)(obj))
++        } else {
++            exc
++        }
++    })?;
++    (predicate)(single)
+ }
+diff --git a/crates/vm/src/builtins/bytearray.rs b/crates/vm/src/builtins/bytearray.rs
+index 793b269d1..9be51a370 100644
+--- a/crates/vm/src/builtins/bytearray.rs
++++ b/crates/vm/src/builtins/bytearray.rs
+@@ -1,7 +1,7 @@
+ //! Implementation of the python bytearray object.
+ use super::{
+-    PositionIterInternal, PyBytes, PyDictRef, PyGenericAlias, PyIntRef, PyStrRef, PyTuple,
+-    PyTupleRef, PyType, PyTypeRef, iter::builtins_iter,
++    PositionIterInternal, PyBytes, PyDictRef, PyGenericAlias, PyStrRef, PyTuple, PyTupleRef,
++    PyType, PyTypeRef, iter::builtins_iter,
+ };
+ use crate::{
+     AsObject, Context, Py, PyObject, PyObjectRef, PyPayload, PyRef, PyResult, TryFromObject,
+@@ -11,7 +11,8 @@ use crate::{
+     byte::{bytes_from_object, value_from_object},
+     bytes_inner::{
+         ByteInnerFindOptions, ByteInnerHexOptions, ByteInnerNewOptions, ByteInnerPaddingOptions,
+-        ByteInnerSplitOptions, ByteInnerTranslateOptions, DecodeArgs, PyBytesInner, bytes_decode,
++        ByteInnerSplitOptions, ByteInnerSub, ByteInnerTranslateOptions, DecodeArgs, PyBytesInner,
++        bytes_decode,
+     },
+     class::PyClassImpl,
+     common::{
+@@ -23,10 +24,10 @@ use crate::{
+     },
+     convert::{ToPyObject, ToPyResult},
+     function::{
+-        ArgBytesLike, ArgIterable, ArgSize, Either, OptionalArg, OptionalOption, PyComparisonValue,
++        ArgBytesLike, ArgIterable, ArgSize, OptionalArg, OptionalOption, PyComparisonValue,
+     },
+     protocol::{
+-        BufferDescriptor, BufferMethods, BufferResizeGuard, PyBuffer, PyIterReturn,
++        BufferDescriptor, BufferFlags, BufferMethods, BufferResizeGuard, PyBuffer, PyIterReturn,
+         PyMappingMethods, PyNumberMethods, PySequenceMethods,
+     },
+     sliceable::{SequenceIndex, SliceableSequenceMutOp, SliceableSequenceOp},
+@@ -228,11 +229,8 @@ impl PyByteArray {
+         self.inner().add(&other.borrow_buf()).into()
+     }
+ 
+-    fn __contains__(
+-        &self,
+-        needle: Either<PyBytesInner, PyIntRef>,
+-        vm: &VirtualMachine,
+-    ) -> PyResult<bool> {
++    fn __contains__(&self, needle: PyObjectRef, vm: &VirtualMachine) -> PyResult<bool> {
++        let needle = ByteInnerSub::from_contains_arg(needle, vm)?;
+         self.inner().contains(needle, vm)
+     }
+ 
+@@ -613,12 +611,34 @@ impl Py<PyByteArray> {
+     #[pymethod]
+     fn extend(&self, object: PyObjectRef, vm: &VirtualMachine) -> PyResult<()> {
+         if self.is(&object) {
+-            PyByteArray::irepeat(self, 2, vm)
+-        } else {
+-            let items = bytes_from_object(vm, &object)?;
+-            self.try_resizable(vm)?.elements.extend(items);
+-            Ok(())
++            return PyByteArray::irepeat(self, 2, vm);
+         }
++        // bytearray_setslice keeps the export alive across the resize, so a value
++        // looking at this bytearray is what stops it from growing.
++        let buffer = object
++            .check_buffer()
++            .then(|| {
++                PyBuffer::from_object(vm, &object, BufferFlags::SIMPLE).map_err(|_| {
++                    // What an exporter refuses to hand out leaves the value simply
++                    // not usable here, whatever the exporter's own complaint was.
++                    vm.new_type_error(format!(
++                        "can't set bytearray slice from {}",
++                        object.class().name()
++                    ))
++                })
++            })
++            .transpose()?;
++        let items = match &buffer {
++            Some(buffer) => buffer
++                .as_contiguous()
++                .ok_or_else(|| {
++                    vm.new_buffer_error("non-contiguous buffer is not a bytes-like object")
++                })?
++                .to_vec(),
++            None => bytes_from_object(vm, &object)?,
++        };
++        self.try_resizable(vm)?.elements.extend(items);
++        Ok(())
+     }
+ 
+     #[pymethod]
+@@ -731,6 +751,20 @@ static BUFFER_METHODS: BufferMethods = BufferMethods {
+ };
+ 
+ impl AsBuffer for PyByteArray {
++    const RELEASE_BUFFER: bool = true;
++
++    fn slot_as_buffer(
++        zelf: &PyObject,
++        flags: BufferFlags,
++        vm: &VirtualMachine,
++    ) -> PyResult<PyBuffer> {
++        let zelf = zelf
++            .downcast_ref::<Self>()
++            .ok_or_else(|| vm.new_type_error("unexpected payload for as_buffer"))?;
++        flags.fill_info_check(false, vm)?;
++        Self::as_buffer(zelf, vm)
++    }
++
+     fn as_buffer(zelf: &Py<Self>, _vm: &VirtualMachine) -> PyResult<PyBuffer> {
+         Ok(PyBuffer::new(
+             zelf.to_owned().into(),
+@@ -801,9 +835,7 @@ impl AsSequence for PyByteArray {
+                 }
+             }),
+             contains: atomic_func!(|seq, other, vm| {
+-                let other =
+-                    <Either<PyBytesInner, PyIntRef>>::try_from_object(vm, other.to_owned())?;
+-                PyByteArray::sequence_downcast(seq).__contains__(other, vm)
++                PyByteArray::sequence_downcast(seq).__contains__(other.to_owned(), vm)
+             }),
+             inplace_concat: atomic_func!(|seq, other, vm| {
+                 let other = ArgBytesLike::try_from_object(vm, other.to_owned())?;
+diff --git a/crates/vm/src/builtins/bytes.rs b/crates/vm/src/builtins/bytes.rs
+index bb514b84c..d62b873bc 100644
+--- a/crates/vm/src/builtins/bytes.rs
++++ b/crates/vm/src/builtins/bytes.rs
+@@ -1,27 +1,28 @@
+ use super::{
+-    PositionIterInternal, PyDictRef, PyGenericAlias, PyIntRef, PyStrRef, PyTuple, PyTupleRef,
+-    PyType, PyTypeRef, iter::builtins_iter,
++    PositionIterInternal, PyDictRef, PyGenericAlias, PyStrRef, PyTuple, PyTupleRef, PyType,
++    PyTypeRef, iter::builtins_iter,
+ };
+ use crate::common::lock::LazyLock;
+ use crate::{
+     AsObject, Context, Py, PyObject, PyObjectRef, PyPayload, PyRef, PyResult,
+-    TryFromBorrowedObject, TryFromObject, VirtualMachine,
++    TryFromBorrowedObject, VirtualMachine,
+     anystr::{self, AnyStr},
+     atomic_func,
+     bytes_inner::{
+         ByteInnerFindOptions, ByteInnerHexOptions, ByteInnerNewOptions, ByteInnerPaddingOptions,
+-        ByteInnerSplitOptions, ByteInnerTranslateOptions, DecodeArgs, PyBytesInner, bytes_decode,
++        ByteInnerSplitOptions, ByteInnerSub, ByteInnerTranslateOptions, DecodeArgs, PyBytesInner,
++        bytes_decode,
+     },
+     class::PyClassImpl,
+     common::{hash::PyHash, lock::PyMutex},
+     convert::{ToPyObject, ToPyResult},
+     function::{
+-        ArgBytesLike, ArgIndex, ArgIterable, Either, FuncArgs, OptionalArg, OptionalOption,
++        ArgBytesLike, ArgIndex, ArgIterable, FuncArgs, OptionalArg, OptionalOption,
+         PyComparisonValue,
+     },
+     protocol::{
+-        BufferDescriptor, BufferMethods, PyBuffer, PyIterReturn, PyMappingMethods, PyNumberMethods,
+-        PySequenceMethods,
++        BufferDescriptor, BufferFlags, BufferMethods, PyBuffer, PyIterReturn, PyMappingMethods,
++        PyNumberMethods, PySequenceMethods,
+     },
+     sliceable::{SequenceIndex, SliceableSequenceOp},
+     types::{
+@@ -246,11 +247,8 @@ impl PyBytes {
+         self.inner.add(&other.borrow_buf())
+     }
+ 
+-    fn __contains__(
+-        &self,
+-        needle: Either<PyBytesInner, PyIntRef>,
+-        vm: &VirtualMachine,
+-    ) -> PyResult<bool> {
++    fn __contains__(&self, needle: PyObjectRef, vm: &VirtualMachine) -> PyResult<bool> {
++        let needle = ByteInnerSub::from_contains_arg(needle, vm)?;
+         self.inner.contains(needle, vm)
+     }
+ 
+@@ -627,6 +625,18 @@ static BUFFER_METHODS: BufferMethods = BufferMethods {
+ };
+ 
+ impl AsBuffer for PyBytes {
++    fn slot_as_buffer(
++        zelf: &PyObject,
++        flags: BufferFlags,
++        vm: &VirtualMachine,
++    ) -> PyResult<PyBuffer> {
++        let zelf = zelf
++            .downcast_ref::<Self>()
++            .ok_or_else(|| vm.new_type_error("unexpected payload for as_buffer"))?;
++        flags.fill_info_check(true, vm)?;
++        Self::as_buffer(zelf, vm)
++    }
++
+     fn as_buffer(zelf: &Py<Self>, _vm: &VirtualMachine) -> PyResult<PyBuffer> {
+         let buf = PyBuffer::new(
+             zelf.to_owned().into(),
+@@ -673,9 +683,7 @@ impl AsSequence for PyBytes {
+                     .map(|x| vm.ctx.new_bytes(vec![x]).into())
+             }),
+             contains: atomic_func!(|seq, other, vm| {
+-                let other =
+-                    <Either<PyBytesInner, PyIntRef>>::try_from_object(vm, other.to_owned())?;
+-                PyBytes::sequence_downcast(seq).__contains__(other, vm)
++                PyBytes::sequence_downcast(seq).__contains__(other.to_owned(), vm)
+             }),
+             ..PySequenceMethods::NOT_IMPLEMENTED
+         });
+diff --git a/crates/vm/src/builtins/descriptor.rs b/crates/vm/src/builtins/descriptor.rs
+index 5c0662e9f..50bdc841a 100644
+--- a/crates/vm/src/builtins/descriptor.rs
++++ b/crates/vm/src/builtins/descriptor.rs
+@@ -542,6 +542,10 @@ pub enum SlotFunc {
+     NumBinaryRight(PyNumberBinaryFunc),   // __radd__, __rsub__, etc. (swapped args)
+     NumTernary(PyNumberTernaryFunc),      // __pow__
+     NumTernaryRight(PyNumberTernaryFunc), // __rpow__ (swapped first two args)
++
++    // Buffer protocol
++    GetBuffer(crate::types::AsBufferFunc), // __buffer__
++    ReleaseBuffer,                         // __release_buffer__
+ }
+ 
+ impl core::fmt::Debug for SlotFunc {
+@@ -582,6 +586,8 @@ impl core::fmt::Debug for SlotFunc {
+             Self::NumBinaryRight(_) => write!(f, "SlotFunc::NumBinaryRight(...)"),
+             Self::NumTernary(_) => write!(f, "SlotFunc::NumTernary(...)"),
+             Self::NumTernaryRight(_) => write!(f, "SlotFunc::NumTernaryRight(...)"),
++            Self::GetBuffer(_) => write!(f, "SlotFunc::GetBuffer(...)"),
++            Self::ReleaseBuffer => write!(f, "SlotFunc::ReleaseBuffer"),
+         }
+     }
+ }
+@@ -758,10 +764,41 @@ impl SlotFunc {
+                 let z = z.unwrap_or_else(|| vm.ctx.none());
+                 func(&y, &obj, &z, vm) // Swapped: y ** obj % z
+             }
++            // Buffer protocol
++            Self::GetBuffer(func) => {
++                let (flags_obj,): (PyObjectRef,) = args.bind(vm)?;
++                let buffer = func(&obj, parse_buffer_flags(flags_obj, vm)?, vm)?;
++                crate::builtins::PyMemoryView::from_buffer(buffer, vm)
++                    .map(|mv| mv.into_pyobject(vm))
++            }
++            Self::ReleaseBuffer => {
++                let (mv_obj,): (PyObjectRef,) = args.bind(vm)?;
++                let mv = mv_obj
++                    .downcast::<crate::builtins::PyMemoryView>()
++                    .map_err(|_| vm.new_type_error("expected a memoryview object"))?;
++                crate::builtins::memory::release_buffer_from_python(&obj, mv, vm)?;
++                Ok(vm.ctx.none())
++            }
+         }
+     }
+ }
+ 
++/// Parse the `flags` argument of `__buffer__`. wrap_buffer
++fn parse_buffer_flags(
++    arg: PyObjectRef,
++    vm: &VirtualMachine,
++) -> PyResult<crate::protocol::BufferFlags> {
++    use num_traits::ToPrimitive;
++    let idx = arg.try_index(vm)?;
++    let flags = idx
++        .as_bigint()
++        .to_isize()
++        .ok_or_else(|| vm.new_overflow_error("cannot fit 'int' into an index-sized integer"))?;
++    let flags =
++        i32::try_from(flags).map_err(|_| vm.new_overflow_error("buffer flags out of range"))?;
++    Ok(crate::protocol::BufferFlags::from_bits_retain(flags as u32))
++}
++
+ /// wrapper_descriptor: wraps a slot function as a Python method
+ // = PyWrapperDescrObject
+ #[pyclass(name = "wrapper_descriptor", module = false)]
+diff --git a/crates/vm/src/builtins/int.rs b/crates/vm/src/builtins/int.rs
+index 134617ab7..60463ed0d 100644
+--- a/crates/vm/src/builtins/int.rs
++++ b/crates/vm/src/builtins/int.rs
+@@ -3,7 +3,7 @@ use crate::{
+     AsObject, Context, Py, PyObject, PyObjectRef, PyPayload, PyRef, PyRefExact, PyResult,
+     TryFromBorrowedObject, VirtualMachine,
+     builtins::PyUtf8StrRef,
+-    bytes_inner::PyBytesInner,
++    byte::bytes_from_object,
+     class::PyClassImpl,
+     common::{
+         format::FormatSpec,
+@@ -572,13 +572,13 @@ impl PyInt {
+         vm: &VirtualMachine,
+     ) -> PyResult<PyRef<Self>> {
+         let signed = args.signed.map_or(false, Into::into);
++        // PyObject_Bytes, so an iterable of ints is as good as a buffer
++        let bytes = bytes_from_object(vm, &args.bytes)?;
+         let value = match (args.byteorder, signed) {
+-            (ArgByteOrder::Big, true) => BigInt::from_signed_bytes_be(args.bytes.as_bytes()),
+-            (ArgByteOrder::Big, false) => BigInt::from_bytes_be(Sign::Plus, args.bytes.as_bytes()),
+-            (ArgByteOrder::Little, true) => BigInt::from_signed_bytes_le(args.bytes.as_bytes()),
+-            (ArgByteOrder::Little, false) => {
+-                BigInt::from_bytes_le(Sign::Plus, args.bytes.as_bytes())
+-            }
++            (ArgByteOrder::Big, true) => BigInt::from_signed_bytes_be(&bytes),
++            (ArgByteOrder::Big, false) => BigInt::from_bytes_be(Sign::Plus, &bytes),
++            (ArgByteOrder::Little, true) => BigInt::from_signed_bytes_le(&bytes),
++            (ArgByteOrder::Little, false) => BigInt::from_bytes_le(Sign::Plus, &bytes),
+         };
+         Self::with_value(cls, value, vm)
+     }
+@@ -802,7 +802,7 @@ pub(crate) struct IntOptions {
+ 
+ #[derive(FromArgs)]
+ struct IntFromByteArgs {
+-    bytes: PyBytesInner,
++    bytes: PyObjectRef,
+     #[pyarg(any, default = ArgByteOrder::Big)]
+     byteorder: ArgByteOrder,
+     #[pyarg(named, optional)]
+diff --git a/crates/vm/src/builtins/memory.rs b/crates/vm/src/builtins/memory.rs
+index 9f8312a07..31f997157 100644
+--- a/crates/vm/src/builtins/memory.rs
++++ b/crates/vm/src/builtins/memory.rs
+@@ -8,7 +8,7 @@ use crate::{
+     TryFromBorrowedObject, TryFromObject, VirtualMachine, atomic_func,
+     buffer::FormatSpec,
+     bytes_inner::{ByteInnerHexOptions, bytes_to_hex},
+-    class::PyClassImpl,
++    class::{PyClassImpl, StaticType},
+     common::{
+         borrow::{BorrowedValue, BorrowedValueMut},
+         hash::PyHash,
+@@ -16,9 +16,9 @@ use crate::{
+     },
+     convert::ToPyObject,
+     function::Either,
+-    function::{FuncArgs, OptionalArg, PyComparisonValue},
++    function::{ArgIndex, FuncArgs, OptionalArg, PyComparisonValue},
+     protocol::{
+-        BufferDescriptor, BufferMethods, PyBuffer, PyIterReturn, PyMappingMethods,
++        BufferDescriptor, BufferFlags, BufferMethods, PyBuffer, PyIterReturn, PyMappingMethods,
+         PySequenceMethods, VecBuffer,
+     },
+     sliceable::SequenceIndexOp,
+@@ -27,7 +27,7 @@ use crate::{
+         PyComparisonOp, Representable, SelfIter,
+     },
+ };
+-use core::{cmp::Ordering, fmt::Debug, mem::ManuallyDrop, ops::Range};
++use core::{cmp::Ordering, fmt::Debug, ops::Range};
+ use crossbeam_utils::atomic::AtomicCell;
+ use itertools::Itertools;
+ use rustpython_common::lock::PyMutex;
+@@ -37,18 +37,24 @@ pub struct PyMemoryViewNewArgs {
+     object: PyObjectRef,
+ }
+ 
++#[derive(FromArgs)]
++struct PyMemoryViewFromFlagsArgs {
++    object: PyObjectRef,
++    flags: ArgIndex,
++}
++
+ #[pyclass(module = false, name = "memoryview")]
+ #[derive(Debug)]
+ pub struct PyMemoryView {
+-    // avoid double release when memoryview had released the buffer before drop
+-    buffer: ManuallyDrop<PyBuffer>,
++    /// One share of the acquisition this view is looking at, given up when the
++    /// view is released or dropped.
++    buffer: PyBuffer,
+     // the released memoryview does not mean the buffer is destroyed
+     // because the possible another memoryview is viewing from it
+     released: AtomicCell<bool>,
+-    // start does NOT mean the bytes before start will not be visited,
+-    // it means the point we starting to get the absolute position via
+-    // the needle
+-    start: usize,
++    /// Forbids handing out anything that outlives this view, for the window
++    /// passed to `__release_buffer__`.
++    restricted: AtomicCell<bool>,
+     format_spec: FormatSpec,
+     // memoryview's options could be different from buffer's options
+     desc: BufferDescriptor,
+@@ -71,13 +77,54 @@ impl PyMemoryView {
+         FormatSpec::parse(format.as_bytes(), vm)
+     }
+ 
++    /// The single native format character a cast is allowed to name, with an
++    /// optional `@` in front of it. get_native_fmtchar
++    fn native_fmtchar(format: &str) -> Option<u8> {
++        let format = format.strip_prefix('@').unwrap_or(format);
++        let [c] = *format.as_bytes() else {
++            return None;
++        };
++        matches!(
++            c,
++            b'c' | b'b'
++                | b'B'
++                | b'h'
++                | b'H'
++                | b'i'
++                | b'I'
++                | b'l'
++                | b'L'
++                | b'q'
++                | b'Q'
++                | b'n'
++                | b'N'
++                | b'f'
++                | b'd'
++                | b'e'
++                | b'?'
++                | b'P'
++        )
++        .then_some(c)
++    }
++
+     /// this should be the main entrance to create the memoryview
+     /// to avoid the chained memoryview
+     pub fn from_object(obj: &PyObject, vm: &VirtualMachine) -> PyResult<Self> {
++        Self::from_object_with_flags(obj, BufferFlags::FULL_RO, vm)
++    }
++
++    // PyMemoryView_FromObjectAndFlags
++    pub fn from_object_with_flags(
++        obj: &PyObject,
++        flags: BufferFlags,
++        vm: &VirtualMachine,
++    ) -> PyResult<Self> {
+         if let Some(other) = obj.downcast_ref::<Self>() {
++            other.try_not_released(vm)?;
++            other.try_not_restricted(vm)?;
+             Ok(other.new_view())
+         } else {
+-            let buffer = PyBuffer::try_from_borrowed_object(vm, obj)?;
++            let buffer = PyBuffer::from_object(vm, obj, flags)?;
+             Self::from_buffer(buffer, vm)
+         }
+     }
+@@ -93,9 +140,9 @@ impl PyMemoryView {
+         let desc = buffer.desc.clone();
+ 
+         Ok(Self {
+-            buffer: ManuallyDrop::new(buffer),
++            buffer,
+             released: AtomicCell::new(false),
+-            start: 0,
++            restricted: AtomicCell::new(false),
+             format_spec,
+             desc,
+             hash: OnceCell::new(),
+@@ -120,16 +167,29 @@ impl PyMemoryView {
+     /// this should be the only way to create a memoryview from another memoryview.
+     #[must_use]
+     pub fn new_view(&self) -> Self {
+-        let zelf = Self {
++        Self {
+             buffer: self.buffer.clone(),
+             released: AtomicCell::new(false),
+-            start: self.start,
++            restricted: AtomicCell::new(false),
+             format_spec: self.format_spec.clone(),
+             desc: self.desc.clone(),
+             hash: OnceCell::new(),
+-        };
+-        zelf.buffer.retain();
+-        zelf
++        }
++    }
++
++    /// A view for a temporary that never reaches Python. It counts as no export,
++    /// so the exporter stays exactly as resizable as it already was, the way a
++    /// `Py_buffer dest = *view` copy does.
++    #[must_use]
++    fn borrowed_view(&self) -> Self {
++        Self {
++            buffer: self.buffer.detached(),
++            released: AtomicCell::new(false),
++            restricted: AtomicCell::new(false),
++            format_spec: self.format_spec.clone(),
++            desc: self.desc.clone(),
++            hash: OnceCell::new(),
++        }
+     }
+ 
+     fn try_not_released(&self, vm: &VirtualMachine) -> PyResult<()> {
+@@ -140,22 +200,83 @@ impl PyMemoryView {
+         }
+     }
+ 
++    fn try_not_restricted(&self, vm: &VirtualMachine) -> PyResult<()> {
++        if self.restricted.load() {
++            Err(vm.new_value_error("cannot create new view on restricted memoryview"))
++        } else {
++            Ok(())
++        }
++    }
++
++    fn try_usable(&self, vm: &VirtualMachine) -> PyResult<()> {
++        self.try_not_released(vm)?;
++        self.try_not_restricted(vm)
++    }
++
++    /// Reject a request this view cannot serve. memory_getbuf
++    fn check_buffer_request(&self, flags: BufferFlags, vm: &VirtualMachine) -> PyResult<()> {
++        let c_contiguous = self.desc.is_contiguous();
++        flags.check_writable(
++            self.desc.readonly,
++            "memoryview: underlying buffer is not writable",
++            vm,
++        )?;
++        if flags.contains(BufferFlags::C_CONTIGUOUS) && !c_contiguous {
++            return Err(vm.new_buffer_error("memoryview: underlying buffer is not C-contiguous"));
++        }
++        if flags.contains(BufferFlags::F_CONTIGUOUS) && !self.desc.is_fortran_contiguous() {
++            return Err(
++                vm.new_buffer_error("memoryview: underlying buffer is not Fortran contiguous")
++            );
++        }
++        if flags.contains(BufferFlags::ANY_CONTIGUOUS)
++            && !c_contiguous
++            && !self.desc.is_fortran_contiguous()
++        {
++            return Err(vm.new_buffer_error("memoryview: underlying buffer is not contiguous"));
++        }
++        // No exporter here produces a suboffset, so this is a guard rather than a
++        // reachable rejection.
++        if !flags.contains(BufferFlags::INDIRECT) && self.desc.has_suboffsets() {
++            return Err(vm.new_buffer_error("memoryview: underlying buffer requires suboffsets"));
++        }
++        if !flags.contains(BufferFlags::STRIDES) && !c_contiguous {
++            return Err(vm.new_buffer_error("memoryview: underlying buffer is not C-contiguous"));
++        }
++        if !flags.contains(BufferFlags::ND) && flags.intersects(BufferFlags::FORMAT) {
++            return Err(vm.new_buffer_error(
++                "memoryview: cannot cast to unsigned bytes if the format flag is present",
++            ));
++        }
++        Ok(())
++    }
++
++    /// The descriptor this view exports for `flags`, or an error if it cannot
++    /// serve the request. memory_getbuf
++    fn requested_desc(
++        &self,
++        flags: BufferFlags,
++        vm: &VirtualMachine,
++    ) -> PyResult<BufferDescriptor> {
++        self.check_buffer_request(flags, vm)?;
++        Ok(self.desc.projected(flags))
++    }
++
+     fn getitem_by_idx(&self, i: isize, vm: &VirtualMachine) -> PyResult {
+         if self.desc.ndim() != 1 {
+             return Err(
+                 vm.new_not_implemented_error("multi-dimensional sub-views are not implemented")
+             );
+         }
+-        let (shape, stride, suboffset) = self.desc.dim_desc[0];
++        let (shape, _, _) = self.desc.dim_desc[0];
+         let index = i
+             .wrapped_at(shape)
+             .ok_or_else(|| vm.new_index_error("index out of range"))?;
+-        let index = index as isize * stride + suboffset;
+-        let pos = (index + self.start as isize) as usize;
+-        self.unpack_single(pos, vm)
++        self.unpack_single(self.desc.fast_position(&[index]) as usize, vm)
+     }
+ 
+     fn getitem_by_slice(&self, slice: &PySlice, vm: &VirtualMachine) -> PyResult {
++        self.try_not_restricted(vm)?;
+         let mut other = self.new_view();
+         other.init_slice(slice, 0, vm)?;
+         other.init_len();
+@@ -166,20 +287,22 @@ impl PyMemoryView {
+     fn getitem_by_multi_idx(&self, indexes: &[isize], vm: &VirtualMachine) -> PyResult {
+         let pos = self.pos_from_multi_index(indexes, vm)?;
+         let bytes = self.buffer.obj_bytes();
+-        format_unpack(&self.format_spec, &bytes[pos..pos + self.desc.itemsize], vm)
++        format_unpack(
++            &self.format_spec,
++            &bytes[pos..pos + self.format_spec.size()],
++            vm,
++        )
+     }
+ 
+     fn setitem_by_idx(&self, i: isize, value: PyObjectRef, vm: &VirtualMachine) -> PyResult<()> {
+         if self.desc.ndim() != 1 {
+             return Err(vm.new_not_implemented_error("sub-views are not implemented"));
+         }
+-        let (shape, stride, suboffset) = self.desc.dim_desc[0];
++        let (shape, _, _) = self.desc.dim_desc[0];
+         let index = i
+             .wrapped_at(shape)
+             .ok_or_else(|| vm.new_index_error("index out of range"))?;
+-        let index = index as isize * stride + suboffset;
+-        let pos = (index + self.start as isize) as usize;
+-        self.pack_single(pos, value, vm)
++        self.pack_single(self.desc.fast_position(&[index]) as usize, value, vm)
+     }
+ 
+     fn setitem_by_multi_idx(
+@@ -193,7 +316,9 @@ impl PyMemoryView {
+     }
+ 
+     fn pack_single(&self, pos: usize, value: PyObjectRef, vm: &VirtualMachine) -> PyResult<()> {
+-        let mut bytes = self.buffer.obj_bytes_mut();
++        // The value is converted before the destination is borrowed, because the
++        // conversion runs `__index__` or `__float__`, which can read or write the
++        // same buffer.
+         // TODO: Optimize
+         let data = self.format_spec.pack(vec![value], vm).map_err(|_| {
+             vm.new_type_error(format!(
+@@ -201,15 +326,23 @@ impl PyMemoryView {
+                 self.desc.format
+             ))
+         })?;
+-        bytes[pos..pos + self.desc.itemsize].copy_from_slice(&data);
++        // The conversion, and the index that produced `pos`, could have released
++        // the view; `pos` addresses a buffer that is no longer there.
++        // CHECK_RELEASED_INT_AGAIN
++        self.try_not_released(vm)?;
++        let mut bytes = self.buffer.obj_bytes_mut();
++        bytes[pos..pos + self.format_spec.size()].copy_from_slice(&data);
+         Ok(())
+     }
+ 
+     fn unpack_single(&self, pos: usize, vm: &VirtualMachine) -> PyResult {
++        // The index that produced `pos` could have released the view.
++        // CHECK_RELEASED_AGAIN
++        self.try_not_released(vm)?;
+         let bytes = self.buffer.obj_bytes();
+         // TODO: Optimize
+         self.format_spec
+-            .unpack(&bytes[pos..pos + self.desc.itemsize], vm)
++            .unpack(&bytes[pos..pos + self.format_spec.size()], vm)
+             .map(|x| {
+                 if x.len() == 1 {
+                     x[0].to_owned()
+@@ -234,9 +367,7 @@ impl PyMemoryView {
+             Ordering::Equal => (),
+         }
+ 
+-        let pos = self.desc.position(indexes, vm)?;
+-        let pos = (pos + self.start as isize) as usize;
+-        Ok(pos)
++        Ok(self.desc.position(indexes, vm)? as usize)
+     }
+ 
+     fn init_len(&mut self) {
+@@ -244,50 +375,38 @@ impl PyMemoryView {
+         self.desc.len = product * self.desc.itemsize;
+     }
+ 
++    /// Move this view by `delta` bytes. The offset moves, unless a dimension
++    /// outside `dim` is reached through a pointer, in which case its suboffset
++    /// does.
++    fn adjust_position(&mut self, dim: usize, delta: isize) {
++        match self.desc.dim_desc[..dim]
++            .iter()
++            .rposition(|&(_, _, suboffset)| suboffset != 0)
++        {
++            Some(n) => self.desc.dim_desc[n].2 += delta,
++            None => self.desc.offset += delta,
++        }
++    }
++
+     fn init_range(&mut self, range: Range<usize>, dim: usize) {
+         let (shape, stride, _) = self.desc.dim_desc[dim];
+         debug_assert!(shape >= range.len());
+ 
+-        let mut is_adjusted = false;
+-        for (_, _, suboffset) in self.desc.dim_desc.iter_mut().rev() {
+-            if *suboffset != 0 {
+-                *suboffset += stride * range.start as isize;
+-                is_adjusted = true;
+-                break;
+-            }
+-        }
+-        if !is_adjusted {
+-            // no suboffset set, stride must be positive
+-            self.start += stride as usize * range.start;
+-        }
+-        let new_len = range.len();
+-        self.desc.dim_desc[dim].0 = new_len;
++        self.adjust_position(dim, stride * range.start as isize);
++        self.desc.dim_desc[dim].0 = range.len();
+     }
+ 
++    // init_slice
+     fn init_slice(&mut self, slice: &PySlice, dim: usize, vm: &VirtualMachine) -> PyResult<()> {
+         let (shape, stride, _) = self.desc.dim_desc[dim];
+         let slice = slice.to_saturated(vm)?;
+-        let (range, step, slice_len) = slice.adjust_indices(shape);
+-
+-        let mut is_adjusted_suboffset = false;
+-        for (_, _, suboffset) in self.desc.dim_desc.iter_mut().rev() {
+-            if *suboffset != 0 {
+-                *suboffset += stride * range.start as isize;
+-                is_adjusted_suboffset = true;
+-                break;
+-            }
+-        }
+-        if !is_adjusted_suboffset {
+-            // no suboffset set, stride must be positive
+-            self.start += stride as usize
+-                * if step.is_negative() {
+-                    range.end - 1
+-                } else {
+-                    range.start
+-                };
+-        }
++        let (start, slice_len) = slice.adjust_indices_start(shape);
++
++        // Repeated slicing multiplies the stride by the step every time, which
++        // overflows after about twenty rounds; C wraps there and so does this.
++        self.adjust_position(dim, stride.wrapping_mul(start));
+         self.desc.dim_desc[dim].0 = slice_len;
+-        self.desc.dim_desc[dim].1 *= step;
++        self.desc.dim_desc[dim].1 = stride.wrapping_mul(slice.step());
+ 
+         Ok(())
+     }
+@@ -303,10 +422,12 @@ impl PyMemoryView {
+         if dim + 1 == self.desc.ndim() {
+             let mut v = Vec::with_capacity(shape);
+             for _ in 0..shape {
+-                let pos = index + suboffset;
+-                let pos = (pos + self.start as isize) as usize;
+-                let obj =
+-                    format_unpack(&self.format_spec, &bytes[pos..pos + self.desc.itemsize], vm)?;
++                let pos = (index + suboffset) as usize;
++                let obj = format_unpack(
++                    &self.format_spec,
++                    &bytes[pos..pos + self.format_spec.size()],
++                    vm,
++                )?;
+                 v.push(obj);
+                 index += stride;
+             }
+@@ -330,29 +451,42 @@ impl PyMemoryView {
+             return Ok(false);
+         }
+ 
+-        if let Some(other) = other.downcast_ref::<Self>()
+-            && other.released.load()
+-        {
+-            return Ok(false);
+-        }
+-
+-        let other = match PyBuffer::try_from_borrowed_object(vm, other) {
+-            Ok(buf) => buf,
+-            Err(_) => return Ok(false),
++        let other = if let Some(mv) = other.downcast_ref::<Self>() {
++            if mv.released.load() {
++                return Ok(false);
++            }
++            // Another view's buffer is read where it lies rather than acquired,
++            // so that a restricted view still compares. memory_richcompare
++            let mut view = mv.buffer.detached();
++            view.desc = mv.desc.clone();
++            view
++        } else {
++            match PyBuffer::try_from_borrowed_object(vm, other) {
++                Ok(buf) => buf,
++                Err(_) => return Ok(false),
++            }
+         };
+ 
+         if !is_equiv_shape(&zelf.desc, &other.desc) {
+             return Ok(false);
+         }
+ 
+-        let a_itemsize = zelf.desc.itemsize;
+-        let b_itemsize = other.desc.itemsize;
+         let a_format_spec = &zelf.format_spec;
+         let b_format_spec = &Self::parse_format(&other.desc.format, vm)?;
++        // An element is as wide as its format, which a projected descriptor can
++        // make narrower than the item size it steps by.
++        let a_itemsize = a_format_spec.size();
++        let b_itemsize = b_format_spec.size();
+ 
+         if zelf.desc.ndim() == 0 {
+-            let a_val = format_unpack(a_format_spec, &zelf.buffer.obj_bytes()[..a_itemsize], vm)?;
+-            let b_val = format_unpack(b_format_spec, &other.obj_bytes()[..b_itemsize], vm)?;
++            let a_pos = zelf.desc.offset as usize;
++            let b_pos = other.desc.offset as usize;
++            let a_bytes = zelf.buffer.obj_bytes();
++            let a_val = format_unpack(a_format_spec, &a_bytes[a_pos..a_pos + a_itemsize], vm)?;
++            drop(a_bytes);
++            let b_bytes = other.obj_bytes();
++            let b_val = format_unpack(b_format_spec, &b_bytes[b_pos..b_pos + b_itemsize], vm)?;
++            drop(b_bytes);
+             return vm.bool_eq(&a_val, &b_val);
+         }
+ 
+@@ -361,9 +495,8 @@ impl PyMemoryView {
+         let a_bytes = zelf.buffer.obj_bytes();
+         let b_bytes = other.obj_bytes();
+         zelf.desc.zip_eq(&other.desc, false, |a_range, b_range| {
+-            let a_range = (a_range.start + zelf.start as isize) as usize
+-                ..(a_range.end + zelf.start as isize) as usize;
+-            let b_range = b_range.start as usize..b_range.end as usize;
++            let a_range = a_range.start as usize..a_range.start as usize + a_itemsize;
++            let b_range = b_range.start as usize..b_range.start as usize + b_itemsize;
+             let a_val = match format_unpack(a_format_spec, &a_bytes[a_range], vm) {
+                 Ok(val) => val,
+                 Err(e) => {
+@@ -384,39 +517,17 @@ impl PyMemoryView {
+         ret
+     }
+ 
+-    fn obj_bytes(&self) -> BorrowedValue<'_, [u8]> {
+-        if self.desc.is_contiguous() {
+-            BorrowedValue::map(self.buffer.obj_bytes(), |x| {
+-                &x[self.start..self.start + self.desc.len]
+-            })
+-        } else {
+-            BorrowedValue::map(self.buffer.obj_bytes(), |x| &x[self.start..])
+-        }
+-    }
+-
+-    fn obj_bytes_mut(&self) -> BorrowedValueMut<'_, [u8]> {
+-        if self.desc.is_contiguous() {
+-            BorrowedValueMut::map(self.buffer.obj_bytes_mut(), |x| {
+-                &mut x[self.start..self.start + self.desc.len]
+-            })
+-        } else {
+-            BorrowedValueMut::map(self.buffer.obj_bytes_mut(), |x| &mut x[self.start..])
+-        }
+-    }
+-
+     fn as_contiguous(&self) -> Option<BorrowedValue<'_, [u8]>> {
+         self.desc.is_contiguous().then(|| {
+-            BorrowedValue::map(self.buffer.obj_bytes(), |x| {
+-                &x[self.start..self.start + self.desc.len]
+-            })
++            let range = self.desc.contiguous_range();
++            BorrowedValue::map(self.buffer.obj_bytes(), |x| &x[range])
+         })
+     }
+ 
+     fn _as_contiguous_mut(&self) -> Option<BorrowedValueMut<'_, [u8]>> {
+         self.desc.is_contiguous().then(|| {
+-            BorrowedValueMut::map(self.buffer.obj_bytes_mut(), |x| {
+-                &mut x[self.start..self.start + self.desc.len]
+-            })
++            let range = self.desc.contiguous_range();
++            BorrowedValueMut::map(self.buffer.obj_bytes_mut(), |x| &mut x[range])
+         })
+     }
+ 
+@@ -427,9 +538,7 @@ impl PyMemoryView {
+             buf.reserve(self.desc.len);
+             let bytes = &*self.buffer.obj_bytes();
+             self.desc.for_each_segment(true, |range| {
+-                let start = (range.start + self.start as isize) as usize;
+-                let end = (range.end + self.start as isize) as usize;
+-                buf.extend_from_slice(&bytes[start..end]);
++                buf.extend_from_slice(&bytes[range.start as usize..range.end as usize]);
+             })
+         }
+     }
+@@ -454,27 +563,7 @@ impl PyMemoryView {
+         let mut data = vec![];
+         self.append_to(&mut data);
+ 
+-        if self.desc.ndim() == 0 {
+-            return VecBuffer::from(data)
+-                .into_ref(&vm.ctx)
+-                .into_pybuffer_with_descriptor(self.desc.clone());
+-        }
+-
+-        let mut dim_desc = self.desc.dim_desc.clone();
+-        dim_desc.last_mut().unwrap().1 = self.desc.itemsize as isize;
+-        dim_desc.last_mut().unwrap().2 = 0;
+-        for i in (0..dim_desc.len() - 1).rev() {
+-            dim_desc[i].1 = dim_desc[i + 1].1 * dim_desc[i + 1].0 as isize;
+-            dim_desc[i].2 = 0;
+-        }
+-
+-        let desc = BufferDescriptor {
+-            len: self.desc.len,
+-            readonly: self.desc.readonly,
+-            itemsize: self.desc.itemsize,
+-            format: self.desc.format.clone(),
+-            dim_desc,
+-        };
++        let desc = self.desc.contiguous();
+ 
+         VecBuffer::from(data)
+             .into_ref(&vm.ctx)
+@@ -493,7 +582,7 @@ impl Py<PyMemoryView> {
+             return Err(vm.new_not_implemented_error("sub-view are not implemented"));
+         }
+ 
+-        let mut dest = self.new_view();
++        let mut dest = self.borrowed_view();
+         dest.init_slice(slice, 0, vm)?;
+         dest.init_len();
+ 
+@@ -508,15 +597,11 @@ impl Py<PyMemoryView> {
+             };
+         };
+ 
+-        let src = if let Some(src) = src.downcast_ref::<PyMemoryView>() {
+-            if self.buffer.obj.is(&src.buffer.obj) {
+-                src.to_contiguous(vm)
+-            } else {
+-                AsBuffer::as_buffer(src, vm)?
+-            }
+-        } else {
+-            PyBuffer::try_from_object(vm, src)?
+-        };
++        // PyObject_GetBuffer(value, &src, PyBUF_FULL_RO)
++        let src = PyBuffer::try_from_object(vm, src)?;
++        // Acquiring the source ran `__buffer__`, which can release this view.
++        // copy_single: CHECK_RELEASED_INT_AGAIN
++        self.try_not_released(vm)?;
+ 
+         if !is_equiv_structure(&src.desc, &dest.desc) {
+             return Err(vm.new_value_error(
+@@ -524,11 +609,21 @@ impl Py<PyMemoryView> {
+             ));
+         }
+ 
++        // copy_buffer reads the source as it stood before the copy began, which an
++        // overlapping assignment depends on and which also keeps the two borrows
++        // below off the same storage.
++        let src = if root_exporter(&src).is(&root_exporter(&dest.buffer)) {
++            let owned = src.to_contiguous(vm);
++            drop(src);
++            owned
++        } else {
++            src
++        };
++
+         let mut bytes_mut = dest.buffer.obj_bytes_mut();
+         let src_bytes = src.obj_bytes();
+         dest.desc.zip_eq(&src.desc, true, |a_range, b_range| {
+-            let a_range = (a_range.start + dest.start as isize) as usize
+-                ..(a_range.end + dest.start as isize) as usize;
++            let a_range = a_range.start as usize..a_range.end as usize;
+             let b_range = b_range.start as usize..b_range.end as usize;
+             bytes_mut[a_range].copy_from_slice(&src_bytes[b_range]);
+             false
+@@ -562,6 +657,17 @@ impl PyMemoryView {
+         PyGenericAlias::from_args(cls, args, vm)
+     }
+ 
++    #[pyclassmethod]
++    fn _from_flags(
++        _cls: PyTypeRef,
++        args: PyMemoryViewFromFlagsArgs,
++        vm: &VirtualMachine,
++    ) -> PyResult<PyRef<Self>> {
++        let flags =
++            BufferFlags::from_bits_retain(args.flags.as_ref().try_to_primitive::<i32>(vm)? as u32);
++        Self::from_object_with_flags(&args.object, flags, vm).map(|mv| mv.into_ref(&vm.ctx))
++    }
++
+     #[pymethod]
+     pub fn release(&self) {
+         if self.released.compare_exchange(false, true).is_ok() {
+@@ -571,7 +677,14 @@ impl PyMemoryView {
+ 
+     #[pygetset]
+     fn obj(&self, vm: &VirtualMachine) -> PyResult<PyObjectRef> {
+-        self.try_not_released(vm).map(|_| self.buffer.obj.clone())
++        self.try_not_released(vm)?;
++        // A window over a buffer being released exposes no exporter, like a
++        // Py_buffer whose obj is NULL.
++        Ok(if self.buffer.obj.downcastable::<PyBufferWindow>() {
++            vm.ctx.none()
++        } else {
++            self.buffer.obj.clone()
++        })
+     }
+ 
+     #[pygetset]
+@@ -647,7 +760,8 @@ impl PyMemoryView {
+ 
+     #[pygetset]
+     fn contiguous(&self, vm: &VirtualMachine) -> PyResult<bool> {
+-        self.try_not_released(vm).map(|_| self.desc.is_contiguous())
++        self.try_not_released(vm)
++            .map(|_| self.desc.is_contiguous() || self.desc.is_fortran_contiguous())
+     }
+ 
+     #[pygetset]
+@@ -657,9 +771,8 @@ impl PyMemoryView {
+ 
+     #[pygetset]
+     fn f_contiguous(&self, vm: &VirtualMachine) -> PyResult<bool> {
+-        // TODO: column-major order
+         self.try_not_released(vm)
+-            .map(|_| self.desc.ndim() <= 1 && self.desc.is_contiguous())
++            .map(|_| self.desc.is_fortran_contiguous())
+     }
+ 
+     #[pymethod]
+@@ -682,7 +795,7 @@ impl PyMemoryView {
+             if let Some(tuple) = needle.downcast_ref::<PyTuple>()
+                 && tuple.is_empty()
+             {
+-                return zelf.unpack_single(0, vm);
++                return zelf.unpack_single(zelf.desc.offset as usize, vm);
+             }
+             return Err(vm.new_type_error("invalid indexing of 0-dim memory"));
+         }
+@@ -721,22 +834,26 @@ impl PyMemoryView {
+     }
+ 
+     #[pymethod]
+-    fn tolist(&self, vm: &VirtualMachine) -> PyResult<PyListRef> {
++    // memory_tolist
++    fn tolist(&self, vm: &VirtualMachine) -> PyResult {
+         self.try_not_released(vm)?;
+         let bytes = self.buffer.obj_bytes();
+         if self.desc.ndim() == 0 {
+-            return Ok(vm.ctx.new_list(vec![format_unpack(
++            // A 0-dim view holds one element, which is what it unpacks to.
++            let pos = self.desc.offset as usize;
++            return format_unpack(
+                 &self.format_spec,
+-                &bytes[..self.desc.itemsize],
++                &bytes[pos..pos + self.format_spec.size()],
+                 vm,
+-            )?]));
++            );
+         }
+-        self._to_list(&bytes, 0, 0, vm)
++        self._to_list(&bytes, self.desc.offset, 0, vm)
++            .map(Into::into)
+     }
+ 
+     #[pymethod]
+     fn toreadonly(&self, vm: &VirtualMachine) -> PyResult<PyRef<Self>> {
+-        self.try_not_released(vm)?;
++        self.try_usable(vm)?;
+         let mut other = self.new_view();
+         other.desc.readonly = true;
+         Ok(other.into_ref(&vm.ctx))
+@@ -808,31 +925,38 @@ impl PyMemoryView {
+ 
+     fn cast_to_1d(&self, format: PyUtf8StrRef, vm: &VirtualMachine) -> PyResult<Self> {
+         let format_str = format.as_str();
++        if Self::native_fmtchar(format_str).is_none() {
++            return Err(vm.new_value_error(
++                "memoryview: destination format must be a native single character format prefixed with an optional '@'",
++            ));
++        }
+         let format_spec = Self::parse_format(format_str, vm)?;
+         let itemsize = format_spec.size();
+         if !self.desc.len.is_multiple_of(itemsize) {
+             return Err(vm.new_type_error("memoryview: length is not a multiple of itemsize"));
+         }
+ 
+-        Ok(Self {
++        let zelf = Self {
+             buffer: self.buffer.clone(),
+             released: AtomicCell::new(false),
+-            start: self.start,
++            restricted: AtomicCell::new(false),
+             format_spec,
+             desc: BufferDescriptor {
+                 len: self.desc.len,
++                offset: self.desc.offset,
+                 readonly: self.desc.readonly,
+                 itemsize,
+                 format: format_str.to_owned().into(),
+                 dim_desc: vec![(self.desc.len / itemsize, itemsize as isize, 0)],
+             },
+             hash: OnceCell::new(),
+-        })
++        };
++        Ok(zelf)
+     }
+ 
+     #[pymethod]
+     fn cast(&self, args: CastArgs, vm: &VirtualMachine) -> PyResult<PyRef<Self>> {
+-        self.try_not_released(vm)?;
++        self.try_usable(vm)?;
+         if !self.desc.is_contiguous() {
+             return Err(vm.new_type_error("memoryview: casts are restricted to C-contiguous views"));
+         }
+@@ -872,6 +996,11 @@ impl PyMemoryView {
+ 
+             // 0 ndim is single item
+             if shape_ndim == 0 {
++                if itemsize != other.desc.len {
++                    return Err(
++                        vm.new_type_error("memoryview: product(shape) * itemsize != buffer size")
++                    );
++                }
+                 other.desc.dim_desc = vec![];
+                 other.desc.len = itemsize;
+                 return Ok(other.into_ref(&vm.ctx));
+@@ -929,11 +1058,11 @@ impl Py<PyMemoryView> {
+         if self.desc.ndim() == 0 {
+             // TODO: merge branches when we got conditional if let
+             if needle.is(&vm.ctx.ellipsis) {
+-                return self.pack_single(0, value, vm);
++                return self.pack_single(self.desc.offset as usize, value, vm);
+             } else if let Some(tuple) = needle.downcast_ref::<PyTuple>()
+                 && tuple.is_empty()
+             {
+-                return self.pack_single(0, value, vm);
++                return self.pack_single(self.desc.offset as usize, value, vm);
+             }
+             return Err(vm.new_type_error("invalid indexing of 0-dim memory"));
+         }
+@@ -1002,33 +1131,43 @@ impl TryFromObject for SubscriptNeedle {
+ }
+ 
+ static BUFFER_METHODS: BufferMethods = BufferMethods {
+-    obj_bytes: |buffer| buffer.obj_as::<PyMemoryView>().obj_bytes(),
+-    obj_bytes_mut: |buffer| buffer.obj_as::<PyMemoryView>().obj_bytes_mut(),
+-    release: |buffer| buffer.obj_as::<PyMemoryView>().buffer.release(),
+-    retain: |buffer| buffer.obj_as::<PyMemoryView>().buffer.retain(),
++    obj_bytes: |buffer| buffer.obj_as::<PyMemoryView>().buffer.obj_bytes(),
++    obj_bytes_mut: |buffer| buffer.obj_as::<PyMemoryView>().buffer.obj_bytes_mut(),
++    // memory_releasebuf / memory_getbuf: a consumer's export of this view is a
++    // share of the acquisition the view is looking at.
++    release: |buffer| buffer.obj_as::<PyMemoryView>().buffer.release_share(),
++    retain: |buffer| buffer.obj_as::<PyMemoryView>().buffer.retain_share(),
+ };
+ 
+ impl AsBuffer for PyMemoryView {
+-    fn as_buffer(zelf: &Py<Self>, vm: &VirtualMachine) -> PyResult<PyBuffer> {
+-        if zelf.released.load() {
+-            Err(vm.new_value_error("operation forbidden on released memoryview object"))
+-        } else {
+-            Ok(PyBuffer::new(
+-                zelf.to_owned().into(),
+-                zelf.desc.clone(),
+-                &BUFFER_METHODS,
+-            ))
+-        }
++    const RELEASE_BUFFER: bool = true;
++
++    // memory_getbuf
++    fn slot_as_buffer(
++        zelf: &PyObject,
++        flags: BufferFlags,
++        vm: &VirtualMachine,
++    ) -> PyResult<PyBuffer> {
++        let zelf = zelf
++            .downcast_ref::<Self>()
++            .ok_or_else(|| vm.new_type_error("unexpected payload for as_buffer"))?;
++        zelf.try_usable(vm)?;
++        Ok(PyBuffer::new(
++            zelf.to_owned().into(),
++            zelf.requested_desc(flags, vm)?,
++            &BUFFER_METHODS,
++        ))
+     }
+-}
+ 
+-impl Drop for PyMemoryView {
+-    fn drop(&mut self) {
+-        if self.released.load() {
+-            unsafe { self.buffer.drop_without_release() };
+-        } else {
+-            unsafe { ManuallyDrop::drop(&mut self.buffer) };
+-        }
++    fn as_buffer(zelf: &Py<Self>, vm: &VirtualMachine) -> PyResult<PyBuffer> {
++        zelf.try_usable(vm)?;
++        // memory_getbuf: *view = *base — the descriptor already says where the
++        // view starts.
++        Ok(PyBuffer::new(
++            zelf.to_owned().into(),
++            zelf.desc.clone(),
++            &BUFFER_METHODS,
++        ))
+     }
+ }
+ 
+@@ -1103,6 +1242,11 @@ impl Hashable for PyMemoryView {
+         if !zelf.desc.readonly {
+             return Err(vm.new_value_error("cannot hash writable memoryview object"));
+         }
++        if !matches!(&*zelf.desc.format, "B" | "b" | "c") {
++            return Err(
++                vm.new_value_error("memoryview: hashing is restricted to formats 'B', 'b' or 'c'")
++            );
++        }
+         let val = zelf.contiguous_or_collect(|bytes| vm.state.hash_secret.hash_bytes(bytes));
+         let _ = zelf.hash.set(val);
+         Ok(*zelf.hash.get().unwrap())
+@@ -1131,6 +1275,211 @@ impl Representable for PyMemoryView {
+ pub(crate) fn init(ctx: &'static Context) {
+     PyMemoryView::extend_class(ctx, ctx.types.memoryview_type);
+     PyMemoryViewIterator::extend_class(ctx, ctx.types.memoryviewiterator_type);
++    let wrapper_type = PyBufferWrapper::init_builtin_type();
++    // bufferwrapper_as_buffer: bf_releasebuffer and no bf_getbuffer, so the type
++    // has `__release_buffer__` but no `__buffer__`.
++    wrapper_type.slots.has_release_buffer.store(true);
++    PyBufferWrapper::extend_class(ctx, wrapper_type);
++    PyBufferWindow::extend_class(ctx, PyBufferWindow::init_builtin_type());
++}
++
++#[pyclass(module = false, name = "_buffer_wrapper")]
++#[derive(Debug)]
++struct PyBufferWrapper {
++    // bw->obj: the object whose `__buffer__` produced the view
++    exporter: PyObjectRef,
++    // bw->mv: the memoryview `__buffer__` returned, dropped with the last export
++    returned_mv: PyMutex<Option<PyRef<PyMemoryView>>>,
++    /// Memory of `returned_mv`, held on behalf of every live export. The wrapper
++    /// forwards shares of it rather than owning one.
++    view: PyBuffer,
++    /// Exports handed out for this wrapper; the wrapper is spent at zero.
++    exports: AtomicCell<usize>,
++}
++
++impl PyPayload for PyBufferWrapper {
++    fn class(_ctx: &Context) -> &'static Py<PyType> {
++        Self::static_type()
++    }
++}
++
++#[pyclass(flags(DISALLOW_INSTANTIATION))]
++impl PyBufferWrapper {}
++
++static BUFFER_WRAPPER_METHODS: BufferMethods = BufferMethods {
++    obj_bytes: |buffer| buffer.obj_as::<PyBufferWrapper>().view.obj_bytes(),
++    obj_bytes_mut: |buffer| buffer.obj_as::<PyBufferWrapper>().view.obj_bytes_mut(),
++    retain: |buffer| {
++        let wrapper = buffer.obj_as::<PyBufferWrapper>();
++        wrapper.exports.fetch_add(1);
++        wrapper.view.retain_share();
++    },
++    // bufferwrapper_releasebuf
++    release: |buffer| {
++        let wrapper = buffer.obj_as::<PyBufferWrapper>();
++        wrapper.view.release_share();
++        if wrapper.exports.fetch_sub(1) != 1 {
++            return;
++        }
++        let Some(mv) = wrapper.returned_mv.lock().take() else {
++            return;
++        };
++        // A native release runs when the memoryview itself is torn down; only a
++        // Python-level hook on a foreign exporter has to be called here.
++        if !mv.buffer.obj.is(&wrapper.exporter)
++            && wrapper.exporter.class().slots.python_release_buffer.load()
++        {
++            call_python_release_buffer(&wrapper.exporter, mv.clone());
++        }
++        // Py_CLEAR(bw->mv): the view outlives this only if user code kept it.
++        drop(mv);
++    },
++};
++
++// Read-only window over an exporter, handed to `__release_buffer__`. It owns no
++// export, like a `Py_buffer` whose `obj` is NULL, so releasing it is inert and
++// cannot recurse back into the hook.
++#[pyclass(module = false, name = "_buffer_window")]
++#[derive(Debug)]
++struct PyBufferWindow {
++    source: PyBuffer,
++}
++
++impl PyPayload for PyBufferWindow {
++    fn class(_ctx: &Context) -> &'static Py<PyType> {
++        Self::static_type()
++    }
++}
++
++#[pyclass(flags(DISALLOW_INSTANTIATION))]
++impl PyBufferWindow {}
++
++static BUFFER_WINDOW_METHODS: BufferMethods = BufferMethods {
++    obj_bytes: |buffer| buffer.obj_as::<PyBufferWindow>().source.obj_bytes(),
++    obj_bytes_mut: |buffer| buffer.obj_as::<PyBufferWindow>().source.obj_bytes_mut(),
++    retain: |_buffer| {},
++    release: |_buffer| {},
++};
++
++/// The object that ultimately owns the bytes a buffer reads, seen through the
++/// payloads that only forward to another export: a view, the wrapper holding what
++/// a `__buffer__` returned, and the window handed to `__release_buffer__`.
++///
++/// Two buffers that resolve to the same object address the same storage, so
++/// borrowing one for writing while the other is borrowed for reading would
++/// deadlock on it.
++fn root_exporter(buffer: &PyBuffer) -> PyObjectRef {
++    let mut obj = buffer.obj.clone();
++    loop {
++        let next = if let Some(view) = obj.downcast_ref::<PyMemoryView>() {
++            view.buffer.obj.clone()
++        } else if let Some(wrapper) = obj.downcast_ref::<PyBufferWrapper>() {
++            wrapper.view.obj.clone()
++        } else if let Some(window) = obj.downcast_ref::<PyBufferWindow>() {
++            window.source.obj.clone()
++        } else {
++            return obj;
++        };
++        obj = next;
++    }
++}
++
++// slot_bf_getbuffer
++pub(crate) fn buffer_from_python_getbuffer(
++    obj: &PyObject,
++    flags: BufferFlags,
++    vm: &VirtualMachine,
++) -> PyResult<PyBuffer> {
++    let flags_obj = vm.ctx.new_int(flags.bits() as i32);
++    let ret = vm.call_special_method(obj, identifier!(vm, __buffer__), (flags_obj,))?;
++    let mv = ret
++        .downcast::<PyMemoryView>()
++        .map_err(|_| vm.new_type_error("__buffer__ returned non-memoryview object"))?;
++
++    // PyObject_GetBuffer(ret, buffer, flags): the returned view has to satisfy
++    // the request in its own right.
++    mv.try_usable(vm)?;
++    let desc = mv.requested_desc(flags, vm)?;
++    let wrapper = PyBufferWrapper {
++        exporter: obj.to_owned(),
++        view: mv.buffer.detached(),
++        returned_mv: PyMutex::new(Some(mv)),
++        exports: AtomicCell::new(0),
++    }
++    .into_pyobject(vm);
++
++    // PyBuffer::new retains once through BUFFER_WRAPPER_METHODS.
++    Ok(PyBuffer::new(wrapper, desc, &BUFFER_WRAPPER_METHODS))
++}
++
++// wrap_releasebuffer
++pub(crate) fn release_buffer_from_python(
++    obj: &PyObject,
++    mv: PyRef<PyMemoryView>,
++    vm: &VirtualMachine,
++) -> PyResult<()> {
++    let view_obj = &mv.buffer.obj;
++    if view_obj.downcastable::<PyBufferWindow>() {
++        // A window exports nothing, so there is nothing left to release, as for
++        // a `Py_buffer` whose `obj` is NULL.
++        return Ok(());
++    }
++    let exports_obj = view_obj.is(obj)
++        || view_obj
++            .downcast_ref::<PyBufferWrapper>()
++            .is_some_and(|wrapper| wrapper.exporter.is(obj));
++    if !exports_obj {
++        return Err(vm.new_value_error("memoryview's buffer is not this object"));
++    }
++    if mv.released.load() {
++        return Err(vm.new_value_error("memoryview's buffer has already been released"));
++    }
++    mv.release();
++    Ok(())
++}
++
++// releasebuffer_call_python, for a buffer acquired from a native exporter
++pub(crate) fn release_buffer_call_python(buffer: &PyBuffer) {
++    crate::vm::thread::try_with_current_vm(|vm| {
++        let exporter = buffer.obj.clone();
++        let window = PyBufferWindow {
++            source: buffer.detached(),
++        }
++        .into_pyobject(vm);
++        let window = PyBuffer::new(window, buffer.desc.clone(), &BUFFER_WINDOW_METHODS);
++        let mv = match PyMemoryView::from_buffer(window, vm) {
++            Ok(mv) => mv,
++            Err(exc) => {
++                let msg = format!(
++                    "Exception ignored in bf_releasebuffer of {}",
++                    exporter.class().name()
++                );
++                return vm.run_unraisable(exc, Some(msg), vm.ctx.none());
++            }
++        };
++        // Restricted, so user code cannot keep anything addressing the memory
++        // that is about to go away.
++        mv.restricted.store(true);
++        let mv = mv.into_ref(&vm.ctx);
++        call_python_release_buffer(&exporter, mv.clone());
++        // The window does not outlive the release it was made for.
++        mv.release();
++    });
++}
++
++fn call_python_release_buffer(exporter: &PyObject, mv: PyRef<PyMemoryView>) {
++    crate::vm::thread::try_with_current_vm(|vm| {
++        let method = vm.get_special_method(exporter, identifier!(vm, __release_buffer__));
++        if let Ok(Some(method)) = method
++            && let Err(exc) = method.invoke((mv,), vm)
++        {
++            let msg = format!(
++                "Exception ignored in __release_buffer__ of {}",
++                exporter.class().name()
++            );
++            vm.run_unraisable(exc, Some(msg), vm.ctx.none());
++        }
++    });
+ }
+ 
+ fn format_unpack(
+diff --git a/crates/vm/src/builtins/str.rs b/crates/vm/src/builtins/str.rs
+index f3655d892..8a95dcb64 100644
+--- a/crates/vm/src/builtins/str.rs
++++ b/crates/vm/src/builtins/str.rs
+@@ -23,7 +23,9 @@ use crate::{
+     function::{ArgIterable, ArgSize, FuncArgs, OptionalArg, OptionalOption, PyComparisonValue},
+     intern::PyInterned,
+     object::{MaybeTraverse, Traverse, TraverseFn},
+-    protocol::{PyIterReturn, PyMappingMethods, PyNumberMethods, PySequenceMethods},
++    protocol::{
++        BufferFlags, PyBuffer, PyIterReturn, PyMappingMethods, PyNumberMethods, PySequenceMethods,
++    },
+     sequence::SequenceExt,
+     sliceable::{SequenceIndex, SliceableSequenceOp},
+     types::{
+@@ -441,15 +443,24 @@ impl Constructor for PyStr {
+                     if input.fast_isinstance(vm.ctx.types.str_type) {
+                         return Err(vm.new_type_error("decoding str is not supported"));
+                     }
+-                    if !input.fast_isinstance(vm.ctx.types.bytes_type)
+-                        && !input.fast_isinstance(vm.ctx.types.bytearray_type)
+-                        && crate::protocol::PyBuffer::try_from_borrowed_object(vm, &input).is_err()
++                    let input = if input.fast_isinstance(vm.ctx.types.bytes_type)
++                        || input.fast_isinstance(vm.ctx.types.bytearray_type)
+                     {
+-                        return Err(vm.new_type_error(format!(
+-                            "decoding to str: need a bytes-like object, {} found",
+-                            input.class().name()
+-                        )));
+-                    }
++                        input
++                    } else {
++                        // PyUnicode_FromEncodedObject: whatever an exporter
++                        // complains about, the argument is simply not bytes-like.
++                        let buffer = PyBuffer::from_object(vm, &input, BufferFlags::SIMPLE)
++                            .map_err(|_| {
++                                vm.new_type_error(format!(
++                                    "decoding to str: need a bytes-like object, {} found",
++                                    input.class().name()
++                                ))
++                            })?;
++                        vm.ctx
++                            .new_bytes(buffer.contiguous_or_collect(<[u8]>::to_vec))
++                            .into()
++                    };
+                     let enc_str = encoding.as_ref().map_or("utf-8", |e| e.as_str());
+                     let s = vm
+                         .state
+diff --git a/crates/vm/src/builtins/type.rs b/crates/vm/src/builtins/type.rs
+index 5a7169983..46e2e4ebf 100644
+--- a/crates/vm/src/builtins/type.rs
++++ b/crates/vm/src/builtins/type.rs
+@@ -821,8 +821,6 @@ impl PyType {
+             slots.basicsize = base.slots.basicsize;
+         }
+ 
+-        Self::inherit_readonly_slots(&mut slots, &base);
+-
+         // Normalize: any type with HAS_WEAKREF gets MANAGED_WEAKREF
+         if slots.flags.has_feature(PyTypeFlags::HAS_WEAKREF) {
+             slots.flags |= PyTypeFlags::MANAGED_WEAKREF;
+@@ -891,8 +889,6 @@ impl PyType {
+             slots.basicsize = base.slots.basicsize;
+         }
+ 
+-        Self::inherit_readonly_slots(&mut slots, &base);
+-
+         // Normalize: any type with HAS_WEAKREF gets MANAGED_WEAKREF
+         if slots.flags.has_feature(PyTypeFlags::HAS_WEAKREF) {
+             slots.flags |= PyTypeFlags::MANAGED_WEAKREF;
+@@ -1018,18 +1014,9 @@ impl PyType {
+         }
+     }
+ 
+-    /// Inherit readonly slots from base type at creation time.
+-    /// These slots are not AtomicCell and must be set before the type is used.
+-    fn inherit_readonly_slots(slots: &mut PyTypeSlots, base: &Self) {
+-        if slots.as_buffer.is_none() {
+-            slots.as_buffer = base.slots.as_buffer;
+-        }
+-    }
+-
+     /// Inherit slots from base type. inherit_slots
+     pub(crate) fn inherit_slots(&self, base: &Self) {
+         // Use SLOT_DEFS to iterate all slots
+-        // Note: as_buffer is handled in inherit_readonly_slots (not AtomicCell)
+         for def in SLOT_DEFS {
+             def.accessor.copyslot_if_none(self, base);
+         }
+diff --git a/crates/vm/src/byte.rs b/crates/vm/src/byte.rs
+index 933ddead4..0e90f296a 100644
+--- a/crates/vm/src/byte.rs
++++ b/crates/vm/src/byte.rs
+@@ -2,11 +2,16 @@
+ 
+ use num_traits::ToPrimitive;
+ 
+-use crate::{AsObject, PyObject, PyResult, VirtualMachine};
++use crate::{
++    AsObject, PyObject, PyResult, VirtualMachine,
++    protocol::{BufferFlags, PyBuffer},
++};
+ 
++// PyBytes_FromObject
+ pub fn bytes_from_object(vm: &VirtualMachine, obj: &PyObject) -> PyResult<Vec<u8>> {
+-    if let Ok(elements) = obj.try_bytes_like(vm, |bytes| bytes.to_vec()) {
+-        return Ok(elements);
++    if obj.check_buffer() {
++        let buffer = PyBuffer::from_object(vm, obj, BufferFlags::FULL_RO)?;
++        return Ok(buffer.contiguous_or_collect(|bytes| bytes.to_vec()));
+     }
+ 
+     if !obj.fast_isinstance(vm.ctx.types.str_type)
+diff --git a/crates/vm/src/bytes_inner.rs b/crates/vm/src/bytes_inner.rs
+index 6ceebb70d..3c79ed329 100644
+--- a/crates/vm/src/bytes_inner.rs
++++ b/crates/vm/src/bytes_inner.rs
+@@ -1,6 +1,7 @@
+ // spell-checker:ignore unchunked
+ use crate::{
+-    AsObject, PyObject, PyObjectRef, PyResult, TryFromBorrowedObject, VirtualMachine,
++    AsObject, PyObject, PyObjectRef, PyResult, TryFromBorrowedObject, TryFromObject,
++    VirtualMachine,
+     anystr::{self, AnyStr, AnyStrContainer, AnyStrWrapper},
+     builtins::{
+         PyBaseExceptionRef, PyByteArray, PyBytes, PyBytesRef, PyInt, PyIntRef, PyStr, PyStrRef,
+@@ -12,7 +13,7 @@ use crate::{
+     common::wtf8::is_py_ascii_whitespace,
+     function::{ArgIterable, Either, OptionalArg, OptionalOption, PyComparisonValue},
+     literal::escape::Escape,
+-    protocol::PyBuffer,
++    protocol::{BufferFlags, PyBuffer},
+     sequence::{SequenceExt, SequenceMutExt},
+     types::PyComparisonOp,
+ };
+@@ -35,9 +36,10 @@ impl From<Vec<u8>> for PyBytesInner {
+     }
+ }
+ 
++/// "y*": any bytes-like object, and nothing else.
+ impl<'a> TryFromBorrowedObject<'a> for PyBytesInner {
+     fn try_from_borrowed_object(vm: &VirtualMachine, obj: &'a PyObject) -> PyResult<Self> {
+-        bytes_from_object(vm, obj).map(Self::from)
++        obj.try_bytes_like(vm, <[u8]>::to_vec).map(Self::from)
+     }
+ }
+ 
+@@ -137,10 +139,50 @@ impl ByteInnerNewOptions {
+     }
+ }
+ 
++/// What is searched for: a bytes-like object, or a single byte given as an
++/// integer. parse_args_finds_byte
++pub enum ByteInnerSub {
++    Buffer(PyBytesInner),
++    Byte(PyIntRef),
++}
++
++impl TryFromObject for ByteInnerSub {
++    fn try_from_object(vm: &VirtualMachine, obj: PyObjectRef) -> PyResult<Self> {
++        if obj.check_buffer() {
++            return PyBytesInner::try_from_object(vm, obj).map(Self::Buffer);
++        }
++        match obj.try_index_opt(vm) {
++            Some(int) => int.map(Self::Byte),
++            None => Err(vm.new_type_error(format!(
++                "argument should be integer or bytes-like object, not '{}'",
++                obj.class().name()
++            ))),
++        }
++    }
++}
++
++impl ByteInnerSub {
++    /// The needle of a containment test, which is an integer if it is one at
++    /// all and a bytes-like object otherwise. bytes_contains
++    pub fn from_contains_arg(obj: PyObjectRef, vm: &VirtualMachine) -> PyResult<Self> {
++        match obj.try_index_opt(vm) {
++            Some(int) => int.map(Self::Byte),
++            None => PyBytesInner::try_from_object(vm, obj).map(Self::Buffer),
++        }
++    }
++
++    fn into_vec(self, vm: &VirtualMachine) -> PyResult<Vec<u8>> {
++        Ok(match self {
++            Self::Buffer(buffer) => buffer.elements,
++            Self::Byte(int) => vec![int.as_bigint().byte_or(vm)?],
++        })
++    }
++}
++
+ #[derive(FromArgs)]
+ pub struct ByteInnerFindOptions {
+     #[pyarg(positional)]
+-    sub: Either<PyBytesInner, PyIntRef>,
++    sub: ByteInnerSub,
+     #[pyarg(positional, default)]
+     start: Option<PyIntRef>,
+     #[pyarg(positional, default)]
+@@ -153,10 +195,7 @@ impl ByteInnerFindOptions {
+         len: usize,
+         vm: &VirtualMachine,
+     ) -> PyResult<(Vec<u8>, core::ops::Range<usize>)> {
+-        let sub = match self.sub {
+-            Either::A(v) => v.elements.to_vec(),
+-            Either::B(int) => vec![int.as_bigint().byte_or(vm)?],
+-        };
++        let sub = self.sub.into_vec(vm)?;
+         let range = anystr::adjust_indices(self.start, self.end, len);
+         Ok((sub, range))
+     }
+@@ -203,14 +242,11 @@ impl ByteInnerTranslateOptions {
+         let table = self.table.map_or_else(
+             || Ok((0..=u8::MAX).collect::<Vec<u8>>()),
+             |v| {
+-                let bytes = v
+-                    .try_into_value::<PyBytesInner>(vm)
+-                    .ok()
+-                    .filter(|v| v.elements.len() == 256)
+-                    .ok_or_else(|| {
+-                        vm.new_value_error("translation table must be 256 characters long")
+-                    })?;
+-                Ok(bytes.elements.to_vec())
++                let bytes: PyBytesInner = v.try_into_value(vm)?;
++                if bytes.elements.len() != 256 {
++                    return Err(vm.new_value_error("translation table must be 256 characters long"));
++                }
++                Ok(bytes.elements)
+             },
+         )?;
+ 
+@@ -363,10 +399,10 @@ impl PyBytesInner {
+         self.elements.py_add(other)
+     }
+ 
+-    pub fn contains(&self, needle: Either<Self, PyIntRef>, vm: &VirtualMachine) -> PyResult<bool> {
++    pub fn contains(&self, needle: ByteInnerSub, vm: &VirtualMachine) -> PyResult<bool> {
+         Ok(match needle {
+-            Either::A(byte) => self.elements.contains_str(byte.elements.as_slice()),
+-            Either::B(int) => self.elements.contains(&int.as_bigint().byte_or(vm)?),
++            ByteInnerSub::Buffer(sub) => self.elements.contains_str(sub.elements.as_slice()),
++            ByteInnerSub::Byte(int) => self.elements.contains(&int.as_bigint().byte_or(vm)?),
+         })
+     }
+ 
+@@ -522,7 +558,8 @@ impl PyBytesInner {
+     pub fn fromhex_object(string: PyObjectRef, vm: &VirtualMachine) -> PyResult<Vec<u8>> {
+         if let Some(s) = string.downcast_ref::<PyStr>() {
+             Self::fromhex(s.as_bytes(), vm)
+-        } else if let Ok(buffer) = PyBuffer::try_from_borrowed_object(vm, &string) {
++        } else if string.check_buffer() {
++            let buffer = PyBuffer::from_object(vm, &string, BufferFlags::SIMPLE)?;
+             let borrowed = buffer
+                 .as_contiguous()
+                 .ok_or_else(|| vm.new_buffer_error("fromhex() requires a contiguous buffer"))?;
+@@ -974,7 +1011,7 @@ impl PyBytesInner {
+     }
+ 
+     pub fn concat(&self, other: &PyObject, vm: &VirtualMachine) -> PyResult<Vec<u8>> {
+-        let buffer = PyBuffer::try_from_borrowed_object(vm, other)?;
++        let buffer = PyBuffer::from_object(vm, other, BufferFlags::SIMPLE)?;
+         let borrowed = buffer.as_contiguous();
+         if let Some(other) = borrowed {
+             let mut v = Vec::with_capacity(self.elements.len() + other.len());
+diff --git a/crates/vm/src/cformat.rs b/crates/vm/src/cformat.rs
+index 3bba0e5f8..7d47da399 100644
+--- a/crates/vm/src/cformat.rs
++++ b/crates/vm/src/cformat.rs
+@@ -22,7 +22,7 @@ use crate::{
+         wtf8::{CodePoint, Wtf8, Wtf8Buf},
+     },
+     function::ArgIntoFloat,
+-    protocol::PyBuffer,
++    protocol::{BufferFlags, PyBuffer},
+     stdlib::builtins,
+ };
+ 
+@@ -39,24 +39,29 @@ fn spec_format_bytes(
+                 let b = builtins::ascii(obj, vm)?.as_bytes().to_vec();
+                 Ok(b)
+             }
++            // format_obj
+             CFormatConversion::Str | CFormatConversion::Bytes => {
+-                if let Ok(buffer) = PyBuffer::try_from_borrowed_object(vm, &obj) {
+-                    Ok(buffer.contiguous_or_collect(|bytes| spec.format_bytes(bytes)))
+-                } else {
+-                    let bytes = vm
+-                        .get_special_method(&obj, identifier!(vm, __bytes__))?
+-                        .ok_or_else(|| {
+-                            let msg = format!(
+-                                "%b requires a bytes-like object, or an object that \
+-                                    implements __bytes__, not '{}'",
+-                                obj.class().name()
+-                            );
+-                            vm.new_type_error(msg)
+-                        })?
+-                        .invoke((), vm)?;
++                if let Some(bytes) = obj.downcast_ref::<PyBytes>() {
++                    return Ok(spec.format_bytes(bytes.as_bytes()));
++                }
++                if let Some(bytearray) = obj.downcast_ref::<PyByteArray>() {
++                    return Ok(spec.format_bytes(&bytearray.borrow_buf()));
++                }
++                if let Some(method) = vm.get_special_method(&obj, identifier!(vm, __bytes__))? {
++                    let bytes = method.invoke((), vm)?;
+                     let bytes = PyBytes::try_from_borrowed_object(vm, &bytes)?;
+-                    Ok(spec.format_bytes(bytes.as_bytes()))
++                    return Ok(spec.format_bytes(bytes.as_bytes()));
+                 }
++                if obj.check_buffer() {
++                    let buffer = PyBuffer::from_object(vm, &obj, BufferFlags::FULL_RO)?;
++                    return Ok(buffer.contiguous_or_collect(|bytes| spec.format_bytes(bytes)));
++                }
++                let msg = format!(
++                    "%b requires a bytes-like object, or an object that \
++                        implements __bytes__, not '{}'",
++                    obj.class().name()
++                );
++                Err(vm.new_type_error(msg))
+             }
+         },
+         CFormatType::Number(number_type) => match number_type {
+diff --git a/crates/vm/src/function/buffer.rs b/crates/vm/src/function/buffer.rs
+index 213193bb9..c73f27c04 100644
+--- a/crates/vm/src/function/buffer.rs
++++ b/crates/vm/src/function/buffer.rs
+@@ -3,7 +3,7 @@ use crate::{
+     VirtualMachine,
+     builtins::{PyStr, PyStrRef},
+     common::borrow::{BorrowedValue, BorrowedValueMut},
+-    protocol::PyBuffer,
++    protocol::{BufferFlags, PyBuffer},
+ };
+ 
+ // Python/getargs.c
+@@ -17,7 +17,7 @@ impl PyObject {
+     where
+         F: FnOnce(&[u8]) -> R,
+     {
+-        let buffer = PyBuffer::try_from_borrowed_object(vm, self)?;
++        let buffer = PyBuffer::from_object(vm, self, BufferFlags::SIMPLE)?;
+         buffer
+             .as_contiguous()
+             .map(|x| f(&x))
+@@ -28,7 +28,7 @@ impl PyObject {
+     where
+         F: FnOnce(&mut [u8]) -> R,
+     {
+-        let buffer = PyBuffer::try_from_borrowed_object(vm, self)?;
++        let buffer = PyBuffer::from_object(vm, self, BufferFlags::WRITABLE)?;
+         buffer
+             .as_contiguous_mut()
+             .map(|mut x| f(&mut x))
+@@ -77,9 +77,9 @@ impl From<ArgBytesLike> for PyObjectRef {
+     }
+ }
+ 
+-impl<'a> TryFromBorrowedObject<'a> for ArgBytesLike {
+-    fn try_from_borrowed_object(vm: &VirtualMachine, obj: &'a PyObject) -> PyResult<Self> {
+-        let buffer = PyBuffer::try_from_borrowed_object(vm, obj)?;
++impl ArgBytesLike {
++    fn from_request(vm: &VirtualMachine, obj: &PyObject, flags: BufferFlags) -> PyResult<Self> {
++        let buffer = PyBuffer::from_object(vm, obj, flags)?;
+         if buffer.desc.is_contiguous() {
+             Ok(Self(buffer))
+         } else {
+@@ -88,6 +88,31 @@ impl<'a> TryFromBorrowedObject<'a> for ArgBytesLike {
+     }
+ }
+ 
++impl<'a> TryFromBorrowedObject<'a> for ArgBytesLike {
++    fn try_from_borrowed_object(vm: &VirtualMachine, obj: &'a PyObject) -> PyResult<Self> {
++        Self::from_request(vm, obj, BufferFlags::SIMPLE)
++    }
++}
++
++/// A bytes-like object asked for as `PyBUF_CONTIG_RO`, which is what a shape is
++/// requested with rather than assumed.
++#[derive(Debug, Traverse)]
++pub struct ArgContiguousBytesLike(ArgBytesLike);
++
++impl core::ops::Deref for ArgContiguousBytesLike {
++    type Target = ArgBytesLike;
++
++    fn deref(&self) -> &Self::Target {
++        &self.0
++    }
++}
++
++impl<'a> TryFromBorrowedObject<'a> for ArgContiguousBytesLike {
++    fn try_from_borrowed_object(vm: &VirtualMachine, obj: &'a PyObject) -> PyResult<Self> {
++        ArgBytesLike::from_request(vm, obj, BufferFlags::CONTIG_RO).map(Self)
++    }
++}
++
+ /// A memory buffer, read-write access. Like the `w*` format code for `PyArg_Parse` in CPython.
+ #[derive(Debug, Traverse)]
+ pub struct ArgMemoryBuffer(PyBuffer);
+@@ -124,7 +149,15 @@ impl From<ArgMemoryBuffer> for PyBuffer {
+ 
+ impl<'a> TryFromBorrowedObject<'a> for ArgMemoryBuffer {
+     fn try_from_borrowed_object(vm: &VirtualMachine, obj: &'a PyObject) -> PyResult<Self> {
+-        let buffer = PyBuffer::try_from_borrowed_object(vm, obj)?;
++        let buffer = PyBuffer::from_object(vm, obj, BufferFlags::WRITABLE).map_err(|exc| {
++            if obj.check_buffer() {
++                // An exporter that cannot serve the request leaves the argument
++                // simply the wrong kind of object, as `PyArg_Parse` reports it.
++                vm.new_type_error("buffer is not a read-write bytes-like object")
++            } else {
++                exc
++            }
++        })?;
+         if !buffer.desc.is_contiguous() {
+             Err(vm.new_buffer_error("non-contiguous buffer is not a bytes-like object"))
+         } else if buffer.desc.readonly {
+diff --git a/crates/vm/src/function/fspath.rs b/crates/vm/src/function/fspath.rs
+index 50feef86d..954c82cb7 100644
+--- a/crates/vm/src/function/fspath.rs
++++ b/crates/vm/src/function/fspath.rs
+@@ -3,7 +3,6 @@ use crate::{
+     builtins::{PyBytes, PyBytesRef, PyStrRef},
+     convert::{IntoPyException, ToPyObject},
+     function::PyStr,
+-    protocol::PyBuffer,
+ };
+ use alloc::borrow::Cow;
+ use core::hint::cold_path;
+@@ -147,16 +146,9 @@ impl ToPyObject for FsPath {
+ }
+ 
+ impl TryFromObject for FsPath {
+-    // PyUnicode_FSDecoder in CPython
++    // PyUnicode_FSDecoder, which takes what PyOS_FSPath takes: str, bytes, or an
++    // object with __fspath__, and nothing that merely exports a buffer.
+     fn try_from_object(vm: &VirtualMachine, obj: PyObjectRef) -> PyResult<Self> {
+-        let obj = match obj.try_to_value::<PyBuffer>(vm) {
+-            Ok(buffer) => {
+-                let mut bytes = vec![];
+-                buffer.append_to(&mut bytes);
+-                vm.ctx.new_bytes(bytes).into()
+-            }
+-            Err(_) => obj,
+-        };
+         Self::try_from_path_like(obj, true, vm)
+     }
+ }
+diff --git a/crates/vm/src/function/mod.rs b/crates/vm/src/function/mod.rs
+index 2ec1d09e8..2b37c9fc8 100644
+--- a/crates/vm/src/function/mod.rs
++++ b/crates/vm/src/function/mod.rs
+@@ -15,7 +15,9 @@ pub use argument::{
+     OptionalArg, OptionalOption, PosArgs,
+ };
+ pub use arithmetic::{PyArithmeticValue, PyComparisonValue};
+-pub use buffer::{ArgAsciiBuffer, ArgBytesLike, ArgMemoryBuffer, ArgStrOrBytesLike};
++pub use buffer::{
++    ArgAsciiBuffer, ArgBytesLike, ArgContiguousBytesLike, ArgMemoryBuffer, ArgStrOrBytesLike,
++};
+ pub use builtin::{IntoPyNativeFn, PyNativeFn, static_func, static_raw_func};
+ pub use either::Either;
+ pub use fspath::FsPath;
+diff --git a/crates/vm/src/protocol/buffer.rs b/crates/vm/src/protocol/buffer.rs
+index d79c5e993..cf60775f7 100644
+--- a/crates/vm/src/protocol/buffer.rs
++++ b/crates/vm/src/protocol/buffer.rs
+@@ -6,14 +6,101 @@ use crate::{
+     common::{
+         borrow::{BorrowedValue, BorrowedValueMut},
+         lock::{MapImmutable, PyMutex, PyMutexGuard},
++        rc::PyRc,
+     },
+     object::PyObjectPayload,
+     sliceable::SequenceIndexOp,
+ };
+ use alloc::borrow::Cow;
++use bitflags::bitflags;
+ use core::{fmt::Debug, ops::Range};
++use crossbeam_utils::atomic::AtomicCell;
+ use itertools::Itertools;
+ 
++bitflags! {
++    /// Capabilities a consumer asks a buffer exporter for, the `flags` argument of
++    /// `bf_getbuffer` and of `__buffer__` (`PyBUF_*`).
++    ///
++    /// The composite requests are supersets of the simpler ones, so
++    /// [`contains`](Self::contains) answers the `REQ_*` questions an exporter asks:
++    /// `flags.contains(BufferFlags::C_CONTIGUOUS)` is `REQ_C_CONTIGUOUS(flags)`.
++    #[derive(Copy, Clone, Debug, PartialEq, Eq)]
++    pub struct BufferFlags: u32 {
++        const WRITABLE = 0x0001;
++        const FORMAT = 0x0004;
++        const ND = 0x0008;
++        const STRIDES = 0x0010 | Self::ND.bits();
++        const C_CONTIGUOUS = 0x0020 | Self::STRIDES.bits();
++        const F_CONTIGUOUS = 0x0040 | Self::STRIDES.bits();
++        const ANY_CONTIGUOUS = 0x0080 | Self::STRIDES.bits();
++        const INDIRECT = 0x0100 | Self::STRIDES.bits();
++    }
++}
++
++impl BufferFlags {
++    /// `PyBUF_SIMPLE`: a plain read-only block of bytes.
++    pub const SIMPLE: Self = Self::empty();
++    /// `PyBUF_CONTIG`
++    pub const CONTIG: Self = Self::ND.union(Self::WRITABLE);
++    /// `PyBUF_CONTIG_RO`
++    pub const CONTIG_RO: Self = Self::ND;
++    /// `PyBUF_STRIDED`
++    pub const STRIDED: Self = Self::STRIDES.union(Self::WRITABLE);
++    /// `PyBUF_STRIDED_RO`
++    pub const STRIDED_RO: Self = Self::STRIDES;
++    /// `PyBUF_RECORDS`
++    pub const RECORDS: Self = Self::STRIDED.union(Self::FORMAT);
++    /// `PyBUF_RECORDS_RO`
++    pub const RECORDS_RO: Self = Self::STRIDED_RO.union(Self::FORMAT);
++    /// `PyBUF_FULL`: everything an exporter can describe, writable.
++    pub const FULL: Self = Self::INDIRECT.union(Self::WRITABLE).union(Self::FORMAT);
++    /// `PyBUF_FULL_RO`: everything an exporter can describe, read-only.
++    pub const FULL_RO: Self = Self::INDIRECT.union(Self::FORMAT);
++
++    /// `PyBUF_READ`. Belongs to `PyMemoryView_FromMemory`, not to `bf_getbuffer`.
++    const MEMORY_READ: Self = Self::from_bits_retain(0x100);
++    /// `PyBUF_WRITE`. Belongs to `PyMemoryView_FromMemory`, not to `bf_getbuffer`.
++    const MEMORY_WRITE: Self = Self::from_bits_retain(0x200);
++
++    /// Whether this request is really a `PyMemoryView_FromMemory` access mode,
++    /// which no exporter can serve.
++    #[must_use]
++    pub const fn is_memory_access_mode(self) -> bool {
++        self.bits() == Self::MEMORY_READ.bits() || self.bits() == Self::MEMORY_WRITE.bits()
++    }
++
++    /// Whether the consumer demands a writable buffer.
++    #[must_use]
++    pub const fn is_writable(self) -> bool {
++        self.intersects(Self::WRITABLE)
++    }
++
++    /// The argument checks `PyBuffer_FillInfo` performs, for exporters that hand
++    /// out a flat block of bytes.
++    pub fn fill_info_check(self, readonly: bool, vm: &VirtualMachine) -> PyResult<()> {
++        if self == Self::SIMPLE {
++            return Ok(());
++        }
++        if self.is_memory_access_mode() {
++            return Err(vm.new_system_error("bad argument to internal function"));
++        }
++        self.check_writable(readonly, "Object is not writable.", vm)
++    }
++
++    /// Reject a writable request against a read-only export.
++    pub fn check_writable(
++        self,
++        readonly: bool,
++        message: &str,
++        vm: &VirtualMachine,
++    ) -> PyResult<()> {
++        if self.is_writable() && readonly {
++            return Err(vm.new_buffer_error(message.to_owned()));
++        }
++        Ok(())
++    }
++}
++
+ pub struct BufferMethods {
+     pub obj_bytes: fn(&PyBuffer) -> BorrowedValue<'_, [u8]>,
+     pub obj_bytes_mut: fn(&PyBuffer) -> BorrowedValueMut<'_, [u8]>,
+@@ -32,13 +119,46 @@ impl Debug for BufferMethods {
+     }
+ }
+ 
+-#[derive(Debug, Clone, Traverse)]
++/// One acquisition from an exporter: the state a single `bf_getbuffer` set up,
++/// shared by every handle taken from it. _PyManagedBufferObject
++#[derive(Debug)]
++struct BufferExport {
++    /// Handles and raw shares that have not been given up yet. mbuf->exports
++    shares: AtomicCell<usize>,
++    /// Whether the exporter's release has already run.
++    /// _Py_MANAGED_BUFFER_RELEASED
++    released: AtomicCell<bool>,
++}
++
++#[derive(Debug, Traverse)]
+ pub struct PyBuffer {
+     pub obj: PyObjectRef,
+     #[pytraverse(skip)]
+     pub desc: BufferDescriptor,
+     #[pytraverse(skip)]
+     methods: &'static BufferMethods,
++    #[pytraverse(skip)]
++    export: PyRc<BufferExport>,
++    /// Whether this handle still holds its share of `export`.
++    #[pytraverse(skip)]
++    owns_share: AtomicCell<bool>,
++}
++
++/// Cloning takes another share of the same acquisition rather than asking the
++/// exporter for a new one, and the exporter's release waits for the last share.
++/// mbuf_add_view
++impl Clone for PyBuffer {
++    fn clone(&self) -> Self {
++        debug_assert!(!self.export.released.load());
++        self.export.shares.fetch_add(1);
++        Self {
++            obj: self.obj.clone(),
++            desc: self.desc.clone(),
++            methods: self.methods,
++            export: self.export.clone(),
++            owns_share: AtomicCell::new(true),
++        }
++    }
+ }
+ 
+ impl PyBuffer {
+@@ -47,8 +167,17 @@ impl PyBuffer {
+         #[cfg(debug_assertions)]
+         let desc = desc.validate();
+ 
+-        let zelf = Self { obj, desc, methods };
+-        zelf.retain();
++        let zelf = Self {
++            obj,
++            desc,
++            methods,
++            export: PyRc::new(BufferExport {
++                shares: AtomicCell::new(1),
++                released: AtomicCell::new(false),
++            }),
++            owns_share: AtomicCell::new(true),
++        };
++        (zelf.methods.retain)(&zelf);
+         zelf
+     }
+ 
+@@ -78,14 +207,16 @@ impl PyBuffer {
+     /// assume the buffer is contiguous
+     #[must_use]
+     pub unsafe fn contiguous_unchecked(&self) -> BorrowedValue<'_, [u8]> {
+-        self.obj_bytes()
++        let range = self.desc.contiguous_range();
++        BorrowedValue::map(self.obj_bytes(), |x| &x[range])
+     }
+ 
+     /// # Safety
+     /// assume the buffer is contiguous and writable
+     #[must_use]
+     pub unsafe fn contiguous_mut_unchecked(&self) -> BorrowedValueMut<'_, [u8]> {
+-        self.obj_bytes_mut()
++        let range = self.desc.contiguous_range();
++        BorrowedValueMut::map(self.obj_bytes_mut(), |x| &mut x[range])
+     }
+ 
+     pub fn append_to(&self, buf: &mut Vec<u8>) {
+@@ -113,6 +244,18 @@ impl PyBuffer {
+         f(v)
+     }
+ 
++    /// A copy of these bytes in C order, keeping shape and format. The copy
++    /// borrows nothing from the exporter, so it can be read while the exporter is
++    /// borrowed for writing.
++    #[must_use]
++    pub fn to_contiguous(&self, vm: &VirtualMachine) -> Self {
++        let mut data = vec![];
++        self.append_to(&mut data);
++        VecBuffer::from(data)
++            .into_ref(&vm.ctx)
++            .into_pybuffer_with_descriptor(self.desc.contiguous())
++    }
++
+     #[must_use]
+     pub fn obj_as<T: PyObjectPayload>(&self) -> &Py<T> {
+         unsafe { self.obj.downcast_unchecked_ref() }
+@@ -128,31 +271,87 @@ impl PyBuffer {
+         (self.methods.obj_bytes_mut)(self)
+     }
+ 
++    /// Give up this handle's share of the acquisition. PyBuffer_Release
++    ///
++    /// Idempotent: a handle that has already been released owns nothing, so
++    /// dropping it afterwards does nothing, like a `Py_buffer` whose `obj` was
++    /// cleared.
++    ///
++    /// This can run arbitrary Python through `__release_buffer__`, so no borrow
++    /// of the exporter may be held while a buffer is released or dropped.
+     pub fn release(&self) {
++        if self.owns_share.swap(false) {
++            self.drop_share();
++        }
++    }
++
++    /// Take a share of this acquisition that no handle owns. An exporter that
++    /// forwards a consumer's export onto a buffer it holds itself keeps the
++    /// acquisition alive this way. memory_getbuf
++    pub(crate) fn retain_share(&self) {
++        self.export.shares.fetch_add(1);
++    }
++
++    /// Give back a share taken by [`Self::retain_share`]. memory_releasebuf
++    pub(crate) fn release_share(&self) {
++        self.drop_share();
++    }
++
++    fn drop_share(&self) {
++        if self.export.shares.fetch_sub(1) == 1 {
++            self.finalize();
++        }
++    }
++
++    /// The exporter learns its export is gone, once per acquisition. mbuf_release
++    fn finalize(&self) {
++        // Latched before the hook runs, so a release re-entered from Python is
++        // inert.
++        if self.export.released.swap(true) {
++            return;
++        }
++        // slot_bf_releasebuffer: a Python-level `__release_buffer__` runs first,
++        // then the exporter's own release so export counts stay balanced.
++        if self.obj.class().slots.python_release_buffer.load() {
++            crate::builtins::memory::release_buffer_call_python(self);
++        }
+         (self.methods.release)(self)
+     }
+ 
+-    pub fn retain(&self) {
+-        (self.methods.retain)(self)
++    /// Undo an acquisition the exporter had already handed out but that could not
++    /// be served, without telling Python: `bf_releasebuffer` does not run when
++    /// `bf_getbuffer` fails.
++    pub(crate) fn abort_acquisition(self) {
++        debug_assert_eq!(self.export.shares.load(), 1);
++        self.owns_share.store(false);
++        self.export.released.store(true);
++        (self.methods.release)(&self);
+     }
+ 
+-    // drop PyBuffer without calling release
+-    // after this function, the owner should use forget()
+-    // or wrap PyBuffer in the ManuallyDrop to prevent drop()
+-    pub(crate) unsafe fn drop_without_release(&mut self) {
+-        // SAFETY: requirements forwarded from caller
+-        unsafe {
+-            core::ptr::drop_in_place(&mut self.obj);
+-            core::ptr::drop_in_place(&mut self.desc);
++    /// A copy that owns no share: it reads the same memory, but releasing it is
++    /// inert and it never finalizes the acquisition. A `Py_buffer` whose `obj` is
++    /// NULL.
++    #[must_use]
++    pub fn detached(&self) -> Self {
++        Self {
++            obj: self.obj.clone(),
++            desc: self.desc.clone(),
++            methods: self.methods,
++            export: self.export.clone(),
++            owns_share: AtomicCell::new(false),
+         }
+     }
+ }
+ 
+-impl<'a> TryFromBorrowedObject<'a> for PyBuffer {
+-    fn try_from_borrowed_object(vm: &VirtualMachine, obj: &'a PyObject) -> PyResult<Self> {
++impl PyBuffer {
++    /// Acquire a buffer from `obj`. PyObject_GetBuffer
++    pub fn from_object(vm: &VirtualMachine, obj: &PyObject, flags: BufferFlags) -> PyResult<Self> {
++        if flags.is_memory_access_mode() {
++            return Err(vm.new_system_error("bad argument to internal function"));
++        }
+         let cls = obj.class();
+-        if let Some(f) = cls.slots.as_buffer {
+-            return f(obj, vm);
++        if let Some(f) = cls.slots.as_buffer.load() {
++            return f(obj, flags, vm);
+         }
+         Err(vm.new_type_error(format!(
+             "a bytes-like object is required, not '{}'",
+@@ -161,6 +360,26 @@ impl<'a> TryFromBorrowedObject<'a> for PyBuffer {
+     }
+ }
+ 
++impl PyObject {
++    /// Whether this object's type exports the buffer protocol. PyObject_CheckBuffer
++    ///
++    /// A consumer that falls back to something else for non-buffer objects asks
++    /// this instead of attempting an acquisition, so that an error raised by
++    /// `__buffer__` is not mistaken for "not a buffer".
++    #[must_use]
++    pub fn check_buffer(&self) -> bool {
++        self.class().slots.as_buffer.load().is_some()
++    }
++}
++
++/// The request a conversion makes when the consumer has no say in it: describe
++/// the export as fully as possible, read-only.
++impl<'a> TryFromBorrowedObject<'a> for PyBuffer {
++    fn try_from_borrowed_object(vm: &VirtualMachine, obj: &'a PyObject) -> PyResult<Self> {
++        Self::from_object(vm, obj, BufferFlags::FULL_RO)
++    }
++}
++
+ impl Drop for PyBuffer {
+     fn drop(&mut self) {
+         self.release();
+@@ -172,10 +391,20 @@ pub struct BufferDescriptor {
+     /// product(shape) * itemsize
+     /// bytes length, but not the length for obj_bytes() even is contiguous
+     pub len: usize,
++    /// Byte position of the element at index `[0, .., 0]` within
++    /// [`PyBuffer::obj_bytes`], which always yields the exporter's whole memory.
++    /// `Py_buffer.buf`
++    ///
++    /// A view that walks backwards begins at the far end of its data, so this is
++    /// where addressing starts rather than a lower bound. A view with no elements
++    /// addresses nothing and may sit outside the exporter altogether, which is why
++    /// this is signed.
++    pub offset: isize,
+     pub readonly: bool,
+     pub itemsize: usize,
+     pub format: Cow<'static, str>,
+-    /// (shape, stride, suboffset) for each dimension
++    /// (shape, stride, suboffset) for each dimension. A non-zero suboffset means
++    /// the dimension is reached through a pointer; slicing never introduces one.
+     pub dim_desc: Vec<(usize, isize, isize)>,
+     // TODO: flags
+ }
+@@ -185,6 +414,7 @@ impl BufferDescriptor {
+     pub fn simple(bytes_len: usize, readonly: bool) -> Self {
+         Self {
+             len: bytes_len,
++            offset: 0,
+             readonly,
+             itemsize: 1,
+             format: Cow::Borrowed("B"),
+@@ -201,6 +431,7 @@ impl BufferDescriptor {
+     ) -> Self {
+         Self {
+             len: bytes_len,
++            offset: 0,
+             readonly,
+             itemsize,
+             format,
+@@ -208,9 +439,48 @@ impl BufferDescriptor {
+         }
+     }
+ 
++    /// The descriptor an exporter hands to a consumer that asked for `flags`:
++    /// everything the request did not ask for is dropped.
++    ///
++    /// A `Py_buffer` drops a field by setting it to NULL and leaves the consumer to
++    /// reconstruct it. A descriptor has no NULL, so a dropped field is filled in
++    /// here with what that reconstruction would produce: `"B"` for a format, C-order
++    /// strides for strides, and a single dimension of `len / itemsize` items for a
++    /// shape. `itemsize` is never touched, so `calcsize(format)` and `itemsize` can
++    /// disagree on a projected descriptor — the format governs an element's width,
++    /// the item size governs the step — and `product(shape) * itemsize == len`
++    /// continues to hold.
++    #[must_use]
++    pub fn projected(&self, flags: BufferFlags) -> Self {
++        let mut desc = self.clone();
++        if !flags.contains(BufferFlags::FORMAT) {
++            desc.format = Cow::Borrowed("B");
++        }
++        if !flags.contains(BufferFlags::ND) {
++            // A request this flat is refused unless the layout is C-contiguous, so
++            // one dimension addresses the same bytes.
++            let shape = desc.len.checked_div(desc.itemsize).unwrap_or(0);
++            desc.dim_desc = vec![(shape, desc.itemsize as isize, 0)];
++        } else if !flags.contains(BufferFlags::STRIDES) {
++            // Shape survives but strides do not, which means C order.
++            let mut stride = desc.itemsize as isize;
++            for (shape, dim_stride, suboffset) in desc.dim_desc.iter_mut().rev() {
++                *dim_stride = stride;
++                *suboffset = 0;
++                stride *= *shape as isize;
++            }
++        }
++        desc
++    }
++
+     #[cfg(debug_assertions)]
+     #[must_use]
+     pub fn validate(self) -> Self {
++        // Only a view with nothing to address is allowed to start outside the
++        // exporter.
++        if self.len != 0 {
++            debug_assert!(self.offset >= 0);
++        }
+         // ndim=0 is valid for scalar types (e.g., ctypes Structure)
+         if self.ndim() == 0 {
+             // Empty structures (len=0) can have itemsize=0
+@@ -239,6 +509,7 @@ impl BufferDescriptor {
+         self.dim_desc.len()
+     }
+ 
++    /// Whether the elements are laid out in row-major order. _IsCContiguous
+     #[must_use]
+     pub fn is_contiguous(&self) -> bool {
+         if self.len == 0 {
+@@ -254,11 +525,76 @@ impl BufferDescriptor {
+         true
+     }
+ 
++    /// Whether the elements are laid out in column-major order. A view whose
++    /// dimensions are all but one of length 1 is laid out both ways at once.
++    /// _IsFortranContiguous
++    #[must_use]
++    pub fn is_fortran_contiguous(&self) -> bool {
++        if self.len == 0 {
++            return true;
++        }
++        let mut sd = self.itemsize;
++        for (shape, stride, _) in self.dim_desc.iter().copied() {
++            if shape > 1 && stride != sd as isize {
++                return false;
++            }
++            sd *= shape;
++        }
++        true
++    }
++
++    /// The byte range this view occupies in [`PyBuffer::obj_bytes`], for a
++    /// contiguous view.
++    ///
++    /// A view with no bytes maps to the empty range at zero: its offset is
++    /// wherever slicing left it and need not be a position that exists.
++    #[must_use]
++    pub fn contiguous_range(&self) -> Range<usize> {
++        if self.len == 0 {
++            return 0..0;
++        }
++        debug_assert!(self.offset >= 0);
++        let start = self.offset as usize;
++        start..start + self.len
++    }
++
++    /// The same shape, format and item size, laid out in C order from byte zero.
++    #[must_use]
++    pub fn contiguous(&self) -> Self {
++        let itemsize = self.itemsize;
++        let mut dim_desc = self.dim_desc.clone();
++        if let Some((_, stride, suboffset)) = dim_desc.last_mut() {
++            *stride = itemsize as isize;
++            *suboffset = 0;
++        }
++        for i in (1..dim_desc.len()).rev() {
++            dim_desc[i - 1].1 = dim_desc[i].1 * dim_desc[i].0 as isize;
++            dim_desc[i - 1].2 = 0;
++        }
++        Self {
++            len: self.len,
++            offset: 0,
++            readonly: self.readonly,
++            itemsize: self.itemsize,
++            format: self.format.clone(),
++            dim_desc,
++        }
++    }
++
++    /// Whether any dimension is reached through a pointer rather than by
++    /// stepping, the layout `PyBUF_INDIRECT` describes.
++    #[must_use]
++    pub fn has_suboffsets(&self) -> bool {
++        self.dim_desc
++            .iter()
++            .any(|(_, _, suboffset)| *suboffset != 0)
++    }
++
+     /// this function do not check the bound
+     /// panic if indices.len() != ndim
+     #[must_use]
+     pub fn fast_position(&self, indices: &[usize]) -> isize {
+-        let mut pos = 0;
++        let mut pos = self.offset;
+         for (i, (_, stride, suboffset)) in indices
+             .iter()
+             .copied()
+@@ -271,7 +607,7 @@ impl BufferDescriptor {
+ 
+     /// panic if indices.len() != ndim
+     pub fn position(&self, indices: &[isize], vm: &VirtualMachine) -> PyResult<isize> {
+-        let mut pos = 0;
++        let mut pos = self.offset;
+         for (i, (shape, stride, suboffset)) in indices
+             .iter()
+             .copied()
+@@ -289,14 +625,19 @@ impl BufferDescriptor {
+     where
+         F: FnMut(Range<isize>),
+     {
++        // A view with no bytes reaches nothing, and its offset need not be a
++        // position that exists, so it yields no segment at all.
++        if self.len == 0 {
++            return;
++        }
+         if self.ndim() == 0 {
+-            f(0..self.itemsize as isize);
++            f(self.offset..self.offset + self.itemsize as isize);
+             return;
+         }
+         if try_contiguous && self.is_last_dim_contiguous() {
+-            self._for_each_segment::<_, true>(0, 0, &mut f);
++            self._for_each_segment::<_, true>(self.offset, 0, &mut f);
+         } else {
+-            self._for_each_segment::<_, false>(0, 0, &mut f);
++            self._for_each_segment::<_, false>(self.offset, 0, &mut f);
+         }
+     }
+ 
+@@ -328,14 +669,24 @@ impl BufferDescriptor {
+     where
+         F: FnMut(Range<isize>, Range<isize>) -> bool,
+     {
++        if self.len == 0 {
++            return;
++        }
+         if self.ndim() == 0 {
+-            f(0..self.itemsize as isize, 0..other.itemsize as isize);
++            f(
++                self.offset..self.offset + self.itemsize as isize,
++                other.offset..other.offset + other.itemsize as isize,
++            );
+             return;
+         }
+-        if try_contiguous && self.is_last_dim_contiguous() {
+-            self._zip_eq::<_, true>(other, 0, 0, 0, &mut f);
++        // last_dim_is_contiguous: the whole-run path walks both sides at once, so
++        // both have to be laid out that way.
++        let run_at_once =
++            try_contiguous && self.is_last_dim_contiguous() && other.is_last_dim_contiguous();
++        if run_at_once {
++            self._zip_eq::<_, true>(other, self.offset, other.offset, 0, &mut f);
+         } else {
+-            self._zip_eq::<_, false>(other, 0, 0, 0, &mut f);
++            self._zip_eq::<_, false>(other, self.offset, other.offset, 0, &mut f);
+         }
+     }
+ 
+diff --git a/crates/vm/src/protocol/mod.rs b/crates/vm/src/protocol/mod.rs
+index 411aa4dfa..4061e0645 100644
+--- a/crates/vm/src/protocol/mod.rs
++++ b/crates/vm/src/protocol/mod.rs
+@@ -6,7 +6,9 @@ mod number;
+ mod object;
+ mod sequence;
+ 
+-pub use buffer::{BufferDescriptor, BufferMethods, BufferResizeGuard, PyBuffer, VecBuffer};
++pub use buffer::{
++    BufferDescriptor, BufferFlags, BufferMethods, BufferResizeGuard, PyBuffer, VecBuffer,
++};
+ pub use callable::PyCallable;
+ pub(crate) use callable::TraceEvent;
+ pub use iter::{PyIter, PyIterIter, PyIterReturn};
+diff --git a/crates/vm/src/sliceable.rs b/crates/vm/src/sliceable.rs
+index b0f4c7808..ef78614ef 100644
+--- a/crates/vm/src/sliceable.rs
++++ b/crates/vm/src/sliceable.rs
+@@ -419,6 +419,50 @@ impl SaturatedSlice {
+         (range, self.step, slice_len)
+     }
+ 
++    // PySlice_AdjustIndices, keeping the adjusted start rather than a range.
++    /// The index the slice begins at, clamped into `0..=len` for a positive step
++    /// and into `-1..=len-1` for a negative one, together with its length.
++    ///
++    /// Unlike [`Self::adjust_indices`] this stays meaningful for an empty slice,
++    /// where it is still the position a strided view moves to.
++    #[must_use]
++    pub fn adjust_indices_start(&self, len: usize) -> (isize, usize) {
++        let len = len as isize;
++        let clamp = |i: isize| {
++            if i < 0 {
++                let i = i.saturating_add(len);
++                if i < 0 {
++                    if self.step.is_negative() { -1 } else { 0 }
++                } else {
++                    i
++                }
++            } else if i >= len {
++                if self.step.is_negative() {
++                    len - 1
++                } else {
++                    len
++                }
++            } else {
++                i
++            }
++        };
++        let start = clamp(self.start);
++        let stop = clamp(self.stop);
++        let step = self.step.unsigned_abs();
++        let slice_len = if self.step.is_negative() {
++            if stop < start {
++                (start - stop - 1) as usize / step + 1
++            } else {
++                0
++            }
++        } else if start < stop {
++            (stop - start - 1) as usize / step + 1
++        } else {
++            0
++        };
++        (start, slice_len)
++    }
++
+     #[must_use]
+     pub fn iter(&self, len: usize) -> SaturatedSliceIter {
+         SaturatedSliceIter::new(self, len)
+diff --git a/crates/vm/src/stdlib/_ctypes/array.rs b/crates/vm/src/stdlib/_ctypes/array.rs
+index c65f9748c..d4674f33b 100644
+--- a/crates/vm/src/stdlib/_ctypes/array.rs
++++ b/crates/vm/src/stdlib/_ctypes/array.rs
+@@ -1061,6 +1061,7 @@ impl AsBuffer for PyCArray {
+             dim_desc.reverse();
+ 
+             BufferDescriptor {
++                offset: 0,
+                 len: buffer_len,
+                 readonly: false,
+                 itemsize,
+diff --git a/crates/vm/src/stdlib/_ctypes/base.rs b/crates/vm/src/stdlib/_ctypes/base.rs
+index e86fdbc7a..6067fc61b 100644
+--- a/crates/vm/src/stdlib/_ctypes/base.rs
++++ b/crates/vm/src/stdlib/_ctypes/base.rs
+@@ -624,7 +624,9 @@ impl PyCData {
+ 
+         // Get buffer pointer - the memory is owned by source
+         let ptr = {
+-            let bytes = buffer.obj_bytes();
++            // Contiguity is checked above, so this is the view's own bytes rather
++            // than the whole exporter's.
++            let bytes = unsafe { buffer.contiguous_unchecked() };
+             bytes.as_ptr().wrapping_add(offset)
+         };
+ 
+diff --git a/crates/vm/src/stdlib/_ctypes/function.rs b/crates/vm/src/stdlib/_ctypes/function.rs
+index 90b41a4e6..afbe0ae76 100644
+--- a/crates/vm/src/stdlib/_ctypes/function.rs
++++ b/crates/vm/src/stdlib/_ctypes/function.rs
+@@ -1655,6 +1655,7 @@ impl AsBuffer for PyCFuncPtr {
+             (Cow::Borrowed(pointer_format()), pointer_size())
+         };
+         let desc = BufferDescriptor {
++            offset: 0,
+             len: itemsize,
+             readonly: false,
+             itemsize,
+diff --git a/crates/vm/src/stdlib/_ctypes/pointer.rs b/crates/vm/src/stdlib/_ctypes/pointer.rs
+index a401fde6f..bcc39fd57 100644
+--- a/crates/vm/src/stdlib/_ctypes/pointer.rs
++++ b/crates/vm/src/stdlib/_ctypes/pointer.rs
+@@ -712,7 +712,8 @@ impl PyCPointer {
+             }
+ 
+             // Try bytes
+-            if let Ok(bytes) = value.try_bytes_like(vm, |b| b.to_vec()) {
++            if value.check_buffer() {
++                let bytes = value.try_bytes_like(vm, |b| b.to_vec())?;
+                 rustpython_host_env::ctypes::write_value_to_address(
+                     addr,
+                     size,
+@@ -776,6 +777,7 @@ impl AsBuffer for PyCPointer {
+         let itemsize = stg_info.size;
+         // Pointer types are scalars with ndim=0, shape=()
+         let desc = BufferDescriptor {
++            offset: 0,
+             len: itemsize,
+             readonly: false,
+             itemsize,
+diff --git a/crates/vm/src/stdlib/_ctypes/simple.rs b/crates/vm/src/stdlib/_ctypes/simple.rs
+index 5577fb8d2..9699cef98 100644
+--- a/crates/vm/src/stdlib/_ctypes/simple.rs
++++ b/crates/vm/src/stdlib/_ctypes/simple.rs
+@@ -1283,6 +1283,7 @@ impl AsBuffer for PyCSimple {
+         let itemsize = stg_info.size;
+         // Simple types are scalars with ndim=0, shape=()
+         let desc = BufferDescriptor {
++            offset: 0,
+             len: itemsize,
+             readonly: false,
+             itemsize,
+diff --git a/crates/vm/src/stdlib/_ctypes/structure.rs b/crates/vm/src/stdlib/_ctypes/structure.rs
+index 1632d745d..12ddf8b5d 100644
+--- a/crates/vm/src/stdlib/_ctypes/structure.rs
++++ b/crates/vm/src/stdlib/_ctypes/structure.rs
+@@ -822,6 +822,7 @@ impl AsBuffer for PyCStructure {
+         let buf = PyBuffer::new(
+             zelf.to_owned().into(),
+             BufferDescriptor {
++                offset: 0,
+                 len: buffer_len,
+                 readonly: false,
+                 itemsize: buffer_len,
+diff --git a/crates/vm/src/stdlib/_ctypes/union.rs b/crates/vm/src/stdlib/_ctypes/union.rs
+index 8fe2e8348..326e1fbd7 100644
+--- a/crates/vm/src/stdlib/_ctypes/union.rs
++++ b/crates/vm/src/stdlib/_ctypes/union.rs
+@@ -685,6 +685,7 @@ impl AsBuffer for PyCUnion {
+         let buf = PyBuffer::new(
+             zelf.to_owned().into(),
+             BufferDescriptor {
++                offset: 0,
+                 len: buffer_len,
+                 readonly: false,
+                 itemsize: buffer_len,
+diff --git a/crates/vm/src/stdlib/_imp.rs b/crates/vm/src/stdlib/_imp.rs
+index 50f0b0be8..838012a1d 100644
+--- a/crates/vm/src/stdlib/_imp.rs
++++ b/crates/vm/src/stdlib/_imp.rs
+@@ -178,7 +178,6 @@ mod _imp {
+     use crate::{
+         PyObjectRef, PyPayload, PyRef, PyResult, VirtualMachine,
+         builtins::{PyBytesRef, PyCode, PyMemoryView, PyModule, PyStrRef, PyUtf8StrRef},
+-        convert::TryFromBorrowedObject,
+         function::OptionalArg,
+         import, version,
+     };
+@@ -270,8 +269,14 @@ mod _imp {
+                     name.clone().into_wtf8(),
+                 )
+             };
+-            // A non-buffer is a TypeError, not invalid frozen data.
+-            crate::protocol::PyBuffer::try_from_borrowed_object(vm, &data)?;
++            // A non-buffer is a TypeError, not invalid frozen data. The request
++            // is the one marshal.loads() makes, so that what passes here is
++            // exactly what it accepts.
++            crate::protocol::PyBuffer::from_object(
++                vm,
++                &data,
++                crate::protocol::BufferFlags::SIMPLE,
++            )?;
+             // The data is a marshalled code object: a whole marshal value, which
+             // deserialize_code() does not read — it takes the code body alone,
+             // without the type byte the writer puts in front of it.
+diff --git a/crates/vm/src/stdlib/_io.rs b/crates/vm/src/stdlib/_io.rs
+index 80085a822..f32fce314 100644
+--- a/crates/vm/src/stdlib/_io.rs
++++ b/crates/vm/src/stdlib/_io.rs
+@@ -135,8 +135,8 @@ mod _io {
+         convert::ToPyObject,
+         exceptions::nul_char_error,
+         function::{
+-            ArgBytesLike, ArgIterable, ArgMemoryBuffer, ArgSize, Either, FsPath, FuncArgs,
+-            IntoFuncArgs, OptionalArg, OptionalOption, PySetterValue,
++            ArgBytesLike, ArgContiguousBytesLike, ArgIterable, ArgMemoryBuffer, ArgSize, Either,
++            FsPath, FuncArgs, IntoFuncArgs, OptionalArg, OptionalOption, PySetterValue,
+         },
+         protocol::{
+             BufferDescriptor, BufferMethods, BufferResizeGuard, PyBuffer, PyIterReturn, VecBuffer,
+@@ -4785,8 +4785,12 @@ mod _io {
+         }
+ 
+         #[pymethod]
+-        fn write(&self, data: ArgBytesLike, vm: &VirtualMachine) -> PyResult<u64> {
++        fn write(&self, data: ArgContiguousBytesLike, vm: &VirtualMachine) -> PyResult<u64> {
+             let mut buffer = self.try_resizable(vm)?;
++            // Acquiring the buffer can run `__buffer__`, which may have closed us.
++            if self.closed.load() {
++                return Err(io_closed_error(vm));
++            }
+             data.with_ref(|b| buffer.write(b))
+                 .ok_or_else(|| vm.new_type_error("Error Writing Bytes"))
+         }
+diff --git a/crates/vm/src/stdlib/_sre.rs b/crates/vm/src/stdlib/_sre.rs
+index 168363103..a9f98ca70 100644
+--- a/crates/vm/src/stdlib/_sre.rs
++++ b/crates/vm/src/stdlib/_sre.rs
+@@ -3,8 +3,8 @@ pub(crate) use _sre::module_def;
+ #[pymodule]
+ mod _sre {
+     use crate::{
+-        Py, PyObject, PyObjectRef, PyPayload, PyRef, PyResult, TryFromBorrowedObject,
+-        TryFromObject, VirtualMachine, atomic_func,
++        Py, PyObject, PyObjectRef, PyPayload, PyRef, PyResult, TryFromObject, VirtualMachine,
++        atomic_func,
+         builtins::{
+             PyCallableIterator, PyDictRef, PyGenericAlias, PyInt, PyList, PyListRef, PyStr,
+             PyStrRef, PyTuple, PyTupleRef, PyTypeRef,
+@@ -13,7 +13,7 @@ mod _sre {
+         common::{ascii, hash::PyHash},
+         convert::ToPyObject,
+         function::{ArgCallable, OptionalArg, PosArgs, PyComparisonValue},
+-        protocol::{PyBuffer, PyCallable, PyMappingMethods},
++        protocol::{BufferFlags, PyBuffer, PyCallable, PyMappingMethods},
+         stdlib::sys,
+         types::{AsMapping, Comparable, Hashable, Representable},
+     };
+@@ -386,7 +386,7 @@ mod _sre {
+         where
+             F: FnOnce(&[u8]) -> PyResult<R>,
+         {
+-            PyBuffer::try_from_borrowed_object(vm, string)?.contiguous_or_collect(f)
++            PyBuffer::from_object(vm, string, BufferFlags::SIMPLE)?.contiguous_or_collect(f)
+         }
+ 
+         #[pymethod(name = "match")]
+diff --git a/crates/vm/src/stdlib/builtins.rs b/crates/vm/src/stdlib/builtins.rs
+index 95feea656..19e33110a 100644
+--- a/crates/vm/src/stdlib/builtins.rs
++++ b/crates/vm/src/stdlib/builtins.rs
+@@ -21,9 +21,9 @@ mod builtins {
+         bytecode,
+         common::hash::PyHash,
+         function::{
+-            ArgBytesLike, ArgCallable, ArgIndex, ArgIntoBool, ArgIterable, ArgMapping,
+-            ArgPrimitiveIndex, ArgStrOrBytesLike, Either, FsPath, FuncArgs, KwArgs, OptionalArg,
+-            OptionalOption, PosArgs,
++            ArgCallable, ArgIndex, ArgIntoBool, ArgIterable, ArgMapping, ArgPrimitiveIndex,
++            ArgStrOrBytesLike, Either, FsPath, FuncArgs, KwArgs, OptionalArg, OptionalOption,
++            PosArgs,
+         },
+         protocol::{PyIter, PyIterReturn},
+         py_io,
+@@ -997,18 +997,10 @@ mod builtins {
+     }
+ 
+     #[pyfunction]
+-    fn ord(string: Either<ArgBytesLike, PyStrRef>, vm: &VirtualMachine) -> PyResult<u32> {
+-        match string {
+-            Either::A(bytes) => bytes.with_ref(|bytes| {
+-                let bytes_len = bytes.len();
+-                if bytes_len != 1 {
+-                    return Err(vm.new_type_error(format!(
+-                        "ord() expected a character, but string of length {bytes_len} found"
+-                    )));
+-                }
+-                Ok(u32::from(bytes[0]))
+-            }),
+-            Either::B(string) => match string.as_wtf8().code_points().exactly_one() {
++    // builtin_ord
++    fn ord(c: PyObjectRef, vm: &VirtualMachine) -> PyResult<u32> {
++        let bytes = if let Some(string) = c.downcast_ref::<PyStr>() {
++            return match string.as_wtf8().code_points().exactly_one() {
+                 Ok(character) => Ok(character.to_u32()),
+                 Err(_) => {
+                     let string_len = string.char_len();
+@@ -1016,8 +1008,24 @@ mod builtins {
+                         "ord() expected a character, but string of length {string_len} found"
+                     )))
+                 }
+-            },
++            };
++        } else if let Some(bytes) = c.downcast_ref::<PyBytes>() {
++            bytes.as_bytes().to_vec()
++        } else if let Some(bytearray) = c.downcast_ref::<PyByteArray>() {
++            bytearray.borrow_buf().to_vec()
++        } else {
++            return Err(vm.new_type_error(format!(
++                "ord() expected string of length 1, but {} found",
++                c.class().name()
++            )));
++        };
++        let bytes_len = bytes.len();
++        if bytes_len != 1 {
++            return Err(vm.new_type_error(format!(
++                "ord() expected a character, but string of length {bytes_len} found"
++            )));
+         }
++        Ok(u32::from(bytes[0]))
+     }
+ 
+     #[derive(FromArgs)]
+diff --git a/crates/vm/src/stdlib/marshal.rs b/crates/vm/src/stdlib/marshal.rs
+index 38891200b..ca92b444a 100644
+--- a/crates/vm/src/stdlib/marshal.rs
++++ b/crates/vm/src/stdlib/marshal.rs
+@@ -16,7 +16,6 @@ mod decl {
+         convert::ToPyObject,
+         function::{ArgBytesLike, OptionalArg},
+         object::{AsObject, PyPayload},
+-        protocol::PyBuffer,
+     };
+     use core::cell::RefCell;
+     use malachite_bigint::BigInt;
+@@ -651,20 +650,16 @@ mod decl {
+     #[derive(FromArgs)]
+     struct LoadsArgs {
+         #[pyarg(any)]
+-        data: PyBuffer,
++        // marshal_loads_impl takes `bytes: Py_buffer`, a y* argument.
++        data: ArgBytesLike,
+         #[pyarg(named, default = true)]
+         allow_code: bool,
+     }
+ 
+     #[pyfunction]
+     fn loads(args: LoadsArgs, vm: &VirtualMachine) -> PyResult<PyObjectRef> {
+-        let LoadsArgs {
+-            data: pybuffer,
+-            allow_code,
+-        } = args;
+-        let buf = pybuffer.as_contiguous().ok_or_else(|| {
+-            vm.new_buffer_error("Buffer provided to marshal.loads() is not contiguous")
+-        })?;
++        let LoadsArgs { data, allow_code } = args;
++        let buf = data.borrow_buf();
+ 
+         let result = deserialize_value(&mut &buf[..], vm)?;
+         if !allow_code {
+diff --git a/crates/vm/src/stdlib/winsound.rs b/crates/vm/src/stdlib/winsound.rs
+index 95032ad89..091a3f801 100644
+--- a/crates/vm/src/stdlib/winsound.rs
++++ b/crates/vm/src/stdlib/winsound.rs
+@@ -6,10 +6,10 @@ pub(crate) use winsound::module_def;
+ #[pymodule]
+ mod winsound {
+     use crate::builtins::{PyBaseExceptionRef, PyBytes, PyStr};
+-    use crate::convert::{IntoPyException, ToPyException, TryFromBorrowedObject};
++    use crate::convert::{IntoPyException, ToPyException};
+     use crate::exceptions;
+     use crate::host_env::windows::ToWideString;
+-    use crate::protocol::PyBuffer;
++    use crate::protocol::{BufferFlags, PyBuffer};
+     use crate::{AsObject, PyObjectRef, PyResult, VirtualMachine};
+     use rustpython_host_env::winsound::{PlaySoundError, PlaySoundSource, play_sound};
+ 
+@@ -90,7 +90,7 @@ mod winsound {
+         }
+ 
+         if flags & SND_MEMORY != 0 {
+-            let buffer = PyBuffer::try_from_borrowed_object(vm, &sound)?;
++            let buffer = PyBuffer::from_object(vm, &sound, BufferFlags::SIMPLE)?;
+             let buf = buffer
+                 .as_contiguous()
+                 .ok_or_else(|| vm.new_type_error("a bytes-like object is required, not 'str'"))?;
+diff --git a/crates/vm/src/types/slot.rs b/crates/vm/src/types/slot.rs
+index c039e6b5b..fc9d1b048 100644
+--- a/crates/vm/src/types/slot.rs
++++ b/crates/vm/src/types/slot.rs
+@@ -9,7 +9,7 @@ use crate::{
+     convert::ToPyObject,
+     function::{Either, FromArgs, FuncArgs, PyComparisonValue, PyMethodDef, PySetterValue},
+     protocol::{
+-        PyBuffer, PyIterReturn, PyMapping, PyMappingMethods, PyMappingSlots, PyNumber,
++        BufferFlags, PyBuffer, PyIterReturn, PyMapping, PyMappingMethods, PyMappingSlots, PyNumber,
+         PyNumberMethods, PyNumberSlots, PySequence, PySequenceMethods, PySequenceSlots,
+     },
+     types::slot_defs::{SlotAccessor, find_slot_defs_by_name},
+@@ -149,7 +149,12 @@ pub struct PyTypeSlots {
+     pub setattro: AtomicCell<Option<SetattroFunc>>,
+ 
+     // Functions to access object as input/output buffer
+-    pub as_buffer: Option<AsBufferFunc>,
++    pub as_buffer: AtomicCell<Option<AsBufferFunc>>,
++    /// bf_releasebuffer: releasing an export of this type is observable, so the
++    /// type exposes `__release_buffer__`.
++    pub has_release_buffer: AtomicCell<bool>,
++    /// True when a Python-level `__release_buffer__` must be invoked on release.
++    pub python_release_buffer: AtomicCell<bool>,
+ 
+     // Assigned meaning in release 2.1
+     // rich comparisons
+@@ -296,7 +301,8 @@ pub(crate) type StringifyFunc = fn(&PyObject, &VirtualMachine) -> PyResult<PyRef
+ pub(crate) type GetattroFunc = fn(&PyObject, &Py<PyStr>, &VirtualMachine) -> PyResult;
+ pub(crate) type SetattroFunc =
+     fn(&PyObject, &Py<PyStr>, PySetterValue, &VirtualMachine) -> PyResult<()>;
+-pub(crate) type AsBufferFunc = fn(&PyObject, &VirtualMachine) -> PyResult<PyBuffer>;
++/// bf_getbuffer
++pub(crate) type AsBufferFunc = fn(&PyObject, BufferFlags, &VirtualMachine) -> PyResult<PyBuffer>;
+ pub(crate) type RichCompareFunc = fn(
+     &PyObject,
+     &PyObject,
+@@ -329,6 +335,15 @@ pub(crate) type MapSubscriptFunc = fn(PyMapping<'_>, &PyObject, &VirtualMachine)
+ pub(crate) type MapAssSubscriptFunc =
+     fn(PyMapping<'_>, &PyObject, Option<PyObjectRef>, &VirtualMachine) -> PyResult<()>;
+ 
++// slot_bf_getbuffer
++pub(crate) fn python_as_buffer(
++    obj: &PyObject,
++    flags: BufferFlags,
++    vm: &VirtualMachine,
++) -> PyResult<PyBuffer> {
++    crate::builtins::memory::buffer_from_python_getbuffer(obj, flags, vm)
++}
++
+ // slot_sq_length
+ pub(crate) fn len_wrapper(obj: &PyObject, vm: &VirtualMachine) -> PyResult<usize> {
+     let ret = vm.call_special_method(obj, identifier!(vm, __len__), ())?;
+@@ -1579,6 +1594,58 @@ impl PyType {
+                 }
+             }
+ 
++            // === Buffer protocol ===
++            SlotAccessor::BfGetBuffer => {
++                if ADD {
++                    match self.lookup_slot_in_mro(name, ctx, |sf| {
++                        if let SlotFunc::GetBuffer(f) = sf {
++                            Some(*f)
++                        } else {
++                            None
++                        }
++                    }) {
++                        SlotLookupResult::NativeSlot(func) => {
++                            self.slots.as_buffer.store(Some(func));
++                        }
++                        SlotLookupResult::PythonMethod => {
++                            self.slots.as_buffer.store(Some(python_as_buffer));
++                        }
++                        SlotLookupResult::NotFound => {
++                            accessor.inherit_from_mro(self);
++                        }
++                    }
++                } else {
++                    accessor.inherit_from_mro(self);
++                }
++            }
++            SlotAccessor::BfReleaseBuffer => {
++                // Which of the two implementations `__release_buffer__` resolves to
++                // decides whether buffer release has to call back into Python.
++                if ADD {
++                    match self.lookup_slot_in_mro(name, ctx, |sf| {
++                        if matches!(sf, SlotFunc::ReleaseBuffer) {
++                            Some(())
++                        } else {
++                            None
++                        }
++                    }) {
++                        SlotLookupResult::NativeSlot(()) => {
++                            self.slots.python_release_buffer.store(false);
++                            self.slots.has_release_buffer.store(true);
++                        }
++                        SlotLookupResult::PythonMethod => {
++                            self.slots.python_release_buffer.store(true);
++                            self.slots.has_release_buffer.store(true);
++                        }
++                        SlotLookupResult::NotFound => {
++                            accessor.inherit_from_mro(self);
++                        }
++                    }
++                } else {
++                    accessor.inherit_from_mro(self);
++                }
++            }
++
+             // Reserved slots - no-op
+             _ => {}
+         }
+@@ -2070,14 +2137,29 @@ pub trait SetAttr: PyPayload {
+ 
+ #[pyclass]
+ pub trait AsBuffer: PyPayload {
+-    // TODO: `flags` parameter
++    /// bf_releasebuffer: set when releasing an export of this type is observable,
++    /// i.e. the exporter counts exports. Such types expose `__release_buffer__`.
++    const RELEASE_BUFFER: bool = false;
++
+     #[inline]
+     #[pyslot]
+-    fn slot_as_buffer(zelf: &PyObject, vm: &VirtualMachine) -> PyResult<PyBuffer> {
++    fn slot_as_buffer(
++        zelf: &PyObject,
++        flags: BufferFlags,
++        vm: &VirtualMachine,
++    ) -> PyResult<PyBuffer> {
+         let zelf = zelf
+             .downcast_ref()
+             .ok_or_else(|| vm.new_type_error("unexpected payload for as_buffer"))?;
+-        Self::as_buffer(zelf, vm)
++        let buffer = Self::as_buffer(zelf, vm)?;
++        if let Err(exc) = flags.check_writable(buffer.desc.readonly, "Object is not writable.", vm)
++        {
++            // An acquisition that cannot be served never happened, so the
++            // exporter's release is undone without running the Python hook.
++            buffer.abort_acquisition();
++            return Err(exc);
++        }
++        Ok(buffer)
+     }
+ 
+     fn as_buffer(zelf: &Py<Self>, vm: &VirtualMachine) -> PyResult<PyBuffer>;
+diff --git a/crates/vm/src/types/slot_defs.rs b/crates/vm/src/types/slot_defs.rs
+index 69c7bb610..300ee3199 100644
+--- a/crates/vm/src/types/slot_defs.rs
++++ b/crates/vm/src/types/slot_defs.rs
+@@ -71,7 +71,7 @@ pub struct SlotDef {
+ #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+ #[repr(u8)]
+ pub enum SlotAccessor {
+-    // Buffer protocol (1-2) - Reserved, not used in RustPython
++    // Buffer protocol (1-2)
+     BfGetBuffer = 1,
+     BfReleaseBuffer = 2,
+ 
+@@ -173,9 +173,7 @@ impl SlotAccessor {
+     pub fn is_reserved(&self) -> bool {
+         matches!(
+             self,
+-            Self::BfGetBuffer
+-                | Self::BfReleaseBuffer
+-                | Self::TpAlloc
++            Self::TpAlloc
+                 | Self::TpBase
+                 | Self::TpBases
+                 | Self::TpClear
+@@ -411,6 +409,10 @@ impl SlotAccessor {
+                 )
+             }
+ 
++            // Buffer protocol
++            Self::BfGetBuffer => matches!(slot_func, SlotFunc::GetBuffer(_)),
++            Self::BfReleaseBuffer => matches!(slot_func, SlotFunc::ReleaseBuffer),
++
+             // New and reserved slots
+             Self::TpNew => false,
+             _ => false, // Reserved slots
+@@ -539,6 +541,18 @@ impl SlotAccessor {
+             Self::MpSubscript => inherit_mapping!(subscript),
+             Self::MpAssSubscript => inherit_mapping!(ass_subscript),
+ 
++            // Buffer protocol
++            Self::BfGetBuffer => {
++                let inherited = mro.iter().find_map(|cls| cls.slots.as_buffer.load());
++                typ.slots.as_buffer.store(inherited);
++            }
++            Self::BfReleaseBuffer => {
++                let has_release = mro.iter().any(|cls| cls.slots.has_release_buffer.load());
++                typ.slots.has_release_buffer.store(has_release);
++                let py_release = mro.iter().any(|cls| cls.slots.python_release_buffer.load());
++                typ.slots.python_release_buffer.store(py_release);
++            }
++
+             // Reserved slots - no-op
+             _ => {}
+         }
+@@ -677,6 +691,25 @@ impl SlotAccessor {
+             Self::MpSubscript => copy_mapping!(subscript),
+             Self::MpAssSubscript => copy_mapping!(ass_subscript),
+ 
++            // Buffer protocol
++            Self::BfGetBuffer => {
++                if typ.slots.as_buffer.load().is_none()
++                    && let Some(base_val) = base.slots.as_buffer.load()
++                {
++                    typ.slots.as_buffer.store(Some(base_val));
++                }
++            }
++            Self::BfReleaseBuffer => {
++                if !typ.slots.has_release_buffer.load() && base.slots.has_release_buffer.load() {
++                    typ.slots.has_release_buffer.store(true);
++                }
++                if !typ.slots.python_release_buffer.load()
++                    && base.slots.python_release_buffer.load()
++                {
++                    typ.slots.python_release_buffer.store(true);
++                }
++            }
++
+             // Reserved slots - no-op
+             _ => {}
+         }
+@@ -816,6 +849,16 @@ impl SlotAccessor {
+                 .load()
+                 .map(SlotFunc::MapSetSubscript),
+ 
++            // Buffer protocol
++            Self::BfGetBuffer => slots.as_buffer.load().map(SlotFunc::GetBuffer),
++            Self::BfReleaseBuffer => {
++                if slots.has_release_buffer.load() || slots.python_release_buffer.load() {
++                    Some(SlotFunc::ReleaseBuffer)
++                } else {
++                    None
++                }
++            }
++
+             // Reserved slots
+             _ => None,
+         }
+@@ -973,6 +1016,19 @@ pub const SLOT_DEFS_COUNT: usize = SLOT_DEFS.len();
+ 
+ /// All slot definitions
+ pub static SLOT_DEFS: &[SlotDef] = &[
++    // Buffer protocol (bf_*)
++    SlotDef {
++        name: "__buffer__",
++        accessor: SlotAccessor::BfGetBuffer,
++        op: None,
++        doc: "Return a buffer object that exposes the underlying memory of the object.",
++    },
++    SlotDef {
++        name: "__release_buffer__",
++        accessor: SlotAccessor::BfReleaseBuffer,
++        op: None,
++        doc: "Release the buffer object that exposes the underlying memory of the object.",
++    },
+     // Type slots (tp_*)
+     SlotDef {
+         name: "__init__",
+diff --git a/crates/vm/src/vm/context.rs b/crates/vm/src/vm/context.rs
+index 71d017c6d..5deaffb3f 100644
+--- a/crates/vm/src/vm/context.rs
++++ b/crates/vm/src/vm/context.rs
+@@ -103,6 +103,7 @@ declare_const_name! {
+     __await__,
+     __bases__,
+     __bool__,
++    __buffer__,
+     __build_class__,
+     __builtins__,
+     __bytes__,
+@@ -205,6 +206,7 @@ declare_const_name! {
+     __rdivmod__,
+     __reduce__,
+     __reduce_ex__,
++    __release_buffer__,
+     __repr__,
+     __reversed__,
+     __rfloordiv__,
+diff --git a/extra_tests/snippets/builtin_memoryview.py b/extra_tests/snippets/builtin_memoryview.py
+index f206056eb..8a3a194d9 100644
+--- a/extra_tests/snippets/builtin_memoryview.py
++++ b/extra_tests/snippets/builtin_memoryview.py
+@@ -90,3 +90,427 @@ def test_delitem():
+ 
+ 
+ test_delitem()
++
++
++def test_empty_view_offset():
++    # An empty view keeps the offset slicing left it, which can sit outside the
++    # exporter, and reaches no byte through it.
++    ba = bytearray(range(17))
++    assert bytes(memoryview(ba)[::-9][-30::-9]) == b""
++    assert bytes(memoryview(ba)[-30::-1]) == b""
++    v = memoryview(ba)[::-9][-30::-9]
++    assert v.shape == (0,)
++    assert v.strides == (81,)
++    assert v.suboffsets == ()
++    b24 = bytearray(range(24))
++    assert bytes(memoryview(b24).cast("B", [4, 6])[-30::-1]) == b""
++
++
++test_empty_view_offset()
++
++
++def test_exported_suboffsets():
++    mv = memoryview(bytearray(b"abcdef"))[::-1]
++    exported = mv.__buffer__(284)
++    assert exported.suboffsets == ()
++    assert bytes(exported) == b"fedcba"
++    assert (
++        bytes(memoryview(memoryview(bytearray(b"abcdefg"))[::2].__buffer__(284)))
++        == b"aceg"
++    )
++
++
++test_exported_suboffsets()
++
++
++def test_setitem_slice_strided_source():
++    src = bytearray(b"abcdef")
++    dst = bytearray(b"......")
++    memoryview(dst)[:] = memoryview(src)[::-1]
++    assert bytes(dst) == b"fedcba"
++    dst = bytearray(b"...")
++    memoryview(dst)[:] = memoryview(src)[::2]
++    assert bytes(dst) == b"ace"
++
++
++test_setitem_slice_strided_source()
++
++
++def test_zero_dim_position():
++    z = memoryview(bytearray(range(8)))[4:5].cast("B", [])
++    assert z[()] == 4
++    assert z.tolist() == 4
++    w = bytearray(range(8))
++    memoryview(w)[4:5].cast("B", [])[()] = 99
++    assert w[4] == 99
++    assert w[0] == 0
++
++
++test_zero_dim_position()
++
++
++def test_cast_zero_dim_size():
++    assert_raises(TypeError, lambda: memoryview(bytearray(range(8))).cast("B", []))
++    assert memoryview(bytearray(b"a")).cast("B", []).nbytes == 1
++
++
++test_cast_zero_dim_size()
++
++
++def test_hash_format():
++    assert_raises(ValueError, lambda: hash(memoryview(b"abcd").cast("I")))
++    hash(memoryview(b"abcd").cast("b"))
++    hash(memoryview(b"abcdef")[::2])
++    hash(memoryview(b"a").cast("B", []))
++
++
++test_hash_format()
++
++
++def test_cast_keeps_exports():
++    ba = bytearray(b"abc")
++    mv = memoryview(ba)
++    cast = mv.cast("B")
++    mv.release()
++    assert_raises(BufferError, lambda: ba.clear())
++    cast.release()
++    ba.clear()
++    assert bytes(ba) == b""
++
++
++test_cast_keeps_exports()
++
++
++def test_setitem_converts_before_writing():
++    ba = bytearray(b"abc")
++    mv = memoryview(ba)
++
++    class Idx:
++        def __index__(self):
++            return len(bytes(ba))
++
++    mv[0] = Idx()
++    assert bytes(ba) == b"\x03bc"
++
++
++test_setitem_converts_before_writing()
++
++
++def test_pep688_exporter_aliasing():
++    def exporter(view_factory):
++        class C:
++            def __buffer__(self, flags):
++                return view_factory()
++
++            def __release_buffer__(self, view):
++                pass
++
++        return C()
++
++    ba = bytearray(b"abc")
++    memoryview(ba)[:] = exporter(lambda: memoryview(ba))
++    assert bytes(ba) == b"abc"
++
++    ba = bytearray(b"abcdef")
++    memoryview(ba)[0:3] = exporter(lambda: memoryview(ba)[3:6])
++    assert bytes(ba) == b"defdef"
++
++    ba = bytearray(b"abcdef")
++    memoryview(ba)[3:6] = exporter(lambda: memoryview(ba)[0:3])
++    assert bytes(ba) == b"abcabc"
++
++    ba = bytearray(b"abcdef")
++    memoryview(ba)[:] = exporter(lambda: memoryview(ba)[::-1])
++    assert bytes(ba) == b"fedcba"
++
++    ba = bytearray(b"abcdef")
++    memoryview(ba)[::2] = exporter(lambda: memoryview(ba)[0:3])
++    assert bytes(ba) == b"abbdcf"
++
++    ba = bytearray(b"abcdef")
++    mv = memoryview(exporter(lambda: memoryview(ba)))
++    mv[:] = exporter(lambda: memoryview(ba))
++    assert bytes(ba) == b"abcdef"
++    mv[:] = ba
++    assert bytes(ba) == b"abcdef"
++
++
++test_pep688_exporter_aliasing()
++
++
++def test_release_buffer_waits_for_last_view():
++    class C(bytearray):
++        calls = 0
++
++        def __release_buffer__(self, view):
++            type(self).calls += 1
++            super().__release_buffer__(view)
++
++    c = C(b"abcdef")
++    a = memoryview(c)
++    b = memoryview(a)
++    a.release()
++    assert C.calls == 0
++    assert b.tobytes() == b"abcdef"
++    b.release()
++    assert C.calls == 1
++
++    class D:
++        n = 0
++
++        def __init__(self):
++            self.b = bytearray(b"abcdef")
++
++        def __buffer__(self, flags):
++            return memoryview(self.b)
++
++        def __release_buffer__(self, view):
++            type(self).n += 1
++
++    d = D()
++    m = memoryview(d)
++    m2 = memoryview(m)
++    m3 = m.cast("B")
++    m.release()
++    m2.release()
++    assert D.n == 0
++    m3.release()
++    assert D.n == 1
++
++    # Two acquisitions are two exports, each released on its own.
++    D.n = 0
++    d = D()
++    a1 = memoryview(d)
++    a2 = memoryview(d)
++    a1.release()
++    assert D.n == 1
++    a2.release()
++    assert D.n == 2
++
++
++test_release_buffer_waits_for_last_view()
++
++
++def test_failed_request_does_not_release():
++    import inspect
++    import mmap
++
++    class M(mmap.mmap):
++        calls = 0
++
++        def __release_buffer__(self, view):
++            type(self).calls += 1
++            super().__release_buffer__(view)
++
++    m = M(-1, 10, access=mmap.ACCESS_READ)
++    assert_raises(BufferError, lambda: m.__buffer__(inspect.BufferFlags.WRITABLE))
++    assert M.calls == 0
++
++
++test_failed_request_does_not_release()
++
++
++def test_request_shapes_exported_descriptor():
++    import array
++
++    a = array.array("I", [1, 2, 3])
++    assert a.__buffer__(0).format == "B"
++    assert a.__buffer__(28).format == "I"
++
++    m = memoryview(a)
++    b = m.__buffer__(0)
++    assert (b.format, b.itemsize, b.ndim, b.shape, b.strides) == ("B", 4, 1, (3,), (4,))
++    assert m.__buffer__(28).format == "I"
++
++    b = a.__buffer__(0)
++    assert b[0] == 1
++    assert b.tolist() == [1, 2, 3]
++    assert len(b.tobytes()) == 12
++    b[0] = 9
++    assert a[0] == 9
++
++    n = memoryview(bytearray(b"abcdef" * 4)).cast("I", (2, 3))
++    assert n.__buffer__(0).ndim == 1
++    assert n.__buffer__(0).shape == (6,)
++    assert n.__buffer__(8).ndim == 2
++    assert n.__buffer__(8).format == "B"
++
++
++test_request_shapes_exported_descriptor()
++
++
++def test_release_during_index_conversion():
++    # CHECK_RELEASED_AGAIN: the conversion that produces the value, and the one
++    # that produced the index, both run Python that can release the view.
++    ba = bytearray(b"abcdefgh")
++    mv = memoryview(ba)
++
++    class Writer:
++        def __index__(self):
++            mv.release()
++            ba.clear()
++            return 7
++
++    try:
++        mv[7] = Writer()
++        raise AssertionError("write into a released view")
++    except ValueError as e:
++        assert "released memoryview" in str(e), e
++
++    ba = bytearray(b"abcdefgh")
++    mv = memoryview(ba)
++
++    class Reader:
++        def __index__(self):
++            mv.release()
++            ba.clear()
++            return 7
++
++    try:
++        mv[Reader()]
++        raise AssertionError("read from a released view")
++    except ValueError as e:
++        assert "released memoryview" in str(e), e
++
++    # A release that does not resize still forbids the write.
++    ba = bytearray(b"abcd")
++    mv = memoryview(ba)
++
++    class Quiet:
++        def __index__(self):
++            mv.release()
++            return 65
++
++    try:
++        mv[0] = Quiet()
++        raise AssertionError("write into a released view")
++    except ValueError as e:
++        assert "released memoryview" in str(e), e
++    assert bytes(ba) == b"abcd"
++
++
++test_release_during_index_conversion()
++
++
++def test_cast_rejects_non_native_format():
++    # get_native_fmtchar
++    for fmt in ["", "ii", "<i", "z"]:
++        try:
++            memoryview(b"").cast(fmt)
++            raise AssertionError(f"cast accepted {fmt!r}")
++        except ValueError as e:
++            assert "native single character format" in str(e), e
++    assert memoryview(bytes(8)).cast("@i").itemsize == 4
++
++
++test_cast_rejects_non_native_format()
++
++
++def test_release_buffer_called_twice():
++    # wrap_releasebuffer
++    ba = bytearray(b"abc")
++    mv = memoryview(ba)
++    assert ba.__release_buffer__(mv) is None
++    try:
++        ba.__release_buffer__(mv)
++        raise AssertionError("second release accepted")
++    except ValueError as e:
++        assert "already been released" in str(e), e
++
++    mv = memoryview(bytearray(b"abc"))
++    try:
++        bytearray(b"abc").__release_buffer__(mv)
++        raise AssertionError("release by a foreign object accepted")
++    except ValueError as e:
++        assert "not this object" in str(e), e
++
++
++test_release_buffer_called_twice()
++
++
++def test_restricted_view_compares():
++    # memory_richcompare reads another view where it lies rather than acquiring
++    # it, so the restricted view handed to __release_buffer__ still compares.
++    seen = []
++
++    class K(bytearray):
++        def __release_buffer__(self, view):
++            seen.append(memoryview(b"hello") == view)
++            seen.append(view == memoryview(b"hello"))
++
++    memoryview(K(b"hello")).release()
++    assert seen == [True, True], seen
++
++
++test_restricted_view_compares()
++
++
++def test_release_during_slice_assignment():
++    # copy_single: acquiring the source runs __buffer__, which can release the
++    # destination view.
++    ba = bytearray(b"abcd")
++    mv = memoryview(ba)
++
++    class Src:
++        def __buffer__(self, flags):
++            mv.release()
++            return memoryview(b"WXYZ")
++
++    try:
++        mv[:] = Src()
++        raise AssertionError("wrote through a released view")
++    except ValueError as e:
++        assert "released memoryview" in str(e), e
++    assert bytes(ba) == b"abcd"
++
++    # The destination of a slice assignment counts as no export, so the source
++    # may resize the exporter once it has released the view.
++    ba = bytearray(b"abcd")
++    mv = memoryview(ba)
++
++    class Shrink:
++        def __buffer__(self, flags):
++            mv.release()
++            ba.clear()
++            return memoryview(b"WXYZ")
++
++    try:
++        mv[:] = Shrink()
++        raise AssertionError("wrote through a released view")
++    except ValueError as e:
++        assert "released memoryview" in str(e), e
++    assert bytes(ba) == b""
++
++
++test_release_during_slice_assignment()
++
++
++def test_fortran_contiguity():
++    # A view whose dimensions are all but one of length 1 is laid out both in
++    # row-major and in column-major order.
++    mv = memoryview(bytearray(range(8)))
++    for shape in [(1, 8), (8, 1), (1, 1, 8), (8,)]:
++        view = mv.cast("B", shape)
++        assert view.c_contiguous, shape
++        assert view.f_contiguous, shape
++        assert view.contiguous, shape
++    for shape in [(2, 4), (1, 2, 4), (2, 1, 4), (2, 2, 2)]:
++        view = mv.cast("B", shape)
++        assert view.c_contiguous, shape
++        assert not view.f_contiguous, shape
++        assert view.contiguous, shape
++
++    # A view with no elements is laid out both ways whatever its shape.
++    empty = memoryview(b"").cast("B")
++    assert empty.c_contiguous and empty.f_contiguous and empty.contiguous
++
++    scalar = memoryview(b"a").cast("B", ())
++    assert scalar.c_contiguous and scalar.f_contiguous and scalar.contiguous
++
++    strided = memoryview(bytearray(b"abcdefgh"))[::2]
++    assert not strided.c_contiguous
++    assert not strided.f_contiguous
++    assert not strided.contiguous
++
++
++test_fortran_contiguity()

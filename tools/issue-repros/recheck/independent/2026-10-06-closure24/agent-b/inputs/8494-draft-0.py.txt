@@ -1,0 +1,47 @@
+import sys, json
+
+
+def issue8494():
+    # This is the literal original, including creating both wrappers before Missing.
+    def f() -> Missing:
+        pass
+
+    for wrapper in (classmethod(f), staticmethod(f)):
+        Missing = int
+        print(type(wrapper).__name__, wrapper.__annotations__)
+        print("__annotations__" in wrapper.__dict__)
+        wrapper.__annotations__ = {"x": str}
+        print("wrapper:", wrapper.__annotations__)
+        print("wrapped:", f.__annotations__)
+    for decorator in (classmethod, staticmethod):
+
+        def annotated(x: int) -> str:
+            pass
+
+        def unannotated(x):
+            pass
+
+        for function in (annotated, unannotated):
+            wrapper = decorator(function)
+            for name, replacement in [
+                ("__annotations__", {"new": bytes}),
+                ("__annotate__", lambda format: {"new": bytes}),
+            ]:
+                assert name not in wrapper.__dict__
+                original = getattr(function, name)
+                assert getattr(wrapper, name) is original
+                assert wrapper.__dict__[name] is original
+                setattr(wrapper, name, replacement)
+                assert getattr(wrapper, name) is replacement
+                assert getattr(function, name) is original
+                delattr(wrapper, name)
+                assert name not in wrapper.__dict__
+                assert getattr(wrapper, name) is original
+            print(
+                decorator.__name__,
+                function.__name__,
+                "both attributes cache/write/delete isolation passed",
+            )
+
+
+globals()["issue" + sys.argv[1]]()

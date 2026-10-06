@@ -1,0 +1,14 @@
+{
+  "issue": 4786,
+  "url": "https://github.com/RustPython/RustPython/issues/4786",
+  "title": "Type name cannot contain surrogates",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 2,
+  "declared_comments": 2,
+  "original_scope": "Creating type with name A\\udcdcB must reject lone surrogate with UnicodeEncodeError.",
+  "independent_plan": "Preserve escaped surrogate literal, record ord sequence, encoding/start/end/reason/object in expected exception; identical CPython input and uncaught original expression.",
+  "limitations_and_source_corrections": "No platform prerequisite; original REPL transcript includes an extra prompt before output.",
+  "saved_utc": "2026-10-05T16:10:32.567974+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

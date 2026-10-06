@@ -1,0 +1,2 @@
+[{"id": "test.test_json.test_default.TestPyDefault.test_bad_default", "skip": false, "expected_failure": false}, {"id": "test.test_json.test_default.TestCDefault.test_bad_default", "skip": false, "expected_failure": false}]
+{"run": 2, "skips": [], "expected_failures": [], "unexpected_successes": [], "errors": 0, "failures": 0}

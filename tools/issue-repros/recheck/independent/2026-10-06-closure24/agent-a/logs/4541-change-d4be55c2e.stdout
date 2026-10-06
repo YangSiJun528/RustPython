@@ -1,0 +1,130 @@
+commit d4be55c2ea02b67d92c04b3e9f682d465acd59b3
+Author:     Junho Lee <46811505+naonus@users.noreply.github.com>
+AuthorDate: Wed Aug 30 19:32:27 2023 +0900
+Commit:     GitHub <noreply@github.com>
+CommitDate: Wed Aug 30 19:32:27 2023 +0900
+
+    Add command line parameter -P (#4611)
+    
+    * Add command line parameter -P
+    
+    * Modify the value of safe_path to be set
+    
+    ---------
+    
+    Co-authored-by: Jeong YunWon <jeong@youknowone.org>
+
+diff --git a/Lib/test/test_support.py b/Lib/test/test_support.py
+index 8158bee30..6ad272697 100644
+--- a/Lib/test/test_support.py
++++ b/Lib/test/test_support.py
+@@ -513,8 +513,6 @@ def check_options(self, args, func, expected=None):
+         self.assertEqual(proc.stdout.rstrip(), repr(expected))
+         self.assertEqual(proc.returncode, 0)
+ 
+-    # TODO: RUSTPYTHON
+-    @unittest.expectedFailure
+     def test_args_from_interpreter_flags(self):
+         # Test test.support.args_from_interpreter_flags()
+         for opts in (
+diff --git a/extra_tests/snippets/stdlib_sys.py b/extra_tests/snippets/stdlib_sys.py
+index cb92fc641..5d8859ac8 100644
+--- a/extra_tests/snippets/stdlib_sys.py
++++ b/extra_tests/snippets/stdlib_sys.py
+@@ -1,4 +1,6 @@
+ import sys
++import os
++import subprocess
+ 
+ from testutils import assert_raises
+ 
+@@ -105,4 +107,23 @@ def recursive_call(n):
+     sys.set_int_max_str_digits(1)
+ 
+ sys.set_int_max_str_digits(1000)
+-assert sys.get_int_max_str_digits() == 1000
+\ No newline at end of file
++assert sys.get_int_max_str_digits() == 1000
++
++# Test the PYTHONSAFEPATH environment variable
++code = "import sys; print(sys.flags.safe_path)"
++env = dict(os.environ)
++env.pop('PYTHONSAFEPATH', None)
++args = (sys.executable, '-P', '-c', code)
++
++proc = subprocess.run(
++    args, stdout=subprocess.PIPE,
++    universal_newlines=True, env=env)
++assert proc.stdout.rstrip() == 'True', proc
++assert proc.returncode == 0, proc
++
++env['PYTHONSAFEPATH'] = '1'
++proc = subprocess.run(
++    args, stdout=subprocess.PIPE,
++    universal_newlines=True, env=env)
++assert proc.stdout.rstrip() == 'True'
++assert proc.returncode == 0, proc
+diff --git a/src/settings.rs b/src/settings.rs
+index 6a4723335..494d594de 100644
+--- a/src/settings.rs
++++ b/src/settings.rs
+@@ -100,6 +100,11 @@ fn parse_arguments<'a>(app: App<'a, '_>) -> ArgMatches<'a> {
+                 .short("B")
+                 .help("don't write .pyc files on import"),
+         )
++        .arg(
++            Arg::with_name("safe-path")
++                .short("P")
++                .help("don’t prepend a potentially unsafe path to sys.path"),
++        )
+         .arg(
+             Arg::with_name("ignore-environment")
+                 .short("E")
+@@ -237,6 +242,12 @@ fn settings_from(matches: &ArgMatches) -> (Settings, RunMode) {
+         };
+     }
+ 
++    if matches.is_present("safe-path")
++        || (!ignore_environment && env::var_os("PYTHONSAFEPATH").is_some())
++    {
++        settings.safe_path = true;
++    }
++
+     settings.check_hash_based_pycs = matches
+         .value_of("check-hash-based-pycs")
+         .unwrap_or("default")
+diff --git a/vm/src/stdlib/sys.rs b/vm/src/stdlib/sys.rs
+index 3a3824b31..47f9376f1 100644
+--- a/vm/src/stdlib/sys.rs
++++ b/vm/src/stdlib/sys.rs
+@@ -754,7 +754,7 @@ mod sys {
+                 dev_mode: settings.dev_mode,
+                 utf8_mode: settings.utf8_mode,
+                 int_max_str_digits: settings.int_max_str_digits,
+-                safe_path: false,
++                safe_path: settings.safe_path,
+                 warn_default_encoding: settings.warn_default_encoding as u8,
+             }
+         }
+diff --git a/vm/src/vm/setting.rs b/vm/src/vm/setting.rs
+index 508c50da7..c4d1f85b2 100644
+--- a/vm/src/vm/setting.rs
++++ b/vm/src/vm/setting.rs
+@@ -37,6 +37,9 @@ pub struct Settings {
+     /// -B
+     pub dont_write_bytecode: bool,
+ 
++    /// -P
++    pub safe_path: bool,
++
+     /// -b
+     pub bytes_warning: u64,
+ 
+@@ -108,6 +111,7 @@ impl Default for Settings {
+             verbose: 0,
+             quiet: false,
+             dont_write_bytecode: false,
++            safe_path: false,
+             bytes_warning: 0,
+             xopts: vec![],
+             isolated: false,

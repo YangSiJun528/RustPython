@@ -1,0 +1,8 @@
+import types
+for owner,name,args,wanted in [(dict,'fromkeys',(['a'],2),{'a':2}),(int,'from_bytes',(b'\x01',),1),(float,'fromhex',('0x1.8p1',),3.0)]:
+    raw=owner.__dict__[name]
+    assert type(raw) is types.ClassMethodDescriptorType
+    bound=getattr(owner,name)
+    assert type(bound).__name__=='builtin_function_or_method'
+    assert bound(*args)==wanted
+    print(owner.__name__,name,type(raw).__name__,type(bound).__name__,repr(bound(*args)))

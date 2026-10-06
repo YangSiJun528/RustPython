@@ -1,0 +1,6 @@
+[('root', None, [])]
+[('root', None, [('k', 'v')]), ('child', 'text', [])]
+[('{urn:r}root', None, []), ('{urn:r}child', '한글🚀', [('a', 'b')])]
+[('root', 'café', [])]
+expat events [('root', []), ('child', [])]
+malformed accepted a

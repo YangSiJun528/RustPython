@@ -1,0 +1,167 @@
+[
+  {
+    "pair": "4506-draft",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4506-original",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4690-boundaries",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4690-native-additional",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4690-original",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4769-draft",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4769-literal",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4856-compile-corrected",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4856-original",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4907-comment",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4907-draft",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4907-original",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4908-boundaries",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4908-original",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4908-structure",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4937-boundaries",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "4937-original",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5179-draft",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5179-write-resize",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5656-actual-snippet",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5656-literal",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5656-warnings-as-error",
+    "stdout_exact": true,
+    "stderr_exact": false
+  },
+  {
+    "pair": "5656-warnings",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5699-blockers",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5699-uncaught-builtin",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5699-uncaught-group",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5699-uncaught-stdlib",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "5699-uncaught-zero",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "8052-alias",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "8052-draft",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "8052-original",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "8494-draft",
+    "stdout_exact": true,
+    "stderr_exact": true
+  },
+  {
+    "pair": "8494-original",
+    "stdout_exact": true,
+    "stderr_exact": true
+  }
+]

@@ -1,0 +1,4 @@
+import xml.etree.ElementTree as etree
+
+result = etree.XML("<root></root>")
+print(type(result).__name__, result.tag, result.text, len(result))

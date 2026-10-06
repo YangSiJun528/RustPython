@@ -1,0 +1,19 @@
+{
+  "original": "dict.__dict__[\"fromkeys\"] uses classmethod rather than classmethod_descriptor; bound dict.fromkeys already correct.",
+  "minimum": "Raw descriptor type name/repr matches CPython and bound function remains builtin_function_or_method.",
+  "tests": [
+    "Original type expressions.",
+    "Native descriptor binding and dict subclass fromkeys results; compare user-defined classmethod remains classmethod."
+  ],
+  "issue": 4690,
+  "url": "https://github.com/RustPython/RustPython/issues/4690",
+  "title": "classmethod_descriptor",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:18.848810+00:00",
+  "all_comments_read": 2,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "c14fed1a39b4ec53756db04e767776178ae2c11457bb5749f725e09175f386f0",
+    "comments": "f9b6e3b0fb95c8cbce54cb4f88d833e775d8b65e824e07423c0f23d959c92362"
+  }
+}

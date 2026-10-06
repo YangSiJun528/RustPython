@@ -1,0 +1,7 @@
+import sys,os,platform,locale,importlib,json
+print("version",sys.version);print("executable",sys.executable);print("implementation",sys.implementation);print("arch",platform.machine());print("cwd",os.getcwd());print("path",repr(sys.path));print("flags",sys.flags)
+for name in ["collections","xml.etree.ElementTree","dis","modulefinder","locale","sysconfig","test.test_format","test.test_types"]:
+ try:
+  m=importlib.import_module(name);print("MODULE",name,repr(getattr(m,"__file__",None)))
+ except Exception as e:print("IMPORT_ERROR",name,repr(e))
+print("locale",locale.setlocale(locale.LC_ALL));print("LC_ALL",repr(os.environ.get("LC_ALL")))

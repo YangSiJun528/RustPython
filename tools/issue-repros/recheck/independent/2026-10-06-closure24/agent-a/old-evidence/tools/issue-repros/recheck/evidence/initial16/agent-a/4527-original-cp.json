@@ -1,0 +1,29 @@
+{
+  "label": "4527-original-cp",
+  "argv": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<initial16-audit>/agent-a/4527-original.py"
+  ],
+  "cwd": "<workspace>",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "RUSTPYTHONPATH": null
+  },
+  "removed_environment": [
+    "PYTHONPATH",
+    "PYTHONHOME",
+    "PYTHONWARNINGS",
+    "PYTHONSTARTUP"
+  ],
+  "input_path": "<initial16-audit>/agent-a/4527-original.py",
+  "input_sha256": "9855fcf04216ce2fe520ca86d42e7e64bea2071ed4465bc787be88695e90aaac",
+  "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+  "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "started_unix": 1791190884.948562,
+  "duration_seconds": 0.03178119659423828,
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout_file": "4527-original-cp.stdout",
+  "stderr_file": "4527-original-cp.stderr"
+}

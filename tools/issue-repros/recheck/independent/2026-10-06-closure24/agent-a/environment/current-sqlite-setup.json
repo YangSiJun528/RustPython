@@ -1,0 +1,65 @@
+{
+  "updated_at": "2026-10-04T08:32:55.595041+00:00",
+  "baseline_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+  "cases": [
+    {
+      "case_id": "issue-7611-case-150",
+      "plan_item": {
+        "case_id": "issue-7611-case-150",
+        "path": "verification-tools/derived-a/sqlite-setup.py",
+        "derivation": "Setup-only check: normal in-memory SQLite connection/query and imports of original fixture modules. Does not execute uninitialized-object/callback/concurrent test bodies and cannot establish their expected behavior."
+      },
+      "runs": [
+        {
+          "kind": "current",
+          "command": [
+            "<survey>/.build/slot-a/verification/rustpython",
+            "<survey>/verification-tools/derived-a/sqlite-setup.py"
+          ],
+          "cwd": "<workspace>",
+          "env": {
+            "RUSTPYTHONPATH": "<workspace>/Lib",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "exit_code": 0,
+          "timeout": false,
+          "stdout_path": "logs/issue-7611-case-150/current-documented-000.stdout",
+          "stderr_path": "logs/issue-7611-case-150/current-documented-000.stderr",
+          "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+          "binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+          "code_input_path": "verification-tools/derived-a/sqlite-setup.py",
+          "derivation": "Setup-only check: normal in-memory SQLite connection/query and imports of original fixture modules. Does not execute uninitialized-object/callback/concurrent test bodies and cannot establish their expected behavior.",
+          "resource_limits": {
+            "cpu_seconds": 20,
+            "core_bytes": 0
+          }
+        },
+        {
+          "kind": "cpython",
+          "command": [
+            "<home>/.local/bin/python3",
+            "<survey>/verification-tools/derived-a/sqlite-setup.py"
+          ],
+          "cwd": "<workspace>",
+          "env": {
+            "RUSTPYTHONPATH": "<workspace>/Lib",
+            "PYTHONDONTWRITEBYTECODE": "1"
+          },
+          "exit_code": 1,
+          "timeout": false,
+          "stdout_path": "logs/issue-7611-case-150/cpython-documented-000.stdout",
+          "stderr_path": "logs/issue-7611-case-150/cpython-documented-000.stderr",
+          "actual_sha": null,
+          "binary_sha256": null,
+          "code_input_path": "verification-tools/derived-a/sqlite-setup.py",
+          "derivation": "Setup-only check: normal in-memory SQLite connection/query and imports of original fixture modules. Does not execute uninitialized-object/callback/concurrent test bodies and cannot establish their expected behavior.",
+          "resource_limits": {
+            "cpu_seconds": 20,
+            "core_bytes": 0
+          }
+        }
+      ],
+      "cpython_version": "3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]"
+    }
+  ]
+}

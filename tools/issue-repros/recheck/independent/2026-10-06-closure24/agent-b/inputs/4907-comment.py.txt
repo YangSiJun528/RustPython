@@ -1,0 +1,19 @@
+import asyncio
+import time
+
+
+async def lc():
+    [await asyncio.sleep(1) for _ in range(2)]
+    print("lc done")
+
+
+start = time.time()
+
+loop = asyncio.new_event_loop()
+tasks = [
+    loop.create_task(lc()),
+]
+loop.run_until_complete(asyncio.wait(tasks))
+loop.close()
+
+end = time.time()

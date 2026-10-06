@@ -1,0 +1,29 @@
+from runner import *
+records=[json.loads(x) for x in (OUT/'executions.jsonl').read_text().splitlines()]
+ids=[x['execution_id'] for x in records];assert len(ids)==len(set(ids))
+result={'record_count':len(records),'all_logs_exist':all(pathlib.Path(x[k]).is_file() for x in records for k in ['stdout','stderr']),'timeouts':[x['execution_id'] for x in records if x['timeout']],'input_mutations':[x['execution_id'] for x in records if x['input_sha256']!=x['input_sha256_after']],'binary_mutations':[x['execution_id'] for x in records if x['executable_sha256']!=x['executable_sha256_after']], '4541':[],'equal_outputs':{}}
+for mode in ['script','command','module','symlink','repl']:
+ for label in ['default','P','env1','env0','envempty','E','I']:
+  rows=[]
+  for who in ['rp','cp']:
+   id=f'4541-{mode}-{label}-{who}';r=next(x for x in records if x['execution_id']==id);text=pathlib.Path(r['stdout']).read_text();expected_exit=1 if mode=='module' and label in ['E','I'] else 0;assert r['exit']==expected_exit and not r['timeout'],id
+   if expected_exit:assert 'No module named safe_probe_4541' in pathlib.Path(r['stderr']).read_text();continue
+   row=json.loads(next(x for x in text.splitlines() if x.startswith('{')));safe=label in ['P','env1','env0','I'];assert row['safe_path']==safe,id
+   if mode in ['command','repl']:bare=False;cwd=False if safe else 'unique-slot-a-4541';assert ('' in row['path']) == (not safe),id
+   elif mode=='module':bare='unique-slot-a-4541';cwd=False if safe else bare;assert (str(ROOT) in row['path'])==(not safe),id
+   else:bare=False if safe else 'unique-slot-a-4541';cwd=False;assert (str(OUT/'inputs/safe_fixture_4541') in row['path'])==(not safe),id
+   assert row['bare_import']==bare and row['cwd_import']==cwd,id
+   assert row['isolated']==(1 if label=='I' else 0),id
+   assert row['ignore_environment']==(1 if label in ['E','I'] else 0),id
+   rows.append({k:v for k,v in row.items() if k!='path'})
+  assert len(rows)==0 or rows[0]==rows[1],(mode,label)
+  result['4541'].append({'mode':mode,'setting':label,'judgment':'expected exception/exit in both' if not rows else 'asserted flags, path entry and actual import results match','processes':2})
+for prefix in ['4762-matrix','4786-original','3418-operations','4527-original','4527-explicit','4950-draft','4950-locales','4970-clean-env','4970-locale-support','2527-displayhook','3846-original','3846-graph']:
+ for stream in ['stdout','stderr']:
+  a=OUT/'logs'/f'{prefix}-rp.{stream}';b=OUT/'logs'/f'{prefix}-cp.{stream}'
+  if a.exists() and b.exists():result['equal_outputs'][prefix+'-'+stream]=a.read_bytes()==b.read_bytes()
+for who in ['rp','cp']:
+ r=next(x for x in records if x['execution_id']=='2527-pty-'+who);s=pathlib.Path(r['stdout']).read_text();assert 'ISATTY True' in s and '\n0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n' in s;assert '\n5\n>>> ' in s and len(r['prompt_events'])==9
+ assert (OUT/'tmp'/f'2527-new-{who}.txt').read_text()=='hello'
+ result['2527-'+who]={'prompt_events':len(r['prompt_events']),'loop_and_write_outputs_verified':True,'generated_file':'hello'}
+(OUT/'validation.json').write_text(json.dumps(result,indent=2)+'\n');print(json.dumps({k:v for k,v in result.items() if k!='4541'},indent=2))

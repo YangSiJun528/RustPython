@@ -1,0 +1,18 @@
+version 3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)
+[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]
+executable <survey>/.build/slot-a/verification/rustpython
+implementation namespace(name='rustpython', cache_tag='cpython-314', _multiarch='aarch64-apple-darwin', version=sys.version_info(major=0, minor=6, micro=1, releaselevel='alpha', serial=0), hexversion=393632, supports_isolated_interpreters=True)
+arch arm64
+cwd <workspace>
+path ['<closure24-audit>/agent-a/inputs', '<workspace>/Lib', '<workspace>/lib/python314.zip', '<workspace>/lib/python3.14', '<workspace>/lib/python3.14/lib-dynload']
+flags sys.flags(debug=0, inspect=0, interactive=0, optimize=0, dont_write_bytecode=1, no_user_site=0, no_site=0, ignore_environment=0, verbose=0, bytes_warning=0, quiet=0, hash_randomization=1, isolated=0, dev_mode=False, utf8_mode=1, int_max_str_digits=4300, safe_path=False, warn_default_encoding=0)
+MODULE collections '<workspace>/Lib/collections/__init__.py'
+MODULE xml.etree.ElementTree '<workspace>/Lib/xml/etree/ElementTree.py'
+MODULE dis '<workspace>/Lib/dis.py'
+MODULE modulefinder '<workspace>/Lib/modulefinder.py'
+MODULE locale '<workspace>/Lib/locale.py'
+MODULE sysconfig '<workspace>/Lib/sysconfig/__init__.py'
+MODULE test.test_format '<workspace>/Lib/test/test_format.py'
+MODULE test.test_types '<workspace>/Lib/test/test_types.py'
+locale C
+LC_ALL 'C.UTF-8'

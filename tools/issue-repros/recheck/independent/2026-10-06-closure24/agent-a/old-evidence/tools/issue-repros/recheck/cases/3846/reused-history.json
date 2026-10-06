@@ -1,0 +1,502 @@
+{
+  "number": 3846,
+  "title": "Add missing dis features for modulefinder",
+  "historical_cases": [
+    {
+      "case_id": "issue-3846-case-01",
+      "historical": {
+        "case_id": "issue-3846-case-01",
+        "issue_number": 3846,
+        "evidence": [
+          "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout",
+          "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr"
+        ],
+        "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+        "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+        "reported_symptoms": [
+          "AttributeError: module 'dis' has no attribute 'opmap'"
+        ],
+        "expected_behavior": "보고한 CPython에서는 LOAD_CONST 100, EXTENDED_ARG 144, _unpack_opargs(100) generator 반환; opcode 수치는 버전 의존",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/verification-tools/derived-a/issue-3846-case-01.py"
+            ],
+            "cwd": "<workspace>",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 0,
+            "rss_guard": false,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.10527120799815748,
+            "code_input_path": "verification-tools/derived-a/issue-3846-case-01.py",
+            "code_sha256": "7f102daa75e4f5c5ee5b39f78b39060613b3d72a1bf39de2528f1379ec541402",
+            "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+            "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+            "build_provenance": "logs/build-a-5631d210-partition-rust1621/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout",
+            "stderr_path": "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+          "worktree": "<workspace>",
+          "command": [
+            "cargo",
+            "+1.62.1",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "cargo_lock_sha256": "0cbc52a0ce6405f88b62b6ff315899d90eb45c64b963449c181a4891c9956846",
+          "toolchain": "rustc 1.62.1 (e092d0b6b 2022-07-16)\nbinary: rustc\ncommit-hash: e092d0b6b43f2de967af0887873151bb1c0b18d3\ncommit-date: 2022-07-16\nhost: aarch64-apple-darwin\nrelease: 1.62.1\nLLVM version: 14.0.5\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T11:06:22.990201+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-a-5631d210-partition-rust1621/build.stdout",
+            "logs/build-a-5631d210-partition-rust1621/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T11:08:26.915686+00:00",
+          "binary": "<survey>/.build/slot-a/release/rustpython",
+          "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+          "binary_size": 16042760,
+          "version_banner": "3.10.0alpha (tags/0.1.0-7810-g5631d2102:5631d2102, Jul  8 2022, 16:28:53) \n[rustc 1.62.1]\n",
+          "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+        },
+        "build_attempt_evidence": [
+          "logs/build-a-5631d210-partition-rust1671/provenance.json",
+          "logs/build-a-5631d210-partition-rust1621/provenance.json"
+        ],
+        "baseline_role": "required_issue_time_approximation",
+        "historical_symptom_observed": "Selected dis API raises reported AttributeError for absent opmap/EXTENDED_ARG/_unpack_opargs; exit1/no timeout.",
+        "evidence_ledger": "analysis/historical-results-a.json"
+      },
+      "adjudication": {
+        "case_id": "issue-3846-case-01",
+        "verdict": "해결 확인",
+        "reason": "근사 5631d210에서 dis.opmap 부재가 재현됐고 현재 원문 LOAD_CONST 조회는 CPython 3.14.6과 같은 82를 반환한다. 원문의 100은 이전 opcode 표 값이며, 전체 bytecode·modulefinder 호환성을 뜻하지 않는다.",
+        "scope": "Exact dis.opmap[LOAD_CONST] availability and current-version value.",
+        "historical_execution": true,
+        "historical_version_qualification": {
+          "role": "closest_preissue_main_approximation",
+          "reason": "No case-specific identifiable runtime revision supplied."
+        },
+        "whole_issue_resolution_approved": false,
+        "review_required": false,
+        "independent_review": "review/eighth-review.json",
+        "cause_analysis": "analysis/round8-cause-evidence.json",
+        "review_restrictions": [
+          "Original100 reflects an older opcode table; values are version-dependent.",
+          "No general bytecode compatibility or whole modulefinder success claim.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+        ],
+        "cause_reviews": [
+          {
+            "pr_url": "https://github.com/RustPython/RustPython/pull/5377",
+            "commit": "152d10bfea2374ca15fc835c146d720b437f803a",
+            "integration_commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+            "approved_label": "high_relevance",
+            "scope": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+            "boundary_execution_complete": false,
+            "source_diff": "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+            "source_hash": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d",
+            "limits": [
+              "Source correspondence and ancestry only; no first fixing boundary executed.",
+              "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+              "Apply all case-specific scope and environment limits from the adjudication proposal."
+            ]
+          }
+        ],
+        "evidence": [
+          "logs/issue-3846-case-01/cpython-documented-000.stderr",
+          "logs/issue-3846-case-01/cpython-documented-000.stdout",
+          "logs/issue-3846-case-01/current-documented-000.stderr",
+          "logs/issue-3846-case-01/current-documented-000.stdout",
+          "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr",
+          "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout",
+          "repros/3846/issue-3846-case-01/source-01.py",
+          "sources/issues/3846/body.md",
+          "sources/issues/3846/comment-1189392760.md",
+          "verification-tools/derived-a/issue-3846-case-01.py",
+          "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+          "logs/build-a-5631d210-partition-rust1621/provenance.json",
+          "review/eighth-review.json",
+          "analysis/round8-adjudication-proposals.json",
+          "analysis/round8-cause-evidence.json"
+        ]
+      }
+    },
+    {
+      "case_id": "issue-3846-case-02",
+      "historical": {
+        "case_id": "issue-3846-case-02",
+        "issue_number": 3846,
+        "evidence": [
+          "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout",
+          "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr"
+        ],
+        "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+        "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+        "reported_symptoms": [
+          "AttributeError: module 'dis' has no attribute 'EXTENDED_ARG'"
+        ],
+        "expected_behavior": "보고한 CPython에서는 LOAD_CONST 100, EXTENDED_ARG 144, _unpack_opargs(100) generator 반환; opcode 수치는 버전 의존",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/verification-tools/derived-a/issue-3846-case-02.py"
+            ],
+            "cwd": "<workspace>",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 0,
+            "rss_guard": false,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.10813350000535138,
+            "code_input_path": "verification-tools/derived-a/issue-3846-case-02.py",
+            "code_sha256": "1e4ff2f5c7b933128a82d65527c1a1cf0b1f0e39e7a7b9ae0b7ba6ca341a0942",
+            "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+            "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+            "build_provenance": "logs/build-a-5631d210-partition-rust1621/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout",
+            "stderr_path": "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+          "worktree": "<workspace>",
+          "command": [
+            "cargo",
+            "+1.62.1",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "cargo_lock_sha256": "0cbc52a0ce6405f88b62b6ff315899d90eb45c64b963449c181a4891c9956846",
+          "toolchain": "rustc 1.62.1 (e092d0b6b 2022-07-16)\nbinary: rustc\ncommit-hash: e092d0b6b43f2de967af0887873151bb1c0b18d3\ncommit-date: 2022-07-16\nhost: aarch64-apple-darwin\nrelease: 1.62.1\nLLVM version: 14.0.5\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T11:06:22.990201+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-a-5631d210-partition-rust1621/build.stdout",
+            "logs/build-a-5631d210-partition-rust1621/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T11:08:26.915686+00:00",
+          "binary": "<survey>/.build/slot-a/release/rustpython",
+          "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+          "binary_size": 16042760,
+          "version_banner": "3.10.0alpha (tags/0.1.0-7810-g5631d2102:5631d2102, Jul  8 2022, 16:28:53) \n[rustc 1.62.1]\n",
+          "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+        },
+        "build_attempt_evidence": [
+          "logs/build-a-5631d210-partition-rust1671/provenance.json",
+          "logs/build-a-5631d210-partition-rust1621/provenance.json"
+        ],
+        "baseline_role": "required_issue_time_approximation",
+        "historical_symptom_observed": "Selected dis API raises reported AttributeError for absent opmap/EXTENDED_ARG/_unpack_opargs; exit1/no timeout.",
+        "evidence_ledger": "analysis/historical-results-a.json"
+      },
+      "adjudication": {
+        "case_id": "issue-3846-case-02",
+        "verdict": "해결 확인",
+        "reason": "근사 5631d210에서 dis.EXTENDED_ARG 부재가 재현됐고 현재는 CPython 3.14.6과 같은 69를 반환한다. 원문의 144는 이전 opcode 표 값이며 decoding 동작 전체는 확인하지 않았다.",
+        "scope": "Exact dis.EXTENDED_ARG availability and current-version value.",
+        "historical_execution": true,
+        "historical_version_qualification": {
+          "role": "closest_preissue_main_approximation",
+          "reason": "No case-specific identifiable runtime revision supplied."
+        },
+        "whole_issue_resolution_approved": false,
+        "review_required": false,
+        "independent_review": "review/eighth-review.json",
+        "cause_analysis": "analysis/round8-cause-evidence.json",
+        "review_restrictions": [
+          "Original144 reflects an older opcode table; values are version-dependent.",
+          "No decoding correctness/modulefinder success inferred.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+        ],
+        "cause_reviews": [
+          {
+            "pr_url": "https://github.com/RustPython/RustPython/pull/5377",
+            "commit": "152d10bfea2374ca15fc835c146d720b437f803a",
+            "integration_commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+            "approved_label": "high_relevance",
+            "scope": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+            "boundary_execution_complete": false,
+            "source_diff": "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+            "source_hash": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d",
+            "limits": [
+              "Source correspondence and ancestry only; no first fixing boundary executed.",
+              "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+              "Apply all case-specific scope and environment limits from the adjudication proposal."
+            ]
+          }
+        ],
+        "evidence": [
+          "logs/issue-3846-case-02/cpython-documented-001.stderr",
+          "logs/issue-3846-case-02/cpython-documented-001.stdout",
+          "logs/issue-3846-case-02/current-documented-001.stderr",
+          "logs/issue-3846-case-02/current-documented-001.stdout",
+          "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr",
+          "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout",
+          "repros/3846/issue-3846-case-02/source-01.py",
+          "sources/issues/3846/body.md",
+          "sources/issues/3846/comment-1189392760.md",
+          "verification-tools/derived-a/issue-3846-case-02.py",
+          "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+          "logs/build-a-5631d210-partition-rust1621/provenance.json",
+          "review/eighth-review.json",
+          "analysis/round8-adjudication-proposals.json",
+          "analysis/round8-cause-evidence.json"
+        ]
+      }
+    },
+    {
+      "case_id": "issue-3846-case-03",
+      "historical": {
+        "case_id": "issue-3846-case-03",
+        "issue_number": 3846,
+        "evidence": [
+          "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout",
+          "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr"
+        ],
+        "historical_status": "executed_original_symptom_observed_awaiting_cause_review",
+        "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+        "reported_symptoms": [
+          "AttributeError: module 'dis' has no attribute '_unpack_opargs'"
+        ],
+        "expected_behavior": "보고한 CPython에서는 LOAD_CONST 100, EXTENDED_ARG 144, _unpack_opargs(100) generator 반환; opcode 수치는 버전 의존",
+        "runs": [
+          {
+            "kind": "historical",
+            "command": [
+              "<survey>/.build/slot-a/release/rustpython",
+              "<survey>/verification-tools/derived-a/issue-3846-case-03.py"
+            ],
+            "cwd": "<workspace>",
+            "env": {
+              "RUSTPYTHONPATH": "<workspace>/Lib",
+              "PYTHONDONTWRITEBYTECODE": "1"
+            },
+            "exit_code": 1,
+            "timeout": false,
+            "memory_limit_killed": false,
+            "peak_group_rss_kib": 0,
+            "rss_guard": false,
+            "timeout_seconds": 30,
+            "elapsed_seconds": 0.10861195799952839,
+            "code_input_path": "verification-tools/derived-a/issue-3846-case-03.py",
+            "code_sha256": "60066a5cfb5bac872c67fd63e13b69e961ab6b52ada2959a25115bdf995098ac",
+            "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+            "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+            "build_provenance": "logs/build-a-5631d210-partition-rust1621/provenance.json",
+            "resource_limits": {
+              "cpu_seconds": 25,
+              "core_bytes": 0
+            },
+            "stdout_path": "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout",
+            "stderr_path": "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr"
+          }
+        ],
+        "build_provenance": {
+          "actual_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+          "worktree": "<workspace>",
+          "command": [
+            "cargo",
+            "+1.62.1",
+            "build",
+            "--release",
+            "--locked",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "cargo_lock_sha256": "0cbc52a0ce6405f88b62b6ff315899d90eb45c64b963449c181a4891c9956846",
+          "toolchain": "rustc 1.62.1 (e092d0b6b 2022-07-16)\nbinary: rustc\ncommit-hash: e092d0b6b43f2de967af0887873151bb1c0b18d3\ncommit-date: 2022-07-16\nhost: aarch64-apple-darwin\nrelease: 1.62.1\nLLVM version: 14.0.5\n",
+          "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+          "arch": "arm64",
+          "build_started_at": "2026-10-04T11:06:22.990201+00:00",
+          "build_status": "success",
+          "logs": [
+            "logs/build-a-5631d210-partition-rust1621/build.stdout",
+            "logs/build-a-5631d210-partition-rust1621/build.stderr"
+          ],
+          "build_exit_code": 0,
+          "build_completed_at": "2026-10-04T11:08:26.915686+00:00",
+          "binary": "<survey>/.build/slot-a/release/rustpython",
+          "binary_sha256": "1ca15133aab4133a0cbc0fb499d86c568797b445957cba0f7401b1638b13c41b",
+          "binary_size": 16042760,
+          "version_banner": "3.10.0alpha (tags/0.1.0-7810-g5631d2102:5631d2102, Jul  8 2022, 16:28:53) \n[rustc 1.62.1]\n",
+          "version_banner_stderr": "[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n[WARN  rustpython_vm::object::core] couldn't run __del__ method for object\n",
+          "version_banner_exit_code": 0,
+          "version_banner_matches_sha": true,
+          "clean_command": [
+            "cargo",
+            "+1.96.1",
+            "clean",
+            "-p",
+            "rustpython-vm",
+            "--release",
+            "--target-dir",
+            "<survey>/.build/slot-a"
+          ],
+          "clean_scope": "Only rustpython-vm release package outputs in survey .build/slot-a"
+        },
+        "build_attempt_evidence": [
+          "logs/build-a-5631d210-partition-rust1671/provenance.json",
+          "logs/build-a-5631d210-partition-rust1621/provenance.json"
+        ],
+        "baseline_role": "required_issue_time_approximation",
+        "historical_symptom_observed": "Selected dis API raises reported AttributeError for absent opmap/EXTENDED_ARG/_unpack_opargs; exit1/no timeout.",
+        "evidence_ledger": "analysis/historical-results-a.json"
+      },
+      "adjudication": {
+        "case_id": "issue-3846-case-03",
+        "verdict": "해결 확인",
+        "reason": "근사 5631d210에서 dis._unpack_opargs 부재로 원문 호출이 실패했고 현재 같은 호출은 CPython처럼 generator를 생성한다. generator를 순회하지 않았으며 정수 100은 유효한 bytecode 입력으로 검증되지 않아 함수 본문·decoding의 해결 주장은 하지 않는다.",
+        "scope": "Only construction of generator by exact dis._unpack_opargs(100) call.",
+        "historical_execution": true,
+        "historical_version_qualification": {
+          "role": "closest_preissue_main_approximation",
+          "reason": "No case-specific identifiable runtime revision supplied."
+        },
+        "whole_issue_resolution_approved": false,
+        "review_required": false,
+        "independent_review": "review/eighth-review.json",
+        "cause_analysis": "analysis/round8-cause-evidence.json",
+        "review_restrictions": [
+          "Generator is never iterated. Argument100 is not a validated bytecode sequence; no generator-body execution or decoding correctness claim.",
+          "Do not label symbol-only evidence as bytecode behavior; the scoped original operation is generator construction itself.",
+          "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+          "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+        ],
+        "cause_reviews": [
+          {
+            "pr_url": "https://github.com/RustPython/RustPython/pull/5377",
+            "commit": "152d10bfea2374ca15fc835c146d720b437f803a",
+            "integration_commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+            "approved_label": "high_relevance",
+            "scope": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+            "boundary_execution_complete": false,
+            "source_diff": "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+            "source_hash": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d",
+            "limits": [
+              "Source correspondence and ancestry only; no first fixing boundary executed.",
+              "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+              "Apply all case-specific scope and environment limits from the adjudication proposal."
+            ]
+          }
+        ],
+        "evidence": [
+          "logs/issue-3846-case-03/cpython-documented-002.stderr",
+          "logs/issue-3846-case-03/cpython-documented-002.stdout",
+          "logs/issue-3846-case-03/current-documented-002.stderr",
+          "logs/issue-3846-case-03/current-documented-002.stdout",
+          "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr",
+          "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout",
+          "repros/3846/issue-3846-case-03/source-01.py",
+          "sources/issues/3846/body.md",
+          "sources/issues/3846/comment-1189392760.md",
+          "verification-tools/derived-a/issue-3846-case-03.py",
+          "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+          "logs/build-a-5631d210-partition-rust1621/provenance.json",
+          "review/eighth-review.json",
+          "analysis/round8-adjudication-proposals.json",
+          "analysis/round8-cause-evidence.json"
+        ]
+      }
+    }
+  ],
+  "related_changes": [
+    {
+      "pr_url": "https://github.com/RustPython/RustPython/pull/5377",
+      "causal_label": "high_relevance",
+      "causal_label_korean": "관련성 높음",
+      "commit": "152d10bfea2374ca15fc835c146d720b437f803a",
+      "mechanism": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+      "boundary_execution_complete": false,
+      "review_status": "approved_high_relevance",
+      "source_diff_path": "analysis/causes/round8-dis_python_api-pr5377.diff.txt",
+      "source_diff_sha256": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d",
+      "source_evidence": "analysis/round8-cause-evidence.json",
+      "runtime_evidence": "analysis/round8-adjudication-proposals.json",
+      "limits": [
+        "No executed PR parent/commit boundary. Source correspondence does not establish an exact first fix.",
+        "Apply all case-specific scope and environment limits from the adjudication proposal."
+      ],
+      "integration_commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+      "reviewed_scope": "The hybrid Lib/dis.py addition imports opcode symbols (opmap and EXTENDED_ARG) and defines _unpack_opargs as a generator. This explains absence-to-availability for the three exact original expressions. Current opcode integers are version-specific and generator construction does not execute its body or establish bytecode/modulefinder compatibility.",
+      "independent_review": "review/eighth-review.json",
+      "review_restrictions": [
+        "Original100 reflects an older opcode table; values are version-dependent.",
+        "No general bytecode compatibility or whole modulefinder success claim.",
+        "Native macOS26.5.2; default execution architecture arm64 unless per-run provenance states x86_64/Rosetta.",
+        "Historical and current toolchains differ; exact commands/options/source SHA/binary hashes are retained."
+      ],
+      "ancestry_check": {
+        "sha": "152d10bfea2374ca15fc835c146d720b437f803a",
+        "exit_code": 0,
+        "stderr": ""
+      },
+      "verified_diff_sha256": "16307b6b84e47939c4f4db61e4568f3e39a4fe030818dcb938304fd4e1532f2d"
+    }
+  ]
+}

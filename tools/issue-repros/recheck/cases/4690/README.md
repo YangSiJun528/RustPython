@@ -1,6 +1,8 @@
 # Native class-method descriptor type (#4690)
 
-[Original issue](https://github.com/RustPython/RustPython/issues/4690). **Resolved in the reported scope.** Both original descriptor queries return classmethod_descriptor. Binding and representative additional native descriptors agree with CPython.
+[Original issue](https://github.com/RustPython/RustPython/issues/4690). **Resolved in the reported scope.** The raw `dict.__dict__["fromkeys"]` descriptor has type `classmethod_descriptor`; the bound `dict.fromkeys` has type `builtin_function_or_method`. Binding and representative additional native descriptors agree with CPython.
+
+Independently rechecked on October 6, 2026 (KST): [fresh inputs, results and scope](../../independent/2026-10-06-closure24/cases/4690/README.md).
 
 ## Environment
 
@@ -53,7 +55,7 @@ RUSTPYTHONPATH="$SRC/Lib" "$RP" -B "$CASE/4690-original.py"
 
 ## Results
 
-**Expected:** Native class methods must use the classmethod_descriptor type.
+**Expected:** The raw dict.fromkeys descriptor must be classmethod_descriptor, while the bound method remains builtin_function_or_method.
 
 ### RustPython and CPython 3.14.6
 

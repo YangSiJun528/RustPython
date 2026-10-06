@@ -1,0 +1,20 @@
+{
+  "original": "ellipsis type name/repr wrong; aliases types.EllipsisType, _types.EllipsisType and JSON test_bad_default/PEP678 note explicitly discussed.",
+  "minimum": "Original name/repr and actual aliases + JSON failing default regression must match CPython.",
+  "tests": [
+    "Original prints; assert types and _types alias identity when present.",
+    "Execute actual test_json.test_default test_bad_default, count tests, rejects skips.",
+    "Capture JSON serialization error/note ellipsis naming."
+  ],
+  "issue": 8052,
+  "url": "https://github.com/RustPython/RustPython/issues/8052",
+  "title": "`type(...).__name__` is `'EllipsisType'` instead of `'ellipsis'`",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:28.795595+00:00",
+  "all_comments_read": 8,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "7632dd322f21070081ab44f0a419df587338e9871a2aad8af62feb875738e991",
+    "comments": "9ea04a7406fc6f2938d6276fbf638325b1757922b7b66d6f48466b009d12bd4a"
+  }
+}

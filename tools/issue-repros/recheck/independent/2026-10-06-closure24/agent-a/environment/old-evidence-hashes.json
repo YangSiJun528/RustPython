@@ -1,0 +1,397 @@
+{
+  "<report-worktree>/tools/issue-repros/recheck/cases/4762/README.md": {
+    "sha256_before": "31bdaacccc5459cb4bedcc1e4a97e7cdab79d3eb337dfd7443e56d988fbec595",
+    "sha256_after": "31bdaacccc5459cb4bedcc1e4a97e7cdab79d3eb337dfd7443e56d988fbec595",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4762/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original-cp.json": {
+    "sha256_before": "088c8eefd249c9649b3c8724dff27539230fb38fc56c7beabaff8830233e55c7",
+    "sha256_after": "088c8eefd249c9649b3c8724dff27539230fb38fc56c7beabaff8830233e55c7",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original-cp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original-rp.json": {
+    "sha256_before": "58e3cc6015f90ae35575601addc82c739076ca4918a7dd97e4c73f3fae398bca",
+    "sha256_after": "58e3cc6015f90ae35575601addc82c739076ca4918a7dd97e4c73f3fae398bca",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original-rp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original.py.txt": {
+    "sha256_before": "5d3dafda40d639e3e3ee81737fa1cbe1e14478fbbb1bb069a222c2a679d3bf9f",
+    "sha256_after": "5d3dafda40d639e3e3ee81737fa1cbe1e14478fbbb1bb069a222c2a679d3bf9f",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4762/assessment.json": {
+    "sha256_before": "93ac5f066347d7c96264c9f4a7b21291a4b06601341b7946716d5cfd80a98aa7",
+    "sha256_after": "93ac5f066347d7c96264c9f4a7b21291a4b06601341b7946716d5cfd80a98aa7",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4762/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/evidence/metadata.json": {
+    "sha256_before": "f3ae6cba63d62b2a29f66e7fe26eedeeada98a203e313a553a7862dcf271377c",
+    "sha256_after": "f3ae6cba63d62b2a29f66e7fe26eedeeada98a203e313a553a7862dcf271377c",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/cases/4762/evidence/metadata.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4786/README.md": {
+    "sha256_before": "81c7349668c1cd5093657defa9194aa9225649f5381a02c996d786b9bcc48558",
+    "sha256_after": "81c7349668c1cd5093657defa9194aa9225649f5381a02c996d786b9bcc48558",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4786/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original-cp.json": {
+    "sha256_before": "d7d11f05bd4537fef5bc7b292d3ff1eec0ab159926fe4745b0217047b7b079fe",
+    "sha256_after": "d7d11f05bd4537fef5bc7b292d3ff1eec0ab159926fe4745b0217047b7b079fe",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original-cp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original-rp.json": {
+    "sha256_before": "b9aebfb2f90fc9618b327742ebb95177472ec12c81123819e31ee6653b52db1f",
+    "sha256_after": "b9aebfb2f90fc9618b327742ebb95177472ec12c81123819e31ee6653b52db1f",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original-rp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original.py.txt": {
+    "sha256_before": "f9a07b6de9e517d34dfef0f28920c72d0bcf48298f8cdcdf56568f57c58b29b0",
+    "sha256_after": "f9a07b6de9e517d34dfef0f28920c72d0bcf48298f8cdcdf56568f57c58b29b0",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4786/assessment.json": {
+    "sha256_before": "2f71de52a0e12a1844107ee0a19294a7bfb77cd3e428cb3c6495b4fd35aaa397",
+    "sha256_after": "2f71de52a0e12a1844107ee0a19294a7bfb77cd3e428cb3c6495b4fd35aaa397",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4786/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/evidence/metadata.json": {
+    "sha256_before": "d2eb3b2226a04ad1184769fa31fc148f1df2be4ecd77ecc1676944af16b2f7d6",
+    "sha256_after": "d2eb3b2226a04ad1184769fa31fc148f1df2be4ecd77ecc1676944af16b2f7d6",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/cases/4786/evidence/metadata.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3418/README.md": {
+    "sha256_before": "8501c673805d41cff76bb362e78804366813115040805585788dd0076884fecb",
+    "sha256_after": "8501c673805d41cff76bb362e78804366813115040805585788dd0076884fecb",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/3418/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original-cp.json": {
+    "sha256_before": "7251d33d34db65de2144034e92150694a9ac4a04f2427f11abe7322be8c53352",
+    "sha256_after": "7251d33d34db65de2144034e92150694a9ac4a04f2427f11abe7322be8c53352",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original-cp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original-rp.json": {
+    "sha256_before": "d2e6d772e77a8c8b459e4954647c9cbbb88a41290ad152397f9e6ce9e5b47296",
+    "sha256_after": "d2e6d772e77a8c8b459e4954647c9cbbb88a41290ad152397f9e6ce9e5b47296",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original-rp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original.py.txt": {
+    "sha256_before": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+    "sha256_after": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3418/assessment.json": {
+    "sha256_before": "900db7b0eeb0db54cf713ff660831c3d7a8cfc1615d87c2d35d526076e8c56bd",
+    "sha256_after": "900db7b0eeb0db54cf713ff660831c3d7a8cfc1615d87c2d35d526076e8c56bd",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/3418/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/evidence/metadata.json": {
+    "sha256_before": "bc623d7392ca89ad7f853dae7286e8b208c4b28b71d53be0fc2702d2e90dcf93",
+    "sha256_after": "bc623d7392ca89ad7f853dae7286e8b208c4b28b71d53be0fc2702d2e90dcf93",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/cases/3418/evidence/metadata.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3430/README.md": {
+    "sha256_before": "e9c4a164627242e28e95ef7cd3ce775357affc67fcffec45762e5fb53877e9fa",
+    "sha256_after": "e9c4a164627242e28e95ef7cd3ce775357affc67fcffec45762e5fb53877e9fa",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/3430/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original-cp.json": {
+    "sha256_before": "5acda82dfdc3e42fba41492afe197c171e842bb6f352236eea72b864fa45c19d",
+    "sha256_after": "5acda82dfdc3e42fba41492afe197c171e842bb6f352236eea72b864fa45c19d",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original-cp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original-rp.json": {
+    "sha256_before": "63a894c5cc8c0f17e67c5ad9e5436e5d0ff3d39c0c90c5c11f57c8c16ef6d962",
+    "sha256_after": "63a894c5cc8c0f17e67c5ad9e5436e5d0ff3d39c0c90c5c11f57c8c16ef6d962",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original-rp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original.py.txt": {
+    "sha256_before": "19c65c7c2b2824ce96f3001be6ef0fcc6f372b09860c57e1a7144e88b7b17870",
+    "sha256_after": "19c65c7c2b2824ce96f3001be6ef0fcc6f372b09860c57e1a7144e88b7b17870",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3430/assessment.json": {
+    "sha256_before": "8ee9570e7968e144cac1a13e0fee1b5006b6698c27d88efb43f312f757a51831",
+    "sha256_after": "8ee9570e7968e144cac1a13e0fee1b5006b6698c27d88efb43f312f757a51831",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/3430/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/evidence/metadata.json": {
+    "sha256_before": "cfec2c99d3edfcb0ca414e415075dd35250c7b1ceced33a3e880eb36858cc567",
+    "sha256_after": "cfec2c99d3edfcb0ca414e415075dd35250c7b1ceced33a3e880eb36858cc567",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/cases/3430/evidence/metadata.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4527/README.md": {
+    "sha256_before": "f32e17b1207f74f0d9606305cd8083595d21c94b72a064aef0ce83486d159a21",
+    "sha256_after": "f32e17b1207f74f0d9606305cd8083595d21c94b72a064aef0ce83486d159a21",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4527/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original-cp.json": {
+    "sha256_before": "d4d78a33a0b39b21c1a421d52700eefc2be1329a48570e0d862f22ed07927c47",
+    "sha256_after": "d4d78a33a0b39b21c1a421d52700eefc2be1329a48570e0d862f22ed07927c47",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original-cp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original-rp.json": {
+    "sha256_before": "baac45b62dc8f872d3b8c1634114c507855af6eb266934807803290c473b4290",
+    "sha256_after": "baac45b62dc8f872d3b8c1634114c507855af6eb266934807803290c473b4290",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original-rp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original.py.txt": {
+    "sha256_before": "9855fcf04216ce2fe520ca86d42e7e64bea2071ed4465bc787be88695e90aaac",
+    "sha256_after": "9855fcf04216ce2fe520ca86d42e7e64bea2071ed4465bc787be88695e90aaac",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4527/assessment.json": {
+    "sha256_before": "d1acd5006d8610d6d03595d30c172b218cd0d6efcd7a42facf65a6a033cd807e",
+    "sha256_after": "d1acd5006d8610d6d03595d30c172b218cd0d6efcd7a42facf65a6a033cd807e",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4527/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/evidence/metadata.json": {
+    "sha256_before": "9e44c8330a155b3c0f67470ebeae4751d0287a4278d4d0eb365caeafe3016821",
+    "sha256_after": "9e44c8330a155b3c0f67470ebeae4751d0287a4278d4d0eb365caeafe3016821",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/cases/4527/evidence/metadata.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4950/README.md": {
+    "sha256_before": "4e4f00544ad78bdb7993c74640f5a4ca8e4dd4880c63c52b564f5f2a714fa064",
+    "sha256_after": "4e4f00544ad78bdb7993c74640f5a4ca8e4dd4880c63c52b564f5f2a714fa064",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4950/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4950-cpython.json": {
+    "sha256_before": "f5a6b7ef8f50ce95a8e3e2f8f30782a1edb8ff912b79b5ab9a830c9c37050ac8",
+    "sha256_after": "f5a6b7ef8f50ce95a8e3e2f8f30782a1edb8ff912b79b5ab9a830c9c37050ac8",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/4950-cpython.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4950-rustpython.json": {
+    "sha256_before": "a4e87d90130409c4ce23924f0bdf528b57db70d79043e1a10d23ac7e7400133f",
+    "sha256_after": "a4e87d90130409c4ce23924f0bdf528b57db70d79043e1a10d23ac7e7400133f",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/4950-rustpython.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/probes.py.txt": {
+    "sha256_before": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+    "sha256_after": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/probes.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4950/assessment.json": {
+    "sha256_before": "46fddac074fae4f21c9bfb9640833c70e376c8830a8c4589afb3d2f72c67063d",
+    "sha256_after": "46fddac074fae4f21c9bfb9640833c70e376c8830a8c4589afb3d2f72c67063d",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4950/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4950/reused-history.json": {
+    "sha256_before": "6013f702d4421d16a4bb1d5acbcd3b76e5cec2034655087309105225d05ad373",
+    "sha256_after": "6013f702d4421d16a4bb1d5acbcd3b76e5cec2034655087309105225d05ad373",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4950/reused-history.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4970/README.md": {
+    "sha256_before": "d4c40ea2bf6749787060e7aedccee0a2c2ad1e371374e9242b5bd32a0256d9a4",
+    "sha256_after": "d4c40ea2bf6749787060e7aedccee0a2c2ad1e371374e9242b5bd32a0256d9a4",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4970/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-b/locale-original-unset-cpython.json": {
+    "sha256_before": "836663e245ce48dceaf020521604c5516207d3a7b5e8ed77e1873608644b180e",
+    "sha256_after": "836663e245ce48dceaf020521604c5516207d3a7b5e8ed77e1873608644b180e",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-b/locale-original-unset-cpython.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-b/locale-original-unset-rustpython.json": {
+    "sha256_before": "6c104ea2829336da386909690fd0910e8276aed4b53f2326b1c807da3a506b50",
+    "sha256_after": "6c104ea2829336da386909690fd0910e8276aed4b53f2326b1c807da3a506b50",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-b/locale-original-unset-rustpython.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-b/probe-original-locale-tests.py.txt": {
+    "sha256_before": "f399bc0c96f69b8955286f68c3e50f9b5ccef4e464eae5786b483e77942f84d7",
+    "sha256_after": "f399bc0c96f69b8955286f68c3e50f9b5ccef4e464eae5786b483e77942f84d7",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-b/probe-original-locale-tests.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4970/assessment.json": {
+    "sha256_before": "ebcdc36c5e79b5b6e20b75407db6ba0404174d11be355cb2d068d52ae4ce6c14",
+    "sha256_after": "ebcdc36c5e79b5b6e20b75407db6ba0404174d11be355cb2d068d52ae4ce6c14",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4970/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4970/reused-history.json": {
+    "sha256_before": "2ce7cbc2322421acd60cad03c0e2167eac65a532c53b9e9a43ee5b7c26e039d9",
+    "sha256_after": "2ce7cbc2322421acd60cad03c0e2167eac65a532c53b9e9a43ee5b7c26e039d9",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4970/reused-history.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/6429/README.md": {
+    "sha256_before": "a6cfe57cf4158f93b6f122f7a8f774febb2e6e7dc25a1eb8f2091183cab9b894",
+    "sha256_after": "a6cfe57cf4158f93b6f122f7a8f774febb2e6e7dc25a1eb8f2091183cab9b894",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/6429/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-6429-cp.json": {
+    "sha256_before": "36b5325456a681a985e119e28745b42025c323003d24b807357b223e743252b2",
+    "sha256_after": "36b5325456a681a985e119e28745b42025c323003d24b807357b223e743252b2",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-6429-cp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-6429-rp.json": {
+    "sha256_before": "ad454035b29fd3dd335ac7fd2e5bb99f759f10e06ece6b4b4fc095b3b01e7f52",
+    "sha256_after": "ad454035b29fd3dd335ac7fd2e5bb99f759f10e06ece6b4b4fc095b3b01e7f52",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-6429-rp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/probe-6429.py.txt": {
+    "sha256_before": "0bad35d33dda99fb37afc5a8a4f45f5d7b375b4879ac848b1fe98fa49b8f7d80",
+    "sha256_after": "0bad35d33dda99fb37afc5a8a4f45f5d7b375b4879ac848b1fe98fa49b8f7d80",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/probe-6429.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/6429/assessment.json": {
+    "sha256_before": "f743565ffb4e4bc11169bd6e4c7de76aa4a0da8c8e9e782eb9691cd02e1240f7",
+    "sha256_after": "f743565ffb4e4bc11169bd6e4c7de76aa4a0da8c8e9e782eb9691cd02e1240f7",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/6429/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/evidence/metadata.json": {
+    "sha256_before": "64b836fc7952b2992ab804bd2dc3ffb09f289b16ed44f8336fbd0a495a155dd8",
+    "sha256_after": "64b836fc7952b2992ab804bd2dc3ffb09f289b16ed44f8336fbd0a495a155dd8",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/cases/6429/evidence/metadata.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/2527/README.md": {
+    "sha256_before": "298aeed3d1eda451e176ec4bc879481709eeb60f42e8530af806a944851e4504",
+    "sha256_after": "298aeed3d1eda451e176ec4bc879481709eeb60f42e8530af806a944851e4504",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/2527/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-rp.json": {
+    "sha256_before": "b7a77543089bad8bf5afc7f07009ac138c495ca60e6d879b511aeeedc4f29f75",
+    "sha256_after": "b7a77543089bad8bf5afc7f07009ac138c495ca60e6d879b511aeeedc4f29f75",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-rp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-rp.transcript": {
+    "sha256_before": "33385f2a052c014fb8063d47f93486e171af8bcaec9344f03aabbba6bbd7df88",
+    "sha256_after": "33385f2a052c014fb8063d47f93486e171af8bcaec9344f03aabbba6bbd7df88",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-rp.transcript"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-cp.json": {
+    "sha256_before": "d48702743ee5ee40dca689c8889c2d5d5fe545a1740f55dcd1bc2239d6367826",
+    "sha256_after": "d48702743ee5ee40dca689c8889c2d5d5fe545a1740f55dcd1bc2239d6367826",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-cp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-cp.transcript": {
+    "sha256_before": "a2e3390e252b6b6a57e7b1f96f2429cbe1d81df3babaeb9f1197478fd9c44057",
+    "sha256_after": "a2e3390e252b6b6a57e7b1f96f2429cbe1d81df3babaeb9f1197478fd9c44057",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-cp.transcript"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-single-rp.json": {
+    "sha256_before": "563c1f23b254733d32d33b049004d5981d38ca077886e30c7ee0eeab2bd1090f",
+    "sha256_after": "563c1f23b254733d32d33b049004d5981d38ca077886e30c7ee0eeab2bd1090f",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-single-rp.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-single-cp.json": {
+    "sha256_before": "8514b222b9fd4fc60a6d51ab77c520c1c68275f80e3aa6a091e0014cc3b9a5b9",
+    "sha256_after": "8514b222b9fd4fc60a6d51ab77c520c1c68275f80e3aa6a091e0014cc3b9a5b9",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-single-cp.json"
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/evidence/metadata.json": {
+    "sha256_before": "ffb0a2d5d6efbc9e1e818a4a2426f50ecb4f4743d4937105d99f33447e50ad5f",
+    "sha256_after": "ffb0a2d5d6efbc9e1e818a4a2426f50ecb4f4743d4937105d99f33447e50ad5f",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/cases/2527/evidence/metadata.json"
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/evidence/historical.stdout.txt": {
+    "sha256_before": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+    "sha256_after": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/cases/2527/evidence/historical.stdout.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/2527/assessment.json": {
+    "sha256_before": "09b13f253ddc5b1fdfa12b7c88c41cc0e65c2a857864f5299eef3067a8f09c34",
+    "sha256_after": "09b13f253ddc5b1fdfa12b7c88c41cc0e65c2a857864f5299eef3067a8f09c34",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/2527/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4541/README.md": {
+    "sha256_before": "0ef1962656e4b7708cb2798f280842c317b70fc6102379c2afa72dc3faf925ed",
+    "sha256_after": "0ef1962656e4b7708cb2798f280842c317b70fc6102379c2afa72dc3faf925ed",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4541/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-rustpython-command-default.json": {
+    "sha256_before": "ebeccd0b3fdb500a0746bb43fecd17e751692b429f504ccce8cd9a1cf77e6d70",
+    "sha256_after": "ebeccd0b3fdb500a0746bb43fecd17e751692b429f504ccce8cd9a1cf77e6d70",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-rustpython-command-default.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-rustpython-command-P.json": {
+    "sha256_before": "59bb3319da678b4c23afc296893740cda6045c9a7d14a97e0167ae848b06123f",
+    "sha256_after": "59bb3319da678b4c23afc296893740cda6045c9a7d14a97e0167ae848b06123f",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-rustpython-command-P.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-cpython-command-default.json": {
+    "sha256_before": "ec846351ae9c3f90ebeab6f40f191f2a1b96951f713762fbb9a7963142a3b60b",
+    "sha256_after": "ec846351ae9c3f90ebeab6f40f191f2a1b96951f713762fbb9a7963142a3b60b",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-cpython-command-default.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-cpython-command-P.json": {
+    "sha256_before": "07bfc70ce033c17699e085721ff8bc9cdff85ac25675e908d8a16f1679ae733a",
+    "sha256_after": "07bfc70ce033c17699e085721ff8bc9cdff85ac25675e908d8a16f1679ae733a",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-cpython-command-P.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/safe_fixture.py.txt": {
+    "sha256_before": "ca5b5327507761d7256eddff95dd6d437ae5b6e80ff2bc277d3aab5398aca78a",
+    "sha256_after": "ca5b5327507761d7256eddff95dd6d437ae5b6e80ff2bc277d3aab5398aca78a",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/safe_fixture.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/safe_report.py.txt": {
+    "sha256_before": "3435ac9e193b264de4f9415b8c78ba84b9f265e9c694bf63a4b54488d0ba8b3a",
+    "sha256_after": "3435ac9e193b264de4f9415b8c78ba84b9f265e9c694bf63a4b54488d0ba8b3a",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/safe_report.py.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4541/assessment.json": {
+    "sha256_before": "d3cbe350a2a94dc9335dafa91cf029df773b355b43758a9cac2c96c2748d144d",
+    "sha256_after": "d3cbe350a2a94dc9335dafa91cf029df773b355b43758a9cac2c96c2748d144d",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4541/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4541/reused-history.json": {
+    "sha256_before": "6019734cb8a92f2ff5ab8e870fd1b8e7518a30b6f1f8031da473edd2bacf1b47",
+    "sha256_after": "6019734cb8a92f2ff5ab8e870fd1b8e7518a30b6f1f8031da473edd2bacf1b47",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4541/reused-history.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3846/README.md": {
+    "sha256_before": "456b3af05f57cc3f3019e940fe262ce2b7b58b9f7a56f6288ba645b76ed89d9a",
+    "sha256_after": "456b3af05f57cc3f3019e940fe262ce2b7b58b9f7a56f6288ba645b76ed89d9a",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/3846/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/3846-cpython.json": {
+    "sha256_before": "ba2c3a72933832e5c1f68d4e53188bd9a8c8b77a44a1ddb5b368cfb603085f53",
+    "sha256_after": "ba2c3a72933832e5c1f68d4e53188bd9a8c8b77a44a1ddb5b368cfb603085f53",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/3846-cpython.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/3846-rustpython.json": {
+    "sha256_before": "2e7984ca8fb7f14d0dc6932817d186a75ab9095a6fadd6e9bc1139baf9b254fb",
+    "sha256_after": "2e7984ca8fb7f14d0dc6932817d186a75ab9095a6fadd6e9bc1139baf9b254fb",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/3846-rustpython.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/3846-unittest-rustpython.json": {
+    "sha256_before": "c8a76368d51b9ae70a10e864f5bf4dd90aaa4c4d4868ae399db059ad1abf5e00",
+    "sha256_after": "c8a76368d51b9ae70a10e864f5bf4dd90aaa4c4d4868ae399db059ad1abf5e00",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/additional11/agent-a/3846-unittest-rustpython.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3846/assessment.json": {
+    "sha256_before": "2b39ec1e454ffb657a82866a38971be5b2ea6206324b1b56a847032ed75ed331",
+    "sha256_after": "2b39ec1e454ffb657a82866a38971be5b2ea6206324b1b56a847032ed75ed331",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/3846/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3846/reused-history.json": {
+    "sha256_before": "1cb767b6a2e26ad8da12e751c8feec1dcc375ef49e573b3aea4dd1fb7fdc3c9a",
+    "sha256_after": "1cb767b6a2e26ad8da12e751c8feec1dcc375ef49e573b3aea4dd1fb7fdc3c9a",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/3846/reused-history.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4784/README.md": {
+    "sha256_before": "f454964470f3af354a3d742914a5ed62d611b1bb80b94b4ec209a0e71c8227b8",
+    "sha256_after": "f454964470f3af354a3d742914a5ed62d611b1bb80b94b4ec209a0e71c8227b8",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4784/README.md"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-4784-http.json": {
+    "sha256_before": "64d139758cedf77e93c9c1561fc88219391b82fe269ae4204aca567ac518dfa7",
+    "sha256_after": "64d139758cedf77e93c9c1561fc88219391b82fe269ae4204aca567ac518dfa7",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-4784-http.json"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-4784-docs.html": {
+    "sha256_before": "7c2720c5ba4b1991c865aca7b5d76824ce21b554ecff9d0632143fa461b7bf71",
+    "sha256_after": "7c2720c5ba4b1991c865aca7b5d76824ce21b554ecff9d0632143fa461b7bf71",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-4784-docs.html"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-4784-headers.txt": {
+    "sha256_before": "2c615edab1c4d45e1aef8ffcb64d75c7c2d7c14bbeb177d4946588e0a63f3afd",
+    "sha256_after": "2c615edab1c4d45e1aef8ffcb64d75c7c2d7c14bbeb177d4946588e0a63f3afd",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-4784-headers.txt"
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4784/assessment.json": {
+    "sha256_before": "41738a521765f42c62e9a096793ce5ee77065a13a3d561465fa25063e92cfb2f",
+    "sha256_after": "41738a521765f42c62e9a096793ce5ee77065a13a3d561465fa25063e92cfb2f",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/recheck/cases/4784/assessment.json"
+  },
+  "<report-worktree>/tools/issue-repros/cases/4784/README.md": {
+    "sha256_before": "5744559ef991d0f4586301a68312975a9899cf2c3d7a7ef22457e6955c8542f6",
+    "sha256_after": "5744559ef991d0f4586301a68312975a9899cf2c3d7a7ef22457e6955c8542f6",
+    "copy": "<closure24-audit>/agent-a/old-evidence/tools/issue-repros/cases/4784/README.md"
+  }
+}

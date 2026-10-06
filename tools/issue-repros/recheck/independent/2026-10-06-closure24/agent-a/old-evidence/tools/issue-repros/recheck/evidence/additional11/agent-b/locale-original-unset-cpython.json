@@ -1,0 +1,24 @@
+{
+  "label": "locale-original-unset-cpython",
+  "command": [
+    "<home>/.local/bin/python3",
+    "-B",
+    "<additional11-audit>/agent-b/probe-original-locale-tests.py"
+  ],
+  "shell_command": "<home>/.local/bin/python3 -B <additional11-audit>/agent-b/probe-original-locale-tests.py",
+  "cwd": "<slot-b-source>",
+  "env": {
+    "TMPDIR": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMP": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+    "TEMP": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython/python-history",
+    "HISTFILE": "<additional11-audit>/agent-b/temp-locale-original-unset-cpython/shell-history",
+    "LANG": "en_US.UTF-8",
+    "LC_NUMERIC": "en_US.UTF-8"
+  },
+  "started_unix": 1791197403.694638,
+  "elapsed_seconds": 0.13851404190063477,
+  "exit_code": 0,
+  "timeout": false
+}

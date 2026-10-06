@@ -1,0 +1,20 @@
+from runner import *
+repo=pathlib.Path('<report-worktree>')
+manifest={};audit={}
+for n in [4762,4786,3418,3430,4527,4950,4970,6429,2527,4541,3846,4784]:
+ source=repo/f'tools/issue-repros/cases/{n}'
+ for p in source.rglob('*'):
+  if p.is_file() and p.stat().st_size<1000000:
+   key=str(p.relative_to(repo));data=p.read_bytes();dest=OUT/'old-evidence'/key;dest.parent.mkdir(parents=True,exist_ok=True)
+   before=sha(p)
+   if not dest.exists():dest.write_bytes(data)
+   manifest[str(p)]={'sha256_before':before,'sha256_after':sha(p),'copy':str(dest)}
+ meta=source/'evidence/metadata.json'
+ if meta.is_file():
+  d=json.loads(meta.read_text());hist=d.get('runs',{}).get('historical',{});recorded=source/'recorded-input.txt';info={'historical_commit':hist.get('actual_sha'),'historical_exit':hist.get('exit_code'),'historical_timeout':hist.get('timeout'),'recorded_input_expected_sha256':hist.get('code_sha256',hist.get('source_sha256')),'historical_logs':{},'historical_executable_rerun':False}
+  if recorded.is_file():info.update({'recorded_input_sha256':sha(recorded),'input':recorded.read_text()})
+  for name,l in hist.get('logs',{}).items():
+   p=meta.parent/l['path'];info['historical_logs'][name]={'actual_sha256':sha(p) if p.is_file() else None,'expected_export_sha256':l.get('export_sha256'),'present':p.is_file()}
+  audit[n]=info
+(OUT/'environment/old-cases-hashes.json').write_text(json.dumps(manifest,indent=2)+'\n');(OUT/'old-history-audit.json').write_text(json.dumps(audit,indent=2)+'\n')
+for n,d in audit.items():print(n,d['historical_commit'],repr(d.get('input',''))[:800], {k:v['actual_sha256']==v['expected_export_sha256'] for k,v in d['historical_logs'].items()})

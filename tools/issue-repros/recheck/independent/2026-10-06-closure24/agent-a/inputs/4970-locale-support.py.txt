@@ -1,0 +1,6 @@
+import locale,os
+print('LC_ALL-present', 'LC_ALL' in os.environ)
+for loc in ['en_US.UTF8','en_US.UTF-8','']:
+ try:
+  result=locale.setlocale(locale.LC_NUMERIC,loc);c=locale.localeconv();print(repr(loc),repr(result),repr(c['thousands_sep']),c['grouping'],format(123456789,'n'),format(1234.5,'n'))
+ except locale.Error as e:print(repr(loc),'UNAVAILABLE',str(e))

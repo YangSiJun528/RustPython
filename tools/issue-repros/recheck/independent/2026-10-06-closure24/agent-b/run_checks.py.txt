@@ -1,0 +1,49 @@
+from controller import *
+
+CP='<home>/.local/bin/python3'
+SITE='<survey>/verification-tools/package-history-4506-original/site'
+ENV={'RUSTPYTHONPATH':CWD+'/Lib','SYMPY_SITE':SITE}
+
+def pair(issue,label,filename,args=(),flags=(),timeout=45,env=None,rationale='Compare original or explicitly labeled expanded behavior with CPython; assertion failures, warnings, exceptions and counts require interpretation.'):
+    path=str(ROOT/'inputs'/filename) if not filename.startswith('/') else filename
+    for kind,exe in [('rp',BIN),('cp',CP)]:
+        record=run(f'{issue}-{label}-{kind}',[exe,'-B',*flags,path,*args],issue,timeout,dict(ENV,**(env or {})),path,rationale)
+        print(pathlib.Path(record['stdout_file']).read_text()[:1500],flush=True)
+        print(pathlib.Path(record['stderr_file']).read_text()[:800],flush=True)
+
+if __name__=='__main__':
+    part=sys.argv[1]
+    if part=='1':
+        pair(4506,'original','4506-original.py',timeout=90)
+        pair(4506,'draft','4506-draft-0.py',timeout=90)
+        pair(4690,'original','4690-original.py')
+        pair(4690,'boundaries','4690-draft-boundaries.py')
+        pair(4937,'original','4937-original.py')
+        pair(4937,'boundaries','4937-draft-boundaries.py')
+        pair(4769,'literal','4769-original.py',rationale='Literal original pickles integer; expected AttributeError and exit 1 on both is an input typo, not deque failure.')
+        pair(4769,'draft','4769-draft-0.py',['4769'])
+        f=ROOT/'inputs'/'unittest-probe.py'
+        run('4769-regression-rp',[BIN,'-B',str(f),'test.test_deque.TestSubclass.test_copy_pickle'],4769,60,ENV,str(f))
+        pair(4856,'original','4856-original.py',rationale='Undefined BaseFTests means expected NameError exit 1 after compilation; any Rust panic is separate.')
+        pair(4856,'compile-corrected','4856-draft-1.py')
+        pair(4907,'original','4907-original.py')
+        pair(4907,'comment','4907-comment.py',timeout=30)
+        pair(4907,'draft','4907-draft-0.py',['4907'],timeout=30)
+    if part=='2':
+        pair(4908,'original','4908-original.py')
+        pair(4908,'boundaries','4908-draft-boundaries.py')
+        pair(5179,'draft','5179-draft-0.py',['5179'])
+        pair(5656,'actual-snippet',CWD+'/extra_tests/snippets/builtin_bytes.py',timeout=60)
+        pair(5656,'literal','5656-draft-0.py')
+        pair(5656,'warnings','5656-draft-1.py')
+        pair(5656,'warnings-as-error','5656-draft-0.py',flags=['-Werror'])
+        pair(5699,'blockers','5699-draft-0.py')
+        for case in ['builtin','stdlib','zero','group']:
+            pair(5699,'uncaught-'+case,'5699-draft-1.py',[case],env={'PYTHON_COLORS':'1','FORCE_COLOR':'1'},rationale='Uncaught exception must exit 1 with ANSI color; verify expected class and suggestion, not zero-exit success.')
+        pair(8052,'original','8052-original.py')
+        pair(8052,'draft','8052-draft-0.py',flags=['-S'])
+        f=ROOT/'inputs'/'unittest-probe.py'
+        run('8052-regression-rp',[BIN,'-B',str(f),'test.test_json.test_default.TestPyDefault.test_bad_default','test.test_json.test_default.TestCDefault.test_bad_default'],8052,60,ENV,str(f))
+        pair(8494,'original','8494-original.py')
+        pair(8494,'draft','8494-draft-0.py',['8494'])
+        run('8494-regression-rp',[BIN,'-B',str(f),'test.test_descr.ClassPropertiesAndMethods.test_classmethod_staticmethod_annotations'],8494,60,ENV,str(f))

@@ -1,0 +1,5 @@
+import first
+from package import second
+from package.second import value
+def nested():
+    import nested_dependency

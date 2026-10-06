@@ -1,0 +1,31 @@
+{
+  "label": "3846-unittest-rustpython",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<additional11-audit>/agent-a/unittest-probe.py",
+    "test.test_modulefinder.ModuleFinderTest"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython"
+  },
+  "started_utc": "2026-10-05T10:50:45.035954+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\"tests\": [{\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_absolute_imports\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_bytecode\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_coding_default_utf8\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_coding_explicit_cp1252\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_coding_explicit_utf8\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_extended_opargs\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_load_module_api\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_maybe\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_maybe_new\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_package\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_relative_imports\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_relative_imports_2\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_relative_imports_3\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_relative_imports_4\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_replace_paths\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_same_name_as_bad\", \"skip\": false}, {\"expected_failure\": false, \"id\": \"test.test_modulefinder.ModuleFinderTest.test_syntax_error\", \"skip\": false}]}\n{\"expected_failures\": [], \"run\": 17, \"skips\": [], \"success\": true, \"unexpected_successes\": []}\n",
+  "stderr": "test_absolute_imports (test.test_modulefinder.ModuleFinderTest.test_absolute_imports) ... ok\ntest_bytecode (test.test_modulefinder.ModuleFinderTest.test_bytecode) ... ok\ntest_coding_default_utf8 (test.test_modulefinder.ModuleFinderTest.test_coding_default_utf8) ... ok\ntest_coding_explicit_cp1252 (test.test_modulefinder.ModuleFinderTest.test_coding_explicit_cp1252) ... ok\ntest_coding_explicit_utf8 (test.test_modulefinder.ModuleFinderTest.test_coding_explicit_utf8) ... ok\ntest_extended_opargs (test.test_modulefinder.ModuleFinderTest.test_extended_opargs) ... ok\ntest_load_module_api (test.test_modulefinder.ModuleFinderTest.test_load_module_api) ... ok\ntest_maybe (test.test_modulefinder.ModuleFinderTest.test_maybe) ... ok\ntest_maybe_new (test.test_modulefinder.ModuleFinderTest.test_maybe_new) ... ok\ntest_package (test.test_modulefinder.ModuleFinderTest.test_package) ... ok\ntest_relative_imports (test.test_modulefinder.ModuleFinderTest.test_relative_imports) ... ok\ntest_relative_imports_2 (test.test_modulefinder.ModuleFinderTest.test_relative_imports_2) ... ok\ntest_relative_imports_3 (test.test_modulefinder.ModuleFinderTest.test_relative_imports_3) ... ok\ntest_relative_imports_4 (test.test_modulefinder.ModuleFinderTest.test_relative_imports_4) ... ok\ntest_replace_paths (test.test_modulefinder.ModuleFinderTest.test_replace_paths) ... ok\ntest_same_name_as_bad (test.test_modulefinder.ModuleFinderTest.test_same_name_as_bad) ... ok\ntest_syntax_error (test.test_modulefinder.ModuleFinderTest.test_syntax_error) ... ok\n\n----------------------------------------------------------------------\nRan 17 tests in 9.136s\n\nOK\n",
+  "elapsed_seconds": 9.504590166005073
+}

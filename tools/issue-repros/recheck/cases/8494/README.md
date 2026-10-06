@@ -1,6 +1,8 @@
 # Classmethod and staticmethod annotations (#8494)
 
-[Original issue](https://github.com/RustPython/RustPython/issues/8494). **Resolved in the reported scope.** Both wrappers support the two annotation attributes, cache values in the wrapper, and isolate writes/deletes from the wrapped function. The original unresolved-name input and regression test pass.
+[Original issue](https://github.com/RustPython/RustPython/issues/8494). **Resolved in the reported scope.** Both wrappers support the two annotation attributes, cache values in the wrapper, and isolate writes/deletes from the wrapped function. The module-level original, a separate function-local variant and the regression test pass.
+
+Independently rechecked on October 6, 2026 (KST): [fresh inputs, results and scope](../../independent/2026-10-06-closure24/cases/8494/README.md).
 
 ## Environment
 
@@ -28,6 +30,8 @@ export PYTHONDONTWRITEBYTECODE=1
 export LANG=C LC_ALL=C NO_COLOR=1 TERM=dumb
 ```
 
+The function-local input below is a variant of the original module-level example. Both forms were separately executed in the independent review; they must not be described as identical source.
+
 ## Reproducer
 
 Save as `probes.py`. This contains the selected function plus the original imports and dispatcher; unrelated issue functions are omitted.
@@ -37,7 +41,7 @@ import sys, json
 
 
 def issue8494():
-    # This is the literal original, including creating both wrappers before Missing.
+    # Function-local variant; the module-level original is tested separately.
     def f() -> Missing:
         pass
 

@@ -1,0 +1,21 @@
+{
+  "original": "PEP 749 wrapper annotations read/cache and wrapper-only writes fail; test_descr expectedFailure; comments claim fixed #8701.",
+  "minimum": "Both classmethod/staticmethod __annotations__ and __annotate__ read, cache, assign/delete and independence from wrapped function; original unresolved name setup.",
+  "tests": [
+    "Original minimal source exactly.",
+    "Full wrapper annotation/annotate matrix including unresolved read, cache identity, wrapper-only assignment/deletion.",
+    "Actual test_descr.ClassPropertiesAndMethods.test_classmethod_staticmethod_annotations unmodified; inspect expectedFailure state."
+  ],
+  "limits": "Comment #8701 is claim, not fresh evidence; first fixing commit requires parent/fix executions.",
+  "issue": 8494,
+  "url": "https://github.com/RustPython/RustPython/issues/8494",
+  "title": "PEP 749: classmethod and staticmethod do not implement annotation wrapper semantics",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:29.869464+00:00",
+  "all_comments_read": 3,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "9c7cf71ccd88bfef6492a8aced39d1e22601aa9213c94bace651d5a0cb19f78f",
+    "comments": "262daf92f04aa1894a09f42ec08ef13e82594adf5cc5943811a936c9904a1e9f"
+  }
+}

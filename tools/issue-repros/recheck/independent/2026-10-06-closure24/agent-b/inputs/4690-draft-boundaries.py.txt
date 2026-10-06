@@ -1,0 +1,22 @@
+import types
+descriptor = dict.__dict__['fromkeys']
+print('types-identity', type(descriptor) is types.ClassMethodDescriptorType)
+print('metadata', descriptor.__name__, descriptor.__qualname__, descriptor.__objclass__ is dict)
+class Child(dict):
+    pass
+class PythonClass:
+    @classmethod
+    def method(cls):
+        return cls
+print('python-classmethod', type(PythonClass.__dict__['method']).__name__)
+for owner in [dict, Child]:
+    for instance in [None, owner()]:
+        bound = descriptor.__get__(instance, owner)
+        result = bound(['a'], 9)
+        print('bound', owner.__name__, instance is None, type(bound).__name__, type(result).__name__, result)
+print('direct-call', descriptor(dict, ['a'], 2))
+for label, operation in [('wrong-owner', lambda: descriptor.__get__(None, str)), ('non-type-owner', lambda: descriptor.__get__(None, 1)), ('no-receiver', lambda: descriptor()), ('wrong-direct', lambda: descriptor(str, ['a']))]:
+    try:
+        print(label, 'accepted', operation())
+    except Exception as error:
+        print(label, type(error).__name__)

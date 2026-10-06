@@ -1,0 +1,4 @@
+>>> type("A\udcdcB", (), {})
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+UnicodeEncodeError: 'utf-8' codec can't encode character '\udcdc' in position 1: surrogates not allowed

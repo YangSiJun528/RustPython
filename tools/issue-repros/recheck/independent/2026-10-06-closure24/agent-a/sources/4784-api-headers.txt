@@ -1,0 +1,14 @@
+HTTP/2 200 
+x-served-by: cache-sjc10077-SJC, cache-icn1450078-ICN
+server: nginx/1.14.0 (Ubuntu)
+date: Mon, 05 Oct 2026 16:19:52 GMT
+content-type: text/html; charset=utf-8
+x-cache-hits: 0, 0
+x-cache: MISS, MISS
+vary: Accept-Encoding
+etag: "47610522764e44bd1b1cc51e55ba2ce3"
+cache-control: max-age=0
+age: 2
+accept-ranges: bytes
+strict-transport-security: max-age=31557600
+

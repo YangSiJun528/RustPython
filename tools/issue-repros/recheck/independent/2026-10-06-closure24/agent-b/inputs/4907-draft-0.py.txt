@@ -1,0 +1,35 @@
+import sys, json
+
+
+def issue4907():
+    import asyncio, time
+
+    source = "async def bar():\n    [await print(i) for i in [1, 2, 3]]\n"
+    namespace = {}
+    exec(compile(source, "<original-4907>", "exec"), namespace)
+    print("original compile: success")
+    original = namespace["bar"]()
+    try:
+        original.send(None)
+    except TypeError:
+        print("original invocation: TypeError from awaiting print result")
+    else:
+        raise AssertionError("expected TypeError")
+
+    async def lc():
+        [await asyncio.sleep(1) for _ in range(2)]
+        print("lc done")
+
+    start = time.monotonic()
+    loop = asyncio.new_event_loop()
+    tasks = [loop.create_task(lc())]
+    done, pending = loop.run_until_complete(asyncio.wait(tasks))
+    assert not pending
+    for task in done:
+        assert task.result() is None
+    loop.close()
+    assert time.monotonic() - start >= 1.9
+    print("comment execution: two awaited sleeps completed")
+
+
+globals()["issue" + sys.argv[1]]()

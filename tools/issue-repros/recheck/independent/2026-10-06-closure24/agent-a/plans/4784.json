@@ -1,0 +1,14 @@
+{
+  "issue": 4784,
+  "url": "https://github.com/RustPython/RustPython/issues/4784",
+  "title": "docs.rs page linked in the readme doesn't exist \" rustpython-0.1.2 is not a library.\"",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 2,
+  "declared_comments": 2,
+  "original_scope": "README online documentation link should lead to actual library API documentation instead of not-a-library error.",
+  "independent_plan": "Read README at target commit, follow exact destination and inspect actual crate/API page content, status/redirect and version; separate live docs from docs generated at target, do not cargo doc/build without permission.",
+  "limitations_and_source_corrections": "Historical docs.rs/rustpython served 0.1.2 non-library. Local cargo doc workaround does not prove public link fixed.",
+  "saved_utc": "2026-10-05T16:10:32.572185+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

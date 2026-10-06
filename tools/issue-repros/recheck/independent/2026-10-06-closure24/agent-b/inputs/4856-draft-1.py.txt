@@ -1,0 +1,43 @@
+from pathlib import Path
+
+source = Path(__file__).with_name("original-4856.py").read_text()
+code = compile(source, "original-4856.py", "exec")
+print("original compile success")
+try:
+    exec(code, {})
+except Exception as e:
+    print("original execution", type(e).__name__, str(e))
+from unittest import mock
+
+
+class BaseFTests:
+    pass
+
+
+class MockedA(BaseFTests):
+    pass
+
+
+def target():
+    return 1
+
+
+@mock.patch("__main__.target", lambda: 3)
+class MockedB(MockedA):
+    def test_value(self):
+        return target()
+
+
+print("valid patch method", MockedB().test_value(), "outside", target())
+
+
+def factory(value):
+    @mock.patch("__main__.target", lambda: value)
+    class Nested(MockedA):
+        def test_value(self):
+            return target()
+
+    return Nested
+
+
+print("nested capture", factory(7)().test_value(), "outside", target())

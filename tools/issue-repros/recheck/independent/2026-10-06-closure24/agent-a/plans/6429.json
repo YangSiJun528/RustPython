@@ -1,0 +1,14 @@
+{
+  "issue": 6429,
+  "url": "https://github.com/RustPython/RustPython/issues/6429",
+  "title": "`sysconfig.get_config_var('Py_GIL_DISABLED')` returns `None`",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 2,
+  "declared_comments": 2,
+  "original_scope": "sysconfig.get_config_var(\"Py_GIL_DISABLED\") should return 1 for RustPython, especially non-Windows.",
+  "independent_plan": "Run original expression and type; inspect RustPython sysconfig/build setting meaning, concurrency/GIL implementation evidence; CPython value informational only.",
+  "limitations_and_source_corrections": "Original Windows CI apparently correct; local macOS cannot establish all platforms.",
+  "saved_utc": "2026-10-05T16:10:32.570324+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

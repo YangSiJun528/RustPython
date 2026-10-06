@@ -1,0 +1,21 @@
+{
+  "original": "Deque subclass pickle drops __dict__; test_copy_pickle linked. Body accidentally pickles pickle.HIGHEST_PROTOCOL integer, not d.",
+  "minimum": "Keep literal typo input separately (both interpreters should fail __dict__ on int), and intended deque roundtrip retains subclass, items, maxlen and __dict__ protocols 0-5.",
+  "tests": [
+    "Literal original transcript converted by stripping prompts only.",
+    "Explicitly labeled corrected deque test protocols 0-5.",
+    "Run actual original regression test_copy_pickle unmodified and inspect execution count/skips."
+  ],
+  "limits": "Do not generalize to every collections subtype discussed speculatively in comments.",
+  "issue": 4769,
+  "url": "https://github.com/RustPython/RustPython/issues/4769",
+  "title": "Pickling deque subclasses ignores their `__dict__`.",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:20.920220+00:00",
+  "all_comments_read": 2,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "4b98f771218d01f0b3007758291a4181a57bcf2beebb3abd17345395c246af2b",
+    "comments": "f5ec5616742ff1458d95ae1a980eaef0f2f055f51ba69e7332679bfd14c419bb"
+  }
+}

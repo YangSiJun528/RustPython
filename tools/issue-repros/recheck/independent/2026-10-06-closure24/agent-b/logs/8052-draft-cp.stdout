@@ -1,0 +1,4 @@
+ellipsis
+<class 'ellipsis'>
+alias True
+notes ['when serializing ellipsis object', 'when serializing list item 0', 'when serializing module object', 'when serializing type object']

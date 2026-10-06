@@ -1,0 +1,10 @@
+from _collections import OrderedDict
+import collections
+assert OrderedDict is collections.OrderedDict
+x=OrderedDict([('a',1),('b',2),('c',3)]);assert list(x)==['a','b','c'];print(list(x.items()))
+x.move_to_end('a');assert list(x)==['b','c','a'];print(list(x.items()))
+x.move_to_end('c',last=False);assert list(x)==['c','b','a'];print(list(reversed(x)))
+assert x.popitem(last=False)==('c',3);assert x.popitem()==('a',1);print(list(x.items()))
+a=OrderedDict([('a',1),('b',2)]);b=OrderedDict([('b',2),('a',1)]);assert a!=b;assert a==dict(b);print('equality',a==b,a==dict(b))
+class Sub(OrderedDict):pass
+s=Sub.fromkeys('ab',7);assert type(s) is Sub;assert list(s.items())==[('a',7),('b',7)];print('subclass',list(s.items()))

@@ -1,0 +1,11 @@
+def f() -> Missing:
+    pass
+
+for wrapper in (classmethod(f), staticmethod(f)):
+    Missing = int
+    print(type(wrapper).__name__, wrapper.__annotations__)
+    print("__annotations__" in wrapper.__dict__)
+
+    wrapper.__annotations__ = {"x": str}
+    print("wrapper:", wrapper.__annotations__)
+    print("wrapped:", f.__annotations__)

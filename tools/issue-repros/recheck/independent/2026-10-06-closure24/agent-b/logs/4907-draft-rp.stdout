@@ -1,0 +1,5 @@
+original compile: success
+1
+original invocation: TypeError from awaiting print result
+lc done
+comment execution: two awaited sleeps completed

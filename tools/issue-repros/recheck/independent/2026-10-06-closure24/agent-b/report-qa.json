@@ -1,0 +1,98 @@
+[
+  {
+    "issue": 4506,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 156,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 4690,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 135,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 4937,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 101,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 4769,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 166,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 4856,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 156,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 4907,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 160,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 4908,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 127,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 5179,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 239,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 5656,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 134,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 5699,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 252,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 8052,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 154,
+    "final_verdict_present": true
+  },
+  {
+    "issue": 8494,
+    "missing_embedded_inputs": [],
+    "broken_local_links": [],
+    "foreign_case_boilerplate": [],
+    "lines": 180,
+    "final_verdict_present": true
+  }
+]

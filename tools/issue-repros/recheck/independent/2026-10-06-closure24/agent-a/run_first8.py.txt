@@ -1,0 +1,77 @@
+from runner import *
+import re
+clean={k:None for k in ['PYTHONPATH','PYTHONHOME','PYTHONWARNINGS','PYTHONSTARTUP','PYTHONSAFEPATH','RUSTPYTHONPATH']};clean.update({'RUSTPYTHONPATH':str(ROOT/'Lib'),'LANG':'C','LC_ALL':'C','NO_COLOR':'1','TERM':'dumb','SRC':str(ROOT)})
+scripts={
+'4762-original':'''assert('%*s' % (-5, 'abc') == 'abc  ')\n''',
+'4762-matrix':'''assert '%*s' % (-5, 'abc') == 'abc  '
+for value,fmt in [('abc','%*.*s'),(b'abc',b'%*.*s')]:
+ for width in [-5,-3,-1,0,1,3,5]:
+  for precision in [-3,-1,0,1,3,5]:
+   x=fmt%(width,precision,value);print(type(value).__name__,width,precision,repr(x),len(x))
+for fmt,args in [('%*s',(-5,'abc')),('%-*s',(-5,'abc')),('%0*d',(-5,12)),('%+*d',(-5,12)),('%#*x',(-8,12))]:
+ x=fmt%args;print(fmt,repr(x),len(x))
+''',
+'4786-original':r'''type("A\udcdcB", (), {})
+''',
+'4786-details':r'''for s in ["A\udcdcB","A\ud800\udfffB","A\ud800B","A🚀B"]:
+ print('input',ascii(s),[ord(c) for c in s])
+ try: t=type(s,(),{});print('accepted',ascii(t.__name__))
+ except UnicodeEncodeError as e:
+  print('rejected',e.encoding,ascii(e.object),e.start,e.end,e.reason)
+  if s == "A\udcdcB": assert (e.encoding,e.object,e.start,e.end,e.reason)==('utf-8',s,1,2,'surrogates not allowed')
+ else: assert not any(0xD800<=ord(c)<=0xDFFF for c in s)
+''',
+'3418-original':'''from _collections  import OrderedDict\n''',
+'3418-operations':'''from _collections import OrderedDict
+import collections
+assert OrderedDict is collections.OrderedDict
+x=OrderedDict([('a',1),('b',2),('c',3)]);assert list(x)==['a','b','c'];print(list(x.items()))
+x.move_to_end('a');assert list(x)==['b','c','a'];print(list(x.items()))
+x.move_to_end('c',last=False);assert list(x)==['c','b','a'];print(list(reversed(x)))
+assert x.popitem(last=False)==('c',3);assert x.popitem()==('a',1);print(list(x.items()))
+a=OrderedDict([('a',1),('b',2)]);b=OrderedDict([('b',2),('a',1)]);assert a!=b;assert a==dict(b);print('equality',a==b,a==dict(b))
+class Sub(OrderedDict):pass
+s=Sub.fromkeys('ab',7);assert type(s) is Sub;assert list(s.items())==[('a',7),('b',7)];print('subclass',list(s.items()))
+''',
+'3430-original':'''import xml.etree.ElementTree as etree
+etree.XML("<root></root>")
+''',
+'3430-parsing':'''import xml.etree.ElementTree as etree
+import pyexpat
+for xml in ['<root></root>','<root k="v"><child>text</child></root>','<root xmlns="urn:r"><child a="b">한글🚀</child></root>',b'<?xml version="1.0" encoding="UTF-8"?><root>caf\xc3\xa9</root>']:
+ r=etree.XML(xml);print([(e.tag,e.text,sorted(e.attrib.items())) for e in r.iter()])
+p=pyexpat.ParserCreate(None,'}');events=[];p.StartElementHandler=lambda n,a:events.append((n,sorted(a.items())));p.Parse('<root><child/></root>',True);print('expat events',events);assert len(events)==2
+try:r=etree.XML('<a></b>');print('malformed accepted',r.tag)
+except etree.ParseError as e:print('malformed rejected',type(e).__name__)
+''',
+'4527-original':'''class X:
+    def __del__(self):
+        print('deleted!')
+
+x = X()
+''',
+'4527-explicit':'''class X:
+    def __del__(self):
+        print('deleted!')
+x=X()
+del x
+print('after explicit del')
+''',
+'6429-config':'''import sys,sysconfig
+value=sysconfig.get_config_var('Py_GIL_DISABLED')
+print(value);print('type',type(value).__name__);print('implementation',sys.implementation.name);print('platform',sys.platform);print('gil_enabled',sys._is_gil_enabled())
+if sys.implementation.name=='rustpython':assert value==1 and type(value) is int and sys._is_gil_enabled() is False
+'''}
+for n in [4950,4970]:
+ draft=(OUT/'logs'/f'draft-{n}.stdout').read_text();scripts[f'{n}-draft']=re.findall(r'```python\n(.*?)```',draft,re.S)[0]
+for name,code in scripts.items():
+ p=OUT/'inputs'/f'{name}.py';p.write_text(code)
+for n in [4762,4786,3418,3430,4527,4950,4970,6429]:
+ for name in [x for x in scripts if x.startswith(str(n))]:
+  p=OUT/'inputs'/f'{name}.py'
+  for who,exe in [('rp',BIN),('cp',CP)]:
+   env=dict(clean);env['RUSTPYTHONPATH']=str(ROOT/'Lib') if who=='rp' else None
+   if n==4970:env.update({'LC_ALL':None,'LANG':'en_US.UTF-8','LC_NUMERIC':'en_US.UTF-8'})
+   argv=[exe,'-B',p]+(['4950'] if n==4950 else [])
+   refs=[p]+([ROOT/'Lib/test/test_format.py',ROOT/'Lib/test/test_types.py'] if n==4970 else [])
+   run(name+'-'+who,n,argv,env=env,inputs=refs,judgment='Original/review claims compared from identical input; 4786 original expects UnicodeEncodeError and exit 1; 4970 requires 3 non-skipped tests.')

@@ -1,0 +1,4 @@
+original compile success
+original execution NameError name 'BaseFTests' is not defined
+valid patch method 3 outside 1
+nested capture 7 outside 1

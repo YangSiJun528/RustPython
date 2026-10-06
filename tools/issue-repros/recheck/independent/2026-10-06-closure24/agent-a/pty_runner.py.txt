@@ -1,0 +1,66 @@
+from runner import *
+import pty,select,re,errno
+
+def terminal(id,issue,exe,lines,flags=(),env=None,timeout=20):
+ e=dict(os.environ)
+ for k in list(e):
+  if k.startswith(('PYTHON','RUSTPYTHON','LC_')):e.pop(k,None)
+ e.update({'PYTHONDONTWRITEBYTECODE':'1','LC_ALL':'C','LANG':'C','TERM':'dumb','PYTHON_BASIC_REPL':'1','NO_COLOR':'1','TMPDIR':str(OUT/'tmp')})
+ for k,v in (env or {}).items():
+  if v is None:e.pop(k,None)
+  else:e[k]=str(v)
+ argv=list(map(str,[exe,'-B','-S','-q',*flags]));so=OUT/'logs'/f'{id}.stdout';se=OUT/'logs'/f'{id}.stderr';inp=OUT/'inputs'/f'{id}.txt'
+ if so.exists() or se.exists() or inp.exists():raise FileExistsError(id)
+ inp.write_text('\n'.join(lines)+'\n');rec={'execution_id':id,'issue':issue,'slot':'A','argv':argv,'cwd':str(ROOT),'relevant_env':{k:v for k,v in e.items() if k.startswith(('PYTHON','RUSTPYTHON','LC_','LANG','TERM','TMP'))},'input_sha256':{str(inp):sha(inp)},'executable':str(exe.resolve()),'executable_sha256':sha(exe),'start':datetime.datetime.now(datetime.timezone.utc).isoformat(),'timeout_seconds':timeout,'stdout':str(so),'stderr':str(se),'stderr_merged_into_pty_stdout':True,'judgment_rationale':'PTY prompt reached after each input line, output must match expressions/import observations. Explicit flush then os._exit prevents RustPython history write; shutdown not assessed by this terminal run.'}
+ data=bytearray();cursor=0;events=[];deadline=time.monotonic()+timeout;pid,fd=pty.fork()
+ if pid==0:
+  os.chdir(ROOT);os.execve(str(exe),argv,e)
+ status=None
+ def pump(expect_prompt):
+  nonlocal cursor,status
+  while time.monotonic()<deadline:
+   ready,_,_=select.select([fd],[],[],.1)
+   if ready:
+    try:chunk=os.read(fd,65536)
+    except OSError as x:
+     if x.errno==errno.EIO:chunk=b''
+     else:raise
+    if chunk:data.extend(chunk)
+    else:return False
+   clean=re.sub(rb'\x1b\[[0-?]*[ -/]*[@-~]',b'',bytes(data[cursor:]))
+   if expect_prompt and re.search(rb'(?:>{3,5}|\.{3,5}) $',clean):
+    events.append({'after_line':len(events)-1,'output':clean.decode('utf-8','replace')});cursor=len(data);return True
+   got,st=os.waitpid(pid,os.WNOHANG)
+   if got:status=st;return False
+  raise TimeoutError('PTY deadline')
+ try:
+  assert pump(True),'no initial prompt'
+  for i,line in enumerate(lines):
+   os.write(fd,(line+'\n').encode());ok=pump(i<len(lines)-1)
+   if i<len(lines)-1 and not ok:raise RuntimeError('missing prompt after '+str(i))
+  if status is None:
+   while time.monotonic()<deadline:
+    got,st=os.waitpid(pid,os.WNOHANG)
+    if got:status=st;break
+    time.sleep(.03)
+   if status is None:raise TimeoutError('exit deadline')
+  rec['exit']=os.waitstatus_to_exitcode(status);rec['timeout']=False
+ except Exception as x:
+  rec['harness_error']=repr(x);rec['timeout']=isinstance(x,TimeoutError)
+  try:os.killpg(pid,signal.SIGKILL)
+  except ProcessLookupError:pass
+  if status is None:_,status=os.waitpid(pid,0)
+  rec['exit']=os.waitstatus_to_exitcode(status)
+ finally:
+  try:os.killpg(pid,signal.SIGKILL);rec['residual_group_cleanup']=True
+  except ProcessLookupError:rec['residual_group_cleanup']=False
+  os.close(fd)
+ so.write_bytes(data);se.write_bytes(b'');rec.update({'end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'prompt_events':events,'input_sha256_after':{str(inp):sha(inp)},'executable_sha256_after':sha(exe)})
+ with (OUT/'executions.jsonl').open('a') as f:f.write(json.dumps(rec,ensure_ascii=False)+'\n')
+ print(id,rec['exit'],rec.get('harness_error',''),flush=True)
+ return rec
+if __name__=='__main__':
+ for who,exe in [('rp',BIN),('cp',CP)]:
+  dest=OUT/'tmp'/('2527-new-'+who+'.txt');assert not dest.exists()
+  lines=['import os, sys',"print('ISATTY', sys.stdin.isatty())",'for i in range(10):','    i','',f"with open({str(dest)!r}, 'w') as f:","    f.write('hello')",'','sys.stdout.flush(); sys.stderr.flush(); os._exit(0)']
+  terminal('2527-pty-'+who,2527,exe,lines)

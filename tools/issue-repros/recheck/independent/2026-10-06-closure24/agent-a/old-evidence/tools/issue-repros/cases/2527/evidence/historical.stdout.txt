@@ -1,0 +1,10 @@
+Welcome to the magnificent Rust Python 0.1.2 interpreter 😱 🖖
+No previous history.
+[0K>>>>> [6Cfor i in range(10):
+[0K..... [6C    i
+[0K..... [6C
+[0K>>>>> [6Cwith open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') [0K>>>>> with open('/survey/verification-tools/derived-a/repl-output-1.txt', 'w') a
+s f:
+[0K..... [6C    f.write('hello')
+[0K..... [6C
+[0K>>>>> [6Cexit()

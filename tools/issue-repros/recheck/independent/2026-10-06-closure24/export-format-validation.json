@@ -1,0 +1,97 @@
+[
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/3418/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/3430/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/3846/README.md",
+    "python_blocks": 4,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4506/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4527/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4541/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4690/README.md",
+    "python_blocks": 3,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4762/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4769/README.md",
+    "python_blocks": 3,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4786/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4856/README.md",
+    "python_blocks": 3,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4908/README.md",
+    "python_blocks": 3,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4937/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4950/README.md",
+    "python_blocks": 3,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/4970/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/5179/README.md",
+    "python_blocks": 2,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/6429/README.md",
+    "python_blocks": 1,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/8052/README.md",
+    "python_blocks": 4,
+    "ast_equivalent": true
+  },
+  {
+    "file": "tools/issue-repros/recheck/independent/2026-10-06-closure24/cases/8494/README.md",
+    "python_blocks": 3,
+    "ast_equivalent": true
+  }
+]

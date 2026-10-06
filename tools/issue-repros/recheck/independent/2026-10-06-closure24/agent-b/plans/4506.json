@@ -1,0 +1,20 @@
+{
+  "original": "RustPython 0.2.0 import sympy 1.11.1 with mpmath 1.2.1 on macOS fails assigning Pow.is_commutative; comment confirms 0.3.0 still fails.",
+  "minimum": "Real import of exact dependency versions must finish; reach original Pow construction and attribute assignment path. A reduced descriptor test alone cannot close package import scope.",
+  "tests": [
+    "Locate and hash installed exact packages before reuse; print versions and actual import paths.",
+    "Run import sympy on RustPython and same input CPython; construct Pow(... evaluate=False) and LambertW/tribonacci original attribute path."
+  ],
+  "limits": "Installing dependencies is outside current authorization; absence of exact versions means unverifiable.",
+  "issue": 4506,
+  "url": "https://github.com/RustPython/RustPython/issues/4506",
+  "title": "Sympy fails to import in rustpython",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:17.786141+00:00",
+  "all_comments_read": 3,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "b93787ba234558a2008767184dae0fd45d461f1ef071d28343b9baafaa072cd4",
+    "comments": "9d7f6a512ed1e7a8abe45ffbfae596c3cc3ef4d137124bdb99490e2be3867aa7"
+  }
+}

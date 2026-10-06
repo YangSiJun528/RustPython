@@ -1,0 +1,192 @@
+{
+  "issue": 4527,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "The unchanged top-level lifetime pattern prints deleted! at process shutdown, with exit 0 and no stderr, matching CPython. The separate explicit-del control also behaves normally.",
+  "original_scope": "An X instance retained by module global x must execute __del__ and print deleted! during ordinary script process shutdown.",
+  "original_issue_url": "https://github.com/RustPython/RustPython/issues/4527",
+  "original_issue_snapshot": "<initial16-audit>/agent-a/issue-4527-original.json",
+  "original_comments_read": 0,
+  "fresh_evidence": [
+    {
+      "label": "4527-control-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/4527-control.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4527-control.py",
+      "input_sha256": "b1aa7b63d3ed489617335104a6509911826e01eeb2d098aa2c479f446b175ca4",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190903.031896,
+      "duration_seconds": 0.028422832489013672,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4527-control-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4527-control-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4527-control-cp.json"
+    },
+    {
+      "label": "4527-control-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/4527-control.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4527-control.py",
+      "input_sha256": "b1aa7b63d3ed489617335104a6509911826e01eeb2d098aa2c479f446b175ca4",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190902.9433951,
+      "duration_seconds": 0.0878288745880127,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4527-control-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4527-control-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4527-control-rp.json"
+    },
+    {
+      "label": "4527-original-cp",
+      "argv": [
+        "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+        "-B",
+        "<initial16-audit>/agent-a/4527-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": null
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4527-original.py",
+      "input_sha256": "9855fcf04216ce2fe520ca86d42e7e64bea2071ed4465bc787be88695e90aaac",
+      "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "started_unix": 1791190884.948562,
+      "duration_seconds": 0.03178119659423828,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4527-original-cp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4527-original-cp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4527-original-cp.json"
+    },
+    {
+      "label": "4527-original-rp",
+      "argv": [
+        "<survey>/.build/slot-a/verification/rustpython",
+        "-B",
+        "<initial16-audit>/agent-a/4527-original.py"
+      ],
+      "cwd": "<workspace>",
+      "environment_overrides": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "RUSTPYTHONPATH": "<workspace>/Lib"
+      },
+      "removed_environment": [
+        "PYTHONPATH",
+        "PYTHONHOME",
+        "PYTHONWARNINGS",
+        "PYTHONSTARTUP"
+      ],
+      "input_path": "<initial16-audit>/agent-a/4527-original.py",
+      "input_sha256": "9855fcf04216ce2fe520ca86d42e7e64bea2071ed4465bc787be88695e90aaac",
+      "executable_realpath": "<survey>/.build/slot-a/verification/rustpython",
+      "executable_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "started_unix": 1791190884.854462,
+      "duration_seconds": 0.09340214729309082,
+      "exit_code": 0,
+      "timed_out": false,
+      "stdout_file": "<initial16-audit>/agent-a/4527-original-rp.stdout",
+      "stderr_file": "<initial16-audit>/agent-a/4527-original-rp.stderr",
+      "metadata_file": "<initial16-audit>/agent-a/4527-original-rp.json"
+    }
+  ],
+  "old_evidence": {
+    "kind": "reused historical/current export records; no historical executable rerun",
+    "source_directory": "<report-worktree>/tools/issue-repros/cases/4527",
+    "historical_commit": "e5735cde67b86699bd68c8959167ecf2649a6f2d",
+    "historical_binary_sha256": "817009a20856cd8843badde4081447a0ca188836de398d35d32d82db725504ae",
+    "historical_input_sha256": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d",
+    "historical_exit_code": 0,
+    "historical_timeout": false,
+    "historical_selection": {
+      "role": "closest_preissue_main_approximation",
+      "reason": "No case-specific identifiable runtime revision supplied."
+    },
+    "old_current_binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+    "log_integrity": {
+      "issue": 4527,
+      "historical_recorded_input_hash_matches": true,
+      "canonical_vs_recorded_AST_equal": true,
+      "exported_log_hashes_all_match": true
+    },
+    "input_equivalence_to_live_issue": "Existing canonical source changes quote style/blank lines only. It retains the global x until interpreter exit and does not insert del x.",
+    "existing_reproducer_sufficiency": "The existing whole-process script is sufficient for the specific missing finalizer output. An embedded exec or explicit deletion would not suffice; neither was substituted in fresh original execution.",
+    "audit_file": "<initial16-audit>/agent-a/old-evidence-audit.json",
+    "limits": [
+      "Old binary/source/Lib pairing is supported by recorded metadata, not independently reexecuted in this pass.",
+      "Historical logs were path-redacted in the export. Matching export hashes establish integrity of these records, not independent truth of their provenance.",
+      "A historical/current comparison does not establish the first fixing commit."
+    ]
+  },
+  "change_basis": {
+    "description": "Baseline ancestor 3814348943491629c37d916af69a5f6ce24b4167 for PR 6934 invokes vm.finalize_modules() after atexit and before flushing streams and adds ordered module-dict clearing. The duplicate PR-number commit 7004502 is not a baseline ancestor and was excluded.",
+    "related_commits": [
+      {
+        "pr": 6934,
+        "commit": "3814348943491629c37d916af69a5f6ce24b4167",
+        "subject": "dealloc and finalize_modules  (#6934)",
+        "ancestor_check_exit": 0,
+        "stderr": "",
+        "first_fix_established": false
+      }
+    ],
+    "first_fix_established": false,
+    "source_identity": "<initial16-audit>/agent-a/source-identity.json"
+  },
+  "limits": [
+    "No claim about finalizer ordering, cycles, daemon threads, resurrection, abnormal exit, or embedded-interpreter teardown."
+  ],
+  "boundary_summary": "Exact shutdown result is 'deleted!\\n'. Explicit del is a separate control and is not the basis for closure.",
+  "environment": {
+    "baseline_commit": "f39b054b9c8cbbf884f53123eef028131789990c",
+    "lib_tree": "2f62efb194a326f4abef6d2a61b0c5babc09e96b",
+    "rustpython_binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+    "cpython_binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+    "cpython_version": "3.14.6",
+    "identity_files": [
+      "<initial16-audit>/agent-a/identity-rp.stdout",
+      "<initial16-audit>/agent-a/identity-cp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-rp.stdout",
+      "<initial16-audit>/agent-a/identity-detail-cp.stdout"
+    ]
+  }
+}

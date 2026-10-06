@@ -1,0 +1,109 @@
+"""Validate newly collected report evidence without executing any test input."""
+import datetime
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+EXPECTED = [2527, 3418, 3430, 3846, 4506, 4527, 4541, 4690, 4762, 4769, 4784, 4786, 4856, 4907, 4908, 4937, 4950, 4970, 5179, 5656, 5699, 6429, 8052, 8494]
+
+records = []
+for path in sorted(ROOT.glob("agent-*/executions.jsonl")):
+    for line in path.read_text().splitlines():
+        row = json.loads(line)
+        row["record_source"] = str(path.relative_to(ROOT))
+        records.append(row)
+for path in sorted(ROOT.glob("agent-*/records/*.json")):
+    row = json.loads(path.read_text())
+    if "execution_id" in row:
+        row["record_source"] = str(path.relative_to(ROOT))
+        records.append(row)
+
+errors = []
+seen = set()
+normalized = []
+for row in records:
+    key = (row["slot"], row["execution_id"])
+    if key in seen:
+        errors.append({"duplicate_execution_id": key})
+    seen.add(key)
+    out = row.get("stdout", row.get("stdout_file"))
+    err = row.get("stderr", row.get("stderr_file"))
+    log_hashes = {}
+    for label, path in [("stdout", out), ("stderr", err)]:
+        if path and Path(path).is_file():
+            log_hashes[label] = hashlib.sha256(Path(path).read_bytes()).hexdigest()
+        else:
+            errors.append({"record": key, "missing_log": path, "stream": label})
+    for before, after in [("input_sha256", "input_sha256_after"), ("executable_sha256", "executable_sha256_after")]:
+        if after in row and row.get(before) != row[after]:
+            errors.append({"record": key, "hash_mismatch": before})
+    normalized.append({
+        "execution_id": row["execution_id"], "issue": row.get("issue"), "slot": row["slot"],
+        "argv": row["argv"], "cwd": row["cwd"], "relevant_env": row.get("relevant_env", {}),
+        "input_path": row.get("input_path"), "input_sha256": row.get("input_sha256"),
+        "executable": row.get("executable", row.get("executable_realpath")),
+        "executable_sha256": row.get("executable_sha256"),
+        "start": row["start"], "end": row["end"],
+        "stdout": out, "stderr": err, "log_sha256": log_hashes,
+        "exit_code": row.get("exit", row.get("exit_code")),
+        "timeout": row.get("timeout", row.get("timed_out")),
+        "timeout_seconds": row.get("timeout_seconds"),
+        "judgment_rationale": row.get("judgment_rationale"),
+        "record_source": row["record_source"],
+    })
+
+runtime = []
+for row in normalized:
+    argv = row["argv"]
+    if Path(str(argv[0])).name.startswith(("python", "rustpython")):
+        runtime.append(row)
+        expected_cwd = {
+            "A": "<workspace>",
+            "B": "<slot-b-source>",
+        }[row["slot"]]
+        if row["cwd"] != expected_cwd:
+            errors.append({"record": row["execution_id"], "unexpected_runtime_cwd": row["cwd"]})
+        if row["issue"] is not None and row["issue"] not in EXPECTED:
+            errors.append({"record": row["execution_id"], "unexpected_issue": row["issue"]})
+overlaps = []
+for slot in ["A", "B"]:
+    queue = sorted((r for r in runtime if r["slot"] == slot), key=lambda x: x["start"])
+    for first, second in zip(queue, queue[1:]):
+        if datetime.datetime.fromisoformat(first["end"]) > datetime.datetime.fromisoformat(second["start"]):
+            overlaps.append([first["execution_id"], second["execution_id"]])
+
+events = []
+for row in runtime:
+    events.extend([(datetime.datetime.fromisoformat(row["start"]), 1), (datetime.datetime.fromisoformat(row["end"]), -1)])
+active = peak = 0
+for moment, delta in sorted(events):
+    active += delta
+    peak = max(peak, active)
+if overlaps or peak > 2:
+    errors.append({"concurrency": {"same_slot_overlaps": overlaps, "peak_runtime_count": peak}})
+
+for slot, agent in [("A", "agent-a"), ("B", "agent-b")]:
+    gate = json.loads((ROOT / f"parent/phase-gate-{slot}.json").read_text())
+    for name, before in gate["original_plan_hashes"].items():
+        path = ROOT / agent / "plans" / name
+        if not path.is_file() or hashlib.sha256(path.read_bytes()).hexdigest() != before:
+            errors.append({"original_plan_changed_since_gate": str(path.relative_to(ROOT))})
+
+actual = sorted(int(p.parent.name) for p in (ROOT / "cases").glob("*/README.md"))
+if actual != EXPECTED:
+    errors.append({"case_report_set": actual})
+for path in (ROOT / "cases").glob("*/README.md"):
+    body = path.read_text()
+    if "<details" in body or any(line.startswith("|") for line in body.splitlines()):
+        errors.append({"forbidden_table_or_details": str(path.relative_to(ROOT))})
+
+(ROOT / "executions.jsonl").write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in normalized))
+summary = {
+    "audit_time_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    "records": len(records), "runtime_records": len(runtime), "case_reports": actual,
+    "same_slot_runtime_overlaps": overlaps, "peak_recorded_runtime_concurrency": peak, "errors": errors,
+    "scope": "Saved execution records, log existence and hashes, recorded before/after hashes, report set/format. Process history outside these records is not covered.",
+}
+(ROOT / "parent/evidence-audit.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2))
+print(json.dumps(summary, ensure_ascii=False))

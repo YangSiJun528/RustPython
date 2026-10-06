@@ -1,0 +1,7 @@
+import pickle
+from collections import deque
+class Deque(deque): pass
+d=Deque()
+d.x="value"
+e=pickle.loads(pickle.dumps(pickle.HIGHEST_PROTOCOL))
+e.__dict__

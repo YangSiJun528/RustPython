@@ -5,6 +5,7 @@ The October 5, 2026 review recommends **24 issues for closure** and identifies
 [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
 
 - [Combined issue draft](report.md): the 24 closure recommendations.
+- [October 6 independent recheck](recheck/independent/2026-10-06-closure24/README.md): fresh evidence for all 24 candidates and wording corrections for #4690 and #8494.
 - [Detailed reports](recheck/cases/): all 27 cases, with complete reproduction
   inputs, commands, environment, expected results and recorded results inline.
 - [Partially resolved issues](recheck/not-ready.md): #4613, #5181 and #6790.

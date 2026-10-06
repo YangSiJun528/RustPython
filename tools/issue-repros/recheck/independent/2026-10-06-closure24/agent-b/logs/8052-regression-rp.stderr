@@ -1,0 +1,7 @@
+test_bad_default (test.test_json.test_default.TestPyDefault.test_bad_default) ... ok
+test_bad_default (test.test_json.test_default.TestCDefault.test_bad_default) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+OK

@@ -1,0 +1,347 @@
+[
+  {
+    "issue": 4506,
+    "url": "https://github.com/RustPython/RustPython/issues/4506",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:17.786141+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "원문 import와 확장 입력 모두 양쪽에서 종료 0. 실제 버전은 1.11.1/1.2.1이고 동일한 보존 패키지 경로에서 로드했다. trace에 [\"__new__\", 378]이 기록된 뒤 Pow가 1/E를 반환했고 is_commutative is True, expand 값도 assert를 통과했다. 양쪽 stderr에는 SymPy runtests.py:275의 return-in-finally SyntaxWarning이 동일하게 있다. import 실패는 아니다.",
+    "original_scope": "macOS의 RustPython 0.2.0에서 SymPy 1.11.1과 mpmath 1.2.1을 설치한 뒤 import sympy가 power.py의 obj.is_commutative 대입에서 AttributeError로 중단된다. 0.3.0에서도 같다는 댓글이 있다. 최소 종료 범위는 해당 버전의 실제 패키지 import와 원래 Pow 처리 경로다.",
+    "draft_scope": "초안은 두 패키지의 실제 버전, import 성공, power.py:378 대입 관찰, Pow(S.Exp1, -1, evaluate=False) 및 간단한 expand 성공을 주장한다.",
+    "suggested_wording": "SymPy 1.11.1과 mpmath 1.2.1이 실제로 import되며, 원래 실패한 power.py:378 is_commutative 대입을 포함한 Pow 경로가 성공한다.",
+    "unverified_claims": [],
+    "limits": [
+      "패키지 설치 과정과 SymPy 전체 테스트는 검증하지 않았다. 원래의 사용 단계인 import와 명시된 Pow/expand 범위만 확인했다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "4506-original-rp",
+      "4506-original-cp",
+      "4506-draft-rp",
+      "4506-draft-cp"
+    ],
+    "report": "<closure24-audit>/cases/4506/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/4506.json"
+  },
+  {
+    "issue": 4690,
+    "url": "https://github.com/RustPython/RustPython/issues/4690",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:18.848810+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "문구 축소·수정",
+    "summary_reason": "원시 조회는 classmethod_descriptor, 바인딩된 조회는 builtin_function_or_method다. 두 출력은 CPython과 정확히 같다. types.ClassMethodDescriptorType 동일성, 메타데이터, dict/Child 바인딩, 잘못된 owner의 TypeError 및 Python classmethod 구분도 같았다. 추가로 int.from_bytes와 float.fromhex의 원시/바인딩 타입과 호출 결과까지 assert를 통과했다.",
+    "original_scope": "dict.__dict__[\"fromkeys\"]의 원시 디스크립터 타입이 classmethod가 아닌 classmethod_descriptor여야 한다. 두 번째 원문 표현 type(dict.fromkeys)는 이미 builtin_function_or_method로 제시되어 있다. Python에서 정의한 @classmethod와 구분하는 것이 핵심이다.",
+    "draft_scope": "초안은 “두 원문 조회가 모두 classmethod_descriptor”라고 쓰고, 바인딩과 추가 native 디스크립터도 CPython과 같다고 주장한다. 첫 문장은 원문 요구를 잘못 합쳤다.",
+    "suggested_wording": "dict.__dict__[\"fromkeys\"]는 classmethod_descriptor이고, dict.fromkeys는 builtin_function_or_method다. 바인딩과 확인한 추가 native 메서드의 동작도 CPython과 일치한다.",
+    "unverified_claims": [],
+    "limits": [
+      "모든 native classmethod와 오류 문구 전체가 동일하다고 주장하지 않는다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "4690-original-rp",
+      "4690-original-cp",
+      "4690-boundaries-rp",
+      "4690-boundaries-cp",
+      "4690-native-additional-rp",
+      "4690-native-additional-cp"
+    ],
+    "report": "<closure24-audit>/cases/4690/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/4690.json"
+  },
+  {
+    "issue": 4937,
+    "url": "https://github.com/RustPython/RustPython/issues/4937",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:19.890677+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "원문 전체 경로는 양쪽에서 stdout/stderr 없이 종료 0. 추가 확인에서 X와 x는 원문 encoded word를 그대로 반환하고 defects는 빈 목록이었다. Q/B는 value로 디코딩됐다. 앞뒤 일반 텍스트가 있는 X 사례도 보존되었다. 반환 타입, 문자열, defects 출력이 양쪽에서 정확히 같다.",
+    "original_scope": "Ubuntu 18.04, RustPython 0.2.0/0284059에서 Subject:=?us-ascii?X?value?=를 email.policy.default로 파싱한 뒤 get(\"Subject\")가 KeyError(\"x\")를 낸다. charset은 us-ascii이고 알 수 없는 transfer encoding X가 문제다. CPython 3.8/3.9/3.11은 중단되지 않는다고 보고됐다.",
+    "draft_scope": "초안은 원문 Subject 조회가 KeyError 없이 끝나고, 추가 unknown-encoding/malformed header 사례도 확인됐다고 주장한다.",
+    "suggested_wording": "원문의 email Subject 조회는 KeyError 없이 끝나며, X/x encoded word 보존과 확인한 Q/B·앞뒤 텍스트 사례도 CPython과 일치한다.",
+    "unverified_claims": [],
+    "limits": [
+      "Ubuntu 18.04나 모든 email 문법을 검증하지 않았다. 원문 및 나열한 다섯 Subject 입력에 대한 결론이다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "4937-original-rp",
+      "4937-original-cp",
+      "4937-boundaries-rp",
+      "4937-boundaries-cp"
+    ],
+    "report": "<closure24-audit>/cases/4937/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/4937.json"
+  },
+  {
+    "issue": 4769,
+    "url": "https://github.com/RustPython/RustPython/issues/4769",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:20.920220+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "literal 원문은 양쪽 모두 int.__dict__ AttributeError, 종료 1이다. 별도 의도 입력은 Deque/DequeWithSlots × 세 가지 내용/maxlen × protocol 0–5, 총 36회 왕복에서 모든 assert를 통과했다. 원본 test_copy_pickle은 1개 실제 실행했고 skip/expectedFailure/unexpectedSuccess/오류/실패 모두 0이다.",
+    "original_scope": "deque subclass를 pickle로 왕복할 때 __dict__가 보존되지 않는 문제이며 test_deque.TestSubclass.test_copy_pickle을 연결한다. 원문은 pickle.dumps(pickle.HIGHEST_PROTOCOL)로 정수 자체를 pickle하는 오타가 있다. 그 문장을 d를 넘긴 코드로 몰래 교체하면 안 된다.",
+    "draft_scope": "초안은 원본 회귀 테스트 통과 및 protocol 0–5에서 subclass 타입·요소·maxlen·인스턴스 속성·slots 보존을 주장한다.",
+    "suggested_wording": "원문 오타와 의도 입력을 구분해 확인했다. deque subclass 상태는 protocol 0–5에서 보존되며 기존 test_copy_pickle도 마커 변경 없이 통과한다.",
+    "unverified_claims": [],
+    "limits": [
+      "재귀 deque pickle 및 다른 collections 전체는 종료 판단 범위가 아니다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "4769-literal-rp",
+      "4769-literal-cp",
+      "4769-draft-rp",
+      "4769-draft-cp",
+      "4769-regression-rp"
+    ],
+    "report": "<closure24-audit>/cases/4769/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/4769.json"
+  },
+  {
+    "issue": 4856,
+    "url": "https://github.com/RustPython/RustPython/issues/4856",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:21.959350+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "원문 파일은 양쪽 모두 BaseFTests NameError로 종료 1이며 Rust panic은 없다. 별도 compile(source, ..., \"exec\")도 성공했다. 보정 예제는 대상 함수를 test 메서드 안에서 3으로 바꾸고 밖에서는 1을 유지한다. nested capture는 7, 밖은 1이다. 양쪽 stdout이 같다.",
+    "original_scope": "Ubuntu 18.04/RustPython 0.2.0에서 lambda가 들어 있는 class decorator를 컴파일할 때 table.sub_tables.is_empty() Rust assertion panic이 난다. 제공 코드는 BaseFTests가 정의되지 않았고 mock.patch 대상도 빈 문자열이므로 정상 애플리케이션 성공을 기대할 수 없다.",
+    "draft_scope": "초안은 원문 컴파일 panic 해소와 실행 시 NameError를 구분하고, 유효한 mock.patch 및 nested capture 예제 성공을 주장한다.",
+    "suggested_wording": "원문은 Rust 컴파일러 panic 없이 컴파일된다. 원문 실행의 BaseFTests NameError는 CPython과 같고, 별도로 보정한 mock.patch와 nested capture는 성공한다.",
+    "unverified_claims": [],
+    "limits": [
+      "원문 앱은 여전히 잘못된 입력이다. “원문 프로그램이 정상 실행된다”는 결론은 내리지 않는다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "4856-original-rp",
+      "4856-original-cp",
+      "4856-compile-corrected-rp",
+      "4856-compile-corrected-cp"
+    ],
+    "report": "<closure24-audit>/cases/4856/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/4856.json"
+  },
+  {
+    "issue": 4907,
+    "url": "https://github.com/RustPython/RustPython/issues/4907",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:22.988630+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "원문 정의는 양쪽에서 종료 0. 따로 호출하면 1 출력 후 None을 await한 TypeError가 예상대로 발생한다. 댓글 원문은 실제 new_event_loop/create_task/wait/run_until_complete를 지나 lc done을 출력하고 종료 0이다. 확장 입력은 pending 없음, task.result() is None, 경과시간 1.9초 이상을 assert했다.",
+    "original_scope": "Ubuntu 18.04/RustPython 0.2.0에서 async 함수의 [await print(i) for i in [1,2,3]] 정의가 await outside async function SyntaxError로 거부된다. print 반환값은 await 불가능하므로 정의 성공과 함수 호출 성공을 구분해야 한다. 2025년 댓글은 실제 asyncio.sleep(1) 두 번을 기다리는 루프 예제를 제시했다.",
+    "draft_scope": "초안은 원문 정의의 컴파일 성공과 댓글 예제의 실제 event loop 완료·lc done 출력을 주장한다.",
+    "suggested_wording": "원문 async 함수 정의는 컴파일되며, 댓글의 실제 asyncio 이벤트 루프가 두 번의 sleep을 완료해 lc done을 출력한다.",
+    "unverified_claims": [],
+    "limits": [
+      "모든 asyncio·async generator 조합을 검증한 것은 아니다. Ubuntu의 OS 환경은 재현하지 않았다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "4907-original-rp",
+      "4907-original-cp",
+      "4907-comment-rp",
+      "4907-comment-cp",
+      "4907-draft-rp",
+      "4907-draft-cp"
+    ],
+    "report": "<closure24-audit>/cases/4907/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/4907.json"
+  },
+  {
+    "issue": 4908,
+    "url": "https://github.com/RustPython/RustPython/issues/4908",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:24.041496+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "양쪽 원문 출력은 A[1:2, *l]이며 reparse가 성공했다. 원문을 포함한 7개 표현에서 위치를 제외한 ast.dump가 모두 같았다. 별도 assert에서 Subscript의 slice가 Tuple이고 첫 원소가 Slice, 두 번째가 Starred임을 확인했다.",
+    "original_scope": "Ubuntu 18.04/RustPython 0.2.0/471ec26에서 A[1:2, *l]의 AST를 unparse하면 A[(1:2, *l)]가 되어 다시 parse하지 못한다. 최소 범위는 parse→unparse→reparse와 구조 보존이다.",
+    "draft_scope": "초안은 원문 재파싱 성공과 추가 slice/starred 조합의 AST 구조 보존을 주장한다.",
+    "suggested_wording": "원문 starred subscript는 유효한 구문으로 unparse되고 reparse되며, 확인한 7개 slice/starred 사례의 AST 구조가 보존된다.",
+    "unverified_claims": [],
+    "limits": [
+      "임의 AST 변환이나 실제 A/l 객체 실행의 의미까지 검증한 것은 아니다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "4908-original-rp",
+      "4908-original-cp",
+      "4908-boundaries-rp",
+      "4908-boundaries-cp",
+      "4908-structure-rp",
+      "4908-structure-cp"
+    ],
+    "report": "<closure24-audit>/cases/4908/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/4908.json"
+  },
+  {
+    "issue": 5179,
+    "url": "https://github.com/RustPython/RustPython/issues/5179",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:25.140900+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "bytes/bytearray/array/memoryview/bytes subclass/bytearray subclass/mmap 7종의 메서드·read payload·WRITABLE 요청 결과가 CPython과 같다. bytes 계열에 release 메서드가 없는 것도 CPython과 같다. 추가 실제 쓰기 입력은 bytearray/array/subclass의 원본 메모리를 바꾸고 export 중 append의 BufferError, release 뒤 view ValueError 및 append 성공을 assert했다. memoryview와 mmap 쓰기·해제, custom exporter get/release callback도 완료했다.",
+    "original_scope": "PEP 688/Python 3.12의 builtin buffer 접근 메서드 지원 요청이다. bytes, array, memoryview 등에서 __buffer__를 실제로 사용하고 필요한 타입의 __release_buffer__가 동작해야 한다. 단순 hasattr 성공만으로는 부족하다.",
+    "draft_scope": "초안은 builtin/subclass 메서드, 읽기·쓰기·release, export 중 resize 금지와 해제 후 resize 및 custom exporter callback을 주장한다.",
+    "suggested_wording": "확인한 builtin/subclass의 buffer 메서드와 실제 쓰기·release가 동작하며, bytearray/array는 export 중 resize를 막고 해제 뒤 허용한다.",
+    "unverified_claims": [],
+    "limits": [
+      "C ABI 전체, 모든 buffer flag·수명/동시성 조합은 미검증이며 초안도 그 범위를 주장하지 않는다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "5179-draft-rp",
+      "5179-draft-cp",
+      "5179-write-resize-rp",
+      "5179-write-resize-cp"
+    ],
+    "report": "<closure24-audit>/cases/5179/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/5179.json"
+  },
+  {
+    "issue": 5656,
+    "url": "https://github.com/RustPython/RustPython/issues/5656",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:26.676214+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "실제 기존 builtin_bytes.py를 수정 없이 양쪽에서 실행했다. 종료 0과 함께 25행 SyntaxWarning이 발생했다. 최소 bytes assert도 성공했다. invalid bytes/string은 warnings 필터 always에서 SyntaxWarning 1개, error에서 SyntaxError였다. escape한 역슬래시/raw bytes/유효 hex는 경고 없이 허용됐다. -Werror 프로세스는 양쪽 종료 1·SyntaxError다. 이때 오류 caret 열 위치는 다르며, 진단 전체가 byte-for-byte 같다고 주장하지 않는다.",
+    "original_scope": "extra_tests/snippets/builtin_bytes.py의 b\"omkmok\\Xaa\"를 실행해도 RustPython이 CPython의 invalid escape SyntaxWarning을 내지 않는다는 보고다. CPython 버전은 원문과 댓글에 확정되지 않았다. 현재 파일에서는 해당 줄이 25행이다.",
+    "draft_scope": "초안은 bytes 값 보존, 컴파일 중 SyntaxWarning 및 warning-as-error 처리를 주장한다.",
+    "suggested_wording": "현재 builtin_bytes.py의 원래 invalid escape에서 SyntaxWarning이 발생하고 bytes 값은 유지된다. -Werror는 예상한 SyntaxError 종료를 만든다.",
+    "unverified_claims": [],
+    "limits": [
+      "원문의 미상 CPython 버전이나 모든 진단 caret 위치 일치를 주장하지 않는다. 검증 비교 버전은 3.14.6이다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "5656-actual-snippet-rp",
+      "5656-actual-snippet-cp",
+      "5656-literal-rp",
+      "5656-literal-cp",
+      "5656-warnings-rp",
+      "5656-warnings-cp",
+      "5656-warnings-as-error-rp",
+      "5656-warnings-as-error-cp"
+    ],
+    "report": "<closure24-audit>/cases/5656/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/5656.json"
+  },
+  {
+    "issue": 5699,
+    "url": "https://github.com/RustPython/RustPython/issues/5699",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:27.709506+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "class pattern이 Point(3,4)에서 4를 추출했고 f_builtins의 builtin 및 custom dict 동일성, stdlib names frozenset과 필수 이름, ExceptionGroup의 ValueError/TypeError 분리가 assert를 통과했다. traceback의 class-pattern helper도 호출했다. 실제 builtin typo/미import io/0으로 나누기/ExceptionGroup은 양쪽 각 4개 프로세스 모두 정상 예외 종료 1이다. 여덟 stderr에 ANSI가 있고 각 pair는 내용까지 정확히 일치한다. API plain/colorize=True의 네 경로도 assert를 통과했다.",
+    "original_scope": "원문은 class pattern codegen, frame.f_builtins, sys.stdlib_module_names, except* codegen 네 가지를 색상 traceback의 blocker로 나열한다. 본문에 실행 코드는 없다. 모두 실제로 사용하고 실제 미처리 예외 출력까지 확인해야 한다.",
+    "draft_scope": "초안은 네 blocker의 동작, traceback API 및 실제 uncaught 예외 네 경로의 ANSI color와 builtin/stdlib suggestion을 주장한다.",
+    "suggested_wording": "보고된 네 blocker와 확인한 네 실제 미처리 예외 경로가 동작하며, 강제 색상 설정에서 ANSI와 builtin/stdlib 제안이 CPython과 일치한다.",
+    "unverified_claims": [],
+    "limits": [
+      "FORCE_COLOR=1/PYTHON_COLORS=1인 pipe 캡처다. 모든 터미널의 자동 색상 탐지나 모든 traceback edge case를 보장하지 않는다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "5699-blockers-rp",
+      "5699-blockers-cp",
+      "5699-uncaught-builtin-rp",
+      "5699-uncaught-builtin-cp",
+      "5699-uncaught-stdlib-rp",
+      "5699-uncaught-stdlib-cp",
+      "5699-uncaught-zero-rp",
+      "5699-uncaught-zero-cp",
+      "5699-uncaught-group-rp",
+      "5699-uncaught-group-cp"
+    ],
+    "report": "<closure24-audit>/cases/5699/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/5699.json"
+  },
+  {
+    "issue": 8052,
+    "url": "https://github.com/RustPython/RustPython/issues/8052",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:28.795595+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "유지",
+    "summary_reason": "원문 name/repr는 CPython과 같다. types.EllipsisType 및 _types.EllipsisType 모두 type(...)와 동일하다. JSON default의 중첩 실패에서 ellipsis/list item 0/module/type의 네 note가 같은 순서로 나온다. 실제 TestPyDefault.test_bad_default와 TestCDefault.test_bad_default 2개가 마커 변경 없이 실행됐고 skip/expectedFailure/unexpectedSuccess/오류/실패 모두 0이다.",
+    "original_scope": "type(...).__name__과 repr이 ellipsis/<class 'ellipsis'>여야 하며 types.EllipsisType는 동일 타입의 alias다. 원문은 JSON test_bad_default와 PEP 678의 when serializing ellipsis object note도 명시한다.",
+    "draft_scope": "초안은 name/repr, type alias, 기존 JSON 회귀 테스트 통과를 주장하며 사례 보고서는 네 JSON note가 같다고 적었다.",
+    "suggested_wording": "ellipsis 이름과 repr, types/_types alias가 맞으며 네 JSON note와 기존 Py/C test_bad_default 회귀 테스트도 통과한다.",
+    "unverified_claims": [],
+    "limits": [
+      "CPython 배포에는 test 패키지가 없어 repository 회귀 테스트는 RustPython에서 실행했다. 같은 독립 JSON 입력은 양쪽에서 비교했다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "8052-original-rp",
+      "8052-original-cp",
+      "8052-draft-rp",
+      "8052-draft-cp",
+      "8052-regression-rp",
+      "8052-alias-rp",
+      "8052-alias-cp"
+    ],
+    "report": "<closure24-audit>/cases/8052/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/8052.json"
+  },
+  {
+    "issue": 8494,
+    "url": "https://github.com/RustPython/RustPython/issues/8494",
+    "state": "open",
+    "retrieved_utc": "2026-10-05T16:10:29.869464+00:00",
+    "technical_verdict": "해결 확인",
+    "draft_disposition": "문구 축소·수정",
+    "summary_reason": "module-level 원문 그대로 양쪽을 실행해 cache True, wrapper {\"x\": str} 대입 뒤 f.__annotations__가 {\"return\": int}로 유지됨을 확인했다. 별도 local-function 변형과 annotated/unannotated × classmethod/staticmethod × 두 속성의 read/cache/assign/delete assert도 모두 통과했다. 원본 test_classmethod_staticmethod_annotations 1개가 skip/expectedFailure/unexpectedSuccess/오류/실패 없이 실행됐다.",
+    "original_scope": "PEP 749의 classmethod/staticmethod __annotations__ 및 __annotate__는 wrapper dict에 값을 cache하고 wrapper에 대한 대입은 wrapped function을 바꾸지 않아야 한다. 원문은 아직 정의되지 않은 Missing을 반환 annotation에 사용한다. 댓글의 #8701 해결 주장은 재실행 근거와 분리한다.",
+    "draft_scope": "초안은 두 wrapper·두 속성의 읽기/cache/대입/삭제 격리, 원문 예제 및 기존 회귀 테스트 통과를 주장한다.",
+    "suggested_wording": "module-level 원문과 별도 local-function 변형을 각각 확인했다. 두 wrapper의 두 annotation 속성은 cache·대입·삭제를 wrapper에 격리하며 원본 회귀 테스트도 통과한다.",
+    "unverified_claims": [],
+    "limits": [
+      "CPython 3.14.6 annotation 의미를 기준으로 한다. pre-3.14 eager annotation과 비교하지 않는다. CPython 배포의 test 패키지가 없어 repository 회귀 테스트는 RustPython에서만 실행했다.",
+      "No first-fixing revision established; historical runtimes not rerun.",
+      "Target binary identity corroborated by retained provenance, embedded banner and artifact hash; no fresh rebuild/full contemporaneous source attestation."
+    ],
+    "evidence_ids": [
+      "8494-original-rp",
+      "8494-original-cp",
+      "8494-draft-rp",
+      "8494-draft-cp",
+      "8494-regression-rp"
+    ],
+    "report": "<closure24-audit>/cases/8494/README.md",
+    "identity": "<closure24-audit>/agent-b/environment/IDENTITY.md",
+    "original_plan": "<closure24-audit>/agent-b/plans/8494.json"
+  }
+]

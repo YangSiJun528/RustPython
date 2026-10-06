@@ -1,0 +1,16 @@
+from runner import *
+import re
+repo=pathlib.Path('<report-worktree>');dest=OUT/'old-evidence';dest.mkdir()
+manifest={}
+for n in [4762,4786,3418,3430,4527,4950,4970,6429,2527,4541,3846,4784]:
+ readme=repo/f'tools/issue-repros/recheck/cases/{n}/README.md'
+ paths=[readme]
+ for ref in re.findall(r'\]\(([^)]+)\)',readme.read_text()):
+  if not ref.startswith(('http','https')):paths.append((readme.parent/ref).resolve())
+ for p in paths:
+  if not p.is_file():continue
+  key=str(p.relative_to(repo));data=p.read_bytes();before=hashlib.sha256(data).hexdigest();q=dest/key;q.parent.mkdir(parents=True,exist_ok=True)
+  if not q.exists():q.write_bytes(data)
+  manifest[str(p)]={'sha256_before':before,'sha256_after':sha(p),'copy':str(q)}
+(OUT/'environment/old-evidence-hashes.json').write_text(json.dumps(manifest,indent=2)+'\n')
+print(len(manifest),'old files copied and hashed; no old runtime input executed yet')

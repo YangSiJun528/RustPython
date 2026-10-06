@@ -1,0 +1,22 @@
+{
+  "<survey>/analysis/build-variants-a.json": {
+    "sha256_before": "77a396b9933aec8d856bebf922c1353548b214adabdce0a82a8545382419b201",
+    "sha256_after": "77a396b9933aec8d856bebf922c1353548b214adabdce0a82a8545382419b201",
+    "copy": "<closure24-audit>/agent-a/environment/build-variants-a.json"
+  },
+  "<survey>/analysis/current-sqlite-setup.json": {
+    "sha256_before": "4d5ec28a445cee524ddf740a14b62f7a726dbc54fbd46856436839b2ed09b157",
+    "sha256_after": "4d5ec28a445cee524ddf740a14b62f7a726dbc54fbd46856436839b2ed09b157",
+    "copy": "<closure24-audit>/agent-a/environment/current-sqlite-setup.json"
+  },
+  "<survey>/logs/build-a/sqlite-verification-build.stderr": {
+    "sha256_before": "f0281539e50979f24a854314edf8915c71b681e63ead76de1a47c77b524edad6",
+    "sha256_after": "f0281539e50979f24a854314edf8915c71b681e63ead76de1a47c77b524edad6",
+    "copy": "<closure24-audit>/agent-a/environment/sqlite-verification-build.stderr"
+  },
+  "<survey>/logs/build-a/sqlite-verification-build.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/environment/sqlite-verification-build.stdout"
+  }
+}

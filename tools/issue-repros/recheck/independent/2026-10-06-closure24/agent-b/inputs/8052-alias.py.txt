@@ -1,0 +1,10 @@
+import types
+assert types.EllipsisType is type(...)
+assert types.EllipsisType.__name__=='ellipsis'
+try:
+    import _types
+except ImportError:
+    print('_types unavailable; public types alias verified')
+else:
+    assert _types.EllipsisType is types.EllipsisType
+    print('_types and types aliases verified')

@@ -1,0 +1,16 @@
+from runner import *
+d=json.loads((OUT/'sources/3863-files.stdout').read_text())
+f=next(x for x in d if x['filename']=='Lib/test/test_modulefinder.py');patch=f['patch'];code='\n'.join(line[1:] for line in patch.splitlines() if line.startswith('+') and not line.startswith('+++'))+'\n';assert len(code.splitlines())==437
+p=OUT/'inputs/3846-pr3863-test_modulefinder.py';p.write_text(code)
+r=OUT/'inputs/3846-pr3863-runner.py';r.write_text('''import importlib.util,sys,types,unittest,os,json
+package=types.ModuleType('test');package.__path__=[os.path.join(os.environ['SRC'],'Lib','test')];package.__file__=os.path.join(os.environ['SRC'],'Lib','test','__init__.py');sys.modules['test']=package
+spec=importlib.util.spec_from_file_location('original3863',sys.argv[1]);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+suite=unittest.defaultTestLoader.loadTestsFromTestCase(module.ModuleFinderTest)
+result=unittest.TextTestRunner(verbosity=2).run(suite)
+print(json.dumps({'testsRun':result.testsRun,'skips':len(result.skipped),'expectedFailures':len(result.expectedFailures),'unexpectedSuccesses':len(result.unexpectedSuccesses),'success':result.wasSuccessful()}))
+assert result.testsRun==17 and not result.skipped and not result.expectedFailures and not result.unexpectedSuccesses and result.wasSuccessful()
+''')
+env={k:None for k in os.environ if k.startswith(('PYTHON','RUSTPYTHON','LC_'))};env.update({'LC_ALL':'C','LANG':'C','SRC':str(ROOT),'NO_COLOR':'1'})
+for who,exe in [('rp',BIN),('cp',CP)]:run('3846-pr3863-original-suite-'+who,3846,[exe,'-B',r,p],timeout=60,env=env,inputs=[p,r],judgment='Literal 437-line test source from original linked PR3863 API patch, unchanged assertions/data; 17 tests, zero skips/xfail required.')
+run('identity-linkage',None,['otool','-L',BIN])
+run('identity-macos',None,['sw_vers'])

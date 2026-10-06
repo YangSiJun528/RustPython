@@ -1,0 +1,623 @@
+{
+  "4506-draft-cp": {
+    "issue": 4506,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. SymPy 1.11.1/mpmath 1.2.1 실물 패키지 사용; 두 런타임의 return-in-finally SyntaxWarning은 동일하며 실패가 아니다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "a95824a63691ef68a24321ec8d21de02c29f8d670d827ba8a68c49937117304a",
+    "stderr_sha256": "98d6cf5a5a627b5cc35690f045496641e6c9491b14c868d3928b7e6fa37a1b40"
+  },
+  "4506-draft-rp": {
+    "issue": 4506,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. SymPy 1.11.1/mpmath 1.2.1 실물 패키지 사용; 두 런타임의 return-in-finally SyntaxWarning은 동일하며 실패가 아니다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "a95824a63691ef68a24321ec8d21de02c29f8d670d827ba8a68c49937117304a",
+    "stderr_sha256": "98d6cf5a5a627b5cc35690f045496641e6c9491b14c868d3928b7e6fa37a1b40"
+  },
+  "4506-original-cp": {
+    "issue": 4506,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. SymPy 1.11.1/mpmath 1.2.1 실물 패키지 사용; 두 런타임의 return-in-finally SyntaxWarning은 동일하며 실패가 아니다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "2b2a2589f770648032e4b70b7f374c69c49aecbf99c3ba6179feac8a101773c0",
+    "stderr_sha256": "98d6cf5a5a627b5cc35690f045496641e6c9491b14c868d3928b7e6fa37a1b40"
+  },
+  "4506-original-rp": {
+    "issue": 4506,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. SymPy 1.11.1/mpmath 1.2.1 실물 패키지 사용; 두 런타임의 return-in-finally SyntaxWarning은 동일하며 실패가 아니다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "2b2a2589f770648032e4b70b7f374c69c49aecbf99c3ba6179feac8a101773c0",
+    "stderr_sha256": "98d6cf5a5a627b5cc35690f045496641e6c9491b14c868d3928b7e6fa37a1b40"
+  },
+  "4690-boundaries-cp": {
+    "issue": 4690,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "f0de920d91e068f2bfd820bb6b430beb3aee49954793390535957fdc117d21e1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4690-boundaries-rp": {
+    "issue": 4690,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "f0de920d91e068f2bfd820bb6b430beb3aee49954793390535957fdc117d21e1",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4690-native-additional-cp": {
+    "issue": 4690,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "6d753ca1b34f9107f59ca60eb575432b12b4c5a90d4118dab4f8723c04df977d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4690-native-additional-rp": {
+    "issue": 4690,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "6d753ca1b34f9107f59ca60eb575432b12b4c5a90d4118dab4f8723c04df977d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4690-original-cp": {
+    "issue": 4690,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "f1be3a381d283ae027e05163dc43a50392049dd58b37eb5b6797e89773b42a45",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4690-original-rp": {
+    "issue": 4690,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "f1be3a381d283ae027e05163dc43a50392049dd58b37eb5b6797e89773b42a45",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4769-draft-cp": {
+    "issue": 4769,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "b613986aec21f9e6fb0652bc0b9795c98d33976b662ff36cef24db204dd02421",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4769-draft-rp": {
+    "issue": 4769,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "b613986aec21f9e6fb0652bc0b9795c98d33976b662ff36cef24db204dd02421",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4769-literal-cp": {
+    "issue": 4769,
+    "judgment": "expected_exception",
+    "judgment_rationale": "원문 오타는 정수를 pickle하므로 양쪽 모두 int.__dict__ AttributeError와 종료 1이 예상 결과다. deque 실패로 판정하지 않는다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "0f5c93f9fe3188bf19fee1b7af0329e887d950c9b9e2fde8457df8a5512cff21"
+  },
+  "4769-literal-rp": {
+    "issue": 4769,
+    "judgment": "expected_exception",
+    "judgment_rationale": "원문 오타는 정수를 pickle하므로 양쪽 모두 int.__dict__ AttributeError와 종료 1이 예상 결과다. deque 실패로 판정하지 않는다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "0f5c93f9fe3188bf19fee1b7af0329e887d950c9b9e2fde8457df8a5512cff21"
+  },
+  "4769-regression-rp": {
+    "issue": 4769,
+    "judgment": "pass",
+    "judgment_rationale": "원본 회귀 테스트 1개 실제 실행, 실패/오류/skip/expectedFailure/unexpectedSuccess 모두 0. 테스트나 마커를 변경하지 않았다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "433e47f5b9a428d3ae6e132fe8ae7e8409533f7f7a17c3247d78a46a3f1c0c76",
+    "stderr_sha256": "1ea66f6283dfe0c5bd790f70f375ecc6f0b2b5a6a100cb4b616768d74f364982"
+  },
+  "4856-compile-corrected-cp": {
+    "issue": 4856,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "a837026541903cf4efb984b62841cc41ac078b77bd60ebcab0fed620b25459d8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4856-compile-corrected-rp": {
+    "issue": 4856,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "a837026541903cf4efb984b62841cc41ac078b77bd60ebcab0fed620b25459d8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4856-original-cp": {
+    "issue": 4856,
+    "judgment": "expected_exception",
+    "judgment_rationale": "원문 전체 컴파일 후 정의되지 않은 BaseFTests에서 NameError, 종료 1. Rust panic은 없으며 원문 앱 실행 성공을 주장하지 않는다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "8d6193ffbaa8a3264ef502a655be3f3565ff66a578771eb05d20f6efdf823b1b"
+  },
+  "4856-original-rp": {
+    "issue": 4856,
+    "judgment": "expected_exception",
+    "judgment_rationale": "원문 전체 컴파일 후 정의되지 않은 BaseFTests에서 NameError, 종료 1. Rust panic은 없으며 원문 앱 실행 성공을 주장하지 않는다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "8d6193ffbaa8a3264ef502a655be3f3565ff66a578771eb05d20f6efdf823b1b"
+  },
+  "4907-comment-cp": {
+    "issue": 4907,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "b3254deaaab2ec9b99a757b1bfdbbea2d471501209f4db11d3c251dd64f4e6d8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4907-comment-rp": {
+    "issue": 4907,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "b3254deaaab2ec9b99a757b1bfdbbea2d471501209f4db11d3c251dd64f4e6d8",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4907-draft-cp": {
+    "issue": 4907,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "8f460a52cb87756cb61636b26efe2e1e290d72d8440926fdcc48d3be670db689",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4907-draft-rp": {
+    "issue": 4907,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "8f460a52cb87756cb61636b26efe2e1e290d72d8440926fdcc48d3be670db689",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4907-original-cp": {
+    "issue": 4907,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4907-original-rp": {
+    "issue": 4907,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4908-boundaries-cp": {
+    "issue": 4908,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "f9d763c890ae81c75e33678a30db895513d70f15160e0921c82e445a2cc1b966",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4908-boundaries-rp": {
+    "issue": 4908,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "f9d763c890ae81c75e33678a30db895513d70f15160e0921c82e445a2cc1b966",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4908-original-cp": {
+    "issue": 4908,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "37cd540762739b052de616f63177b62c9b34e18bacdbdd4feba894e6978e2d45",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4908-original-rp": {
+    "issue": 4908,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "37cd540762739b052de616f63177b62c9b34e18bacdbdd4feba894e6978e2d45",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4908-structure-cp": {
+    "issue": 4908,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "aa6b6dde5335b2342ffa2ea4d655e7cf6983a3104c63c935e9f8e25805019de7",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4908-structure-rp": {
+    "issue": 4908,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "aa6b6dde5335b2342ffa2ea4d655e7cf6983a3104c63c935e9f8e25805019de7",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4937-boundaries-cp": {
+    "issue": 4937,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "d307eefe9382c35c997ce96237fdeaee33faafabb58a2b301516a9654260537d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4937-boundaries-rp": {
+    "issue": 4937,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "d307eefe9382c35c997ce96237fdeaee33faafabb58a2b301516a9654260537d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4937-original-cp": {
+    "issue": 4937,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "4937-original-rp": {
+    "issue": 4937,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "5179-draft-cp": {
+    "issue": 5179,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "c11cb53fc7fcd09aa26463a32c5028e83be3a3e41e269693926b7bdffcc16fc3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "5179-draft-rp": {
+    "issue": 5179,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "c11cb53fc7fcd09aa26463a32c5028e83be3a3e41e269693926b7bdffcc16fc3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "5179-write-resize-cp": {
+    "issue": 5179,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "5796fd52d7880a50e0ae8ce74f724e3b69279dc80fa3407d12d035021558b224",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "5179-write-resize-rp": {
+    "issue": 5179,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "5796fd52d7880a50e0ae8ce74f724e3b69279dc80fa3407d12d035021558b224",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "5656-actual-snippet-cp": {
+    "issue": 5656,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. invalid escape SyntaxWarning과 보존된 bytes 값, 제어 사례 및 error 필터 결과를 별도로 확인했다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "27c58b18d05ac3b052fe35e0171a1d85b15a066c6f381e1812b7674b401a7471"
+  },
+  "5656-actual-snippet-rp": {
+    "issue": 5656,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. invalid escape SyntaxWarning과 보존된 bytes 값, 제어 사례 및 error 필터 결과를 별도로 확인했다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "27c58b18d05ac3b052fe35e0171a1d85b15a066c6f381e1812b7674b401a7471"
+  },
+  "5656-literal-cp": {
+    "issue": 5656,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. invalid escape SyntaxWarning과 보존된 bytes 값, 제어 사례 및 error 필터 결과를 별도로 확인했다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "377c3d9fac1bbb22e357e78025db9108135e866cc706d4a733ba02f61cce5308"
+  },
+  "5656-literal-rp": {
+    "issue": 5656,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. invalid escape SyntaxWarning과 보존된 bytes 값, 제어 사례 및 error 필터 결과를 별도로 확인했다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "377c3d9fac1bbb22e357e78025db9108135e866cc706d4a733ba02f61cce5308"
+  },
+  "5656-warnings-as-error-cp": {
+    "issue": 5656,
+    "judgment": "expected_exception",
+    "judgment_rationale": "-Werror에서 invalid escape가 SyntaxError로 승격되고 종료 1. 의도한 경고-오류 처리다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "d36b1d1ed2038cf05f766891f55fde98919f7236d2ba33513ec7f79c86ab9040"
+  },
+  "5656-warnings-as-error-rp": {
+    "issue": 5656,
+    "judgment": "expected_exception",
+    "judgment_rationale": "-Werror에서 invalid escape가 SyntaxError로 승격되고 종료 1. 의도한 경고-오류 처리다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "262db5171cad14124996cb1604567951e76c2ccad92c8f0039c048d346dbd757"
+  },
+  "5656-warnings-cp": {
+    "issue": 5656,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. invalid escape SyntaxWarning과 보존된 bytes 값, 제어 사례 및 error 필터 결과를 별도로 확인했다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "dba4dcc1f6e81d4cddd5b018334d9313fcf1d0c97a109c0655d41354e7c98ea9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "5656-warnings-rp": {
+    "issue": 5656,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음. invalid escape SyntaxWarning과 보존된 bytes 값, 제어 사례 및 error 필터 결과를 별도로 확인했다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "dba4dcc1f6e81d4cddd5b018334d9313fcf1d0c97a109c0655d41354e7c98ea9",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "5699-blockers-cp": {
+    "issue": 5699,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "ae2c913d066ea8354e68e056bd1b1e31d2fb47aa01a56678b2b89acf597016c3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "5699-blockers-rp": {
+    "issue": 5699,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "ae2c913d066ea8354e68e056bd1b1e31d2fb47aa01a56678b2b89acf597016c3",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "5699-uncaught-builtin-cp": {
+    "issue": 5699,
+    "judgment": "expected_exception",
+    "judgment_rationale": "실제 미처리 builtin 예외: 정상 예외 종료 1, ANSI 색상 존재, 해당 예외/제안 확인. 프로세스 충돌이 아니다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "c423d2fa33a65ca925772eb86061b0f219bce4f988c141911ab47c47e6e0a7e4"
+  },
+  "5699-uncaught-builtin-rp": {
+    "issue": 5699,
+    "judgment": "expected_exception",
+    "judgment_rationale": "실제 미처리 builtin 예외: 정상 예외 종료 1, ANSI 색상 존재, 해당 예외/제안 확인. 프로세스 충돌이 아니다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "c423d2fa33a65ca925772eb86061b0f219bce4f988c141911ab47c47e6e0a7e4"
+  },
+  "5699-uncaught-group-cp": {
+    "issue": 5699,
+    "judgment": "expected_exception",
+    "judgment_rationale": "실제 미처리 group 예외: 정상 예외 종료 1, ANSI 색상 존재, 해당 예외/제안 확인. 프로세스 충돌이 아니다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "fc793bdd58feec5f9829575afa6fa4bf6bd7cc5cde01ec4dc0b51309b95d28fe"
+  },
+  "5699-uncaught-group-rp": {
+    "issue": 5699,
+    "judgment": "expected_exception",
+    "judgment_rationale": "실제 미처리 group 예외: 정상 예외 종료 1, ANSI 색상 존재, 해당 예외/제안 확인. 프로세스 충돌이 아니다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "fc793bdd58feec5f9829575afa6fa4bf6bd7cc5cde01ec4dc0b51309b95d28fe"
+  },
+  "5699-uncaught-stdlib-cp": {
+    "issue": 5699,
+    "judgment": "expected_exception",
+    "judgment_rationale": "실제 미처리 stdlib 예외: 정상 예외 종료 1, ANSI 색상 존재, 해당 예외/제안 확인. 프로세스 충돌이 아니다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "40d9a44e6ba4574965201d4a2c81f23420654b2933b7a7fd3854bcd2abfafb34"
+  },
+  "5699-uncaught-stdlib-rp": {
+    "issue": 5699,
+    "judgment": "expected_exception",
+    "judgment_rationale": "실제 미처리 stdlib 예외: 정상 예외 종료 1, ANSI 색상 존재, 해당 예외/제안 확인. 프로세스 충돌이 아니다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "40d9a44e6ba4574965201d4a2c81f23420654b2933b7a7fd3854bcd2abfafb34"
+  },
+  "5699-uncaught-zero-cp": {
+    "issue": 5699,
+    "judgment": "expected_exception",
+    "judgment_rationale": "실제 미처리 zero 예외: 정상 예외 종료 1, ANSI 색상 존재, 해당 예외/제안 확인. 프로세스 충돌이 아니다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "809cbaa91b123433454352168012cc27975ab720abe36b28d4a8fe9dcf55652f"
+  },
+  "5699-uncaught-zero-rp": {
+    "issue": 5699,
+    "judgment": "expected_exception",
+    "judgment_rationale": "실제 미처리 zero 예외: 정상 예외 종료 1, ANSI 색상 존재, 해당 예외/제안 확인. 프로세스 충돌이 아니다.",
+    "exit_code": 1,
+    "timed_out": false,
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_sha256": "809cbaa91b123433454352168012cc27975ab720abe36b28d4a8fe9dcf55652f"
+  },
+  "8052-alias-cp": {
+    "issue": 8052,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "3faf0fab466b3850794ba2926088f9089863126466497409ff29f9c10b627627",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8052-alias-rp": {
+    "issue": 8052,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "3faf0fab466b3850794ba2926088f9089863126466497409ff29f9c10b627627",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8052-draft-cp": {
+    "issue": 8052,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "24eaf5a9efabb39bbc29449c24adb0be662aa284b235b3c430ccd1278bd5dc11",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8052-draft-rp": {
+    "issue": 8052,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "24eaf5a9efabb39bbc29449c24adb0be662aa284b235b3c430ccd1278bd5dc11",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8052-original-cp": {
+    "issue": 8052,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8052-original-rp": {
+    "issue": 8052,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8052-regression-rp": {
+    "issue": 8052,
+    "judgment": "pass",
+    "judgment_rationale": "원본 회귀 테스트 2개 실제 실행, 실패/오류/skip/expectedFailure/unexpectedSuccess 모두 0. 테스트나 마커를 변경하지 않았다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "03153a9c77430862e10a318cac2598f83ee25c56532791d2e3f1280f76d6e18b",
+    "stderr_sha256": "9861410678398d3262ddb0582d5b762c1d6a991c63b762f6ba1223319d11b407"
+  },
+  "8494-draft-cp": {
+    "issue": 8494,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "0024d9f01a67e9a6145366f0e4fbd35ada82704fd31f261ebc555e96be018c05",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8494-draft-rp": {
+    "issue": 8494,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "0024d9f01a67e9a6145366f0e4fbd35ada82704fd31f261ebc555e96be018c05",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8494-original-cp": {
+    "issue": 8494,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "a063328491e7976e9061b7de4f3bdc2bfcbdafabb90299a5d97ff8466c392e2a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8494-original-rp": {
+    "issue": 8494,
+    "judgment": "pass",
+    "judgment_rationale": "동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "a063328491e7976e9061b7de4f3bdc2bfcbdafabb90299a5d97ff8466c392e2a",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "8494-regression-rp": {
+    "issue": 8494,
+    "judgment": "pass",
+    "judgment_rationale": "원본 회귀 테스트 1개 실제 실행, 실패/오류/skip/expectedFailure/unexpectedSuccess 모두 0. 테스트나 마커를 변경하지 않았다.",
+    "exit_code": 0,
+    "timed_out": false,
+    "stdout_sha256": "878a849ad4a2a0ac225e1456f6d81bb6f1a952a49f5b539a4fc44ff68931cb86",
+    "stderr_sha256": "f4f2d5b023e9ae65c771e38ece81a98c7ea4514167f113f08e82b10479e40f64"
+  }
+}

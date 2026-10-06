@@ -1,0 +1,7 @@
+assert '%*s' % (-5, 'abc') == 'abc  '
+for value,fmt in [('abc','%*.*s'),(b'abc',b'%*.*s')]:
+ for width in [-5,-3,-1,0,1,3,5]:
+  for precision in [-3,-1,0,1,3,5]:
+   x=fmt%(width,precision,value);print(type(value).__name__,width,precision,repr(x),len(x))
+for fmt,args in [('%*s',(-5,'abc')),('%-*s',(-5,'abc')),('%0*d',(-5,12)),('%+*d',(-5,12)),('%#*x',(-8,12))]:
+ x=fmt%args;print(fmt,repr(x),len(x))

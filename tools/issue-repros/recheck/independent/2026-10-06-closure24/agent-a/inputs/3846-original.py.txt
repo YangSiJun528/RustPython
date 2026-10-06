@@ -1,0 +1,7 @@
+import dis
+print('LOAD_CONST',dis.opmap['LOAD_CONST']);print('EXTENDED_ARG',dis.EXTENDED_ARG)
+g=dis._unpack_opargs(100);print('constructed',type(g).__name__)
+try:list(g)
+except TypeError as e:print('invalid integer exhausted',type(e).__name__,str(e))
+else:raise AssertionError('invalid integer was accepted')
+code=compile('import first\nx = 42\n','<valid-code>','exec');ops=list(dis._unpack_opargs(code.co_code));print('valid exhausted',ops);assert ops

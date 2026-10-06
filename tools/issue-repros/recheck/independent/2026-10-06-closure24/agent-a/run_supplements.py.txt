@@ -1,0 +1,33 @@
+from runner import *
+env={k:None for k in os.environ if k.startswith(('LC_','PYTHON','RUSTPYTHON'))};env.update({'LANG':'C','LC_ALL':'C','SRC':str(ROOT),'NO_COLOR':'1'})
+p=OUT/'inputs/3430-parsing-valid.py'
+p.write_text(r'''import xml.etree.ElementTree as etree
+import pyexpat
+for xml in ['<root></root>','<root k="v"><child>text</child></root>','<root xmlns="urn:r"><child a="b">한글🚀</child></root>',b'<?xml version="1.0" encoding="UTF-8"?><root>caf\xc3\xa9</root>']:
+ r=etree.XML(xml);print([(e.tag,e.text,sorted(e.attrib.items())) for e in r.iter()])
+p=pyexpat.ParserCreate(None,'}');events=[];p.StartElementHandler=lambda n,a:events.append((n,sorted(a.items())));p.Parse('<root><child/></root>',True);print('expat events',events);assert len(events)==2
+try:r=etree.XML('<a></b>');print('malformed accepted',r.tag)
+except etree.ParseError as e:print('malformed rejected',type(e).__name__)
+''')
+for who,exe in [('rp',BIN),('cp',CP)]:run('3430-parsing-valid-'+who,3430,[exe,'-B',p],env=env,inputs=[p],judgment='Corrected newly authored supplementary probe serialization, not original/test source; initial syntax-error runs retained.')
+p=OUT/'inputs/4950-locales.py';p.write_text('''import locale,json
+specs=['f','x','X','e','E','c','g','o','%','o','n','d','08x','+08d','.2f','.1%','>5n']
+for loc in ['C','en_US.UTF-8','de_DE.UTF-8','fr_FR.UTF-8']:
+ effective=locale.setlocale(locale.LC_ALL,loc);conv=locale.localeconv();rows=[]
+ for value in [False,True]:
+  for spec in specs:
+   text=('{:'+spec+'}').format(value);assert text==format(int(value),spec);rows.append([value,spec,text])
+ print(json.dumps({'requested':loc,'effective':effective,'grouping':conv['grouping'],'separator':conv['thousands_sep'],'decimal':conv['decimal_point'],'results':rows},sort_keys=True))
+''')
+for who,exe in [('rp',BIN),('cp',CP)]:run('4950-locales-'+who,4950,[exe,'-B',p],env=env,inputs=[p])
+p=OUT/'inputs/4970-locale-support.py';p.write_text('''import locale,os
+print('LC_ALL-present', 'LC_ALL' in os.environ)
+for loc in ['en_US.UTF8','en_US.UTF-8','']:
+ try:
+  result=locale.setlocale(locale.LC_NUMERIC,loc);c=locale.localeconv();print(repr(loc),repr(result),repr(c['thousands_sep']),c['grouping'],format(123456789,'n'),format(1234.5,'n'))
+ except locale.Error as e:print(repr(loc),'UNAVAILABLE',str(e))
+''')
+e2={**env,'LC_ALL':None,'LANG':'en_US.UTF-8','LC_NUMERIC':'en_US.UTF-8'}
+for who,exe in [('rp',BIN),('cp',CP)]:
+ run('4970-locale-support-'+who,4970,[exe,'-B',p],env=e2,inputs=[p])
+ q=OUT/'inputs/4970-draft.py';run('4970-clean-env-'+who,4970,[exe,'-B',q],env=e2,inputs=[q,ROOT/'Lib/test/test_format.py',ROOT/'Lib/test/test_types.py'])

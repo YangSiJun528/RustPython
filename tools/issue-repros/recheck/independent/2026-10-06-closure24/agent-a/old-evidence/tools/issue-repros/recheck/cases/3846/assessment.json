@@ -1,0 +1,166 @@
+{
+  "issue": 3846,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "실제 co_code 순회와 5모듈 graph가 CPython과 같고 원본 ModuleFinderTest 17개가 skip/xfail 없이 통과했다.",
+  "original_scope": {
+    "description": "댓글의 dis.opmap[LOAD_CONST], EXTENDED_ARG, _unpack_opargs와 modulefinder 소비 경로",
+    "issue_url": "https://github.com/RustPython/RustPython/issues/3846",
+    "frozen_notes": "<additional11-audit>/agent-a/notes-original-scope.md",
+    "fresh_original_body": "<additional11-audit>/agent-a/originals/3846.json",
+    "fresh_original_comments": "<additional11-audit>/agent-a/originals/3846-comments.json"
+  },
+  "fresh_evidence": {
+    "runs": [
+      {
+        "record": "<additional11-audit>/agent-a/3846-cpython.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "3846"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-cpython/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-cpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/3846-cpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/3846-cpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/3846-cpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/3846-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/3846-cpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/3846-rustpython.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "3846"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-rustpython/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-rustpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/3846-rustpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/3846-rustpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/3846-rustpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/3846-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/3846-rustpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/3846-unittest-rustpython.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/unittest-probe.py",
+          "test.test_modulefinder.ModuleFinderTest"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/3846-unittest-rustpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/3846-unittest-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/3846-unittest-rustpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      }
+    ],
+    "inputs_sha256_file": "<additional11-audit>/agent-a/validation.json",
+    "provenance": "<additional11-audit>/agent-a/fresh-provenance.json",
+    "same_cpython_input": true
+  },
+  "old_evidence": {
+    "reused": true,
+    "reexecuted": false,
+    "metadata": "<additional11-audit>/agent-a/old-evidence-reference.json",
+    "read_logs_with_sha256": "<additional11-audit>/agent-a/old-logs-read.json",
+    "historical_cases": [
+      {
+        "case_id": "issue-3846-case-01",
+        "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout",
+          "logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-3846-case-02",
+        "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout",
+          "logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr"
+        ]
+      },
+      {
+        "case_id": "issue-3846-case-03",
+        "historical_sha": "5631d2102bfeb8e0ace727ba539258beb6cdbb7e",
+        "status_as_previously_recorded": "executed_original_symptom_observed_awaiting_cause_review",
+        "files": [
+          "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout",
+          "logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr"
+        ]
+      }
+    ]
+  },
+  "change_basis": {
+    "description_and_mechanism_in_report": "dis / modulefinder\n\n원문 댓글의 세 API `opmap['LOAD_CONST']`, `EXTENDED_ARG`, `_unpack_opargs`를 확인하고 실제 `code.co_code`를 끝까지 순회했다. [fresh 입력](probes.py)의 `3846`은 import/from/relative/nested import의 5개 모듈 graph와 missing 목록을 비교하며 [양쪽](3846-cpython.json)이 [같다](3846-rustpython.json). [ModuleFinderTest 원본 17개](3846-unittest-rustpython.json)가 skip/xfail 없이 통과했다. extended args/bytecode/encoding/replace_paths도 포함된다.\n\n과거 재사용: `5631d2102b` 로그에서 세 속성이 AttributeError였다. 정수100으로 generator만 만드는 기존 제한을 이번 code bytes/실제 scan으로 보강했다. [PR #5377](https://github.com/RustPython/RustPython/pull/5377)의 기준 조상 merge `093ba251a`는 Lib/dis.py에 opcode export, `_unpack_opargs`, import scanner를 추가한다. 현재 modulefinder 동작 전체가 이 PR 하나에서 완성되었다고 단정하지 않는다. 과거 CPython opcode 숫자100/144와 같을 필요가 없으며 모든 import hook/bytecode 조합 완전 호환을 주장하지 않는다.\n",
+    "related_changes": [
+      {
+        "pr": 5377,
+        "candidates": [
+          {
+            "commit": "093ba251abbb671b0c3870b4dcb467f65c567c86",
+            "subject": "Merge pull request #5377 from youknowone/inspect",
+            "is_baseline_ancestor": true,
+            "diff": "<additional11-audit>/related-pr-5377-093ba251a-first-parent.diff",
+            "fresh_ancestor_exit_code": 0,
+            "diff_sha256": "4fa9a44cc711d4f7829dc9c2b5b68059140b04f750f8175bca1ee89a3237cb9e"
+          }
+        ]
+      }
+    ],
+    "first_fix_confirmed": false,
+    "pr_parent_and_commit_executed": false,
+    "source_only_relationship": true
+  },
+  "limits": [
+    "opcode 숫자는 과거 CPython과 고정 비교하지 않는다. 모든 import hook/bytecode에 대한 완전 호환을 주장하지 않는다.",
+    "기준 f39b054b9의 macOS26.5.2 ARM64 결과이며 최신 HEAD/다른 플랫폼 결과가 아니다.",
+    "기존 binary를 새로 실행했다. 새 build/cargo test/clippy는 파일 보존 제약으로 실행하지 않았다.",
+    "과거 로그는 재사용이며 과거 및 PR 경계 재실행 없이 최초 수정 커밋을 확정하지 않는다."
+  ],
+  "agent": "agent-a"
+}

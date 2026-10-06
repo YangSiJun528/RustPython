@@ -1,0 +1,19 @@
+{
+  "original": "On Ubuntu 18.04 RustPython 0.2.0 commit 0284059 em.get Subject raises KeyError x for Subject:=?us-ascii?X?value?=; CPython 3.8/3.9/3.11 succeeds.",
+  "minimum": "Run complete email.message_from_string(... policy.default).get pathway without KeyError and compare actual returned header text/defects.",
+  "tests": [
+    "Exact original malformed encoded-word input; capture value and defects.",
+    "Read email source path and related historical change evidence."
+  ],
+  "issue": 4937,
+  "url": "https://github.com/RustPython/RustPython/issues/4937",
+  "title": "email.message_from_string.get() fails parses the special text",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:19.890677+00:00",
+  "all_comments_read": 1,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "2ef11f4c9f022bcf1671718402e2bb2a06eff847d827f86616520f44b39e1c31",
+    "comments": "d5cad59ff3f3aed363dea8e31f792b92ad232370bc48e70a869eedb3d0c55a6e"
+  }
+}

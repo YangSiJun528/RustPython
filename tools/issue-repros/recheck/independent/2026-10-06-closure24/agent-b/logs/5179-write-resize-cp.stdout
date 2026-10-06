@@ -1,0 +1,8 @@
+bytearray write-through and resize blocked
+bytearray released view invalid and resize allowed
+array write-through and resize blocked
+array released view invalid and resize allowed
+BytearrayChild write-through and resize blocked
+BytearrayChild released view invalid and resize allowed
+memoryview write-through and release passed
+mmap write-through, release and close passed

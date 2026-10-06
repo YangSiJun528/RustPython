@@ -1,0 +1,54 @@
+import sys
+import os
+import json
+import locale
+import unittest
+
+# CPython imports the identical repository test source, while retaining its own stdlib.
+test_parent = os.path.join(os.environ["SRC"], "Lib")
+import types
+
+test_package = types.ModuleType("test")
+test_package.__path__ = [test_parent + "/test"]
+test_package.__file__ = test_parent + "/test/__init__.py"
+sys.modules["test"] = test_package
+from test import test_format, test_types
+
+effective = locale.setlocale(locale.LC_ALL, "")
+conv = locale.localeconv()
+print(
+    json.dumps(
+        {
+            "LC_ALL_environment": os.environ.get("LC_ALL"),
+            "LANG": os.environ.get("LANG"),
+            "LC_NUMERIC": os.environ.get("LC_NUMERIC"),
+            "effective": effective,
+            "conv": {
+                k: conv[k] for k in ("decimal_point", "thousands_sep", "grouping")
+            },
+            "integer": format(123456789, "n"),
+            "float": format(1234.5, "n"),
+            "test_files": [test_format.__file__, test_types.__file__],
+        },
+        indent=2,
+    ),
+    flush=True,
+)
+assert conv["grouping"], (
+    "A grouping locale must be active to reach the original assertion"
+)
+suite = unittest.TestSuite(
+    [
+        test_format.FormatTest("test_locale"),
+        test_types.TypesTests("test_int__format__locale"),
+        test_types.TypesTests("test_float__format__locale"),
+    ]
+)
+result = unittest.TextTestRunner(verbosity=2).run(suite)
+assert result.testsRun == 3
+assert (
+    not result.skipped
+    and not result.expectedFailures
+    and not result.unexpectedSuccesses
+)
+assert result.wasSuccessful()

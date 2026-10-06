@@ -1,0 +1,14 @@
+{
+  "issue": 4541,
+  "url": "https://github.com/RustPython/RustPython/issues/4541",
+  "title": "sys.safe_path with Command line parameter -P and environment variable `PYTHONSAFEPATH`",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 2,
+  "declared_comments": 2,
+  "original_scope": "safe_path flag, -P, nonempty PYTHONSAFEPATH and actual suppression of unsafe import path.",
+  "independent_plan": "Test default versus -P/env/-E/-I in script, -c, -m, true PTY REPL; print sys.path and import unique adjacent/CWD modules. Include symlink target directory behavior. Must retain explicit PYTHONPATH under -P but ignore under -E/-I.",
+  "limitations_and_source_corrections": "Title sys.safe_path refers in checklist to sys.flags.safe_path; original issue is feature scope, no literal repro script. Follow current source at target.",
+  "saved_utc": "2026-10-05T16:10:32.571155+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

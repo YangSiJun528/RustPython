@@ -1,0 +1,46 @@
+from pathlib import Path
+import json,re
+root=Path('<workspace>')
+out=root/'independent-verification/2026-10-06T010610+0900-closure24-f39b054'
+a=out/'agent-a'
+identity=json.loads((a/'environment/identity.json').read_text())
+setup=f"""재현용 공통 shell 설정은 다음과 같다. 아래 Python 코드 블록을 표시한 입력 파일명으로 저장한 다음 실행한다.
+
+~~~sh
+SRC='{root}'
+A='{a}'
+RP='{identity['binary_realpath']}'
+CP='{identity['cpython']}'
+export SRC A RP CP
+unset PYTHONPATH PYTHONHOME PYTHONWARNINGS PYTHONSTARTUP PYTHONSAFEPATH RUSTPYTHONPATH
+unset LC_COLLATE LC_CTYPE LC_MESSAGES LC_MONETARY LC_NUMERIC LC_TIME
+export PYTHONDONTWRITEBYTECODE=1 TMPDIR="$A/tmp"
+export LANG=C LC_ALL=C NO_COLOR=1 TERM=dumb
+cd "$SRC"
+~~~
+
+"""
+history={
+4762:"과거 c36e3612e7dd1c7abd9fc7b76b912372bd26afbf에서는 원문 assertion이 AssertionError로 exit 1이었다. stdout은 비어 있었다.",
+4786:"과거 010640ccc8f74f56075df09a654352ae3d162d25에서는 constructor를 print(repr(...))로 관찰했을 때 <class '__main__.A�B'>를 출력하고 exit 0이었다. 원래 surrogate가 치환된 채 type이 만들어졌다는 과거 증상이다.",
+3418:"과거 40fd9c2683d76adf2b9ed0d77c055e2d2514c27d에서는 ImportError: cannot import name 'OrderedDict', exit 1이었다.",
+3430:"과거 310578c422c9b3d76eb8c739136b972d78e37180의 원래 XML 호출은 expat.ParserCreate에서 TypeError: Expected type 'str', not 'NoneType'으로 exit 1이었다.",
+4527:"과거 e5735cde67b86699bd68c8959167ecf2649a6f2d에서는 같은 전역 객체 스크립트가 exit 0이었지만 stdout이 비어 deleted!가 없었다. 이 사례에서는 exit 0만으로 성공을 판단할 수 없다.",
+6429:"과거 e227956a58f0f072f8be177264e0fdc1b9280e8a에서는 같은 설정 조회 결과가 None이었고 exit 0이었다. 이 값 차이가 원래 증상이다.",
+2527:"과거 163cd1953377f4049e06fdae55c715889857a301의 Linux PTY transcript는 for/with 블록을 마친 뒤 primary prompt로 돌아왔으나 0~9 및 5 출력이 없었다. exit 0이더라도 표현식 결과가 빠졌으므로 실패 기록이다.",
+4950:"과거 fa790558211ec690541299258f44d7453501958a는 원문에 지정된 revision이다. 9개 고유 format 코드의 기존 실행 stderr에서 각각 ValueError: Invalid format specifier를 확인했다. 원문 o 중복은 별도의 고유 기능이 아니다.",
+4970:"과거 7a6000d181b7611c26f2d1353d0462d7bec26da6의 test_locale 실행은 AssertionError: ',' not found in '123456789', Ran 1 test, FAILED (failures=1)을 남겼다. 정확한 보고 revision이 없어 선정한 당시 main 근사 revision의 이전 기록이며 이번 재실행이 아니다.",
+4541:"과거 746cb0493f7371304ceafec88c56e5de59155b95에서는 -P가 error: Found argument '-P' which wasn't expected, or isn't valid in this context로 거부됐다. 별도 default probe는 AttributeError: 'flags' object has no attribute 'safe_path'였다. 둘 다 exit 1이며 이 과거 probe만으로 모든 sys.path 동작을 판단하지 않았다.",
+3846:"과거 5631d2102bfeb8e0ace727ba539258beb6cdbb7e의 세 개별 probe는 각각 AttributeError: module 'dis' has no attribute 'opmap', 'EXTENDED_ARG', '_unpack_opargs'를 보고했다. 새 결과는 속성 존재를 넘어 실제 iteration과 modulefinder 사용을 검증했다."
+}
+for n in [4762,4786,3418,3430,4527,4950,4970,6429,2527,4541,3846,4784]:
+ p=out/'cases'/str(n)/'README.md';s=p.read_text()
+ s=re.sub(r' \[원문 계획\]\([^)]*\)은 이전 보고서·reproducer·판정문을 읽기 전에 저장했다\.', '',s)
+ s=s.replace('아래 코드는 저장한 실제 새 입력이다.',setup+'아래 코드는 저장한 실제 새 입력이다.')
+ if n in history:
+  idx=s.find('과거 증거는 ')
+  if idx>=0:s=s[:idx]+history[n]+'\n\n'+s[idx:]
+ if n==4970:
+  s=s.replace('실제 실행 명령(공통 cwd는 위 SRC, 환경은 실행 기록 참조):','다음 locale 설정을 공통 설정 위에 적용한다. LC_ALL은 빈 문자열이 아니라 환경에서 제거한다.\n\n~~~sh\nunset LC_ALL\nexport LANG=en_US.UTF-8 LC_NUMERIC=en_US.UTF-8\n~~~\n\n실제 실행 명령:')
+ p.write_text(s)
+print('Updated common setup, removed workflow narration, and added concrete historical failures to all relevant reports.')

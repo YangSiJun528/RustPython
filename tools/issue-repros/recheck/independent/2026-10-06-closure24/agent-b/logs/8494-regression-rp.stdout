@@ -1,0 +1,2 @@
+[{"id": "test.test_descr.ClassPropertiesAndMethods.test_classmethod_staticmethod_annotations", "skip": false, "expected_failure": false}]
+{"run": 1, "skips": [], "expected_failures": [], "unexpected_successes": [], "errors": 0, "failures": 0}

@@ -1,0 +1,104 @@
+from pathlib import Path
+p=Path('independent-verification/2026-10-06T010610+0900-closure24-f39b054/cases/4541/README.md')
+s=p.read_text()
+start=s.index('전체 70개 입력·flag/env 조합의 생성 및 실행은 ')
+end=s.index('\n\n',start)
+replacement=r'''전체 실행은 다음 절차로 재구성할 수 있다. 위 두 Python 코드 블록을 CASE 아래의 표시한 파일명으로 저장한다. CASE의 cwd_import namespace는 SRC 기준의 상대 경로이므로 CASE를 다른 위치로 옮기면 표시된 namespace도 같은 상대 경로로 맞춰야 한다. 실행 cwd는 계속 SRC이고 fixture 디렉터리로 이동하지 않는다.
+
+~~~sh
+CASE="$A/inputs/safe_fixture_4541"
+LINKDIR="$A/inputs/safe_link_4541"
+export CASE LINKDIR
+mkdir -p "$CASE" "$LINKDIR"
+# 위 safe_probe_4541.py와 safe_marker_4541.py를 CASE에 저장한다.
+test -L "$LINKDIR/linked.py" || ln -s "$CASE/safe_probe_4541.py" "$LINKDIR/linked.py"
+cd "$SRC"
+~~~
+
+아래 Python harness는 56개 비대화형 조합을 정확히 정의한다. RP와 CP는 실행 파일 경로이며 interpreter 비교를 수행하는 외부 harness는 CPython으로 실행한다. 입력 source는 위에 본문으로 제공했으므로 별도 driver 파일을 읽을 필요가 없다.
+
+~~~python
+import os
+import pathlib
+import signal
+import subprocess
+
+src = pathlib.Path(os.environ["SRC"])
+case = pathlib.Path(os.environ["CASE"])
+link = pathlib.Path(os.environ["LINKDIR"]) / "linked.py"
+probe = case / "safe_probe_4541.py"
+settings = [
+    ("default", [], {}),
+    ("P", ["-P"], {}),
+    ("env1", [], {"PYTHONSAFEPATH": "1"}),
+    ("env0", [], {"PYTHONSAFEPATH": "0"}),
+    ("envempty", [], {"PYTHONSAFEPATH": ""}),
+    ("E", ["-E"], {"PYTHONSAFEPATH": "1"}),
+    ("I", ["-I"], {"PYTHONSAFEPATH": "1"}),
+]
+for implementation in ("RP", "CP"):
+    exe = os.environ[implementation]
+    for mode in ("script", "command", "module", "symlink"):
+        for label, flags, overrides in settings:
+            env = dict(os.environ)
+            for name in ("PYTHONSAFEPATH", "PYTHONPATH", "RUSTPYTHONPATH"):
+                env.pop(name, None)
+            env.update(overrides)
+            if mode == "module":
+                key = "RUSTPYTHONPATH" if implementation == "RP" else "PYTHONPATH"
+                env[key] = str(src / "Lib") + ":" + str(case) if implementation == "RP" else str(case)
+            tail = {
+                "script": [str(probe)],
+                "command": ["-c", probe.read_text()],
+                "module": ["-m", "safe_probe_4541"],
+                "symlink": [str(link)],
+            }[mode]
+            command = [exe, "-B", *flags, *tail]
+            child = subprocess.Popen(
+                command, cwd=src, env=env, start_new_session=True,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            )
+            timed_out = False
+            try:
+                stdout, stderr = child.communicate(timeout=30)
+            except subprocess.TimeoutExpired:
+                timed_out = True
+                os.killpg(child.pid, signal.SIGKILL)
+                stdout, stderr = child.communicate()
+            finally:
+                try:
+                    os.killpg(child.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+            print(implementation, mode, label, "exit", child.returncode, "timeout", timed_out)
+            print("stdout:", stdout.decode(errors="replace"))
+            print("stderr:", stderr.decode(errors="replace"))
+~~~
+
+모든 JSON에서 flags뿐 아니라 path와 실제 import 결과를 확인한다. 기본 script/symlink는 bare_import만 sentinel 값을 반환한다. 기본 command는 cwd_import만 반환한다. 기본 module은 명시 CASE와 자동 cwd가 모두 있어 두 import가 성공한다. safe mode에서는 자동 경로로만 찾던 import가 False이고, 명시 CASE의 bare_import는 module 모드에서 계속 성공한다. -E/-I의 module 실패는 기대한 결과이다.
+
+나머지 14개는 실제 터미널/PTY에서 각각 다음 7개 설정을 RP와 CP에 적용한다. 공통 TERM=dumb을 유지하고 PYTHONPATH와 RUSTPYTHONPATH는 없는 상태로 둔다. 아래 명령은 한 세션을 종료한 뒤 다음 명령을 시작한다.
+
+~~~sh
+exe="$RP"  # 첫 7개를 마친 뒤 exe="$CP"로 바꿔 반복한다.
+env -u PYTHONSAFEPATH "$exe" -B -S -q
+env -u PYTHONSAFEPATH "$exe" -B -S -q -P
+env PYTHONSAFEPATH=1 "$exe" -B -S -q
+env PYTHONSAFEPATH=0 "$exe" -B -S -q
+env PYTHONSAFEPATH= "$exe" -B -S -q
+env PYTHONSAFEPATH=1 "$exe" -B -S -q -E
+env PYTHONSAFEPATH=1 "$exe" -B -S -q -I
+~~~
+
+각 실제 prompt 뒤에 아래를 한 줄씩 입력하고 다음 prompt를 기다린다. 저장된 실행은 open wrapper 대신 동일 probe source text를 exec 문자열에 직접 넣었다. 둘 다 probe 파일의 디렉터리를 sys.path에 삽입하지 않는다.
+
+~~~python
+import sys, os, json, importlib
+exec(open(os.path.join(os.environ["CASE"], "safe_probe_4541.py")).read())
+sys.stdout.flush(); sys.stderr.flush(); os._exit(0)
+~~~
+
+REPL default/envempty/-E에서는 cwd_import만 sentinel 값을 반환하고 -P/env1/env0/-I에서는 두 import가 모두 False이다. 모든 REPL의 bare_import는 False이다. 이번 자동 PTY 기록은 각 prompt를 기다렸고 세션별 20초 제한을 두었다. stdout/stderr는 하나의 transcript로 기록했다. 저장된 [PTY 입력 및 대기 코드](../../agent-a/pty_runner.py), [전체 JSON 검증 결과](../../agent-a/validation.json), [개별 명령·환경·원시 출력 기록](../../agent-a/executions.jsonl)은 보조 증거다.'''
+p.write_text(s[:start]+replacement+s[end:])
+print('Expanded #4541 full matrix and manual terminal reproduction in report body.')

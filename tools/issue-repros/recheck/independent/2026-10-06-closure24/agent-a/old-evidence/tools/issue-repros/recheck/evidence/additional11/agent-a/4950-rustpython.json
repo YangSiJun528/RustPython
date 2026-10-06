@@ -1,0 +1,31 @@
+{
+  "label": "4950-rustpython",
+  "interpreter": "rustpython",
+  "command": [
+    "<survey>/.build/slot-a/verification/rustpython",
+    "-B",
+    "<additional11-audit>/agent-a/probes.py",
+    "4950"
+  ],
+  "cwd": "<workspace>",
+  "environment": {
+    "LANG": "C",
+    "LC_ALL": "C",
+    "NO_COLOR": "1",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4950-rustpython/python-history",
+    "RUSTPYTHONPATH": "<workspace>/Lib",
+    "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4950-rustpython/rustpython-history",
+    "TEMP": "<additional11-audit>/agent-a/temp/4950-rustpython",
+    "TERM": "dumb",
+    "TMP": "<additional11-audit>/agent-a/temp/4950-rustpython",
+    "TMPDIR": "<additional11-audit>/agent-a/temp/4950-rustpython"
+  },
+  "started_utc": "2026-10-05T10:48:57.185407+00:00",
+  "stdin": null,
+  "exit_code": 0,
+  "timeout": false,
+  "stdout": "{\"locale\": \"C\", \"results\": [[false, \"f\", \"0.000000\"], [false, \"x\", \"0\"], [false, \"X\", \"0\"], [false, \"e\", \"0.000000e+00\"], [false, \"E\", \"0.000000E+00\"], [false, \"c\", \"\\u0000\"], [false, \"g\", \"0\"], [false, \"o\", \"0\"], [false, \"%\", \"0.000000%\"], [false, \"o\", \"0\"], [false, \"n\", \"0\"], [false, \"d\", \"0\"], [false, \"08x\", \"00000000\"], [false, \"+08d\", \"+0000000\"], [false, \".2f\", \"0.00\"], [false, \".1%\", \"0.0%\"], [false, \">5n\", \"    0\"], [true, \"f\", \"1.000000\"], [true, \"x\", \"1\"], [true, \"X\", \"1\"], [true, \"e\", \"1.000000e+00\"], [true, \"E\", \"1.000000E+00\"], [true, \"c\", \"\\u0001\"], [true, \"g\", \"1\"], [true, \"o\", \"1\"], [true, \"%\", \"100.000000%\"], [true, \"o\", \"1\"], [true, \"n\", \"1\"], [true, \"d\", \"1\"], [true, \"08x\", \"00000001\"], [true, \"+08d\", \"+0000001\"], [true, \".2f\", \"1.00\"], [true, \".1%\", \"100.0%\"], [true, \">5n\", \"    1\"]]}\n",
+  "stderr": "",
+  "elapsed_seconds": 0.10454691600170918
+}

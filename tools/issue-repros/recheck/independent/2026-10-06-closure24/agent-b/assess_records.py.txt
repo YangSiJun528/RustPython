@@ -1,0 +1,49 @@
+from controller import *
+
+judgments={}
+for p in sorted((ROOT/'records').glob('*.json')):
+    if not p.stem[:1].isdigit(): continue
+    r=json.loads(p.read_text());ident=r['execution_id']
+    if not ident[:1].isdigit(): continue
+    out=pathlib.Path(r['stdout_file']).read_text();err=pathlib.Path(r['stderr_file']).read_text()
+    expected=0
+    if ident.startswith('4769-literal'):
+        expected=1;detail="원문 오타는 정수를 pickle하므로 양쪽 모두 int.__dict__ AttributeError와 종료 1이 예상 결과다. deque 실패로 판정하지 않는다."
+        assert "'int' object has no attribute '__dict__'" in err
+    elif ident.startswith('4856-original'):
+        expected=1;detail="원문 전체 컴파일 후 정의되지 않은 BaseFTests에서 NameError, 종료 1. Rust panic은 없으며 원문 앱 실행 성공을 주장하지 않는다."
+        assert "NameError: name 'BaseFTests' is not defined" in err
+    elif ident.startswith('5656-warnings-as-error'):
+        expected=1;detail="-Werror에서 invalid escape가 SyntaxError로 승격되고 종료 1. 의도한 경고-오류 처리다."
+        assert 'SyntaxError:' in err and 'invalid escape' in err
+    elif ident.startswith('5699-uncaught'):
+        expected=1;case=ident.split('-')[2];detail=f"실제 미처리 {case} 예외: 정상 예외 종료 1, ANSI 색상 존재, 해당 예외/제안 확인. 프로세스 충돌이 아니다."
+        assert '\x1b[' in err
+        needle={'builtin':"Did you mean: 'ZeroDivisionError'?",'stdlib':"forget to import 'io'",'zero':'ZeroDivisionError','group':'2 sub-exceptions'}[case]
+        assert needle in err
+    elif 'regression' in ident:
+        result=json.loads(out.splitlines()[-1]);assert result['run']>0
+        assert not any(result[k] for k in ['skips','expected_failures','unexpected_successes','errors','failures'])
+        detail=f"원본 회귀 테스트 {result['run']}개 실제 실행, 실패/오류/skip/expectedFailure/unexpectedSuccess 모두 0. 테스트나 마커를 변경하지 않았다."
+    else:
+        detail="동일 입력을 양쪽 인터프리터에서 실행했고 해당 경로의 출력/값 또는 실제 assert 완료를 확인했다. 종료 0이며 timeout 없음."
+        if ident.startswith('4506'): detail+=" SymPy 1.11.1/mpmath 1.2.1 실물 패키지 사용; 두 런타임의 return-in-finally SyntaxWarning은 동일하며 실패가 아니다."
+        if ident.startswith('5656'): detail+=" invalid escape SyntaxWarning과 보존된 bytes 값, 제어 사례 및 error 필터 결과를 별도로 확인했다."
+    assert r['exit_code']==expected and not r['timed_out'],ident
+    assert r['input_sha256']==r['input_sha256_after'] and r['executable_sha256']==r['executable_sha256_after'],ident
+    r.update(judgment='expected_exception' if expected else 'pass',judgment_rationale=detail,
+        expected_exit_code=expected,stdout_sha256=sha(r['stdout_file']),stderr_sha256=sha(r['stderr_file']))
+    p.write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n')
+    judgments[ident]={k:r[k] for k in ['issue','judgment','judgment_rationale','exit_code','timed_out','stdout_sha256','stderr_sha256']}
+
+comparisons=[]
+for ident in judgments:
+    if not ident.endswith('-rp') or ident[:-3]+'-cp' not in judgments: continue
+    rp=json.loads((ROOT/'records'/f'{ident}.json').read_text());cp=json.loads((ROOT/'records'/f'{ident[:-3]}-cp.json').read_text())
+    row=dict(pair=ident[:-3],stdout_exact=pathlib.Path(rp['stdout_file']).read_bytes()==pathlib.Path(cp['stdout_file']).read_bytes(),stderr_exact=pathlib.Path(rp['stderr_file']).read_bytes()==pathlib.Path(cp['stderr_file']).read_bytes())
+    comparisons.append(row)
+    assert row['stdout_exact'],row
+    if not row['stderr_exact']: assert ident.startswith('5656-warnings-as-error'),row
+(ROOT/'records'/'judgments.json').write_text(json.dumps(judgments,ensure_ascii=False,indent=2)+'\n')
+(ROOT/'records'/'paired-comparisons.json').write_text(json.dumps(comparisons,indent=2)+'\n')
+print(len(judgments),'runtime executions assessed;',len(comparisons),'pairs; diagnostic difference:',[r['pair'] for r in comparisons if not r['stderr_exact']])

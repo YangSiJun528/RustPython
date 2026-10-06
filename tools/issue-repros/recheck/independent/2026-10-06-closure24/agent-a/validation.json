@@ -1,0 +1,255 @@
+{
+  "record_count": 172,
+  "all_logs_exist": true,
+  "timeouts": [],
+  "input_mutations": [],
+  "binary_mutations": [],
+  "4541": [
+    {
+      "mode": "script",
+      "setting": "default",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "script",
+      "setting": "P",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "script",
+      "setting": "env1",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "script",
+      "setting": "env0",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "script",
+      "setting": "envempty",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "script",
+      "setting": "E",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "script",
+      "setting": "I",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "command",
+      "setting": "default",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "command",
+      "setting": "P",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "command",
+      "setting": "env1",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "command",
+      "setting": "env0",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "command",
+      "setting": "envempty",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "command",
+      "setting": "E",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "command",
+      "setting": "I",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "module",
+      "setting": "default",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "module",
+      "setting": "P",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "module",
+      "setting": "env1",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "module",
+      "setting": "env0",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "module",
+      "setting": "envempty",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "module",
+      "setting": "E",
+      "judgment": "expected exception/exit in both",
+      "processes": 2
+    },
+    {
+      "mode": "module",
+      "setting": "I",
+      "judgment": "expected exception/exit in both",
+      "processes": 2
+    },
+    {
+      "mode": "symlink",
+      "setting": "default",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "symlink",
+      "setting": "P",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "symlink",
+      "setting": "env1",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "symlink",
+      "setting": "env0",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "symlink",
+      "setting": "envempty",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "symlink",
+      "setting": "E",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "symlink",
+      "setting": "I",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "repl",
+      "setting": "default",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "repl",
+      "setting": "P",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "repl",
+      "setting": "env1",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "repl",
+      "setting": "env0",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "repl",
+      "setting": "envempty",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "repl",
+      "setting": "E",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    },
+    {
+      "mode": "repl",
+      "setting": "I",
+      "judgment": "asserted flags, path entry and actual import results match",
+      "processes": 2
+    }
+  ],
+  "equal_outputs": {
+    "4762-matrix-stdout": true,
+    "4762-matrix-stderr": true,
+    "4786-original-stdout": true,
+    "4786-original-stderr": true,
+    "3418-operations-stdout": true,
+    "3418-operations-stderr": true,
+    "4527-original-stdout": true,
+    "4527-original-stderr": true,
+    "4527-explicit-stdout": true,
+    "4527-explicit-stderr": true,
+    "4950-draft-stdout": true,
+    "4950-draft-stderr": true,
+    "4950-locales-stdout": true,
+    "4950-locales-stderr": true,
+    "4970-clean-env-stdout": true,
+    "4970-clean-env-stderr": false,
+    "4970-locale-support-stdout": true,
+    "4970-locale-support-stderr": true,
+    "2527-displayhook-stdout": true,
+    "2527-displayhook-stderr": true,
+    "3846-original-stdout": true,
+    "3846-original-stderr": true,
+    "3846-graph-stdout": true,
+    "3846-graph-stderr": true
+  },
+  "2527-rp": {
+    "prompt_events": 9,
+    "loop_and_write_outputs_verified": true,
+    "generated_file": "hello"
+  },
+  "2527-cp": {
+    "prompt_events": 9,
+    "loop_and_write_outputs_verified": true,
+    "generated_file": "hello"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "original": "Compile-time table.sub_tables.is_empty assertion with class decorator lambda on RustPython 0.2.0 Ubuntu. Source has undefined BaseFTests and invalid empty mock.patch target.",
+  "minimum": "Original exact code compiles without Rust panic. Execution is expected to stop at NameError. Separately valid BaseFTests and patch target should demonstrate application decorator lambda use.",
+  "tests": [
+    "compile exact original without executing.",
+    "execute original preserving undefined BaseFTests.",
+    "Separate corrected runnable class-decorator sample with assertion patched value is 3."
+  ],
+  "issue": 4856,
+  "url": "https://github.com/RustPython/RustPython/issues/4856",
+  "title": "Assertion failed: table.sub_tables.is_empty() when decorator class takes a lambda argument.",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:21.959350+00:00",
+  "all_comments_read": 0,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "10378aacd2426b334cf30cc61385b59e2626976546b3ec08ed9b9b390216dd36",
+    "comments": "cf1cbb66a638b4860a516671fb74850e6ccf787fe6c4c8d29e9c04efe880bd05"
+  }
+}

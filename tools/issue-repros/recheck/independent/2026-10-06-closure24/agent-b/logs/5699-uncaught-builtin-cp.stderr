@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File [35m"<closure24-audit>/agent-b/inputs/5699-draft-1.py"[0m, line [35m4[0m, in [35m<module>[0m
+    ZeroDivisionErrrrr
+[1;35mNameError[0m: [35mname 'ZeroDivisionErrrrr' is not defined. Did you mean: 'ZeroDivisionError'?[0m

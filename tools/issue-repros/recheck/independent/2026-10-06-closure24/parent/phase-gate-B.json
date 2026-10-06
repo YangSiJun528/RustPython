@@ -1,0 +1,21 @@
+{
+  "observed_at_utc": "2026-10-05T16:12:14.632716+00:00",
+  "fresh_agent": "/root/verify_slot_b",
+  "fork_turns": "none",
+  "original_plan_hashes": {
+    "4908.json": "1f16f6edbecddc52408bbe4d60c2f44b5f9ed7d336a7e729f6213bc2ff44206e",
+    "5179.json": "40fde69ad290a0d691b7ff709323a84be53465b063a6107b96a861ff9ae8150f",
+    "4856.json": "1826a88f1d1c1bf18fc74e85bd831a5e67e8cec1c114f1f4a010de255bbe6fa0",
+    "4769.json": "0b884033e1a30ed9dceca69e8a9a9b25066aa436d362d5b39b98fe8d36f34533",
+    "5656.json": "19da3260a4bdccefc40d70ae127badd682628a41d508b3ae44960d45c236e6d2",
+    "8052.json": "1f26a7243aa88c08bb9ab393e3e9a164c681f4704efaec16687d78df1d873089",
+    "5699.json": "086b18b53a168fb751db643d979e2f09259b6a49a27a2db6b5610329585a1454",
+    "PHASE_GATE.json": "8cad13f4209d2d889898ad7b4e513c9e1c9139558721bd42ffbb9fddd94232f3",
+    "4937.json": "80823d87cdcff0ddd58bdc9917213c7e7c05e5de7368076ec9020fd75d50eea0",
+    "4690.json": "9dd3de462a05d469fcecc9b8f9a4cde655b602f43ad5b0288be8a5ddd05faa05",
+    "4506.json": "c96f1796189007efc16bf58c2d1fb75f2ba9df5c65498da119defff7b01dafe8",
+    "4907.json": "21a3ce8629c559386de31751d33a4cd28a07adf78862ad879fec31aa4bb6c2e2",
+    "8494.json": "8716a3ba973707493192cc05aaa5691c567b867e23ce8569bebd7ad05eb23b04"
+  },
+  "report_access_released": true
+}

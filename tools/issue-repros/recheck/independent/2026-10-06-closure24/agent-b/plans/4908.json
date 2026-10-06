@@ -1,0 +1,19 @@
+{
+  "original": "ast.unparse turns A[1:2, *l] into invalid A[(1:2, *l)] on RustPython 0.2.0 Ubuntu.",
+  "minimum": "Original parse/unparse/reparse succeeds and resulting AST matches original ignoring source locations.",
+  "tests": [
+    "Exact code_1 original sequence and print code_2.",
+    "Compare ast.dump include_attributes=False; assert Subscript slice Tuple containing Slice then Starred."
+  ],
+  "issue": 4908,
+  "url": "https://github.com/RustPython/RustPython/issues/4908",
+  "title": "ast.parse() fails to handle \"A[1:2, *l]\" after it is parsed and unparsed.",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:24.041496+00:00",
+  "all_comments_read": 0,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "1c725256b09fe0d5333a356fb21258accfa9747b2cf8f8ee643fdc241a0b743d",
+    "comments": "cf1cbb66a638b4860a516671fb74850e6ccf787fe6c4c8d29e9c04efe880bd05"
+  }
+}

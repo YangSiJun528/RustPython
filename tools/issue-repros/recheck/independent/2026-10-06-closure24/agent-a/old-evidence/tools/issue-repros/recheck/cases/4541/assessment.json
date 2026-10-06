@@ -1,0 +1,1542 @@
+{
+  "issue": 4541,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "52개 fresh 실행에서 경로·실제 import·flag 제어를 확인했다. default/P/env/empty/0/-E/-I, symlink와 실제 PTY 결과가 기대와 같다.",
+  "original_scope": {
+    "description": "sys.flags.safe_path, -P, PYTHONSAFEPATH 및 -c/-m/script/REPL 실제 경로 억제",
+    "issue_url": "https://github.com/RustPython/RustPython/issues/4541",
+    "frozen_notes": "<additional11-audit>/agent-a/notes-original-scope.md",
+    "fresh_original_body": "<additional11-audit>/agent-a/originals/4541.json",
+    "fresh_original_comments": "<additional11-audit>/agent-a/originals/4541-comments.json"
+  },
+  "fresh_evidence": {
+    "runs": [
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-command-Eenv1.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-E",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-Eenv1/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-Eenv1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-Eenv1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-Eenv1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-command-Eenv1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-command-Eenv1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-command-Eenv1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-command-I.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-I",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-I/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-I/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-I",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-I",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-command-I"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-command-I.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-command-I.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-command-P.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-P",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-P/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-P/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-P",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-P",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-command-P"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-command-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-command-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-command-default.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-default/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-default/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-default",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-default",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-command-default"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-command-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-command-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-command-env0.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "0",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-env0/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-env0/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-env0",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-env0",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-command-env0"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-command-env0.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-command-env0.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-command-env1.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-env1/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-env1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-env1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-env1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-command-env1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-command-env1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-command-env1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-command-envempty.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-envempty/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-command-envempty/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-envempty",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-command-envempty",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-command-envempty"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-command-envempty.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-command-envempty.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-module-Eenv1.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-E",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "<additional11-audit>/agent-a",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-module-Eenv1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-module-Eenv1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-module-Eenv1.stderr.txt",
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-module-I.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-I",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "<additional11-audit>/agent-a",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-I/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-I/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-I",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-I",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-module-I"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-module-I.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-module-I.stderr.txt",
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-module-P.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-P",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "<additional11-audit>/agent-a",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-P/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-P/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-P",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-P",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-module-P"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-module-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-module-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-module-default.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "<additional11-audit>/agent-a",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-default/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-default/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-default",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-default",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-module-default"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-module-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-module-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-module-env0.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "<additional11-audit>/agent-a",
+          "PYTHONSAFEPATH": "0",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-env0/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-env0/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-env0",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-env0",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-module-env0"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-module-env0.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-module-env0.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-module-env1.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "<additional11-audit>/agent-a",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-env1/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-env1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-env1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-env1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-module-env1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-module-env1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-module-env1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-module-envempty.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONPATH": "<additional11-audit>/agent-a",
+          "PYTHONSAFEPATH": "",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-envempty/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-module-envempty/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-envempty",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-module-envempty",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-module-envempty"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-module-envempty.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-module-envempty.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-repl-P.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-q",
+          "-P"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "NO_COLOR": "1",
+          "TERM": "dumb",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-repl-P",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-repl-P/python_history",
+          "LC_ALL": "C"
+        },
+        "stdin": "import sys, os, json; print('REPL_RESULT='+json.dumps({'safe_path':sys.flags.safe_path,'path':sys.path,'cwd':os.getcwd()}),flush=True); os._exit(0)\n",
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-repl-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-repl-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-repl-default.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-q"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "NO_COLOR": "1",
+          "TERM": "dumb",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-repl-default",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-repl-default/python_history",
+          "LC_ALL": "C"
+        },
+        "stdin": "import sys, os, json; print('REPL_RESULT='+json.dumps({'safe_path':sys.flags.safe_path,'path':sys.path,'cwd':os.getcwd()}),flush=True); os._exit(0)\n",
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-repl-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-repl-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-repl-env1.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-q"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "NO_COLOR": "1",
+          "TERM": "dumb",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-repl-env1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-repl-env1/python_history",
+          "LC_ALL": "C",
+          "PYTHONSAFEPATH": "1"
+        },
+        "stdin": "import sys, os, json; print('REPL_RESULT='+json.dumps({'safe_path':sys.flags.safe_path,'path':sys.path,'cwd':os.getcwd()}),flush=True); os._exit(0)\n",
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-repl-env1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-repl-env1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-script-Eenv1.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-E",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-Eenv1/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-Eenv1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-Eenv1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-Eenv1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-script-Eenv1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-script-Eenv1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-script-Eenv1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-script-I.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-I",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-I/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-I/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-I",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-I",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-script-I"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-script-I.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-script-I.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-script-P.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-P",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-P/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-P/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-P",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-P",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-script-P"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-script-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-script-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-script-default.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-default/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-default/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-default",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-default",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-script-default"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-script-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-script-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-script-env0.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "0",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-env0/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-env0/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-env0",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-env0",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-script-env0"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-script-env0.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-script-env0.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-script-env1.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-env1/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-env1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-env1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-env1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-script-env1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-script-env1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-script-env1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-script-envempty.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-script-envempty"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-script-envempty.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-script-envempty.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-symlink-P.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "-P",
+          "<additional11-audit>/agent-a/safe_symlink/report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-P/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-P/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-P",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-P",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-P"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-symlink-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-symlink-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-cpython-symlink-default.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/safe_symlink/report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-default/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-default/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-default",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-default",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-cpython-symlink-default"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-cpython-symlink-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-cpython-symlink-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-command-Eenv1.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-E",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-command-Eenv1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-command-Eenv1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-command-Eenv1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-command-I.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-I",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-I/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-I/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-I",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-I",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-command-I"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-command-I.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-command-I.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-command-P.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-P",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-P/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-P/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-P",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-P",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-command-P"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-command-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-command-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-command-default.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-default/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-default/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-default",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-default",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-command-default"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-command-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-command-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-command-env0.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "0",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env0/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env0/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env0",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env0",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env0"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-command-env0.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-command-env0.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-command-env1.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env1/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-command-env1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-command-env1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-command-env1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-command-envempty.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-c",
+          "import sys, os, json, importlib\ndef can_import(name):\n    try:\n        m=importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\nprint(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))\n"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-envempty/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-command-envempty/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-envempty",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-command-envempty",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-command-envempty"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-command-envempty.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-command-envempty.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-module-Eenv1.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-E",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-Eenv1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-module-Eenv1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-module-Eenv1.stderr.txt",
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-module-I.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-I",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-I"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-module-I.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-module-I.stderr.txt",
+        "exit_code": 1,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-module-P.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-P",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-P/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-P/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-P",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-P",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-P"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-module-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-module-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-module-default.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-default/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-default/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-default",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-default",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-default"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-module-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-module-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-module-env0.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "0",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env0/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env0/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env0",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env0",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env0"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-module-env0.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-module-env0.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-module-env1.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env1/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-env1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-module-env1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-module-env1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-module-envempty.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-m",
+          "safe_report"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib:<additional11-audit>/agent-a",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-module-envempty"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-module-envempty.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-module-envempty.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-repl-P.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-q",
+          "-P"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "NO_COLOR": "1",
+          "TERM": "dumb",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-repl-P",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-repl-P/python_history",
+          "LC_ALL": "C",
+          "RUSTPYTHONPATH": "<workspace>/Lib"
+        },
+        "stdin": "import sys, os, json; print('REPL_RESULT='+json.dumps({'safe_path':sys.flags.safe_path,'path':sys.path,'cwd':os.getcwd()}),flush=True); os._exit(0)\n",
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-repl-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-repl-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-repl-default.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-q"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "NO_COLOR": "1",
+          "TERM": "dumb",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-repl-default",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-repl-default/python_history",
+          "LC_ALL": "C",
+          "RUSTPYTHONPATH": "<workspace>/Lib"
+        },
+        "stdin": "import sys, os, json; print('REPL_RESULT='+json.dumps({'safe_path':sys.flags.safe_path,'path':sys.path,'cwd':os.getcwd()}),flush=True); os._exit(0)\n",
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-repl-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-repl-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-repl-env1.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-q"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "NO_COLOR": "1",
+          "TERM": "dumb",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-repl-env1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-repl-env1/python_history",
+          "LC_ALL": "C",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "PYTHONSAFEPATH": "1"
+        },
+        "stdin": "import sys, os, json; print('REPL_RESULT='+json.dumps({'safe_path':sys.flags.safe_path,'path':sys.path,'cwd':os.getcwd()}),flush=True); os._exit(0)\n",
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-repl-env1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-repl-env1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-script-Eenv1.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-E",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-Eenv1/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-Eenv1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-Eenv1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-Eenv1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-script-Eenv1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-script-Eenv1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-script-Eenv1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-script-I.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-I",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-I/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-I/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-I",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-I",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-script-I"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-script-I.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-script-I.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-script-P.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-P",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-script-P"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-script-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-script-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-script-default.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-default/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-default/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-default",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-default",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-script-default"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-script-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-script-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-script-env0.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "0",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env0/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env0/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env0",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env0",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env0"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-script-env0.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-script-env0.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-script-env1.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env1/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env1/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env1",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env1",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-script-env1"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-script-env1.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-script-env1.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-script-envempty.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/safe_report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHONSAFEPATH": "",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-envempty/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-script-envempty/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-envempty",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-script-envempty",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-script-envempty"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-script-envempty.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-script-envempty.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-symlink-P.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "-P",
+          "<additional11-audit>/agent-a/safe_symlink/report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-P/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-P/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-P",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-P",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-P"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-symlink-P.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-symlink-P.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/4541-rustpython-symlink-default.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/safe_symlink/report.py"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-default/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-default/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-default",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-default",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/4541-rustpython-symlink-default"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/4541-rustpython-symlink-default.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/4541-rustpython-symlink-default.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      }
+    ],
+    "inputs_sha256_file": "<additional11-audit>/agent-a/validation.json",
+    "provenance": "<additional11-audit>/agent-a/fresh-provenance.json",
+    "same_cpython_input": true
+  },
+  "old_evidence": {
+    "reused": true,
+    "reexecuted": false,
+    "metadata": "<additional11-audit>/agent-a/old-evidence-reference.json",
+    "read_logs_with_sha256": "<additional11-audit>/agent-a/old-logs-read.json",
+    "historical_cases": [
+      {
+        "case_id": "issue-4541-case-01",
+        "historical_sha": "746cb0493f7371304ceafec88c56e5de59155b95",
+        "status_as_previously_recorded": "executed_awaiting_symptom_analysis",
+        "files": [
+          "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout",
+          "logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr"
+        ]
+      }
+    ]
+  },
+  "change_basis": {
+    "description_and_mechanism_in_report": "safe_path\n\n[safe_report.py](safe_report.py), [모드별 실행](run-safe.py), [PTY 실행](run-repl.py)으로 총 52개 fresh 프로세스를 실행했다. `-c`와 REPL의 빈 경로, `-m`의 cwd, script·symlink의 실제 script directory는 `-P`와 env1에서 제거된다. 새 fixture의 실제 import도 차단된다. 명시 path의 `-m` 모듈은 계속 접근할 수 있다. env0는 true, 빈 값은 false, `-E`는 env를 무시하고 `-I`는 safe이다.\n\n두 인터프리터 모두 `-m -E/-I`에서 신규 모듈을 제공하던 path 환경변수가 무시되어 `No module named safe_report`, exit1이 나온다. 네 결과는 예상한 제어 동작이며 버그 증거가 아니다. `-E/-I`의 flag/path는 `-c`와 script에서 직접 확인했다. [검사 전체](validation.json), [실제 명령/출력](results.json).\n\nPTY는 TERM=dumb으로 인해 양쪽 모두 기본 REPL fallback을 사용했고 동일한 pyrepl 경고가 있다. 실제 prompt 후 입력을 보내 JSON과 exit0를 확인했다. `os._exit(0)` 직전에 flush했으므로 사용자 history 저장을 피한다.\n\n과거 재사용: `746cb0493f` 로그의 `-P` 거부 및 `safe_path` AttributeError. 과거 로그만으로 전체 sys.path 동작을 증명하지 않고 이번에 실행 방식별로 보강했다. [PR #4611](https://github.com/RustPython/RustPython/pull/4611) `d4be55c2e`는 옵션/env/flags 연결, [PR #5049](https://github.com/RustPython/RustPython/pull/5049) `64c66e00d`는 초기 path 삽입 조건, [PR #8605](https://github.com/RustPython/RustPython/pull/8605) `7c6c78f95`는 script realpath 처리에 대응한다. 현재 `src/lib.rs`에는 모드별 path0 조건이 있다. 모두 기준 조상이며 단일 최초 수정 커밋으로 단정하지 않는다.\n",
+    "related_changes": [
+      {
+        "pr": 4611,
+        "candidates": [
+          {
+            "commit": "d4be55c2ea02b67d92c04b3e9f682d465acd59b3",
+            "subject": "Add command line parameter -P (#4611)",
+            "is_baseline_ancestor": true,
+            "diff": "<additional11-audit>/related-pr-4611-d4be55c2e-first-parent.diff",
+            "fresh_ancestor_exit_code": 0,
+            "diff_sha256": "a4d94200e21f6fb2d9629ee079c373194eaf64f0aa6b74f9974fd5c090b17fc2"
+          }
+        ]
+      },
+      {
+        "pr": 5049,
+        "candidates": [
+          {
+            "commit": "64c66e00d68c70fed261f8b46720438efda746b5",
+            "subject": "Fix `encodings` related error messages to be less confusing (#5049)",
+            "is_baseline_ancestor": true,
+            "diff": "<additional11-audit>/related-pr-5049-64c66e00d-first-parent.diff",
+            "fresh_ancestor_exit_code": 0,
+            "diff_sha256": "19a0d7cb1f6e0edb3e93dee8da5902d09e8978fda4d890770890440509373d84"
+          }
+        ]
+      },
+      {
+        "pr": 8605,
+        "candidates": [
+          {
+            "commit": "1e3573c6b344f65f79401f183a59966b15026ebd",
+            "subject": "Implement CPython 3.14 subinterpreter APIs (#8605)",
+            "is_baseline_ancestor": false,
+            "fresh_ancestor_exit_code": 1
+          },
+          {
+            "commit": "7c6c78f95525c091eb872d96b73090e7454be6d5",
+            "subject": "Implement CPython 3.14 subinterpreter APIs (#8605)",
+            "is_baseline_ancestor": true,
+            "diff": "<additional11-audit>/related-pr-8605-7c6c78f95-first-parent.diff",
+            "fresh_ancestor_exit_code": 0,
+            "diff_sha256": "5f0ce907867af71b8cb2061664c76f8c2089d5b527727b1ccf9162f929229334"
+          }
+        ]
+      }
+    ],
+    "first_fix_confirmed": false,
+    "pr_parent_and_commit_executed": false,
+    "source_only_relationship": true
+  },
+  "limits": [
+    "양쪽 -m -E/-I의 네 exit1은 환경변수로 제공한 fixture를 찾지 못하는 예상 결과다. -E/-I flag/path는 -c/script에서 확인했다. PTY는 TERM=dumb 기본 REPL fallback과 os._exit를 사용했다.",
+    "기준 f39b054b9의 macOS26.5.2 ARM64 결과이며 최신 HEAD/다른 플랫폼 결과가 아니다.",
+    "기존 binary를 새로 실행했다. 새 build/cargo test/clippy는 파일 보존 제약으로 실행하지 않았다.",
+    "과거 로그는 재사용이며 과거 및 PR 경계 재실행 없이 최초 수정 커밋을 확정하지 않는다."
+  ],
+  "agent": "agent-a"
+}

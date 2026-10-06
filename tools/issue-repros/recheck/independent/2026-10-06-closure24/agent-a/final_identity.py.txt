@@ -1,0 +1,32 @@
+from runner import *
+from html.parser import HTMLParser
+run('final-git-status',None,['git','status','--porcelain=v1','--untracked-files=all'],timeout=60)
+run('final-git-diff',None,['git','diff','--binary'])
+run('final-git-cached',None,['git','diff','--cached','--binary'])
+run('final-git-head',None,['git','rev-parse','HEAD'])
+run('identity-lib-tree',None,['git','rev-parse','f39b054b9c8cbbf884f53123eef028131789990c:Lib'])
+parent=json.loads((OUT.parent/'parent/preservation-start.json').read_text())['repos']['A']['tracked_files'];tracked={};changes=[]
+for path,entry in parent.items():
+ p=ROOT/path
+ if p.is_file():h=sha(p);tracked[path]={'before':entry['sha256'],'after':h};changed=entry['sha256']!=h
+ else:tracked[path]={'before':entry['sha256'],'after':None};changed=True
+ if changed:changes.append(path)
+(OUT/'environment/tracked-after.json').write_text(json.dumps({'count':len(tracked),'changes':changes,'files':tracked},indent=2)+'\n')
+reused={}
+for fname in ['reused-before.json','old-evidence-hashes.json','old-cases-hashes.json','build-records-hashes.json']:
+ for path,entry in json.loads((OUT/'environment'/fname).read_text()).items():
+  before=entry.get('sha256',entry.get('sha256_before'));after=sha(path);reused[path]={'before':before,'after':after,'unchanged':before==after}
+(OUT/'environment/reused-after.json').write_text(json.dumps(reused,indent=2)+'\n')
+class H(HTMLParser):
+ def __init__(self):super().__init__();self.parts=[]
+ def handle_data(self,s):self.parts.append(s)
+h=H();h.feed((OUT/'sources/4784-api.html').read_text());text=' '.join(' '.join(h.parts).split());(OUT/'sources/4784-api-text.txt').write_text(text)
+assert 'InterpreterBuilder' in text and 'impl InterpreterBuilder' in text and 'pub fn new' in text
+imports={}
+for who in ['rp','cp']:
+ for line in (OUT/'logs'/f'identity-imports-{who}.stdout').read_text().splitlines():
+  if line.startswith('MODULE '):
+   _,name,path=line.split(' ',2);p=pathlib.Path(path.strip("'"))
+   if p.is_file():imports[who+':'+name]={'path':str(p),'sha256':sha(p),'target_sha256':parent.get(str(p.relative_to(ROOT)),{}).get('sha256') if p.is_relative_to(ROOT) else None}
+identity={'target':'f39b054b9c8cbbf884f53123eef028131789990c','source':str(ROOT),'binary':str(BIN),'binary_realpath':str(BIN.resolve()),'binary_sha256':sha(BIN),'cpython':str(CP.resolve()),'cpython_sha256':sha(CP.resolve()),'architecture':'arm64','os':(OUT/'logs/identity-macos.stdout').read_text(),'rustpython_banner':(OUT/'logs/identity-banner.stdout').read_text(),'cpython_banner':(OUT/'logs/identity-cpython-banner.stdout').read_text(),'imported_files':imports,'build_provenance':'environment/build-variants-a.json optimized_sqlite contains matching binary SHA256 and actual_sha, plus retained successful build log and Cargo build script outputs. Fresh embedded banner matches those records. No rebuild; retained provenance is not independently reproduced or an attestation of every historical build input. Current tracked source equals target and parent baseline.','tracked_changed':changes,'reused_changed':[p for p,d in reused.items() if not d['unchanged']]}
+(OUT/'environment/identity.json').write_text(json.dumps(identity,ensure_ascii=False,indent=2)+'\n');print('Tracked',len(tracked),'changes',changes,'reused',len(reused),'changes',identity['reused_changed']);print(text[-1300:])

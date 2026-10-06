@@ -1,0 +1,29 @@
+{
+  "label": "3418-original-cp",
+  "argv": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "<initial16-audit>/agent-a/3418-original.py"
+  ],
+  "cwd": "<workspace>",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "RUSTPYTHONPATH": null
+  },
+  "removed_environment": [
+    "PYTHONPATH",
+    "PYTHONHOME",
+    "PYTHONWARNINGS",
+    "PYTHONSTARTUP"
+  ],
+  "input_path": "<initial16-audit>/agent-a/3418-original.py",
+  "input_sha256": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+  "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+  "executable_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "started_unix": 1791190884.6051579,
+  "duration_seconds": 0.03336334228515625,
+  "exit_code": 0,
+  "timed_out": false,
+  "stdout_file": "3418-original-cp.stdout",
+  "stderr_file": "3418-original-cp.stderr"
+}

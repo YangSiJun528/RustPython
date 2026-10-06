@@ -1,0 +1,48 @@
+import sys, json
+
+
+def issue4769():
+    import pickle, copy
+    from collections import deque
+
+    global Deque, DequeWithSlots
+
+    class Deque(deque):
+        pass
+
+    class DequeWithSlots(deque):
+        __slots__ = ("slot", "__dict__")
+
+    # Names must be globally resolvable for pickle.
+    Deque.__qualname__ = "Deque"
+    DequeWithSlots.__qualname__ = "DequeWithSlots"
+    literal = pickle.loads(pickle.dumps(pickle.HIGHEST_PROTOCOL))
+    try:
+        literal.__dict__
+    except AttributeError:
+        print("literal original: integer has no __dict__")
+    total = 0
+    for cls in (Deque, DequeWithSlots):
+        for values, maxlen in (
+            ([], None),
+            (["a", "b", "c"], None),
+            (["a", "b", "c"], 2),
+        ):
+            d = cls(values, maxlen=maxlen)
+            d.x = "value"
+            d.extra = ["list state"]
+            if cls is DequeWithSlots:
+                d.slot = ["slot state"]
+            for protocol in range(pickle.HIGHEST_PROTOCOL + 1):
+                e = pickle.loads(pickle.dumps(d, protocol))
+                assert type(e) is cls and e is not d
+                assert list(e) == list(d) and e.maxlen == d.maxlen
+                assert e.__dict__ == d.__dict__
+                if cls is DequeWithSlots:
+                    assert e.slot == d.slot
+                total += 1
+    print("pickle protocols:", list(range(pickle.HIGHEST_PROTOCOL + 1)))
+    print("subclass roundtrips:", total)
+
+
+globals()["issue" + sys.argv[1]]()

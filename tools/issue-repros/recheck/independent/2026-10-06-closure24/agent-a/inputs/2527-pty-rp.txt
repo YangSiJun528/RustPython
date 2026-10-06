@@ -1,0 +1,9 @@
+import os, sys
+print('ISATTY', sys.stdin.isatty())
+for i in range(10):
+    i
+
+with open('<closure24-audit>/agent-a/tmp/2527-new-rp.txt', 'w') as f:
+    f.write('hello')
+
+sys.stdout.flush(); sys.stderr.flush(); os._exit(0)

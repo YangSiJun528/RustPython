@@ -1,0 +1,44 @@
+import array, inspect, mmap
+
+class BytearrayChild(bytearray): pass
+
+objects=[bytearray(b'abc'),array.array('B',b'abc'),BytearrayChild(b'abc')]
+for obj in objects:
+    view=obj.__buffer__(inspect.BufferFlags.WRITABLE)
+    assert view.tobytes()==b'abc'
+    view[0]=65
+    assert bytes(obj)==b'Abc'
+    try:
+        obj.append(100)
+    except BufferError:
+        print(type(obj).__name__,'write-through and resize blocked')
+    else:
+        raise AssertionError('export must prevent resize')
+    obj.__release_buffer__(view)
+    try:
+        view.tobytes()
+    except ValueError: pass
+    else: raise AssertionError('released view still accessible')
+    obj.append(100)
+    assert bytes(obj)==b'Abcd'
+    print(type(obj).__name__,'released view invalid and resize allowed')
+
+data=bytearray(b'abc')
+original=memoryview(data)
+view=original.__buffer__(inspect.BufferFlags.WRITABLE)
+view[1]=66
+assert data==b'aBc'
+original.__release_buffer__(view)
+original.release()
+data.append(100)
+assert data==b'aBcd'
+print('memoryview write-through and release passed')
+
+mapping=mmap.mmap(-1,3)
+mapping[:]=b'abc'
+view=mapping.__buffer__(inspect.BufferFlags.WRITABLE)
+view[2]=67
+assert mapping[:]==b'abC'
+mapping.__release_buffer__(view)
+mapping.close()
+print('mmap write-through, release and close passed')

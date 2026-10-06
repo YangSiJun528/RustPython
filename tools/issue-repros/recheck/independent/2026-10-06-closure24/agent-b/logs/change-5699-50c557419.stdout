@@ -1,0 +1,694 @@
+diff --git a/compiler/codegen/src/compile.rs b/compiler/codegen/src/compile.rs
+index 67a93b465..5815f37ec 100644
+--- a/compiler/codegen/src/compile.rs
++++ b/compiler/codegen/src/compile.rs
+@@ -36,7 +36,7 @@ use rustpython_compiler_core::{
+     Mode, OneIndexed, SourceFile, SourceLocation,
+     bytecode::{
+         self, Arg as OpArgMarker, BinaryOperator, CodeObject, ComparisonOperator, ConstantData,
+-        Instruction, OpArg, OpArgType, UnpackExArgs,
++        Instruction, OpArg, OpArgType, TestOperator, UnpackExArgs,
+     },
+ };
+ use rustpython_wtf8::Wtf8Buf;
+@@ -3291,7 +3291,7 @@ impl Compiler {
+                 // index = len(subject) - (size - i)
+                 emit!(self, Instruction::GetLen);
+                 self.emit_load_const(ConstantData::Integer {
+-                    value: (patterns.len() - 1).into(),
++                    value: (patterns.len() - i).into(),
+                 });
+                 // Subtract to compute the correct index.
+                 emit!(
+@@ -3484,12 +3484,23 @@ impl Compiler {
+ 
+         // Process each sub-pattern.
+         for subpattern in patterns.iter().chain(kwd_patterns.iter()) {
+-            // Decrement the on_top counter as each sub-pattern is processed
+-            // (on_top should be zero at the end of the algorithm as a sanity check).
++            // Decrement the on_top counter BEFORE processing each sub-pattern
+             pc.on_top -= 1;
+-            if subpattern.is_wildcard() {
++
++            // Check if this is a true wildcard (underscore pattern without name binding)
++            let is_true_wildcard = match subpattern {
++                Pattern::MatchAs(match_as) => {
++                    // Only consider it wildcard if both pattern and name are None (i.e., "_")
++                    match_as.pattern.is_none() && match_as.name.is_none()
++                }
++                _ => subpattern.is_wildcard(),
++            };
++
++            if is_true_wildcard {
+                 emit!(self, Instruction::Pop);
++                continue; // Don't compile wildcard patterns
+             }
++
+             // Compile the subpattern without irrefutability checks.
+             self.compile_pattern_subpattern(subpattern, pc)?;
+         }
+@@ -3505,172 +3516,195 @@ impl Compiler {
+         let keys = &mapping.keys;
+         let patterns = &mapping.patterns;
+         let size = keys.len();
+-        let n_patterns = patterns.len();
++        let star_target = &mapping.rest;
+ 
+-        if size != n_patterns {
++        // Validate pattern count matches key count
++        if keys.len() != patterns.len() {
+             return Err(self.error(CodegenErrorType::SyntaxError(format!(
+-                "keys ({size}) / patterns ({n_patterns}) length mismatch in mapping pattern"
++                "keys ({}) / patterns ({}) length mismatch in mapping pattern",
++                keys.len(),
++                patterns.len()
+             ))));
+         }
+ 
+-        let star_target = &mapping.rest;
++        // Validate rest pattern: '_' cannot be used as a rest target
++        if let Some(rest) = star_target {
++            if rest.as_str() == "_" {
++                return Err(self.error(CodegenErrorType::SyntaxError("invalid syntax".to_string())));
++            }
++        }
+ 
+         // Step 1: Check if subject is a mapping
+         // Stack: [subject]
+-        // We need to keep the subject on top during the mapping and length checks
+         pc.on_top += 1;
+ 
+         emit!(self, Instruction::MatchMapping);
+-        // Stack: [subject, bool]
++        // Stack: [subject, is_mapping]
+ 
+-        // If not a mapping, fail (jump and pop subject)
+         self.jump_to_fail_pop(pc, JumpOp::PopJumpIfFalse)?;
+-        // Stack: [subject] (on success)
++        // Stack: [subject]
+ 
+-        // Step 2: If empty pattern with no star, consume subject
++        // Special case: empty pattern {} with no rest
+         if size == 0 && star_target.is_none() {
+-            // If the pattern is just "{}", we're done! Pop the subject:
++            // If the pattern is just "{}", we're done! Pop the subject
+             pc.on_top -= 1;
+             emit!(self, Instruction::Pop);
+             return Ok(());
+         }
+ 
+-        // Step 3: Check mapping has enough keys
+-        if size != 0 {
+-            // Stack: [subject]
++        // Length check for patterns with keys
++        if size > 0 {
++            // Check if the mapping has at least 'size' keys
+             emit!(self, Instruction::GetLen);
+-            // Stack: [subject, len]
+             self.emit_load_const(ConstantData::Integer { value: size.into() });
+-            // Stack: [subject, len, size]
+             emit!(
+                 self,
+                 Instruction::CompareOperation {
+                     op: ComparisonOperator::GreaterOrEqual
+                 }
+             );
+-            // Stack: [subject, bool]
+-
+-            // If not enough keys, fail
+             self.jump_to_fail_pop(pc, JumpOp::PopJumpIfFalse)?;
+-            // Stack: [subject]
+         }
+ 
+-        // Step 4: Build keys tuple
+-        if size.saturating_sub(1) > (i32::MAX as usize) {
++        // Check for overflow (INT_MAX < size - 1)
++        if size > (i32::MAX as usize + 1) {
+             return Err(self.error(CodegenErrorType::SyntaxError(
+                 "too many sub-patterns in mapping pattern".to_string(),
+             )));
+         }
++        #[allow(clippy::cast_possible_truncation)]
++        let size = size as u32; // checked right before
+ 
+-        // Validate and compile keys
+-        // NOTE: RustPython difference - using HashSet<String> for duplicate checking
+-        // CPython uses PySet with actual Python objects
+-        let mut seen = std::collections::HashSet::new();
+-
+-        for key in keys.iter() {
+-            // Validate key
+-            let is_constant = matches!(
+-                key,
+-                Expr::NumberLiteral(_)
+-                    | Expr::StringLiteral(_)
+-                    | Expr::BytesLiteral(_)
+-                    | Expr::BooleanLiteral(_)
+-                    | Expr::NoneLiteral(_)
+-            );
+-            let is_attribute = matches!(key, Expr::Attribute(_));
++        // Step 2: If we have keys to match
++        if size > 0 {
++            // Validate and compile keys
++            let mut seen = std::collections::HashSet::new();
++            for key in keys {
++                let is_attribute = matches!(key, Expr::Attribute(_));
++                let key_repr = if let Expr::NumberLiteral(_)
++                | Expr::StringLiteral(_)
++                | Expr::BooleanLiteral(_) = key
++                {
++                    format!("{:?}", key)
++                } else if is_attribute {
++                    String::new()
++                } else {
++                    return Err(self.error(CodegenErrorType::SyntaxError(
++                        "mapping pattern keys may only match literals and attribute lookups"
++                            .to_string(),
++                    )));
++                };
+ 
+-            if is_constant {
+-                let key_repr = format!("{key:?}");
+-                if seen.contains(&key_repr) {
++                if !key_repr.is_empty() && seen.contains(&key_repr) {
+                     return Err(self.error(CodegenErrorType::SyntaxError(format!(
+-                        "mapping pattern checks duplicate key: {key_repr:?}"
++                        "mapping pattern checks duplicate key ({key_repr})"
+                     ))));
+                 }
+-                seen.insert(key_repr);
+-            } else if !is_attribute {
+-                return Err(self.error(CodegenErrorType::SyntaxError(
+-                    "mapping pattern keys may only match literals and attribute lookups"
+-                        .to_string(),
+-                )));
+-            }
++                if !key_repr.is_empty() {
++                    seen.insert(key_repr);
++                }
+ 
+-            // Compile key expression
+-            self.compile_expression(key)?;
++                self.compile_expression(key)?;
++            }
++            // Stack: [subject, key1, key2, ..., keyn]
+         }
+-        // Stack: [subject, key1, key2, ...]
++        // Stack: [subject] if size==0, or [subject, key1, ..., keyn] if size>0
+ 
+-        // Build tuple of keys
+-        emit!(
+-            self,
+-            Instruction::BuildTuple {
+-                size: u32::try_from(size).expect("too many keys in mapping pattern")
+-            }
+-        );
++        // Build tuple of keys (empty tuple if size==0)
++        emit!(self, Instruction::BuildTuple { size });
+         // Stack: [subject, keys_tuple]
+ 
+-        // Step 5: Extract values using MATCH_KEYS
++        // Match keys
+         emit!(self, Instruction::MatchKeys);
+-        // Stack: [subject, keys_or_none, values_or_none]
+-        // There's now a tuple of keys and a tuple of values on top of the subject
+-        pc.on_top += 2;
++        // Stack: [subject, keys_tuple, values_or_none]
++        pc.on_top += 2; // subject and keys_tuple are underneath
+ 
+-        emit!(self, Instruction::CopyItem { index: 1_u32 }); // Copy values_or_none (TOS)
+-        // Stack: [subject, keys_or_none, values_or_none, values_or_none]
++        // Check if match succeeded
++        emit!(self, Instruction::CopyItem { index: 1_u32 });
++        // Stack: [subject, keys_tuple, values_tuple, values_tuple_copy]
+ 
++        // Check if copy is None (consumes the copy like POP_JUMP_IF_NONE)
+         self.emit_load_const(ConstantData::None);
+-        // Stack: [subject, keys_or_none, values_or_none, values_or_none, None]
+-
+         emit!(
+             self,
+             Instruction::TestOperation {
+-                op: bytecode::TestOperator::IsNot
++                op: TestOperator::IsNot
+             }
+         );
+-        // Stack: [subject, keys_or_none, values_or_none, bool]
+-
+-        // If values_or_none is None, fail (need to clean up 3 items: values_or_none, keys_or_none, subject)
++        // Stack: [subject, keys_tuple, values_tuple, bool]
+         self.jump_to_fail_pop(pc, JumpOp::PopJumpIfFalse)?;
+-        // Stack: [subject, keys_or_none, values_or_none] (on success)
++        // Stack: [subject, keys_tuple, values_tuple]
+ 
+-        // Step 7: Process patterns
+-        if size > 0 {
+-            // Unpack values tuple
+-            emit!(
+-                self,
+-                Instruction::UnpackSequence {
+-                    size: u32::try_from(size).expect("too many values in mapping pattern")
+-                }
+-            );
+-            // Stack: [subject, keys_or_none, value_n, ..., value_1]
+-            // After UNPACK_SEQUENCE, we have size values on the stack
+-            pc.on_top += size - 1;
++        // Unpack values (the original values_tuple)
++        emit!(self, Instruction::UnpackSequence { size });
++        // Stack after unpack: [subject, keys_tuple, ...unpacked values...]
++        pc.on_top += size as usize; // Unpacked size values, tuple replaced by values
++        pc.on_top -= 1;
+ 
+-            // Process each pattern with compile_pattern_subpattern
+-            for pattern in patterns.iter() {
+-                pc.on_top -= 1;
+-                self.compile_pattern_subpattern(pattern, pc)?;
+-            }
++        // Step 3: Process matched values
++        for i in 0..size {
++            pc.on_top -= 1;
++            self.compile_pattern_subpattern(&patterns[i as usize], pc)?;
+         }
+ 
+-        // After all patterns processed, adjust on_top for subject and keys_or_none
++        // After processing subpatterns, adjust on_top
++        // CPython: "Whatever happens next should consume the tuple of keys and the subject"
++        // Stack currently: [subject, keys_tuple, ...any captured values...]
+         pc.on_top -= 2;
+ 
+-        // Step 8: Clean up
+-        // If we get this far, it's a match! Whatever happens next should consume
+-        // the tuple of keys and the subject
++        // Step 4: Handle rest pattern or cleanup
++        if let Some(rest_name) = star_target {
++            // Build rest dict for **rest pattern
++            // Stack: [subject, keys_tuple]
++
++            // Build rest dict exactly
++            emit!(self, Instruction::BuildMap { size: 0 });
++            // Stack: [subject, keys_tuple, {}]
++            emit!(self, Instruction::Swap { index: 3 });
++            // Stack: [{}, keys_tuple, subject]
++            emit!(self, Instruction::DictUpdate { index: 2 });
++            // Stack after DICT_UPDATE: [rest_dict, keys_tuple]
++            // DICT_UPDATE consumes source (subject) and leaves dict in place
++
++            // Unpack keys and delete from rest_dict
++            emit!(self, Instruction::UnpackSequence { size });
++            // Stack: [rest_dict, k1, k2, ..., kn] (if size==0, nothing pushed)
++
++            // Delete each key from rest_dict (skipped when size==0)
++            // while (size) { COPY(1 + size--); SWAP(2); DELETE_SUBSCR }
++            let mut remaining = size;
++            while remaining > 0 {
++                // Copy rest_dict which is at position (1 + remaining) from TOS
++                emit!(
++                    self,
++                    Instruction::CopyItem {
++                        index: 1 + remaining
++                    }
++                );
++                // Stack: [rest_dict, k1, ..., kn, rest_dict]
++                emit!(self, Instruction::Swap { index: 2 });
++                // Stack: [rest_dict, k1, ..., kn-1, rest_dict, kn]
++                emit!(self, Instruction::DeleteSubscript);
++                // Stack: [rest_dict, k1, ..., kn-1] (removed kn from rest_dict)
++                remaining -= 1;
++            }
++            // Stack: [rest_dict] (plus any previously stored values)
++            // pattern_helper_store_name will handle the rotation correctly
+ 
+-        if let Some(_star_target) = star_target {
+-            // TODO: Implement **rest pattern support
+-            // This would involve BUILD_MAP, DICT_UPDATE, etc.
+-            return Err(self.error(CodegenErrorType::SyntaxError(
+-                "**rest pattern in mapping not yet implemented".to_string(),
+-            )));
++            // Store the rest dict
++            self.pattern_helper_store_name(Some(rest_name), pc)?;
++
++            // After storing all values, pc.on_top should be 0
++            // The values are rotated to the bottom for later storage
++            pc.on_top = 0;
+         } else {
+-            // Pop the tuple of keys
+-            emit!(self, Instruction::Pop);
+-            // Pop the subject
+-            emit!(self, Instruction::Pop);
++            // Non-rest pattern: just clean up the stack
++
++            // Pop them as we're not using them
++            emit!(self, Instruction::Pop); // Pop keys_tuple
++            emit!(self, Instruction::Pop); // Pop subject
+         }
++
+         Ok(())
+     }
+ 
+@@ -3890,11 +3924,12 @@ impl Compiler {
+             Singleton::False => ConstantData::Boolean { value: false },
+             Singleton::True => ConstantData::Boolean { value: true },
+         });
+-        // Compare using the "Is" operator.
++        // Compare using the "Is" operator (identity check, not equality).
++        // This is important: False should not match 0, even though False == 0
+         emit!(
+             self,
+-            Instruction::CompareOperation {
+-                op: bytecode::ComparisonOperator::Equal
++            Instruction::TestOperation {
++                op: bytecode::TestOperator::Is
+             }
+         );
+         // Jump to the failure label if the comparison is false.
+@@ -3967,12 +4002,17 @@ impl Compiler {
+                 self.compile_name(name, NameUsage::Store)?;
+             }
+ 
+-            if let Some(ref _guard) = m.guard {
++            if let Some(ref guard) = m.guard {
+                 self.ensure_fail_pop(pattern_context, 0)?;
+-                // TODO: Fix compile jump if call
+-                return Err(self.error(CodegenErrorType::NotImplementedYet));
+-                // Jump if the guard fails. We assume that patter_context.fail_pop[0] is the jump target.
+-                // self.compile_jump_if(&m.pattern, &guard, pattern_context.fail_pop[0])?;
++                // Compile the guard expression
++                self.compile_expression(guard)?;
++                // If guard is false, jump to fail_pop[0]
++                emit!(
++                    self,
++                    Instruction::JumpIfFalseOrPop {
++                        target: pattern_context.fail_pop[0]
++                    }
++                );
+             }
+ 
+             if i != case_count - 1 {
+@@ -3991,9 +4031,10 @@ impl Compiler {
+             } else {
+                 emit!(self, Instruction::Nop);
+             }
+-            if let Some(ref _guard) = m.guard {
+-                // TODO: Fix compile jump if call
+-                return Err(self.error(CodegenErrorType::NotImplementedYet));
++            if let Some(ref guard) = m.guard {
++                // Compile guard and jump to end if false
++                self.compile_expression(guard)?;
++                emit!(self, Instruction::JumpIfFalseOrPop { target: end });
+             }
+             self.compile_statements(&m.body)?;
+         }
+diff --git a/extra_tests/snippets/syntax_match.py b/extra_tests/snippets/syntax_match.py
+index be1a94ead..8868cb93c 100644
+--- a/extra_tests/snippets/syntax_match.py
++++ b/extra_tests/snippets/syntax_match.py
+@@ -64,18 +64,46 @@ def test_or(i):
+ 
+ match data:
+     case {"a": x, "b": y}:
++        assert x == 1, x
++        assert y == 2, y
++    case _:
++        assert False
++
++# test mapping with rest
++match data:
++    case {"a": x, **rest}:
++        assert x == 1
++        assert rest == {"b": 2}
++    case _:
++        assert False
++
++# test empty rest
++data2 = {"a": 1}
++match data2:
++    case {"a": x, **rest}:
++        assert x == 1
++        assert rest == {}
++    case _:
++        assert False
++
++# test rest with multiple keys
++data3 = {"a": 1, "b": 2, "c": 3, "d": 4}
++match data3:
++    case {"a": x, "b": y, **rest}:
+         assert x == 1
+         assert y == 2
++        assert rest == {"c": 3, "d": 4}
+     case _:
+         assert False
+ 
+-# test mapping with rest (TODO: implement **rest pattern)
+-# match data:
+-#     case {"a": x, **rest}:
+-#         assert x == 1
+-#         assert rest == {"b": 2}
+-#     case _:
+-#         assert False
++match data3:
++    case {"a": x, "b": y, "c": z, **rest}:
++        assert x == 1
++        assert y == 2
++        assert z == 3
++        assert rest == {"d": 4}
++    case _:
++        assert False
+ 
+ # test mapping pattern with wildcard fallback (reproduces wheelinfo.py issue)
+ test_dict = {"sha256": "abc123"}
+@@ -118,7 +146,6 @@ def test_mapping_comprehensive():
+             cap_x = cap_y = None
+     assert cap_x == 1, f"Expected x=1, got {cap_x}"
+     assert cap_y == 2, f"Expected y=2, got {cap_y}"
+-    print("Comprehensive mapping tests passed!")
+ 
+ 
+ test_mapping_comprehensive()
+diff --git a/vm/src/frame.rs b/vm/src/frame.rs
+index 14e4fabd6..d664804eb 100644
+--- a/vm/src/frame.rs
++++ b/vm/src/frame.rs
+@@ -1,5 +1,6 @@
+ use crate::common::{boxvec::BoxVec, lock::PyMutex};
+ use crate::protocol::PyMapping;
++use crate::types::PyTypeFlags;
+ use crate::{
+     AsObject, Py, PyObject, PyObjectRef, PyPayload, PyRef, PyResult, TryFromObject, VirtualMachine,
+     builtins::{
+@@ -701,10 +702,19 @@ impl ExecutingFrame<'_> {
+             }
+             bytecode::Instruction::Swap { index } => {
+                 let len = self.state.stack.len();
++                if len == 0 {
++                    return Err(vm.new_runtime_error("stack underflow in SWAP".to_string()));
++                }
+                 let i = len - 1; // TOS index
+                 let index_val = index.get(arg) as usize;
+                 // CPython: SWAP(n) swaps TOS with PEEK(n) where PEEK(n) = stack_pointer[-n]
+                 // This means swap TOS with the element at index (len - n)
++                if index_val > len {
++                    return Err(vm.new_runtime_error(format!(
++                        "SWAP index {} exceeds stack size {}",
++                        index_val, len
++                    )));
++                }
+                 let j = len - index_val;
+                 self.state.stack.swap(i, j);
+                 Ok(None)
+@@ -1296,7 +1306,10 @@ impl ExecutingFrame<'_> {
+             bytecode::Instruction::MatchMapping => {
+                 // Pop and push back the subject to keep it on stack
+                 let subject = self.pop_value();
+-                let is_mapping = PyMapping::check(&subject);
++
++                // Check if the type has the MAPPING flag
++                let is_mapping = subject.class().slots.flags.contains(PyTypeFlags::MAPPING);
++
+                 self.push_value(subject);
+                 self.push_value(vm.ctx.new_bool(is_mapping).into());
+                 Ok(None)
+@@ -1304,18 +1317,18 @@ impl ExecutingFrame<'_> {
+             bytecode::Instruction::MatchSequence => {
+                 // Pop and push back the subject to keep it on stack
+                 let subject = self.pop_value();
+-                let is_sequence = subject.to_sequence().check();
++
++                // Check if the type has the SEQUENCE flag
++                let is_sequence = subject.class().slots.flags.contains(PyTypeFlags::SEQUENCE);
++
+                 self.push_value(subject);
+                 self.push_value(vm.ctx.new_bool(is_sequence).into());
+                 Ok(None)
+             }
+             bytecode::Instruction::MatchKeys => {
+-                // Pop keys tuple and subject
+-                let keys_tuple = self.pop_value();
+-                let subject = self.pop_value();
+-
+-                // Push the subject back first
+-                self.push_value(subject.clone());
++                // MATCH_KEYS doesn't pop subject and keys, only reads them
++                let keys_tuple = self.top_value(); // stack[-1]
++                let subject = self.nth_value(1); // stack[-2]
+ 
+                 // Check if subject is a mapping and extract values for keys
+                 if PyMapping::check(&subject) {
+@@ -1334,42 +1347,139 @@ impl ExecutingFrame<'_> {
+                     }
+ 
+                     if all_match {
+-                        // Push keys_or_none (the original keys) and values_or_none
+-                        // Keys should remain as they were for potential **rest handling
+-                        self.push_value(keys_tuple); // keys_or_none
+-                        self.push_value(vm.ctx.new_tuple(values).into()); // values_or_none
++                        // Push values tuple on successful match
++                        self.push_value(vm.ctx.new_tuple(values).into());
+                     } else {
+-                        // No match - push None twice
+-                        self.push_value(vm.ctx.none());
++                        // No match - push None
+                         self.push_value(vm.ctx.none());
+                     }
+                 } else {
+-                    // Not a mapping - push None twice
+-                    self.push_value(vm.ctx.none());
++                    // Not a mapping - push None
+                     self.push_value(vm.ctx.none());
+                 }
+                 Ok(None)
+             }
+-            bytecode::Instruction::MatchClass(_arg) => {
++            bytecode::Instruction::MatchClass(nargs) => {
+                 // STACK[-1] is a tuple of keyword attribute names, STACK[-2] is the class being matched against, and STACK[-3] is the match subject.
+-                // count is the number of positional sub-patterns.
+-                // Pop STACK[-1], STACK[-2], and STACK[-3].
+-                let names = self.pop_value();
+-                let names = names.downcast_ref::<PyTuple>().unwrap();
++                // nargs is the number of positional sub-patterns.
++                let kwd_attrs = self.pop_value();
++                let kwd_attrs = kwd_attrs.downcast_ref::<PyTuple>().unwrap();
+                 let cls = self.pop_value();
+                 let subject = self.pop_value();
+-                // If STACK[-3] is an instance of STACK[-2] and has the positional and keyword attributes required by count and STACK[-1],
+-                // push a tuple of extracted attributes.
++                let nargs_val = nargs.get(arg) as usize;
++
++                // Check if subject is an instance of cls
+                 if subject.is_instance(cls.as_ref(), vm)? {
+                     let mut extracted = vec![];
+-                    for name in names {
++
++                    // Get __match_args__ for positional arguments if nargs > 0
++                    if nargs_val > 0 {
++                        // Get __match_args__ from the class
++                        let match_args =
++                            vm.get_attribute_opt(cls.clone(), identifier!(vm, __match_args__))?;
++
++                        if let Some(match_args) = match_args {
++                            // Convert to tuple
++                            let match_args = match match_args.downcast_exact::<PyTuple>(vm) {
++                                Ok(tuple) => tuple,
++                                Err(match_args) => {
++                                    // __match_args__ must be a tuple
++                                    // Get type names for error message
++                                    let type_name = cls
++                                        .downcast::<crate::builtins::PyType>()
++                                        .map(|t| t.__name__(vm).as_str().to_owned())
++                                        .unwrap_or_else(|_| String::from("?"));
++                                    let match_args_type_name = match_args.class().__name__(vm);
++                                    return Err(vm.new_type_error(format!(
++                                        "{}.__match_args__ must be a tuple (got {})",
++                                        type_name, match_args_type_name
++                                    )));
++                                }
++                            };
++
++                            // Check if we have enough match args
++                            if match_args.len() < nargs_val {
++                                return Err(vm.new_type_error(format!(
++                                    "class pattern accepts at most {} positional sub-patterns ({} given)",
++                                    match_args.len(),
++                                    nargs_val
++                                )));
++                            }
++
++                            // Extract positional attributes
++                            for i in 0..nargs_val {
++                                let attr_name = &match_args[i];
++                                let attr_name_str = match attr_name.downcast_ref::<PyStr>() {
++                                    Some(s) => s,
++                                    None => {
++                                        return Err(vm.new_type_error(
++                                            "__match_args__ elements must be strings".to_string(),
++                                        ));
++                                    }
++                                };
++                                match subject.get_attr(attr_name_str, vm) {
++                                    Ok(value) => extracted.push(value),
++                                    Err(e)
++                                        if e.fast_isinstance(vm.ctx.exceptions.attribute_error) =>
++                                    {
++                                        // Missing attribute → non-match
++                                        self.push_value(vm.ctx.none());
++                                        return Ok(None);
++                                    }
++                                    Err(e) => return Err(e),
++                                }
++                            }
++                        } else {
++                            // No __match_args__, check if this is a type with MATCH_SELF behavior
++                            // For built-in types like bool, int, str, list, tuple, dict, etc.
++                            // they match the subject itself as the single positional argument
++                            let is_match_self_type = cls.is(vm.ctx.types.bool_type)
++                                || cls.is(vm.ctx.types.int_type)
++                                || cls.is(vm.ctx.types.float_type)
++                                || cls.is(vm.ctx.types.str_type)
++                                || cls.is(vm.ctx.types.bytes_type)
++                                || cls.is(vm.ctx.types.bytearray_type)
++                                || cls.is(vm.ctx.types.list_type)
++                                || cls.is(vm.ctx.types.tuple_type)
++                                || cls.is(vm.ctx.types.dict_type)
++                                || cls.is(vm.ctx.types.set_type)
++                                || cls.is(vm.ctx.types.frozenset_type);
++
++                            if is_match_self_type {
++                                if nargs_val == 1 {
++                                    // Match the subject itself as the single positional argument
++                                    extracted.push(subject.clone());
++                                } else if nargs_val > 1 {
++                                    // Too many positional arguments for MATCH_SELF
++                                    self.push_value(vm.ctx.none());
++                                    return Ok(None);
++                                }
++                            } else {
++                                // No __match_args__ and not a MATCH_SELF type
++                                if nargs_val > 0 {
++                                    self.push_value(vm.ctx.none());
++                                    return Ok(None);
++                                }
++                            }
++                        }
++                    }
++
++                    // Extract keyword attributes
++                    for name in kwd_attrs {
+                         let name_str = name.downcast_ref::<PyStr>().unwrap();
+-                        let value = subject.get_attr(name_str, vm)?;
+-                        extracted.push(value);
++                        match subject.get_attr(name_str, vm) {
++                            Ok(value) => extracted.push(value),
++                            Err(_) => {
++                                // Attribute doesn't exist
++                                self.push_value(vm.ctx.none());
++                                return Ok(None);
++                            }
++                        }
+                     }
++
+                     self.push_value(vm.ctx.new_tuple(extracted).into());
+                 } else {
+-                    // Otherwise, push None.
++                    // Not an instance, push None
+                     self.push_value(vm.ctx.none());
+                 }
+                 Ok(None)

@@ -1,0 +1,122 @@
+{
+  "recorded_on": "2026-10-04",
+  "log_transform": "Local user/checkouts paths are replaced with placeholders; terminal ANSI sequences are retained.",
+  "runs": {
+    "historical": {
+      "command": [
+        "<survey>/.build/slot-a/release/rustpython",
+        "<survey>/verification-tools/derived-transcripts/issue-3430-case-01/probe.py"
+      ],
+      "cwd": "<checkout>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "310578c422c9b3d76eb8c739136b972d78e37180",
+      "binary_sha256": "a82be57ff91c9e8c82392c0883b8d579aba20df63922772dedaaf71adc3bbc70",
+      "exit_code": 1,
+      "timeout": false,
+      "code_sha256": "a417cc001e1c9e1bd09bcef9014cf9713bfa74d6610ee5ba48e3237490b5bcce",
+      "source_record": "logs/issue-3430-case-01/historical-310578c422-01-a417cc00-a82be57f.stdout",
+      "logs": {
+        "stdout": {
+          "path": "historical.stdout.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "historical.stderr.txt",
+          "source_sha256": "d1c6d1fa4ce640431e59a104d16879f1750c078cf306744ae6a8f0e8fe9e3d7d",
+          "export_sha256": "8728d83ab4177bce5d8c69a37acc11e7a720ab4c94972b87c1b5224ee6082a6a"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.56.1 (59eed8a2a 2021-11-01)\nbinary: rustc\ncommit-hash: 59eed8a2aac0230a8b53e89d4e99d55912ba6b35\ncommit-date: 2021-11-01\nhost: aarch64-apple-darwin\nrelease: 1.56.1\nLLVM version: 13.0.0\n",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "arch": "arm64",
+        "command": [
+          "cargo",
+          "+1.56.1",
+          "build",
+          "--release",
+          "--locked",
+          "--target-dir",
+          "<survey>/.build/slot-a"
+        ],
+        "cargo_lock_sha256": "482b3124151a0fd7433e056e0e8579cb7204c3cf2997a20a46537852601bdf81",
+        "version_banner": "3.9.0alpha (tags/0.1.0-6750-g310578c42:310578c42, Nov  7 2021, 22:46:23) \n[rustc 1.56.1]\n",
+        "binary_sha256": "a82be57ff91c9e8c82392c0883b8d579aba20df63922772dedaaf71adc3bbc70"
+      }
+    },
+    "current": {
+      "command": [
+        "<survey>/.build/slot-a/release/rustpython",
+        "<survey>/verification-tools/derived-transcripts/issue-3430-case-01/probe.py"
+      ],
+      "cwd": "<survey>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+      "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+      "exit_code": 0,
+      "timeout": false,
+      "derivation": [
+        "Remove prompts/traceback. Preserve exact XML input/call, then print returned element structure without address."
+      ],
+      "source_record": "logs/issue-3430-case-01/current-documented-008.stdout",
+      "logs": {
+        "stdout": {
+          "path": "current.stdout.txt",
+          "source_sha256": "80d32f31e459b20ac6a63dc7b0aa530d9add379565e0c13dde1b2b3fb0baa884",
+          "export_sha256": "80d32f31e459b20ac6a63dc7b0aa530d9add379565e0c13dde1b2b3fb0baa884"
+        },
+        "stderr": {
+          "path": "current.stderr.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "build": {
+        "toolchain": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+        "architecture": "arm64",
+        "build_command": "cargo +1.99.0 build --release --locked --target-dir cleanup-issues/2026-10-04T155029+0900/.build/slot-a",
+        "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe"
+      }
+    },
+    "cpython": {
+      "command": [
+        "python3",
+        "<survey>/verification-tools/derived-transcripts/issue-3430-case-01/probe.py"
+      ],
+      "cwd": "<survey>",
+      "env": {
+        "RUSTPYTHONPATH": "<checkout>/Lib",
+        "PYTHONDONTWRITEBYTECODE": "1"
+      },
+      "actual_sha": null,
+      "binary_sha256": null,
+      "exit_code": 0,
+      "timeout": false,
+      "derivation": [
+        "Remove prompts/traceback. Preserve exact XML input/call, then print returned element structure without address."
+      ],
+      "source_record": "logs/issue-3430-case-01/cpython-documented-008.stdout",
+      "logs": {
+        "stdout": {
+          "path": "cpython.stdout.txt",
+          "source_sha256": "80d32f31e459b20ac6a63dc7b0aa530d9add379565e0c13dde1b2b3fb0baa884",
+          "export_sha256": "80d32f31e459b20ac6a63dc7b0aa530d9add379565e0c13dde1b2b3fb0baa884"
+        },
+        "stderr": {
+          "path": "cpython.stderr.txt",
+          "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "build": {}
+    }
+  }
+}

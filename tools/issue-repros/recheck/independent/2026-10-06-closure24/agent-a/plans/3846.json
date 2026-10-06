@@ -1,0 +1,14 @@
+{
+  "issue": 3846,
+  "url": "https://github.com/RustPython/RustPython/issues/3846",
+  "title": "Add missing dis features for modulefinder",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 9,
+  "declared_comments": 9,
+  "original_scope": "dis.opmap, EXTENDED_ARG, _unpack_opargs for modulefinder; actual scan_code/modulefinder behavior.",
+  "independent_plan": "Original _unpack_opargs(100) constructs lazy generator but invalid input fails when consumed; execute construction then exhaustion and valid compiled co_code exhaustion. Run ModuleFinder on imports and full target test_modulefinder; do not equate imports/zero tests/skips with pass.",
+  "limitations_and_source_corrections": "Linked #3863 is closed PR containing original modulefinder/test import, with no usable execution traceback in comments; opcode numeric equality is not required across interpreters.",
+  "saved_utc": "2026-10-05T16:10:32.571779+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

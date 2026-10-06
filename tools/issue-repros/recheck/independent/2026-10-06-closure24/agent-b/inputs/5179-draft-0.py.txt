@@ -1,0 +1,97 @@
+import sys, json
+
+
+def issue5179():
+    import array, mmap, inspect
+
+    class BytesSubclass(bytes):
+        pass
+
+    class BytearraySubclass(bytearray):
+        pass
+
+    objects = [
+        bytes(b"abc"),
+        bytearray(b"abc"),
+        array.array("B", b"abc"),
+        memoryview(b"abc"),
+        BytesSubclass(b"abc"),
+        BytearraySubclass(b"abc"),
+    ]
+    mapping = mmap.mmap(-1, 3)
+    mapping[:] = b"abc"
+    objects.append(mapping)
+    rows = []
+    for obj in objects:
+        row = {
+            "type": type(obj).__name__,
+            "buffer": hasattr(obj, "__buffer__"),
+            "release": hasattr(obj, "__release_buffer__"),
+        }
+        view = obj.__buffer__(0)
+        assert isinstance(view, memoryview)
+        row["data"] = view.tobytes().decode("ascii")
+        row["readonly"] = view.readonly
+        assert row["data"] == "abc"
+        if hasattr(obj, "__release_buffer__"):
+            obj.__release_buffer__(view)
+            try:
+                view.tobytes()
+            except ValueError:
+                row["released"] = True
+            else:
+                row["released"] = False
+        else:
+            view.release()
+        try:
+            writable = obj.__buffer__(inspect.BufferFlags.WRITABLE)
+        except Exception as e:
+            row["writable"] = type(e).__name__
+        else:
+            row["writable"] = not writable.readonly
+            if hasattr(obj, "__release_buffer__"):
+                obj.__release_buffer__(writable)
+            else:
+                writable.release()
+        rows.append(row)
+    objects[3].release()
+    mapping.close()
+    ba = bytearray(b"abc")
+    view = ba.__buffer__(0)
+    try:
+        ba.append(100)
+    except BufferError:
+        pass
+    else:
+        raise AssertionError("resize while exported should be blocked")
+    ba.__release_buffer__(view)
+    ba.append(100)
+    assert ba == b"abcd"
+    events = []
+
+    class Exporter:
+        def __buffer__(self, flags):
+            events.append(["get", flags])
+            self.view = memoryview(bytearray(b"xyz"))
+            return self.view
+
+        def __release_buffer__(self, view):
+            assert view is self.view
+            events.append(["release"])
+            view.release()
+
+    obj = Exporter()
+    with memoryview(obj) as view:
+        assert view.tobytes() == b"xyz"
+        view[0] = 65
+        assert view.tobytes() == b"Ayz"
+    assert events[-1] == ["release"]
+    print(
+        json.dumps(
+            {"builtins": rows, "resize_after_release": True, "custom_exporter": events},
+            sort_keys=True,
+        )
+    )
+
+
+globals()["issue" + sys.argv[1]]()

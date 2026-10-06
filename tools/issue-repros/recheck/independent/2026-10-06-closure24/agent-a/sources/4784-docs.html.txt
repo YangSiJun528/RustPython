@@ -1,0 +1,420 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="This is the `rustpython` binary. If you’re looking to embed RustPython into your application, you’re likely looking for the `rustpython_vm` crate."><title>rustpython - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Italic-81dc35de.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-MediumItalic-ccf7e434.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2"href="/-/rustdoc.static/${f}">`).join(""))</script><link rel="stylesheet" href="/-/rustdoc.static/normalize-9960930a.css"><link rel="stylesheet" href="/-/static/vendored.css?0-0-0-6b0955898af88db642c5ce7420d9dbef2c65d5d9-2026-09-30" media="all" /><link rel="stylesheet" href="/-/rustdoc.static/rustdoc-203241e4.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="/-/rustdoc.static/" data-current-crate="rustpython" data-themes="" data-resource-suffix="-20260930-1.101.0-nightly-21b707e3f" data-rustdoc-version="1.101.0-nightly (21b707e3f 2026-09-30)" data-channel="nightly" data-search-js="search-b167f383.js" data-stringdex-js="stringdex-b5109af9.js" data-settings-js="settings-170eb4bf.js" ><script src="/-/rustdoc.static/storage-41dd4d93.js"></script><script defer src="../crates-20260930-1.101.0-nightly-21b707e3f.js"></script><script defer src="/-/rustdoc.static/main-1814ead3.js"></script><noscript><link rel="stylesheet" href="/-/rustdoc.static/noscript-9f56287d.css"></noscript><link rel="alternate icon" type="image/png" href="/-/rustdoc.static/favicon-32x32-eab170b8.png"><link rel="icon" type="image/svg+xml" href="/-/rustdoc.static/favicon-044be391.svg"><link rel="stylesheet" href="/-/static/rustdoc-2025-08-20.css?0-0-0-6b0955898af88db642c5ce7420d9dbef2c65d5d9-2026-09-30" media="all" /><link rel="stylesheet" href="/-/static/font-awesome.css?0-0-0-6b0955898af88db642c5ce7420d9dbef2c65d5d9-2026-09-30" media="all" />
+
+<link rel="search" href="/-/static/opensearch.xml" type="application/opensearchdescription+xml" title="Docs.rs" />
+
+<script type="text/javascript">(function() {
+    function applyTheme(theme) {
+        if (theme) {
+            document.documentElement.dataset.docsRsTheme = theme;
+        }
+    }
+
+    window.addEventListener("storage", ev => {
+        if (ev.key === "rustdoc-theme") {
+            applyTheme(ev.newValue);
+        }
+    });
+
+    // see ./storage-change-detection.html for details
+    window.addEventListener("message", ev => {
+        if (ev.data && ev.data.storage && ev.data.storage.key === "rustdoc-theme") {
+            applyTheme(ev.data.storage.value);
+        }
+    });
+
+    applyTheme(window.localStorage.getItem("rustdoc-theme"));
+})();</script></head><body class="rustdoc-page">
+<div class="nav-container">
+    <div class="container">
+        <div class="pure-menu pure-menu-horizontal" role="navigation" aria-label="Main navigation">
+            <form action="/releases/search"
+                  method="GET"
+                  id="nav-search-form"
+                  class="landing-search-form-nav  ">
+
+                
+                <a href="/" class="pure-menu-heading pure-menu-link docsrs-logo" aria-label="Docs.rs">
+                    <span title="Docs.rs"><span class="fa fa-solid fa-cubes " aria-hidden="true"></span></span>
+                    <span class="title">Docs.rs</span>
+                </a><ul class="pure-menu-list">
+    <script id="crate-metadata" type="application/json">
+        
+        {
+            "name": "rustpython",
+            "version": "0.6.0"
+        }
+    </script><li class="pure-menu-item pure-menu-has-children crate-dropdown">
+            <a href="#" class="pure-menu-link crate-name" title="A python interpreter written in rust.">
+                <span class="fa fa-solid fa-cube " aria-hidden="true"></span>
+                <span class="title">rustpython-0.6.0</span>
+            </a><div class="pure-menu-children package-details-menu">
+                
+                <ul class="pure-menu-list menu-item-divided">
+                    <li class="pure-menu-heading" id="crate-title">
+                        rustpython 0.6.0
+                        <span id="clipboard" class="svg-clipboard" title="Copy crate name and version information"></span>
+                    </li><li class="pure-menu-item">
+                        <a href="/rustpython/0.6.0/rustpython/" class="pure-menu-link description" id="permalink" title="Get a link to this specific version"><span class="fa fa-solid fa-link " aria-hidden="true"></span> Permalink
+                        </a>
+                    </li><li class="pure-menu-item">
+                        <a href="/crate/rustpython/latest" class="pure-menu-link description" title="See rustpython in docs.rs">
+                            <span class="fa fa-solid fa-cube " aria-hidden="true"></span> Docs.rs crate page
+                        </a>
+                    </li><li class="pure-menu-item">
+                            <span class="pure-menu-link description license"><span class="fa fa-solid fa-scale-unbalanced-flip " aria-hidden="true"></span>
+                            <a href="https://spdx.org/licenses/MIT" class="pure-menu-sublink">MIT</a></span>
+                        </li><li class="pure-menu-item">
+                            <span class="pure-menu-link description" title="Built with rustc 1.101.0-nightly (21b707e3f 2026-09-30)">
+                                <span class="fa fa-solid fa-gears " aria-hidden="true"></span> 02 October 2026
+                            </span>
+                        </li></ul>
+
+                <div class="pure-g menu-item-divided">
+                    <div class="pure-u-1-2 right-border">
+                        <ul class="pure-menu-list">
+                            <li class="pure-menu-heading">Links</li>
+
+                            <li class="pure-menu-item">
+                                    <a href="https://github.com/RustPython/RustPython" class="pure-menu-link">
+                                        <span class="fa fa-solid fa-code-branch " aria-hidden="true"></span> Repository
+                                    </a>
+                                </li><li class="pure-menu-item">
+                                <a href="https://crates.io/crates/rustpython" class="pure-menu-link" title="See rustpython in crates.io">
+                                    <span class="fa fa-solid fa-cube " aria-hidden="true"></span> crates.io
+                                </a>
+                            </li>
+
+                            
+                            <li class="pure-menu-item">
+                                <a href="/crate/rustpython/latest/source/" title="Browse source of rustpython-0.6.0" class="pure-menu-link">
+                                    <span class="fa fa-solid fa-folder-open " aria-hidden="true"></span> Source
+                                </a>
+                            </li>
+                        </ul>
+                    </div><div class="pure-u-1-2">
+                        <ul class="pure-menu-list" id="topbar-owners">
+                            <li class="pure-menu-heading">Owners</li><li class="pure-menu-item">
+                                    <a href="https://crates.io/users/windelbouwman" class="pure-menu-link">
+                                        <span class="fa fa-solid fa-user " aria-hidden="true"></span> windelbouwman
+                                    </a>
+                                </li><li class="pure-menu-item">
+                                    <a href="https://crates.io/teams/github:rustpython:packaging" class="pure-menu-link">
+                                        <span class="fa fa-solid fa-user " aria-hidden="true"></span> github:rustpython:packaging
+                                    </a>
+                                </li></ul>
+                    </div>
+                </div>
+
+                <div class="pure-g menu-item-divided">
+                    <div class="pure-u-1-2 right-border">
+                        <ul class="pure-menu-list">
+                            <li class="pure-menu-heading">Dependencies</li>
+
+                            
+                            <li class="pure-menu-item">
+                                <div class="pure-menu pure-menu-scrollable sub-menu" tabindex="-1">
+                                    <ul class="pure-menu-list">
+                                        <li class="pure-menu-item"><a href="/dirs/^6/" class="pure-menu-link">
+                dirs ^6
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/env_logger/^0.11/" class="pure-menu-link">
+                env_logger ^0.11
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/flame/^0.2.2/" class="pure-menu-link">
+                flame ^0.2.2
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                        <i>optional</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/flamescope/^0.1.2/" class="pure-menu-link">
+                flamescope ^0.1.2
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                        <i>optional</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/lexopt/^0.3/" class="pure-menu-link">
+                lexopt ^0.3
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/log/^0.4.30/" class="pure-menu-link">
+                log ^0.4.30
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustls/^0.23.39/" class="pure-menu-link">
+                rustls ^0.23.39
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                        <i>optional</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustpython-capi/^0.6.0/" class="pure-menu-link">
+                rustpython-capi ^0.6.0
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                        <i>optional</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustpython-compiler/^0.6.0/" class="pure-menu-link">
+                rustpython-compiler ^0.6.0
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustpython-pylib/^0.6.0/" class="pure-menu-link">
+                rustpython-pylib ^0.6.0
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                        <i>optional</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustpython-stdlib/^0.6.0/" class="pure-menu-link">
+                rustpython-stdlib ^0.6.0
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                        <i>optional</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustpython-vm/^0.6.0/" class="pure-menu-link">
+                rustpython-vm ^0.6.0
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/codspeed-criterion-compat/^5.0.1/" class="pure-menu-link">
+                codspeed-criterion-compat ^5.0.1
+                
+                    <i class="dependencies dev">dev</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/pyo3/^0.29/" class="pure-menu-link">
+                pyo3 ^0.29
+                
+                    <i class="dependencies dev">dev</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustpython-ruff_python_parser/^0.16.5/" class="pure-menu-link">
+                rustpython-ruff_python_parser ^0.16.5
+                
+                    <i class="dependencies dev">dev</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustls-graviola/^0.4/" class="pure-menu-link">
+                rustls-graviola ^0.4
+                
+                    <i class="dependencies dev">dev</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustpython-stdlib/^0.6.0/" class="pure-menu-link">
+                rustpython-stdlib ^0.6.0
+                
+                    <i class="dependencies dev">dev</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/winresource/^0.1/" class="pure-menu-link">
+                winresource ^0.1
+                
+                    <i class="dependencies build">build</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/mimalloc/^0.1/" class="pure-menu-link">
+                mimalloc ^0.1
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                        <i>optional</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/rustyline/^18/" class="pure-menu-link">
+                rustyline ^18
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                
+            </a>
+        </li><li class="pure-menu-item"><a href="/libc/^0.2.186/" class="pure-menu-link">
+                libc ^0.2.186
+                
+                    <i class="dependencies normal">normal</i>
+                    
+                
+            </a>
+        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="pure-u-1-2">
+                        <ul class="pure-menu-list">
+                            <li class="pure-menu-heading">Versions</li>
+
+                            <li class="pure-menu-item">
+                                <div class="pure-menu pure-menu-scrollable sub-menu" id="releases-list" tabindex="-1" data-url="/crate/rustpython/latest/menus/releases/rustpython/">
+                                    <span class="rotate"><span class="fa fa-solid fa-spinner " aria-hidden="true"></span></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                    
+                    
+                    <div class="pure-g">
+                        <div class="pure-u-1">
+                            <ul class="pure-menu-list">
+                                <li>
+                                    <a href="/crate/rustpython/latest" class="pure-menu-link">
+                                        <b>53.33%</b>
+                                        of the crate is documented
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div></div>
+        </li><li class="pure-menu-item pure-menu-has-children">
+                <a href="#" class="pure-menu-link" aria-label="Platform">
+                    <span class="fa fa-solid fa-gears " aria-hidden="true"></span>
+                    <span class="title">Platform</span>
+                </a>
+
+                
+                <ul class="pure-menu-children" id="platforms" data-url="/crate/rustpython/latest/menus/platforms/rustpython/"><li class="pure-menu-item">
+            <a href="/crate/rustpython/latest/target-redirect/rustpython/" class="pure-menu-link" data-fragment="retain" rel="nofollow">x86_64-unknown-linux-gnu</a>
+        </li></ul>
+            </li><li class="pure-menu-item">
+                <a href="/crate/rustpython/latest/features" title="Browse available feature flags of rustpython-0.6.0" class="pure-menu-link">
+                    <span class="fa fa-solid fa-flag " aria-hidden="true"></span>
+                    <span class="title">Feature flags</span>
+                </a>
+            </li>
+        
+    
+    <li id="crate-warnings" class="pure-menu-item hidden" data-url="/-/partial/crate-warnings/rustpython/"></li>
+</ul><div class="spacer"></div>
+                
+                <div id="abnormalities" class="hidden"></div>
+
+                <ul class="pure-menu-list">
+                    <li class="pure-menu-item pure-menu-has-children">
+                        <a href="#" class="pure-menu-link" aria-label="docs.rs">docs.rs</a>
+                        <ul class="pure-menu-children aligned-icons"><li class="pure-menu-item"><a class="pure-menu-link" href="/about"><span class="fa fa-solid fa-circle-info " aria-hidden="true"></span> About docs.rs</a></li><li class="pure-menu-item"><a class="pure-menu-link" href="/about/badges"><span class="fa fa-brands fa-fonticons " aria-hidden="true"></span> Badges</a></li><li class="pure-menu-item"><a class="pure-menu-link" href="/about/builds"><span class="fa fa-solid fa-gears " aria-hidden="true"></span> Builds</a></li><li class="pure-menu-item"><a class="pure-menu-link" href="/about/metadata"><span class="fa fa-solid fa-table " aria-hidden="true"></span> Metadata</a></li><li class="pure-menu-item"><a class="pure-menu-link" href="/about/redirections"><span class="fa fa-solid fa-road " aria-hidden="true"></span> Shorthand URLs</a></li><li class="pure-menu-item"><a class="pure-menu-link" href="/about/download"><span class="fa fa-solid fa-download " aria-hidden="true"></span> Download</a></li><li class="pure-menu-item"><a class="pure-menu-link" href="/about/rustdoc-json"><span class="fa fa-solid fa-file-code " aria-hidden="true"></span> Rustdoc JSON</a></li><li class="pure-menu-item"><a class="pure-menu-link" href="/releases/queue"><span class="fa fa-solid fa-gears " aria-hidden="true"></span> Build queue</a></li><li class="pure-menu-item"><a class="pure-menu-link" href="https://foundation.rust-lang.org/policies/privacy-policy/#docs.rs" target="_blank"><span class="fa fa-solid fa-shield-halved " aria-hidden="true"></span> Privacy policy</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="pure-menu-list"><li class="pure-menu-item pure-menu-has-children">
+                        <a href="#" class="pure-menu-link" aria-label="Rust">Rust</a>
+                        <ul class="pure-menu-children">
+                            <li class="pure-menu-item"><a class="pure-menu-link" href="https://www.rust-lang.org/" target="_blank">Rust website</a></li>
+                            <li class="pure-menu-item"><a class="pure-menu-link" href="https://doc.rust-lang.org/book/" target="_blank">The Book</a></li>
+
+                            <li class="pure-menu-item"><a class="pure-menu-link" href="https://doc.rust-lang.org/std/" target="_blank">Standard Library API Reference</a></li>
+
+                            <li class="pure-menu-item"><a class="pure-menu-link" href="https://doc.rust-lang.org/rust-by-example/" target="_blank">Rust by Example</a></li>
+
+                            <li class="pure-menu-item"><a class="pure-menu-link" href="https://doc.rust-lang.org/cargo/guide/" target="_blank">The Cargo Guide</a></li>
+
+                            <li class="pure-menu-item"><a class="pure-menu-link" href="https://doc.rust-lang.org/nightly/clippy" target="_blank">Clippy Documentation</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                
+                <div id="search-input-nav">
+                    <label for="nav-search">
+                        <span class="fa fa-solid fa-magnifying-glass " aria-hidden="true"></span>
+                    </label>
+
+                    
+                    
+                    <input id="nav-search" name="query" type="text" aria-label="Find crate by search query" tabindex="-1"
+                        placeholder="Find crate"
+                        >
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div id="alerts" class="hidden"></div><div class="rustdoc mod crate container-rustdoc" id="rustdoc_body_wrapper" tabindex="-1"><script async src="/-/static/menu.js?0-0-0-6b0955898af88db642c5ce7420d9dbef2c65d5d9-2026-09-30"></script>
+<script async src="/-/static/index.js?0-0-0-6b0955898af88db642c5ce7420d9dbef2c65d5d9-2026-09-30"></script>
+
+<iframe src="/-/storage-change-detection.html" width="0" height="0" style="display: none"></iframe><a class="skip-main-content" href="#main-content">Skip to main content</a><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><rustdoc-topbar><h2><a href="#">Crate rustpython</a></h2></rustdoc-topbar><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../rustpython/index.html">rustpython</a><span class="version">0.6.0</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="all.html">All Items</a></li></ul><section id="rustdoc-toc"><h3><a href="#reexports">Crate Items</a></h3><ul class="block"><li><a href="#reexports" title="Re-exports">Re-exports</a></li><li><a href="#structs" title="Structs">Structs</a></li><li><a href="#enums" title="Enums">Enums</a></li><li><a href="#traits" title="Traits">Traits</a></li><li><a href="#functions" title="Functions">Functions</a></li></ul></section><div id="rustdoc-modnav"></div></div></nav><div class="sidebar-resizer" title="Drag to resize sidebar"></div><main><div class="width-limiter"><section id="main-content" class="content" tabindex="-1"><div class="main-heading"><h1>Crate <span>rustpython</span>&nbsp;<button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><rustdoc-toolbar></rustdoc-toolbar><span class="sub-heading"><a class="src" href="../src/rustpython/lib.rs.html#1-489">Source</a> </span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>This is the <code>rustpython</code> binary. If you’re looking to embed RustPython into your application,
+you’re likely looking for the <a href="https://docs.rs/rustpython-vm/0.6.0/x86_64-unknown-linux-gnu/rustpython_vm/index.html" title="mod rustpython_vm"><code>rustpython_vm</code></a> crate.</p>
+<p>You can install <code>rustpython</code> with <code>cargo install rustpython</code>. If you’d like to inject your
+own native modules, you can make a binary crate that depends on the <code>rustpython</code> crate (and
+probably <a href="https://docs.rs/rustpython-vm/0.6.0/x86_64-unknown-linux-gnu/rustpython_vm/index.html" title="mod rustpython_vm"><code>rustpython_vm</code></a>, too), and make a <code>main.rs</code> that looks like:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>rustpython::{InterpreterBuilder, InterpreterBuilderExt};
+<span class="kw">use </span>rustpython_vm::{pymodule, py_freeze};
+
+<span class="kw">fn </span>main() -&gt; std::process::ExitCode {
+    <span class="kw">let </span>builder = InterpreterBuilder::new().init_stdlib();
+    <span class="comment">// Add a native module using builder.ctx
+    </span><span class="kw">let </span>my_mod_def = my_mod::module_def(<span class="kw-2">&amp;</span>builder.ctx);
+    <span class="kw">let </span>builder = builder
+        .add_native_module(my_mod_def)
+        <span class="comment">// Add a frozen module
+        </span>.add_frozen_modules(<span class="macro">py_freeze!</span>(source = <span class="string">"def foo(): pass"</span>, module_name = <span class="string">"other_thing"</span>));
+
+    rustpython::run(builder)
+}
+
+<span class="attr">#[pymodule]
+</span><span class="kw">mod </span>my_mod {
+    <span class="kw">use </span>rustpython_vm::builtins::PyStrRef;
+
+    <span class="attr">#[pyfunction]
+    </span><span class="kw">fn </span>do_thing(x: i32) -&gt; i32 {
+        x + <span class="number">1
+    </span>}
+
+    <span class="attr">#[pyfunction]
+    </span><span class="kw">fn </span>other_thing(s: PyStrRef) -&gt; (String, usize) {
+        <span class="kw">let </span>new_string = <span class="macro">format!</span>(<span class="string">"hello from rust, {}!"</span>, s);
+        <span class="kw">let </span>prev_len = s.byte_len();
+        (new_string, prev_len)
+    }
+}</code></pre></div>
+<p>The binary will have all the standard arguments of a python interpreter (including a REPL!) but
+it will have your modules loaded into the vm.</p>
+<p>See <a href="../rustpython_derive/index.html"><code>rustpython_derive</code></a> crate for documentation on macros used in the example above.</p>
+</div></details><h2 id="reexports" class="section-header">Re-exports<a href="#reexports" class="anchor">§</a></h2><dl class="item-table reexports"><dt id="reexport.pylib"><code>pub use <a class="mod" href="https://docs.rs/rustpython-pylib/0.6.0/x86_64-unknown-linux-gnu/rustpython_pylib/index.html" title="mod rustpython_pylib">rustpython_pylib</a> as pylib;</code></dt><dt id="reexport.vm"><code>pub use <a class="mod" href="https://docs.rs/rustpython-vm/0.6.0/x86_64-unknown-linux-gnu/rustpython_vm/index.html" title="mod rustpython_vm">self</a> as vm;</code></dt></dl><h2 id="structs" class="section-header">Structs<a href="#structs" class="anchor">§</a></h2><dl class="item-table"><dt><a class="struct" href="struct.Interpreter.html" title="struct rustpython::Interpreter">Interpreter</a></dt><dd>One isolated Python interpreter in the process (≈ CPython <code>PyInterpreterState</code> + main tstate).</dd><dt><a class="struct" href="struct.InterpreterBuilder.html" title="struct rustpython::InterpreterBuilder">Interpreter<wbr>Builder</a></dt><dd>Configuration builder for constructing an Interpreter.</dd></dl><h2 id="enums" class="section-header">Enums<a href="#enums" class="anchor">§</a></h2><dl class="item-table"><dt><a class="enum" href="enum.InstallPipMode.html" title="enum rustpython::InstallPipMode">Install<wbr>PipMode</a></dt><dt><a class="enum" href="enum.RunMode.html" title="enum rustpython::RunMode">RunMode</a></dt></dl><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><dl class="item-table"><dt><a class="trait" href="trait.InterpreterBuilderExt.html" title="trait rustpython::InterpreterBuilderExt">Interpreter<wbr>Builder<wbr>Ext</a></dt><dd>Extension trait for InterpreterBuilder to add rustpython-specific functionality.</dd></dl><h2 id="functions" class="section-header">Functions<a href="#functions" class="anchor">§</a></h2><dl class="item-table"><dt><a class="fn" href="fn.parse_opts.html" title="fn rustpython::parse_opts">parse_<wbr>opts</a></dt><dd>Create settings by examining command line arguments and environment
+variables.</dd><dt><a class="fn" href="fn.run.html" title="fn rustpython::run">run</a></dt><dd>The main cli of the <code>rustpython</code> interpreter. This function will return <code>std::process::ExitCode</code>
+based on the return code of the python code ran through the cli.</dd><dt><a class="fn" href="fn.run_shell.html" title="fn rustpython::run_shell">run_<wbr>shell</a></dt><dd>Enter a repl loop</dd></dl></section></div></main></div></body></html>

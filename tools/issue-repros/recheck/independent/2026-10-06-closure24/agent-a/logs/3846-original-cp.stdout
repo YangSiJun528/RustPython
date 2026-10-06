@@ -1,0 +1,5 @@
+LOAD_CONST 82
+EXTENDED_ARG 69
+constructed generator
+invalid integer exhausted TypeError object of type 'int' has no len()
+valid exhausted [(0, 0, 128, 0), (2, 2, 94, 0), (4, 4, 82, 1), (6, 6, 73, 0), (8, 8, 116, 0), (10, 10, 94, 42), (12, 12, 116, 1), (14, 14, 82, 1), (16, 16, 35, None)]

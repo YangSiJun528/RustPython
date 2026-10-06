@@ -1,0 +1,7 @@
+import sys,sysconfig
+value=sysconfig.get_config_var('Py_GIL_DISABLED')
+print(value)
+print('type',type(value).__name__)
+print('implementation',sys.implementation.name)
+print('platform',sys.platform)
+print('gil_enabled',getattr(sys,'_is_gil_enabled',lambda:'unavailable')())

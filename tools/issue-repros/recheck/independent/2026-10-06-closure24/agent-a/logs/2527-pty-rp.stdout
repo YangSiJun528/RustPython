@@ -1,0 +1,21 @@
+>>> import os, sys
+>>> print('ISATTY', sys.stdin.isatty())
+ISATTY True
+>>> for i in range(10):
+...     i
+... 
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+>>> with open('<closure24-audit>/agent-a/tmp/2527-new-rp.txt', 'w') as f:
+...     f.write('hello')
+... 
+5
+>>> sys.stdout.flush(); sys.stderr.flush(); os._exit(0)

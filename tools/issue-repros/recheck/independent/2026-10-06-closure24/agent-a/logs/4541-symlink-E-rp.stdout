@@ -1,0 +1,1 @@
+{"bare_import": "unique-slot-a-4541", "cwd": "<workspace>", "cwd_import": false, "ignore_environment": 1, "isolated": 0, "path": ["<closure24-audit>/agent-a/inputs/safe_fixture_4541", "<workspace>/Lib", "<workspace>/lib/python314.zip", "<workspace>/lib/python3.14", "<workspace>/lib/python3.14/lib-dynload"], "safe_path": false}

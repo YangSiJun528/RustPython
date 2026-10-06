@@ -1,0 +1,21 @@
+{
+  "existing-evidence": {
+    "files": 182,
+    "changed": []
+  },
+  "packages": {
+    "files": 1601,
+    "changed": [],
+    "added_files": []
+  },
+  "loaded-lib": {
+    "files": 2324,
+    "changed": []
+  },
+  "slot-B-git-status-identical": true,
+  "tracked-diff-before-empty": true,
+  "tracked-diff-after-empty": true,
+  "binary_sha256_after": "d57429291c1011b8b311758237cb66a6fecc22f8647ff14094f5c00fb489d871",
+  "cp_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "scope_note": "Compared tracked loaded Lib files, existing package files plus added-file inventory, selected reused evidence and artifacts, per-execution binary/input hashes, and complete B git status. This does not assert every ignored/unread filesystem file was unchanged."
+}

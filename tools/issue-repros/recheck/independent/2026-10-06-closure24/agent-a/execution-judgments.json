@@ -1,0 +1,1255 @@
+[
+  {
+    "execution_id": "identity-file",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "identity-banner",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "identity-cpython-banner",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "identity-locale-list",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "identity-locale-current",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "identity-architecture",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-4762",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-4786",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-3418",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-3430",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-4527",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-4950",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-4970",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-6429",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-2527",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-4541",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-3846",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "draft-4784",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "identity-imports-rp",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "identity-imports-cp",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4762-original-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4762-original-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4762-matrix-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4762-matrix-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4786-original-rp",
+    "kind": "runtime",
+    "observed_exit": 1,
+    "timeout": false,
+    "judgment": "Expected UnicodeEncodeError from original constructor; exit 1 is success for rejection requirement."
+  },
+  {
+    "execution_id": "4786-original-cp",
+    "kind": "runtime",
+    "observed_exit": 1,
+    "timeout": false,
+    "judgment": "Expected UnicodeEncodeError from original constructor; exit 1 is success for rejection requirement."
+  },
+  {
+    "execution_id": "4786-details-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4786-details-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3418-original-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3418-original-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3418-operations-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3418-operations-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3430-original-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3430-original-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3430-parsing-rp",
+    "kind": "runtime",
+    "observed_exit": 1,
+    "timeout": false,
+    "judgment": "Invalid new harness input: bytes escape was serialized as non-ASCII; both SyntaxError. Excluded from bug verdict; corrected new input has separate IDs."
+  },
+  {
+    "execution_id": "3430-parsing-cp",
+    "kind": "runtime",
+    "observed_exit": 1,
+    "timeout": false,
+    "judgment": "Invalid new harness input: bytes escape was serialized as non-ASCII; both SyntaxError. Excluded from bug verdict; corrected new input has separate IDs."
+  },
+  {
+    "execution_id": "4527-original-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4527-original-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4527-explicit-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4527-explicit-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4950-draft-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4950-draft-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4970-draft-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "3 unchanged original/relevant test methods run; zero skip/xfail/unexpected success; active comma grouping with LC_ALL absent."
+  },
+  {
+    "execution_id": "4970-draft-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "3 unchanged original/relevant test methods run; zero skip/xfail/unexpected success; active comma grouping with LC_ALL absent."
+  },
+  {
+    "execution_id": "6429-config-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "6429-config-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3430-parsing-valid-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3430-parsing-valid-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4950-locales-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4950-locales-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4970-locale-support-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4970-clean-env-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "3 unchanged original/relevant test methods run; zero skip/xfail/unexpected success; active comma grouping with LC_ALL absent."
+  },
+  {
+    "execution_id": "4970-locale-support-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4970-clean-env-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "3 unchanged original/relevant test methods run; zero skip/xfail/unexpected success; active comma grouping with LC_ALL absent."
+  },
+  {
+    "execution_id": "2527-pty-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "2527-pty-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-default-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-P-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-env1-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-env0-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-envempty-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-E-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-I-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-default-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-P-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-env1-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-env0-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-envempty-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-E-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-script-I-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-default-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-P-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-env1-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-env0-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-envempty-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-E-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-I-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-default-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-P-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-env1-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-env0-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-envempty-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-E-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-command-I-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-default-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-P-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-env1-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-env0-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-envempty-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-E-rp",
+    "kind": "runtime",
+    "observed_exit": 1,
+    "timeout": false,
+    "judgment": "Expected module lookup failure because -E/-I ignore the only explicit fixture search path; exit 1 verifies control behavior."
+  },
+  {
+    "execution_id": "4541-module-I-rp",
+    "kind": "runtime",
+    "observed_exit": 1,
+    "timeout": false,
+    "judgment": "Expected module lookup failure because -E/-I ignore the only explicit fixture search path; exit 1 verifies control behavior."
+  },
+  {
+    "execution_id": "4541-module-default-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-P-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-env1-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-env0-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-envempty-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-module-E-cp",
+    "kind": "runtime",
+    "observed_exit": 1,
+    "timeout": false,
+    "judgment": "Expected module lookup failure because -E/-I ignore the only explicit fixture search path; exit 1 verifies control behavior."
+  },
+  {
+    "execution_id": "4541-module-I-cp",
+    "kind": "runtime",
+    "observed_exit": 1,
+    "timeout": false,
+    "judgment": "Expected module lookup failure because -E/-I ignore the only explicit fixture search path; exit 1 verifies control behavior."
+  },
+  {
+    "execution_id": "4541-symlink-default-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-P-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-env1-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-env0-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-envempty-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-E-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-I-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-default-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-P-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-env1-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-env0-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-envempty-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-E-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-symlink-I-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-default-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-P-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-env1-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-env0-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-envempty-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-E-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-I-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-default-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-P-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-env1-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-env0-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-envempty-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-E-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4541-repl-I-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "2527-displayhook-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "2527-displayhook-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3846-original-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3846-original-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3846-graph-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3846-graph-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "3846-suite-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Target suite: 17 tests, zero skips/xfail/unexpected success; unchanged assertions, successful."
+  },
+  {
+    "execution_id": "3846-suite-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Target suite: 17 tests, zero skips/xfail/unexpected success; unchanged assertions, successful."
+  },
+  {
+    "execution_id": "4784-readme-target",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4784-http",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4762-change-179574051",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4762-ancestor-179574051",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4786-change-b6aacbf40",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4786-ancestor-b6aacbf40",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4786-change-9b2ad34a0",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4786-ancestor-9b2ad34a0",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "3418-change-afad92bf1",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "3418-ancestor-afad92bf1",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "3430-change-f91ffe34d",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "3430-ancestor-f91ffe34d",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "3430-change-358f6a875",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "3430-ancestor-358f6a875",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4527-change-381434894",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4527-ancestor-381434894",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4950-change-3d2c51962",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4950-ancestor-3d2c51962",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4970-change-1bd40ffd8",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4970-ancestor-1bd40ffd8",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "6429-change-3e2ada058",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "6429-ancestor-3e2ada058",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "2527-change-46a86ec03",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "2527-ancestor-46a86ec03",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4541-change-d4be55c2e",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4541-ancestor-d4be55c2e",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4541-change-64c66e00d",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4541-ancestor-64c66e00d",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4541-change-7c6c78f95",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4541-ancestor-7c6c78f95",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "3846-change-093ba251a",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "3846-ancestor-093ba251a",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4784-api-http",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4950-parser-pr91",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "3846-pr3863-original-suite-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Original linked PR suite: 17 tests, zero skips/xfail/unexpected success; unchanged assertions, successful."
+  },
+  {
+    "execution_id": "3846-pr3863-original-suite-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Original linked PR suite: 17 tests, zero skips/xfail/unexpected success; unchanged assertions, successful."
+  },
+  {
+    "execution_id": "identity-linkage",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "identity-macos",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "final-git-status",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "final-git-diff",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "final-git-cached",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "final-git-head",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "identity-lib-tree",
+    "kind": "metadata/source read",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Read-only evidence collection; not itself a passing reproduction."
+  },
+  {
+    "execution_id": "4950-original-rp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  },
+  {
+    "execution_id": "4950-original-cp",
+    "kind": "runtime",
+    "observed_exit": 0,
+    "timeout": false,
+    "judgment": "Execution completed; detailed expected observations and assertions evaluated in case README and validation.json."
+  }
+]

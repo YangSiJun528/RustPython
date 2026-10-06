@@ -1,0 +1,322 @@
+[
+  {
+    "issue": 2527,
+    "displayed_python_blocks": [
+      "import sys\n\nseen = []\nsys.displayhook = seen.append\nexec(compile(\"for i in range(10):\\n    i\\n\", \"for\", \"single\"))\nprint(\"for displayhook\", seen)\nseen.clear()\nexec(\n    compile(\n        \"if True:\\n    7\\n    None\\n    for i in range(2):\\n        i + 10\\n\",\n        \"nested\",\n        \"single\",\n    )\n)\nprint(\"nested displayhook\", seen)\nseen.clear()\nexec(compile(\"def f():\\n    9\\n\", \"function\", \"single\"))\nprint(\"function definition hook\", seen)\nf()\nprint(\"function execution hook\", seen)"
+    ],
+    "linked_inputs": []
+  },
+  {
+    "issue": 3418,
+    "displayed_python_blocks": [
+      "from _collections import OrderedDict"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original.py.txt",
+        "sha256": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": true
+      }
+    ]
+  },
+  {
+    "issue": 3430,
+    "displayed_python_blocks": [
+      "import xml.etree.ElementTree as etree\n\netree.XML(\"<root></root>\")"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original.py.txt",
+        "sha256": "19c65c7c2b2824ce96f3001be6ef0fcc6f372b09860c57e1a7144e88b7b17870",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 3846,
+    "displayed_python_blocks": [
+      "import sys, json\n\n\ndef issue3846():\n    import dis, modulefinder, pathlib, tempfile, types\n\n    source = (\n        \"import first\\n\"\n        \"from package import second\\n\"\n        \"from package.second import value\\n\"\n        \"def nested():\\n\"\n        \"    import nested_dependency\\n\"\n    )\n    code = compile(source, \"<independent-3846>\", \"exec\")\n    assert isinstance(dis.opmap[\"LOAD_CONST\"], int)\n    assert isinstance(dis.EXTENDED_ARG, int)\n    instructions = list(dis._unpack_opargs(code.co_code))\n    assert instructions and all(isinstance(x, tuple) for x in instructions)\n    print(\"opmap, EXTENDED_ARG, _unpack_opargs: usable\")\n    root = pathlib.Path(tempfile.mkdtemp(prefix=\"modulefinder-\"))\n    (root / \"package\").mkdir()\n    files = {\n        \"main.py\": source,\n        \"first.py\": \"flag=True\\n\",\n        \"package/__init__.py\": \"from . import second\\n\",\n        \"package/second.py\": \"value=42\\n\",\n        \"nested_dependency.py\": \"x=1\\n\",\n    }\n    for name, content in files.items():\n        with (root / name).open(\"x\") as out:\n            out.write(content)\n    finder = modulefinder.ModuleFinder(path=[str(root)])\n    finder.run_script(str(root / \"main.py\"))\n    expected = [\"__main__\", \"first\", \"nested_dependency\", \"package\", \"package.second\"]\n    assert sorted(finder.modules) == expected, sorted(finder.modules)\n    assert finder.any_missing_maybe() == ([], [])\n    print(\"module graph:\", sorted(finder.modules))\n    print(\"missing:\", finder.any_missing_maybe())\n\n\nglobals()[\"issue\" + sys.argv[1]]()",
+      "import unittest, json, sys\n\nsuite = unittest.defaultTestLoader.loadTestsFromNames(sys.argv[1:])\n\n\ndef flatten(item):\n    if isinstance(item, unittest.TestSuite):\n        return [t for child in item for t in flatten(child)]\n    return [item]\n\n\ntests = flatten(suite)\nprint(\n    json.dumps(\n        {\n            \"tests\": [\n                {\n                    \"id\": t.id(),\n                    \"skip\": bool(\n                        getattr(t, \"__unittest_skip__\", False)\n                        or getattr(\n                            getattr(t, t._testMethodName), \"__unittest_skip__\", False\n                        )\n                    ),\n                    \"expected_failure\": bool(\n                        getattr(\n                            getattr(t, t._testMethodName),\n                            \"__unittest_expecting_failure__\",\n                            False,\n                        )\n                    ),\n                }\n                for t in tests\n            ]\n        },\n        sort_keys=True,\n    ),\n    flush=True,\n)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nprint(\n    json.dumps(\n        {\n            \"run\": result.testsRun,\n            \"skips\": [(t.id(), reason) for t, reason in result.skipped],\n            \"expected_failures\": [\n                (t.id(), trace) for t, trace in result.expectedFailures\n            ],\n            \"unexpected_successes\": [t.id() for t in result.unexpectedSuccesses],\n            \"success\": result.wasSuccessful(),\n        },\n        sort_keys=True,\n    )\n)\nsys.exit(0 if result.wasSuccessful() else 1)"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/additional11/agent-a/probes.py.txt",
+        "sha256": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4506,
+    "displayed_python_blocks": [
+      "import sys\nimport os\nimport json\n\nsite = os.environ[\"SYMPY_SITE\"]\nsys.path.insert(0, site)\nimport sympy\nimport mpmath\nfrom sympy import Pow, S, Symbol, expand\nfrom sympy.core.cache import clear_cache\n\nassert sympy.__version__ == \"1.11.1\"\nassert mpmath.__version__ == \"1.2.1\"\nassert sympy.__file__.startswith(site + \"/\")\nassert mpmath.__file__.startswith(site + \"/\")\nclear_cache()\nevents = []\n\n\ndef trace(frame, event, arg):\n    if (\n        event == \"line\"\n        and frame.f_code.co_filename == site + \"/sympy/core/power.py\"\n        and frame.f_lineno == 378\n    ):\n        events.append([frame.f_code.co_name, frame.f_lineno])\n    return trace\n\n\nsys.settrace(trace)\nvalue = Pow(S.Exp1, -1, evaluate=False)\nsys.settrace(None)\nassert value.is_commutative is True\nassert events, \"Original power.py assignment was not observed\"\nx = Symbol(\"x\")\nassert expand((x + 1) ** 2) == x**2 + 2 * x + 1\nprint(\n    json.dumps(\n        {\n            \"versions\": [sympy.__version__, mpmath.__version__],\n            \"files\": [sympy.__file__, mpmath.__file__],\n            \"original_assignment\": events,\n            \"pow\": str(value),\n            \"is_commutative\": value.is_commutative,\n            \"expanded\": str(expand((x + 1) ** 2)),\n        },\n        indent=2,\n    )\n)"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/additional11/agent-b/probe-sympy-original.py.txt",
+        "sha256": "bd0d24a46f72fcf6bbd2002971fb206005016cf47c81739ade4014b64ca1a158",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4527,
+    "displayed_python_blocks": [
+      "class X:\n    def __del__(self):\n        print(\"deleted!\")\n\n\nx = X()"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original.py.txt",
+        "sha256": "9855fcf04216ce2fe520ca86d42e7e64bea2071ed4465bc787be88695e90aaac",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4541,
+    "displayed_python_blocks": [
+      "value = \"new-safe-path-fixture\"",
+      "import sys\nimport os\nimport json\nimport importlib\n\n\ndef can_import(name):\n    try:\n        m = importlib.import_module(name)\n        return m.value\n    except ModuleNotFoundError:\n        return False\n\n\nprint(\n    json.dumps(\n        {\n            \"safe_path\": sys.flags.safe_path,\n            \"isolated\": sys.flags.isolated,\n            \"path\": sys.path,\n            \"cwd\": os.getcwd(),\n            \"bare_import\": can_import(\"safe_fixture\"),\n            \"cwd_import\": can_import(\"repro_fixture.safe_fixture\"),\n        },\n        sort_keys=True,\n    )\n)"
+    ],
+    "linked_inputs": []
+  },
+  {
+    "issue": 4690,
+    "displayed_python_blocks": [
+      "print(type(dict.__dict__[\"fromkeys\"]))\nprint(type(dict.fromkeys))"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-a/4690-original.py.txt",
+        "sha256": "fd9f8e767e0506616199747dc1132bb7a3694497f780ad578880ec96833fd04f",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": true
+      }
+    ]
+  },
+  {
+    "issue": 4762,
+    "displayed_python_blocks": [
+      "assert \"%*s\" % (-5, \"abc\") == \"abc  \""
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original.py.txt",
+        "sha256": "5d3dafda40d639e3e3ee81737fa1cbe1e14478fbbb1bb069a222c2a679d3bf9f",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4769,
+    "displayed_python_blocks": [
+      "import sys, json\n\n\ndef issue4769():\n    import pickle, copy\n    from collections import deque\n\n    global Deque, DequeWithSlots\n\n    class Deque(deque):\n        pass\n\n    class DequeWithSlots(deque):\n        __slots__ = (\"slot\", \"__dict__\")\n\n    # Names must be globally resolvable for pickle.\n    Deque.__qualname__ = \"Deque\"\n    DequeWithSlots.__qualname__ = \"DequeWithSlots\"\n    literal = pickle.loads(pickle.dumps(pickle.HIGHEST_PROTOCOL))\n    try:\n        literal.__dict__\n    except AttributeError:\n        print(\"literal original: integer has no __dict__\")\n    total = 0\n    for cls in (Deque, DequeWithSlots):\n        for values, maxlen in (\n            ([], None),\n            ([\"a\", \"b\", \"c\"], None),\n            ([\"a\", \"b\", \"c\"], 2),\n        ):\n            d = cls(values, maxlen=maxlen)\n            d.x = \"value\"\n            d.extra = [\"list state\"]\n            if cls is DequeWithSlots:\n                d.slot = [\"slot state\"]\n            for protocol in range(pickle.HIGHEST_PROTOCOL + 1):\n                e = pickle.loads(pickle.dumps(d, protocol))\n                assert type(e) is cls and e is not d\n                assert list(e) == list(d) and e.maxlen == d.maxlen\n                assert e.__dict__ == d.__dict__\n                if cls is DequeWithSlots:\n                    assert e.slot == d.slot\n                total += 1\n    print(\"pickle protocols:\", list(range(pickle.HIGHEST_PROTOCOL + 1)))\n    print(\"subclass roundtrips:\", total)\n\n\nglobals()[\"issue\" + sys.argv[1]]()",
+      "import unittest, json, sys\n\nsuite = unittest.defaultTestLoader.loadTestsFromNames(sys.argv[1:])\n\n\ndef flatten(item):\n    if isinstance(item, unittest.TestSuite):\n        return [t for child in item for t in flatten(child)]\n    return [item]\n\n\ntests = flatten(suite)\nprint(\n    json.dumps(\n        {\n            \"tests\": [\n                {\n                    \"id\": t.id(),\n                    \"skip\": bool(\n                        getattr(t, \"__unittest_skip__\", False)\n                        or getattr(\n                            getattr(t, t._testMethodName), \"__unittest_skip__\", False\n                        )\n                    ),\n                    \"expected_failure\": bool(\n                        getattr(\n                            getattr(t, t._testMethodName),\n                            \"__unittest_expecting_failure__\",\n                            False,\n                        )\n                    ),\n                }\n                for t in tests\n            ]\n        },\n        sort_keys=True,\n    ),\n    flush=True,\n)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nprint(\n    json.dumps(\n        {\n            \"run\": result.testsRun,\n            \"skips\": [(t.id(), reason) for t, reason in result.skipped],\n            \"expected_failures\": [\n                (t.id(), trace) for t, trace in result.expectedFailures\n            ],\n            \"unexpected_successes\": [t.id() for t in result.unexpectedSuccesses],\n            \"success\": result.wasSuccessful(),\n        },\n        sort_keys=True,\n    )\n)\nsys.exit(0 if result.wasSuccessful() else 1)"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/additional11/agent-a/probes.py.txt",
+        "sha256": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4784,
+    "displayed_python_blocks": [],
+    "linked_inputs": []
+  },
+  {
+    "issue": 4786,
+    "displayed_python_blocks": [
+      "type(\"A\\udcdcB\", (), {})"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original.py.txt",
+        "sha256": "f9a07b6de9e517d34dfef0f28920c72d0bcf48298f8cdcdf56568f57c58b29b0",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": true
+      }
+    ]
+  },
+  {
+    "issue": 4856,
+    "displayed_python_blocks": [
+      "import unittest\nfrom unittest import mock\n\n\nclass MockedA(BaseFTests):\n    pass\n\n\n@mock.patch(\"\", lambda: 3)\nclass MockedB(MockedA):\n    def _asserts(self, val):\n        pass",
+      "from pathlib import Path\n\nsource = Path(__file__).with_name(\"original-4856.py\").read_text()\ncode = compile(source, \"original-4856.py\", \"exec\")\nprint(\"original compile success\")\ntry:\n    exec(code, {})\nexcept Exception as e:\n    print(\"original execution\", type(e).__name__, str(e))\nfrom unittest import mock\n\n\nclass BaseFTests:\n    pass\n\n\nclass MockedA(BaseFTests):\n    pass\n\n\ndef target():\n    return 1\n\n\n@mock.patch(\"__main__.target\", lambda: 3)\nclass MockedB(MockedA):\n    def test_value(self):\n        return target()\n\n\nprint(\"valid patch method\", MockedB().test_value(), \"outside\", target())\n\n\ndef factory(value):\n    @mock.patch(\"__main__.target\", lambda: value)\n    class Nested(MockedA):\n        def test_value(self):\n            return target()\n\n    return Nested\n\n\nprint(\"nested capture\", factory(7)().test_value(), \"outside\", target())"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-b/probe-4856.py.txt",
+        "sha256": "3c6fb8992c60d0e83f7e002ced49cc9b798b513520bef23f1ddb73ff7c7958b4",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4907,
+    "displayed_python_blocks": [
+      "import sys, json\n\n\ndef issue4907():\n    import asyncio, time\n\n    source = \"async def bar():\\n    [await print(i) for i in [1, 2, 3]]\\n\"\n    namespace = {}\n    exec(compile(source, \"<original-4907>\", \"exec\"), namespace)\n    print(\"original compile: success\")\n    original = namespace[\"bar\"]()\n    try:\n        original.send(None)\n    except TypeError:\n        print(\"original invocation: TypeError from awaiting print result\")\n    else:\n        raise AssertionError(\"expected TypeError\")\n\n    async def lc():\n        [await asyncio.sleep(1) for _ in range(2)]\n        print(\"lc done\")\n\n    start = time.monotonic()\n    loop = asyncio.new_event_loop()\n    tasks = [loop.create_task(lc())]\n    done, pending = loop.run_until_complete(asyncio.wait(tasks))\n    assert not pending\n    for task in done:\n        assert task.result() is None\n    loop.close()\n    assert time.monotonic() - start >= 1.9\n    print(\"comment execution: two awaited sleeps completed\")\n\n\nglobals()[\"issue\" + sys.argv[1]]()"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/additional11/agent-a/probes.py.txt",
+        "sha256": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4908,
+    "displayed_python_blocks": [
+      "import ast\n\ncode_1 = \"A[1:2, *l]\"\ntree_1 = ast.parse(code_1)\ncode_2 = ast.unparse(tree_1)\nprint(code_2)\ntree_2 = ast.parse(code_2)"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-a/4908-original.py.txt",
+        "sha256": "b884043f3e27d30c624b1c304dc930c2cf5a29b85c8b55caec3941d78d5996ce",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4937,
+    "displayed_python_blocks": [
+      "import email\nimport email.policy\n\nmytext = \"Subject:=?us-ascii?X?value?=\"\nem = email.message_from_string(mytext, policy=email.policy.default)\nem.get(\"Subject\")"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-a/4937-original.py.txt",
+        "sha256": "fe9255af86ffc6ef7544270bd69f44d64e16f731a6468d5aadd5a7250c6a7abe",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4950,
+    "displayed_python_blocks": [
+      "import sys, json\n\n\ndef issue4950():\n    import locale\n\n    locale.setlocale(locale.LC_ALL, \"C\")\n    cases = [\"f\", \"x\", \"X\", \"e\", \"E\", \"c\", \"g\", \"o\", \"%\", \"o\", \"n\", \"d\"]\n    cases += [\"08x\", \"+08d\", \".2f\", \".1%\", \">5n\"]\n    results = []\n    for value in (False, True):\n        for spec in cases:\n            actual = (\"{:\" + spec + \"}\").format(value)\n            assert actual == format(int(value), spec)\n            results.append([value, spec, actual])\n    print(\n        json.dumps(\n            {\"locale\": locale.setlocale(locale.LC_ALL), \"results\": results},\n            sort_keys=True,\n        )\n    )\n\n\nglobals()[\"issue\" + sys.argv[1]]()"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/additional11/agent-a/probes.py.txt",
+        "sha256": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 4970,
+    "displayed_python_blocks": [
+      "import sys\nimport os\nimport json\nimport locale\nimport unittest\n\n# CPython imports the identical repository test source, while retaining its own stdlib.\ntest_parent = os.path.join(os.environ[\"SRC\"], \"Lib\")\nimport types\n\ntest_package = types.ModuleType(\"test\")\ntest_package.__path__ = [test_parent + \"/test\"]\ntest_package.__file__ = test_parent + \"/test/__init__.py\"\nsys.modules[\"test\"] = test_package\nfrom test import test_format, test_types\n\neffective = locale.setlocale(locale.LC_ALL, \"\")\nconv = locale.localeconv()\nprint(\n    json.dumps(\n        {\n            \"LC_ALL_environment\": os.environ.get(\"LC_ALL\"),\n            \"LANG\": os.environ.get(\"LANG\"),\n            \"LC_NUMERIC\": os.environ.get(\"LC_NUMERIC\"),\n            \"effective\": effective,\n            \"conv\": {\n                k: conv[k] for k in (\"decimal_point\", \"thousands_sep\", \"grouping\")\n            },\n            \"integer\": format(123456789, \"n\"),\n            \"float\": format(1234.5, \"n\"),\n            \"test_files\": [test_format.__file__, test_types.__file__],\n        },\n        indent=2,\n    ),\n    flush=True,\n)\nassert conv[\"grouping\"], (\n    \"A grouping locale must be active to reach the original assertion\"\n)\nsuite = unittest.TestSuite(\n    [\n        test_format.FormatTest(\"test_locale\"),\n        test_types.TypesTests(\"test_int__format__locale\"),\n        test_types.TypesTests(\"test_float__format__locale\"),\n    ]\n)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nassert result.testsRun == 3\nassert (\n    not result.skipped\n    and not result.expectedFailures\n    and not result.unexpectedSuccesses\n)\nassert result.wasSuccessful()"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/additional11/agent-b/probe-original-locale-tests.py.txt",
+        "sha256": "f399bc0c96f69b8955286f68c3e50f9b5ccef4e464eae5786b483e77942f84d7",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 5179,
+    "displayed_python_blocks": [
+      "import sys, json\n\n\ndef issue5179():\n    import array, mmap, inspect\n\n    class BytesSubclass(bytes):\n        pass\n\n    class BytearraySubclass(bytearray):\n        pass\n\n    objects = [\n        bytes(b\"abc\"),\n        bytearray(b\"abc\"),\n        array.array(\"B\", b\"abc\"),\n        memoryview(b\"abc\"),\n        BytesSubclass(b\"abc\"),\n        BytearraySubclass(b\"abc\"),\n    ]\n    mapping = mmap.mmap(-1, 3)\n    mapping[:] = b\"abc\"\n    objects.append(mapping)\n    rows = []\n    for obj in objects:\n        row = {\n            \"type\": type(obj).__name__,\n            \"buffer\": hasattr(obj, \"__buffer__\"),\n            \"release\": hasattr(obj, \"__release_buffer__\"),\n        }\n        view = obj.__buffer__(0)\n        assert isinstance(view, memoryview)\n        row[\"data\"] = view.tobytes().decode(\"ascii\")\n        row[\"readonly\"] = view.readonly\n        assert row[\"data\"] == \"abc\"\n        if hasattr(obj, \"__release_buffer__\"):\n            obj.__release_buffer__(view)\n            try:\n                view.tobytes()\n            except ValueError:\n                row[\"released\"] = True\n            else:\n                row[\"released\"] = False\n        else:\n            view.release()\n        try:\n            writable = obj.__buffer__(inspect.BufferFlags.WRITABLE)\n        except Exception as e:\n            row[\"writable\"] = type(e).__name__\n        else:\n            row[\"writable\"] = not writable.readonly\n            if hasattr(obj, \"__release_buffer__\"):\n                obj.__release_buffer__(writable)\n            else:\n                writable.release()\n        rows.append(row)\n    objects[3].release()\n    mapping.close()\n    ba = bytearray(b\"abc\")\n    view = ba.__buffer__(0)\n    try:\n        ba.append(100)\n    except BufferError:\n        pass\n    else:\n        raise AssertionError(\"resize while exported should be blocked\")\n    ba.__release_buffer__(view)\n    ba.append(100)\n    assert ba == b\"abcd\"\n    events = []\n\n    class Exporter:\n        def __buffer__(self, flags):\n            events.append([\"get\", flags])\n            self.view = memoryview(bytearray(b\"xyz\"))\n            return self.view\n\n        def __release_buffer__(self, view):\n            assert view is self.view\n            events.append([\"release\"])\n            view.release()\n\n    obj = Exporter()\n    with memoryview(obj) as view:\n        assert view.tobytes() == b\"xyz\"\n        view[0] = 65\n        assert view.tobytes() == b\"Ayz\"\n    assert events[-1] == [\"release\"]\n    print(\n        json.dumps(\n            {\"builtins\": rows, \"resize_after_release\": True, \"custom_exporter\": events},\n            sort_keys=True,\n        )\n    )\n\n\nglobals()[\"issue\" + sys.argv[1]]()"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/additional11/agent-a/probes.py.txt",
+        "sha256": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 5656,
+    "displayed_python_blocks": [
+      "assert b\"omkmok\\Xaa\" == bytes([111, 109, 107, 109, 111, 107, 92, 88, 97, 97])",
+      "import warnings\n\nfor literal in [\n    r'b\"omkmok\\Xaa\"',\n    r'\"omkmok\\Xaa\"',\n    r'b\"omkmok\\\\Xaa\"',\n    r'rb\"omkmok\\Xaa\"',\n    r'b\"\\xff\"',\n]:\n    with warnings.catch_warnings(record=True) as caught:\n        warnings.simplefilter(\"always\")\n        code = compile(literal, \"<invalid-escape-probe>\", \"eval\")\n        print(\n            \"always\",\n            literal,\n            repr(eval(code)),\n            [\n                (warning.category.__name__, str(warning.message), warning.lineno)\n                for warning in caught\n            ],\n        )\n    with warnings.catch_warnings(record=True):\n        warnings.simplefilter(\"error\")\n        try:\n            compile(literal, \"<invalid-escape-probe>\", \"eval\")\n        except Exception as error:\n            print(\"error\", literal, type(error).__name__)\n        else:\n            print(\"error\", literal, \"accepted\")"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-a/5656-original.py.txt",
+        "sha256": "093e8074aea912bac097a5880529c45db190a47d790faac2d2b5c307626a92fc",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": true
+      }
+    ]
+  },
+  {
+    "issue": 5699,
+    "displayed_python_blocks": [
+      "import sys\nimport json\nimport builtins\nimport traceback\nimport ast\n\n\nclass Point:\n    __match_args__ = (\"x\", \"y\")\n\n    def __init__(self, x, y):\n        self.x, self.y = x, y\n\n\nmatch Point(3, 4):\n    case Point(3, y=answer):\n        assert answer == 4\n    case _:\n        raise AssertionError(\"class pattern did not execute\")\n\nassert sys._getframe().f_builtins[\"len\"] is len\ncustom = {\"__builtins__\": {\"custom_marker\": 42}, \"frame\": sys._getframe}\nexec(\"actual = frame().f_builtins\", custom)\nassert custom[\"actual\"] is custom[\"__builtins__\"]\nassert isinstance(sys.stdlib_module_names, frozenset)\nassert {\"sys\", \"io\", \"_io\", \"traceback\"} <= sys.stdlib_module_names\n\nhandled = []\ntry:\n    raise ExceptionGroup(\"split\", [ValueError(\"v\"), TypeError(\"t\")])\nexcept* ValueError as exc:\n    handled.append((\"value\", len(exc.exceptions)))\nexcept* TypeError as exc:\n    handled.append((\"type\", len(exc.exceptions)))\nassert handled == [(\"value\", 1), (\"type\", 1)]\n\nanchors = traceback._extract_caret_anchors_from_line_segment(\"x + y\")\nassert anchors is not None, \"actual traceback class-pattern branch failed\"\nrecords = {\n    \"class_match\": answer,\n    \"builtins\": True,\n    \"stdlib_module_names\": True,\n    \"except_star\": handled,\n    \"anchors\": list(anchors),\n}\n\n\ndef zero():\n    return 1 / 0\n\n\ndef builtins_typo():\n    return ZeroDivisionErrrrr\n\n\ndef stdlib_missing():\n    return io.StringIO()\n\n\ndef group():\n    raise ExceptionGroup(\"colored group\", [ValueError(\"v\"), TypeError(\"t\")])\n\n\nfor label, function, needle in (\n    (\"zero\", zero, \"ZeroDivisionError\"),\n    (\"builtins_typo\", builtins_typo, \"Did you mean: 'ZeroDivisionError'?\"),\n    (\"stdlib_missing\", stdlib_missing, \"forget to import 'io'\"),\n    (\"group\", group, \"ExceptionGroup\"),\n):\n    try:\n        function()\n    except Exception as exc:\n        plain = \"\".join(traceback.format_exception(exc, colorize=False))\n        colored = \"\".join(traceback.format_exception(exc, colorize=True))\n        assert needle in plain, (label, plain)\n        assert \"\\x1b[\" in colored, (label, colored)\n        assert needle in colored or label == \"zero\", (label, colored)\n        records[label] = {\"plain\": plain, \"colored\": colored}\nprint(json.dumps(records, ensure_ascii=True, indent=2))",
+      "import sys\n\nif sys.argv[1] == \"builtin\":\n    ZeroDivisionErrrrr\nelif sys.argv[1] == \"stdlib\":\n    io.StringIO()\nelif sys.argv[1] == \"zero\":\n    1 / 0\nelse:\n    raise ExceptionGroup(\"uncaught group\", [ValueError(\"v\"), TypeError(\"t\")])"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/additional11/agent-b/probe-traceback-blockers.py.txt",
+        "sha256": "63b5fc4d8df777a23743be2f999d332ff739d8ac7fcacc9dee646dd3c3a41ee0",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 6429,
+    "displayed_python_blocks": [
+      "import sys, sysconfig\n\nvalue = sysconfig.get_config_var(\"Py_GIL_DISABLED\")\nprint(value)\nprint(\"type\", type(value).__name__)\nprint(\"implementation\", sys.implementation.name)\nprint(\"platform\", sys.platform)\nprint(\"gil_enabled\", getattr(sys, \"_is_gil_enabled\", lambda: \"unavailable\")())"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-b/probe-6429.py.txt",
+        "sha256": "0bad35d33dda99fb37afc5a8a4f45f5d7b375b4879ac848b1fe98fa49b8f7d80",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 8052,
+    "displayed_python_blocks": [
+      "import types, json, collections\n\nprint(type(...).__name__)\nprint(repr(type(...)))\nprint(\"alias\", types.EllipsisType is type(...))\n\n\ndef default(obj):\n    if obj is NotImplemented:\n        raise ValueError\n    if obj is ...:\n        return NotImplemented\n    if obj is type:\n        return collections\n    return [...]\n\n\ntry:\n    json.dumps(type, default=default)\nexcept ValueError as e:\n    print(\"notes\", e.__notes__)"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/initial16/agent-b/probe-8052.py.txt",
+        "sha256": "9453131b5e4457350095a05c5a4d12743f5c68715f72a16a2c642f0a4ab6ab78",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  },
+  {
+    "issue": 8494,
+    "displayed_python_blocks": [
+      "import sys, json\n\n\ndef issue8494():\n    # This is the literal original, including creating both wrappers before Missing.\n    def f() -> Missing:\n        pass\n\n    for wrapper in (classmethod(f), staticmethod(f)):\n        Missing = int\n        print(type(wrapper).__name__, wrapper.__annotations__)\n        print(\"__annotations__\" in wrapper.__dict__)\n        wrapper.__annotations__ = {\"x\": str}\n        print(\"wrapper:\", wrapper.__annotations__)\n        print(\"wrapped:\", f.__annotations__)\n    for decorator in (classmethod, staticmethod):\n\n        def annotated(x: int) -> str:\n            pass\n\n        def unannotated(x):\n            pass\n\n        for function in (annotated, unannotated):\n            wrapper = decorator(function)\n            for name, replacement in [\n                (\"__annotations__\", {\"new\": bytes}),\n                (\"__annotate__\", lambda format: {\"new\": bytes}),\n            ]:\n                assert name not in wrapper.__dict__\n                original = getattr(function, name)\n                assert getattr(wrapper, name) is original\n                assert wrapper.__dict__[name] is original\n                setattr(wrapper, name, replacement)\n                assert getattr(wrapper, name) is replacement\n                assert getattr(function, name) is original\n                delattr(wrapper, name)\n                assert name not in wrapper.__dict__\n                assert getattr(wrapper, name) is original\n            print(\n                decorator.__name__,\n                function.__name__,\n                \"both attributes cache/write/delete isolation passed\",\n            )\n\n\nglobals()[\"issue\" + sys.argv[1]]()",
+      "import unittest, json, sys\n\nsuite = unittest.defaultTestLoader.loadTestsFromNames(sys.argv[1:])\n\n\ndef flatten(item):\n    if isinstance(item, unittest.TestSuite):\n        return [t for child in item for t in flatten(child)]\n    return [item]\n\n\ntests = flatten(suite)\nprint(\n    json.dumps(\n        {\n            \"tests\": [\n                {\n                    \"id\": t.id(),\n                    \"skip\": bool(\n                        getattr(t, \"__unittest_skip__\", False)\n                        or getattr(\n                            getattr(t, t._testMethodName), \"__unittest_skip__\", False\n                        )\n                    ),\n                    \"expected_failure\": bool(\n                        getattr(\n                            getattr(t, t._testMethodName),\n                            \"__unittest_expecting_failure__\",\n                            False,\n                        )\n                    ),\n                }\n                for t in tests\n            ]\n        },\n        sort_keys=True,\n    ),\n    flush=True,\n)\nresult = unittest.TextTestRunner(verbosity=2).run(suite)\nprint(\n    json.dumps(\n        {\n            \"run\": result.testsRun,\n            \"skips\": [(t.id(), reason) for t, reason in result.skipped],\n            \"expected_failures\": [\n                (t.id(), trace) for t, trace in result.expectedFailures\n            ],\n            \"unexpected_successes\": [t.id() for t in result.unexpectedSuccesses],\n            \"success\": result.wasSuccessful(),\n        },\n        sort_keys=True,\n    )\n)\nsys.exit(0 if result.wasSuccessful() else 1)"
+    ],
+    "linked_inputs": [
+      {
+        "label": "Executed source",
+        "path": "tools/issue-repros/recheck/evidence/additional11/agent-a/probes.py.txt",
+        "sha256": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+        "matches_one_displayed_python_block_ignoring_outer_whitespace": false
+      }
+    ]
+  }
+]

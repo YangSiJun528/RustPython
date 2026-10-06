@@ -1,0 +1,326 @@
+[
+  {
+    "issue": 4690,
+    "kind": "historical",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4690/evidence/historical.stdout.txt",
+    "actual_sha256": "246626924698a6ee460f4351276089fa3ae5ca0c7d1e729c3e581e82c3a26134",
+    "expected": "246626924698a6ee460f4351276089fa3ae5ca0c7d1e729c3e581e82c3a26134",
+    "matches": true
+  },
+  {
+    "issue": 4690,
+    "kind": "historical",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4690/evidence/historical.stderr.txt",
+    "actual_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+    "expected": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+    "matches": true
+  },
+  {
+    "issue": 4690,
+    "kind": "current",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4690/evidence/current.stdout.txt",
+    "actual_sha256": "f2a69a10545639d8b31c260bdf059535a5ab45400b8ac2edf62f6648f81af109",
+    "expected": "f2a69a10545639d8b31c260bdf059535a5ab45400b8ac2edf62f6648f81af109",
+    "matches": true
+  },
+  {
+    "issue": 4690,
+    "kind": "current",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4690/evidence/current.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4690,
+    "kind": "cpython",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4690/evidence/cpython.stdout.txt",
+    "actual_sha256": "f2a69a10545639d8b31c260bdf059535a5ab45400b8ac2edf62f6648f81af109",
+    "expected": "f2a69a10545639d8b31c260bdf059535a5ab45400b8ac2edf62f6648f81af109",
+    "matches": true
+  },
+  {
+    "issue": 4690,
+    "kind": "cpython",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4690/evidence/cpython.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4937,
+    "kind": "historical",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4937/evidence/historical.stdout.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4937,
+    "kind": "historical",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4937/evidence/historical.stderr.txt",
+    "actual_sha256": "2cddcb0bb4913a6bf148e244b24195ab1e33f1460cb4336a4eccfe63899517ad",
+    "expected": "2cddcb0bb4913a6bf148e244b24195ab1e33f1460cb4336a4eccfe63899517ad",
+    "matches": true
+  },
+  {
+    "issue": 4937,
+    "kind": "current",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4937/evidence/current.stdout.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4937,
+    "kind": "current",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4937/evidence/current.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4937,
+    "kind": "cpython",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4937/evidence/cpython.stdout.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4937,
+    "kind": "cpython",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4937/evidence/cpython.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4856,
+    "kind": "historical",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4856/evidence/historical.stdout.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4856,
+    "kind": "historical",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4856/evidence/historical.stderr.txt",
+    "actual_sha256": "db90093ca6a262108a60abc09852cfe4ebc4a730b7f3bc9a62cb12436d8a3bb3",
+    "expected": "db90093ca6a262108a60abc09852cfe4ebc4a730b7f3bc9a62cb12436d8a3bb3",
+    "matches": true
+  },
+  {
+    "issue": 4856,
+    "kind": "current",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4856/evidence/current.stdout.txt",
+    "actual_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+    "expected": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+    "matches": true
+  },
+  {
+    "issue": 4856,
+    "kind": "current",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4856/evidence/current.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4856,
+    "kind": "cpython",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4856/evidence/cpython.stdout.txt",
+    "actual_sha256": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+    "expected": "8afceb5d233cad8753f211239b8e43199584ee1c409ae42ff5a2599944522f65",
+    "matches": true
+  },
+  {
+    "issue": 4856,
+    "kind": "cpython",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4856/evidence/cpython.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4908,
+    "kind": "historical",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4908/evidence/historical.stdout.txt",
+    "actual_sha256": "c36ffa5aef2072a748195a23ad36bedf496ac280d3e1cf41417e0b0714e22a02",
+    "expected": "c36ffa5aef2072a748195a23ad36bedf496ac280d3e1cf41417e0b0714e22a02",
+    "matches": true
+  },
+  {
+    "issue": 4908,
+    "kind": "historical",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4908/evidence/historical.stderr.txt",
+    "actual_sha256": "38e138b7662a2d3070be26b7b3bab6b92a0d8fdd52a4cee343bac20747464464",
+    "expected": "38e138b7662a2d3070be26b7b3bab6b92a0d8fdd52a4cee343bac20747464464",
+    "matches": true
+  },
+  {
+    "issue": 4908,
+    "kind": "current",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4908/evidence/current.stdout.txt",
+    "actual_sha256": "37cd540762739b052de616f63177b62c9b34e18bacdbdd4feba894e6978e2d45",
+    "expected": "37cd540762739b052de616f63177b62c9b34e18bacdbdd4feba894e6978e2d45",
+    "matches": true
+  },
+  {
+    "issue": 4908,
+    "kind": "current",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4908/evidence/current.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 4908,
+    "kind": "cpython",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/4908/evidence/cpython.stdout.txt",
+    "actual_sha256": "37cd540762739b052de616f63177b62c9b34e18bacdbdd4feba894e6978e2d45",
+    "expected": "37cd540762739b052de616f63177b62c9b34e18bacdbdd4feba894e6978e2d45",
+    "matches": true
+  },
+  {
+    "issue": 4908,
+    "kind": "cpython",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/4908/evidence/cpython.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 5656,
+    "kind": "historical",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/5656/evidence/historical.stdout.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 5656,
+    "kind": "historical",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/5656/evidence/historical.stderr.txt",
+    "actual_sha256": "530f180d63a253647444d58658ccacf6d84a1b60a0a54a8e69557ed2a94db359",
+    "expected": "530f180d63a253647444d58658ccacf6d84a1b60a0a54a8e69557ed2a94db359",
+    "matches": true
+  },
+  {
+    "issue": 5656,
+    "kind": "current",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/5656/evidence/current.stdout.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 5656,
+    "kind": "current",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/5656/evidence/current.stderr.txt",
+    "actual_sha256": "19f2a48501d9d6793b6f15aa940c3d2989e3f4ab08638261696e36ba32e93849",
+    "expected": "19f2a48501d9d6793b6f15aa940c3d2989e3f4ab08638261696e36ba32e93849",
+    "matches": true
+  },
+  {
+    "issue": 5656,
+    "kind": "cpython",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/5656/evidence/cpython.stdout.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 5656,
+    "kind": "cpython",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/5656/evidence/cpython.stderr.txt",
+    "actual_sha256": "19f2a48501d9d6793b6f15aa940c3d2989e3f4ab08638261696e36ba32e93849",
+    "expected": "19f2a48501d9d6793b6f15aa940c3d2989e3f4ab08638261696e36ba32e93849",
+    "matches": true
+  },
+  {
+    "issue": 8052,
+    "kind": "historical",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/8052/evidence/historical.stdout.txt",
+    "actual_sha256": "d7e52f41d43b82d4c2a36eee3151cf0db9a9362f986f2fa85b8df2baaf2deb6e",
+    "expected": "d7e52f41d43b82d4c2a36eee3151cf0db9a9362f986f2fa85b8df2baaf2deb6e",
+    "matches": true
+  },
+  {
+    "issue": 8052,
+    "kind": "historical",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/8052/evidence/historical.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 8052,
+    "kind": "current",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/8052/evidence/current.stdout.txt",
+    "actual_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+    "expected": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+    "matches": true
+  },
+  {
+    "issue": 8052,
+    "kind": "current",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/8052/evidence/current.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  },
+  {
+    "issue": 8052,
+    "kind": "cpython",
+    "label": "stdout",
+    "path": "<report-worktree>/tools/issue-repros/cases/8052/evidence/cpython.stdout.txt",
+    "actual_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+    "expected": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+    "matches": true
+  },
+  {
+    "issue": 8052,
+    "kind": "cpython",
+    "label": "stderr",
+    "path": "<report-worktree>/tools/issue-repros/cases/8052/evidence/cpython.stderr.txt",
+    "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "matches": true
+  }
+]

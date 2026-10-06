@@ -1,0 +1,20 @@
+{
+  "original": "extra_tests/snippets/builtin_bytes.py line with b\"omkmok\\Xaa\" lacks CPython SyntaxWarning; CPython version unspecified.",
+  "minimum": "Invalid escape warning occurs with correct category when source compiles; bytes value preserved; warnings-as-error fails cleanly.",
+  "tests": [
+    "Run actual existing snippet file without edits.",
+    "Extract same invalid literal into separately labeled minimal script and compile with warnings catch.",
+    "Run warning-as-error and require SyntaxError/Werror semantics comparison."
+  ],
+  "issue": 5656,
+  "url": "https://github.com/RustPython/RustPython/issues/5656",
+  "title": "Not properly checking for invalid escape seqeunce \\X",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:26.676214+00:00",
+  "all_comments_read": 1,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "bba8b9b9539830f07682e14fbae27cb77b35c27fb5e18db6ffd18ee0ab2fd15e",
+    "comments": "22c790a26654e5043f0ce93a92ed2d3c1561e4a958d37d723403635c06375c61"
+  }
+}

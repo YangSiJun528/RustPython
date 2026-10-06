@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<closure24-audit>/agent-b/inputs/4856-original.py", line 4, in <module>
+    class MockedA(BaseFTests):
+                  ^^^^^^^^^^
+NameError: name 'BaseFTests' is not defined

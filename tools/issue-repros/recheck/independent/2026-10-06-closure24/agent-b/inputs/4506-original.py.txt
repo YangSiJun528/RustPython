@@ -1,0 +1,4 @@
+import os,sys
+sys.path.insert(0,os.environ["SYMPY_SITE"])
+import sympy
+print(sympy.__version__,sympy.__file__)

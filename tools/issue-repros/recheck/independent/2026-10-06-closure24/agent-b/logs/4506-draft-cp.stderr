@@ -1,0 +1,2 @@
+<survey>/verification-tools/package-history-4506-original/site/sympy/testing/runtests.py:275: SyntaxWarning: 'return' in a 'finally' block
+  return p.returncode

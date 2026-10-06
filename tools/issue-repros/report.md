@@ -4,7 +4,7 @@
 
 The reported problems in the 24 issues below are resolved in the verified scope. Please review the linked reproduction results for closure.
 
-Verified against [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c) on October 5, 2026. Each linked report includes the commands, environment and observed results.
+Verified against [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c) and independently rechecked on October 6, 2026 (KST). Each linked report includes the commands, environment and observed results. The [independent review](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/independent/2026-10-06-closure24/README.md) records the fresh evidence and verification limits.
 
 ## Details
 
@@ -59,7 +59,7 @@ The original global-object example now calls `__del__` and prints `deleted!` dur
 
 ### [#4690 — Native class-method descriptor type](https://github.com/RustPython/RustPython/issues/4690)
 
-Both original native descriptor queries now return `classmethod_descriptor`. Descriptor binding and the additional native descriptors checked agree with CPython.
+The raw `dict.__dict__["fromkeys"]` descriptor now has type `classmethod_descriptor`, while the bound `dict.fromkeys` has type `builtin_function_or_method`, matching CPython. Descriptor binding and the additional native descriptors checked agree with CPython.
 
 - Related changes: [PR #8780](https://github.com/RustPython/RustPython/pull/8780): native OrderedDict and class-method descriptors.
 - [Reproduction and results](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/cases/4690/README.md).
@@ -171,7 +171,7 @@ The type name is now `ellipsis`, and its representation is `<class 'ellipsis'>`,
 
 ### [#8494 — Classmethod and staticmethod annotations](https://github.com/RustPython/RustPython/issues/8494)
 
-`classmethod` and `staticmethod` now cache `__annotations__` and `__annotate__` on the wrapper. Assignment and deletion leave the wrapped function unchanged, and the original example and regression test pass.
+`classmethod` and `staticmethod` now cache `__annotations__` and `__annotate__` on the wrapper. Assignment and deletion leave the wrapped function unchanged. The module-level example from the issue, a separate function-local variant and the original regression test pass.
 
 - Related changes: [PR #8701](https://github.com/RustPython/RustPython/pull/8701): cache and assign annotation attributes on the wrapper.
 - [Reproduction and results](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/cases/8494/README.md).

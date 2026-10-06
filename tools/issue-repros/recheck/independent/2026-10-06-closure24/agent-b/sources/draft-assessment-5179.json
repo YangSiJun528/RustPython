@@ -1,0 +1,126 @@
+{
+  "issue": 5179,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "builtin/subclass 7종의 호출·data·writable·release, resize guard 및 custom exporter가 CPython과 같다.",
+  "original_scope": {
+    "description": "builtin buffer provider의 __buffer__ 및 해당 provider의 선택적 __release_buffer__",
+    "issue_url": "https://github.com/RustPython/RustPython/issues/5179",
+    "frozen_notes": "<additional11-audit>/agent-a/notes-original-scope.md",
+    "fresh_original_body": "<additional11-audit>/agent-a/originals/5179.json",
+    "fresh_original_comments": "<additional11-audit>/agent-a/originals/5179-comments.json"
+  },
+  "fresh_evidence": {
+    "runs": [
+      {
+        "record": "<additional11-audit>/agent-a/5179-cpython.json",
+        "command": [
+          "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "5179"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/5179-cpython/python-history",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/5179-cpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/5179-cpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/5179-cpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/5179-cpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/5179-cpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/5179-cpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      },
+      {
+        "record": "<additional11-audit>/agent-a/5179-rustpython.json",
+        "command": [
+          "<survey>/.build/slot-a/verification/rustpython",
+          "-B",
+          "<additional11-audit>/agent-a/probes.py",
+          "5179"
+        ],
+        "cwd": "<workspace>",
+        "environment": {
+          "LANG": "C",
+          "LC_ALL": "C",
+          "NO_COLOR": "1",
+          "PYTHONDONTWRITEBYTECODE": "1",
+          "PYTHON_HISTORY": "<additional11-audit>/agent-a/temp/5179-rustpython/python-history",
+          "RUSTPYTHONPATH": "<workspace>/Lib",
+          "RUSTPYTHON_HISTORY": "<additional11-audit>/agent-a/temp/5179-rustpython/rustpython-history",
+          "TEMP": "<additional11-audit>/agent-a/temp/5179-rustpython",
+          "TERM": "dumb",
+          "TMP": "<additional11-audit>/agent-a/temp/5179-rustpython",
+          "TMPDIR": "<additional11-audit>/agent-a/temp/5179-rustpython"
+        },
+        "stdin": null,
+        "stdout": "<additional11-audit>/agent-a/5179-rustpython.stdout.txt",
+        "stderr": "<additional11-audit>/agent-a/5179-rustpython.stderr.txt",
+        "exit_code": 0,
+        "timeout": false
+      }
+    ],
+    "inputs_sha256_file": "<additional11-audit>/agent-a/validation.json",
+    "provenance": "<additional11-audit>/agent-a/fresh-provenance.json",
+    "same_cpython_input": true
+  },
+  "old_evidence": {
+    "reused": true,
+    "reexecuted": false,
+    "metadata": "<additional11-audit>/agent-a/old-evidence-reference.json",
+    "read_logs_with_sha256": "<additional11-audit>/agent-a/old-logs-read.json",
+    "historical_cases": [
+      {
+        "case_id": "issue-5179-case-01",
+        "historical_sha": "a8ab7dd3881437ad2eef31b3470427db20656a84",
+        "status_as_previously_recorded": "executed_awaiting_symptom_analysis",
+        "files": [
+          "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stdout",
+          "logs/issue-5179-case-01/historical-a8ab7dd388-01-d89ea130-92a69513.stderr"
+        ]
+      }
+    ]
+  },
+  "change_basis": {
+    "description_and_mechanism_in_report": "builtin buffer methods\n\n[fresh 입력](probes.py)의 `5179`는 bytes/bytearray/array/memoryview/mmap 및 bytes·bytearray subclass 7종을 확인했다. 메서드 호출의 memoryview payload, writable 요청, release 후 무효화, export 중 resize 금지 및 해제 후 resize, custom exporter get/release callback이 [CPython](5179-cpython.json)과 [RP](5179-rustpython.json)에서 동일하다. bytes에 release 메서드가 없는 것은 CPython과 같고 release는 선택 항목이다.\n\n과거 재사용: `a8ab7dd388` stdout에는 네 builtin 모두 해당 메서드가 없다. 과거 exit0는 속성 부재를 출력한 결과라 성공이 아니다. [PR #8523](https://github.com/RustPython/RustPython/pull/8523)의 기준 조상 `c603eb7c9`는 buffer slot accessor, Python-facing slot 정의, 조건부 release 노출과 managed exports를 추가한다. 같은 PR의 `f24b2570a`는 기준 조상이 아니다. 전체 C ABI·모든 flag 조합·수명/경쟁 조건이나 최초 수정 경계까지 검증한 것은 아니다.\n",
+    "related_changes": [
+      {
+        "pr": 8523,
+        "candidates": [
+          {
+            "commit": "f24b2570a92aa8de5c1077185cdc5572e7162cc5",
+            "subject": "Implement PEP 688 and rework the buffer protocol around managed exports (#8523)",
+            "is_baseline_ancestor": false,
+            "fresh_ancestor_exit_code": 1
+          },
+          {
+            "commit": "c603eb7c9ad763e72cbec7b323e4cb331aee7e81",
+            "subject": "Implement PEP 688 and rework the buffer protocol around managed exports (#8523)",
+            "is_baseline_ancestor": true,
+            "diff": "<additional11-audit>/related-pr-8523-c603eb7c9-first-parent.diff",
+            "fresh_ancestor_exit_code": 0,
+            "diff_sha256": "5c4eb0a62e6b14a9fbace6e005ac9a2b033fe581e1e4965185c30eeefe7c86f8"
+          }
+        ]
+      }
+    ],
+    "first_fix_confirmed": false,
+    "pr_parent_and_commit_executed": false,
+    "source_only_relationship": true
+  },
+  "limits": [
+    "bytes에 release 메서드가 없는 것은 CPython과 같다. 전체 C ABI·모든 flags·수명/경쟁 검증은 아니다.",
+    "기준 f39b054b9의 macOS26.5.2 ARM64 결과이며 최신 HEAD/다른 플랫폼 결과가 아니다.",
+    "기존 binary를 새로 실행했다. 새 build/cargo test/clippy는 파일 보존 제약으로 실행하지 않았다.",
+    "과거 로그는 재사용이며 과거 및 PR 경계 재실행 없이 최초 수정 커밋을 확정하지 않는다."
+  ],
+  "agent": "agent-a"
+}

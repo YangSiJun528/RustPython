@@ -1,0 +1,7 @@
+import ast
+code_1= "A[1:2, *l]"
+tree_1 = ast.parse(code_1) #work normally
+
+code_2 = ast.unparse(tree_1)
+print(code_2)   # str "A[1:2, *l]"
+tree_2 = ast.parse(code_2)  #fail

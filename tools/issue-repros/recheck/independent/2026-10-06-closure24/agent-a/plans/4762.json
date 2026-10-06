@@ -1,0 +1,14 @@
+{
+  "issue": 4762,
+  "url": "https://github.com/RustPython/RustPython/issues/4762",
+  "title": "cformat star asterisk should behave differently when given negative sign",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 2,
+  "declared_comments": 2,
+  "original_scope": "Negative dynamic printf width for str and bytes; original assertion `%*s % (-5, abc)` must yield abc plus two spaces.",
+  "independent_plan": "Run exact original assertion, show repr/len, compare positive/negative width and dynamic precision for str and bytes; negative precision behavior separate from width.",
+  "limitations_and_source_corrections": "No platform/version prerequisite; Rust snippet is illustrative, not executable Python.",
+  "saved_utc": "2026-10-05T16:10:32.567216+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

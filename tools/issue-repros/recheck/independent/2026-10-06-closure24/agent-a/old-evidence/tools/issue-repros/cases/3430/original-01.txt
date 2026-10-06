@@ -1,0 +1,9 @@
+>>>>> import xml.etree.ElementTree as etree
+>>>>> etree.XML("<root></root>")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/.../RustPython/vm/pylib-crate/Lib/xml/etree/ElementTree.py", line 1319, in XML
+    parser = XMLParser(target=TreeBuilder())
+  File "/home/.../RustPython/vm/pylib-crate/Lib/xml/etree/ElementTree.py", line 1508, in __init__
+    parser = expat.ParserCreate(encoding, "}")
+TypeError: Expected type 'str', not 'NoneType'

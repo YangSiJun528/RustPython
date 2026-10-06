@@ -1,0 +1,20 @@
+{
+  "original": "async list comprehension [await print(i) for i in [1,2,3]] rejected during definition; print result itself cannot be awaited. Comment gives runnable asyncio.sleep event-loop example.",
+  "minimum": "Original definition compiles; actual original function invocation has expected TypeError after print 1; original comment asyncio loop completes both awaits.",
+  "tests": [
+    "Exact original definition and separate invocation.",
+    "Exact comment script with loop.run_until_complete and normal close; confirm lc done.",
+    "Additional await-return comprehension checks values after complete event loop."
+  ],
+  "issue": 4907,
+  "url": "https://github.com/RustPython/RustPython/issues/4907",
+  "title": "SyntaxError in await-for-in structure",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:22.988630+00:00",
+  "all_comments_read": 1,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "0d07bb2393dd641e9acc3cc629433d7ceed0eb3cfce5c4f915ea7fd4807c4c9a",
+    "comments": "e412667b5127c3f5379d8ae36f99f30588f5dd970506fc50cb7f31afe6a2eab1"
+  }
+}

@@ -1,0 +1,8 @@
+import locale,json
+specs=['f','x','X','e','E','c','g','o','%','o','n','d','08x','+08d','.2f','.1%','>5n']
+for loc in ['C','en_US.UTF-8','de_DE.UTF-8','fr_FR.UTF-8']:
+ effective=locale.setlocale(locale.LC_ALL,loc);conv=locale.localeconv();rows=[]
+ for value in [False,True]:
+  for spec in specs:
+   text=('{:'+spec+'}').format(value);assert text==format(int(value),spec);rows.append([value,spec,text])
+ print(json.dumps({'requested':loc,'effective':effective,'grouping':conv['grouping'],'separator':conv['thousands_sep'],'decimal':conv['decimal_point'],'results':rows},sort_keys=True))

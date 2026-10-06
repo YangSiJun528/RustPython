@@ -1,0 +1,29 @@
+import warnings
+
+for literal in [
+    r'b"omkmok\Xaa"',
+    r'"omkmok\Xaa"',
+    r'b"omkmok\\Xaa"',
+    r'rb"omkmok\Xaa"',
+    r'b"\xff"',
+]:
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        code = compile(literal, "<invalid-escape-probe>", "eval")
+        print(
+            "always",
+            literal,
+            repr(eval(code)),
+            [
+                (warning.category.__name__, str(warning.message), warning.lineno)
+                for warning in caught
+            ],
+        )
+    with warnings.catch_warnings(record=True):
+        warnings.simplefilter("error")
+        try:
+            compile(literal, "<invalid-escape-probe>", "eval")
+        except Exception as error:
+            print("error", literal, type(error).__name__)
+        else:
+            print("error", literal, "accepted")

@@ -1,0 +1,30 @@
+{
+  "command": [
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+    "-B",
+    "-S",
+    "-q"
+  ],
+  "cwd": "<slot-b-source>",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TERM": "xterm",
+    "LC_ALL": "en_US.UTF-8",
+    "PYTHON_BASIC_REPL": "1"
+  },
+  "input": [
+    "import sys",
+    "for i in range(10):",
+    "    i",
+    "",
+    "with open('<initial16-audit>/agent-b/repl-created-' + sys.implementation.name + '.txt', 'x') as f:",
+    "    f.write('hello')",
+    "",
+    "import os; sys.stdout.flush(); sys.stderr.flush(); os._exit(0)"
+  ],
+  "stdout_stderr_merged": true,
+  "exit": 0,
+  "prompt_timeouts": [],
+  "binary_sha256": "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+  "note": "Actual PTY. os._exit avoids saving existing user REPL history. Same input uses exclusive file creation with implementation-specific filename."
+}

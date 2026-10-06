@@ -1,0 +1,9 @@
+  + Exception Group Traceback (most recent call last):
+  |   File [35m"<closure24-audit>/agent-b/inputs/5699-draft-1.py"[0m, line [35m10[0m, in [35m<module>[0m
+  |     raise ExceptionGroup("uncaught group", [ValueError("v"), TypeError("t")])
+  | [1;35mExceptionGroup[0m: [35muncaught group (2 sub-exceptions)[0m
+  +-+---------------- 1 ----------------
+    | [1;35mValueError[0m: [35mv[0m
+    +---------------- 2 ----------------
+    | [1;35mTypeError[0m: [35mt[0m
+    +------------------------------------

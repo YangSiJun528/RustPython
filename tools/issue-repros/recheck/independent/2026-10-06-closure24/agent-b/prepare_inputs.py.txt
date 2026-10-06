@@ -1,0 +1,26 @@
+import pathlib,json,re
+from controller import ROOT
+inputs=ROOT/'inputs'
+for n in [4506,4690,4937,4769,4856,4907,4908,5179,5656,5699,8052,8494]:
+    draft=(ROOT/'logs'/f'draft-{n}.stdout').read_text()
+    blocks=re.findall(r'```python\n(.*?)```',draft,re.S)
+    for idx,body in enumerate(blocks): (inputs/f'{n}-draft-{idx}.py').write_text(body)
+    issue=json.loads((ROOT/'sources'/f'{n}-issue.json').read_text())
+    original=re.findall(r'```(?:python)?\r?\n(.*?)```',issue['body'],re.S)
+    if n in [4937,4856,4907,4908,8052,8494]:
+        (inputs/f'{n}-original.py').write_text(original[0].replace('\r\n','\n'))
+(inputs/'4506-original.py').write_text('import os,sys\nsys.path.insert(0,os.environ["SYMPY_SITE"])\nimport sympy\nprint(sympy.__version__,sympy.__file__)\n')
+(inputs/'4690-original.py').write_text('print(type(dict.__dict__["fromkeys"]))\nprint(type(dict.fromkeys))\n')
+(inputs/'4769-original.py').write_text('import pickle\nfrom collections import deque\nclass Deque(deque): pass\nd=Deque()\nd.x="value"\ne=pickle.loads(pickle.dumps(pickle.HIGHEST_PROTOCOL))\ne.__dict__\n')
+(inputs/'4907-comment.py').write_text(re.findall(r'```python\n(.*?)```',json.loads((ROOT/'sources'/'4907-comments.json').read_text())[0][0]['body'],re.S)[0])
+(inputs/'unittest-probe.py').write_text('''import unittest,json,sys
+suite=unittest.defaultTestLoader.loadTestsFromNames(sys.argv[1:])
+def flat(item):
+    return [t for child in item for t in flat(child)] if isinstance(item,unittest.TestSuite) else [item]
+tests=flat(suite)
+print(json.dumps([dict(id=t.id(),skip=bool(getattr(t,"__unittest_skip__",False) or getattr(getattr(t,t._testMethodName),"__unittest_skip__",False)),expected_failure=bool(getattr(getattr(t,t._testMethodName),"__unittest_expecting_failure__",False))) for t in tests]),flush=True)
+result=unittest.TextTestRunner(verbosity=2).run(suite)
+summary=dict(run=result.testsRun,skips=[(t.id(),reason) for t,reason in result.skipped],expected_failures=[t.id() for t,_ in result.expectedFailures],unexpected_successes=[t.id() for t in result.unexpectedSuccesses],errors=len(result.errors),failures=len(result.failures))
+print(json.dumps(summary),flush=True)
+sys.exit(0 if result.wasSuccessful() and result.testsRun>0 and not result.skipped and not result.expectedFailures and not result.unexpectedSuccesses else 1)
+''')

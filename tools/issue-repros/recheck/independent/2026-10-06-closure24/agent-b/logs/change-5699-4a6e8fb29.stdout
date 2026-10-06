@@ -1,0 +1,444 @@
+diff --git a/.cspell.dict/python-more.txt b/.cspell.dict/python-more.txt
+index e8534e974..d381bfe1e 100644
+--- a/.cspell.dict/python-more.txt
++++ b/.cspell.dict/python-more.txt
+@@ -199,6 +199,7 @@ readbuffer
+ reconstructor
+ refcnt
+ releaselevel
++reraised
+ reverseitemiterator
+ reverseiterator
+ reversekeyiterator
+diff --git a/Lib/test/test_compile.py b/Lib/test/test_compile.py
+index e4d335a19..3ea09354c 100644
+--- a/Lib/test/test_compile.py
++++ b/Lib/test/test_compile.py
+@@ -1536,8 +1536,6 @@ def test_try_except_as(self):
+             """
+         self.check_stack_size(snippet)
+ 
+-    # TODO: RUSTPYTHON
+-    @unittest.expectedFailure
+     def test_try_except_star_qualified(self):
+         snippet = """
+             try:
+@@ -1549,8 +1547,6 @@ def test_try_except_star_qualified(self):
+             """
+         self.check_stack_size(snippet)
+ 
+-    # TODO: RUSTPYTHON
+-    @unittest.expectedFailure
+     def test_try_except_star_as(self):
+         snippet = """
+             try:
+@@ -1562,8 +1558,6 @@ def test_try_except_star_as(self):
+             """
+         self.check_stack_size(snippet)
+ 
+-    # TODO: RUSTPYTHON
+-    @unittest.expectedFailure
+     def test_try_except_star_finally(self):
+         snippet = """
+                 try:
+diff --git a/crates/codegen/src/compile.rs b/crates/codegen/src/compile.rs
+index 0131b3008..53cd81a4f 100644
+--- a/crates/codegen/src/compile.rs
++++ b/crates/codegen/src/compile.rs
+@@ -1510,7 +1510,7 @@ impl Compiler {
+                 ..
+             }) => {
+                 if *is_star {
+-                    self.compile_try_star_statement(body, handlers, orelse, finalbody)?
++                    self.compile_try_star_except(body, handlers, orelse, finalbody)?
+                 } else {
+                     self.compile_try_statement(body, handlers, orelse, finalbody)?
+                 }
+@@ -2119,14 +2119,157 @@ impl Compiler {
+         Ok(())
+     }
+ 
+-    fn compile_try_star_statement(
++    fn compile_try_star_except(
+         &mut self,
+-        _body: &[Stmt],
+-        _handlers: &[ExceptHandler],
+-        _orelse: &[Stmt],
+-        _finalbody: &[Stmt],
++        body: &[Stmt],
++        handlers: &[ExceptHandler],
++        orelse: &[Stmt],
++        finalbody: &[Stmt],
+     ) -> CompileResult<()> {
+-        Err(self.error(CodegenErrorType::NotImplementedYet))
++        // Simplified except* implementation using CheckEgMatch
++        let handler_block = self.new_block();
++        let finally_block = self.new_block();
++
++        if !finalbody.is_empty() {
++            emit!(
++                self,
++                Instruction::SetupFinally {
++                    handler: finally_block,
++                }
++            );
++        }
++
++        let else_block = self.new_block();
++
++        emit!(
++            self,
++            Instruction::SetupExcept {
++                handler: handler_block,
++            }
++        );
++        self.compile_statements(body)?;
++        emit!(self, Instruction::PopBlock);
++        emit!(self, Instruction::Jump { target: else_block });
++
++        self.switch_to_block(handler_block);
++        // Stack: [exc]
++
++        for handler in handlers {
++            let ExceptHandler::ExceptHandler(ExceptHandlerExceptHandler {
++                type_, name, body, ..
++            }) = handler;
++
++            let skip_block = self.new_block();
++            let next_block = self.new_block();
++
++            // Compile exception type
++            if let Some(exc_type) = type_ {
++                // Check for unparenthesized tuple (e.g., `except* A, B:` instead of `except* (A, B):`)
++                if let Expr::Tuple(ExprTuple { elts, range, .. }) = exc_type.as_ref()
++                    && let Some(first) = elts.first()
++                    && range.start().to_u32() == first.range().start().to_u32()
++                {
++                    return Err(self.error(CodegenErrorType::SyntaxError(
++                        "multiple exception types must be parenthesized".to_owned(),
++                    )));
++                }
++                self.compile_expression(exc_type)?;
++            } else {
++                return Err(self.error(CodegenErrorType::SyntaxError(
++                    "except* must specify an exception type".to_owned(),
++                )));
++            }
++            // Stack: [exc, type]
++
++            emit!(self, Instruction::CheckEgMatch);
++            // Stack: [rest, match]
++
++            // Check if match is None (truthy check)
++            emit!(self, Instruction::CopyItem { index: 1 });
++            emit!(self, Instruction::ToBool);
++            emit!(self, Instruction::PopJumpIfFalse { target: skip_block });
++
++            // Handler matched - store match to name if provided
++            // Stack: [rest, match]
++            if let Some(alias) = name {
++                self.store_name(alias.as_str())?;
++            } else {
++                emit!(self, Instruction::PopTop);
++            }
++            // Stack: [rest]
++
++            self.compile_statements(body)?;
++
++            if let Some(alias) = name {
++                self.emit_load_const(ConstantData::None);
++                self.store_name(alias.as_str())?;
++                self.compile_name(alias.as_str(), NameUsage::Delete)?;
++            }
++
++            emit!(self, Instruction::Jump { target: next_block });
++
++            // No match - pop match (None) and continue with rest
++            self.switch_to_block(skip_block);
++            emit!(self, Instruction::PopTop); // drop match (None)
++            // Stack: [rest]
++
++            self.switch_to_block(next_block);
++            // Stack: [rest] - continue with rest for next handler
++        }
++
++        let handled_block = self.new_block();
++
++        // Check if remainder is truthy (has unhandled exceptions)
++        // Stack: [rest]
++        emit!(self, Instruction::CopyItem { index: 1 });
++        emit!(self, Instruction::ToBool);
++        emit!(
++            self,
++            Instruction::PopJumpIfFalse {
++                target: handled_block
++            }
++        );
++        // Reraise unhandled exceptions
++        emit!(
++            self,
++            Instruction::Raise {
++                kind: bytecode::RaiseKind::Raise
++            }
++        );
++
++        // All exceptions handled
++        self.switch_to_block(handled_block);
++        emit!(self, Instruction::PopTop); // drop remainder (None)
++        emit!(self, Instruction::PopException);
++
++        if !finalbody.is_empty() {
++            emit!(self, Instruction::PopBlock);
++            emit!(self, Instruction::EnterFinally);
++        }
++
++        emit!(
++            self,
++            Instruction::Jump {
++                target: finally_block,
++            }
++        );
++
++        // try-else path
++        self.switch_to_block(else_block);
++        self.compile_statements(orelse)?;
++
++        if !finalbody.is_empty() {
++            emit!(self, Instruction::PopBlock);
++            emit!(self, Instruction::EnterFinally);
++        }
++
++        self.switch_to_block(finally_block);
++        if !finalbody.is_empty() {
++            self.compile_statements(finalbody)?;
++            emit!(self, Instruction::EndFinally);
++        }
++
++        Ok(())
+     }
+ 
+     fn is_forbidden_arg_name(name: &str) -> bool {
+diff --git a/crates/compiler-core/src/bytecode.rs b/crates/compiler-core/src/bytecode.rs
+index dd49e679f..add2c1c2f 100644
+--- a/crates/compiler-core/src/bytecode.rs
++++ b/crates/compiler-core/src/bytecode.rs
+@@ -574,7 +574,7 @@ op_arg_enum!(
+     #[derive(Copy, Clone, Debug, PartialEq, Eq)]
+     #[repr(u8)]
+     pub enum IntrinsicFunction2 {
+-        // PrepReraiseS tar = 1,
++        PrepReraiseStar = 1,
+         TypeVarWithBound = 2,
+         TypeVarWithConstraint = 3,
+         SetFunctionTypeParams = 4,
+@@ -652,6 +652,9 @@ pub enum Instruction {
+     CallMethodPositional {
+         nargs: Arg<u32>,
+     },
++    /// Check if exception matches except* handler type.
++    /// Pops exc_value and match_type, pushes (rest, match).
++    CheckEgMatch,
+     CompareOperation {
+         op: Arg<ComparisonOperator>,
+     },
+@@ -1721,6 +1724,7 @@ impl Instruction {
+             CallMethodKeyword { nargs } => -1 - (nargs.get(arg) as i32) - 3 + 1,
+             CallFunctionEx { has_kwargs } => -1 - (has_kwargs.get(arg) as i32) - 1 + 1,
+             CallMethodEx { has_kwargs } => -1 - (has_kwargs.get(arg) as i32) - 3 + 1,
++            CheckEgMatch => 0, // pops 2 (exc, type), pushes 2 (rest, match)
+             ConvertValue { .. } => 0,
+             FormatSimple => 0,
+             FormatWithSpec => -1,
+@@ -1887,6 +1891,7 @@ impl Instruction {
+             CallMethodEx { has_kwargs } => w!(CALL_METHOD_EX, has_kwargs),
+             CallMethodKeyword { nargs } => w!(CALL_METHOD_KEYWORD, nargs),
+             CallMethodPositional { nargs } => w!(CALL_METHOD_POSITIONAL, nargs),
++            CheckEgMatch => w!(CHECK_EG_MATCH),
+             CompareOperation { op } => w!(COMPARE_OPERATION, ?op),
+             ContainsOp(inv) => w!(CONTAINS_OP, ?inv),
+             Continue { target } => w!(CONTINUE, target),
+diff --git a/crates/vm/src/exceptions.rs b/crates/vm/src/exceptions.rs
+index 8d6ce6142..7b8af8348 100644
+--- a/crates/vm/src/exceptions.rs
++++ b/crates/vm/src/exceptions.rs
+@@ -2432,3 +2432,127 @@ pub(super) mod types {
+     #[repr(transparent)]
+     pub struct PyEncodingWarning(PyWarning);
+ }
++
++/// Match exception against except* handler type.
++/// Returns (rest, match) tuple.
++pub fn exception_group_match(
++    exc_value: &PyObjectRef,
++    match_type: &PyObjectRef,
++    vm: &VirtualMachine,
++) -> PyResult<(PyObjectRef, PyObjectRef)> {
++    // Implements _PyEval_ExceptionGroupMatch
++
++    // If exc_value is None, return (None, None)
++    if vm.is_none(exc_value) {
++        return Ok((vm.ctx.none(), vm.ctx.none()));
++    }
++
++    // Check if exc_value matches match_type
++    if exc_value.is_instance(match_type, vm)? {
++        // Full match of exc itself
++        let is_eg = exc_value.fast_isinstance(vm.ctx.exceptions.base_exception_group);
++        let matched = if is_eg {
++            exc_value.clone()
++        } else {
++            // Naked exception - wrap it in ExceptionGroup
++            let excs = vm.ctx.new_tuple(vec![exc_value.clone()]);
++            let eg_type: PyObjectRef = crate::exception_group::exception_group().to_owned().into();
++            let wrapped = eg_type.call((vm.ctx.new_str(""), excs), vm)?;
++            // Copy traceback from original exception
++            if let Ok(exc) = exc_value.clone().downcast::<types::PyBaseException>()
++                && let Some(tb) = exc.__traceback__()
++                && let Ok(wrapped_exc) = wrapped.clone().downcast::<types::PyBaseException>()
++            {
++                let _ = wrapped_exc.set___traceback__(tb.into(), vm);
++            }
++            wrapped
++        };
++        return Ok((vm.ctx.none(), matched));
++    }
++
++    // Check for partial match if it's an exception group
++    if exc_value.fast_isinstance(vm.ctx.exceptions.base_exception_group) {
++        let pair = vm.call_method(exc_value, "split", (match_type.clone(),))?;
++        let pair_tuple: PyTupleRef = pair.try_into_value(vm)?;
++        if pair_tuple.len() < 2 {
++            return Err(vm.new_type_error(format!(
++                "{}.split must return a 2-tuple, got tuple of size {}",
++                exc_value.class().name(),
++                pair_tuple.len()
++            )));
++        }
++        let matched = pair_tuple[0].clone();
++        let rest = pair_tuple[1].clone();
++        return Ok((rest, matched));
++    }
++
++    // No match
++    Ok((exc_value.clone(), vm.ctx.none()))
++}
++
++/// Prepare exception for reraise in except* block.
++pub fn prep_reraise_star(orig: PyObjectRef, excs: PyObjectRef, vm: &VirtualMachine) -> PyResult {
++    // Implements _PyExc_PrepReraiseStar
++    use crate::builtins::PyList;
++
++    let excs_list = excs
++        .downcast::<PyList>()
++        .map_err(|_| vm.new_type_error("expected list for prep_reraise_star"))?;
++
++    let excs_vec: Vec<PyObjectRef> = excs_list.borrow_vec().to_vec();
++
++    // Filter out None values
++    let mut raised: Vec<PyObjectRef> = Vec::new();
++    let mut reraised: Vec<PyObjectRef> = Vec::new();
++
++    for exc in excs_vec {
++        if vm.is_none(&exc) {
++            continue;
++        }
++        // Check if this exception was in the original exception group
++        if !vm.is_none(&orig) && is_same_exception_metadata(&exc, &orig, vm) {
++            reraised.push(exc);
++        } else {
++            raised.push(exc);
++        }
++    }
++
++    // If no exceptions to reraise, return None
++    if raised.is_empty() && reraised.is_empty() {
++        return Ok(vm.ctx.none());
++    }
++
++    // Combine raised and reraised exceptions
++    let mut all_excs = raised;
++    all_excs.extend(reraised);
++
++    if all_excs.len() == 1 {
++        // If only one exception, just return it
++        return Ok(all_excs.into_iter().next().unwrap());
++    }
++
++    // Create new ExceptionGroup
++    let excs_tuple = vm.ctx.new_tuple(all_excs);
++    let eg_type: PyObjectRef = crate::exception_group::exception_group().to_owned().into();
++    eg_type.call((vm.ctx.new_str(""), excs_tuple), vm)
++}
++
++/// Check if two exceptions have the same metadata (for reraise detection)
++fn is_same_exception_metadata(exc1: &PyObjectRef, exc2: &PyObjectRef, vm: &VirtualMachine) -> bool {
++    // Check if exc1 is part of exc2's exception group
++    if exc2.fast_isinstance(vm.ctx.exceptions.base_exception_group) {
++        let exc_class: PyObjectRef = exc1.class().to_owned().into();
++        if let Ok(result) = vm.call_method(exc2, "subgroup", (exc_class,))
++            && !vm.is_none(&result)
++            && let Ok(subgroup_excs) = result.get_attr("exceptions", vm)
++            && let Ok(tuple) = subgroup_excs.downcast::<PyTuple>()
++        {
++            for e in tuple.iter() {
++                if e.is(exc1) {
++                    return true;
++                }
++            }
++        }
++    }
++    exc1.is(exc2)
++}
+diff --git a/crates/vm/src/frame.rs b/crates/vm/src/frame.rs
+index e9a938ba0..6cb41f41d 100644
+--- a/crates/vm/src/frame.rs
++++ b/crates/vm/src/frame.rs
+@@ -691,6 +691,15 @@ impl ExecutingFrame<'_> {
+                 let args = self.collect_positional_args(nargs.get(arg));
+                 self.execute_method_call(args, vm)
+             }
++            bytecode::Instruction::CheckEgMatch => {
++                let match_type = self.pop_value();
++                let exc_value = self.pop_value();
++                let (rest, matched) =
++                    crate::exceptions::exception_group_match(&exc_value, &match_type, vm)?;
++                self.push_value(rest);
++                self.push_value(matched);
++                Ok(None)
++            }
+             bytecode::Instruction::CompareOperation { op } => self.execute_compare(vm, op.get(arg)),
+             bytecode::Instruction::ContainsOp(invert) => {
+                 let b = self.pop_value();
+@@ -2494,6 +2503,12 @@ impl ExecutingFrame<'_> {
+                         .into();
+                 Ok(type_var)
+             }
++            bytecode::IntrinsicFunction2::PrepReraiseStar => {
++                // arg1 = orig (original exception)
++                // arg2 = excs (list of exceptions raised/reraised in except* blocks)
++                // Returns: exception to reraise, or None if nothing to reraise
++                crate::exceptions::prep_reraise_star(arg1, arg2, vm)
++            }
+         }
+     }
+ 
+diff --git a/extra_tests/snippets/builtin_exceptions.py b/extra_tests/snippets/builtin_exceptions.py
+index 0af5cf05e..246be3b8f 100644
+--- a/extra_tests/snippets/builtin_exceptions.py
++++ b/extra_tests/snippets/builtin_exceptions.py
+@@ -366,3 +366,15 @@ class SubError(MyError):
+     vars(builtins).values(),
+ ):
+     assert isinstance(exc.__doc__, str)
++
++
++# except* handling should normalize non-group exceptions
++try:
++    raise ValueError("x")
++except* ValueError as err:
++    assert isinstance(err, ExceptionGroup)
++    assert len(err.exceptions) == 1
++    assert isinstance(err.exceptions[0], ValueError)
++    assert err.exceptions[0].args == ("x",)
++else:
++    assert False, "except* handler did not run"

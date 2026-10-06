@@ -1,0 +1,14 @@
+{
+  "issue": 2527,
+  "url": "https://github.com/RustPython/RustPython/issues/2527",
+  "title": "expressions in blocks don't print their value in the REPL",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 3,
+  "declared_comments": 3,
+  "original_scope": "Actual REPL prints expressions inside for and with blocks: 0 through 9 and 5.",
+  "independent_plan": "Drive terminal/PTY prompts and multiline inputs; use new output file path in place of /tmp/file.txt to avoid existing file overwrite, disclose this path-only substitution; compare CPython same terminal input. Optional compile(single) supports but cannot replace REPL.",
+  "limitations_and_source_corrections": "Comment dis(compile(...)) shorthand assumes imported dis function; _displayhook behavior relevant.",
+  "saved_utc": "2026-10-05T16:10:32.570716+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

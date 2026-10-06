@@ -1,0 +1,19 @@
+>>> import sys
+>>> for i in range(10):
+...     i
+... 
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+>>> with open('<initial16-audit>/agent-b/repl-created-' + sys.implementation.name + '.txt', 'x') as f:
+...     f.write('hello')
+... 
+5
+>>> import os; sys.stdout.flush(); sys.stderr.flush(); os._exit(0)

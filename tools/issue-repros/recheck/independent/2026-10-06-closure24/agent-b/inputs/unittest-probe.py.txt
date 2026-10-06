@@ -1,0 +1,10 @@
+import unittest,json,sys
+suite=unittest.defaultTestLoader.loadTestsFromNames(sys.argv[1:])
+def flat(item):
+    return [t for child in item for t in flat(child)] if isinstance(item,unittest.TestSuite) else [item]
+tests=flat(suite)
+print(json.dumps([dict(id=t.id(),skip=bool(getattr(t,"__unittest_skip__",False) or getattr(getattr(t,t._testMethodName),"__unittest_skip__",False)),expected_failure=bool(getattr(getattr(t,t._testMethodName),"__unittest_expecting_failure__",False))) for t in tests]),flush=True)
+result=unittest.TextTestRunner(verbosity=2).run(suite)
+summary=dict(run=result.testsRun,skips=[(t.id(),reason) for t,reason in result.skipped],expected_failures=[t.id() for t,_ in result.expectedFailures],unexpected_successes=[t.id() for t in result.unexpectedSuccesses],errors=len(result.errors),failures=len(result.failures))
+print(json.dumps(summary),flush=True)
+sys.exit(0 if result.wasSuccessful() and result.testsRun>0 and not result.skipped and not result.expectedFailures and not result.unexpectedSuccesses else 1)

@@ -1,0 +1,21 @@
+{
+  "original": "Four explicit blockers for full colored traceback: match classes codegen, frame.f_builtins, sys.stdlib_module_names, except* codegen.",
+  "minimum": "Exercise all four paths plus real uncaught traceback rendering with ANSI color and name suggestion; no single blocker proves full traceback support.",
+  "tests": [
+    "match class pattern executes dispatch.",
+    "Inspect frame.f_builtins and sys.stdlib_module_names usage.",
+    "except* splits and handles actual ExceptionGroup.",
+    "Forced-color uncaught error, with suggestion; expected exception exit 1 is not crash."
+  ],
+  "issue": 5699,
+  "url": "https://github.com/RustPython/RustPython/issues/5699",
+  "title": "Blockers for full traceback support (with color)",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:27.709506+00:00",
+  "all_comments_read": 0,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "b2e48daee3418efb884a6e44ce7fb3b81c7cc636fd949e1c11a19c5b97e18289",
+    "comments": "cf1cbb66a638b4860a516671fb74850e6ccf787fe6c4c8d29e9c04efe880bd05"
+  }
+}

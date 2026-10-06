@@ -1,0 +1,8 @@
+import ast
+one=ast.parse('A[1:2, *l]')
+two=ast.parse(ast.unparse(one))
+assert ast.dump(one,include_attributes=False)==ast.dump(two,include_attributes=False)
+node=two.body[0].value
+assert isinstance(node,ast.Subscript) and isinstance(node.slice,ast.Tuple)
+assert isinstance(node.slice.elts[0],ast.Slice) and isinstance(node.slice.elts[1],ast.Starred)
+print(ast.dump(two,include_attributes=False))

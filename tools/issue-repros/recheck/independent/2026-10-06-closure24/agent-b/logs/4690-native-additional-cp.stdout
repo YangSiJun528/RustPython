@@ -1,0 +1,3 @@
+dict fromkeys classmethod_descriptor builtin_function_or_method {'a': 2}
+int from_bytes classmethod_descriptor builtin_function_or_method 1
+float fromhex classmethod_descriptor builtin_function_or_method 3.0

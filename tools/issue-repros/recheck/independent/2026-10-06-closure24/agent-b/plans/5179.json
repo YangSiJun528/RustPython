@@ -1,0 +1,20 @@
+{
+  "original": "Python 3.12 PEP 688 __buffer__ and __release_buffer__ slots missing on builtins such as bytes, array, memoryview.",
+  "minimum": "Relevant builtin methods must export/release useful buffers. Name existence alone insufficient.",
+  "tests": [
+    "bytes, bytearray, array.array, memoryview exports: read and writable update where applicable.",
+    "Call release method and memoryview.release; verify resizing bytearray/array blocked while export exists and allowed afterward.",
+    "Compare exact input on CPython >=3.12."
+  ],
+  "issue": 5179,
+  "url": "https://github.com/RustPython/RustPython/issues/5179",
+  "title": "Add `__buffer__` and `__release_buffer__` methods to builtin types",
+  "current_state": "open",
+  "retrieved_utc": "2026-10-05T16:10:25.140900+00:00",
+  "all_comments_read": 0,
+  "planned_before_prior_reports": true,
+  "source_hashes": {
+    "issue": "9a2f4e7cb4dec0581cfb77cf7721bb55c7af95f18ac1349696b1d1e4413c7e21",
+    "comments": "cf1cbb66a638b4860a516671fb74850e6ccf787fe6c4c8d29e9c04efe880bd05"
+  }
+}

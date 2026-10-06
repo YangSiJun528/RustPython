@@ -1,0 +1,2 @@
+import dis
+print(repr(dis.opmap['LOAD_CONST']))

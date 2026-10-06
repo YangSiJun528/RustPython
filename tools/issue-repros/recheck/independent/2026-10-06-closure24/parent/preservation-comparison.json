@@ -1,0 +1,20 @@
+{
+  "A": {
+    "head_unchanged": true,
+    "tracked_content_changes": [],
+    "status_removed": [],
+    "status_added_outside_new_output": []
+  },
+  "B": {
+    "head_unchanged": true,
+    "tracked_content_changes": [],
+    "status_removed": [],
+    "status_added_outside_new_output": []
+  },
+  "report": {
+    "head_unchanged": true,
+    "tracked_content_changes": [],
+    "status_removed": [],
+    "status_added_outside_new_output": []
+  }
+}

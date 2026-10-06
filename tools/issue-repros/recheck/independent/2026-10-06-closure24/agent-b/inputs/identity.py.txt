@@ -1,0 +1,7 @@
+import sys,os,platform,locale,json,importlib
+modules={}
+for name in ['os','ast','email.policy','email._header_value_parser','pickle','collections','asyncio','unittest.mock','traceback','types','test.test_deque','test.test_descr','test.test_json.test_default']:
+ try:
+  module=importlib.import_module(name);modules[name]=getattr(module,'__file__',None)
+ except Exception as e: modules[name]=[type(e).__name__,str(e)]
+print(json.dumps(dict(version=sys.version,implementation=repr(sys.implementation),executable=sys.executable,platform=platform.platform(),machine=platform.machine(),cwd=os.getcwd(),sys_path=sys.path,modules=modules,locale=locale.setlocale(locale.LC_ALL,None)),indent=2))

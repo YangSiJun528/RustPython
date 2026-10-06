@@ -1,0 +1,14 @@
+{
+  "issue": 3430,
+  "url": "https://github.com/RustPython/RustPython/issues/3430",
+  "title": "etree.XML raises TypeError on valid XML",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 1,
+  "declared_comments": 1,
+  "original_scope": "xml.etree.ElementTree.XML(\"<root></root>\") accepts valid XML; expat ParserCreate permits None encoding.",
+  "independent_plan": "Run original path and inspect root tag; instantiate ParserCreate(None, \"}\") and parse actual data; add nested/attribute parse only if draft asserts.",
+  "limitations_and_source_corrections": "Historical Linux path; expat arguments noted incomplete in comment, no dependency version provided.",
+  "saved_utc": "2026-10-05T16:10:32.568780+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

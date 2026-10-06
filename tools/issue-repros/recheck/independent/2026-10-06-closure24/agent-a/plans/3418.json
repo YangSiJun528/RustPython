@@ -1,0 +1,14 @@
+{
+  "issue": 3418,
+  "url": "https://github.com/RustPython/RustPython/issues/3418",
+  "title": "Introduce `_collections.OrderedDict` type (a.k.a. `collections.OrderedDict`)",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 0,
+  "declared_comments": 0,
+  "original_scope": "from _collections import OrderedDict succeeds and native type exists.",
+  "independent_plan": "Run literal import; check module/type relationship and small ordering/use operation to avoid import-only overclaim.",
+  "limitations_and_source_corrections": "Issue explicitly allows discretionary closure if private API unneeded; technical availability is independent.",
+  "saved_utc": "2026-10-05T16:10:32.568391+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

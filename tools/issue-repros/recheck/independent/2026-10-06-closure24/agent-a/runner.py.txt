@@ -1,0 +1,35 @@
+import subprocess,os,signal,time,json,pathlib,datetime,hashlib,shutil
+ROOT=pathlib.Path('<workspace>')
+OUT=ROOT/'independent-verification/2026-10-06T010610+0900-closure24-f39b054/agent-a'
+BIN=ROOT/'cleanup-issues/2026-10-04T155029+0900/.build/slot-a/verification/rustpython'
+CP=pathlib.Path(shutil.which('python3'))
+def sha(p):return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+def run(id,issue,argv,timeout=30,env=None,inputs=(),judgment='',stdin=None):
+ e=dict(os.environ);e.update({'PYTHONDONTWRITEBYTECODE':'1','PAGER':'cat','GH_PAGER':'cat','TMPDIR':str(OUT/'tmp'),'PYTHON_HISTORY':str(OUT/'tmp/python_history'),'RUSTPYTHON_HISTORY':str(OUT/'tmp/rustpython_history')})
+ for k,v in (env or {}).items():
+  if v is None:e.pop(k,None)
+  else:e[k]=str(v)
+ (OUT/'tmp').mkdir(exist_ok=True)
+ relevant={k:v for k,v in e.items() if k.startswith(('PYTHON','RUSTPYTHON','LC_','LANG','CARGO','RUST','TERM','TMP','DYLD'))}
+ ep=pathlib.Path(shutil.which(str(argv[0])) or str(argv[0])).resolve()
+ files={str(pathlib.Path(p).resolve()):sha(p) for p in inputs}
+ rec={'execution_id':id,'issue':issue,'slot':'A','argv':list(map(str,argv)),'cwd':str(ROOT),'relevant_env':relevant,'input_sha256':files,'executable':str(ep),'executable_sha256':sha(ep),'start':datetime.datetime.now(datetime.timezone.utc).isoformat(),'timeout_seconds':timeout,'judgment_rationale':judgment}
+ so=OUT/'logs'/f'{id}.stdout';se=OUT/'logs'/f'{id}.stderr'
+ if so.exists() or se.exists(): raise FileExistsError(id)
+ with so.open('xb') as fo,se.open('xb') as fe:
+  p=subprocess.Popen(rec['argv'],cwd=ROOT,env=e,stdout=fo,stderr=fe,stdin=subprocess.PIPE if stdin is not None else subprocess.DEVNULL,start_new_session=True)
+  if stdin is not None:p.stdin.write(stdin);p.stdin.close()
+  rec['timeout']=False
+  try:rec['exit']=p.wait(timeout=timeout)
+  except subprocess.TimeoutExpired:
+   rec['timeout']=True;os.killpg(p.pid,signal.SIGTERM)
+   try:rec['exit']=p.wait(timeout=2)
+   except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);rec['exit']=p.wait()
+  try:os.killpg(p.pid,signal.SIGKILL);rec['residual_group_cleanup']=True
+  except ProcessLookupError:rec['residual_group_cleanup']=False
+ rec.update({'end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'stdout':str(so),'stderr':str(se),'input_sha256_after':{p:sha(p) for p in files},'executable_sha256_after':sha(ep)})
+ with (OUT/'executions.jsonl').open('a') as f:f.write(json.dumps(rec,ensure_ascii=False)+'\n')
+ print(id,rec['exit'],'TIMEOUT' if rec['timeout'] else '',flush=True)
+ return rec
+if __name__=='__main__':
+ for label,argv in [('file',['file',str(BIN),str(CP.resolve())]),('banner',[str(BIN),'-VV']),('cpython-banner',[str(CP),'-VV']),('locale-list',['locale','-a']),('locale-current',['locale']),('architecture',['uname','-a'])]:run('identity-'+label,None,argv)

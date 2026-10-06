@@ -1,0 +1,11 @@
+import subprocess,pathlib,os,signal,json,datetime
+out=pathlib.Path('independent-verification/2026-10-06T010610+0900-closure24-f39b054/agent-a')
+for label,ep in [('3863-pr','pulls/3863'),('3863-issue-comments','issues/3863/comments?per_page=100'),('3863-review-comments','pulls/3863/comments?per_page=100'),('3863-files','pulls/3863/files?per_page=100'),('4613-issue','issues/4613'),('4613-comments','issues/4613/comments?per_page=100'),('6428-comment','pulls/comments/2614589810')]:
+ argv=['gh','api','--paginate','repos/RustPython/RustPython/'+ep];start=datetime.datetime.now(datetime.timezone.utc).isoformat()
+ with open(out/'sources'/f'{label}.stdout','wb') as so,open(out/'sources'/f'{label}.stderr','wb') as se:
+  p=subprocess.Popen(argv,stdout=so,stderr=se,start_new_session=True);timeout=False
+  try:code=p.wait(timeout=40)
+  except subprocess.TimeoutExpired:
+   timeout=True;os.killpg(p.pid,signal.SIGKILL);code=p.wait()
+ with open(out/'collection.jsonl','a') as f:f.write(json.dumps({'execution_id':label,'slot':'A','argv':argv,'cwd':os.getcwd(),'start':start,'end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit':code,'timeout':timeout})+'\n')
+ print(label,code,flush=True)

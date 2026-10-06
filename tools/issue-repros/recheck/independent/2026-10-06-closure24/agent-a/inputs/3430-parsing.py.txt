@@ -1,0 +1,7 @@
+import xml.etree.ElementTree as etree
+import pyexpat
+for xml in ['<root></root>','<root k="v"><child>text</child></root>','<root xmlns="urn:r"><child a="b">한글🚀</child></root>',b'<?xml version="1.0" encoding="UTF-8"?><root>cafÃ©</root>']:
+ r=etree.XML(xml);print([(e.tag,e.text,sorted(e.attrib.items())) for e in r.iter()])
+p=pyexpat.ParserCreate(None,'}');events=[];p.StartElementHandler=lambda n,a:events.append((n,sorted(a.items())));p.Parse('<root><child/></root>',True);print('expat events',events);assert len(events)==2
+try:r=etree.XML('<a></b>');print('malformed accepted',r.tag)
+except etree.ParseError as e:print('malformed rejected',type(e).__name__)

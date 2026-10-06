@@ -1,0 +1,8 @@
+input 'A\udcdcB' [65, 56540, 66]
+rejected utf-8 'A\udcdcB' 1 2 surrogates not allowed
+input 'A\ud800\udfffB' [65, 55296, 57343, 66]
+rejected utf-8 'A\ud800\udfffB' 1 3 surrogates not allowed
+input 'A\ud800B' [65, 55296, 66]
+rejected utf-8 'A\ud800B' 1 2 surrogates not allowed
+input 'A\U0001f680B' [65, 128640, 66]
+accepted 'A\U0001f680B'

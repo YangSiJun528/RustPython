@@ -1,0 +1,20 @@
+{
+  "LC_ALL_environment": null,
+  "LANG": "en_US.UTF-8",
+  "LC_NUMERIC": "en_US.UTF-8",
+  "effective": "en_US.UTF-8/C.UTF-8/en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/en_US.UTF-8",
+  "conv": {
+    "decimal_point": ".",
+    "thousands_sep": ",",
+    "grouping": [
+      3,
+      0
+    ]
+  },
+  "integer": "123,456,789",
+  "float": "1,234.5",
+  "test_files": [
+    "<workspace>/Lib/test/test_format.py",
+    "<workspace>/Lib/test/test_types.py"
+  ]
+}

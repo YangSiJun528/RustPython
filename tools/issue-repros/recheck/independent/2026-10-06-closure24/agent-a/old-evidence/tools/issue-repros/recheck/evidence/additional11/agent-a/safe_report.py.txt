@@ -1,0 +1,8 @@
+import sys, os, json, importlib
+def can_import(name):
+    try:
+        m=importlib.import_module(name)
+        return m.value
+    except ModuleNotFoundError:
+        return False
+print(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_fixture'),'cwd_import':can_import('independent-verification.2026-10-05-additional11-f39b054.agent-a.safe_fixture')},sort_keys=True))

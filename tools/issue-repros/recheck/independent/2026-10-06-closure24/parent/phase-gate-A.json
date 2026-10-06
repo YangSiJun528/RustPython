@@ -1,0 +1,21 @@
+{
+  "observed_at_utc": "2026-10-05T16:11:07.589255+00:00",
+  "fresh_agent": "/root/verify_slot_a",
+  "fork_turns": "none",
+  "original_plan_hashes": {
+    "4786.json": "f129c0c2b8a7d2dc4a195326d1ad711ae40c2a82f10a9e2fe8442aedcf48b47a",
+    "2527.json": "880590b7e6a582dd2363d24ddbb8367e77f701eab88512e9286531df11ceaac4",
+    "4762.json": "5e01d084e38ae05eba15619af935245932ee3e4db4db3cc35d495cacbfa9048f",
+    "3418.json": "bdf377ea1e74962ef503592fd16b7924f0ce80f0ddb32ea6b25a64b4d89e378f",
+    "source-sha256.json": "4c4a0cbef15ca36b0fc9aa085dd9d5fbbcdd1f7f2a4615742d671c172b1d1e4b",
+    "4541.json": "aa9f2af9e92d1a72b49fd0efd69cffc2a6287660b9e6d93eaf2defebdd8e7737",
+    "3430.json": "840146680ea2afa7e936cb7cc0581ab58247f2e7154a2b1c50c83e348890b107",
+    "6429.json": "81a6651e8febd0dcb3fcc5e97b6f604d6d59190c0ca71b1f6874f2a22a3f57ca",
+    "3846.json": "4366c524f4a3b1328d960ec62d19402cd032307d7485bd8c09d86470f21f3244",
+    "4950.json": "89ca936a00ce762bbde362d9f47bffe576b35dad3aa9351d76c0e70eb6dda022",
+    "4784.json": "3306281dd731c5913f7517ff674b413dd05539d1d21da9d2619bd9ef651c4c27",
+    "4527.json": "4bb883938c2b018d0f00763ef702d8420b6f89054faa4361ba9adb6db29a57cd",
+    "4970.json": "f1c05900dc4ba6c4da0a26beac2d66afe03d1bd50d30968bd1eeae822f36b492"
+  },
+  "report_access_released": true
+}

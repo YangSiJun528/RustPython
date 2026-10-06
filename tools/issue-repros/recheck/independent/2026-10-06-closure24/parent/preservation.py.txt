@@ -1,0 +1,61 @@
+"""Read-only repository inventory; writes only to this verification directory."""
+import datetime
+import hashlib
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+OUT = Path(__file__).resolve().parent
+ROOT = OUT.parent
+REPOS = {
+    "A": Path("<workspace>"),
+    "B": Path("<slot-b-source>"),
+    "report": Path("<report-worktree>"),
+}
+
+def git(repo, *args):
+    return subprocess.check_output(["git", "--no-optional-locks", "-C", str(repo), *args])
+
+def snapshot(phase):
+    result = {"time_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(), "repos": {}}
+    for name, repo in REPOS.items():
+        status = git(repo, "status", "--porcelain=v1", "--untracked-files=all", "-z")
+        (OUT / f"git-status-{name}-{phase}.nul").write_bytes(status)
+        files = {}
+        for raw in git(repo, "ls-files", "-z").split(b"\0"):
+            if not raw:
+                continue
+            rel = os.fsdecode(raw)
+            path = repo / rel
+            if path.is_symlink():
+                files[rel] = {"symlink": os.readlink(path)}
+            elif path.is_file():
+                files[rel] = {"sha256": hashlib.file_digest(path.open("rb"), "sha256").hexdigest()}
+            else:
+                files[rel] = {"missing_or_nonfile": True}
+        result["repos"][name] = {
+            "path": str(repo), "head": git(repo, "rev-parse", "HEAD").decode().strip(),
+            "tracked_files": files, "status_sha256": hashlib.sha256(status).hexdigest(),
+        }
+    (OUT / f"preservation-{phase}.json").write_text(json.dumps(result, indent=2))
+    print(json.dumps({"phase": phase, "time_utc": result["time_utc"], "tracked_counts": {k: len(v["tracked_files"]) for k, v in result["repos"].items()}}))
+    return result
+
+phase = sys.argv[1]
+result = snapshot(phase)
+if phase == "end":
+    before = json.loads((OUT / "preservation-start.json").read_text())
+    comparison = {}
+    for name, current in result["repos"].items():
+        old = before["repos"][name]
+        changes = [p for p in old["tracked_files"] if old["tracked_files"][p] != current["tracked_files"].get(p)]
+        raw_old = (OUT / f"git-status-{name}-start.nul").read_bytes().split(b"\0")
+        raw_new = (OUT / f"git-status-{name}-end.nul").read_bytes().split(b"\0")
+        marker = str(ROOT.relative_to(REPOS["A"])).encode() + b"/"
+        filtered_old = {x for x in raw_old if marker not in x}
+        filtered_new = {x for x in raw_new if marker not in x}
+        comparison[name] = {"head_unchanged": old["head"] == current["head"], "tracked_content_changes": changes, "status_removed": [os.fsdecode(x) for x in sorted(filtered_old-filtered_new)], "status_added_outside_new_output": [os.fsdecode(x) for x in sorted(filtered_new-filtered_old)]}
+    (OUT / "preservation-comparison.json").write_text(json.dumps(comparison, indent=2))
+    print(json.dumps(comparison))

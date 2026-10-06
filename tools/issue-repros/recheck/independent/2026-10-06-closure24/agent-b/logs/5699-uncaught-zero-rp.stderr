@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File [35m"<closure24-audit>/agent-b/inputs/5699-draft-1.py"[0m, line [35m8[0m, in [35m<module>[0m
+    [31m1 [0m[1;31m/[0m[31m 0[0m
+    [31m~~[0m[1;31m^[0m[31m~~[0m
+[1;35mZeroDivisionError[0m: [35mdivision by zero[0m

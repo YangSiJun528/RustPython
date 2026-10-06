@@ -1,0 +1,25 @@
+from runner import *
+from pty_runner import terminal
+fixture=OUT/'inputs/safe_fixture_4541';fixture.mkdir()
+marker=fixture/'safe_marker_4541.py';marker.write_text("value='unique-slot-a-4541'\n")
+module='independent-verification.2026-10-06T010610+0900-closure24-f39b054.agent-a.inputs.safe_fixture_4541.safe_marker_4541'
+code='''import sys,os,json,importlib
+def can_import(name):
+ try:return importlib.import_module(name).value
+ except ModuleNotFoundError:return False
+print(json.dumps({'safe_path':sys.flags.safe_path,'isolated':sys.flags.isolated,'ignore_environment':sys.flags.ignore_environment,'path':sys.path,'cwd':os.getcwd(),'bare_import':can_import('safe_marker_4541'),'cwd_import':can_import(MODULE)},sort_keys=True))
+'''.replace('MODULE',repr(module))
+probe=fixture/'safe_probe_4541.py';probe.write_text(code)
+linkdir=OUT/'inputs/safe_link_4541';linkdir.mkdir();link=linkdir/'linked.py';link.symlink_to(probe)
+base={k:None for k in os.environ if k.startswith(('PYTHON','RUSTPYTHON','LC_'))};base.update({'LANG':'C','LC_ALL':'C','TERM':'dumb','NO_COLOR':'1'})
+cases=[('default',[],{}),('P',['-P'],{}),('env1',[],{'PYTHONSAFEPATH':'1'}),('env0',[],{'PYTHONSAFEPATH':'0'}),('envempty',[],{'PYTHONSAFEPATH':''}),('E',['-E'],{'PYTHONSAFEPATH':'1'}),('I',['-I'],{'PYTHONSAFEPATH':'1'})]
+for mode in ['script','command','module','symlink']:
+ for who,exe in [('rp',BIN),('cp',CP)]:
+  for label,flags,overrides in cases:
+   env={**base,**overrides};args={'script':[probe],'command':['-c',code],'module':['-m','safe_probe_4541'],'symlink':[link]}[mode]
+   if mode=='module':env['RUSTPYTHONPATH' if who=='rp' else 'PYTHONPATH']=str(ROOT/'Lib')+':'+str(fixture) if who=='rp' else str(fixture)
+   run(f'4541-{mode}-{label}-{who}',4541,[exe,'-B',*flags,*args],env=env,inputs=[probe,marker],judgment='Observe safe_path and actual fixture import, automatic cwd/script insertion vs preserved explicit path; module -E/-I expected import failure.')
+for who,exe in [('rp',BIN),('cp',CP)]:
+ for label,flags,overrides in cases:
+  lines=['import sys,os,json,importlib',f'exec({code!r})',"sys.stdout.flush(); sys.stderr.flush(); os._exit(0)"]
+  terminal(f'4541-repl-{label}-{who}',4541,exe,lines,flags=flags,env=overrides)

@@ -1,0 +1,4 @@
+  File "<closure24-audit>/agent-a/inputs/3430-parsing.py", line 3
+    for xml in ['<root></root>','<root k="v"><child>text</child></root>','<root xmlns="urn:r"><child a="b">한글🚀</child></root>',b'<?xml version="1.0" encoding="UTF-8"?><root>cafÃ©</root>']:
+                                                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+SyntaxError: bytes can only contain ASCII literal characters

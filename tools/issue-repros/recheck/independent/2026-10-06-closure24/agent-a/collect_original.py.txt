@@ -1,0 +1,20 @@
+import subprocess, os, signal, time, json, hashlib, datetime, pathlib
+root=pathlib.Path('<workspace>')
+out=root/'independent-verification/2026-10-06T010610+0900-closure24-f39b054/agent-a'
+commands=[('git-status-before',['git','status','--porcelain=v1','--untracked-files=all']),('git-head',['git','rev-parse','HEAD']),('git-diff-before',['git','diff','--binary']),('git-cached-before',['git','diff','--cached','--binary']),('git-branch',['git','branch','--show-current'])]
+for n in [4762,4786,3418,3430,4527,4950,4970,6429,2527,4541,3846,4784]:
+ for suffix,ep in [('issue',f'issues/{n}'),('comments',f'issues/{n}/comments?per_page=100')]:
+  commands.append((f'{n}-{suffix}',['gh','api','--paginate',f'repos/RustPython/RustPython/{ep}']))
+for name,argv in commands:
+ start=datetime.datetime.now(datetime.timezone.utc).isoformat(); dest=out/('sources' if name[0].isdigit() else 'environment')
+ with open(dest/f'{name}.stdout','wb') as so,open(dest/f'{name}.stderr','wb') as se:
+  p=subprocess.Popen(argv,cwd=root,stdout=so,stderr=se,env={**os.environ,'GH_PAGER':'cat','PAGER':'cat'},start_new_session=True)
+  timeout=False
+  try: code=p.wait(timeout=40)
+  except subprocess.TimeoutExpired:
+   timeout=True;os.killpg(p.pid,signal.SIGTERM)
+   try: code=p.wait(timeout=3)
+   except subprocess.TimeoutExpired: os.killpg(p.pid,signal.SIGKILL);code=p.wait()
+ record={'execution_id':name,'slot':'A','argv':argv,'cwd':str(root),'start':start,'end':datetime.datetime.now(datetime.timezone.utc).isoformat(),'exit':code,'timeout':timeout,'stdout':str(dest/f'{name}.stdout'),'stderr':str(dest/f'{name}.stderr')}
+ with open(out/'collection.jsonl','a') as f:f.write(json.dumps(record)+'\n')
+ print(name,code,timeout,flush=True)

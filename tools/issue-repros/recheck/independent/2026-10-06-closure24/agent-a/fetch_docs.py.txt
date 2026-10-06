@@ -1,0 +1,3 @@
+from runner import *
+run('4784-readme-target',4784,['git','show','f39b054b9c8cbbf884f53123eef028131789990c:README.md'])
+run('4784-http',4784,['curl','--silent','--show-error','--location','--max-time','30','--output',str(OUT/'sources/4784-docs.html'),'--dump-header',str(OUT/'sources/4784-headers.txt'),'--write-out','status=%{http_code}\nurl=%{url_effective}\n','https://docs.rs/rustpython'],timeout=35,judgment='Require actual crate/API content, not status alone; live external docs not target commit doc build.')

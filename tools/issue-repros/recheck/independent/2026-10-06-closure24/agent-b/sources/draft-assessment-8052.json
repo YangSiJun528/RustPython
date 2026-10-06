@@ -1,0 +1,95 @@
+{
+  "issue": 8052,
+  "status": "해결 확인",
+  "closure_recommended": true,
+  "reason": "원문 name/repr, types alias identity, JSON PEP678 note 네 항목과 기존 Py/C test_bad_default가 모두 기대와 일치.",
+  "original_scope": "ellipsis builtin name/repr을 CPython과 맞추고 types.EllipsisType alias를 유지; JSON note의 ellipsis 이름도 기대.",
+  "fresh_evidence": [
+    "<initial16-audit>/agent-b/fresh-8052-rp.json",
+    "<initial16-audit>/agent-b/fresh-8052-cp.json",
+    "<initial16-audit>/agent-b/fresh-existing-tests-rp.json"
+  ],
+  "old_evidence": {
+    "path": "<report-worktree>/tools/issue-repros/cases/8052",
+    "summary": {
+      "historical": {
+        "actual_sha": "83fe92042112f9db89a70495b552ab433d77e751",
+        "binary_sha256": "1b2747c3c05484e9f5e3db8de8000a2a3e66aeb211e55ddba918713053a5cb25",
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "historical.stdout.txt",
+            "expected_export_sha256": "d7e52f41d43b82d4c2a36eee3151cf0db9a9362f986f2fa85b8df2baaf2deb6e",
+            "actual_sha256": "d7e52f41d43b82d4c2a36eee3151cf0db9a9362f986f2fa85b8df2baaf2deb6e",
+            "match": true
+          },
+          {
+            "log": "historical.stderr.txt",
+            "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "match": true
+          }
+        ],
+        "version_banner": null,
+        "not_rerun": true
+      },
+      "current": {
+        "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+        "binary_sha256": "d04249e0bc754f7ccd12f373348e639275f7b1e3a248cb56b17a37faea974dbe",
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "current.stdout.txt",
+            "expected_export_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+            "actual_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+            "match": true
+          },
+          {
+            "log": "current.stderr.txt",
+            "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "match": true
+          }
+        ],
+        "version_banner": null,
+        "not_rerun": true
+      },
+      "cpython": {
+        "actual_sha": null,
+        "binary_sha256": null,
+        "exit": 0,
+        "timeout": false,
+        "checked_export_hashes": [
+          {
+            "log": "cpython.stdout.txt",
+            "expected_export_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+            "actual_sha256": "c557cf953846594821aa77194c905d6133cffc777a42b857550fad180159bb82",
+            "match": true
+          },
+          {
+            "log": "cpython.stderr.txt",
+            "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "match": true
+          }
+        ],
+        "version_banner": null,
+        "not_rerun": true
+      }
+    },
+    "assessment": "기존 name/repr 최소 재현은 핵심 원문에 충분하나 alias/JSON 파급은 이번 새 실행으로 보강. 기존 historical_selection은 null이라 선택 근거 부족."
+  },
+  "change_basis": {
+    "pr": 8580,
+    "commit": "f87cfe7e7a24e4cbe2861d312f2c44904df90524",
+    "observed_change": "PyEllipsis pyclass name EllipsisType를 ellipsis로 변경",
+    "first_fix_confirmed": false
+  },
+  "limits": [
+    "macOS에서 실행.",
+    "원문은 8e35cc9e72ea243df2705acb2cfb1a63fb8fbe0b source link를 제공하지만 이는 신고자의 executable commit 증명은 아님. 기존 과거 실행은 83fe920421이며 동일 revision으로 오인하지 않음.",
+    "관련 rename commit은 확인했으나 first-fix bisect/인접 실행 없음."
+  ]
+}

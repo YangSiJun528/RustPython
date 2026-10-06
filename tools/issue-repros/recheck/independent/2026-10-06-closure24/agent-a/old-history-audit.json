@@ -1,0 +1,142 @@
+{
+  "4762": {
+    "historical_commit": "c36e3612e7dd1c7abd9fc7b76b912372bd26afbf",
+    "historical_exit": 1,
+    "historical_timeout": false,
+    "recorded_input_expected_sha256": "0941e3e88d10a2765597d3e425694e87f6709456f1c92445a474719888c0939b",
+    "historical_logs": {
+      "stdout": {
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "present": true
+      },
+      "stderr": {
+        "actual_sha256": "f05ba934cff52a94291c749d62c5fad89768bd067045f52b2f8b2793b41789b7",
+        "expected_export_sha256": "f05ba934cff52a94291c749d62c5fad89768bd067045f52b2f8b2793b41789b7",
+        "present": true
+      }
+    },
+    "historical_executable_rerun": false,
+    "recorded_input_sha256": "0941e3e88d10a2765597d3e425694e87f6709456f1c92445a474719888c0939b",
+    "input": "assert('%*s' % (-5, 'abc') == 'abc  ')\n"
+  },
+  "4786": {
+    "historical_commit": "010640ccc8f74f56075df09a654352ae3d162d25",
+    "historical_exit": 0,
+    "historical_timeout": false,
+    "recorded_input_expected_sha256": "f1d38fc8c7642f20f50f0697b84742567d7f81b8b3dbb8ff9c5380100e89deee",
+    "historical_logs": {
+      "stdout": {
+        "actual_sha256": "4c5ee8e926d6653c1c62fbc6ea7b335a475ea189cca53e8f113f0e4b1da0a510",
+        "expected_export_sha256": "4c5ee8e926d6653c1c62fbc6ea7b335a475ea189cca53e8f113f0e4b1da0a510",
+        "present": true
+      },
+      "stderr": {
+        "actual_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+        "expected_export_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+        "present": true
+      }
+    },
+    "historical_executable_rerun": false,
+    "recorded_input_sha256": "f1d38fc8c7642f20f50f0697b84742567d7f81b8b3dbb8ff9c5380100e89deee",
+    "input": "print(repr(type(\"A\\udcdcB\", (), {})))\n"
+  },
+  "3418": {
+    "historical_commit": "40fd9c2683d76adf2b9ed0d77c055e2d2514c27d",
+    "historical_exit": 1,
+    "historical_timeout": false,
+    "recorded_input_expected_sha256": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6",
+    "historical_logs": {
+      "stdout": {
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "present": true
+      },
+      "stderr": {
+        "actual_sha256": "8e2e308fd7077c3cf1fedefccb0164903df4f895ac09fd5de9c898590c3dd421",
+        "expected_export_sha256": "8e2e308fd7077c3cf1fedefccb0164903df4f895ac09fd5de9c898590c3dd421",
+        "present": true
+      }
+    },
+    "historical_executable_rerun": false,
+    "recorded_input_sha256": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6",
+    "input": "from _collections  import OrderedDict\n"
+  },
+  "3430": {
+    "historical_commit": "310578c422c9b3d76eb8c739136b972d78e37180",
+    "historical_exit": 1,
+    "historical_timeout": false,
+    "recorded_input_expected_sha256": "a417cc001e1c9e1bd09bcef9014cf9713bfa74d6610ee5ba48e3237490b5bcce",
+    "historical_logs": {
+      "stdout": {
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "present": true
+      },
+      "stderr": {
+        "actual_sha256": "8728d83ab4177bce5d8c69a37acc11e7a720ab4c94972b87c1b5224ee6082a6a",
+        "expected_export_sha256": "8728d83ab4177bce5d8c69a37acc11e7a720ab4c94972b87c1b5224ee6082a6a",
+        "present": true
+      }
+    },
+    "historical_executable_rerun": false,
+    "recorded_input_sha256": "a417cc001e1c9e1bd09bcef9014cf9713bfa74d6610ee5ba48e3237490b5bcce",
+    "input": "import xml.etree.ElementTree as etree\nresult = etree.XML(\"<root></root>\")\nprint(type(result).__name__, result.tag, result.text, len(result))\n"
+  },
+  "4527": {
+    "historical_commit": "e5735cde67b86699bd68c8959167ecf2649a6f2d",
+    "historical_exit": 0,
+    "historical_timeout": false,
+    "recorded_input_expected_sha256": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d",
+    "historical_logs": {
+      "stdout": {
+        "actual_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "expected_export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "present": true
+      },
+      "stderr": {
+        "actual_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+        "expected_export_sha256": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+        "present": true
+      }
+    },
+    "historical_executable_rerun": false,
+    "recorded_input_sha256": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d",
+    "input": "class X:\n    def __del__(self):\n        print('deleted!')\n\nx = X()\n"
+  },
+  "6429": {
+    "historical_commit": "e227956a58f0f072f8be177264e0fdc1b9280e8a",
+    "historical_exit": 0,
+    "historical_timeout": false,
+    "recorded_input_expected_sha256": "ec20490d33bb57f3f9f86c7d16b9ba7acc9b2c982795c34da4421fb0d1dffc9d",
+    "historical_logs": {
+      "stdout": {
+        "actual_sha256": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+        "expected_export_sha256": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+        "present": true
+      },
+      "stderr": {
+        "actual_sha256": "ef2d96c0914fc24f75dd0cc7c8c96ae0827ce5cf7075be9284103286c67d8919",
+        "expected_export_sha256": "ef2d96c0914fc24f75dd0cc7c8c96ae0827ce5cf7075be9284103286c67d8919",
+        "present": true
+      }
+    },
+    "historical_executable_rerun": false,
+    "recorded_input_sha256": "ec20490d33bb57f3f9f86c7d16b9ba7acc9b2c982795c34da4421fb0d1dffc9d",
+    "input": "import sysconfig\nprint(repr(sysconfig.get_config_var(\"Py_GIL_DISABLED\")), flush=True)\n"
+  },
+  "2527": {
+    "historical_commit": "163cd1953377f4049e06fdae55c715889857a301",
+    "historical_exit": 0,
+    "historical_timeout": false,
+    "recorded_input_expected_sha256": "f940b24d62cdcd1da8ce93fa9b3e33c28bcbc7035a72dbe9154442e44cf735f1",
+    "historical_logs": {
+      "stdout": {
+        "actual_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+        "expected_export_sha256": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+        "present": true
+      }
+    },
+    "historical_executable_rerun": false
+  }
+}

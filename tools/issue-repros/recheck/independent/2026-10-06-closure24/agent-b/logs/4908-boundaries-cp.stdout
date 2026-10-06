@@ -1,0 +1,7 @@
+A[1:2, *l] -> A[1:2, *l] equivalent True
+A[:, *l] -> A[:, *l] equivalent True
+A[*l, 1:2] -> A[*l, 1:2] equivalent True
+A[1:2:3, *l, :] -> A[1:2:3, *l, :] equivalent True
+A[*l] -> A[*l,] equivalent True
+A[()] -> A[()] equivalent True
+A[1,] -> A[1,] equivalent True

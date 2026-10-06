@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "<closure24-audit>/agent-b/inputs/4769-original.py", line 7, in <module>
+    e.__dict__
+AttributeError: 'int' object has no attribute '__dict__'. Did you mean: '__dir__'?

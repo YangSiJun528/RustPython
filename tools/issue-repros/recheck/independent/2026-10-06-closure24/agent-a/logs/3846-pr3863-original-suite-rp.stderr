@@ -1,0 +1,22 @@
+test_absolute_imports (original3863.ModuleFinderTest.test_absolute_imports) ... ok
+test_bytecode (original3863.ModuleFinderTest.test_bytecode) ... ok
+test_coding_default_utf8 (original3863.ModuleFinderTest.test_coding_default_utf8) ... ok
+test_coding_explicit_cp1252 (original3863.ModuleFinderTest.test_coding_explicit_cp1252) ... ok
+test_coding_explicit_utf8 (original3863.ModuleFinderTest.test_coding_explicit_utf8) ... ok
+test_extended_opargs (original3863.ModuleFinderTest.test_extended_opargs) ... ok
+test_load_module_api (original3863.ModuleFinderTest.test_load_module_api) ... ok
+test_maybe (original3863.ModuleFinderTest.test_maybe) ... ok
+test_maybe_new (original3863.ModuleFinderTest.test_maybe_new) ... ok
+test_package (original3863.ModuleFinderTest.test_package) ... ok
+test_relative_imports (original3863.ModuleFinderTest.test_relative_imports) ... ok
+test_relative_imports_2 (original3863.ModuleFinderTest.test_relative_imports_2) ... ok
+test_relative_imports_3 (original3863.ModuleFinderTest.test_relative_imports_3) ... ok
+test_relative_imports_4 (original3863.ModuleFinderTest.test_relative_imports_4) ... ok
+test_replace_paths (original3863.ModuleFinderTest.test_replace_paths) ... ok
+test_same_name_as_bad (original3863.ModuleFinderTest.test_same_name_as_bad) ... ok
+test_syntax_error (original3863.ModuleFinderTest.test_syntax_error) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 8.072s
+
+OK

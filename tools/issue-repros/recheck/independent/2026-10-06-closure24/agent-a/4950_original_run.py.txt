@@ -1,0 +1,5 @@
+from runner import *
+import re
+body=json.loads((OUT/'sources/4950-issue.stdout').read_text())['body'];code=re.findall(r'```\r?\n(.*?)```',body,re.S)[0].replace('\r\n','\n');p=OUT/'inputs/4950-original.py';p.write_text(code)
+env={k:None for k in os.environ if k.startswith(('PYTHON','RUSTPYTHON','LC_'))};env.update({'LC_ALL':'C','LANG':'C','NO_COLOR':'1'})
+for who,exe in [('rp',BIN),('cp',CP)]:run('4950-original-'+who,4950,[exe,'-B',p],env=env,inputs=[p],judgment='Exact original 10 expression lines including duplicate octal; each executes and no ValueError is expected.')

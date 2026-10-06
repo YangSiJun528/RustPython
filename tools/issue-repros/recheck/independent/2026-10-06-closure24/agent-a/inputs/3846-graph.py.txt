@@ -1,0 +1,41 @@
+import sys, json
+
+
+def issue3846():
+    import dis, modulefinder, pathlib, tempfile, types
+
+    source = (
+        "import first\n"
+        "from package import second\n"
+        "from package.second import value\n"
+        "def nested():\n"
+        "    import nested_dependency\n"
+    )
+    code = compile(source, "<independent-3846>", "exec")
+    assert isinstance(dis.opmap["LOAD_CONST"], int)
+    assert isinstance(dis.EXTENDED_ARG, int)
+    instructions = list(dis._unpack_opargs(code.co_code))
+    assert instructions and all(isinstance(x, tuple) for x in instructions)
+    print("opmap, EXTENDED_ARG, _unpack_opargs: usable")
+    root = pathlib.Path(tempfile.mkdtemp(prefix="modulefinder-"))
+    (root / "package").mkdir()
+    files = {
+        "main.py": source,
+        "first.py": "flag=True\n",
+        "package/__init__.py": "from . import second\n",
+        "package/second.py": "value=42\n",
+        "nested_dependency.py": "x=1\n",
+    }
+    for name, content in files.items():
+        with (root / name).open("x") as out:
+            out.write(content)
+    finder = modulefinder.ModuleFinder(path=[str(root)])
+    finder.run_script(str(root / "main.py"))
+    expected = ["__main__", "first", "nested_dependency", "package", "package.second"]
+    assert sorted(finder.modules) == expected, sorted(finder.modules)
+    assert finder.any_missing_maybe() == ([], [])
+    print("module graph:", sorted(finder.modules))
+    print("missing:", finder.any_missing_maybe())
+
+
+globals()["issue" + sys.argv[1]]()

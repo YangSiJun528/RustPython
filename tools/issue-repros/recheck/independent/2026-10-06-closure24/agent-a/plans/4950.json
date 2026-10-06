@@ -1,0 +1,14 @@
+{
+  "issue": 4950,
+  "url": "https://github.com/RustPython/RustPython/issues/4950",
+  "title": "Additional format cases that fails to support bool value ",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 3,
+  "declared_comments": 3,
+  "original_scope": "All bool formats f x X e E c g o % and comment-added n work.",
+  "independent_plan": "Run every occurrence (o duplicated), False and True if draft asserts; display repr including NUL for c; enumerate and apply locales before n checks.",
+  "limitations_and_source_corrections": "Original Ubuntu 18.04 RustPython 0.2.0 fa790558211ec690541299258f44d7453501958a and CPython 3.8/3.9/3.11.3. Typo VauleError is prose.",
+  "saved_utc": "2026-10-05T16:10:32.569547+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

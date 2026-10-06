@@ -1,0 +1,1 @@
+Module(body=[Expr(value=Subscript(value=Name(id='A', ctx=Load()), slice=Tuple(elts=[Slice(lower=Constant(value=1), upper=Constant(value=2)), Starred(value=Name(id='l', ctx=Load()), ctx=Load())], ctx=Load()), ctx=Load()))])

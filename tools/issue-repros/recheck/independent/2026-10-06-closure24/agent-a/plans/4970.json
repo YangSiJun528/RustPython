@@ -1,0 +1,14 @@
+{
+  "issue": 4970,
+  "url": "https://github.com/RustPython/RustPython/issues/4970",
+  "title": "test_format.py failed on test_locale if LC_ALL is not set",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 1,
+  "declared_comments": 1,
+  "original_scope": "test_format.FormatTest.test_locale works when LC_ALL is genuinely absent; integer n locale grouping.",
+  "independent_plan": "Inspect target original test and required locales, enumerate availability, unset LC_ALL (not empty), execute unchanged test with actual test count/skips, inspect requested locale applications, compare CPython same test where compatible.",
+  "limitations_and_source_corrections": "Linked #4613 explains n localization; unavailable locale or skip cannot establish pass.",
+  "saved_utc": "2026-10-05T16:10:32.569994+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

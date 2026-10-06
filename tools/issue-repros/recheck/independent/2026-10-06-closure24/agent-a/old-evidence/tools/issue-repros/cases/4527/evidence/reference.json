@@ -1,0 +1,10 @@
+{
+  "version": "3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]",
+  "recorded_on": "2026-10-04",
+  "platform": "macOS ARM64",
+  "version_source": "verification-results.json: cases/issue-4527-case-01/current/cpython_version",
+  "survey_sha256": "5e117afb14418ccdbe93bd10b0492e76b4c9208fc6c24d264db4d9b53e9567e2",
+  "source_record": "logs/issue-4527-case-01/cpython-01.stdout",
+  "code_sha256": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d",
+  "input_equivalence": "Canonical repro.py and archived CPython input have identical Python ASTs; formatting may differ."
+}

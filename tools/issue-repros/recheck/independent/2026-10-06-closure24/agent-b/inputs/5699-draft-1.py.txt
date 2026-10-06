@@ -1,0 +1,10 @@
+import sys
+
+if sys.argv[1] == "builtin":
+    ZeroDivisionErrrrr
+elif sys.argv[1] == "stdlib":
+    io.StringIO()
+elif sys.argv[1] == "zero":
+    1 / 0
+else:
+    raise ExceptionGroup("uncaught group", [ValueError("v"), TypeError("t")])

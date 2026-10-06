@@ -1,0 +1,2 @@
+import dis
+print(repr(dis._unpack_opargs(100)))

@@ -1,0 +1,8 @@
+from runner import *
+changes={4762:['17957405175cd9a62cb15685c2a97ea9f53be28d'],4786:['b6aacbf4016ec614b3508fd2778de4b3a29d4aef','9b2ad34a084a95d55105e32708e039bff11f7ccc'],3418:['afad92bf1b78e33c53b9018fef31233cefcb5225'],3430:['f91ffe34d45ec744cd0d6e00703ed3eb19db0c22','358f6a875afa154f9eb04411c0bc8288b2f1082a'],4527:['3814348943491629c37d916af69a5f6ce24b4167'],4950:['3d2c51962bfdc598310df648dab328bd4550c95b'],4970:['1bd40ffd86c289f6fe4e22770f271d0b65636fca'],6429:['3e2ada058651d9a1648bdb1453999758a32c4d13'],2527:['46a86ec03663f060d1013dda83ab7964a6615059'],4541:['d4be55c2ea02b67d92c04b3e9f682d465acd59b3','64c66e00d68c70fed261f8b46720438efda746b5','7c6c78f95525c091eb872d96b73090e7454be6d5'],3846:['093ba251abbb671b0c3870b4dcb467f65c567c86']}
+for n,commits in changes.items():
+ for c in commits:
+  run(f'{n}-change-{c[:9]}',n,['git','show','--first-parent','--format=fuller','--find-renames',c],timeout=30)
+  run(f'{n}-ancestor-{c[:9]}',n,['git','merge-base','--is-ancestor',c,'f39b054b9c8cbbf884f53123eef028131789990c'])
+run('4784-api-http',4784,['curl','--silent','--show-error','--location','--max-time','30','--output',str(OUT/'sources/4784-api.html'),'--dump-header',str(OUT/'sources/4784-api-headers.txt'),'--write-out','status=%{http_code}\nurl=%{url_effective}\n','https://docs.rs/rustpython/latest/rustpython/struct.InterpreterBuilder.html'],timeout=35)
+run('4950-parser-pr91',4950,['gh','api','repos/RustPython/Parser/pulls/91/files?per_page=100'],timeout=35)

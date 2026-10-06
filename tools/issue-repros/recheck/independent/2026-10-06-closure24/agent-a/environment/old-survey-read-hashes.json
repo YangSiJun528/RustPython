@@ -1,0 +1,352 @@
+{
+  "<survey>/logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stderr": {
+    "sha256_before": "8708caee74853d30e6e0b3ad30823fd1425736dc23231fc71854c04f6ad33708",
+    "sha256_after": "8708caee74853d30e6e0b3ad30823fd1425736dc23231fc71854c04f6ad33708",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-01/historical-fa79055821-01-75703bc4-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stderr": {
+    "sha256_before": "3cb57107855301f9348115182579db202f704752d11a9af2f1e2f159993f9501",
+    "sha256_after": "3cb57107855301f9348115182579db202f704752d11a9af2f1e2f159993f9501",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-01/historical-fa79055821-02-b2e44591-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stderr": {
+    "sha256_before": "70c659f73f0c6c2b3772e32c7facbfea23e8548f34660e558b2522e3444861f5",
+    "sha256_after": "70c659f73f0c6c2b3772e32c7facbfea23e8548f34660e558b2522e3444861f5",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-02/historical-fa79055821-01-6377cef9-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stderr": {
+    "sha256_before": "349a24a6569a5bc3f6c7a20a79edbdea1e8f1b0d0fce4e427f1de44c2d6d390c",
+    "sha256_after": "349a24a6569a5bc3f6c7a20a79edbdea1e8f1b0d0fce4e427f1de44c2d6d390c",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-02/historical-fa79055821-02-2e437aac-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stderr": {
+    "sha256_before": "983272e56f8e12b88dbe79cf4cfa5ec9a36ff0136bdbc2b78ddebb71f8aea55b",
+    "sha256_after": "983272e56f8e12b88dbe79cf4cfa5ec9a36ff0136bdbc2b78ddebb71f8aea55b",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-03/historical-fa79055821-01-9fbf9a3f-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stderr": {
+    "sha256_before": "e6f959f94bcb28d6c5cba07673f1de1ec0bf2a948696494aef2ce007c403d626",
+    "sha256_after": "e6f959f94bcb28d6c5cba07673f1de1ec0bf2a948696494aef2ce007c403d626",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-03/historical-fa79055821-02-d98fd71a-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stderr": {
+    "sha256_before": "f35da71260d911fb6ce4faf15d2da6ef6592682144ffa59a7831ea73da1a1887",
+    "sha256_after": "f35da71260d911fb6ce4faf15d2da6ef6592682144ffa59a7831ea73da1a1887",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-04/historical-fa79055821-01-81b97ae1-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stderr": {
+    "sha256_before": "5deccd69c306d481d19b6317bc8a1a705b13f0280081f34aeec8a68679186621",
+    "sha256_after": "5deccd69c306d481d19b6317bc8a1a705b13f0280081f34aeec8a68679186621",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-04/historical-fa79055821-02-8cd70876-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stderr": {
+    "sha256_before": "d753a30d83eb5d42e1f9795293eb2864349e8614ef132bea1576d6c639fb26f2",
+    "sha256_after": "d753a30d83eb5d42e1f9795293eb2864349e8614ef132bea1576d6c639fb26f2",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-05/historical-fa79055821-01-cddac37a-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stderr": {
+    "sha256_before": "01a23a71a06c28856073b73fe3df500962edd53124bb1033576c139bbd406510",
+    "sha256_after": "01a23a71a06c28856073b73fe3df500962edd53124bb1033576c139bbd406510",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-05/historical-fa79055821-02-4ab03d61-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stderr": {
+    "sha256_before": "182264b54971b582473dc80672a54327850fdd5c178a41a90ebb3f489179bb2f",
+    "sha256_after": "182264b54971b582473dc80672a54327850fdd5c178a41a90ebb3f489179bb2f",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-06/historical-fa79055821-01-a952e209-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stderr": {
+    "sha256_before": "cecf91ac46c7540924038391bb9419ef1e9551524a03e29e3188b85ef81e42f8",
+    "sha256_after": "cecf91ac46c7540924038391bb9419ef1e9551524a03e29e3188b85ef81e42f8",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-06/historical-fa79055821-02-01087bc7-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stderr": {
+    "sha256_before": "8951e06fca37e6235068aa91b4e0d7db3c7fbda3ab57db4b0dd5b0e0cfd81383",
+    "sha256_after": "8951e06fca37e6235068aa91b4e0d7db3c7fbda3ab57db4b0dd5b0e0cfd81383",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-07/historical-fa79055821-01-c8a4b5ea-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stderr": {
+    "sha256_before": "e53e765747e93b5852db568ce9ecff2175e4ef476df4687db21499362d0216c5",
+    "sha256_after": "e53e765747e93b5852db568ce9ecff2175e4ef476df4687db21499362d0216c5",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-07/historical-fa79055821-02-1fdaa574-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stderr": {
+    "sha256_before": "12d536bfaa69c652a4b84e79b119e6518b634012c9d4e8326159759ed4eacd8f",
+    "sha256_after": "12d536bfaa69c652a4b84e79b119e6518b634012c9d4e8326159759ed4eacd8f",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-08/historical-fa79055821-01-c45afd3e-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stderr": {
+    "sha256_before": "8c62ebdc6c464b4d9f24e4d7e6fb9b0cea90b3ec654df7c03f677fde5cf660d4",
+    "sha256_after": "8c62ebdc6c464b4d9f24e4d7e6fb9b0cea90b3ec654df7c03f677fde5cf660d4",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-08/historical-fa79055821-02-0c6076c9-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stderr": {
+    "sha256_before": "ea358add8ee0e23390408a3d0b9d0e5dd982f4055b2707296f5e29c101ea6801",
+    "sha256_after": "ea358add8ee0e23390408a3d0b9d0e5dd982f4055b2707296f5e29c101ea6801",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-09/historical-fa79055821-01-05563f75-6d760217.stdout"
+  },
+  "<survey>/logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stderr": {
+    "sha256_before": "404b8518c5326e459d2f7da9675005e2933776500bb5691045a87746f4ea7c6f",
+    "sha256_after": "404b8518c5326e459d2f7da9675005e2933776500bb5691045a87746f4ea7c6f",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stderr"
+  },
+  "<survey>/logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4950-case-09/historical-fa79055821-02-c338bca2-6d760217.stdout"
+  },
+  "<survey>/repros/4950/issue-4950-case-01/source-01.py": {
+    "sha256_before": "75703bc41524da9773a244f9abea5d31957ab136104d909edd3dfb1ad9931da5",
+    "sha256_after": "75703bc41524da9773a244f9abea5d31957ab136104d909edd3dfb1ad9931da5",
+    "copy": "<closure24-audit>/agent-a/old-survey/repros/4950/issue-4950-case-01/source-01.py"
+  },
+  "<survey>/repros/4950/issue-4950-case-02/source-01.py": {
+    "sha256_before": "6377cef92ce86f2ec9eac5d93aebe379e361ebbc455c2734f3abf647ee96869a",
+    "sha256_after": "6377cef92ce86f2ec9eac5d93aebe379e361ebbc455c2734f3abf647ee96869a",
+    "copy": "<closure24-audit>/agent-a/old-survey/repros/4950/issue-4950-case-02/source-01.py"
+  },
+  "<survey>/repros/4950/issue-4950-case-03/source-01.py": {
+    "sha256_before": "9fbf9a3f13a1ac98a65fb9829c244ddd4b58ecc54f23323f76c3b43ae4711a41",
+    "sha256_after": "9fbf9a3f13a1ac98a65fb9829c244ddd4b58ecc54f23323f76c3b43ae4711a41",
+    "copy": "<closure24-audit>/agent-a/old-survey/repros/4950/issue-4950-case-03/source-01.py"
+  },
+  "<survey>/repros/4950/issue-4950-case-04/source-01.py": {
+    "sha256_before": "81b97ae129791c22f37a733a1e64b6f71a8330e8afb139b604286233553bb805",
+    "sha256_after": "81b97ae129791c22f37a733a1e64b6f71a8330e8afb139b604286233553bb805",
+    "copy": "<closure24-audit>/agent-a/old-survey/repros/4950/issue-4950-case-04/source-01.py"
+  },
+  "<survey>/repros/4950/issue-4950-case-05/source-01.py": {
+    "sha256_before": "cddac37ab1f52d9dcecec93ee3411911551acbd1e5da8b5963e33e8cc13fee7c",
+    "sha256_after": "cddac37ab1f52d9dcecec93ee3411911551acbd1e5da8b5963e33e8cc13fee7c",
+    "copy": "<closure24-audit>/agent-a/old-survey/repros/4950/issue-4950-case-05/source-01.py"
+  },
+  "<survey>/repros/4950/issue-4950-case-06/source-01.py": {
+    "sha256_before": "a952e209e899b544a640e73504d76f01fb954ee310e812fb66ef2889c078de64",
+    "sha256_after": "a952e209e899b544a640e73504d76f01fb954ee310e812fb66ef2889c078de64",
+    "copy": "<closure24-audit>/agent-a/old-survey/repros/4950/issue-4950-case-06/source-01.py"
+  },
+  "<survey>/repros/4950/issue-4950-case-07/source-01.py": {
+    "sha256_before": "c8a4b5ea79424c080963d5c8c21d34f486d15a825cfaf9936053a0f3a3858d93",
+    "sha256_after": "c8a4b5ea79424c080963d5c8c21d34f486d15a825cfaf9936053a0f3a3858d93",
+    "copy": "<closure24-audit>/agent-a/old-survey/repros/4950/issue-4950-case-07/source-01.py"
+  },
+  "<survey>/repros/4950/issue-4950-case-08/source-01.py": {
+    "sha256_before": "c45afd3e2ddb91ec36aca2244b39f8e0ef8da817661fadc2014766c85b3d4026",
+    "sha256_after": "c45afd3e2ddb91ec36aca2244b39f8e0ef8da817661fadc2014766c85b3d4026",
+    "copy": "<closure24-audit>/agent-a/old-survey/repros/4950/issue-4950-case-08/source-01.py"
+  },
+  "<survey>/repros/4950/issue-4950-case-09/source-01.py": {
+    "sha256_before": "05563f759018a18e077d661f58debd053dc7b98560b539ceed5fcc6c0db62993",
+    "sha256_after": "05563f759018a18e077d661f58debd053dc7b98560b539ceed5fcc6c0db62993",
+    "copy": "<closure24-audit>/agent-a/old-survey/repros/4950/issue-4950-case-09/source-01.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-4950-case-01.py": {
+    "sha256_before": "b2e445913976aefb1d0630002515593496509947428dc2bbcaba9d0043cd93bf",
+    "sha256_after": "b2e445913976aefb1d0630002515593496509947428dc2bbcaba9d0043cd93bf",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-4950-case-01.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-4950-case-02.py": {
+    "sha256_before": "2e437aacdee99bc40f37ddb58d670c607af36f290e7ea547b8f2ffe24611ab07",
+    "sha256_after": "2e437aacdee99bc40f37ddb58d670c607af36f290e7ea547b8f2ffe24611ab07",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-4950-case-02.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-4950-case-03.py": {
+    "sha256_before": "d98fd71af2c2a9252721fe6d4da1d1f50e6b31e85db0f3501eddae1c9b8a1ab9",
+    "sha256_after": "d98fd71af2c2a9252721fe6d4da1d1f50e6b31e85db0f3501eddae1c9b8a1ab9",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-4950-case-03.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-4950-case-04.py": {
+    "sha256_before": "8cd7087653e1f83a013c27b1b90cc5955b8d588f9169c69958e236cb3ab6540d",
+    "sha256_after": "8cd7087653e1f83a013c27b1b90cc5955b8d588f9169c69958e236cb3ab6540d",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-4950-case-04.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-4950-case-05.py": {
+    "sha256_before": "4ab03d61b8c686181e18a10cb3da65fb298a0f408b91beb740dc96bde5307179",
+    "sha256_after": "4ab03d61b8c686181e18a10cb3da65fb298a0f408b91beb740dc96bde5307179",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-4950-case-05.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-4950-case-06.py": {
+    "sha256_before": "01087bc7445d3e3a6eb529e1fafbce971a8125dc2d7caf9ffde6283308e08fbf",
+    "sha256_after": "01087bc7445d3e3a6eb529e1fafbce971a8125dc2d7caf9ffde6283308e08fbf",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-4950-case-06.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-4950-case-07.py": {
+    "sha256_before": "1fdaa574f234db57a2c5cf408ca94b4c05a3a456b97def8007bfc2ef301f9ba5",
+    "sha256_after": "1fdaa574f234db57a2c5cf408ca94b4c05a3a456b97def8007bfc2ef301f9ba5",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-4950-case-07.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-4950-case-08.py": {
+    "sha256_before": "0c6076c9e45e8d6d84d1de3539dc860133d8e0ff0a492561a6b42eef78613b4d",
+    "sha256_after": "0c6076c9e45e8d6d84d1de3539dc860133d8e0ff0a492561a6b42eef78613b4d",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-4950-case-08.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-4950-case-09.py": {
+    "sha256_before": "c338bca27792753414ad37f5ddc34a341ed0548fe4e09921761cc719301ed361",
+    "sha256_after": "c338bca27792753414ad37f5ddc34a341ed0548fe4e09921761cc719301ed361",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-4950-case-09.py"
+  },
+  "<survey>/logs/issue-4970-case-01/historical-catalog-7a6000d181-scratch-actual-locale.stderr": {
+    "sha256_before": "293a6c08efec26e6993b8d18a29413b6ffdf5d546c87e402abe778e27bbe4266",
+    "sha256_after": "293a6c08efec26e6993b8d18a29413b6ffdf5d546c87e402abe778e27bbe4266",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4970-case-01/historical-catalog-7a6000d181-scratch-actual-locale.stderr"
+  },
+  "<survey>/logs/issue-4970-case-01/historical-catalog-7a6000d181-scratch-actual-locale.stdout": {
+    "sha256_before": "5a0bfafe6c38a216ae0df93b29334a55e78ff010395601f09352f21d7c6180f0",
+    "sha256_after": "5a0bfafe6c38a216ae0df93b29334a55e78ff010395601f09352f21d7c6180f0",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4970-case-01/historical-catalog-7a6000d181-scratch-actual-locale.stdout"
+  },
+  "<survey>/logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr": {
+    "sha256_before": "a7c478987554e7c07804065a4b9eaae722bcbb2232107d55b6a010ee1a8a8ac5",
+    "sha256_after": "a7c478987554e7c07804065a4b9eaae722bcbb2232107d55b6a010ee1a8a8ac5",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stderr"
+  },
+  "<survey>/logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4541-case-01/historical-command-746cb0493f-01-1dbcf35b.stdout"
+  },
+  "<survey>/logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr": {
+    "sha256_before": "db359c9ddba94d0b630eb3dda97dd2a150a79c451fd8805a08daa310c61292bf",
+    "sha256_after": "db359c9ddba94d0b630eb3dda97dd2a150a79c451fd8805a08daa310c61292bf",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stderr"
+  },
+  "<survey>/logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-4541-case-01/historical-command-746cb0493f-02-1dbcf35b.stdout"
+  },
+  "<survey>/verification-tools/derived-main/issue-4541-case-01.py": {
+    "sha256_before": "1ac00d4c8b7d69e7836c2baf852ac26a7a457cbd7be87f68a8f5e30924574ade",
+    "sha256_after": "1ac00d4c8b7d69e7836c2baf852ac26a7a457cbd7be87f68a8f5e30924574ade",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-main/issue-4541-case-01.py"
+  },
+  "<survey>/logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr": {
+    "sha256_before": "3b160541b479c3119e8e1deae9cb782ca5995e7276b6e42b8d7ffd130dc52f74",
+    "sha256_after": "3b160541b479c3119e8e1deae9cb782ca5995e7276b6e42b8d7ffd130dc52f74",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stderr"
+  },
+  "<survey>/logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-3846-case-01/historical-5631d2102b-01-7f102daa-1ca15133.stdout"
+  },
+  "<survey>/logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr": {
+    "sha256_before": "164230a2fa4bfd9566a84877aee54470c7855ae0872d7a5c0337a7ad134dbb1b",
+    "sha256_after": "164230a2fa4bfd9566a84877aee54470c7855ae0872d7a5c0337a7ad134dbb1b",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stderr"
+  },
+  "<survey>/logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-3846-case-02/historical-5631d2102b-01-1e4ff2f5-1ca15133.stdout"
+  },
+  "<survey>/logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr": {
+    "sha256_before": "59f4cdea75a3a376fdb044e203b70ce0471445a2a1e2e7892195d428577283a3",
+    "sha256_after": "59f4cdea75a3a376fdb044e203b70ce0471445a2a1e2e7892195d428577283a3",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stderr"
+  },
+  "<survey>/logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout": {
+    "sha256_before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "sha256_after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "copy": "<closure24-audit>/agent-a/old-survey/logs/issue-3846-case-03/historical-5631d2102b-01-60066a5c-1ca15133.stdout"
+  },
+  "<survey>/verification-tools/derived-a/issue-3846-case-01.py": {
+    "sha256_before": "7f102daa75e4f5c5ee5b39f78b39060613b3d72a1bf39de2528f1379ec541402",
+    "sha256_after": "7f102daa75e4f5c5ee5b39f78b39060613b3d72a1bf39de2528f1379ec541402",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-3846-case-01.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-3846-case-02.py": {
+    "sha256_before": "1e4ff2f5c7b933128a82d65527c1a1cf0b1f0e39e7a7b9ae0b7ba6ca341a0942",
+    "sha256_after": "1e4ff2f5c7b933128a82d65527c1a1cf0b1f0e39e7a7b9ae0b7ba6ca341a0942",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-3846-case-02.py"
+  },
+  "<survey>/verification-tools/derived-a/issue-3846-case-03.py": {
+    "sha256_before": "60066a5cfb5bac872c67fd63e13b69e961ab6b52ada2959a25115bdf995098ac",
+    "sha256_after": "60066a5cfb5bac872c67fd63e13b69e961ab6b52ada2959a25115bdf995098ac",
+    "copy": "<closure24-audit>/agent-a/old-survey/verification-tools/derived-a/issue-3846-case-03.py"
+  }
+}

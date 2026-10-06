@@ -1,0 +1,15 @@
+from runner import *
+for n in [4762,4786,3418,3430,4527,4950,4970,6429,2527,4541,3846,4784]:run(f'draft-{n}',n,['git','show',f'ad600eb347fd7de31a453dd56cd377d6ae948c10:tools/issue-repros/recheck/cases/{n}/README.md'])
+paths=[BIN,ROOT/'AGENTS.md',ROOT/'README.md',ROOT/'Cargo.lock',*BIN.parent.glob('build/rustpython-*/output'),*BIN.parent.glob('.fingerprint/rustpython-*/bin-rustpython.json'),BIN.parent/'rustpython.d']
+manifest={str(p):{'sha256':sha(p),'size':p.stat().st_size,'mtime':p.stat().st_mtime,'realpath':str(p.resolve())} for p in paths if p.is_file()}
+(OUT/'environment/reused-before.json').write_text(json.dumps(manifest,indent=2)+'\n')
+code='''import sys,os,platform,locale,importlib,json
+print("version",sys.version);print("executable",sys.executable);print("implementation",sys.implementation);print("arch",platform.machine());print("cwd",os.getcwd());print("path",repr(sys.path));print("flags",sys.flags)
+for name in ["collections","xml.etree.ElementTree","dis","modulefinder","locale","sysconfig","test.test_format","test.test_types"]:
+ try:
+  m=importlib.import_module(name);print("MODULE",name,repr(getattr(m,"__file__",None)))
+ except Exception as e:print("IMPORT_ERROR",name,repr(e))
+print("locale",locale.setlocale(locale.LC_ALL));print("LC_ALL",repr(os.environ.get("LC_ALL")))
+'''
+p=OUT/'inputs/identity.py';p.write_text(code)
+for name,exe in [('rp',BIN),('cp',CP)]:run('identity-imports-'+name,None,[exe,'-B',p],inputs=[p],env={'PYTHONPATH':None})

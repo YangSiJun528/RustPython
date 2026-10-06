@@ -1,0 +1,952 @@
+{
+  "<survey>/.build/slot-a/verification/rustpython": {
+    "before": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+    "after": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+    "unchanged": true
+  },
+  "<workspace>/AGENTS.md": {
+    "before": "3b2ec47e5e6d9fea54fcf0c32f08aead3c97b6f1a88269c8d020becb88cdc132",
+    "after": "3b2ec47e5e6d9fea54fcf0c32f08aead3c97b6f1a88269c8d020becb88cdc132",
+    "unchanged": true
+  },
+  "<workspace>/README.md": {
+    "before": "f2c2d8763b1a5689a33f82dd28184d7207845292a30b09be06132a35c14337bc",
+    "after": "f2c2d8763b1a5689a33f82dd28184d7207845292a30b09be06132a35c14337bc",
+    "unchanged": true
+  },
+  "<workspace>/Cargo.lock": {
+    "before": "a8ae29f11a8d18c3d2eb25b8ec82078ceb9abe239bd3942a58a3607718743786",
+    "after": "a8ae29f11a8d18c3d2eb25b8ec82078ceb9abe239bd3942a58a3607718743786",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-unicode-c0c44c3ebc1dd0d3/output": {
+    "before": "b2fce9c7fed429ffa693e4b40a75a9cff1e11b3ff52b282a2ba815793365b092",
+    "after": "b2fce9c7fed429ffa693e4b40a75a9cff1e11b3ff52b282a2ba815793365b092",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-vm-6e3530df589ea608/output": {
+    "before": "314b80a9d8e2ad4cd6032499c0eb0bf52847361f046ba094e86b911265823edf",
+    "after": "314b80a9d8e2ad4cd6032499c0eb0bf52847361f046ba094e86b911265823edf",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-pylib-a8b13d3aa7cebb5f/output": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-host_env-07cb217215ed9788/output": {
+    "before": "39e4e16bbf6b0f5382de3847e15e820a06636e3991343d1ae287f85ed7f4d638",
+    "after": "39e4e16bbf6b0f5382de3847e15e820a06636e3991343d1ae287f85ed7f4d638",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-stdlib-c9f14aa7f1a38efe/output": {
+    "before": "e46c801297658c73f93807725853359fd9493507619607ee4ad56c1282b152ca",
+    "after": "e46c801297658c73f93807725853359fd9493507619607ee4ad56c1282b152ca",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-doc-016f7139f089e2fb/output": {
+    "before": "2582663a90eb23c1451273ecd9b01d16bb2e6d32c2419808a74031598d6ad060",
+    "after": "2582663a90eb23c1451273ecd9b01d16bb2e6d32c2419808a74031598d6ad060",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-unicode-f904d845cb598554/output": {
+    "before": "b2fce9c7fed429ffa693e4b40a75a9cff1e11b3ff52b282a2ba815793365b092",
+    "after": "b2fce9c7fed429ffa693e4b40a75a9cff1e11b3ff52b282a2ba815793365b092",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-vm-e7951d47623808ed/output": {
+    "before": "314b80a9d8e2ad4cd6032499c0eb0bf52847361f046ba094e86b911265823edf",
+    "after": "314b80a9d8e2ad4cd6032499c0eb0bf52847361f046ba094e86b911265823edf",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-doc-27b917bac9566e17/output": {
+    "before": "2582663a90eb23c1451273ecd9b01d16bb2e6d32c2419808a74031598d6ad060",
+    "after": "2582663a90eb23c1451273ecd9b01d16bb2e6d32c2419808a74031598d6ad060",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-host_env-01f530d51974c0ae/output": {
+    "before": "39e4e16bbf6b0f5382de3847e15e820a06636e3991343d1ae287f85ed7f4d638",
+    "after": "39e4e16bbf6b0f5382de3847e15e820a06636e3991343d1ae287f85ed7f4d638",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-unicode-30eecd779d0b5516/output": {
+    "before": "b2fce9c7fed429ffa693e4b40a75a9cff1e11b3ff52b282a2ba815793365b092",
+    "after": "b2fce9c7fed429ffa693e4b40a75a9cff1e11b3ff52b282a2ba815793365b092",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-doc-7a1ef65f76069e73/output": {
+    "before": "2582663a90eb23c1451273ecd9b01d16bb2e6d32c2419808a74031598d6ad060",
+    "after": "2582663a90eb23c1451273ecd9b01d16bb2e6d32c2419808a74031598d6ad060",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-unicode-f2cda464830ebc72/output": {
+    "before": "b2fce9c7fed429ffa693e4b40a75a9cff1e11b3ff52b282a2ba815793365b092",
+    "after": "b2fce9c7fed429ffa693e4b40a75a9cff1e11b3ff52b282a2ba815793365b092",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-8c9bc256bc0ef443/output": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-doc-0c23cb68ab266beb/output": {
+    "before": "2582663a90eb23c1451273ecd9b01d16bb2e6d32c2419808a74031598d6ad060",
+    "after": "2582663a90eb23c1451273ecd9b01d16bb2e6d32c2419808a74031598d6ad060",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-stdlib-4a759260af551e17/output": {
+    "before": "e46c801297658c73f93807725853359fd9493507619607ee4ad56c1282b152ca",
+    "after": "e46c801297658c73f93807725853359fd9493507619607ee4ad56c1282b152ca",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-pylib-d8589acf4f642234/output": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/build/rustpython-558e6092c4b9c85e/output": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/.fingerprint/rustpython-6a4d21a619585c77/bin-rustpython.json": {
+    "before": "25b7572c55c17fd6c91106e63bb851a078075d9fb263a6ea184230494f1cb566",
+    "after": "25b7572c55c17fd6c91106e63bb851a078075d9fb263a6ea184230494f1cb566",
+    "unchanged": true
+  },
+  "<survey>/.build/slot-a/verification/rustpython.d": {
+    "before": "15e54d83b196079adbc248fb6e7435e1140990836e44f92e62a068948cf9bfcd",
+    "after": "15e54d83b196079adbc248fb6e7435e1140990836e44f92e62a068948cf9bfcd",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4762/README.md": {
+    "before": "31bdaacccc5459cb4bedcc1e4a97e7cdab79d3eb337dfd7443e56d988fbec595",
+    "after": "31bdaacccc5459cb4bedcc1e4a97e7cdab79d3eb337dfd7443e56d988fbec595",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original-cp.json": {
+    "before": "088c8eefd249c9649b3c8724dff27539230fb38fc56c7beabaff8830233e55c7",
+    "after": "088c8eefd249c9649b3c8724dff27539230fb38fc56c7beabaff8830233e55c7",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original-rp.json": {
+    "before": "58e3cc6015f90ae35575601addc82c739076ca4918a7dd97e4c73f3fae398bca",
+    "after": "58e3cc6015f90ae35575601addc82c739076ca4918a7dd97e4c73f3fae398bca",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4762-original.py.txt": {
+    "before": "5d3dafda40d639e3e3ee81737fa1cbe1e14478fbbb1bb069a222c2a679d3bf9f",
+    "after": "5d3dafda40d639e3e3ee81737fa1cbe1e14478fbbb1bb069a222c2a679d3bf9f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4762/assessment.json": {
+    "before": "93ac5f066347d7c96264c9f4a7b21291a4b06601341b7946716d5cfd80a98aa7",
+    "after": "93ac5f066347d7c96264c9f4a7b21291a4b06601341b7946716d5cfd80a98aa7",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/evidence/metadata.json": {
+    "before": "f3ae6cba63d62b2a29f66e7fe26eedeeada98a203e313a553a7862dcf271377c",
+    "after": "f3ae6cba63d62b2a29f66e7fe26eedeeada98a203e313a553a7862dcf271377c",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4786/README.md": {
+    "before": "81c7349668c1cd5093657defa9194aa9225649f5381a02c996d786b9bcc48558",
+    "after": "81c7349668c1cd5093657defa9194aa9225649f5381a02c996d786b9bcc48558",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original-cp.json": {
+    "before": "d7d11f05bd4537fef5bc7b292d3ff1eec0ab159926fe4745b0217047b7b079fe",
+    "after": "d7d11f05bd4537fef5bc7b292d3ff1eec0ab159926fe4745b0217047b7b079fe",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original-rp.json": {
+    "before": "b9aebfb2f90fc9618b327742ebb95177472ec12c81123819e31ee6653b52db1f",
+    "after": "b9aebfb2f90fc9618b327742ebb95177472ec12c81123819e31ee6653b52db1f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4786-original.py.txt": {
+    "before": "f9a07b6de9e517d34dfef0f28920c72d0bcf48298f8cdcdf56568f57c58b29b0",
+    "after": "f9a07b6de9e517d34dfef0f28920c72d0bcf48298f8cdcdf56568f57c58b29b0",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4786/assessment.json": {
+    "before": "2f71de52a0e12a1844107ee0a19294a7bfb77cd3e428cb3c6495b4fd35aaa397",
+    "after": "2f71de52a0e12a1844107ee0a19294a7bfb77cd3e428cb3c6495b4fd35aaa397",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/evidence/metadata.json": {
+    "before": "d2eb3b2226a04ad1184769fa31fc148f1df2be4ecd77ecc1676944af16b2f7d6",
+    "after": "d2eb3b2226a04ad1184769fa31fc148f1df2be4ecd77ecc1676944af16b2f7d6",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3418/README.md": {
+    "before": "8501c673805d41cff76bb362e78804366813115040805585788dd0076884fecb",
+    "after": "8501c673805d41cff76bb362e78804366813115040805585788dd0076884fecb",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original-cp.json": {
+    "before": "7251d33d34db65de2144034e92150694a9ac4a04f2427f11abe7322be8c53352",
+    "after": "7251d33d34db65de2144034e92150694a9ac4a04f2427f11abe7322be8c53352",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original-rp.json": {
+    "before": "d2e6d772e77a8c8b459e4954647c9cbbb88a41290ad152397f9e6ce9e5b47296",
+    "after": "d2e6d772e77a8c8b459e4954647c9cbbb88a41290ad152397f9e6ce9e5b47296",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3418-original.py.txt": {
+    "before": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+    "after": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3418/assessment.json": {
+    "before": "900db7b0eeb0db54cf713ff660831c3d7a8cfc1615d87c2d35d526076e8c56bd",
+    "after": "900db7b0eeb0db54cf713ff660831c3d7a8cfc1615d87c2d35d526076e8c56bd",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/evidence/metadata.json": {
+    "before": "bc623d7392ca89ad7f853dae7286e8b208c4b28b71d53be0fc2702d2e90dcf93",
+    "after": "bc623d7392ca89ad7f853dae7286e8b208c4b28b71d53be0fc2702d2e90dcf93",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3430/README.md": {
+    "before": "e9c4a164627242e28e95ef7cd3ce775357affc67fcffec45762e5fb53877e9fa",
+    "after": "e9c4a164627242e28e95ef7cd3ce775357affc67fcffec45762e5fb53877e9fa",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original-cp.json": {
+    "before": "5acda82dfdc3e42fba41492afe197c171e842bb6f352236eea72b864fa45c19d",
+    "after": "5acda82dfdc3e42fba41492afe197c171e842bb6f352236eea72b864fa45c19d",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original-rp.json": {
+    "before": "63a894c5cc8c0f17e67c5ad9e5436e5d0ff3d39c0c90c5c11f57c8c16ef6d962",
+    "after": "63a894c5cc8c0f17e67c5ad9e5436e5d0ff3d39c0c90c5c11f57c8c16ef6d962",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/3430-original.py.txt": {
+    "before": "19c65c7c2b2824ce96f3001be6ef0fcc6f372b09860c57e1a7144e88b7b17870",
+    "after": "19c65c7c2b2824ce96f3001be6ef0fcc6f372b09860c57e1a7144e88b7b17870",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3430/assessment.json": {
+    "before": "8ee9570e7968e144cac1a13e0fee1b5006b6698c27d88efb43f312f757a51831",
+    "after": "8ee9570e7968e144cac1a13e0fee1b5006b6698c27d88efb43f312f757a51831",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/evidence/metadata.json": {
+    "before": "cfec2c99d3edfcb0ca414e415075dd35250c7b1ceced33a3e880eb36858cc567",
+    "after": "cfec2c99d3edfcb0ca414e415075dd35250c7b1ceced33a3e880eb36858cc567",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4527/README.md": {
+    "before": "f32e17b1207f74f0d9606305cd8083595d21c94b72a064aef0ce83486d159a21",
+    "after": "f32e17b1207f74f0d9606305cd8083595d21c94b72a064aef0ce83486d159a21",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original-cp.json": {
+    "before": "d4d78a33a0b39b21c1a421d52700eefc2be1329a48570e0d862f22ed07927c47",
+    "after": "d4d78a33a0b39b21c1a421d52700eefc2be1329a48570e0d862f22ed07927c47",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original-rp.json": {
+    "before": "baac45b62dc8f872d3b8c1634114c507855af6eb266934807803290c473b4290",
+    "after": "baac45b62dc8f872d3b8c1634114c507855af6eb266934807803290c473b4290",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-a/4527-original.py.txt": {
+    "before": "9855fcf04216ce2fe520ca86d42e7e64bea2071ed4465bc787be88695e90aaac",
+    "after": "9855fcf04216ce2fe520ca86d42e7e64bea2071ed4465bc787be88695e90aaac",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4527/assessment.json": {
+    "before": "d1acd5006d8610d6d03595d30c172b218cd0d6efcd7a42facf65a6a033cd807e",
+    "after": "d1acd5006d8610d6d03595d30c172b218cd0d6efcd7a42facf65a6a033cd807e",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/evidence/metadata.json": {
+    "before": "9e44c8330a155b3c0f67470ebeae4751d0287a4278d4d0eb365caeafe3016821",
+    "after": "9e44c8330a155b3c0f67470ebeae4751d0287a4278d4d0eb365caeafe3016821",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4950/README.md": {
+    "before": "4e4f00544ad78bdb7993c74640f5a4ca8e4dd4880c63c52b564f5f2a714fa064",
+    "after": "4e4f00544ad78bdb7993c74640f5a4ca8e4dd4880c63c52b564f5f2a714fa064",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4950-cpython.json": {
+    "before": "f5a6b7ef8f50ce95a8e3e2f8f30782a1edb8ff912b79b5ab9a830c9c37050ac8",
+    "after": "f5a6b7ef8f50ce95a8e3e2f8f30782a1edb8ff912b79b5ab9a830c9c37050ac8",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4950-rustpython.json": {
+    "before": "a4e87d90130409c4ce23924f0bdf528b57db70d79043e1a10d23ac7e7400133f",
+    "after": "a4e87d90130409c4ce23924f0bdf528b57db70d79043e1a10d23ac7e7400133f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/probes.py.txt": {
+    "before": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+    "after": "f1639b6ade7e17d8a83d1e2d32d4f0f3fe2cb248062b66b9a702ff04f622c369",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4950/assessment.json": {
+    "before": "46fddac074fae4f21c9bfb9640833c70e376c8830a8c4589afb3d2f72c67063d",
+    "after": "46fddac074fae4f21c9bfb9640833c70e376c8830a8c4589afb3d2f72c67063d",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4950/reused-history.json": {
+    "before": "6013f702d4421d16a4bb1d5acbcd3b76e5cec2034655087309105225d05ad373",
+    "after": "6013f702d4421d16a4bb1d5acbcd3b76e5cec2034655087309105225d05ad373",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4970/README.md": {
+    "before": "d4c40ea2bf6749787060e7aedccee0a2c2ad1e371374e9242b5bd32a0256d9a4",
+    "after": "d4c40ea2bf6749787060e7aedccee0a2c2ad1e371374e9242b5bd32a0256d9a4",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-b/locale-original-unset-cpython.json": {
+    "before": "836663e245ce48dceaf020521604c5516207d3a7b5e8ed77e1873608644b180e",
+    "after": "836663e245ce48dceaf020521604c5516207d3a7b5e8ed77e1873608644b180e",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-b/locale-original-unset-rustpython.json": {
+    "before": "6c104ea2829336da386909690fd0910e8276aed4b53f2326b1c807da3a506b50",
+    "after": "6c104ea2829336da386909690fd0910e8276aed4b53f2326b1c807da3a506b50",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-b/probe-original-locale-tests.py.txt": {
+    "before": "f399bc0c96f69b8955286f68c3e50f9b5ccef4e464eae5786b483e77942f84d7",
+    "after": "f399bc0c96f69b8955286f68c3e50f9b5ccef4e464eae5786b483e77942f84d7",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4970/assessment.json": {
+    "before": "ebcdc36c5e79b5b6e20b75407db6ba0404174d11be355cb2d068d52ae4ce6c14",
+    "after": "ebcdc36c5e79b5b6e20b75407db6ba0404174d11be355cb2d068d52ae4ce6c14",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4970/reused-history.json": {
+    "before": "2ce7cbc2322421acd60cad03c0e2167eac65a532c53b9e9a43ee5b7c26e039d9",
+    "after": "2ce7cbc2322421acd60cad03c0e2167eac65a532c53b9e9a43ee5b7c26e039d9",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/6429/README.md": {
+    "before": "a6cfe57cf4158f93b6f122f7a8f774febb2e6e7dc25a1eb8f2091183cab9b894",
+    "after": "a6cfe57cf4158f93b6f122f7a8f774febb2e6e7dc25a1eb8f2091183cab9b894",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-6429-cp.json": {
+    "before": "36b5325456a681a985e119e28745b42025c323003d24b807357b223e743252b2",
+    "after": "36b5325456a681a985e119e28745b42025c323003d24b807357b223e743252b2",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-6429-rp.json": {
+    "before": "ad454035b29fd3dd335ac7fd2e5bb99f759f10e06ece6b4b4fc095b3b01e7f52",
+    "after": "ad454035b29fd3dd335ac7fd2e5bb99f759f10e06ece6b4b4fc095b3b01e7f52",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/probe-6429.py.txt": {
+    "before": "0bad35d33dda99fb37afc5a8a4f45f5d7b375b4879ac848b1fe98fa49b8f7d80",
+    "after": "0bad35d33dda99fb37afc5a8a4f45f5d7b375b4879ac848b1fe98fa49b8f7d80",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/6429/assessment.json": {
+    "before": "f743565ffb4e4bc11169bd6e4c7de76aa4a0da8c8e9e782eb9691cd02e1240f7",
+    "after": "f743565ffb4e4bc11169bd6e4c7de76aa4a0da8c8e9e782eb9691cd02e1240f7",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/evidence/metadata.json": {
+    "before": "64b836fc7952b2992ab804bd2dc3ffb09f289b16ed44f8336fbd0a495a155dd8",
+    "after": "64b836fc7952b2992ab804bd2dc3ffb09f289b16ed44f8336fbd0a495a155dd8",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/2527/README.md": {
+    "before": "298aeed3d1eda451e176ec4bc879481709eeb60f42e8530af806a944851e4504",
+    "after": "298aeed3d1eda451e176ec4bc879481709eeb60f42e8530af806a944851e4504",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-rp.json": {
+    "before": "b7a77543089bad8bf5afc7f07009ac138c495ca60e6d879b511aeeedc4f29f75",
+    "after": "b7a77543089bad8bf5afc7f07009ac138c495ca60e6d879b511aeeedc4f29f75",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-rp.transcript": {
+    "before": "33385f2a052c014fb8063d47f93486e171af8bcaec9344f03aabbba6bbd7df88",
+    "after": "33385f2a052c014fb8063d47f93486e171af8bcaec9344f03aabbba6bbd7df88",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-cp.json": {
+    "before": "d48702743ee5ee40dca689c8889c2d5d5fe545a1740f55dcd1bc2239d6367826",
+    "after": "d48702743ee5ee40dca689c8889c2d5d5fe545a1740f55dcd1bc2239d6367826",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-pty-cp.transcript": {
+    "before": "a2e3390e252b6b6a57e7b1f96f2429cbe1d81df3babaeb9f1197478fd9c44057",
+    "after": "a2e3390e252b6b6a57e7b1f96f2429cbe1d81df3babaeb9f1197478fd9c44057",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-single-rp.json": {
+    "before": "563c1f23b254733d32d33b049004d5981d38ca077886e30c7ee0eeab2bd1090f",
+    "after": "563c1f23b254733d32d33b049004d5981d38ca077886e30c7ee0eeab2bd1090f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-2527-single-cp.json": {
+    "before": "8514b222b9fd4fc60a6d51ab77c520c1c68275f80e3aa6a091e0014cc3b9a5b9",
+    "after": "8514b222b9fd4fc60a6d51ab77c520c1c68275f80e3aa6a091e0014cc3b9a5b9",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/evidence/metadata.json": {
+    "before": "ffb0a2d5d6efbc9e1e818a4a2426f50ecb4f4743d4937105d99f33447e50ad5f",
+    "after": "ffb0a2d5d6efbc9e1e818a4a2426f50ecb4f4743d4937105d99f33447e50ad5f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/evidence/historical.stdout.txt": {
+    "before": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+    "after": "ee58234420b79d93fa18252760879fabd84219e4eecde2b82971e302e25f818f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/2527/assessment.json": {
+    "before": "09b13f253ddc5b1fdfa12b7c88c41cc0e65c2a857864f5299eef3067a8f09c34",
+    "after": "09b13f253ddc5b1fdfa12b7c88c41cc0e65c2a857864f5299eef3067a8f09c34",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4541/README.md": {
+    "before": "0ef1962656e4b7708cb2798f280842c317b70fc6102379c2afa72dc3faf925ed",
+    "after": "0ef1962656e4b7708cb2798f280842c317b70fc6102379c2afa72dc3faf925ed",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-rustpython-command-default.json": {
+    "before": "ebeccd0b3fdb500a0746bb43fecd17e751692b429f504ccce8cd9a1cf77e6d70",
+    "after": "ebeccd0b3fdb500a0746bb43fecd17e751692b429f504ccce8cd9a1cf77e6d70",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-rustpython-command-P.json": {
+    "before": "59bb3319da678b4c23afc296893740cda6045c9a7d14a97e0167ae848b06123f",
+    "after": "59bb3319da678b4c23afc296893740cda6045c9a7d14a97e0167ae848b06123f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-cpython-command-default.json": {
+    "before": "ec846351ae9c3f90ebeab6f40f191f2a1b96951f713762fbb9a7963142a3b60b",
+    "after": "ec846351ae9c3f90ebeab6f40f191f2a1b96951f713762fbb9a7963142a3b60b",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/4541-cpython-command-P.json": {
+    "before": "07bfc70ce033c17699e085721ff8bc9cdff85ac25675e908d8a16f1679ae733a",
+    "after": "07bfc70ce033c17699e085721ff8bc9cdff85ac25675e908d8a16f1679ae733a",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/safe_fixture.py.txt": {
+    "before": "ca5b5327507761d7256eddff95dd6d437ae5b6e80ff2bc277d3aab5398aca78a",
+    "after": "ca5b5327507761d7256eddff95dd6d437ae5b6e80ff2bc277d3aab5398aca78a",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/safe_report.py.txt": {
+    "before": "3435ac9e193b264de4f9415b8c78ba84b9f265e9c694bf63a4b54488d0ba8b3a",
+    "after": "3435ac9e193b264de4f9415b8c78ba84b9f265e9c694bf63a4b54488d0ba8b3a",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4541/assessment.json": {
+    "before": "d3cbe350a2a94dc9335dafa91cf029df773b355b43758a9cac2c96c2748d144d",
+    "after": "d3cbe350a2a94dc9335dafa91cf029df773b355b43758a9cac2c96c2748d144d",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4541/reused-history.json": {
+    "before": "6019734cb8a92f2ff5ab8e870fd1b8e7518a30b6f1f8031da473edd2bacf1b47",
+    "after": "6019734cb8a92f2ff5ab8e870fd1b8e7518a30b6f1f8031da473edd2bacf1b47",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3846/README.md": {
+    "before": "456b3af05f57cc3f3019e940fe262ce2b7b58b9f7a56f6288ba645b76ed89d9a",
+    "after": "456b3af05f57cc3f3019e940fe262ce2b7b58b9f7a56f6288ba645b76ed89d9a",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/3846-cpython.json": {
+    "before": "ba2c3a72933832e5c1f68d4e53188bd9a8c8b77a44a1ddb5b368cfb603085f53",
+    "after": "ba2c3a72933832e5c1f68d4e53188bd9a8c8b77a44a1ddb5b368cfb603085f53",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/3846-rustpython.json": {
+    "before": "2e7984ca8fb7f14d0dc6932817d186a75ab9095a6fadd6e9bc1139baf9b254fb",
+    "after": "2e7984ca8fb7f14d0dc6932817d186a75ab9095a6fadd6e9bc1139baf9b254fb",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/additional11/agent-a/3846-unittest-rustpython.json": {
+    "before": "c8a76368d51b9ae70a10e864f5bf4dd90aaa4c4d4868ae399db059ad1abf5e00",
+    "after": "c8a76368d51b9ae70a10e864f5bf4dd90aaa4c4d4868ae399db059ad1abf5e00",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3846/assessment.json": {
+    "before": "2b39ec1e454ffb657a82866a38971be5b2ea6206324b1b56a847032ed75ed331",
+    "after": "2b39ec1e454ffb657a82866a38971be5b2ea6206324b1b56a847032ed75ed331",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/3846/reused-history.json": {
+    "before": "1cb767b6a2e26ad8da12e751c8feec1dcc375ef49e573b3aea4dd1fb7fdc3c9a",
+    "after": "1cb767b6a2e26ad8da12e751c8feec1dcc375ef49e573b3aea4dd1fb7fdc3c9a",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4784/README.md": {
+    "before": "f454964470f3af354a3d742914a5ed62d611b1bb80b94b4ec209a0e71c8227b8",
+    "after": "f454964470f3af354a3d742914a5ed62d611b1bb80b94b4ec209a0e71c8227b8",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-4784-http.json": {
+    "before": "64d139758cedf77e93c9c1561fc88219391b82fe269ae4204aca567ac518dfa7",
+    "after": "64d139758cedf77e93c9c1561fc88219391b82fe269ae4204aca567ac518dfa7",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-4784-docs.html": {
+    "before": "7c2720c5ba4b1991c865aca7b5d76824ce21b554ecff9d0632143fa461b7bf71",
+    "after": "7c2720c5ba4b1991c865aca7b5d76824ce21b554ecff9d0632143fa461b7bf71",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/evidence/initial16/agent-b/fresh-4784-headers.txt": {
+    "before": "2c615edab1c4d45e1aef8ffcb64d75c7c2d7c14bbeb177d4946588e0a63f3afd",
+    "after": "2c615edab1c4d45e1aef8ffcb64d75c7c2d7c14bbeb177d4946588e0a63f3afd",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/recheck/cases/4784/assessment.json": {
+    "before": "41738a521765f42c62e9a096793ce5ee77065a13a3d561465fa25063e92cfb2f",
+    "after": "41738a521765f42c62e9a096793ce5ee77065a13a3d561465fa25063e92cfb2f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4784/README.md": {
+    "before": "5744559ef991d0f4586301a68312975a9899cf2c3d7a7ef22457e6955c8542f6",
+    "after": "5744559ef991d0f4586301a68312975a9899cf2c3d7a7ef22457e6955c8542f6",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/repro.py": {
+    "before": "569a2fdb11ee366dc0c53a89c321408a52acb48ae65f2d04672ead39a06c90fb",
+    "after": "569a2fdb11ee366dc0c53a89c321408a52acb48ae65f2d04672ead39a06c90fb",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/original-01.txt": {
+    "before": "0941e3e88d10a2765597d3e425694e87f6709456f1c92445a474719888c0939b",
+    "after": "0941e3e88d10a2765597d3e425694e87f6709456f1c92445a474719888c0939b",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/README.md": {
+    "before": "c229e347b7335b41d40909d85df652ad0f76eb303866f55133fd2b08c4825968",
+    "after": "c229e347b7335b41d40909d85df652ad0f76eb303866f55133fd2b08c4825968",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/recorded-input.txt": {
+    "before": "0941e3e88d10a2765597d3e425694e87f6709456f1c92445a474719888c0939b",
+    "after": "0941e3e88d10a2765597d3e425694e87f6709456f1c92445a474719888c0939b",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/BUILD.md": {
+    "before": "6a7d34c4534b6d3b1f982023dfa3bfd508d1ca716a16f67441b5d9eae91bc018",
+    "after": "6a7d34c4534b6d3b1f982023dfa3bfd508d1ca716a16f67441b5d9eae91bc018",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/evidence/cpython.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/evidence/current.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/evidence/historical.stderr.txt": {
+    "before": "f05ba934cff52a94291c749d62c5fad89768bd067045f52b2f8b2793b41789b7",
+    "after": "f05ba934cff52a94291c749d62c5fad89768bd067045f52b2f8b2793b41789b7",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/evidence/reference.json": {
+    "before": "782961320a909d701a8c5f92b6043bf387f48c17810eae3e0726a6b88db92272",
+    "after": "782961320a909d701a8c5f92b6043bf387f48c17810eae3e0726a6b88db92272",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/evidence/cpython.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/evidence/historical.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4762/evidence/current.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/repro.py": {
+    "before": "f1d38fc8c7642f20f50f0697b84742567d7f81b8b3dbb8ff9c5380100e89deee",
+    "after": "f1d38fc8c7642f20f50f0697b84742567d7f81b8b3dbb8ff9c5380100e89deee",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/original-02.txt": {
+    "before": "c8b8ee4cac7b9b86c4ca8789d612c5bdccf6f0690d17b646edaeea2fcd3adc91",
+    "after": "c8b8ee4cac7b9b86c4ca8789d612c5bdccf6f0690d17b646edaeea2fcd3adc91",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/original-01.txt": {
+    "before": "7861cfdf9d8fb62bc9677ff258f79b4c701b54612e2289728c9f34d5cb54f544",
+    "after": "7861cfdf9d8fb62bc9677ff258f79b4c701b54612e2289728c9f34d5cb54f544",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/README.md": {
+    "before": "4da250244f0d7c07e4978483d7cccafc5e2048a97fefe2565d1fa4a76aab3f03",
+    "after": "4da250244f0d7c07e4978483d7cccafc5e2048a97fefe2565d1fa4a76aab3f03",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/recorded-input.txt": {
+    "before": "f1d38fc8c7642f20f50f0697b84742567d7f81b8b3dbb8ff9c5380100e89deee",
+    "after": "f1d38fc8c7642f20f50f0697b84742567d7f81b8b3dbb8ff9c5380100e89deee",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/BUILD.md": {
+    "before": "41c554127f97d7fce45007227afb48bbe883bb7d1b2ee86266e24803c6050621",
+    "after": "41c554127f97d7fce45007227afb48bbe883bb7d1b2ee86266e24803c6050621",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/evidence/cpython.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/evidence/current.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/evidence/historical.stderr.txt": {
+    "before": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+    "after": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/evidence/reference.json": {
+    "before": "3d16f3f2a5e41299329e3847faccbdd6f5db6ea4371c02942a227bffb04092fa",
+    "after": "3d16f3f2a5e41299329e3847faccbdd6f5db6ea4371c02942a227bffb04092fa",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/evidence/cpython.stderr.txt": {
+    "before": "bea8449ba38f7996c85606e8af9cff240304bb93161721fc6e1fe4695349cd80",
+    "after": "bea8449ba38f7996c85606e8af9cff240304bb93161721fc6e1fe4695349cd80",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/evidence/historical.stdout.txt": {
+    "before": "4c5ee8e926d6653c1c62fbc6ea7b335a475ea189cca53e8f113f0e4b1da0a510",
+    "after": "4c5ee8e926d6653c1c62fbc6ea7b335a475ea189cca53e8f113f0e4b1da0a510",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4786/evidence/current.stderr.txt": {
+    "before": "bea8449ba38f7996c85606e8af9cff240304bb93161721fc6e1fe4695349cd80",
+    "after": "bea8449ba38f7996c85606e8af9cff240304bb93161721fc6e1fe4695349cd80",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/repro.py": {
+    "before": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+    "after": "7c92c94ece4677b601c899b0a3c1e15193cefa94d9274118edf2eec1375e19bc",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/original-01.txt": {
+    "before": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6",
+    "after": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/README.md": {
+    "before": "fb603c63cbc1fd21f6307e7ad68336652e91e134b182a68b1105cdc860947927",
+    "after": "fb603c63cbc1fd21f6307e7ad68336652e91e134b182a68b1105cdc860947927",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/recorded-input.txt": {
+    "before": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6",
+    "after": "6d0bb7bedf3ed98c101db484003ee88b63a40562942083adccaa751edf11d9b6",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/BUILD.md": {
+    "before": "4fe221ab3f9742e9016aaa583070666f6a532951f976c4dd0b42fbc9fdb8a1f4",
+    "after": "4fe221ab3f9742e9016aaa583070666f6a532951f976c4dd0b42fbc9fdb8a1f4",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/evidence/cpython.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/evidence/current.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/evidence/historical.stderr.txt": {
+    "before": "8e2e308fd7077c3cf1fedefccb0164903df4f895ac09fd5de9c898590c3dd421",
+    "after": "8e2e308fd7077c3cf1fedefccb0164903df4f895ac09fd5de9c898590c3dd421",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/evidence/reference.json": {
+    "before": "02e80acdf58efa36531f7acbc63f10955da282c047e25984fa15fc5500283ecb",
+    "after": "02e80acdf58efa36531f7acbc63f10955da282c047e25984fa15fc5500283ecb",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/evidence/cpython.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/evidence/historical.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3418/evidence/current.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/repro.py": {
+    "before": "07a59327a66f81b65b2a4e80e93fa3d21ae8d02e6512277f90e94bba9e9ab492",
+    "after": "07a59327a66f81b65b2a4e80e93fa3d21ae8d02e6512277f90e94bba9e9ab492",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/original-01.txt": {
+    "before": "791f966541354ee557e2af0ec4267621ba7d04c60581c1f5d0f82d1e4170dd37",
+    "after": "791f966541354ee557e2af0ec4267621ba7d04c60581c1f5d0f82d1e4170dd37",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/README.md": {
+    "before": "3625acaa9735b16dc034ee14d1c44a89b63a7ee816a23c06e037a470dc0005ae",
+    "after": "3625acaa9735b16dc034ee14d1c44a89b63a7ee816a23c06e037a470dc0005ae",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/recorded-input.txt": {
+    "before": "a417cc001e1c9e1bd09bcef9014cf9713bfa74d6610ee5ba48e3237490b5bcce",
+    "after": "a417cc001e1c9e1bd09bcef9014cf9713bfa74d6610ee5ba48e3237490b5bcce",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/BUILD.md": {
+    "before": "6a3f65d66cba8e23f868f231ad0ca69bd0710a75df6a23fef431b5bca0f26322",
+    "after": "6a3f65d66cba8e23f868f231ad0ca69bd0710a75df6a23fef431b5bca0f26322",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/evidence/cpython.stdout.txt": {
+    "before": "80d32f31e459b20ac6a63dc7b0aa530d9add379565e0c13dde1b2b3fb0baa884",
+    "after": "80d32f31e459b20ac6a63dc7b0aa530d9add379565e0c13dde1b2b3fb0baa884",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/evidence/current.stdout.txt": {
+    "before": "80d32f31e459b20ac6a63dc7b0aa530d9add379565e0c13dde1b2b3fb0baa884",
+    "after": "80d32f31e459b20ac6a63dc7b0aa530d9add379565e0c13dde1b2b3fb0baa884",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/evidence/historical.stderr.txt": {
+    "before": "8728d83ab4177bce5d8c69a37acc11e7a720ab4c94972b87c1b5224ee6082a6a",
+    "after": "8728d83ab4177bce5d8c69a37acc11e7a720ab4c94972b87c1b5224ee6082a6a",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/evidence/reference.json": {
+    "before": "6ff081ae5effab57292b957958f43e044ed6d796c0b7c2668d1bdc9c61f1f3a7",
+    "after": "6ff081ae5effab57292b957958f43e044ed6d796c0b7c2668d1bdc9c61f1f3a7",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/evidence/cpython.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/evidence/historical.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/3430/evidence/current.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/repro.py": {
+    "before": "2d198c95b59b74ad679ae4cd4133f2cf3bbc4414c35e977af60e1cbf071db4d5",
+    "after": "2d198c95b59b74ad679ae4cd4133f2cf3bbc4414c35e977af60e1cbf071db4d5",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/original-01.txt": {
+    "before": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d",
+    "after": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/README.md": {
+    "before": "a21414f3aa0da80a02869d0c5b544ddb7042c12b478c28f643adee1894a4896c",
+    "after": "a21414f3aa0da80a02869d0c5b544ddb7042c12b478c28f643adee1894a4896c",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/recorded-input.txt": {
+    "before": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d",
+    "after": "b7168196b09b804a11794ca6d72f4c837ff65b894431ef36f5073faf58ee7b7d",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/BUILD.md": {
+    "before": "42a876382c3e0153e0c1e270f4c51cf3b342926799ba809663ff4db6c229a102",
+    "after": "42a876382c3e0153e0c1e270f4c51cf3b342926799ba809663ff4db6c229a102",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/evidence/cpython.stdout.txt": {
+    "before": "dbca19232be4a86c6875715200401e0e65351cd1cc7439ef6d0096615e9d80f6",
+    "after": "dbca19232be4a86c6875715200401e0e65351cd1cc7439ef6d0096615e9d80f6",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/evidence/current.stdout.txt": {
+    "before": "dbca19232be4a86c6875715200401e0e65351cd1cc7439ef6d0096615e9d80f6",
+    "after": "dbca19232be4a86c6875715200401e0e65351cd1cc7439ef6d0096615e9d80f6",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/evidence/historical.stderr.txt": {
+    "before": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+    "after": "7984d23f3006bdf44af95974ebc5c1592ef475beb5b54469fd14f5ed7717bef5",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/evidence/reference.json": {
+    "before": "a347f2e6f1f8e8458297b596d8b54a38dee1e5172fe8867c877ced1da81ad224",
+    "after": "a347f2e6f1f8e8458297b596d8b54a38dee1e5172fe8867c877ced1da81ad224",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/evidence/cpython.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/evidence/historical.stdout.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4527/evidence/current.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/repro.py": {
+    "before": "da609e44f263038355cca0a4f67aed79725ac08c05f575ea0a6639dad7ede3b7",
+    "after": "da609e44f263038355cca0a4f67aed79725ac08c05f575ea0a6639dad7ede3b7",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/original-01.txt": {
+    "before": "6e579d0df82802c98d36dd1b55a2f0681fc36bb94a0ac673cfa320a5ea214b40",
+    "after": "6e579d0df82802c98d36dd1b55a2f0681fc36bb94a0ac673cfa320a5ea214b40",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/README.md": {
+    "before": "720b8680e704ee0c204651a3310f7e714e9b72f15f0f8d0160173cdc4799c4ed",
+    "after": "720b8680e704ee0c204651a3310f7e714e9b72f15f0f8d0160173cdc4799c4ed",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/recorded-input.txt": {
+    "before": "ec20490d33bb57f3f9f86c7d16b9ba7acc9b2c982795c34da4421fb0d1dffc9d",
+    "after": "ec20490d33bb57f3f9f86c7d16b9ba7acc9b2c982795c34da4421fb0d1dffc9d",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/BUILD.md": {
+    "before": "c2aeccb1dc1c126e3d25a3405c35c05c8a91d9fd886579ee8cdd7a28a0d7e8e6",
+    "after": "c2aeccb1dc1c126e3d25a3405c35c05c8a91d9fd886579ee8cdd7a28a0d7e8e6",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/evidence/cpython.stdout.txt": {
+    "before": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "after": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/evidence/current.stdout.txt": {
+    "before": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "after": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/evidence/historical.stderr.txt": {
+    "before": "ef2d96c0914fc24f75dd0cc7c8c96ae0827ce5cf7075be9284103286c67d8919",
+    "after": "ef2d96c0914fc24f75dd0cc7c8c96ae0827ce5cf7075be9284103286c67d8919",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/evidence/reference.json": {
+    "before": "ea0332a4afd4c9d26a3c61cf6dc383bfcc6aa94662e04a026f80f8d587354405",
+    "after": "ea0332a4afd4c9d26a3c61cf6dc383bfcc6aa94662e04a026f80f8d587354405",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/evidence/cpython.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/evidence/historical.stdout.txt": {
+    "before": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+    "after": "af5d8a21858f42808c9bcc17012b77bcc2fd6ab3b071dbd4a05f13f410470541",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/6429/evidence/current.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/original-01.txt": {
+    "before": "f940b24d62cdcd1da8ce93fa9b3e33c28bcbc7035a72dbe9154442e44cf735f1",
+    "after": "f940b24d62cdcd1da8ce93fa9b3e33c28bcbc7035a72dbe9154442e44cf735f1",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/README.md": {
+    "before": "560cf64e39d4739340d6696e271cfd949faf4b6d4439a750bf204aa2e723721f",
+    "after": "560cf64e39d4739340d6696e271cfd949faf4b6d4439a750bf204aa2e723721f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/repl.txt": {
+    "before": "90ca4fdb600494447874d93643e8b1158f3fda4c0c24d7f2f20113de8dd39041",
+    "after": "90ca4fdb600494447874d93643e8b1158f3fda4c0c24d7f2f20113de8dd39041",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/BUILD.md": {
+    "before": "66fc098329e4f9d3266cf4343a38716d64f570802aa0a5e4e425dad7c02d546f",
+    "after": "66fc098329e4f9d3266cf4343a38716d64f570802aa0a5e4e425dad7c02d546f",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/evidence/cpython.stdout.txt": {
+    "before": "101407ba921a99ab49fed21d37a3037de197fea04e097b6c108c1ae1257634d1",
+    "after": "101407ba921a99ab49fed21d37a3037de197fea04e097b6c108c1ae1257634d1",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/evidence/current.stdout.txt": {
+    "before": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d",
+    "after": "71514a6afbb8e0b50a3f022f70236d8833bbfcee903725d80880ea4f1882933d",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/evidence/reference.json": {
+    "before": "df5e185da20716d234920a1ab5e9db8bfb178b7331588c22edeb858622d2c523",
+    "after": "df5e185da20716d234920a1ab5e9db8bfb178b7331588c22edeb858622d2c523",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/2527/evidence/cpython.stderr.txt": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4784/check.sh": {
+    "before": "80f7fc363d4de3c94d06777cf0a1acee26e0fadbb08fb2303a452d0d4e2bea49",
+    "after": "80f7fc363d4de3c94d06777cf0a1acee26e0fadbb08fb2303a452d0d4e2bea49",
+    "unchanged": true
+  },
+  "<report-worktree>/tools/issue-repros/cases/4784/evidence/http-checks.json": {
+    "before": "660a733008977938c8ff119486e20c350ff5a891512aa3875d3087c77a27b7a3",
+    "after": "660a733008977938c8ff119486e20c350ff5a891512aa3875d3087c77a27b7a3",
+    "unchanged": true
+  },
+  "<survey>/analysis/build-variants-a.json": {
+    "before": "77a396b9933aec8d856bebf922c1353548b214adabdce0a82a8545382419b201",
+    "after": "77a396b9933aec8d856bebf922c1353548b214adabdce0a82a8545382419b201",
+    "unchanged": true
+  },
+  "<survey>/analysis/current-sqlite-setup.json": {
+    "before": "4d5ec28a445cee524ddf740a14b62f7a726dbc54fbd46856436839b2ed09b157",
+    "after": "4d5ec28a445cee524ddf740a14b62f7a726dbc54fbd46856436839b2ed09b157",
+    "unchanged": true
+  },
+  "<survey>/logs/build-a/sqlite-verification-build.stderr": {
+    "before": "f0281539e50979f24a854314edf8915c71b681e63ead76de1a47c77b524edad6",
+    "after": "f0281539e50979f24a854314edf8915c71b681e63ead76de1a47c77b524edad6",
+    "unchanged": true
+  },
+  "<survey>/logs/build-a/sqlite-verification-build.stdout": {
+    "before": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "after": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "unchanged": true
+  }
+}

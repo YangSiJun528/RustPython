@@ -1,0 +1,14 @@
+{
+  "issue": 4527,
+  "url": "https://github.com/RustPython/RustPython/issues/4527",
+  "title": "top level objects are not deleted before script finalized",
+  "state": "open",
+  "source_retrieval": "See collection.jsonl corresponding successful execution UTC timestamps",
+  "all_comments_read": 0,
+  "declared_comments": 0,
+  "original_scope": "Top-level X instance __del__ prints deleted! at normal process exit.",
+  "independent_plan": "Run exact script with ordinary exit, stdout/stderr separated, compare CPython; never os._exit; additional explicit finalization claims need separate runs.",
+  "limitations_and_source_corrections": "No specified platform/version; preserve natural interpreter shutdown.",
+  "saved_utc": "2026-10-05T16:10:32.569115+00:00",
+  "phase": "original source only; no earlier verification reports, reproducers, or verdicts read"
+}

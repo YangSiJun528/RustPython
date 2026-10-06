@@ -1,0 +1,29 @@
+diff --git a/Lib/test/test_deque.py b/Lib/test/test_deque.py
+index f798ab4b6..d4b42c0bd 100644
+--- a/Lib/test/test_deque.py
++++ b/Lib/test/test_deque.py
+@@ -817,7 +817,6 @@ def test_basics(self):
+         d.clear()
+         self.assertEqual(len(d), 0)
+ 
+-    @unittest.expectedFailure  # TODO: RUSTPYTHON; AttributeError: 'Deque' object has no attribute 'x'
+     def test_copy_pickle(self):
+         for cls in Deque, DequeWithSlots:
+             for d in cls('abc'), cls('abcde', maxlen=4):
+diff --git a/crates/vm/src/stdlib/_collections.rs b/crates/vm/src/stdlib/_collections.rs
+index 2807e1717..8eacc69f0 100644
+--- a/crates/vm/src/stdlib/_collections.rs
++++ b/crates/vm/src/stdlib/_collections.rs
+@@ -388,7 +388,11 @@ mod _collections {
+                 Some(v) => vm.new_pyobj((vm.ctx.empty_tuple.clone(), v)),
+                 None => vm.ctx.empty_tuple.clone().into(),
+             };
+-            Ok(vm.new_pyobj((cls, value, vm.ctx.none(), PyDequeIterator::new(zelf))))
++            // Use __getstate__ to capture both __dict__ and __slots__ values so
++            // subclass attributes survive a pickle round-trip (matches CPython's
++            // deque___reduce___impl, which calls _PyObject_GetState).
++            let state = vm.call_method(zelf.as_object(), "__getstate__", ())?;
++            Ok(vm.new_pyobj((cls, value, state, PyDequeIterator::new(zelf))))
+         }
+ 
+         #[pyclassmethod]

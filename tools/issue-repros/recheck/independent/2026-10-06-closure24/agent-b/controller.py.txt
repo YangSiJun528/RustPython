@@ -1,0 +1,58 @@
+import argparse, datetime, hashlib, json, os, pathlib, signal, subprocess, sys, time
+
+ROOT = pathlib.Path(__file__).parent
+CWD = '<slot-b-source>'
+BIN = '<survey>/.build/slot-b/saved/current-f39-x86/rustpython'
+
+def stamp():
+    return datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+def sha(path):
+    p = pathlib.Path(path)
+    return hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else None
+
+def run(ident, argv, issue=None, timeout=60, extra_env=None, input_path=None, rationale='Pending interpretation'):
+    if (ROOT/'records'/f'{ident}.json').exists():
+        raise ValueError(f'Execution ID already used: {ident}')
+    env = os.environ.copy()
+    temp = ROOT/'environment'/'tmp'
+    temp.mkdir(exist_ok=True)
+    env.update(PYTHONDONTWRITEBYTECODE='1', PYTHON_HISTORY=str(ROOT/'environment/history'), RUSTPYTHON_HISTORY=str(ROOT/'environment/history'), TMPDIR=str(temp), TMP=str(temp), TEMP=str(temp))
+    env.update(extra_env or {})
+    out, err = ROOT/'logs'/f'{ident}.stdout', ROOT/'logs'/f'{ident}.stderr'
+    record = dict(execution_id=ident, issue=issue, slot='B', argv=argv, cwd=CWD,
+        relevant_env={k:v for k,v in env.items() if k.startswith(('PYTHON','RUST','CARGO','LC_')) or k in ['LANG','PATH','TERM','TMPDIR','TMP','TEMP']},
+        input_path=input_path, input_sha256=sha(input_path) if input_path else None,
+        executable_realpath=os.path.realpath(argv[0]), executable_sha256=sha(os.path.realpath(argv[0])),
+        start=stamp(), stdout_file=str(out), stderr_file=str(err), timeout_seconds=timeout,
+        judgment_rationale=rationale)
+    with out.open('wb') as of, err.open('wb') as ef:
+        proc = subprocess.Popen(argv, cwd=CWD, env=env, stdout=of, stderr=ef, start_new_session=True)
+        try:
+            record['exit_code'] = proc.wait(timeout=timeout)
+            record['timed_out'] = False
+        except subprocess.TimeoutExpired:
+            record['timed_out'] = True
+            os.killpg(proc.pid, signal.SIGTERM)
+            try: proc.wait(timeout=3)
+            except subprocess.TimeoutExpired: os.killpg(proc.pid, signal.SIGKILL); proc.wait()
+            record['exit_code'] = proc.returncode
+        finally:
+            try: os.killpg(proc.pid, signal.SIGKILL)
+            except ProcessLookupError: pass
+    record['end'] = stamp()
+    record['input_sha256_after'] = sha(input_path) if input_path else None
+    record['executable_sha256_after'] = sha(os.path.realpath(argv[0]))
+    (ROOT/'records'/f'{ident}.json').write_text(json.dumps(record, indent=2)+'\n')
+    print(json.dumps({k:record[k] for k in ['execution_id','exit_code','timed_out','stdout_file','stderr_file']}), flush=True)
+    return record
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('ident')
+    parser.add_argument('--issue', type=int)
+    parser.add_argument('--timeout', type=int, default=60)
+    parser.add_argument('--input')
+    parser.add_argument('argv', nargs=argparse.REMAINDER)
+    args = parser.parse_args()
+    run(args.ident, args.argv, args.issue, args.timeout, input_path=args.input)

@@ -1,0 +1,7 @@
+for s in ["A\udcdcB","A\ud800\udfffB","A\ud800B","A🚀B"]:
+ print('input',ascii(s),[ord(c) for c in s])
+ try: t=type(s,(),{});print('accepted',ascii(t.__name__))
+ except UnicodeEncodeError as e:
+  print('rejected',e.encoding,ascii(e.object),e.start,e.end,e.reason)
+  if s == "A\udcdcB": assert (e.encoding,e.object,e.start,e.end,e.reason)==('utf-8',s,1,2,'surrogates not allowed')
+ else: assert not any(0xD800<=ord(c)<=0xDFFF for c in s)

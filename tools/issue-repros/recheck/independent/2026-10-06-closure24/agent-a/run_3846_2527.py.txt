@@ -1,0 +1,21 @@
+from runner import *
+import re
+base={k:None for k in os.environ if k.startswith(('PYTHON','RUSTPYTHON','LC_'))};base.update({'LC_ALL':'C','LANG':'C','NO_COLOR':'1','SRC':str(ROOT)})
+p=OUT/'inputs/2527-displayhook.py';p.write_text(re.findall(r'```python\n(.*?)```',(OUT/'logs/draft-2527.stdout').read_text(),re.S)[0])
+for who,exe in [('rp',BIN),('cp',CP)]:run('2527-displayhook-'+who,2527,[exe,'-B',p],env=base,inputs=[p])
+p=OUT/'inputs/3846-original.py';p.write_text('''import dis
+print('LOAD_CONST',dis.opmap['LOAD_CONST']);print('EXTENDED_ARG',dis.EXTENDED_ARG)
+g=dis._unpack_opargs(100);print('constructed',type(g).__name__)
+try:list(g)
+except TypeError as e:print('invalid integer exhausted',type(e).__name__,str(e))
+else:raise AssertionError('invalid integer was accepted')
+code=compile('import first\\nx = 42\\n','<valid-code>','exec');ops=list(dis._unpack_opargs(code.co_code));print('valid exhausted',ops);assert ops
+''')
+for who,exe in [('rp',BIN),('cp',CP)]:run('3846-original-'+who,3846,[exe,'-B',p],env=base,inputs=[p])
+parts=re.findall(r'```python\n(.*?)```',(OUT/'logs/draft-3846.stdout').read_text(),re.S)
+p=OUT/'inputs/3846-graph.py';p.write_text(parts[0])
+for who,exe in [('rp',BIN),('cp',CP)]:run('3846-graph-'+who,3846,[exe,'-B',p,'3846'],env=base,inputs=[p])
+p=OUT/'inputs/3846-suite.py';p.write_text('''import sys,types,os
+package=types.ModuleType('test');package.__path__=[os.path.join(os.environ['SRC'],'Lib','test')];package.__file__=os.path.join(os.environ['SRC'],'Lib','test','__init__.py');sys.modules['test']=package
+'''+parts[1])
+for who,exe in [('rp',BIN),('cp',CP)]:run('3846-suite-'+who,3846,[exe,'-B',p,'test.test_modulefinder.ModuleFinderTest'],timeout=60,env=base,inputs=[p,ROOT/'Lib/test/test_modulefinder.py'],judgment='All 17 existing ModuleFinderTest cases must execute unchanged with zero skips/expected failures.')

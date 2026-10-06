@@ -1,0 +1,7 @@
+import importlib.util,sys,types,unittest,os,json
+package=types.ModuleType('test');package.__path__=[os.path.join(os.environ['SRC'],'Lib','test')];package.__file__=os.path.join(os.environ['SRC'],'Lib','test','__init__.py');sys.modules['test']=package
+spec=importlib.util.spec_from_file_location('original3863',sys.argv[1]);module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+suite=unittest.defaultTestLoader.loadTestsFromTestCase(module.ModuleFinderTest)
+result=unittest.TextTestRunner(verbosity=2).run(suite)
+print(json.dumps({'testsRun':result.testsRun,'skips':len(result.skipped),'expectedFailures':len(result.expectedFailures),'unexpectedSuccesses':len(result.unexpectedSuccesses),'success':result.wasSuccessful()}))
+assert result.testsRun==17 and not result.skipped and not result.expectedFailures and not result.unexpectedSuccesses and result.wasSuccessful()
