@@ -1,54 +1,42 @@
-# RustPython resolved-issue reproducers
+# Verification records
 
-The October 5–6, 2026 reviews recommend **25 issues for closure** and identify
-**3 partially resolved issues** at
-[`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
+Baseline: [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c). Checked October 5–6, 2026.
 
-- [Combined issue draft](report.md): the 25 closure recommendations.
-- [October 6 independent recheck](recheck/independent/2026-10-06-closure24/README.md): fresh evidence for the original 24 candidates and wording corrections for #4690 and #8494.
-- [Independent #6697 review](recheck/independent/2026-10-06-6697/README.md): a fresh source-first review of the reported pytest compilation failure.
-- [Detailed reports](recheck/cases/): all 28 cases, with complete reproduction
-  inputs, commands, environment, expected results and recorded results inline.
-- [Partially resolved issues](recheck/not-ready.md): #4613, #5181 and #6790.
-- [Case manifest](recheck/manifest.json).
-- [Environment and evidence mapping](recheck/ENVIRONMENT.md).
-- [Validation record](recheck/VALIDATION.md).
+Results: **25 closure recommendations**, **3 partially resolved issues**.
 
-## Reading and reproducing a case
+Start with the [closure request](report.md), then follow an issue's detailed report for its reproducer, commands, results and limits.
 
-Each detailed report can be read from top to bottom without expanding sections
-or opening supporting files. Raw evidence links provide the original execution
-records and full logs in addition to the relevant results shown inline.
+## Files and directories
 
-Use the interpreter versions, matching source and standard library, dependency
-versions and locale settings specified in the case. Commands use named path
-variables in place of machine-specific paths. Archived inputs use a `.py.txt`
-suffix to preserve the executed source independently of document formatting.
+| Path | Contents |
+| --- | --- |
+| [report.md](report.md) | Submission draft covering the 25 closure candidates. |
+| [recheck/cases/](recheck/cases/) | Current reports for all 28 issues. Open `<issue>/README.md`. |
+| [recheck/not-ready.md](recheck/not-ready.md) | Remaining failures in #4613, #5181 and #6790. |
+| [recheck/independent/](recheck/independent/) | Independent rechecks, executed inputs, results and supporting records. |
+| [recheck/evidence/](recheck/evidence/) | Earlier audit runs and reused historical failure evidence. |
+| [recheck/manifest.json](recheck/manifest.json) | Issue list, verdicts, scope and closure recommendations. |
+| [recheck/ENVIRONMENT.md](recheck/ENVIRONMENT.md) | Executable and library identity, environment settings and recorded path aliases. |
+| [recheck/VALIDATION.md](recheck/VALIDATION.md) | Checks on report generation, links, exported evidence and preserved files. |
 
-Initial results were collected on October 5, with independent rechecks on
-October 6. #6697 was verified separately and added after its new independent
-review; the earlier 24-issue review is preserved unchanged. Historical results
-are labeled separately. Related changes explain the observed behavior without claiming an
-unverified first fixing commit.
+## Execution evidence
 
-Regenerate the current documents without running interpreters:
+Independent recheck reports: [24-issue review](recheck/independent/2026-10-06-closure24/README.md) · [#6697 review](recheck/independent/2026-10-06-6697/README.md).
 
-```sh
-python3 tools/issue-repros/recheck/render.py
-```
+Follow each report's evidence links for:
 
-## Historical archive
+- Inputs and commands, including arguments, working directory and environment.
+- stdout, stderr, exit code and timeout status.
+- Executable, library and dependency identification.
+- Original and exported file hashes in `export-manifest.json`.
 
-The original [16-case manifest](manifest.json), [case files](cases/),
-[validation record](VALIDATION.md), [combined draft](recheck/archive/report-before-independent-review.md)
-and [setup guide](recheck/archive/README-before-independent-review.md) are
-preserved for comparison. Current closure recommendations are in `report.md`.
+Historical runs are labeled separately from fresh executions. Archived Python inputs use `.py.txt`; restore the `.py` name before running them. Use the setup and path variables in the relevant report.
 
-The [legacy runner](run.py) writes its aggregate output to `legacy-report.md`
-when the current recheck catalog is present:
+## Earlier material and report generation
 
-```sh
-python3 tools/issue-repros/run.py --render-recorded
-```
+- [cases/](cases/), [manifest.json](manifest.json) and [VALIDATION.md](VALIDATION.md): the original 16-case report set. Use `recheck/cases/` for current conclusions.
+- [recheck/archive/](recheck/archive/): the earlier submission draft and setup guide.
+- [recheck/catalog.json](recheck/catalog.json): source text and verdicts used by [render.py](recheck/render.py) to generate the current draft and case reports. Rendering does not execute reproductions.
+- [run.py](run.py): the original runner; recorded-output rendering writes `legacy-report.md` while the current catalog is present.
 
 AI assistance: OpenAI Codex.
