@@ -4,23 +4,13 @@
 
 Please review these 25 issues for closure: their reported problems are resolved within the verified scope.
 
-### Why this matters
+While looking for issues to work on, I spent time investigating reports whose problems were already resolved. Closing them would make outstanding work easier to find and avoid repeated investigation.
 
-While looking for issues to work on, I spent a considerable amount of time investigating reports whose problems had already been resolved. Leaving those reports open makes outstanding work harder to find and can lead other contributors to repeat the same investigation.
+I selected cases with clear reproduction conditions and expected outcomes, then used OpenAI Codex extensively to investigate, run checks against `main` at [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c), and draft the reports. I reviewed the results and manually checked some cases.
 
-### What needs to change
+Repeated checks and independent rechecks are documented in the [24-issue audit](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/independent/2026-10-06-closure24/README.md) and [#6697 audit](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/independent/2026-10-06-6697/README.md). I have not reviewed every underlying fix at the code level.
 
-Closing the resolved reports would keep the issue tracker up to date and reduce duplicated investigation and work on problems that are already fixed.
-
-### How I checked them
-
-I selected issues with supplied reproduction code or clearly defined conditions and observable expected outcomes. I used OpenAI Codex extensively to investigate them, run reproduction checks against `main` at [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c), and draft the reports. I reviewed the results and manually checked some cases, confirming the behavior described in the reports.
-
-The work included repeated checks and independent rechecks by fresh agents that read the original issues before consulting earlier conclusions. The [24-issue audit](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/independent/2026-10-06-closure24/README.md) and the [separate #6697 audit](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/independent/2026-10-06-6697/README.md) record the process, execution evidence and limitations. I have not reviewed every underlying fix at the code level.
-
-### Opinion
-
-I consider this an appropriate use of AI for this task, despite the extensive AI assistance and the limits of my manual review. I deliberately selected cases whose reported behavior could be checked directly, reviewed the results, and limited the closure recommendations to what the recorded checks established. On that basis, I believe these cases are ready for maintainer review.
+I consider this an appropriate use of AI because the selected cases have directly checkable outcomes. The closure recommendations are limited to what the recorded checks demonstrate.
 
 ## Details
 
