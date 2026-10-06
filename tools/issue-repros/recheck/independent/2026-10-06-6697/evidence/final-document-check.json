@@ -1,0 +1,16 @@
+{
+   "assessment_sha256" : "98a40a1fd4d4780552db9ac361e23d5f4b1f1d3d5e3c5e10d7746afe352a3728",
+   "exact_inline_inputs" : [
+      "original.py",
+      "call-original.py",
+      "controls.py",
+      "pytest-probe.py",
+      "test_6697.py",
+      "run-pytest.py",
+      "pytest.ini"
+   ],
+   "local_links_exist" : true,
+   "new_behavior_runs_after_document_edit" : false,
+   "readme_sha256" : "323f16cb874e1f0ba6e2e0a4a77e2dc1bb00dcceaf819fa84a1948481120f9e1",
+   "reused_copies_checked" : 12
+}

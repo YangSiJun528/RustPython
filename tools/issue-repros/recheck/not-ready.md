@@ -1,6 +1,6 @@
 # Partially resolved issues — not included in the closure request
 
-The baseline is the same f39b054b9c8c commit used for the 24 closure candidates. These are concrete remaining failures, not timeouts, missing locale prerequisites or failed builds.
+The baseline is the same f39b054b9c8c commit used for the 25 closure candidates. These are concrete remaining failures, not timeouts, missing locale prerequisites or failed builds.
 
 ## #4613 — Locale support for FormatSpec n
 

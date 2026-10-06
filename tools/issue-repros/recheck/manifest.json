@@ -1,6 +1,6 @@
 {
   "baseline": "f39b054b9c8cbbf884f53123eef028131789990c",
-  "verified_closure_candidates": 24,
+  "verified_closure_candidates": 25,
   "partial_not_for_closure": 3,
   "historical_runs_reused": true,
   "new_runtime_runs_during_publication": 0,
@@ -246,6 +246,18 @@
       "related": "[PR #6428](https://github.com/RustPython/RustPython/pull/6428): expose the build-time Py_GIL_DISABLED value"
     },
     {
+      "issue": 6697,
+      "title": "Symbol-table error while importing pytest",
+      "closure_recommended": true,
+      "status": "resolved",
+      "result": "The exact finally/generator reproducer, 12 comprehension controls, unchanged syntax_try.py, real pytest 9.1.1 module compilation/import and controlled pytest_runtest_protocol execution pass. A console_main smoke run reports 2 passed on RustPython and CPython.",
+      "expected": "Nested scopes in finally blocks must compile without the reported symbol-table SyntaxError, including the original pytest import path.",
+      "limits": "The original pytest/xonsh environment is unspecified. The full xonsh suite, original rust-pytest launcher and native lsof integration were not tested. The actual pytest method used controlled file-list inputs. Historical failure logs and build records were reused; no first-fix boundary was executed.",
+      "related": "[PR #8507](https://github.com/RustPython/RustPython/pull/8507): preserve symbol-table cursors while compiling extra finally bodies; the verified baseline also includes the f87cfe7e7a scope-position follow-up",
+      "verification_date": "2026-10-06",
+      "independent_report": "independent/2026-10-06-6697/README.md"
+    },
+    {
       "issue": 6790,
       "title": "XZ support and the forced lzma skip",
       "closure_recommended": false,
@@ -275,5 +287,11 @@
       "limits": "CPython 3.14.6 is the reference; this is not compared to older eager-annotation semantics.",
       "related": "[PR #8701](https://github.com/RustPython/RustPython/pull/8701): cache and assign annotation attributes on the wrapper"
     }
-  ]
+  ],
+  "additional_independent_review": {
+    "date": "2026-10-06",
+    "report": "independent/2026-10-06-6697/README.md",
+    "issue": 6697,
+    "closure_recommended": true
+  }
 }

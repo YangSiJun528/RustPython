@@ -1,0 +1,10 @@
+[2026-10-04T08:32:47Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T08:32:47Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T08:32:47Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T08:32:47Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T08:32:47Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+[2026-10-04T08:32:47Z WARN  rustpython_vm::object::core] couldn't run __del__ method for object
+  File "<survey>/repros/6697/issue-6697-case-02/source-01.py", line 5
+    (0 for a in ())
+    ^
+SyntaxError: no symbol table available in a (type: Function)

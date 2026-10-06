@@ -1,0 +1,27 @@
+{
+  "kind": "historical",
+  "command": [
+    "<survey>/.build/slot-b/release/rustpython",
+    "<survey>/repros/6697/issue-6697-case-02/source-01.py"
+  ],
+  "cwd": "<home>/.codex/worktrees/issue-history-b/RustPython",
+  "env": {
+    "RUSTPYTHONPATH": "<home>/.codex/worktrees/issue-history-b/RustPython/Lib",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "exit_code": 1,
+  "timeout": false,
+  "timeout_seconds": 30,
+  "elapsed_seconds": 0.7689435419888468,
+  "code_input_path": "repros/6697/issue-6697-case-02/source-01.py",
+  "code_sha256": "cc057db4113ba172a9ece7d32c64c29e3a04b2d088ad0a958680008c8510b95e",
+  "actual_sha": "3909b18eac642d824cd5c1157f452e8765269a2e",
+  "binary_sha256": "87dd696f95e674408d0801ddc788d086483fb24a65c818e61f4f8f222a2ad311",
+  "build_provenance": "logs/build-b-3909b18e/provenance.json",
+  "resource_limits": {
+    "cpu_seconds": 25,
+    "core_bytes": 0
+  },
+  "stdout_path": "logs/issue-6697-case-02/historical-3909b18eac-01.stdout",
+  "stderr_path": "logs/issue-6697-case-02/historical-3909b18eac-01.stderr"
+}

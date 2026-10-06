@@ -10,7 +10,7 @@ def render():
     issues = catalog["issues"]
     resolved = [row for row in issues if row["closure_recommended"]]
     partial = [row for row in issues if not row["closure_recommended"]]
-    assert len(resolved) == 24 and {row["issue"] for row in partial} == {
+    assert len(resolved) == 25 and {row["issue"] for row in partial} == {
         4613,
         5181,
         6790,
@@ -19,7 +19,7 @@ def render():
     remaining = [
         "# Partially resolved issues — not included in the closure request",
         "",
-        "The baseline is the same f39b054b9c8c commit used for the 24 closure candidates. These are concrete remaining failures, not timeouts, missing locale prerequisites or failed builds.",
+        "The baseline is the same f39b054b9c8c commit used for the 25 closure candidates. These are concrete remaining failures, not timeouts, missing locale prerequisites or failed builds.",
         "",
     ]
     for row in partial:

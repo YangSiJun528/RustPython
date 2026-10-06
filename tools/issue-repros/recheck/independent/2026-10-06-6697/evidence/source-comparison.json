@@ -1,0 +1,50 @@
+{
+   "baseline" : "f39b054b9c8cbbf884f53123eef028131789990c",
+   "paths" : {
+      "Lib/importlib/metadata/__init__.py" : {
+         "baseline_sha256" : "5476c7c22a65f9e8b5a07b799336d87fa70e792758fd95b161b53b530e3b2654",
+         "equal" : true,
+         "working_sha256" : "5476c7c22a65f9e8b5a07b799336d87fa70e792758fd95b161b53b530e3b2654"
+      },
+      "Lib/json/__init__.py" : {
+         "baseline_sha256" : "2dd10f1bf4c9ea5478e589216805e7f279d0e4bce134a19efa297404fb87407d",
+         "equal" : true,
+         "working_sha256" : "2dd10f1bf4c9ea5478e589216805e7f279d0e4bce134a19efa297404fb87407d"
+      },
+      "Lib/os.py" : {
+         "baseline_sha256" : "976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546",
+         "equal" : true,
+         "working_sha256" : "976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546"
+      },
+      "Lib/struct.py" : {
+         "baseline_sha256" : "50c14e55f94957804c1e45e975fedbe8e86f7e1dbb745b150370ff681155370a",
+         "equal" : true,
+         "working_sha256" : "50c14e55f94957804c1e45e975fedbe8e86f7e1dbb745b150370ff681155370a"
+      },
+      "crates/codegen/src/compile.rs" : {
+         "baseline_sha256" : "ce1e0bb8fdc97a264ba4db3afa099e7797c28cd262d42efd43c7655c02576ed6",
+         "equal" : true,
+         "working_sha256" : "ce1e0bb8fdc97a264ba4db3afa099e7797c28cd262d42efd43c7655c02576ed6"
+      },
+      "extra_tests/snippets/syntax_try.py" : {
+         "baseline_sha256" : "ad83153f79e8679bcc4291fddb71b84fee62bb179aafb787588407b9ed9e58be",
+         "equal" : true,
+         "working_sha256" : "ad83153f79e8679bcc4291fddb71b84fee62bb179aafb787588407b9ed9e58be"
+      },
+      "extra_tests/snippets/testutils.py" : {
+         "baseline_sha256" : "f817d0abfb892a8693ed66a7b23a6d707094af5bceae37117ccac3e346c3d736",
+         "equal" : true,
+         "working_sha256" : "f817d0abfb892a8693ed66a7b23a6d707094af5bceae37117ccac3e346c3d736"
+      }
+   },
+   "source_change_ancestry" : {
+      "argv" : [
+         "git",
+         "merge-base",
+         "--is-ancestor",
+         "2a793fcdd1461001a0078cc89d34833205f4f30b",
+         "f39b054b9c8cbbf884f53123eef028131789990c"
+      ],
+      "exit_code" : 0
+   }
+}

@@ -1,0 +1,51 @@
+                self.set_unwind_source_range(*loc);
+                emit!(self, PseudoInstruction::PopBlock);
+                self.mark_unwind_no_location(*loc);
+            }
+
+            FBlockType::FinallyTry => {
+                // codegen_unwind_fblock(FINALLY_TRY)
+                self.set_unwind_source_range(*loc);
+                emit!(self, PseudoInstruction::PopBlock);
+                self.mark_unwind_no_location(*loc);
+
+                if preserve_tos {
+                    self.push_fblock_labels(
+                        FBlockType::PopValue,
+                        ir::InstructionSequenceLabel::NO_LABEL,
+                        ir::InstructionSequenceLabel::NO_LABEL,
+                        FBlockDatum::None,
+                    )?;
+                }
+
+                if let FBlockDatum::FinallyBody(ref body) = info.fb_datum {
+                    // This is an extra copy of the finally body, emitted for the
+                    // path that leaves the try block early. Nested scopes are
+                    // handed out by position, and the cursors are still inside
+                    // the try block's own run of scopes here, so seek them to the
+                    // ones this body opened before compiling it. The try
+                    // statement emits its own copies from the same place
+                    // afterwards, so put the cursors back when the copy is done.
+                    let symbol_table_cursors = self.current_symbol_table_cursors();
+                    if let Some(first) = body.first() {
+                        let line = self
+                            .source_file
+                            .to_source_code()
+                            .line_index(first.range().start())
+                            .get()
+                            .to_u32();
+                        self.seek_symbol_table_cursors_to_line(line);
+                    }
+                    self.compile_statements(body)?;
+                    self.set_symbol_table_cursors(symbol_table_cursors);
+                }
+
+                if preserve_tos {
+                    self.pop_fblock_label(
+                        FBlockType::PopValue,
+                        ir::InstructionSequenceLabel::NO_LABEL,
+                    );
+                }
+
+                *loc = None;
+            }

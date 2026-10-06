@@ -1,0 +1,59 @@
+    fn current_symbol_table_cursors(&self) -> SymbolTableCursors {
+        let table = self
+            .symbol_table_stack
+            .last()
+            .expect("no current symbol table");
+        SymbolTableCursors {
+            sub_table: table.next_sub_table,
+            hidden_annotation_block: table.next_hidden_annotation_block,
+            inlined_comprehension_block: table.next_inlined_comprehension_block,
+        }
+    }
+
+    fn set_symbol_table_cursors(&mut self, cursors: SymbolTableCursors) {
+        let table = self
+            .symbol_table_stack
+            .last_mut()
+            .expect("no current symbol table");
+        table.next_sub_table = cursors.sub_table;
+        table.next_hidden_annotation_block = cursors.hidden_annotation_block;
+        table.next_inlined_comprehension_block = cursors.inlined_comprehension_block;
+    }
+
+    /// Advance the nested-scope cursors to the first scope that begins on or
+    /// after `line_number`.
+    ///
+    /// A statement list can be compiled more than once — `finally` bodies are
+    /// re-emitted on every path that leaves the try block early — and each copy
+    /// has to be handed the same scopes as the last. Positioning by line works
+    /// because `finally` is the last clause of its statement: every scope the
+    /// preceding clauses opened begins on an earlier line than the body being
+    /// re-compiled, and every scope that body opens begins on its own line or
+    /// later.
+    fn seek_symbol_table_cursors_to_line(&mut self, line_number: u32) {
+        fn seek(tables: &[SymbolTable], cursor: &mut usize, line_number: u32) {
+            while tables
+                .get(*cursor)
+                .is_some_and(|table| table.line_number < line_number)
+            {
+                *cursor += 1;
+            }
+        }
+
+        let table = self
+            .symbol_table_stack
+            .last_mut()
+            .expect("no current symbol table");
+        seek(&table.sub_tables, &mut table.next_sub_table, line_number);
+        seek(
+            &table.hidden_annotation_blocks,
+            &mut table.next_hidden_annotation_block,
+            line_number,
+        );
+        seek(
+            &table.inlined_comprehension_blocks,
+            &mut table.next_inlined_comprehension_block,
+            line_number,
+        );
+    }
+

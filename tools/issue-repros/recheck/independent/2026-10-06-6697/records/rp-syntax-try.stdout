@@ -1,0 +1,11 @@
+
+<class 'BaseException'>
+boom
+kablam
+boom <class 'AssertionError'>
+kablam
+kablam
+kablam
+boom <class 'AssertionError'>
+boom <class 'NameError'>
+boom <class 'TypeError'>

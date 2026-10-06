@@ -1,0 +1,46 @@
+import os
+
+path = os.path.join(os.environ["SITE"], "_pytest", "pytester.py")
+with open(path, encoding="utf-8") as file:
+    source = file.read()
+assert "new_fds = {t[0] for t in lines2} - {t[0] for t in lines1}" in source
+compile(source, path, "exec")
+print("complete pytester.py compile passed")
+
+from pytest import console_main
+from _pytest.pytester import HookRecorder, LsofFdLeakChecker
+import pytest
+import _pytest.pytester
+
+assert callable(console_main)
+assert HookRecorder.__module__ == "_pytest.pytester"
+print("pytest", pytest.__version__)
+print("console_main and HookRecorder imports passed")
+print("pytester path", _pytest.pytester.__file__)
+
+checker = LsofFdLeakChecker()
+files = iter([[("1", "/before")], [("1", "/before"), ("2", "/new")]])
+checker.get_open_files = lambda: next(files)
+
+class Item:
+    location = ("controlled.py", 1, "test_control")
+
+    def __init__(self):
+        self.warnings = []
+
+    def warn(self, warning):
+        self.warnings.append(warning)
+
+item = Item()
+protocol = checker.pytest_runtest_protocol(item)
+assert next(protocol) is None
+try:
+    protocol.send("completed")
+except StopIteration as stop:
+    assert stop.value == "completed"
+else:
+    raise AssertionError("generator did not stop")
+assert len(item.warnings) == 1
+assert "1 FD leakage detected" in str(item.warnings[0])
+assert "('2', '/new')" in str(item.warnings[0])
+print("actual pytest_runtest_protocol finally body passed: one expected leak warning")

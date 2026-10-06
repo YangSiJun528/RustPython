@@ -1,0 +1,41 @@
+{
+  "actual_sha": "3909b18eac642d824cd5c1157f452e8765269a2e",
+  "worktree": "<home>/.codex/worktrees/issue-history-b/RustPython",
+  "command": [
+    "cargo",
+    "+1.96.1",
+    "build",
+    "--release",
+    "--locked",
+    "--target-dir",
+    "<survey>/.build/slot-b"
+  ],
+  "cargo_lock_sha256": "11692655fe31d3f814cd0cc7f6d02bf259ec05f062e5ddfb79ff22d508f8db29",
+  "toolchain": "rustc 1.96.1 (31fca3adb 2026-06-26)\nbinary: rustc\ncommit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd\ncommit-date: 2026-06-26\nhost: aarch64-apple-darwin\nrelease: 1.96.1\nLLVM version: 22.1.2",
+  "os": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "arch": "arm64",
+  "build_started_at": "2026-10-04T08:30:32.477546+00:00",
+  "build_status": "success",
+  "logs": [
+    "logs/build-b-3909b18e/build.stdout",
+    "logs/build-b-3909b18e/build.stderr"
+  ],
+  "binary": "<survey>/.build/slot-b/release/rustpython",
+  "cleanup_before_build": {
+    "command": [
+      "cargo",
+      "+1.99.0",
+      "clean",
+      "--target-dir",
+      "<survey>/.build/slot-b"
+    ],
+    "scope": "Only new task-created slot-B target output; preserved all original source/input/user artifacts/logs",
+    "exit_code": 0,
+    "removed_files": 9363,
+    "removed_size_printed": "3.6GiB"
+  },
+  "build_exit_code": 0,
+  "binary_sha256": "87dd696f95e674408d0801ddc788d086483fb24a65c818e61f4f8f222a2ad311",
+  "binary_size": 25908352,
+  "build_completed_at": "2026-10-04T08:32:47.062182+00:00"
+}

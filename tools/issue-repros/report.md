@@ -1,10 +1,14 @@
-# Review 24 resolved issues for closure
+# Review 25 resolved issues for closure
 
 ## Summary
 
-The reported problems in the 24 issues below are resolved in the verified scope. Please review the linked reproduction results for closure.
+While looking for issues to contribute to, I spent a considerable amount of time investigating reports whose original problems had already been resolved. Closing these issues would help keep the issue tracker up to date and make outstanding work easier to find.
 
-Verified against [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c) and independently rechecked on October 6, 2026 (KST). Each linked report includes the commands, environment and observed results. The [independent review](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/independent/2026-10-06-closure24/README.md) records the fresh evidence and verification limits.
+The reported problems in the 25 issues below are resolved within the verified scope. Please review the linked reproduction results for closure.
+
+Verification used `main` at [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c). The work included repeated reproduction checks and independent reviews. Each linked report records the environment, inputs, observed results and verification limits.
+
+I used OpenAI Codex extensively for investigation, reproduction checks and report drafting. I also manually checked some cases and confirmed that they behaved as described in the reports. I have not reviewed every underlying fix at the code level. The selected issues have supplied reproduction code or clearly defined scenarios that were checked with AI assistance.
 
 ## Details
 
@@ -161,6 +165,13 @@ All four reported blockers now work: class patterns, `frame.f_builtins`, `sys.st
 
 - Related changes: [PR #6428](https://github.com/RustPython/RustPython/pull/6428): expose the build-time Py_GIL_DISABLED value.
 - [Reproduction and results](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/cases/6429/README.md).
+
+### [#6697 — Symbol-table error while importing pytest](https://github.com/RustPython/RustPython/issues/6697)
+
+The original function with a generator expression inside `finally` now compiles and runs without the reported symbol-table error. The real pytest 9.1.1 `pytester.py` module compiles and imports, its affected `pytest_runtest_protocol` body passes a controlled execution check, and a small run through `pytest.console_main` reports `2 passed`. This verifies the reported compiler/import blocker; it does not establish that the full xonsh test suite passes.
+
+- Related changes: [PR #8507](https://github.com/RustPython/RustPython/pull/8507): preserve symbol-table cursors when compiling an extra copy of a `finally` block.
+- [Reproduction and results](https://github.com/YangSiJun528/RustPython/blob/resolved-issue-reproducers/tools/issue-repros/recheck/cases/6697/README.md).
 
 ### [#8052 — Ellipsis type name](https://github.com/RustPython/RustPython/issues/8052)
 

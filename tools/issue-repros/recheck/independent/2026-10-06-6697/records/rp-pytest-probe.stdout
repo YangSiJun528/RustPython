@@ -1,0 +1,5 @@
+complete pytester.py compile passed
+pytest 9.1.1
+console_main and HookRecorder imports passed
+pytester path <survey>/verification-tools/package-site/_pytest/pytester.py
+actual pytest_runtest_protocol finally body passed: one expected leak warning

@@ -1,0 +1,37 @@
+import sys
+import os
+import json
+import struct
+import hashlib
+import importlib.metadata
+import pytest
+import _pytest.pytester
+import pluggy
+import packaging
+import iniconfig
+import pygments
+
+result = {
+    "executable": sys.executable,
+    "executable_realpath": os.path.realpath(sys.executable),
+    "version": sys.version,
+    "implementation": sys.implementation.name,
+    "machine": os.uname().machine,
+    "pointer_bits": struct.calcsize("P") * 8,
+    "dont_write_bytecode": sys.dont_write_bytecode,
+    "sys_path": sys.path,
+    "packages": {},
+    "module_files": {},
+}
+for name in ("pytest", "pluggy", "packaging", "iniconfig", "pygments"):
+    distribution = importlib.metadata.distribution(name)
+    result["packages"][name] = {
+        "version": distribution.version,
+        "location": str(distribution.locate_file("")),
+    }
+for name in ("os", "json", "struct", "importlib.metadata", "pytest", "_pytest.pytester", "pluggy", "packaging", "iniconfig", "pygments"):
+    path = sys.modules[name].__file__
+    with open(path, "rb") as file:
+        digest = hashlib.sha256(file.read()).hexdigest()
+    result["module_files"][name] = {"path": path, "sha256": digest}
+print(json.dumps(result, indent=2, sort_keys=True))

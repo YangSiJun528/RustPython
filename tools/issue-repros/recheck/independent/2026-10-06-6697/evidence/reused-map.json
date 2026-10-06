@@ -1,0 +1,74 @@
+{
+   "evidence/reused/build-variants-a.json" : {
+      "copy_sha256" : "77a396b9933aec8d856bebf922c1353548b214adabdce0a82a8545382419b201",
+      "original_path" : "<survey>/analysis/build-variants-a.json",
+      "original_sha256" : "77a396b9933aec8d856bebf922c1353548b214adabdce0a82a8545382419b201",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/historical-3909b18eac-01.json" : {
+      "copy_sha256" : "2a92f861ec4c0d932e2bbbd85c9aea351cc9c0e7b94c6ba5dba02ed7fae4a047",
+      "original_path" : "<survey>/logs/issue-6697-case-02/historical-3909b18eac-01.json",
+      "original_sha256" : "2a92f861ec4c0d932e2bbbd85c9aea351cc9c0e7b94c6ba5dba02ed7fae4a047",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/historical-3909b18eac-01.stderr" : {
+      "copy_sha256" : "f272da3de58703cbc5337e5fd8b96443e03113c1985d2c08fdfed6af37a46ccf",
+      "original_path" : "<survey>/logs/issue-6697-case-02/historical-3909b18eac-01.stderr",
+      "original_sha256" : "f272da3de58703cbc5337e5fd8b96443e03113c1985d2c08fdfed6af37a46ccf",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/historical-3909b18eac-01.stdout" : {
+      "copy_sha256" : "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path" : "<survey>/logs/issue-6697-case-02/historical-3909b18eac-01.stdout",
+      "original_sha256" : "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/historical-build-provenance.json" : {
+      "copy_sha256" : "2cf55c0ac9d2e801fdf48964bef6c8449bf441b6343027ef938a4959a3d5db65",
+      "original_path" : "<survey>/logs/build-b-3909b18e/provenance.json",
+      "original_sha256" : "2cf55c0ac9d2e801fdf48964bef6c8449bf441b6343027ef938a4959a3d5db65",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/historical-source-01.py" : {
+      "copy_sha256" : "cc057db4113ba172a9ece7d32c64c29e3a04b2d088ad0a958680008c8510b95e",
+      "original_path" : "<survey>/repros/6697/issue-6697-case-02/source-01.py",
+      "original_sha256" : "cc057db4113ba172a9ece7d32c64c29e3a04b2d088ad0a958680008c8510b95e",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/pytester.py" : {
+      "copy_sha256" : "9e791d0a3446b04324e70bb939712f8d490005ad13eb46ab3249592baa08ff17",
+      "original_path" : "<survey>/verification-tools/package-site/_pytest/pytester.py",
+      "original_sha256" : "9e791d0a3446b04324e70bb939712f8d490005ad13eb46ab3249592baa08ff17",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/rustpython-vm-build-output.txt" : {
+      "copy_sha256" : "314b80a9d8e2ad4cd6032499c0eb0bf52847361f046ba094e86b911265823edf",
+      "original_path" : "<survey>/.build/slot-a/verification/build/rustpython-vm-6e3530df589ea608/output",
+      "original_sha256" : "314b80a9d8e2ad4cd6032499c0eb0bf52847361f046ba094e86b911265823edf",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/sqlite-verification-build.stderr" : {
+      "copy_sha256" : "f0281539e50979f24a854314edf8915c71b681e63ead76de1a47c77b524edad6",
+      "original_path" : "<survey>/logs/build-a/sqlite-verification-build.stderr",
+      "original_sha256" : "f0281539e50979f24a854314edf8915c71b681e63ead76de1a47c77b524edad6",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/sqlite-verification-build.stdout" : {
+      "copy_sha256" : "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_path" : "<survey>/logs/build-a/sqlite-verification-build.stdout",
+      "original_sha256" : "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/syntax_try.py" : {
+      "copy_sha256" : "ad83153f79e8679bcc4291fddb71b84fee62bb179aafb787588407b9ed9e58be",
+      "original_path" : "<workspace>/extra_tests/snippets/syntax_try.py",
+      "original_sha256" : "ad83153f79e8679bcc4291fddb71b84fee62bb179aafb787588407b9ed9e58be",
+      "verbatim_copy" : true
+   },
+   "evidence/reused/testutils.py" : {
+      "copy_sha256" : "f817d0abfb892a8693ed66a7b23a6d707094af5bceae37117ccac3e346c3d736",
+      "original_path" : "<workspace>/extra_tests/snippets/testutils.py",
+      "original_sha256" : "f817d0abfb892a8693ed66a7b23a6d707094af5bceae37117ccac3e346c3d736",
+      "verbatim_copy" : true
+   }
+}

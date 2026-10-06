@@ -1,6 +1,6 @@
 # Verification environment and evidence mapping
 
-These reports describe completed October 5, 2026 executions at
+The initial reports describe completed October 5, 2026 executions at
 `f39b054b9c8cbbf884f53123eef028131789990c`. Each case includes its reproduction inputs and relevant results inline.
 
 ## Executables and actual standard library
@@ -85,3 +85,12 @@ Historical evidence was reused and can involve different platforms, toolchains
 or expanded inputs. It is never labeled a fresh execution. The related PRs
 explain observed changes but have not been isolated by running each PR and its
 parent. No exact first-fixing commit is claimed.
+
+## October 6 independent reviews
+
+The [24-issue review](independent/2026-10-06-closure24/README.md) rechecked the
+original closure candidates. The separate [#6697 review](independent/2026-10-06-6697/README.md)
+adds a fresh source-first assessment, runtime results and executable, library
+and package identity checks. Its report states the original pytest error scope
+and the limits of the application-level verification. The earlier audit
+snapshots and their original issue counts are unchanged.

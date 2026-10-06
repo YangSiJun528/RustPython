@@ -1,0 +1,7 @@
+Lib/os.py
+Lib/json/__init__.py
+Lib/struct.py
+Lib/importlib/metadata/__init__.py
+crates/codegen/src/compile.rs
+extra_tests/snippets/syntax_try.py
+extra_tests/snippets/testutils.py

@@ -56,3 +56,23 @@ changing closure verdicts.
   deterministic. The combined draft still contains exactly 24 closure candidates.
 - Raw evidence, historical archives, executable caches and interpreter sources
   remain unchanged. This validation runs no behavior probes.
+
+
+## October 6: independent #6697 review and 25-issue draft
+
+- #6697 was reviewed from its original issue and comments before reading prior
+  conclusions, then independently executed at the same interpreter baseline.
+  [The new report](independent/2026-10-06-6697/README.md) records its evidence
+  and scope limits. This runtime audit is separate from document rendering.
+- The current catalog and manifest contain 28 cases: 25 closure candidates and
+  the same three partial cases. All previous 27 case documents and judgments
+  remain unchanged. The combined draft includes #6697 once.
+- Source and export hashes, JSON, evidence links, count consistency and
+  deterministic report regeneration were checked. Executed inputs are archived
+  as text; original local evidence and prior audit snapshots are preserved.
+- The summary explains the issue-tracker cleanup purpose and distinguishes
+  extensive AI assistance, the contributor's stated manual spot checks and the
+  absence of a complete code-level review of every underlying fix.
+
+Normal pre-commit hooks run for the documentation commit. No interpreter,
+stdlib or existing test implementation changes are included.

@@ -1,0 +1,5 @@
+def a():
+    try:
+        return
+    finally:
+        (0 for a in ())

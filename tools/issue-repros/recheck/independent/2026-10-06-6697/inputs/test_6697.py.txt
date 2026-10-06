@@ -1,0 +1,18 @@
+from original import a
+
+
+def test_original_function():
+    assert a() is None
+
+
+def test_finally_comprehension_on_return():
+    seen = []
+
+    def run():
+        try:
+            return "value"
+        finally:
+            seen.append({t[0] for t in [("new", 1), ("old", 2)]} - {t[0] for t in [("old", 2)]})
+
+    assert run() == "value"
+    assert seen == [{"new"}]

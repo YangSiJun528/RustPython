@@ -1,0 +1,1136 @@
+{
+  "source": "<6697-audit>",
+  "files": [
+    {
+      "source": "README.md",
+      "export": "README.md",
+      "original_sha256": "323f16cb874e1f0ba6e2e0a4a77e2dc1bb00dcceaf819fa84a1948481120f9e1",
+      "export_sha256": "fa06361b5cdbf039a80b520ad4539572ea6a2e7b25aea204dcda67ecee7c5862",
+      "transformations": [
+        "local path aliases",
+        "relative Markdown links"
+      ]
+    },
+    {
+      "source": "SOURCE-FIRST-PLAN.md",
+      "export": "SOURCE-FIRST-PLAN.md",
+      "original_sha256": "b0baac30412054b51db06377ee8857f23e23c6de0f6d95e4c3177cf2b612c9c6",
+      "export_sha256": "40f54e285bfc60a31cdf2527aca91b8ddd5d9c459145efcfe82d013b0a012b89",
+      "transformations": [
+        "local path aliases",
+        "relative Markdown links"
+      ]
+    },
+    {
+      "source": "assessment.json",
+      "export": "assessment.json",
+      "original_sha256": "98a40a1fd4d4780552db9ac361e23d5f4b1f1d3d5e3c5e10d7746afe352a3728",
+      "export_sha256": "bd7dcef1f20030d9bdbcbc12a55c55d1c4a5ddc8ed688031f2f2bf8026e51882",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "check-source.pl",
+      "export": "check-source.pl",
+      "original_sha256": "80c8c1a8e433c37d62e1a07e88a181477cb9963e56d956bf702866a8756af42a",
+      "export_sha256": "502b66b785a6ad94320dedd61448f0e6b8b1fac0b953df5a274d4cd7654d4cbf",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/artifact-sha256.txt",
+      "export": "evidence/artifact-sha256.txt",
+      "original_sha256": "f6018739af8239c8f4def9610254dabc1e9d96e1971b72a4ee0c5c583765c5de",
+      "export_sha256": "f6018739af8239c8f4def9610254dabc1e9d96e1971b72a4ee0c5c583765c5de",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/change-8507.patch",
+      "export": "evidence/change-8507.patch",
+      "original_sha256": "572db4e87e7be53c72dd0117c46d4373f81a5b751a2a1a90cdda0b7557230c9c",
+      "export_sha256": "572db4e87e7be53c72dd0117c46d4373f81a5b751a2a1a90cdda0b7557230c9c",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/comments.json",
+      "export": "evidence/comments.json",
+      "original_sha256": "837e39de2da1d49889169e4957189dd1b6c8355096f1237afbe1957d39076776",
+      "export_sha256": "837e39de2da1d49889169e4957189dd1b6c8355096f1237afbe1957d39076776",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/current-compiler-blame.txt",
+      "export": "evidence/current-compiler-blame.txt",
+      "original_sha256": "4e69c08f6a370db36773b068a69fa20f8b3c04ef80821aaec8505f7f881dd8db",
+      "export_sha256": "4e69c08f6a370db36773b068a69fa20f8b3c04ef80821aaec8505f7f881dd8db",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/current-compiler-cursors.txt",
+      "export": "evidence/current-compiler-cursors.txt",
+      "original_sha256": "f0a431582ca8020d461afb3b852d7acb70df0ef41ee2e931eea8eaccc4af0135",
+      "export_sha256": "f0a431582ca8020d461afb3b852d7acb70df0ef41ee2e931eea8eaccc4af0135",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/current-compiler-finally.txt",
+      "export": "evidence/current-compiler-finally.txt",
+      "original_sha256": "4ceba0931f3a948dd73c6c96f27168ce683111e15885932c8db060541a3ef268",
+      "export_sha256": "4ceba0931f3a948dd73c6c96f27168ce683111e15885932c8db060541a3ef268",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/executable-file-types.txt",
+      "export": "evidence/executable-file-types.txt",
+      "original_sha256": "9325557c8ecb9a0de39d9795441d9bc04a5dfb9f493ba44b4961f5de93fdf509",
+      "export_sha256": "b0e7ee04f9640db8bc459892cfa411d5860f34a8642ce2d197533784109824d1",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/final-document-check.json",
+      "export": "evidence/final-document-check.json",
+      "original_sha256": "c21b0253584189a55c83d825c54f2503d6f8cceeb47690a8323099f54c48b03f",
+      "export_sha256": "c21b0253584189a55c83d825c54f2503d6f8cceeb47690a8323099f54c48b03f",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/followup-change.patch",
+      "export": "evidence/followup-change.patch",
+      "original_sha256": "314cca0f3379a7c5022b2dce34af915515363c5370852bb76376d7ded9d35ab6",
+      "export_sha256": "314cca0f3379a7c5022b2dce34af915515363c5370852bb76376d7ded9d35ab6",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/git-diff-after.txt",
+      "export": "evidence/git-diff-after.txt",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/git-status-after.txt",
+      "export": "evidence/git-status-after.txt",
+      "original_sha256": "8f1252853cbb7ae026e92d5dad544ee6bc57fd7f6dc5d4831141c4cc7571d1e1",
+      "export_sha256": "8f1252853cbb7ae026e92d5dad544ee6bc57fd7f6dc5d4831141c4cc7571d1e1",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/github-retrieved-at.txt",
+      "export": "evidence/github-retrieved-at.txt",
+      "original_sha256": "12804d979210221392e9d03e11b00045ef6e52be03fa78011f808c7bdff3122c",
+      "export_sha256": "12804d979210221392e9d03e11b00045ef6e52be03fa78011f808c7bdff3122c",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/issue.json",
+      "export": "evidence/issue.json",
+      "original_sha256": "f48789a5b91e139a9b3c3bc3708afc88710332e682f01fdbc9957db81d1233d7",
+      "export_sha256": "ca3807f1cd4e52a7b9c63eee84fa63bcb65337f9f585fa27ccb8a2eb0132d93e",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/os-version.txt",
+      "export": "evidence/os-version.txt",
+      "original_sha256": "9a27ea4f1e11f7b9a4f7573d8729db037a10ce2e457f97cb73f646a96a550b16",
+      "export_sha256": "9a27ea4f1e11f7b9a4f7573d8729db037a10ce2e457f97cb73f646a96a550b16",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/preservation-after.json",
+      "export": "evidence/preservation-after.json",
+      "original_sha256": "c0e53d592583af38f6772858f40215df071f20053cfebe404b26cf5b8298364f",
+      "export_sha256": "f0e3ee79632d53eb79bc429ea1204f380d727a6d084212dad826b7f22bf325df",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/preservation-before.json",
+      "export": "evidence/preservation-before.json",
+      "original_sha256": "c0e53d592583af38f6772858f40215df071f20053cfebe404b26cf5b8298364f",
+      "export_sha256": "f0e3ee79632d53eb79bc429ea1204f380d727a6d084212dad826b7f22bf325df",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/preservation-comparison.json",
+      "export": "evidence/preservation-comparison.json",
+      "original_sha256": "f5f518506565a2cc28fdf50b0065153b030a9dbfadce6847d52e3e19536cbb1a",
+      "export_sha256": "f5f518506565a2cc28fdf50b0065153b030a9dbfadce6847d52e3e19536cbb1a",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/reused/build-variants-a.json",
+      "export": "evidence/reused/build-variants-a.json",
+      "original_sha256": "77a396b9933aec8d856bebf922c1353548b214adabdce0a82a8545382419b201",
+      "export_sha256": "8bd832e0781c955a0c3385bbc9aeb40c2adfe97511faaccf455c1e91755d3174",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/reused/historical-3909b18eac-01.json",
+      "export": "evidence/reused/historical-3909b18eac-01.json",
+      "original_sha256": "2a92f861ec4c0d932e2bbbd85c9aea351cc9c0e7b94c6ba5dba02ed7fae4a047",
+      "export_sha256": "960d015abc184da67b6071e079d6453f909c5c40e4895420276c85a0d58f51c4",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/reused/historical-3909b18eac-01.stderr",
+      "export": "evidence/reused/historical-3909b18eac-01.stderr",
+      "original_sha256": "f272da3de58703cbc5337e5fd8b96443e03113c1985d2c08fdfed6af37a46ccf",
+      "export_sha256": "ed5af621cb59eb581987b1505ed0d19e1ec3c72e90990a0d9d850bd287016d9b",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/reused/historical-3909b18eac-01.stdout",
+      "export": "evidence/reused/historical-3909b18eac-01.stdout",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/reused/historical-build-provenance.json",
+      "export": "evidence/reused/historical-build-provenance.json",
+      "original_sha256": "2cf55c0ac9d2e801fdf48964bef6c8449bf441b6343027ef938a4959a3d5db65",
+      "export_sha256": "4b9185b9b1b5585fd006c464a104819f5dd9e803e1554d13dcef1eb0b2287aa5",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/reused/historical-source-01.py",
+      "export": "evidence/reused/historical-source-01.py.txt",
+      "original_sha256": "cc057db4113ba172a9ece7d32c64c29e3a04b2d088ad0a958680008c8510b95e",
+      "export_sha256": "cc057db4113ba172a9ece7d32c64c29e3a04b2d088ad0a958680008c8510b95e",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "evidence/reused/pytester.py",
+      "export": "evidence/reused/pytester.py.txt",
+      "original_sha256": "9e791d0a3446b04324e70bb939712f8d490005ad13eb46ab3249592baa08ff17",
+      "export_sha256": "9e791d0a3446b04324e70bb939712f8d490005ad13eb46ab3249592baa08ff17",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "evidence/reused/rustpython-vm-build-output.txt",
+      "export": "evidence/reused/rustpython-vm-build-output.txt",
+      "original_sha256": "314b80a9d8e2ad4cd6032499c0eb0bf52847361f046ba094e86b911265823edf",
+      "export_sha256": "314b80a9d8e2ad4cd6032499c0eb0bf52847361f046ba094e86b911265823edf",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/reused/sqlite-verification-build.stderr",
+      "export": "evidence/reused/sqlite-verification-build.stderr",
+      "original_sha256": "f0281539e50979f24a854314edf8915c71b681e63ead76de1a47c77b524edad6",
+      "export_sha256": "8530bcfe3532322bec74463ad7b7c5ab0ba8eb69e4fd1648811103ba711f9447",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/reused/sqlite-verification-build.stdout",
+      "export": "evidence/reused/sqlite-verification-build.stdout",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/reused/syntax_try.py",
+      "export": "evidence/reused/syntax_try.py.txt",
+      "original_sha256": "ad83153f79e8679bcc4291fddb71b84fee62bb179aafb787588407b9ed9e58be",
+      "export_sha256": "ad83153f79e8679bcc4291fddb71b84fee62bb179aafb787588407b9ed9e58be",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "evidence/reused/testutils.py",
+      "export": "evidence/reused/testutils.py.txt",
+      "original_sha256": "f817d0abfb892a8693ed66a7b23a6d707094af5bceae37117ccac3e346c3d736",
+      "export_sha256": "f817d0abfb892a8693ed66a7b23a6d707094af5bceae37117ccac3e346c3d736",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "evidence/reused-map.json",
+      "export": "evidence/reused-map.json",
+      "original_sha256": "554e81c17e3e6ca57cba6bcc730d781dbbcb9d0c836dc2f5bb5f1c7126361af2",
+      "export_sha256": "07838cb12ce8e4ac4f1fc6a3e3305ea2563c52983da287667d0d5d73f6349013",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/source-comparison.json",
+      "export": "evidence/source-comparison.json",
+      "original_sha256": "f61633f65e585a28b213860edfdc2dc04ca1abbfb8d2882c0f1ce887d1271e3d",
+      "export_sha256": "f61633f65e585a28b213860edfdc2dc04ca1abbfb8d2882c0f1ce887d1271e3d",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/tracked-paths.txt",
+      "export": "evidence/tracked-paths.txt",
+      "original_sha256": "1d1874f2361a3a5d5d3c841c5365390233bd7f401b519fbd65d88cbff258e721",
+      "export_sha256": "1d1874f2361a3a5d5d3c841c5365390233bd7f401b519fbd65d88cbff258e721",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "evidence/uname.txt",
+      "export": "evidence/uname.txt",
+      "original_sha256": "0be1725caefca9dc9d7899896a4c550ce4c2313b78d49607aa4af798435ae426",
+      "export_sha256": "0be1725caefca9dc9d7899896a4c550ce4c2313b78d49607aa4af798435ae426",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "final-audit.pl",
+      "export": "final-audit.pl",
+      "original_sha256": "6e7f2f79724a35a170a611e2e0dbaa04fa4c0c1c1da21148b4def49b9fc7f74c",
+      "export_sha256": "2b36f7173f437404f1e8cbfb7f737c0f8ac710880c7a45df22b358c6093c0336",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "finish.pl",
+      "export": "finish.pl",
+      "original_sha256": "39512fa62b9147801a70e85e7ba8c260fda57539e8ff829a306ec7688a6ab266",
+      "export_sha256": "22ab0be2a4e7abb7796b72791121c33bc33016c28f9235eda16bb38f5efc6aa1",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "inputs/call-original.py",
+      "export": "inputs/call-original.py.txt",
+      "original_sha256": "98e8f1967f47ecc10c51b6b0493a7c1220d06f2cd51e3422733f502df230d1ab",
+      "export_sha256": "98e8f1967f47ecc10c51b6b0493a7c1220d06f2cd51e3422733f502df230d1ab",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "inputs/controls.py",
+      "export": "inputs/controls.py.txt",
+      "original_sha256": "7971b513386d5d3cfb2aee46d75e51d01cb9033e8dd2595aaa27b2af74da17b8",
+      "export_sha256": "7971b513386d5d3cfb2aee46d75e51d01cb9033e8dd2595aaa27b2af74da17b8",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "inputs/identity.py",
+      "export": "inputs/identity.py.txt",
+      "original_sha256": "3814601bdc688b2406e269b3c3b086cc4e0de4ca44eb421737b1104e6c4e1a80",
+      "export_sha256": "3814601bdc688b2406e269b3c3b086cc4e0de4ca44eb421737b1104e6c4e1a80",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "inputs/original.py",
+      "export": "inputs/original.py.txt",
+      "original_sha256": "cc057db4113ba172a9ece7d32c64c29e3a04b2d088ad0a958680008c8510b95e",
+      "export_sha256": "cc057db4113ba172a9ece7d32c64c29e3a04b2d088ad0a958680008c8510b95e",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "inputs/pytest-probe.py",
+      "export": "inputs/pytest-probe.py.txt",
+      "original_sha256": "1bf65923b09a193d0778f86668da12f2fc67bd5c9f2ae3bc6e7441414c1a9fb7",
+      "export_sha256": "1bf65923b09a193d0778f86668da12f2fc67bd5c9f2ae3bc6e7441414c1a9fb7",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "inputs/pytest.ini",
+      "export": "inputs/pytest.ini",
+      "original_sha256": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+      "export_sha256": "8250d20f42b419af40706490ead78aabab9feba93eab09a3f626e3de5256e1f4",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "inputs/run-pytest.py",
+      "export": "inputs/run-pytest.py.txt",
+      "original_sha256": "7e73c6a5445ff7fa2ad59278fd6317ce4e40e853b4f4ed595cfb1a6443c0dd34",
+      "export_sha256": "7e73c6a5445ff7fa2ad59278fd6317ce4e40e853b4f4ed595cfb1a6443c0dd34",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "inputs/test_6697.py",
+      "export": "inputs/test_6697.py.txt",
+      "original_sha256": "1a35972fc11d342291826b3a9b7dcf83e19ab5a535663926ad246c3cb427f709",
+      "export_sha256": "1a35972fc11d342291826b3a9b7dcf83e19ab5a535663926ad246c3cb427f709",
+      "transformations": [
+        "local path aliases",
+        "text archive suffix"
+      ]
+    },
+    {
+      "source": "portable-setup.pl",
+      "export": "portable-setup.pl",
+      "original_sha256": "ee039b3e1c5eba274d02a92e7f825bff62906b5212e73bb2d115935a1eb7b04f",
+      "export_sha256": "19cd99d4dce08f41a0439231767e018d55b869c41a48139590801b1cbfd4dda8",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "preserve.pl",
+      "export": "preserve.pl",
+      "original_sha256": "eae3956dd878a233644edef44b40d61a82e30df540f72bfac8f9d575b8fc0043",
+      "export_sha256": "d739d55c38f9483bc9520df99d7e5afc71055f894d9137aaf7dfff19800864e3",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "provenance.json",
+      "export": "provenance.json",
+      "original_sha256": "86f9572b4d120924ee180553e00ae417d726908202347db77dd9b371a99ff82b",
+      "export_sha256": "04de2c9f3e6043d3d5e581404ccf5347b85bd115e62446de5dba6f0ed606b702",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-call.json",
+      "export": "records/cp-call.json",
+      "original_sha256": "22f462c82a41c735e7c01de8d0423d2e6ac045a91c39cbebe0b2f26ba8649bf9",
+      "export_sha256": "5b0dff035eac16833b609435e31a31be9d0a4bd8db9b5663ca3a474b8c0fdcd0",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-call.stderr",
+      "export": "records/cp-call.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-call.stdout",
+      "export": "records/cp-call.stdout",
+      "original_sha256": "708a729a874aa1f33143a3a215b5fffe53ca8274fd0b880e94793db2d190bf0a",
+      "export_sha256": "708a729a874aa1f33143a3a215b5fffe53ca8274fd0b880e94793db2d190bf0a",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-controls.json",
+      "export": "records/cp-controls.json",
+      "original_sha256": "4dcd5a929a8f499be5644c29a23ae8c173c699db33e263c239b8faf124274c77",
+      "export_sha256": "546df37f66d188573ec1d74674234c4abfe3a642ac96a07ee3011d0804a5aa39",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-controls.stderr",
+      "export": "records/cp-controls.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-controls.stdout",
+      "export": "records/cp-controls.stdout",
+      "original_sha256": "e8ee06b8d5be0921d066d5071e826ba7ad0569c7d0aa16b6102c9757c7fc79a0",
+      "export_sha256": "e8ee06b8d5be0921d066d5071e826ba7ad0569c7d0aa16b6102c9757c7fc79a0",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-identity-v2.json",
+      "export": "records/cp-identity-v2.json",
+      "original_sha256": "0c7f43012e8108bb34551cea197804fe465a3783707890075f4a9927594fbab5",
+      "export_sha256": "dc7c3caf0fb3dce248d109920b8d695f868b3335096ecca540d97d5c889e6c12",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-identity-v2.stderr",
+      "export": "records/cp-identity-v2.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-identity-v2.stdout",
+      "export": "records/cp-identity-v2.stdout",
+      "original_sha256": "20fb45267b2bb1fca3a9c32d368194a59574afec9c73f5daf2ceb88eb7a7f70f",
+      "export_sha256": "45cd218d372e8058cf90b78f8dbb77ffba6953dc35703736172f03fc1bf0c606",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-identity.json",
+      "export": "records/cp-identity.json",
+      "original_sha256": "39402fdc985929e72078defd4ee6f08b4e7fa5e06576b5a8b037e8222980d937",
+      "export_sha256": "f364085af847a1255417ff590c0a249252cf724d9467770001ec021328b5193e",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-identity.stderr",
+      "export": "records/cp-identity.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-identity.stdout",
+      "export": "records/cp-identity.stdout",
+      "original_sha256": "20fb45267b2bb1fca3a9c32d368194a59574afec9c73f5daf2ceb88eb7a7f70f",
+      "export_sha256": "45cd218d372e8058cf90b78f8dbb77ffba6953dc35703736172f03fc1bf0c606",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-original.json",
+      "export": "records/cp-original.json",
+      "original_sha256": "2eff788763ff04fc8725108beea8170a58f816d500190686838cc464c08ea0cd",
+      "export_sha256": "5575e9d3e09b68802cbff9b0359e155a0a92191c0373735ce682312613fef59d",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-original.stderr",
+      "export": "records/cp-original.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-original.stdout",
+      "export": "records/cp-original.stdout",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-pytest-probe.json",
+      "export": "records/cp-pytest-probe.json",
+      "original_sha256": "2196cba9a0234411f195e4be0551c756ccde9813307ce34a789a36c109d00f7e",
+      "export_sha256": "1e59030ee1611f83314b57530671ce401accaf7a3a1f152cd6676427050a599e",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-pytest-probe.stderr",
+      "export": "records/cp-pytest-probe.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-pytest-probe.stdout",
+      "export": "records/cp-pytest-probe.stdout",
+      "original_sha256": "ba8a87b5e89aefcd120e0ee9fcd4b21d53874035f0f52f6884766e108ecc289d",
+      "export_sha256": "1e66748322cb220cb2c06debbfcebfb18dbd07bb79b9a12c0aba45e98732b696",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-pytest-smoke.json",
+      "export": "records/cp-pytest-smoke.json",
+      "original_sha256": "a1c0ce5533b6dee48b893458b4de168b0a92165c3b6a9dde3a3e238fab7f9bf1",
+      "export_sha256": "ecef1aadb4761fe2908524ed09e633b123a08f781d7df9da0ec04680ff112b13",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-pytest-smoke.stderr",
+      "export": "records/cp-pytest-smoke.stderr",
+      "original_sha256": "297e3b5d39f4d9191332962fc0a7d49f3b869f8c0d15411b46f6947982f1d396",
+      "export_sha256": "49b29bb881ff1da147a9c299b95d0c477caacfdc5c804a7b206ded165e246bc1",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-pytest-smoke.stdout",
+      "export": "records/cp-pytest-smoke.stdout",
+      "original_sha256": "f9991bfc1c7ebd12bb16ce56e1cf3117618ca286795cd280e4f6ac597c67ff48",
+      "export_sha256": "f9991bfc1c7ebd12bb16ce56e1cf3117618ca286795cd280e4f6ac597c67ff48",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-syntax-try.json",
+      "export": "records/cp-syntax-try.json",
+      "original_sha256": "c010d3e35b7b88273c1000118c07df1a84030ca551f0c3dfe5890a5a7f8dddc4",
+      "export_sha256": "852f548e7984598c76892bc3c4c0c5f9f61d7c33f71b72d6cc3b3b1a6f07ac55",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-syntax-try.stderr",
+      "export": "records/cp-syntax-try.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-syntax-try.stdout",
+      "export": "records/cp-syntax-try.stdout",
+      "original_sha256": "2aabb548d227ec1795886542a0028dc432bbb503ca8bbf13d471e6031c59ce49",
+      "export_sha256": "2aabb548d227ec1795886542a0028dc432bbb503ca8bbf13d471e6031c59ce49",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-version-v2.json",
+      "export": "records/cp-version-v2.json",
+      "original_sha256": "ab392a1d69f302da39f37099b24cd31e586a27a9629c9382641ff57884ab2b9e",
+      "export_sha256": "062aeddd925948e1221344433a1661604df8244d09defab4c949af19510d116d",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-version-v2.stderr",
+      "export": "records/cp-version-v2.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-version-v2.stdout",
+      "export": "records/cp-version-v2.stdout",
+      "original_sha256": "48243c986c69e0936c0c1a0582ba92a252815bb1acc085f002a659ab359e0d1a",
+      "export_sha256": "48243c986c69e0936c0c1a0582ba92a252815bb1acc085f002a659ab359e0d1a",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-version.json",
+      "export": "records/cp-version.json",
+      "original_sha256": "b68222eb472e550624db997f4b68e47f1499364324e2da2fe9212615c9f2ec25",
+      "export_sha256": "9805b9482fcde978441eca66f7554d3411019b81b6aff74cd900c2f3e370f569",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-version.stderr",
+      "export": "records/cp-version.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/cp-version.stdout",
+      "export": "records/cp-version.stdout",
+      "original_sha256": "48243c986c69e0936c0c1a0582ba92a252815bb1acc085f002a659ab359e0d1a",
+      "export_sha256": "48243c986c69e0936c0c1a0582ba92a252815bb1acc085f002a659ab359e0d1a",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-call.json",
+      "export": "records/rp-call.json",
+      "original_sha256": "fc852a823b8b1be3ea6e559dc922ab87a485cc435f2481188f682051ccf02b34",
+      "export_sha256": "756bea7eedf5db445f419082218f43103c40fc7d424c58b5b9b592a3d5a206df",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-call.stderr",
+      "export": "records/rp-call.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-call.stdout",
+      "export": "records/rp-call.stdout",
+      "original_sha256": "708a729a874aa1f33143a3a215b5fffe53ca8274fd0b880e94793db2d190bf0a",
+      "export_sha256": "708a729a874aa1f33143a3a215b5fffe53ca8274fd0b880e94793db2d190bf0a",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-controls.json",
+      "export": "records/rp-controls.json",
+      "original_sha256": "9bf5be04b6ac39986b7ffa84d56a68ab6bdbb4645ff987569d17f913c390ff74",
+      "export_sha256": "6ce47ab6803e4dd7a20058649a41f0092ba3a7354fcad6919f4feb345de6b805",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-controls.stderr",
+      "export": "records/rp-controls.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-controls.stdout",
+      "export": "records/rp-controls.stdout",
+      "original_sha256": "e8ee06b8d5be0921d066d5071e826ba7ad0569c7d0aa16b6102c9757c7fc79a0",
+      "export_sha256": "e8ee06b8d5be0921d066d5071e826ba7ad0569c7d0aa16b6102c9757c7fc79a0",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-identity-v2.json",
+      "export": "records/rp-identity-v2.json",
+      "original_sha256": "453903853c8e437db194f3b6bc79da73e2a0fdd4e21403847d68858030dc76d9",
+      "export_sha256": "b6473a67b7e5c0bb0f5760589826408d798fe0a990799168e703383c764fda5f",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-identity-v2.stderr",
+      "export": "records/rp-identity-v2.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-identity-v2.stdout",
+      "export": "records/rp-identity-v2.stdout",
+      "original_sha256": "be10ade005b18942227bceb491c58abb53aafea1b364263aebf5037ff499cb09",
+      "export_sha256": "5b7f9bb41465607fc65edac8821897e3acfcabcc7019b7fe3d06e85f79660b38",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-identity.json",
+      "export": "records/rp-identity.json",
+      "original_sha256": "59ba4339cf44b24ed3afb36bf261202ad0e05178157a9ca2082a135f451d960d",
+      "export_sha256": "1f1e1dec3a6fc605de740661a80eaa9a698452ac5ee655de3318502ba33a1a56",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-identity.stderr",
+      "export": "records/rp-identity.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-identity.stdout",
+      "export": "records/rp-identity.stdout",
+      "original_sha256": "be10ade005b18942227bceb491c58abb53aafea1b364263aebf5037ff499cb09",
+      "export_sha256": "5b7f9bb41465607fc65edac8821897e3acfcabcc7019b7fe3d06e85f79660b38",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-original.json",
+      "export": "records/rp-original.json",
+      "original_sha256": "d9dbea964911063497faf8595f80626ebbc87b786cce460a18d4af916aafaf47",
+      "export_sha256": "6e34f48c22165bfa1a5963c5e305c398d8c68af38f270608e9dd7842d0c94886",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-original.stderr",
+      "export": "records/rp-original.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-original.stdout",
+      "export": "records/rp-original.stdout",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-pytest-probe.json",
+      "export": "records/rp-pytest-probe.json",
+      "original_sha256": "d0fef098152fe62b6520abfc4c9c34804107c269a7f7b9af5735e4b591b2d3a5",
+      "export_sha256": "8302adddcb2b3c966ee4b3daae44518b1704862c410a2f26b00fec24da4ede10",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-pytest-probe.stderr",
+      "export": "records/rp-pytest-probe.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-pytest-probe.stdout",
+      "export": "records/rp-pytest-probe.stdout",
+      "original_sha256": "ba8a87b5e89aefcd120e0ee9fcd4b21d53874035f0f52f6884766e108ecc289d",
+      "export_sha256": "1e66748322cb220cb2c06debbfcebfb18dbd07bb79b9a12c0aba45e98732b696",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-pytest-smoke.json",
+      "export": "records/rp-pytest-smoke.json",
+      "original_sha256": "1b0a42b64cf838bb6ac2e5b58f36eaec839ddf29cec3a2ce80bb6907656d741e",
+      "export_sha256": "cddac6eb3cc45f255a9059518e1c7f7858e492e743282b6d413c8ee18949ecd6",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-pytest-smoke.stderr",
+      "export": "records/rp-pytest-smoke.stderr",
+      "original_sha256": "297e3b5d39f4d9191332962fc0a7d49f3b869f8c0d15411b46f6947982f1d396",
+      "export_sha256": "49b29bb881ff1da147a9c299b95d0c477caacfdc5c804a7b206ded165e246bc1",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-pytest-smoke.stdout",
+      "export": "records/rp-pytest-smoke.stdout",
+      "original_sha256": "fcd476841e8af121ff907e81a92a59579b64c007b70cb79f9d096806f703fc7e",
+      "export_sha256": "fcd476841e8af121ff907e81a92a59579b64c007b70cb79f9d096806f703fc7e",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-syntax-try.json",
+      "export": "records/rp-syntax-try.json",
+      "original_sha256": "6fc6ea79dd3864f72cf28d8cb66de8aef2e012ec4ad579f2b1b2b68627c7d9a9",
+      "export_sha256": "039970e88727620e466d2b993fd9c0860bdb2ecc236b72c3491a1456d9517033",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-syntax-try.stderr",
+      "export": "records/rp-syntax-try.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-syntax-try.stdout",
+      "export": "records/rp-syntax-try.stdout",
+      "original_sha256": "2aabb548d227ec1795886542a0028dc432bbb503ca8bbf13d471e6031c59ce49",
+      "export_sha256": "2aabb548d227ec1795886542a0028dc432bbb503ca8bbf13d471e6031c59ce49",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-version-v2.json",
+      "export": "records/rp-version-v2.json",
+      "original_sha256": "817da743bc94242a29b8115b0882ce01c228bee950521cdbb5cad3cff57d2abc",
+      "export_sha256": "1a3db272727eb838aecc58232a7053f356d692239ad1c871b7116dab6460b5f7",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-version-v2.stderr",
+      "export": "records/rp-version-v2.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-version-v2.stdout",
+      "export": "records/rp-version-v2.stdout",
+      "original_sha256": "11465c278e2242b32cd56d20220ecf9dab6ce1cf8240db51df01fd5884c9b7f1",
+      "export_sha256": "11465c278e2242b32cd56d20220ecf9dab6ce1cf8240db51df01fd5884c9b7f1",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-version.json",
+      "export": "records/rp-version.json",
+      "original_sha256": "c2217beaac48ef10d63bd8e51c9f714a8fbe0a0bd171a2382949f1c0c590311c",
+      "export_sha256": "1ec7a14ef94c0255c18e3dd9081ab2a212a672579f36aad733d54c6d3d0f9687",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-version.stderr",
+      "export": "records/rp-version.stderr",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "records/rp-version.stdout",
+      "export": "records/rp-version.stdout",
+      "original_sha256": "11465c278e2242b32cd56d20220ecf9dab6ce1cf8240db51df01fd5884c9b7f1",
+      "export_sha256": "11465c278e2242b32cd56d20220ecf9dab6ce1cf8240db51df01fd5884c9b7f1",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "report-qa.json",
+      "export": "report-qa.json",
+      "original_sha256": "a99892393267aeaf763f9eb47c5014d6bbdc26135444f3c55db06e85bc701c3e",
+      "export_sha256": "a99892393267aeaf763f9eb47c5014d6bbdc26135444f3c55db06e85bc701c3e",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "run-v2.pl",
+      "export": "run-v2.pl",
+      "original_sha256": "8f7c245480ea107e5b762695b0c0dc79de69075fd6cc362620e63b15a95085f5",
+      "export_sha256": "2462415b00f1baf38308f0cb2a10d6c375d4fd7cd229f19db82016adfdb05e5d",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    },
+    {
+      "source": "run.pl",
+      "export": "run.pl",
+      "original_sha256": "2587dab6c70fc021a3ce7fef5d6d177c02a1040135fcd37f24132cffbf8e246e",
+      "export_sha256": "82202865412be2e4f7f69d46cb9a57d152750da054556bc7c7256b4982938d2a",
+      "transformations": [
+        "local path aliases",
+        "text preserved except path aliases"
+      ]
+    }
+  ],
+  "omitted_generated_files": []
+}

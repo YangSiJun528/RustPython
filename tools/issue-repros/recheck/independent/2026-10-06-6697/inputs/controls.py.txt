@@ -1,0 +1,34 @@
+expressions = {
+    "generator": "list(value + x for x in (1, 2))",
+    "list": "[value + x for x in (1, 2)]",
+    "set": "sorted({value + x for x in (1, 2)})",
+    "dict": "list({x: value + x for x in (1, 2)}.values())",
+}
+for kind, expression in expressions.items():
+    source = """
+def exercise(mode, value, log):
+    try:
+        if mode == 'return':
+            return value
+        if mode == 'exception':
+            raise ValueError('original exception')
+        (lambda: 'scope after early exit')()
+    finally:
+        log.append(EXPRESSION)
+""".replace("EXPRESSION", expression)
+    namespace = {}
+    exec(compile(source, "<finally-" + kind + ">", "exec"), namespace)
+    for mode in ("return", "normal", "exception"):
+        log = []
+        try:
+            result = namespace["exercise"](mode, 10, log)
+        except ValueError as error:
+            assert mode == "exception"
+            assert str(error) == "original exception"
+            result = "ValueError"
+        else:
+            assert result == (10 if mode == "return" else None)
+            assert mode != "exception"
+        assert log == [[11, 12]], (kind, mode, log)
+        print(kind, mode, result, log)
+print("12 finally/comprehension cases passed")

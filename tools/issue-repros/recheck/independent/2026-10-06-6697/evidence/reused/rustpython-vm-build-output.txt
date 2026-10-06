@@ -1,0 +1,25 @@
+cargo:rerun-if-changed=Lib/python_builtins/__hello__.py
+cargo:rerun-if-changed=Lib/python_builtins/_frozen_importlib.py
+cargo:rerun-if-changed=Lib/python_builtins/_frozen_importlib_external.py
+cargo:rerun-if-changed=Lib/python_builtins/_thread.py
+cargo:rerun-if-changed=../../Lib/importlib/_bootstrap.py
+cargo:rustc-env=MAJOR_CPY=3
+cargo:rustc-env=MINOR_CPY=14
+cargo:rustc-env=MICRO_CPY=0
+cargo:rustc-env=RELEASE_LEVEL_CPY=alpha
+cargo:rustc-env=RELEASE_LEVEL_N_CPY=10
+cargo:rustc-env=SERIAL_CPY=0
+cargo:rustc-env=WINVER_CPY=3.14
+cargo:rustc-env=RUSTPYTHON_VERSION_LEFT=3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)
+cargo:rustc-env=RUSTPYTHON_VERSION_RIGHT=[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]
+cargo:rustc-env=RUSTPYTHON_GIT_HASH=f39b054b9
+cargo:rustc-env=RUSTPYTHON_GIT_TIMESTAMP=1791089615
+cargo:rustc-env=RUSTPYTHON_GIT_TAG=heads/main
+cargo:rustc-env=RUSTPYTHON_GIT_BRANCH=remotes/origin/HEAD
+cargo:rustc-env=RUSTPYTHON_GIT_IDENTIFIER=heads/main
+cargo:rustc-env=RUSTPYTHON_BUILD_INFO=heads/main:f39b054b9, Oct  4 2026, 13:53:35
+cargo:rustc-env=RUSTC_VERSION=rustc 1.99.0 (b940084d7 2026-09-28)
+cargo:rustc-env=RUSTPYTHON_RELEASE_LEVEL=alpha
+cargo:rustc-env=RUSTPYTHON_RELEASE_LEVEL_N=10
+cargo:rustc-env=RUSTPYTHON_RELEASE_SERIAL=0
+cargo:rustc-env=RUSTPYTHON_TARGET_TRIPLE=aarch64-apple-darwin

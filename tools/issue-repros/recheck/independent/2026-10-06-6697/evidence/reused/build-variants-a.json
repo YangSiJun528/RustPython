@@ -1,0 +1,39 @@
+{
+  "baseline_sha": "f39b054b9c8cbbf884f53123eef028131789990c",
+  "updated_at": "2026-10-04T08:22:28.755708+00:00",
+  "builds": [
+    {
+      "name": "debug_sqlite",
+      "binary": "<survey>/.build/slot-a/debug/rustpython",
+      "binary_sha256": "7fc462a97fd6c99e4fe74fa69a909ad33b45bef3c9a2b24726a7f99766b940a1",
+      "command": "cargo +1.99.0 build --features sqlite --locked --target-dir <survey>/.build/slot-a",
+      "cwd": "<workspace>",
+      "profile": "dev",
+      "features": [
+        "default",
+        "sqlite"
+      ],
+      "toolchain": "rustc1.99.0(b940084d7 2026-09-28)",
+      "exit_code": 0,
+      "stdout": "logs/build-a/debug-sqlite-build.stdout",
+      "stderr": "logs/build-a/debug-sqlite-build.stderr",
+      "runtime_limitation": "Catalogfixturemoduleimportlib hitsRecursionError; not test-body behavior."
+    },
+    {
+      "name": "optimized_sqlite",
+      "command": "cargo +1.99.0 build --profile verification --config profile.verification.inherits=release --features sqlite --locked --target-dir <survey>/.build/slot-a",
+      "profile": "verification(inheritsrelease)",
+      "features": [
+        "default",
+        "sqlite"
+      ],
+      "status": "success",
+      "stdout": "logs/build-a/sqlite-verification-build.stdout",
+      "stderr": "logs/build-a/sqlite-verification-build.stderr",
+      "exit_code": 0,
+      "binary": "<survey>/.build/slot-a/verification/rustpython",
+      "binary_sha256": "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "actual_sha": "f39b054b9c8cbbf884f53123eef028131789990c"
+    }
+  ]
+}

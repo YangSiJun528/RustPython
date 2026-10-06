@@ -1,0 +1,4 @@
+from original import a
+
+assert a() is None
+print("returned None")

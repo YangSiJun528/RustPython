@@ -1,0 +1,80 @@
+{
+  "dont_write_bytecode": true,
+  "executable": "<home>/.local/bin/python3",
+  "executable_realpath": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+  "implementation": "cpython",
+  "machine": "arm64",
+  "module_files": {
+    "_pytest.pytester": {
+      "path": "<survey>/verification-tools/package-site/_pytest/pytester.py",
+      "sha256": "9e791d0a3446b04324e70bb939712f8d490005ad13eb46ab3249592baa08ff17"
+    },
+    "importlib.metadata": {
+      "path": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/importlib/metadata/__init__.py",
+      "sha256": "5476c7c22a65f9e8b5a07b799336d87fa70e792758fd95b161b53b530e3b2654"
+    },
+    "iniconfig": {
+      "path": "<survey>/verification-tools/package-site/iniconfig/__init__.py",
+      "sha256": "5cbe5ea94623e26b2400ea2b6798df4408a726f2734c8f9f271a4fe317d7b5ac"
+    },
+    "json": {
+      "path": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/json/__init__.py",
+      "sha256": "2dd10f1bf4c9ea5478e589216805e7f279d0e4bce134a19efa297404fb87407d"
+    },
+    "os": {
+      "path": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/os.py",
+      "sha256": "976bdb3e24925f2fb3ce43a4d788de6dcbb88a7cc8604c60ae690fbdd6507546"
+    },
+    "packaging": {
+      "path": "<survey>/verification-tools/package-site/packaging/__init__.py",
+      "sha256": "6e758cdd0028b2cad74c739b9adc9c9f06f054932306280b878bfe59d39219b5"
+    },
+    "pluggy": {
+      "path": "<survey>/verification-tools/package-site/pluggy/__init__.py",
+      "sha256": "0fa769d609840e3b43a7c840c1073eaab81aba59cbe2296daea90b0ddfa0f6d8"
+    },
+    "pygments": {
+      "path": "<survey>/verification-tools/package-site/pygments/__init__.py",
+      "sha256": "83fe99688e06ed80d7d44d325f79027de83a434c60f249bceffd67fda3e7d2b1"
+    },
+    "pytest": {
+      "path": "<survey>/verification-tools/package-site/pytest/__init__.py",
+      "sha256": "ee37885c9583f843390684dfb496907f87a0905128e7a3cf4ad227f49ff34c2d"
+    },
+    "struct": {
+      "path": "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/struct.py",
+      "sha256": "50c14e55f94957804c1e45e975fedbe8e86f7e1dbb745b150370ff681155370a"
+    }
+  },
+  "packages": {
+    "iniconfig": {
+      "location": "<survey>/verification-tools/package-site",
+      "version": "2.3.0"
+    },
+    "packaging": {
+      "location": "<survey>/verification-tools/package-site",
+      "version": "26.3"
+    },
+    "pluggy": {
+      "location": "<survey>/verification-tools/package-site",
+      "version": "1.6.0"
+    },
+    "pygments": {
+      "location": "<survey>/verification-tools/package-site",
+      "version": "2.21.0"
+    },
+    "pytest": {
+      "location": "<survey>/verification-tools/package-site",
+      "version": "9.1.1"
+    }
+  },
+  "pointer_bits": 64,
+  "sys_path": [
+    "<6697-audit>/inputs",
+    "<survey>/verification-tools/package-site",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python314.zip",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14",
+    "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/lib/python3.14/lib-dynload"
+  ],
+  "version": "3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]"
+}

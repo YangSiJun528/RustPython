@@ -1,12 +1,13 @@
 # RustPython resolved-issue reproducers
 
-The October 5, 2026 review recommends **24 issues for closure** and identifies
+The October 5–6, 2026 reviews recommend **25 issues for closure** and identify
 **3 partially resolved issues** at
 [`f39b054b9c8c`](https://github.com/RustPython/RustPython/commit/f39b054b9c8cbbf884f53123eef028131789990c).
 
-- [Combined issue draft](report.md): the 24 closure recommendations.
-- [October 6 independent recheck](recheck/independent/2026-10-06-closure24/README.md): fresh evidence for all 24 candidates and wording corrections for #4690 and #8494.
-- [Detailed reports](recheck/cases/): all 27 cases, with complete reproduction
+- [Combined issue draft](report.md): the 25 closure recommendations.
+- [October 6 independent recheck](recheck/independent/2026-10-06-closure24/README.md): fresh evidence for the original 24 candidates and wording corrections for #4690 and #8494.
+- [Independent #6697 review](recheck/independent/2026-10-06-6697/README.md): a fresh source-first review of the reported pytest compilation failure.
+- [Detailed reports](recheck/cases/): all 28 cases, with complete reproduction
   inputs, commands, environment, expected results and recorded results inline.
 - [Partially resolved issues](recheck/not-ready.md): #4613, #5181 and #6790.
 - [Case manifest](recheck/manifest.json).
@@ -24,8 +25,10 @@ versions and locale settings specified in the case. Commands use named path
 variables in place of machine-specific paths. Archived inputs use a `.py.txt`
 suffix to preserve the executed source independently of document formatting.
 
-Current results were executed on October 5; historical results are labeled
-separately. Related changes explain the observed behavior without claiming an
+Initial results were collected on October 5, with independent rechecks on
+October 6. #6697 was verified separately and added after its new independent
+review; the earlier 24-issue review is preserved unchanged. Historical results
+are labeled separately. Related changes explain the observed behavior without claiming an
 unverified first fixing commit.
 
 Regenerate the current documents without running interpreters:

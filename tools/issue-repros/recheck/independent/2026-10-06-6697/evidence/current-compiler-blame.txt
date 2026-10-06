@@ -1,0 +1,20 @@
+a1ba6a662c (Jeong, YunWon 2026-06-26 18:22:08 +0900 2520)                 if let FBlockDatum::FinallyBody(ref body) = info.fb_datum {
+2a793fcdd1 (Jeong, YunWon 2026-08-13 13:16:13 +0900 2521)                     // This is an extra copy of the finally body, emitted for the
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2522)                     // path that leaves the try block early. Nested scopes are
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2523)                     // handed out by position, and the cursors are still inside
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2524)                     // the try block's own run of scopes here, so seek them to the
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2525)                     // ones this body opened before compiling it. The try
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2526)                     // statement emits its own copies from the same place
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2527)                     // afterwards, so put the cursors back when the copy is done.
+2a793fcdd1 (Jeong, YunWon 2026-08-13 13:16:13 +0900 2528)                     let symbol_table_cursors = self.current_symbol_table_cursors();
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2529)                     if let Some(first) = body.first() {
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2530)                         let line = self
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2531)                             .source_file
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2532)                             .to_source_code()
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2533)                             .line_index(first.range().start())
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2534)                             .get()
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2535)                             .to_u32();
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2536)                         self.seek_symbol_table_cursors_to_line(line);
+f87cfe7e7a (Jeong, YunWon 2026-08-23 14:32:56 +0900 2537)                     }
+a1ba6a662c (Jeong, YunWon 2026-06-26 18:22:08 +0900 2538)                     self.compile_statements(body)?;
+2a793fcdd1 (Jeong, YunWon 2026-08-13 13:16:13 +0900 2539)                     self.set_symbol_table_cursors(symbol_table_cursors);

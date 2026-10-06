@@ -1,0 +1,253 @@
+{
+   "ai_assistance" : "OpenAI Codex",
+   "checks" : [
+      "Exact reduced file compiles and defines the function without output",
+      "Exact function returns None",
+      "12 comprehension/return/normal/exception controls preserve values and single finally execution",
+      "Current unmodified syntax_try.py passes on both interpreters",
+      "Complete installed pytester.py compiles and original console_main/HookRecorder imports succeed",
+      "Actual pytest_runtest_protocol generator preserves return value and computes exactly one controlled leak warning",
+      "Two tests pass through console_main on both interpreters"
+   ],
+   "closure_recommended" : true,
+   "cpython" : {
+      "architecture" : "arm64",
+      "identity" : "records/cp-identity-v2.json",
+      "path" : "<home>/.local/bin/python3",
+      "realpath" : "<home>/.local/share/uv/python/cpython-3.14.6-macos-aarch64-none/bin/python3.14",
+      "sha256" : "58eea46bd68c84e30980ca1133d1b0efb139c878a4934a519dba0846b74069ef",
+      "version" : "3.14.6 (main, Jun 23 2026, 15:46:31) [Clang 22.1.3 ]"
+   },
+   "expected_stderr" : {
+      "other_authoritative_runs" : "empty",
+      "pytest_smoke" : "Same PytestRemovedIn10Warning on both interpreters; console_main is deprecated."
+   },
+   "historical" : {
+      "exit_code" : 1,
+      "record" : "evidence/reused/historical-3909b18eac-01.json",
+      "rerun" : false,
+      "reused" : true,
+      "revision" : "3909b18eac642d824cd5c1157f452e8765269a2e",
+      "same_input_sha256" : "cc057db4113ba172a9ece7d32c64c29e3a04b2d088ad0a958680008c8510b95e"
+   },
+   "issue" : 6697,
+   "issue_state" : {
+      "closed_at" : null,
+      "retrieved_at" : "2026-10-06T02:34:52Z",
+      "state" : "open",
+      "updated_at" : "2026-09-03T00:43:44Z"
+   },
+   "limits" : [
+      "Original pytest version, xonsh revision, dependency set, entrypoint and platform details were not provided; pytest 9.1.1 here is not an exact historical environment reconstruction.",
+      "Full xonsh suite and original rust-pytest launcher not executed.",
+      "Actual affected pytest method executed with controlled file lists, not native lsof integration.",
+      "Current executable build linkage relies on matching retained build records, fresh SHA256 and embedded banner; no rebuild or attestation of all historical build inputs.",
+      "No executed first-fix boundary; historical failure record is reused.",
+      "Targeted preservation hashes cover 147 selected pre-existing files, not every file on the machine."
+   ],
+   "original_scope" : "Import-time SyntaxError caused by compiling comprehensions/nested scopes in finally blocks, observed while pytest.console_main imports _pytest.pytester; includes the exact commented function-definition reproducer.",
+   "packages" : {
+      "iniconfig" : {
+         "location" : "<survey>/verification-tools/package-site",
+         "version" : "2.3.0"
+      },
+      "packaging" : {
+         "location" : "<survey>/verification-tools/package-site",
+         "version" : "26.3"
+      },
+      "pluggy" : {
+         "location" : "<survey>/verification-tools/package-site",
+         "version" : "1.6.0"
+      },
+      "pygments" : {
+         "location" : "<survey>/verification-tools/package-site",
+         "version" : "2.21.0"
+      },
+      "pytest" : {
+         "location" : "<survey>/verification-tools/package-site",
+         "version" : "9.1.1"
+      }
+   },
+   "platform" : {
+      "architecture" : "arm64",
+      "os" : "macOS 26.5.2 (25F84), Darwin 25.5.0"
+   },
+   "preservation" : {
+      "changed" : [],
+      "file_count" : 147,
+      "unchanged" : true
+   },
+   "recording_correction" : {
+      "reason" : "Initial Perl recorder serialized empty stderr in list context; raw outputs preserved. Corrected run-v2.pl repeated identity/version probes with new names. All behavior runs used corrected recorder.",
+      "superseded" : [
+         "rp-version",
+         "cp-version",
+         "rp-identity",
+         "cp-identity"
+      ]
+   },
+   "results" : [
+      {
+         "authoritative" : false,
+         "exit_code" : 0,
+         "id" : "rp-version",
+         "record" : "records/rp-version.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : false,
+         "exit_code" : 0,
+         "id" : "cp-version",
+         "record" : "records/cp-version.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : false,
+         "exit_code" : 0,
+         "id" : "rp-identity",
+         "record" : "records/rp-identity.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : false,
+         "exit_code" : 0,
+         "id" : "cp-identity",
+         "record" : "records/cp-identity.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "rp-version-v2",
+         "record" : "records/rp-version-v2.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "cp-version-v2",
+         "record" : "records/cp-version-v2.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "rp-identity-v2",
+         "record" : "records/rp-identity-v2.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "cp-identity-v2",
+         "record" : "records/cp-identity-v2.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "rp-original",
+         "record" : "records/rp-original.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "cp-original",
+         "record" : "records/cp-original.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "rp-call",
+         "record" : "records/rp-call.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "cp-call",
+         "record" : "records/cp-call.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "rp-controls",
+         "record" : "records/rp-controls.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "cp-controls",
+         "record" : "records/cp-controls.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "rp-pytest-probe",
+         "record" : "records/rp-pytest-probe.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "cp-pytest-probe",
+         "record" : "records/cp-pytest-probe.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "rp-syntax-try",
+         "record" : "records/rp-syntax-try.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "cp-syntax-try",
+         "record" : "records/cp-syntax-try.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "rp-pytest-smoke",
+         "record" : "records/rp-pytest-smoke.json",
+         "timeout" : false
+      },
+      {
+         "authoritative" : true,
+         "exit_code" : 0,
+         "id" : "cp-pytest-smoke",
+         "record" : "records/cp-pytest-smoke.json",
+         "timeout" : false
+      }
+   ],
+   "rustpython" : {
+      "architecture" : "arm64",
+      "build_provenance" : "evidence/reused/build-variants-a.json",
+      "identity" : "records/rp-identity-v2.json",
+      "path" : "<survey>/.build/slot-a/verification/rustpython",
+      "realpath" : "<survey>/.build/slot-a/verification/rustpython",
+      "sha256" : "a40f4d564f9c53ffcc4ec27c1a61ae3261b68cf3286f511a2ad39fb7f60c9b99",
+      "version" : "3.14.0.alpha (heads/main:f39b054b9, Oct  4 2026, 13:53:35)\n[RustPython 0.6.1 with rustc 1.99.0 (b940084d7 2026-09-28)]"
+   },
+   "source_change" : {
+      "ancestry_verified" : true,
+      "baseline_followup" : "f87cfe7e7a additionally seeks to the finally body scope positions",
+      "commit" : "2a793fcdd1461001a0078cc89d34833205f4f30b",
+      "explanation" : "Save/restore nested symbol-table cursors while compiling extra finally-body copies on early exit.",
+      "first_fix_boundary_executed" : false,
+      "url" : "https://github.com/RustPython/RustPython/pull/8507"
+   },
+   "source_first_plan" : "SOURCE-FIRST-PLAN.md",
+   "title" : "SyntaxError: no symbol table available in pytest_runtest_protocol (type: Function)",
+   "verdict" : "resolved",
+   "verified_on_commit" : "f39b054b9c8cbbf884f53123eef028131789990c",
+   "verified_on_date" : "2026-10-06"
+}

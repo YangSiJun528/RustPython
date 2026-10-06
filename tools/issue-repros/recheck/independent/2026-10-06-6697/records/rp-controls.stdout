@@ -1,0 +1,13 @@
+generator return 10 [[11, 12]]
+generator normal None [[11, 12]]
+generator exception ValueError [[11, 12]]
+list return 10 [[11, 12]]
+list normal None [[11, 12]]
+list exception ValueError [[11, 12]]
+set return 10 [[11, 12]]
+set normal None [[11, 12]]
+set exception ValueError [[11, 12]]
+dict return 10 [[11, 12]]
+dict normal None [[11, 12]]
+dict exception ValueError [[11, 12]]
+12 finally/comprehension cases passed
