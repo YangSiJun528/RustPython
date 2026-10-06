@@ -1,0 +1,8 @@
+{
+  "python_blocks_per_report": 7,
+  "archived_report_ASTs_equal_original": true,
+  "detailed_report_blocks_identical_to_archive": true,
+  "link_rewrite_scope": "prose outside fenced blocks only",
+  "executed_inputs_and_logs": "unchanged",
+  "original_local_audit": "unchanged"
+}

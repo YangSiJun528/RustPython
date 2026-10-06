@@ -19,3 +19,8 @@ Use the variables and commands in [the report](README.md) to reproduce the
 checks in another checkout. Evidence links were adjusted for the archive names.
 Historical evidence remains labeled as reused. Report wording and formatting
 do not replace the archived executed inputs or original logs.
+
+The commit hook formatted Python blocks in the report. Their syntax trees
+match the source audit; [format validation](hook-format-validation.json)
+records the comparison. Links are relocated only outside fenced code blocks.
+Archived execution inputs and logs are unchanged.

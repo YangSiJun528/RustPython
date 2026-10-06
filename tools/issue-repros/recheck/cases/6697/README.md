@@ -123,6 +123,8 @@ run_cp() {
 
 The recording wrapper [run-v2.pl](../../independent/2026-10-06-6697/run-v2.pl) uses the same environment and a 45-second timeout, with forced termination five seconds later if needed. Each invocation has its own JSON record with argv, cwd, complete replacement environment, timestamps, elapsed time, timeout/status, executable hash, input hashes, and exact stdout/stderr. Native output files are preserved alongside those records.
 
+Python code blocks are formatted for readability. Their syntax trees match the executed inputs; the archived `.py.txt` files retain the exact executed source.
+
 ## Exact reduced reproducer
 
 `inputs/original.py`, copied directly from the issue comment:
@@ -185,7 +187,7 @@ def exercise(mode, value, log):
     for mode in ("return", "normal", "exception"):
         log = []
         try:
-            result = namespace["exercise"](../../independent/2026-10-06-6697/mode, 10, log)
+            result = namespace["exercise"](mode, 10, log)
         except ValueError as error:
             assert mode == "exception"
             assert str(error) == "original exception"

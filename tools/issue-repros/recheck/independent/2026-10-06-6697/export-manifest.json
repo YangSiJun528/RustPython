@@ -5,10 +5,12 @@
       "source": "README.md",
       "export": "README.md",
       "original_sha256": "323f16cb874e1f0ba6e2e0a4a77e2dc1bb00dcceaf819fa84a1948481120f9e1",
-      "export_sha256": "fa06361b5cdbf039a80b520ad4539572ea6a2e7b25aea204dcda67ecee7c5862",
+      "export_sha256": "51e2666caa38fa7f86e1ab982e30df5e130075f0e15f19fb72f6704b34cac848",
       "transformations": [
         "local path aliases",
-        "relative Markdown links"
+        "relative Markdown links",
+        "hook formatting of Python Markdown blocks with equal ASTs",
+        "publication formatting note"
       ]
     },
     {
@@ -1132,5 +1134,6 @@
       ]
     }
   ],
-  "omitted_generated_files": []
+  "omitted_generated_files": [],
+  "publication_format_validation": "hook-format-validation.json"
 }
